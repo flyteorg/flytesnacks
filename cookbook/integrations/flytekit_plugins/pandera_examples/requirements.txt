@@ -26,7 +26,7 @@ cloudpickle==2.0.0
     # via flytekit
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.1.0
+croniter==1.2.0
     # via flytekit
 cycler==0.11.0
     # via matplotlib
@@ -42,9 +42,9 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.13
     # via flytekit
-flyteidl==0.21.22
+flyteidl==0.21.23
     # via flytekit
-flytekit==0.30.0b3
+flytekit==0.30.0b4
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-pandera
@@ -54,11 +54,11 @@ fonttools==4.28.5
     # via matplotlib
 grpcio==1.43.0
     # via flytekit
-hypothesis==6.35.0
+hypothesis==6.35.1
     # via -r requirements.in
 idna==3.3
     # via requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via keyring
 jinja2==3.0.3
     # via
@@ -91,7 +91,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==8.0.2
     # via flytekit
-numpy==1.22.0
+numpy==1.22.1
     # via
     #   matplotlib
     #   pandas
@@ -130,7 +130,7 @@ pyparsing==3.0.6
     # via
     #   matplotlib
     #   packaging
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   croniter
     #   flytekit
@@ -146,7 +146,7 @@ pytz==2021.3
     # via
     #   flytekit
     #   pandas
-regex==2021.11.10
+regex==2022.1.18
     # via docker-image-py
 requests==2.27.1
     # via
@@ -164,7 +164,6 @@ scipy==1.7.3
 six==1.16.0
     # via
     #   cookiecutter
-    #   flytekit
     #   grpcio
     #   python-dateutil
     #   responses

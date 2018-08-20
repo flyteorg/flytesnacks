@@ -16,9 +16,9 @@ attrs==21.4.0
     # via jsonschema
 binaryornot==0.4.4
     # via cookiecutter
-boto3==1.20.35
+boto3==1.20.38
     # via feast
-botocore==1.23.35
+botocore==1.23.38
     # via
     #   boto3
     #   s3transfer
@@ -44,7 +44,7 @@ colorama==0.4.4
     # via feast
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.1.0
+croniter==1.2.0
     # via flytekit
 cycler==0.11.0
     # via matplotlib
@@ -64,7 +64,7 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.13
     # via flytekit
-fastapi==0.71.0
+fastapi==0.72.0
     # via feast
 fastavro==1.4.9
     # via
@@ -72,9 +72,9 @@ fastavro==1.4.9
     #   pandavro
 feast[aws]==0.17.0
     # via -r requirements.in
-flyteidl==0.21.22
+flyteidl==0.21.23
     # via flytekit
-flytekit==0.30.0b3
+flytekit==0.30.0b4
     # via -r ../../../common/requirements-common.in
 fonttools==4.28.5
     # via matplotlib
@@ -102,7 +102,7 @@ idna==3.3
     # via
     #   anyio
     #   requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via keyring
 importlib-resources==5.4.0
     # via jsonschema
@@ -144,7 +144,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==8.0.2
     # via flytekit
-numpy==1.22.0
+numpy==1.22.1
     # via
     #   -r requirements.in
     #   matplotlib
@@ -200,9 +200,9 @@ pyparsing==3.0.6
     # via
     #   matplotlib
     #   packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via jsonschema
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   arrow
     #   botocore
@@ -226,7 +226,7 @@ pyyaml==6.0
     # via
     #   feast
     #   uvicorn
-regex==2021.11.10
+regex==2022.1.18
     # via docker-image-py
 requests==2.27.1
     # via
@@ -251,7 +251,6 @@ six==1.16.0
     # via
     #   absl-py
     #   cookiecutter
-    #   flytekit
     #   google-auth
     #   grpcio
     #   pandavro
@@ -291,7 +290,7 @@ urllib3==1.26.8
     #   flytekit
     #   requests
     #   responses
-uvicorn[standard]==0.16.0
+uvicorn[standard]==0.17.0
     # via feast
 uvloop==0.16.0
     # via uvicorn
