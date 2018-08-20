@@ -3,3 +3,4 @@ flytekitplugins-kfpytorch>=0.16.0
 tensorboardX
 torch==1.8.1
 torchvision==0.9.1
+numpy<1.22.0
