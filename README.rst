@@ -1,9 +1,6 @@
-# flytesnacks: Examples of using Flyte
-=======================================
+# flytesnacks: Spark
+=====================
 
-This repo contains various examples to demonstrate of Flyte workflows can be constructed. 
-
-python
-------
-This directory contains Simple Python Workflows, including the getting started edge detection workflow.
+This section represents workflows that use pyspark for data processing. An important thing to note here is that
+the spark task needs spark to be installed in the docker container. So refer to the Dockerfile.
 
