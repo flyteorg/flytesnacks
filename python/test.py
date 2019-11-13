@@ -1,1 +1,1 @@
-from workflows.diabetes_xgboost import DiabetesXGBoostModelTrainer
+from multi_step_linear.diabetes_xgboost import DiabetesXGBoostModelTrainer
