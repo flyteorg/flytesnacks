@@ -2,20 +2,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import urllib.request as _request
-
-import cv2
-from flytekit.common import utils
+import joblib
 from flytekit.sdk.tasks import python_task, outputs, inputs
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Output, Input
-
-
 from numpy import loadtxt
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import joblib
+from sklearn.model_selection import train_test_split
+from xgboost import XGBClassifier
+import pandas as pd
 
 # Since we are working with a specific dataset, we will create a strictly typed schema for the dataset.
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
@@ -50,20 +45,31 @@ DATASET_SCHEMA = Types.Schema([
 @python_task(cache_version='1.0',cache=True)
 def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x_test, y_train, y_test):
         dataset.download()
-        dataset = loadtxt(dataset.local_path, delimiter=",") 
-        # split data into X and y
-        X = dataset[:,0:8]
-        Y = dataset[:,8]
+        column_names = [k for k in DATASET_SCHEMA.columns.keys()]
+        df = pd.read_csv(dataset.local_path, names=column_names)
+
+        # Select all features
+        x = df[column_names[:8]]
+        # Select only the classes
+        y = df[[column_names[-1]]]
 
         # split data into train and test sets
-        # seed = 7
-        # test_size = 0.33
         _x_train,_x_test, _y_train, _y_test = train_test_split(
-                X, Y, test_size=test_split_ratio, random_state=seed)
-        x_train.set(_x_train)
-        x_test.set(_x_test)
-        y_train.set(_y_train)
-        y_test.set(_y_test)
+                x, y, test_size=test_split_ratio, random_state=seed)
+
+        def pd_df_to_schema(_df):
+            arr_schema = DATASET_SCHEMA()
+            with arr_schema as w:
+                print(_df.info())
+                w.write(_df)
+            return arr_schema
+
+        #https: // github.com / lyft / flytekit / blob / master / flytekit / common / types / impl / schema.py  # L592
+        # Add support for ndarray and pd
+        x_train.set(pd_df_to_schema(_x_train))
+        x_test.set(pd_df_to_schema(_x_test))
+        y_train.set(pd_df_to_schema(_y_train))
+        y_test.set(pd_df_to_schema(_y_test))
 
 
 @inputs(x=DATASET_SCHEMA, y=DATASET_SCHEMA)
