@@ -45,16 +45,12 @@ DATASET_SCHEMA = Types.Schema([
 
 # load data
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
-#@inputs(dataset_loc=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
-@inputs(dataset_loc=Types.String, seed=Types.Integer, test_split_ratio=Types.Float)
+@inputs(dataset_loc=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
 @outputs(x_train=DATASET_SCHEMA, x_test=DATASET_SCHEMA, y_train=DATASET_SCHEMA, y_test=DATASET_SCHEMA)
 @python_task(cache_version='1.0',cache=True)
 def get_traintest_splitdatabase(ctx, dataset_loc, seed, test_split_ratio, x_train, x_test, y_train, y_test):
-        f = os.path.join(".", "tmp", "dataset.csv")
-        with _request.urlopen(dataset_loc) as d, open(f, 'wb') as opfile:
-            data = d.read()
-            opfile.write(data)
-        dataset = loadtxt(f, delimiter=",") 
+        dataset_loc.download()
+        dataset = loadtxt(dataset_loc.local_path, delimiter=",") 
         # split data into X and y
         X = dataset[:,0:8]
         Y = dataset[:,8]
@@ -106,11 +102,10 @@ def score(ctx, predictions, y_test, accuracy):
     
 @workflow_class
 class DiabetesXGBoostModelTrainer(object):
-    #dataset = Input(Types.CSV(), default= How to specify path to remote file :(
-    dataset_loc = Input(
-            Types.String,
-            help="A CSV File that matches the format https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names",
-            default="https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv")
+    dataset = Input(
+            Types.CSV(),
+            default=Types.CSV.create_at_known_location("https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"),
+            help="A CSV File that matches the format https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names",)
 
     test_split_ratio = Input(Types.Float, default=0.33, help="Ratio of how much should be test to Train")
     seed = Input(Types.Integer, default=7, help="What should be the seed used for splitting")
