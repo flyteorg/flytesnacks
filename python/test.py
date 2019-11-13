@@ -1,0 +1,1 @@
+from workflows.diabetes_xgboost import DiabetesXGBoostModelTrainer

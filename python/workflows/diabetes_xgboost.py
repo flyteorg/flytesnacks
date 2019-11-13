@@ -15,7 +15,7 @@ from numpy import loadtxt
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.externals import joblib
+import joblib
 
 # Since we are working with a specific dataset, we will create a strictly typed schema for the dataset.
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
@@ -45,12 +45,12 @@ DATASET_SCHEMA = Types.Schema([
 
 # load data
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
-@inputs(dataset_loc=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
+@inputs(dataset=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
 @outputs(x_train=DATASET_SCHEMA, x_test=DATASET_SCHEMA, y_train=DATASET_SCHEMA, y_test=DATASET_SCHEMA)
 @python_task(cache_version='1.0',cache=True)
-def get_traintest_splitdatabase(ctx, dataset_loc, seed, test_split_ratio, x_train, x_test, y_train, y_test):
-        dataset_loc.download()
-        dataset = loadtxt(dataset_loc.local_path, delimiter=",") 
+def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x_test, y_train, y_test):
+        dataset.download()
+        dataset = loadtxt(dataset.local_path, delimiter=",") 
         # split data into X and y
         X = dataset[:,0:8]
         Y = dataset[:,8]
@@ -58,7 +58,7 @@ def get_traintest_splitdatabase(ctx, dataset_loc, seed, test_split_ratio, x_trai
         # split data into train and test sets
         # seed = 7
         # test_size = 0.33
-        _x_train,_ x_test, _y_train, _y_test = train_test_split(
+        _x_train,_x_test, _y_train, _y_test = train_test_split(
                 X, Y, test_size=test_split_ratio, random_state=seed)
         x_train.set(_x_train)
         x_test.set(_x_test)
@@ -66,22 +66,22 @@ def get_traintest_splitdatabase(ctx, dataset_loc, seed, test_split_ratio, x_trai
         y_test.set(_y_test)
 
 
-@inputs(x_train=DATASET_SCHEMA, y_train=DATASET_SCHEMA)
-@outputs(model=Types.Blob(format=".joblib.dat"))
+@inputs(x=DATASET_SCHEMA, y=DATASET_SCHEMA)
+@outputs(model=Types.Blob) # TODO: Support for subtype format=".joblib.dat"))
 @python_task(cache_version='1.0',cache=True)
-def fit(ctx, x_train, y_train, model):
+def fit(ctx, x, y, model):
     # fit model no training data
-    model = XGBClassifier()
-    model.fit(X_train, y_train)
+    m = XGBClassifier()
+    m.fit(x, y)
     fname = "model.joblib.dat"
-    joblib.dump(model, fname)
+    joblib.dump(m, fname)
     model.set(fname)
 
 
-@inputs(x=DATASET_SCHEMA, model_ser=Types.Blob(format=".joblib.dat"))
+@inputs(x=DATASET_SCHEMA, model_ser=Types.Blob) #TODO: format=".joblib.dat"))
 @outputs(predictions=[Types.Integer])
 @python_task(cache_version='1.0',cache=True)
-def predict(ctx, model_ser, predictions):
+def predict(ctx, x, model_ser, predictions):
     fname = "model.joblib.dat"
     model_ser.download(fname)
     model = joblib.load(fname)
@@ -102,18 +102,15 @@ def score(ctx, predictions, y_test, accuracy):
     
 @workflow_class
 class DiabetesXGBoostModelTrainer(object):
-    dataset = Input(
-            Types.CSV(),
-            default=Types.CSV.create_at_known_location("https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"),
-            help="A CSV File that matches the format https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names",)
+    dataset = Input(Types.CSV, default=Types.CSV.create_at_known_location("https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"), help="A CSV File that matches the format https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names")
 
     test_split_ratio = Input(Types.Float, default=0.33, help="Ratio of how much should be test to Train")
     seed = Input(Types.Integer, default=7, help="What should be the seed used for splitting")
 
-    split = get_traintest_splitdatabase(datase_loct=dataset, seed=seed, test_split_ratio=test_split_ratio)
-    fit_task = fit(x_train=split.x_train, y_train=split.y_train)
+    split = get_traintest_splitdatabase(dataset=dataset, seed=seed, test_split_ratio=test_split_ratio)
+    fit_task = fit(x=split.outputs.x_train, y=split.outputs.y_train)
     predicted = predict(model_ser=fit_task.outputs.model, x=split.outputs.x_test)
-    score_task = score(predicted.outputs.predictions, y_test=split.outputs.y_test)
+    score_task = score(predictions=predicted.outputs.predictions, y_test=split.outputs.y_test)
 
     model = Output(fit_task.outputs.model, sdk_type=Types.Blob)
     accuracy = Output(score_task.outputs.accuracy, sdk_type=Types.Float)
