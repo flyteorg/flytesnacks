@@ -1,2 +1,4 @@
 flytekit[schema]==0.1.8
 opencv-python==3.4.4.19
+xgboost==0.90
+sklearn==0.21.3
