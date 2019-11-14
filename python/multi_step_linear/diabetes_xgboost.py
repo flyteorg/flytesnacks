@@ -91,27 +91,40 @@ def fit(ctx, x, y, model):
 
 
 @inputs(x=FEATURES_SCHEMA, model_ser=Types.Blob)  # TODO: format=".joblib.dat"))
-@outputs(predictions=[Types.Integer])
+@outputs(predictions=CLASSES_SCHEMA)
 @python_task(cache_version='1.0', cache=True)
 def predict(ctx, x, model_ser, predictions):
-    fname = "model.joblib.dat"
-    model_ser.download(fname)
-    model = joblib.load(fname)
+    model_ser.download()
+    model = joblib.load(model_ser.local_path)
     # make predictions for test data
     with x as r:
         x_df = r.read()
     y_pred = model.predict(x_df)
-    predictions.set([round(value) for value in y_pred])
+
+    col = [k for k in CLASSES_SCHEMA.columns.keys()]
+    y_pred_df = pd.DataFrame(y_pred, columns=col, dtype="int64")
+    y_pred_df.round(0)
+    out_schema = CLASSES_SCHEMA()
+    with out_schema as w:
+        w.write(y_pred_df)
+    predictions.set(out_schema)
 
 
-@inputs(predictions=[Types.Integer], y_test=DATASET_SCHEMA)
+@inputs(predictions=CLASSES_SCHEMA, y=CLASSES_SCHEMA)
 @outputs(accuracy=Types.Float)
 @python_task(cache_version='1.0', cache=True)
-def score(ctx, predictions, y_test, accuracy):
+def metrics(ctx, predictions, y, accuracy):
+    with predictions as r:
+        pred_df = r.read()
+
+    with y as r:
+        y_df = r.read()
+
     # evaluate predictions
-    acc = accuracy_score(y_test, predictions)
+    acc = accuracy_score(y_df, pred_df)
+
     print("Accuracy: %.2f%%" % (acc * 100.0))
-    accuracy.set(acc)
+    accuracy.set(float(acc))
 
 
 @workflow_class
@@ -126,7 +139,7 @@ class DiabetesXGBoostModelTrainer(object):
     split = get_traintest_splitdatabase(dataset=dataset, seed=seed, test_split_ratio=test_split_ratio)
     fit_task = fit(x=split.outputs.x_train, y=split.outputs.y_train)
     predicted = predict(model_ser=fit_task.outputs.model, x=split.outputs.x_test)
-    score_task = score(predictions=predicted.outputs.predictions, y_test=split.outputs.y_test)
+    score_task = metrics(predictions=predicted.outputs.predictions, y=split.outputs.y_test)
 
     model = Output(fit_task.outputs.model, sdk_type=Types.Blob)
     accuracy = Output(score_task.outputs.accuracy, sdk_type=Types.Float)

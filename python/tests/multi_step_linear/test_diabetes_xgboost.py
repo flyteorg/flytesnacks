@@ -23,6 +23,12 @@ def test_DiabetesXGBoostModelTrainer():
     assert "model" in m
 
     p = dxgb.predict.unit_test(x=result["x_test"], model_ser=m["model"])
+
     assert "predictions" in p
 
-    print(p)
+    metric = dxgb.metrics.unit_test(predictions=p["predictions"], y=result["y_test"])
+
+    assert "accuracy" in metric
+
+    print(metric["accuracy"])
+    assert metric["accuracy"] * 100.0 > 77.0
