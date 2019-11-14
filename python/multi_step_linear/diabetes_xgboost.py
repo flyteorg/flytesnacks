@@ -112,6 +112,10 @@ def fit(ctx, x, y, model):
 @outputs(predictions=CLASSES_SCHEMA)
 @python_task(cache_version='1.0', cache=True)
 def predict(ctx, x, model_ser, predictions):
+    """
+    Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
+    predictions.
+    """
     model_ser.download()
     model = joblib.load(model_ser.local_path)
     # make predictions for test data
@@ -132,6 +136,9 @@ def predict(ctx, x, model_ser, predictions):
 @outputs(accuracy=Types.Float)
 @python_task(cache_version='1.0', cache=True)
 def metrics(ctx, predictions, y, accuracy):
+    """
+    Compares the predictions with the actuals and returns the accuracy score.
+    """
     with predictions as r:
         pred_df = r.read()
 
@@ -147,17 +154,25 @@ def metrics(ctx, predictions, y, accuracy):
 
 @workflow_class
 class DiabetesXGBoostModelTrainer(object):
+    """
+    This pipeline trains an XGBoost mode for any given dataset that matches the schema as specified in
+    https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names.
+    """
+
+    # Inputs dataset, fraction of the dataset to be split out for validations and seed to use to perform the split
     dataset = Input(Types.CSV, default=Types.CSV.create_at_known_location(
         "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"),
                     help="A CSV File that matches the format https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names")
 
     test_split_ratio = Input(Types.Float, default=0.33, help="Ratio of how much should be test to Train")
-    seed = Input(Types.Integer, default=7, help="What should be the seed used for splitting")
+    seed = Input(Types.Integer, default=7, help="Seed to use for splitting.")
 
+    # the actual algorithm
     split = get_traintest_splitdatabase(dataset=dataset, seed=seed, test_split_ratio=test_split_ratio)
     fit_task = fit(x=split.outputs.x_train, y=split.outputs.y_train)
     predicted = predict(model_ser=fit_task.outputs.model, x=split.outputs.x_test)
     score_task = metrics(predictions=predicted.outputs.predictions, y=split.outputs.y_test)
 
+    # Outputs: joblib seralized model and accuracy of the model
     model = Output(fit_task.outputs.model, sdk_type=Types.Blob)
     accuracy = Output(score_task.outputs.accuracy, sdk_type=Types.Float)
