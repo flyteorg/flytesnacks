@@ -36,8 +36,11 @@ TYPED_COLUMNS = [
     ('age', Types.Integer),
     ('class', Types.Integer),
 ]
+# the input dataset schema
 DATASET_SCHEMA = Types.Schema(TYPED_COLUMNS)
+# the first 8 columns are features
 FEATURES_SCHEMA = Types.Schema(TYPED_COLUMNS[:8])
+# the last column is the class
 CLASSES_SCHEMA = Types.Schema([TYPED_COLUMNS[-1]])
 
 
@@ -47,6 +50,13 @@ CLASSES_SCHEMA = Types.Schema([TYPED_COLUMNS[-1]])
 @outputs(x_train=FEATURES_SCHEMA, x_test=FEATURES_SCHEMA, y_train=CLASSES_SCHEMA, y_test=CLASSES_SCHEMA)
 @python_task(cache_version='1.0', cache=True)
 def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x_test, y_train, y_test):
+    """
+    Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
+    This splitter is only for the dataset that has the format as specified in the example csv. The last column is assumed to be
+    the class and all other columns 0-8 the features.
+
+    The data is returned as a schema, which gets converted to a parquet file in the back.
+    """
     dataset.download()
     column_names = [k for k in DATASET_SCHEMA.columns.keys()]
     df = pd.read_csv(dataset.local_path, names=column_names)
@@ -66,8 +76,9 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
             w.write(_df)
         return arr_schema
 
+    # TODO Add support for pd, directly, so that Pandas dataframe can be set ot a schema object
     # https: // github.com / lyft / flytekit / blob / master / flytekit / common / types / impl / schema.py  # L592
-    # Add support for pd, directly
+    # TODO also add support for Spark dataframe, but make the pyspark dependency optional
     x_train.set(pd_df_to_schema(FEATURES_SCHEMA, _x_train))
     x_test.set(pd_df_to_schema(FEATURES_SCHEMA, _x_test))
     y_train.set(pd_df_to_schema(CLASSES_SCHEMA, _y_train))
@@ -78,6 +89,11 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
 @outputs(model=Types.Blob)  # TODO: Support for subtype format=".joblib.dat"))
 @python_task(cache_version='1.0', cache=True)
 def fit(ctx, x, y, model):
+    """
+    This function takes the given input features and their corresponding classes to train a XGBClassifier.
+    Currently we do not take any hyper parameters
+    TODO: Add hyper parameters using namedtuples or dictionaries
+    """
     with x as r:
         x_df = r.read()
     with y as r:
@@ -85,6 +101,8 @@ def fit(ctx, x, y, model):
     # fit model no training data
     m = XGBClassifier()
     m.fit(x_df, y_df)
+
+    # TODO model Blob should be a file like object
     fname = "model.joblib.dat"
     joblib.dump(m, fname)
     model.set(fname)

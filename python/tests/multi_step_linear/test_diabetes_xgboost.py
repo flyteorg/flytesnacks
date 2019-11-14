@@ -6,6 +6,10 @@ from multi_step_linear import diabetes_xgboost as dxgb
 
 @flyte_test
 def test_DiabetesXGBoostModelTrainer():
+    """
+    This shows how each task can be unit tested and yet changed into the workflow.
+    TODO: Have one test to run the entire workflow end to end.
+    """
 
     dataset = Types.CSV.create_at_known_location(
         "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv")
