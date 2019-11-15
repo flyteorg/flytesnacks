@@ -70,19 +70,11 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
     _x_train, _x_test, _y_train, _y_test = train_test_split(
         x, y, test_size=test_split_ratio, random_state=seed)
 
-    def pd_df_to_schema(_schema, _df):
-        arr_schema = _schema()
-        with arr_schema as w:
-            w.write(_df)
-        return arr_schema
-
-    # TODO Add support for pd, directly, so that Pandas dataframe can be set ot a schema object
-    # https: // github.com / lyft / flytekit / blob / master / flytekit / common / types / impl / schema.py  # L592
     # TODO also add support for Spark dataframe, but make the pyspark dependency optional
-    x_train.set(pd_df_to_schema(FEATURES_SCHEMA, _x_train))
-    x_test.set(pd_df_to_schema(FEATURES_SCHEMA, _x_test))
-    y_train.set(pd_df_to_schema(CLASSES_SCHEMA, _y_train))
-    y_test.set(pd_df_to_schema(CLASSES_SCHEMA, _y_test))
+    x_train.set(_x_train)
+    x_test.set(_x_test)
+    y_train.set(_y_train)
+    y_test.set(_y_test)
 
 
 @inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA)
@@ -126,10 +118,7 @@ def predict(ctx, x, model_ser, predictions):
     col = [k for k in CLASSES_SCHEMA.columns.keys()]
     y_pred_df = pd.DataFrame(y_pred, columns=col, dtype="int64")
     y_pred_df.round(0)
-    out_schema = CLASSES_SCHEMA()
-    with out_schema as w:
-        w.write(y_pred_df)
-    predictions.set(out_schema)
+    predictions.set(y_pred_df)
 
 
 @inputs(predictions=CLASSES_SCHEMA, y=CLASSES_SCHEMA)
