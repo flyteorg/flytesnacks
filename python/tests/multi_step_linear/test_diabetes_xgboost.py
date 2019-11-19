@@ -22,7 +22,7 @@ def test_DiabetesXGBoostModelTrainer():
     assert "y_test" in result
 
     # Test fit
-    m = dxgb.fit.unit_test(x=result["x_train"], y=result["y_train"])
+    m = dxgb.fit.unit_test(x=result["x_train"], y=result["y_train"], hyperparams=dxgb.XGBoostModelHyperparams(max_depth=4).to_dict())
 
     assert "model" in m
 
@@ -35,4 +35,4 @@ def test_DiabetesXGBoostModelTrainer():
     assert "accuracy" in metric
 
     print(metric["accuracy"])
-    assert metric["accuracy"] * 100.0 > 77.0
+    assert metric["accuracy"] * 100.0 > 75.0

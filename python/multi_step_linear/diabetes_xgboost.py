@@ -44,6 +44,29 @@ FEATURES_SCHEMA = Types.Schema(TYPED_COLUMNS[:8])
 CLASSES_SCHEMA = Types.Schema([TYPED_COLUMNS[-1]])
 
 
+class XGBoostModelHyperparams(object):
+    """
+    These are the xgboost hyper parameters available in scikit-learn library.
+    """
+
+    def __init__(self, max_depth=3, learning_rate=0.1, n_estimators=100,
+                 objective="binary:logistic", booster='gbtree',
+                 n_jobs=1, **kwargs):
+        self.n_jobs = int(n_jobs)
+        self.booster = booster
+        self.objective = objective
+        self.n_estimators = int(n_estimators)
+        self.learning_rate = learning_rate
+        self.max_depth = int(max_depth)
+
+    def to_dict(self):
+        return self.__dict__
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(**d)
+
+
 # load data
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
 @inputs(dataset=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
@@ -77,21 +100,23 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
     y_test.set(_y_test)
 
 
-@inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA)
+@inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA, hyperparams=Types.Generic)  # TODO support arbitrary jsonifiable classes
 @outputs(model=Types.Blob)  # TODO: Support for subtype format=".joblib.dat"))
 @python_task(cache_version='1.0', cache=True)
-def fit(ctx, x, y, model):
+def fit(ctx, x, y, hyperparams, model):
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
-    Currently we do not take any hyper parameters
-    TODO: Add hyper parameters using namedtuples or dictionaries
+    NOTE: We have simplified the number of hyper parameters we take for demo purposes
     """
     with x as r:
         x_df = r.read()
     with y as r:
         y_df = r.read()
+
+    hp = XGBoostModelHyperparams.from_dict(hyperparams)
     # fit model no training data
-    m = XGBClassifier()
+    m = XGBClassifier(n_jobs=hp.n_jobs, max_depth=hp.max_depth, n_estimators=hp.n_estimators, booster=hp.booster,
+                      objective=hp.objective, learning_rate=hp.learning_rate)
     m.fit(x_df, y_df)
 
     # TODO model Blob should be a file like object
@@ -158,7 +183,9 @@ class DiabetesXGBoostModelTrainer(object):
 
     # the actual algorithm
     split = get_traintest_splitdatabase(dataset=dataset, seed=seed, test_split_ratio=test_split_ratio)
-    fit_task = fit(x=split.outputs.x_train, y=split.outputs.y_train)
+    fit_task = fit(x=split.outputs.x_train, y=split.outputs.y_train, hyperparams=XGBoostModelHyperparams(
+        max_depth=4,
+    ).to_dict())
     predicted = predict(model_ser=fit_task.outputs.model, x=split.outputs.x_test)
     score_task = metrics(predictions=predicted.outputs.predictions, y=split.outputs.y_test)
 
