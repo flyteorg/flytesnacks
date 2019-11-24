@@ -71,7 +71,7 @@ class XGBoostModelHyperparams(object):
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
 @inputs(dataset=Types.CSV, seed=Types.Integer, test_split_ratio=Types.Float)
 @outputs(x_train=FEATURES_SCHEMA, x_test=FEATURES_SCHEMA, y_train=CLASSES_SCHEMA, y_test=CLASSES_SCHEMA)
-@python_task(cache_version='1.0', cache=True, memory_limit=200Mi)
+@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x_test, y_train, y_test):
     """
     Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
