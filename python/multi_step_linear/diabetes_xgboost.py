@@ -102,7 +102,7 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
 
 @inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA, hyperparams=Types.Generic)  # TODO support arbitrary jsonifiable classes
 @outputs(model=Types.Blob)  # TODO: Support for subtype format=".joblib.dat"))
-@python_task(cache_version='1.0', cache=True)
+@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def fit(ctx, x, y, hyperparams, model):
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
@@ -127,7 +127,7 @@ def fit(ctx, x, y, hyperparams, model):
 
 @inputs(x=FEATURES_SCHEMA, model_ser=Types.Blob)  # TODO: format=".joblib.dat"))
 @outputs(predictions=CLASSES_SCHEMA)
-@python_task(cache_version='1.0', cache=True)
+@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def predict(ctx, x, model_ser, predictions):
     """
     Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
@@ -148,7 +148,7 @@ def predict(ctx, x, model_ser, predictions):
 
 @inputs(predictions=CLASSES_SCHEMA, y=CLASSES_SCHEMA)
 @outputs(accuracy=Types.Float)
-@python_task(cache_version='1.0', cache=True)
+@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def metrics(ctx, predictions, y, accuracy):
     """
     Compares the predictions with the actuals and returns the accuracy score.
