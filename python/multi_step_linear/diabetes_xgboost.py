@@ -93,15 +93,14 @@ def get_traintest_splitdatabase(ctx, dataset, seed, test_split_ratio, x_train, x
     _x_train, _x_test, _y_train, _y_test = train_test_split(
         x, y, test_size=test_split_ratio, random_state=seed)
 
-    # TODO also add support for Spark dataframe, but make the pyspark dependency optional
     x_train.set(_x_train)
     x_test.set(_x_test)
     y_train.set(_y_train)
     y_test.set(_y_test)
 
 
-@inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA, hyperparams=Types.Generic)  # TODO support arbitrary jsonifiable classes
-@outputs(model=Types.Blob)  # TODO: Support for subtype format=".joblib.dat"))
+@inputs(x=FEATURES_SCHEMA, y=CLASSES_SCHEMA, hyperparams=Types.Generic)
+@outputs(model=Types.Blob)
 @python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def fit(ctx, x, y, hyperparams, model):
     """
@@ -119,13 +118,12 @@ def fit(ctx, x, y, hyperparams, model):
                       objective=hp.objective, learning_rate=hp.learning_rate)
     m.fit(x_df, y_df)
 
-    # TODO model Blob should be a file like object
     fname = "model.joblib.dat"
     joblib.dump(m, fname)
     model.set(fname)
 
 
-@inputs(x=FEATURES_SCHEMA, model_ser=Types.Blob)  # TODO: format=".joblib.dat"))
+@inputs(x=FEATURES_SCHEMA, model_ser=Types.Blob) 
 @outputs(predictions=CLASSES_SCHEMA)
 @python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
 def predict(ctx, x, model_ser, predictions):
