@@ -1,6 +1,5 @@
 PROJECT=flytecookbook
 DOMAIN=development
-VERSION=$(shell ./version.sh)
 
 .PHONY: docker_build
 docker_build:
@@ -8,4 +7,4 @@ docker_build:
 
 .PHONY: docker_build
 docker_push:
-	flytekit_build_image.sh .
+	REGISTRY=docker.io/lyft/flytecookbook flytekit_build_image.sh .

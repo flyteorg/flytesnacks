@@ -14,7 +14,7 @@ def inner_task(wf_params, num, out):
     out.set(num)
 
 
-@workflow_class()
+@workflow_class
 class IdentityWorkflow(object):
     a = Input(Types.Integer, default=5, help="Input for inner workflow")
     odd_nums_task = inner_task(num=a)
