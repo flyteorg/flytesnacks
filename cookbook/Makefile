@@ -14,3 +14,8 @@ docker_push:
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
 	pyflyte -p ${PROJECT} -d ${DOMAIN} --config /root/sandbox.config register workflows
+
+.PHONY: register_sandbox
+register_sandbox: docker_push
+	docker run docker.io/lyft/${IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
+

@@ -28,8 +28,8 @@ RUN ${VENV}/bin/pip install -r /root/requirements.txt
 COPY . /root
 
 # Copy over the helper script that the SDK relies on
-RUN cp ${VENV}/bin/flytekit_venv /opt/
-RUN chmod a+x /opt/flytekit_venv
+RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
+RUN chmod a+x /usr/local/bin/flytekit_venv
 
 #RUN ${VENV}/bin/pip install /root/flytekit-0.7.0b2.tar.gz
 
@@ -39,4 +39,4 @@ ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/opt/flytekit_venv"]
+ENTRYPOINT ["/usr/local/bin/flytekit_venv"]
