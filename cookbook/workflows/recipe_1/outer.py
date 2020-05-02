@@ -1,12 +1,11 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-from flytekit.common.launch_plan import SdkLaunchPlan
 from flytekit.sdk.tasks import inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output
 
-from sample_workflows.formula_1.inner import IdentityWorkflow, secondary_sibling_identity_lp
+from workflows.recipe_1.inner import IdentityWorkflow, secondary_sibling_identity_lp
 
 
 @workflow_class()
@@ -23,6 +22,7 @@ id_lp = IdentityWorkflow.create_launch_plan()
 # this file, unlike the first example, this will not be registered, no copy will be made.
 # Also, using a fetch call like this is a bit of an anti-pattern, since it requires access to Flyte control plane
 # from within a running task, something we try to avoid.
+# from flytekit.common.launch_plan import SdkLaunchPlan
 # fetched_identity_lp = SdkLaunchPlan.fetch('flyteeexamples', 'development',
 #                               'cookbook.sample_workflows.formula_1.inner.IdentityWorkflow',
 #                               '8d291bdf163674dcb6ea8a047a4de6cc7cf4853f')

@@ -1,7 +1,8 @@
+.. _recipe_1:
 
-
-
-#. How do I call a workflow from within another workflow?
+############################################################
+How do I call a workflow from within another workflow?
+############################################################
 
 There are four possible ways of incorporating a workflow into another workflow - you have two choices each along two dimensions.
 
@@ -53,6 +54,7 @@ This is the node that gets included in the compiled workflow. Note that the vers
 
 To get the workflow
 flyte-cli -h localhost:30081 -i -p flytetester -d development get-workflow -u wf:flytetester:development:cookbook.sample_workflows.formula_1.outer.StaticLaunchPlanCaller:7be6342b4d5d95f5e31e6ad89636ad48925643ab
+
 
 Example 2 - Statically including a Workflow in Another Workflow
 
