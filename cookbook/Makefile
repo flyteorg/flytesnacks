@@ -23,5 +23,4 @@ in_container_register_sandbox:
 
 .PHONY: register_sandbox
 register_sandbox: docker_push
-	docker run docker.io/lyft/flytecookbook:latest /usr/local/bin/flytekit_venv make in_container_register_sandbox
-
+	docker run docker.io/lyft/flytecookbook:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
