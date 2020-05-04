@@ -31,7 +31,7 @@ in_container_serialize_sandbox:
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_push
-	docker run docker.io/lyft/flytecookbook:${VERSION} -v .:/root make in_container_serialize_sandbox
+	docker run -v .:/root docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: book
 book:
