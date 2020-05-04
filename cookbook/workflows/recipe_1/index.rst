@@ -15,7 +15,15 @@ Static vs Dynamic
   * The workflow can be yielded dynamically from within a dynamic task. In this case, the workflow will not show up until execution time.
 
 
-Example 1 - Statically including a Launch Plan in Workflow
+********
+Examples
+********
+
+Statically
+===========
+
+Calling a Launch Plan
+----------------------
 
 Workflow name: ``StaticLaunchPlanCaller``
 
@@ -52,14 +60,23 @@ This is the node that gets included in the compiled workflow. Note that the vers
           }
         }
 
-To get the workflow
-flyte-cli -h localhost:30081 -i -p flytetester -d development get-workflow -u wf:flytetester:development:cookbook.sample_workflows.formula_1.outer.StaticLaunchPlanCaller:7be6342b4d5d95f5e31e6ad89636ad48925643ab
+To get the workflow ::
+
+    flyte-cli -h localhost:30081 -i -p flytetester -d development get-workflow -u wf:flytesnacks:development:workflows.formula_1.outer.StaticLaunchPlanCaller:<sha>
+
+Calling a Sub-Workflow
+======================
+
+Workflow name: ``StaticSubWorkflowCaller``
 
 
-Example 2 - Statically including a Workflow in Another Workflow
 
 
+Dynamically
+===========
 
-What about labels and annotations?
 
+********
+Commands
+********
 
