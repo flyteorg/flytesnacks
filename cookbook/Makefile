@@ -25,6 +25,10 @@ in_container_register_sandbox:
 register_sandbox: docker_push
 	docker run docker.io/lyft/flytecookbook:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
 
+.PHONY: serialize_sandbox
+serialize_sandbox: docker_push
+	docker run docker.io/lyft/flytecookbook:${VERSION} -v .:/root pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows
+
 .PHONY: book
 book:
 	@docker run -t -v `pwd`:/base lyft/docbuilder:v2.2.0 sphinx-build -E -b html /base/ /base/_build
