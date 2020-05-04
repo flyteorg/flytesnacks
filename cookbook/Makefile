@@ -25,9 +25,13 @@ in_container_register_sandbox:
 register_sandbox: docker_push
 	docker run docker.io/lyft/flytecookbook:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
 
+.PHONY: in_container_serialize_sandbox
+in_container_serialize_sandbox:
+	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows
+
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_push
-	docker run docker.io/lyft/flytecookbook:${VERSION} -v .:/root pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows
+	docker run docker.io/lyft/flytecookbook:${VERSION} -v .:/root make in_container_serialize_sandbox
 
 .PHONY: book
 book:
