@@ -27,11 +27,12 @@ register_sandbox: docker_push
 
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:
-	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows
+	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
 
+# Get rid of the backticks in the future
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_push
-	docker run -v .:/root docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
+	docker run -v `pwd`:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: book
 book:
