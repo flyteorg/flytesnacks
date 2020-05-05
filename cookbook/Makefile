@@ -5,17 +5,15 @@ VERSION=$(shell ./version.sh)
 
 # The Flyte project that we want to register under
 PROJECT=flytesnacks
-
-# Uncomment after adding the NOPUSH option to the build script
-# REGISTRY=docker.io/lyft
+REGISTRY=docker.io/lyft
 
 .PHONY: docker_build
 docker_build:
-	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
+	NOPUSH=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
 
 .PHONY: docker_build
 docker_push:
-	IMAGE_NAME=${IMAGE_NAME} REGISTRY=docker.io/lyft flytekit_build_image.sh .
+	IMAGE_NAME=${IMAGE_NAME} REGISTRY=${REGISTRY} flytekit_build_image.sh .
 
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
@@ -29,9 +27,10 @@ register_sandbox: docker_push
 in_container_serialize_sandbox:
 	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
 
-# Get rid of the backticks in the future
+# TODO: Get rid of the backticks in the future
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_push
+	mkdir `pwd`/_pb_output
 	docker run -v `pwd`:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: book
