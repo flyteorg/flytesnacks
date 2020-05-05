@@ -36,3 +36,4 @@ serialize_sandbox: docker_push
 .PHONY: book
 book:
 	@docker run -t -v `pwd`:/base lyft/docbuilder:v2.2.0 sphinx-build -E -b html /base/ /base/_build
+
