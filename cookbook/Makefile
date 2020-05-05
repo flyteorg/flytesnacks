@@ -31,7 +31,7 @@ in_container_serialize_sandbox:
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_push
 	mkdir `pwd`/_pb_output
-	docker run -v `pwd`:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
+	docker run -v `pwd`/_pb_output:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: book
 book:
