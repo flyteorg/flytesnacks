@@ -1,4 +1,4 @@
-.. _recipe_2:
+.. _recipe-2:
 
 ############################################
 How do I dynamically create a subworkflow?

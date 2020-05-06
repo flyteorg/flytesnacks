@@ -1,4 +1,4 @@
-.. _recipe_1:
+.. _recipe-1:
 
 ############################################################
 How do I call a workflow from within another workflow?
@@ -19,7 +19,7 @@ Static vs Dynamic
 Examples
 ********
 
-Each combination is documented in the workflows in this folder. Below are some more concrete details.
+Each combination is documented in the workflows in this folder. Below are some more concrete details. The full output of
 
 Statically
 ===========
@@ -64,7 +64,9 @@ This is the node that gets included in the compiled workflow. Note that the vers
 
 To see the complete workflow specification ::
 
-    flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.formula_1.outer.StaticLaunchPlanCaller:<sha>
+    flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.recipe_1.outer.StaticLaunchPlanCaller:<sha>
+
+:ref:`Full output <st-lp>`
 
 
 Calling a Sub-Workflow
@@ -93,6 +95,8 @@ To get the workflow ::
 
 The interesting bit here in the output is the sub-workflow section of the template.  The entire definition of the subworkflow is reproduced in this section.
 
+:ref:`Full output <st-swf>`
+
 
 Dynamically
 ===========
@@ -114,6 +118,7 @@ Also, if you look at the execution using ``flyte-cli`` ::
 
 You should see that it returns in a "Subtasks" section, a new ``flyte-cli`` command that you can run again which will show you the deeper executions. (You'll need to replace the execution name in the command above with yours.)
 
+:ref:`Full output <dyn-lp>`
 
 Calling a Sub-Workflow
 ----------------------
@@ -126,3 +131,4 @@ To get the workflow ::
 
 Even though this workflow eventually calls a sub-workflow, since that happens inside another ``dynamic_task``, the subworkflow is again not present in the workflow specification.
 
+:ref:`Full output <dyn-swf>`
