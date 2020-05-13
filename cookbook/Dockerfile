@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 
 WORKDIR /root
-ENV VENV /root/venv
+ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
