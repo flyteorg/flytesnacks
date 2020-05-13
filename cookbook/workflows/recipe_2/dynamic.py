@@ -45,7 +45,7 @@ def dynamic_wf_task(wf_params, task_input_num, out):
 @workflow_class
 class SimpleDynamicSubworkflow(object):
     input_a = Input(Types.Integer, default=5, help="Input for inner workflow")
-    lp_task = dynamic_wf_task(task_input_num=input_a, decider=inverter_input)
+    lp_task = dynamic_wf_task(task_input_num=input_a)
     wf_output = Output(lp_task.outputs.out, sdk_type=Types.Integer)
 
 

@@ -35,7 +35,6 @@ serialize_sandbox: docker_push
 
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
-	mkdir `pwd`/_pb_output || true
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it docker.io/lyft/flytecookbook:${VERSION} bash
 
 .PHONY: book
