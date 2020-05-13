@@ -19,7 +19,7 @@ Static vs Dynamic
 Examples
 ********
 
-Each combination is documented in the workflows in this folder. Below are some more concrete details. The full output of
+Each combination is documented in the workflows in this folder. Below are some more concrete details. The full output of each workflow from the ``flyte-cli`` command is also linked in each case below.
 
 Statically
 ===========
