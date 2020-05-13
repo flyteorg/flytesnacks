@@ -33,6 +33,11 @@ serialize_sandbox: docker_push
 	mkdir `pwd`/_pb_output || true
 	docker run -v `pwd`/_pb_output:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
+.PHONY: enter_sandbox
+enter_sandbox: docker_build
+	mkdir `pwd`/_pb_output || true
+	docker run -v `pwd`/_pb_output:/tmp/output -it docker.io/lyft/flytecookbook:${VERSION} bash
+
 .PHONY: book
 book:
 	@docker run -t -v `pwd`:/base lyft/docbuilder:v2.2.0 sphinx-build -E -b html /base/ /base/_build
