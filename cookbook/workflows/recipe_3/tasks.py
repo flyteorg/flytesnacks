@@ -30,7 +30,5 @@ def generic_type_task(wf_params, custom, counts):
 @workflow_class
 class GenericDemoWorkflow(object):
     a = Input(Types.Generic, default=5, help="Input for inner workflow")
-    odd_nums_task = generic_type_task(custom=a)
-    task_output = Output(odd_nums_task.outputs.out, sdk_type=Types.Integer)
-
-
+    generic_type_example = generic_type_task(custom=a)
+    counts = Output(generic_type_example.outputs.counts, sdk_type=Types.Generic)
