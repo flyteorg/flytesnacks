@@ -120,8 +120,7 @@ def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epo
         print('Using distributed PyTorch with {} backend'.format(backend_type))
         dist.init_process_group(backend=backend_type)
 
-    #kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
-    kwargs = {'pin_memory': True} if use_cuda else {}
+    kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST('../data', train=True, download=True,
                        transform=transforms.Compose([
