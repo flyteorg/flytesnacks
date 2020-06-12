@@ -9,7 +9,7 @@ Prerequisites
 
 Before running this make sure that
     - pytorch plugin is enabled in flytepropeller's config
-    - `Kubeflow pytorch operator`_ is installed in your k8s cluster
+    - `Kubeflow pytorch operator`_ is installed in your k8s cluster (you can use `base`_ and configure it in your deploy)
     - [if using GPU] `GPU device plugin`_ is deployed as well
 
 #####
@@ -55,4 +55,5 @@ In order to disable GPU usage for the MNIST task just comment out ``per_replica_
 
 .. _`example`: https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py
 .. _`Kubeflow pytorch operator`: https://github.com/kubeflow/pytorch-operator
+.. _`base`: https://github.com/lyft/flyte/blob/master/kustomize/base/operators/kfoperators/pytorch/kustomization.yaml
 .. _`GPU device plugin`: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/#deploying-nvidia-gpu-device-plugin
