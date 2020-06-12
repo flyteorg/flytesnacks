@@ -15,6 +15,7 @@ Note this currently does not include articles/tid-bits on how to use the Flyte p
    workflows/recipe_1/index
    workflows/recipe_2/index
    workflows/recipe_3/index
+   workflows/recipe_6/index
 
 ********
 Setup

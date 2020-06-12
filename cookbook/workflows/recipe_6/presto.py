@@ -9,7 +9,6 @@ schema = Types.Schema([("a", Types.Integer), ("b", Types.String)])
 
 presto_task = SdkPrestoTask(
     task_inputs=inputs(length=Types.Integer, rg=Types.String),
-    # statement="SELECT * FROM hive.city.fact_airport_sessions WHERE ds = '{{ .Inputs.ds}}' LIMIT 10",
     statement="SELECT a, chr(a+64) as b from unnest(sequence(1, {{ .Inputs.length }})) t(a)",
     output_schema=schema,
     routing_group="{{ .Inputs.rg }}",
