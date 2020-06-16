@@ -72,7 +72,7 @@ def test(model, device, test_loader, writer, epoch):
     print('\naccuracy={:.4f}\n'.format(float(correct) / len(test_loader.dataset)))
     accuracy = float(correct) / len(test_loader.dataset)
     writer.add_scalar('accuracy', accuracy, epoch)
-    return (epoch, accuracy)
+    return accuracy
 
 def epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval):
     train(model, device, train_loader, optimizer, epoch, writer, log_interval)
@@ -94,9 +94,8 @@ def is_distributed():
     sgd_momentum=Types.Float,
     seed=Types.Integer,
     log_interval=Types.Integer,
-    save_model=Types.Boolean,
     dir=Types.String)
-@outputs(out=Types.String)
+@outputs(epoch_accuracies=[Types.Float], model_state=Types.Blob)
 @pytorch_task(
     workers_count=2,
     per_replica_cpu_request="500m",
@@ -104,7 +103,7 @@ def is_distributed():
     per_replica_memory_limit="8Gi",
     per_replica_gpu_limit="1",
 )
-def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epochs, learning_rate, sgd_momentum, seed, log_interval, save_model, dir, out):
+def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epochs, learning_rate, sgd_momentum, seed, log_interval, dir, epoch_accuracies, model_state):
     backend_type = dist.Backend.GLOO
 
     writer = SummaryWriter(dir)
@@ -146,10 +145,11 @@ def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epo
 
     accuracies = [epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval) for epoch in range(1, epochs + 1)]
 
-    if (save_model):
-        torch.save(model.state_dict(),"mnist_cnn.pt")
+    model_file = "mnist_cnn.pt"
+    torch.save(model.state_dict(), model_file)
 
-    out.set(str(accuracies))
+    model_state.set(model_file)
+    epoch_accuracies.set(accuracies)
 
 
 @workflow_class
@@ -162,7 +162,6 @@ class MNISTTest(object):
     sgd_momentum = Input(Types.Float, default=0.5, help='SGD momentum (default: 0.5)')
     seed = Input(Types.Integer, default=1, help='random seed (default: 1)')
     log_interval = Input(Types.Integer, default=10, help='how many batches to wait before logging training status')
-    save_model = Input(Types.Boolean, default=False, help='For Saving the current Model')
     dir = Input(Types.String, default='logs', help='directory where summary logs are stored')
 
     mnist_result = mnist_pytorch_job(
@@ -174,8 +173,8 @@ class MNISTTest(object):
         sgd_momentum=sgd_momentum,
         seed=seed,
         log_interval=log_interval,
-        save_model=save_model,
         dir=dir
     )
 
-    accuracies = Output(mnist_result.outputs.out, sdk_type=Types.String)
+    accuracies = Output(mnist_result.outputs.epoch_accuracies, sdk_type=[Types.Float])
+    model = Output(mnist_result.outputs.model_state, sdk_type=Types.Blob)
