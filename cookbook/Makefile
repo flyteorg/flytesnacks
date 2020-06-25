@@ -23,6 +23,30 @@ in_container_register_sandbox:
 register_sandbox: docker_push
 	docker run docker.io/lyft/flytecookbook:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
 
+.PHONY: register_staging_in_container
+register_staging_in_container:
+	pyflyte -p ${PROJECT} -d ${DOMAIN} --config /root/staging.config register workflows
+
+.PHONY: register_staging
+register_staging: docker_push
+	docker run -e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
+	-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
+	-e FLYTE_CREDENTIALS_AUTH_MODE=basic -e FLYTE_CREDENTIALS_AUTHORIZATION_METADATA_KEY=flyte-authorization \
+	-e FLYTE_CREDENTIALS_SCOPE=svc -e FLYTE_PLATFORM_AUTH=True \
+	docker.io/lyft/${IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make register_staging_in_container
+
+.PHONY: register_production_in_container
+register_production_in_container:
+	pyflyte -p ${PROJECT} -d ${DOMAIN} --config /root/production.config register workflows
+
+.PHONY: register_production
+register_production: docker_push
+	docker run -e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
+	-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
+	-e FLYTE_CREDENTIALS_AUTH_MODE=basic -e FLYTE_CREDENTIALS_AUTHORIZATION_METADATA_KEY=flyte-authorization \
+	-e FLYTE_CREDENTIALS_SCOPE=svc -e FLYTE_PLATFORM_AUTH=True \
+	docker.io/lyft/${IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make register_production_in_container
+
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:
 	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
