@@ -5,6 +5,7 @@ VERSION=$(shell ./version.sh)
 
 # The Flyte project that we want to register under
 PROJECT=flytesnacks
+DOMAIN=development
 REGISTRY=docker.io/lyft
 
 .PHONY: docker_build
