@@ -5,7 +5,7 @@ from flytekit.sdk.tasks import inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output
 
-from workflows.recipe_1.inner import IdentityWorkflow, secondary_sibling_identity_lp
+from recipes.compose.inner import IdentityWorkflow, secondary_sibling_identity_lp
 
 
 @workflow_class()
