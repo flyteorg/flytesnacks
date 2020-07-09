@@ -5,7 +5,7 @@ from flytekit.sdk.tasks import inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output, workflow
 
-from recipes.compose.tasks import inverse_inner_task, inner_task, sq_sub_task
+from recipes.dynamic_wfs.tasks import inverse_inner_task, inner_task, sq_sub_task
 
 
 def manual_assign_name():
