@@ -1,4 +1,6 @@
 flytekit[sidecar,schema]==0.8.2
+https://github.com/lyft/flytekit/archive/d22499c7c42df9f53ab629f41838cd108f92efc0.zip
+
 pytest
 statsd
 opencv-python==3.4.4.19
