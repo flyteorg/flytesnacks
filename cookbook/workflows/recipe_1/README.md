@@ -1,8 +1,4 @@
-.. _recipe-1:
-
-############################################################
-How do I call a workflow from within another workflow?
-############################################################
+# How do I call a workflow from within another workflow?
 
 There are four possible ways of incorporating a workflow into another workflow - you have two choices each along two dimensions.
 
@@ -14,24 +10,19 @@ Static vs Dynamic
   * The workflow can be declared statically inside another workflow. This is called a sub-workflow and the contents of the inner workflow will appear statically inside the definition of the parent workflow.
   * The workflow can be yielded dynamically from within a dynamic task. In this case, the workflow will not show up until execution time.
 
-
-********
-Examples
-********
+## Examples
 
 Each combination is documented in the workflows in this folder. Below are some more concrete details. The full output of each workflow from the ``flyte-cli`` command is also linked in each case below.
 
-Statically
-===========
+### Statically
 
-Calling a Launch Plan
-----------------------
+### Calling a Launch Plan
 
-Workflow name: ``StaticLaunchPlanCaller``
+Workflow name: **StaticLaunchPlanCaller**
 
 This is the node that gets included in the compiled workflow. Note that the version that's pulled in is assumed to be the version that the workflow registration itself ran with on
 
-.. code-block::
+```json
 
         nodes {
           id: "identity-lp-execution"
@@ -61,26 +52,24 @@ This is the node that gets included in the compiled workflow. Note that the vers
             }
           }
         }
+```
 
-To see the complete workflow specification ::
+To see the complete workflow specification
+```bash
+   $ flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.recipe_1.outer.StaticLaunchPlanCaller:<sha>
+```
 
-    flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.recipe_1.outer.StaticLaunchPlanCaller:<sha>
+### Calling a Sub-Workflow
 
-:ref:`Full output <st-lp>`
-
-
-Calling a Sub-Workflow
-----------------------
-
-Workflow name: ``StaticSubWorkflowCaller``
-
+Workflow name: **StaticSubWorkflowCaller**
 
 To get the workflow ::
 
+```bash
     flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.recipe_1.outer.StaticSubWorkflowCaller:<sha>
+```
 
-.. code-block::
-
+```json
     sub_workflows {
       template {
         id {
@@ -92,42 +81,46 @@ To get the workflow ::
         }
         metadata {
         ...
+```
 
 The interesting bit here in the output is the sub-workflow section of the template.  The entire definition of the subworkflow is reproduced in this section.
 
 :ref:`Full output <st-swf>`
 
 
-Dynamically
-===========
+## Dynamically
 
-Calling a Launch Plan
-----------------------
+### Calling a Launch Plan
 
 Workflow name: ``DynamicLaunchPlanCaller``
 
 To get the workflow ::
 
+```bash
     flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:workflows.recipe_1.outer.DynamicLaunchPlanCaller:<sha>
+```
 
 Note that here there are no subworkflows in the workflow specification, just a task. However this is a ``dynamic_task``, and when executed, it will yield two launch plans which in turn yield their own executions, all of which will appear on the same execution page.
 
 Also, if you look at the execution using ``flyte-cli`` ::
 
+```bash
     flyte-cli -p flytesnacks -d development get-execution -u ex:flytesnacks:development:hmi4y7so5j
+```
 
 You should see that it returns in a "Subtasks" section, a new ``flyte-cli`` command that you can run again which will show you the deeper executions. (You'll need to replace the execution name in the command above with yours.)
 
 :ref:`Full output <dyn-lp>`
 
-Calling a Sub-Workflow
-----------------------
+### Calling a Sub-Workflow
 
 Workflow name: ``DynamicSubWorkflowCaller``
 
 To get the workflow ::
 
+```bash
     flyte-cli -p flytesnacks -d development get-workflow -u wf:flytesnacks:development:sample_workflows.formula_1.outer.DynamicSubWorkflowCaller:4fffbe68d0cb37c8b43e17fa214bbfb4a6ae416e
+```
 
 Even though this workflow eventually calls a sub-workflow, since that happens inside another ``dynamic_task``, the subworkflow is again not present in the workflow specification.
 
