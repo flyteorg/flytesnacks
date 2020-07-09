@@ -9,11 +9,11 @@ straightforward.  Refer to [Add a new plugin](https://flyte.org), for a guide to
 ## Add a Flytekit plugin
 
 ## Plugins available
-1. (Spark)[./spark/README.md]
-2. (Distributed Pytorch Training)[./pytorch/README.md]
-3. (Jobs with Sidecars or K8s Pods)[./sidecar/README.md]
-4. (Array Jobs | Map only jobs)[./array/README.md]
-5. (Presto Queries)[./presto/README.md]
-6. (Hive Queries)[./hive/README.md]
-7. (Sagemaker Tasks)[./sagemaker/README.md]
+1. [Spark](./spark/README.md)
+2. [Distributed Pytorch Training](./pytorch/README.md)
+3. [Jobs with Sidecars or K8s Pods](./sidecar/README.md)
+4. [Array Jobs | Map only job](./array/README.md)
+5. [Presto Queries](./presto/README.md)
+6. [Hive Queries](./hive/README.md)
+7. [Sagemaker Tasks](./sagemaker/README.md)
 
