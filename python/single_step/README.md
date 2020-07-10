@@ -1,5 +1,7 @@
 # Simplest Example of a Flyte Workflow
 
+[Example: edges.py](edges.py)
+
 ## Introduction:
 
 In this example, we take one image as an input and run canny edge detection algorithm on that image. the output is an edge highlighted image.
