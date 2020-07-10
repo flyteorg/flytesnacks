@@ -34,7 +34,7 @@ class PrimitiveDemoWorkflow(object):
     b = Input(Types.Boolean, help="Boolean")
 
     m = multiply(x=x, y=y)
-    s1 = convert_to_str(z=m.z)
+    s1 = convert_to_str(z=m.outputs.z)
     s2 = add_bool_to_str(st=s, b=b)
 
     mult_str = Output(s1.outputs.s, sdk_type=Types.String)
