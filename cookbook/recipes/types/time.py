@@ -4,15 +4,17 @@ from __future__ import print_function
 from flytekit.sdk.tasks import inputs, outputs, python_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output
-import datetime as _dt
 
 
 @inputs(dt=Types.Datetime, duration=Types.Timedelta)
 @outputs(new_time=Types.Datetime)
 @python_task
 def time_task(wf_params, dt, duration, new_time):
+    """
+    Simple Task that adds the duration to the passed date time.
+    Important to note, the received dt is a datetime object
+    """
     wf_params.logging.info("Running time_task")
-    results = {}
     new_time.set(dt + duration) 
 
 

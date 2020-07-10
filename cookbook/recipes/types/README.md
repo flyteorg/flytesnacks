@@ -20,8 +20,10 @@ from flytekit.sdk.types import Types
 | float           | Types.Float   |
 | str             | Types.String  |
 | bool            | Types.Boolean |
-| bytes/bytearray | Types.Binary  |
+| bytes/bytearray | Not supported*| 
 | complex         | Not supported |
+ 
+ *we have binary in flyte, but flytekit today does not support it
 
 ### Time types
 | Python             | Flyte           |
@@ -54,7 +56,16 @@ Flyte type engine supports Dictionary type, but today it is not exposed to users
 **Types.Proto** is essentially passed through a binary byte array structure.
 
 ## Use primitives 
+[Example: primitive.py](primitive.py)
 
+Primitives are directly passed as Python standard types. Refer to the table for the conversion. 
+To Return a primitive you have to use the set method on the passed in reference. 
+
+```bash
+ flyte-cli -h localhost:30081 -i list-launch-plan-versions -p flytesnacks -d development | grep PrimitiveDemoWorkflow
+
+ flyte-cli -h localhost:30081 -i execute-launch-plan -p flytesnacks -d development -u <urn> -r kumare -- x=10 y=10.0 s="Hello" b=True
+```
 
 ## Use Time types
 
