@@ -53,7 +53,13 @@ Flyte type engine supports Dictionary type, but today it is not exposed to users
 
 **Types.Proto** is essentially passed through a binary byte array structure.
 
-## Use primitives & time types
+## Use primitives 
+
+## Use Time types
+
+```bash
+  flyte-cli -p flytesnacks -d development execute-launch-plan -u lp:flytesnacks:development:recipes.types.generic.GenericDemoWorkflow:version -r demo -- a='{"a": "hello", "b": "how are you", "c": ["array"], "d": {"nested": "value"}}'
+```
 *Coming soon*
 
 ## Use container types
@@ -76,7 +82,7 @@ Flytekit implements this `here <https://github.com/lyft/flytekit/blob/1926b12855
 The UI currently does not support passing structs as inputs to workflows, so if you need to rely on this, you'll have to use **flyte-cli** for now. ::
 
 ```bash
-    flyte-cli -p flytesnacks -d development execute-launch-plan -u lp:flytesnacks:development:workflows.recipe_3.tasks.GenericDemoWorkflow:477b61e4d9be818bbe6514500760053f4bc890db -r demo -- a='{"a": "hello", "b": "how are you", "c": ["array"], "d": {"nested": "value"}}'
+  flyte-cli -p flytesnacks -d development execute-launch-plan -u lp:flytesnacks:development:recipes.types.generic.GenericDemoWorkflow:version -r demo -- a='{"a": "hello", "b": "how are you", "c": ["array"], "d": {"nested": "value"}}'
 ```
 
 ## Pass your own proto objects
