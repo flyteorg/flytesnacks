@@ -26,14 +26,25 @@ RUN ${VENV}/bin/pip install -r requirements.txt
 
 # This is a script that enables a virtualenv, copy it to a better location
 RUN cp ${VENV}/bin/flytekit_venv /opt/
-RUN cp ${VENV}/bin/flytekit_spark_entrypoint.sh /opt/
 
 # Copy the rest of the code
 COPY . .
+
+
+RUN cp entrypoint.sh /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh
+
+RUN apt-get update && apt-get install -y vim openjdk-8-jre-headless
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV SPARK_HOME /opt/spark
+ENV SPARK_VERSION 2.4.0
+ENV PYSPARK_PYTHON ${VENV}/bin/python3
+ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
+
 
 # Set this environment variable. It will be used by the flytekit SDK during the registration/compilation steps
 ARG IMAGE_TAG
 ENV FLYTE_INTERNAL_IMAGE "docker.io/lyft/flytesnacks-spark:$IMAGE_TAG"
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/opt/flytekit_spark_entrypoint.sh"]
+ENTRYPOINT ["/opt/flytekit_venv", "/opt/entrypoint.sh"]
