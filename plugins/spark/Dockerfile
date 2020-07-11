@@ -7,7 +7,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /app
 
 # Install Python3 and other basics
-RUN apt-get update && apt-get install -y python3.6 python3.6-venv make build-essential libssl-dev python3-venv python3-pip curl
+RUN apt-get update && apt-get install -y python3.6 python3.6-venv make build-essential libssl-dev python3-venv python3-pip curl vim
 
 # opencv support
 RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
@@ -30,11 +30,14 @@ RUN cp ${VENV}/bin/flytekit_venv /opt/
 # Copy the rest of the code
 COPY . .
 
-
 RUN cp entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
-RUN apt-get update && apt-get install -y vim openjdk-8-jre-headless
+# Adding Tini support for the spark pods
+RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
+    cp tini /sbin/tini && cp tini /usr/bin/tini && \
+    chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
+
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV SPARK_HOME /opt/spark
 ENV SPARK_VERSION 2.4.0

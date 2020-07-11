@@ -42,13 +42,10 @@ case "$SPARK_K8S_CMD" in
       shift 1
       ;;
     "")
-      echo "Empty command received. Exiting."
-      exit
       ;;
     *)
       echo "Non-spark-on-k8s command provided, proceeding in pass-through mode..."
-      exec "$@"
-      exit
+      exec /sbin/tini -s -- "$@"
       ;;
 esac
 
@@ -72,6 +69,18 @@ fi
 R_ARGS=""
 if [ -n "$R_APP_ARGS" ]; then
     R_ARGS="$R_APP_ARGS"
+fi
+
+if [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "2" ]; then
+    pyv="$(python -V 2>&1)"
+    export PYTHON_VERSION="${pyv:7}"
+    export PYSPARK_PYTHON="python"
+    export PYSPARK_DRIVER_PYTHON="python"
+elif [ "$PYSPARK_MAJOR_PYTHON_VERSION" == "3" ]; then
+    pyv3="$(python3 -V 2>&1)"
+    export PYTHON_VERSION="${pyv3:7}"
+    export PYSPARK_PYTHON="python3"
+    export PYSPARK_DRIVER_PYTHON="python3"
 fi
 
 case "$SPARK_K8S_CMD" in
@@ -121,4 +130,4 @@ case "$SPARK_K8S_CMD" in
 esac
 
 # Execute the container CMD under tini for better hygiene
-exec "${CMD[@]}"
+exec /sbin/tini -s -- "${CMD[@]}"
