@@ -5,16 +5,16 @@
    "execution_count": 1,
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2020-07-08T19:55:39.870039Z",
-     "iopub.status.busy": "2020-07-08T19:55:39.869052Z",
-     "iopub.status.idle": "2020-07-08T19:55:39.871498Z",
-     "shell.execute_reply": "2020-07-08T19:55:39.872894Z"
+     "iopub.execute_input": "2020-07-10T18:10:21.404162Z",
+     "iopub.status.busy": "2020-07-10T18:10:21.402347Z",
+     "iopub.status.idle": "2020-07-10T18:10:21.406486Z",
+     "shell.execute_reply": "2020-07-10T18:10:21.409001Z"
     },
     "papermill": {
-     "duration": 0.018242,
-     "end_time": "2020-07-08T19:55:39.873235",
+     "duration": 0.022292,
+     "end_time": "2020-07-10T18:10:21.409274",
      "exception": false,
-     "start_time": "2020-07-08T19:55:39.854993",
+     "start_time": "2020-07-10T18:10:21.386982",
      "status": "completed"
     },
     "tags": [
@@ -24,7 +24,7 @@
    "outputs": [],
    "source": [
     "a = 3\n",
-    "b = 2"
+    "b = 4"
    ]
   },
   {
@@ -32,16 +32,16 @@
    "execution_count": 2,
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2020-07-08T19:55:39.893568Z",
-     "iopub.status.busy": "2020-07-08T19:55:39.892504Z",
-     "iopub.status.idle": "2020-07-08T19:55:39.895034Z",
-     "shell.execute_reply": "2020-07-08T19:55:39.896457Z"
+     "iopub.execute_input": "2020-07-10T18:10:21.435804Z",
+     "iopub.status.busy": "2020-07-10T18:10:21.434309Z",
+     "iopub.status.idle": "2020-07-10T18:10:21.437140Z",
+     "shell.execute_reply": "2020-07-10T18:10:21.438303Z"
     },
     "papermill": {
-     "duration": 0.016087,
-     "end_time": "2020-07-08T19:55:39.896679",
+     "duration": 0.018118,
+     "end_time": "2020-07-10T18:10:21.438471",
      "exception": false,
-     "start_time": "2020-07-08T19:55:39.880592",
+     "start_time": "2020-07-10T18:10:21.420353",
      "status": "completed"
     },
     "tags": [
@@ -60,16 +60,16 @@
    "execution_count": 3,
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2020-07-08T19:55:39.912454Z",
-     "iopub.status.busy": "2020-07-08T19:55:39.910819Z",
-     "iopub.status.idle": "2020-07-08T19:55:39.914692Z",
-     "shell.execute_reply": "2020-07-08T19:55:39.915526Z"
+     "iopub.execute_input": "2020-07-10T18:10:21.459080Z",
+     "iopub.status.busy": "2020-07-10T18:10:21.457581Z",
+     "iopub.status.idle": "2020-07-10T18:10:21.461903Z",
+     "shell.execute_reply": "2020-07-10T18:10:21.463097Z"
     },
     "papermill": {
-     "duration": 0.013722,
-     "end_time": "2020-07-08T19:55:39.915706",
+     "duration": 0.017123,
+     "end_time": "2020-07-10T18:10:21.463236",
      "exception": false,
-     "start_time": "2020-07-08T19:55:39.901984",
+     "start_time": "2020-07-10T18:10:21.446113",
      "status": "completed"
     },
     "tags": []
@@ -84,8 +84,8 @@
     }
    ],
    "source": [
-    "out = a + b\n",
-    "print(out)"
+    "res = a + b\n",
+    "print(res)"
    ]
   },
   {
@@ -93,16 +93,16 @@
    "execution_count": 4,
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2020-07-08T19:55:39.931624Z",
-     "iopub.status.busy": "2020-07-08T19:55:39.930459Z",
-     "iopub.status.idle": "2020-07-08T19:55:40.580950Z",
-     "shell.execute_reply": "2020-07-08T19:55:40.581598Z"
+     "iopub.execute_input": "2020-07-10T18:10:21.490215Z",
+     "iopub.status.busy": "2020-07-10T18:10:21.489052Z",
+     "iopub.status.idle": "2020-07-10T18:10:22.654128Z",
+     "shell.execute_reply": "2020-07-10T18:10:22.652662Z"
     },
     "papermill": {
-     "duration": 0.6608,
-     "end_time": "2020-07-08T19:55:40.581703",
+     "duration": 1.182874,
+     "end_time": "2020-07-10T18:10:22.654273",
      "exception": false,
-     "start_time": "2020-07-08T19:55:39.920903",
+     "start_time": "2020-07-10T18:10:21.471399",
      "status": "completed"
     },
     "tags": [
@@ -133,24 +133,8 @@
    "source": [
     "from flytekit.contrib.notebook import record_outputs\n",
     "\n",
-    "record_outputs({\"out\": out})"
+    "record_outputs({\"out\": res})"
    ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "papermill": {
-     "duration": 0.007855,
-     "end_time": "2020-07-08T19:55:40.607945",
-     "exception": false,
-     "start_time": "2020-07-08T19:55:40.600090",
-     "status": "completed"
-    },
-    "tags": []
-   },
-   "outputs": [],
-   "source": []
   }
  ],
  "metadata": {
@@ -173,8 +157,8 @@
    "version": "3.7.6"
   },
   "papermill": {
-   "duration": 1.888006,
-   "end_time": "2020-07-08T19:55:40.934367",
+   "duration": 4.086423,
+   "end_time": "2020-07-10T18:10:23.935834",
    "environment_variables": {},
    "exception": null,
    "input_path": "/Users/hamabuelfutuh/src/go/src/github.com/lyft/flytesnacks/cookbook/demo_py_task.ipynb",
@@ -183,7 +167,7 @@
     "a": -5.0,
     "b": 3.0
    },
-   "start_time": "2020-07-08T19:55:39.046361",
+   "start_time": "2020-07-10T18:10:19.849411",
    "version": "2.1.2"
   }
  },

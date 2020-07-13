@@ -1,5 +1,10 @@
-flytekit[sidecar,schema]==0.8.2
-https://github.com/lyft/flytekit/archive/d22499c7c42df9f53ab629f41838cd108f92efc0.zip
+# flytekit[sidecar,schema]==0.10.1
+
+# For SageMaker
+# https://github.com/lyft/flytekit/archive/d22499c7c42df9f53ab629f41838cd108f92efc0.zip
+
+# For Notebooks
+https://github.com/lyft/flytekit/archive/97f1bcd3dd21df4be15cb3d2cd114edef2eac453.zip
 
 pytest
 statsd
