@@ -1,1 +1,1 @@
-flytekit[all]==0.10.0
+flytekit[spark]==0.10.3

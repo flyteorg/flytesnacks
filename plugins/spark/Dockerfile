@@ -18,20 +18,15 @@ RUN pip3 install awscli
 # Set up a virtual environment to use with our workflows
 RUN python3.6 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
-RUN ${VENV}/bin/pip install flytekit
-RUN ${VENV}/bin/flytekit_install_spark.sh
-
 COPY ./requirements.txt .
 RUN ${VENV}/bin/pip install -r requirements.txt
+RUN ${VENV}/bin/flytekit_install_spark.sh
 
 # This is a script that enables a virtualenv, copy it to a better location
 RUN cp ${VENV}/bin/flytekit_venv /opt/
 
 # Copy the rest of the code
 COPY . .
-
-RUN cp entrypoint.sh /opt/entrypoint.sh
-RUN chmod +x /opt/entrypoint.sh
 
 # Adding Tini support for the spark pods
 RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
@@ -43,7 +38,6 @@ ENV SPARK_HOME /opt/spark
 ENV SPARK_VERSION 2.4.0
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
-
 
 # Set this environment variable. It will be used by the flytekit SDK during the registration/compilation steps
 ARG IMAGE_TAG
