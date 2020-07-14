@@ -9,7 +9,7 @@ from six.moves import range
 
 from flytekit.sdk.tasks import spark_task, inputs, outputs, python_task
 from flytekit.sdk.types import Types
-from flytekit.sdk.workflow import workflow_class, Input
+from flytekit.sdk.workflow import workflow_class, Input, Output
 
 
 @inputs(partitions=Types.Integer)
@@ -21,8 +21,6 @@ from flytekit.sdk.workflow import workflow_class, Input
         'spark.executor.cores': '1',
         'spark.executor.instances': '2',
         'spark.driver.cores': '1',
-        'spark.hadoop.mapred.output.committer.class': "org.apache.hadoop.mapred.DirectFileOutputCommitter",
-        'spark.hadoop.mapreduce.use.directfileoutputcommitter': "true",
     },
     cache_version='1')
 def hello_spark(workflow_parameters, spark_context, partitions, out):
@@ -40,7 +38,6 @@ def hello_spark(workflow_parameters, spark_context, partitions, out):
 def print_every_time(workflow_parameters, value_to_print, date_triggered):
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
 
-
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
@@ -50,7 +47,8 @@ def f(_):
 @workflow_class
 class SparkTasksWorkflow(object):
     triggered_date = Input(Types.Datetime)
-    sparkTask = hello_spark(partitions=50)
+    spark_pi = hello_spark(partitions=50)
     print_always = print_every_time(
-        value_to_print=sparkTask.outputs.out,
+        value_to_print=spark_pi.outputs.out,
         date_triggered=triggered_date)
+    pi = Output(spark_pi.outputs.out, sdk_type=Types.Float)
