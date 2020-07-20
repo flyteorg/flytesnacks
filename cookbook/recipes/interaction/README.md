@@ -152,14 +152,19 @@ Error:
 [Exhibit: part_1.ipynb # Section IV](part_1.ipynb)
 
 ### CLI (flyte-cli)
+This CLI has a special function called relaunch
 ```bash
-
+ $ flyte-cli -h localhost:30081 -i relaunch-execution -u ex:flytesnacks:development:f696cca32ffa44513b25 -- angle=20
 ```
 
 ### Console
 1. Navigate to **Console Homepage > Flyte Examples | development > recipes.interaction.interaction.FailingWorkflow**
     - If Using console on localhost sandbox (docker for mac mostly then)
       [Workflow Link](http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/recipes.interaction.interaction.FailingWorkflow)
-2. Click on the Launch Button
+2. Find the execution and click on it
+3. On top right corner we have a "relaunch button". This replaces the terminate button and is available only if an execution exits.
 
 ## Part 5: Launch a new execution using partial outputs of a previous execution
+### Jupyter Notebook
+Only jupyter way is the easy to use way. This is possible to do through the UI, but that would be copy pasting the previous outputs.
+[Exhibit: part_1=2.ipynb](part_2.ipynb)
