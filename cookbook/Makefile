@@ -28,11 +28,11 @@ register_sandbox: docker_build
 in_container_serialize_sandbox:
 	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
 
-# TODO: Get rid of the backticks in the future
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build
-	mkdir `pwd`/_pb_output || true
-	docker run -v `pwd`/_pb_output:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	docker run -v ${CURDIR}/_pb_output:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
