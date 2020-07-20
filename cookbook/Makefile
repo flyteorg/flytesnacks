@@ -11,7 +11,7 @@ REGISTRY=docker.io/lyft
 docker_build:
 	NOPUSH=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
 
-.PHONY: docker_build
+.PHONY: docker_push
 docker_push:
 	IMAGE_NAME=${IMAGE_NAME} REGISTRY=${REGISTRY} flytekit_build_image.sh .
 
@@ -20,7 +20,7 @@ in_container_register_sandbox:
 	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config register workflows
 
 .PHONY: register_sandbox
-register_sandbox: docker_push
+register_sandbox: docker_build
 	docker run docker.io/lyft/flytecookbook:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
 
 .PHONY: in_container_serialize_sandbox
