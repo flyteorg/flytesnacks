@@ -16,7 +16,7 @@ It is useful in writing programmatic unit tests
 Once the registration is successful, task executions can be independently launched
 
 ### Jupyter Notebook
-[Exhibit: part_1.ipynb](part_1.ipynb)
+[Exhibit: part_1.ipynb # Secion I](part_1.ipynb)
 
 ### CLI (flyte-cli)
 ```bash
@@ -34,7 +34,7 @@ Once the registration is successful, task executions can be independently launch
 ## Part 2:  Executing a Pre-registered Workflow / LaunchPlan
 
 ### Jupyter Notebook
-[Exhibit: part_1.ipynb](part_1.ipynb)
+[Exhibit: part_1.ipynb # Section II](part_1.ipynb)
 
 ### CLI (flyte-cli)
 ```bash
@@ -56,23 +56,100 @@ $ flyte-cli -h localhost:30081 -i execute-launch-plan -p flytesnacks -d developm
 ## Part 3: Retrieving outputs of error from a previous execution
 
 ### Jupyter Notebook
-[Exhibit: part_1.ipynb](part_1.ipynb)
+[Exhibit: part_1.ipynb # Section III](part_1.ipynb)
 
 ### CLI (flyte-cli)
-```bash
+1. Lets try to see how we can list all executions
 
+```bash
+ $ flyte-cli -h localhost:30081 -i list-executions -p flytesnacks -d development
 ```
+ - if we want to see only the failed executions then, use *--filter* directive.
+```bash
+ $ flyte-cli -h localhost:30081 -i list-executions -p flytesnacks -d development -f 'eq(phase,FAILED)'
+```
+ - To get all executions not failed or succeeded, *you can and the filters by specifying multiple -f*
+
+2. Lets try to retrieve the results using cli
+```bash
+ $ flyte-cli -h localhost:30081 -i get-execution -u ex:flytesnacks:development:f696cca32ffa44513b25
+Using default config file at /Users/kumare/.flyte/config
+Welcome to Flyte CLI! Version: 0.10.4
+
+Execution flytesnacks:development:f696cca32ffa44513b25
+
+	State:          FAILED
+	Launch Plan:    lp:flytesnacks:development:recipes.interaction.interaction.FailingWorkflow:ade80023b74f9810fe720471b8926d6b991fc879
+Error:
+		Code: USER:Unknown
+		Message:
+			Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/interaction.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
+
+	Node Executions:
+
+		ID: scale-task
+
+			Status:         SUCCEEDED
+			Started:        1970-01-01 00:00:00+00:00
+			Duration:       0:00:00
+			Input:          s3://my-s3-bucket/metadata/propeller/flytesnacks-development-f696cca32ffa44513b25/scale-task/data/inputs.pb
+			Output:         s3://my-s3-bucket/metadata/propeller/flytesnacks-development-f696cca32ffa44513b25/scale-task/data/0/outputs.pb
+
+			Task Executions:
+
+				Attempt 0:
+
+					Created:        2020-07-20 01:16:52.940739
+					Started:        1970-01-01 00:00:00
+					Updated:        2020-07-20 01:16:52.940739
+					Duration:       0:00:00
+					Status:         SUCCEEDED
+					Logs:           (None Found Yet)
+
+
+		ID: rotate-task
+
+			Status:         FAILED
+			Started:        2020-07-20 01:16:53.817785+00:00
+			Duration:       0:00:31.571665
+			Input:          s3://my-s3-bucket/metadata/propeller/flytesnacks-development-f696cca32ffa44513b25/rotate-task/data/inputs.pb
+Error:
+				Code: USER:Unknown
+				Message:
+					Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/interaction.py", line 34, in rotate		        raise Exception("User signaled failure")		Message:				    User signaled failure				User error.
+
+			Task Executions:
+
+				Attempt 0:
+
+					Created:        2020-07-20 01:16:53.719516
+					Started:        1970-01-01 00:00:00
+					Updated:        2020-07-20 01:17:25.325091
+					Duration:       0:00:00
+					Status:         FAILED
+					Logs:
+
+						Name:    Kubernetes Logs (User)
+						URI:     http://localhost:30082/#!/log/flytesnacks-development/f696cca32ffa44513b25-rotate-task-0/pod?namespace=flytesnacks-development
+
+Error:
+						Code: USER:Unknown
+						Message:
+							Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/interaction.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
+
+``` 
 
 ### Console
 1. Navigate to **Console Homepage > Flyte Examples | development > recipes.interaction.interaction.FailingWorkflow**
     - If Using console on localhost sandbox (docker for mac mostly then)
       [Workflow Link](http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/recipes.interaction.interaction.FailingWorkflow)
-2. Click on the Launch Button
+2. find the execution (or filter using the UI dropdowns)
+3. The main list page should show the execution failure reason. If you want to dig deeper, click on the execution for more information.
 
 ## Part 4: Relaunching a failed execution
 
 ### Jupyter Notebook
-[Exhibit: part_1.ipynb](part_1.ipynb)
+[Exhibit: part_1.ipynb # Section IV](part_1.ipynb)
 
 ### CLI (flyte-cli)
 ```bash
