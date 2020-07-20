@@ -38,7 +38,13 @@ Once the registration is successful, task executions can be independently launch
 
 ### CLI (flyte-cli)
 ```bash
+$ flyte-cli -h localhost:30081 -i list-launch-plan-versions -p flytesnacks -d development --name recipes.interaction.interaction.FailingWorkflow
+  Launch Plan Versions Found for flytesnacks:development:recipes.interaction.interaction.FailingWorkflow
 
+Version                                            Urn                                                                              Schedule                       Schedule State
+ade80023b74f9810fe720471b8926d6b991fc879           lp:flytesnacks:development:recipes.interaction.interaction.FailingWorkflow:ade80023b74f9810fe720471b8926d6b991fc879 
+
+$ flyte-cli -h localhost:30081 -i execute-launch-plan -p flytesnacks -d development -u lp:flytesnacks:development:recipes.interaction.interaction.FailingWorkflow:ade80023b74f9810fe720471b8926d6b991fc879 -r <username> -- image=https://miro.medium.com/max/1400/1*qL8UYfaStcEo_YVPrA4cbA.png 
 ```
 
 ### Console
