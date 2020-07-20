@@ -30,7 +30,7 @@ in_container_serialize_sandbox:
 
 # TODO: Get rid of the backticks in the future
 .PHONY: serialize_sandbox
-serialize_sandbox: docker_push
+serialize_sandbox: docker_build
 	mkdir `pwd`/_pb_output || true
 	docker run -v `pwd`/_pb_output:/tmp/output docker.io/lyft/flytecookbook:${VERSION} make in_container_serialize_sandbox
 
