@@ -11,6 +11,7 @@ REGISTRY=docker.io/lyft
 docker_build:
 	NOPUSH=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
 
+# This should only be used by Admins to push images to the public Dockerhub repo.
 .PHONY: docker_push
 docker_push:
 	IMAGE_NAME=${IMAGE_NAME} REGISTRY=${REGISTRY} flytekit_build_image.sh .
