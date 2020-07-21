@@ -1,5 +1,7 @@
 # Writing Tasks
 Tasks are fundamental building blocks in Flyte. 
 
+## Declare task
 
+## Execute Task
 
