@@ -1,7 +1,6 @@
 from flytekit.sdk.types import Types
-from flytekit.sdk.workflow import workflow_class, Input, Output, workflow
-from recipes.tasks import rotate
-import cv2
+from flytekit.sdk.workflow import workflow_class, Input, Output
+from recipes.task.tasks import rotate
 
 
 @workflow_class
