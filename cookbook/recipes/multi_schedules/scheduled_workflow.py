@@ -9,6 +9,7 @@ def print_time(wf_params, in_time):
     print("{}".format(in_time))
 
 
+@workflow_class
 class ScheduledWorkflow():
     trigger_time = Input(Types.Datetime, required=True)  # Time at which the workflow was scheduled
     print_time(in_time=trigger_time)
