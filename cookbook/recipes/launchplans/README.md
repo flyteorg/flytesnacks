@@ -1,6 +1,6 @@
 # Creating Launch Plans
 
-Please first take a moment to review the [Launch Plans](https://docs.lyft.net/eng/flytedocs/user/concepts/launchplans_schedules.html#launch-plans) documentation.
+Please first take a moment to review the [Launch Plans](https://lyft.github.io/flyte/user/concepts/launchplans_schedules.html) documentation.
 
 In order to create a launch plan we first need a workflow. We can use the `IdentityWorkflow` created in one of the examples.
 
