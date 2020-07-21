@@ -8,7 +8,7 @@ from datetime import timedelta
 
 # Example 1 show cron schedule
 scale_rotate_cronscheduled_launchplan = workflows.ScaleAndRotateWorkflow.create_launch_plan(
-    schedule=_schedules.CronSchedule("* * * * * *"),
+    schedule=_schedules.CronSchedule("0/30 * * * ? *"),
     labels=Labels({
         'flyte.org/managed': 'true',
     }),
