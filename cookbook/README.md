@@ -26,4 +26,28 @@ Follow instructions in the main Flyte documentation.
 
 All the commands in this book assume that you are using Docker Desktop. If you are using minikube or another K8s deployment, the commands will need to be modified.
 
+## Using Locally
 
+Please ensure that you have a virtual environment installed and activated.
+
+### Make Targets
+
+* To build the image
+
+```
+make docker_build
+```
+
+* To register
+
+```
+make docker_push
+```
+
+The above commands will produce and use images with no registry in the name - it will just be `flytecookbook:<sha>`. If you would like to push to a registry like ECR or DockerHub, please prepend a `REGISTRY` to the commands. 
+
+* To push the image
+
+```
+REGISTRY=docker.io/corp make docker_push
+```
