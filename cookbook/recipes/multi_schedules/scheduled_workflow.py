@@ -1,6 +1,6 @@
 from flytekit.sdk.tasks import python_task, inputs
 from flytekit.sdk.types import Types
-from flytekit.sdk.workflow import Input
+from flytekit.sdk.workflow import Input, workflow_class
 
 
 @inputs(in_time=Types.Datetime)
