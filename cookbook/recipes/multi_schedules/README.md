@@ -1,6 +1,6 @@
 # How do I create schedules?
 
-If you haven't read yet the [Launch Plans](https://docs.lyft.net/eng/flytedocs/user/concepts/launchplans_schedules.html#launch-plans) part of the documentation, please do so as it explains the basics of launch plans and schedules.
+If you haven't read yet the [Launch Plans](https://lyft.github.io/flyte/user/concepts/launchplans_schedules.html) part of the documentation, please do so as it explains the basics of launch plans and schedules.
 
 Schedules are set on launch plans, and as you can see from the [IDL](https://github.com/lyft/flyteidl/blob/e9727afcedf8d4c30a1fc2eeac45593e426d9bb0/protos/flyteidl/admin/schedule.proto#L20) can be either set with a traditional cron expression, or an interval.
 
