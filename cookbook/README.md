@@ -12,7 +12,7 @@ Note this currently does not include articles/tid-bits on how to use the Flyte p
 5. [Executing pre-created tasks & workflows](recipes/fetch/README.md)
 6. [Interact with Past Workflow / Task Executions](recipes/interaction/README.md)
 7. [Working with Types](recipes/types/README.md)
-8. [(WIP)Composing a Workflow from shared tasks and workflows](recipes/shared/README.md)
+8. [Composing a Workflow from shared tasks and workflows](recipes/shared/README.md)
 9. [(WIP)Dynamic Tasks](recipes/dynamictasks/README.md)
 10. [Compose a Workflow from other workflows](recipes/compose/README.md)
 10. [Dynamically Generate a Workflow at Runtime](recipes/dynamic_wfs/README.md)

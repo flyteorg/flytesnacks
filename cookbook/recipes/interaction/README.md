@@ -167,4 +167,5 @@ This CLI has a special function called relaunch
 ## Part 5: Launch a new execution using partial outputs of a previous execution
 ### Jupyter Notebook
 Only jupyter way is the easy to use way. This is possible to do through the UI, but that would be copy pasting the previous outputs.
-[Exhibit: part_1=2.ipynb](part_2.ipynb)
+
+[Exhibit: part_2.ipynb](part_2.ipynb)
