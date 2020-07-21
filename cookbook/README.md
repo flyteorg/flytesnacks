@@ -41,7 +41,7 @@ make docker_build
 * To register
 
 ```
-make docker_push
+make register_sandbox
 ```
 
 The above commands will produce and use images with no registry in the name - it will just be `flytecookbook:<sha>`. If you would like to push to a registry like ECR or DockerHub, please prepend a `REGISTRY` to the commands. 
