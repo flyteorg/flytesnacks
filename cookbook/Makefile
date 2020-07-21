@@ -51,7 +51,3 @@ enter_sandbox: docker_build
 run_tests: 
 	export PYTHONPATH=.:$(PYTHONPATH)
 	pytest tests/recipes/
-
-.PHONY: asdf
-asdf:
-	echo ${FULL_IMAGE_NAME}
