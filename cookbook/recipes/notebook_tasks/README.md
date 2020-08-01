@@ -4,7 +4,7 @@ Starting [Flytekit 0.10.12](https://github.com/lyft/flytekit/releases/tag/v0.10.
 
 Currently we support  `python` and `pyspark` notebooks. 
 These notebook tasks support basic primitive inputs injection into the notebook as well as capturing outputs from the notebook. The notebooks are executed using [papermill](https://papermill.readthedocs.io/en/latest/).
-Inputs are injected by papermill in the notebooks in a special `injected_parameters` cell and outputs are captured by `flytekit` from a specially tagged `outputs` cell. For `pyspark`,  the notebook should also contain a  `spark_conf` cell with the spark config to run with. 
+Inputs are injected by papermill in the notebooks in a special `injected_parameters` cell and outputs are captured by `flytekit` from a specially tagged `outputs` cell. For `pyspark`,  the notebook should also contain a `conf` cell with the spark config to run with. 
 
 
 ## Notebook as Tasks Examples
