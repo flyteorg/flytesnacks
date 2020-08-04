@@ -77,7 +77,8 @@ class TrainingWorkflow(object):
 
 ### Wrapping a SageMaker Hyperparameter Tuning Job around a SageMaker Training Job
 
-Define the hyperparameter tuning job, which is required to wrap around a training job:
+To define the hyperparameter tuning job, a training job is required.
+The hyperparameter tuning job wraps around a training job:
 
 ```python
 from flytekit.common.tasks.sagemaker import hpo_job_task
