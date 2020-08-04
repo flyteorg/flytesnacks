@@ -121,7 +121,7 @@ hpo_inputs={
     ).to_flyte_idl(),
 }
 
-hpo_exc = xgboost_hpo_task.register_and_launch("flyteexamples", "development", inputs=hpo_inputs)
+hpo_exc = xgboost_hpo_task.register_and_launch("project", "domain", inputs=hpo_inputs)
 ```
 
 ### Invoking the hyperparameter tuning job from a workflow.
@@ -149,8 +149,6 @@ class TrainingWorkflow(object):
             hyperparameter_ranges=ParameterRanges(
                 parameter_range_map={
                     "num_round": IntegerParameterRange(min_value=3, max_value=10, 
-                                                       scaling_type=HyperparameterScalingType.LINEAR),
-                    "max_depth": IntegerParameterRange(min_value=5, max_value=7, 
                                                        scaling_type=HyperparameterScalingType.LINEAR),
                     "gamma": ContinuousParameterRange(min_value=0.0, max_value=0.3,
                                                       scaling_type=HyperparameterScalingType.LINEAR),
