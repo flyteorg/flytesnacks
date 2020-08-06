@@ -30,5 +30,5 @@ class CustomRawOutputWorkflow(object):
 
 # Workflows can assign a default output location for raw data generated during execution.
 raw_output_lp = CustomRawOutputWorkflow.create_launch_plan(
-    raw_output_data_config=RawOutputDataConfig("s3://test-raw-bucket/")
+    raw_output_data_prefix='s3://test-raw-bucket/')
 )
