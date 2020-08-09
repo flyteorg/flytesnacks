@@ -22,7 +22,7 @@ def rotate(wf_params, image_location, out_image):
     Download the given image, rotate it by 180 degrees
     """
     with utils.AutoDeletingTempDir('rotation') as tmp:
-        local_image = os.path.join(tmp.name, image_location)
+        local_image = os.path.join(tmp.name, 'incoming.jpg')
         urllib.request.urlretrieve(image_location, local_image)
         img = cv2.imread(local_image, 0)
         if img is None:
@@ -39,7 +39,7 @@ def rotate(wf_params, image_location, out_image):
 @inputs(input_images=[Types.String])
 @outputs(rotated_images=[Types.Blob])
 @dynamic_task
-def sample_batch_task_sq(wf_params, input_images, rotated_images):
+def batch_rotator(wf_params, input_images, rotated_images):
     results = []
     for ii in input_images:
         rotate_task = rotate(image_location=ii)
@@ -52,5 +52,5 @@ def sample_batch_task_sq(wf_params, input_images, rotated_images):
 @workflow_class
 class BatchRotateWorkflow(object):
     in_images = Input([Types.String], default=default_images)
-    run_map = sample_batch_task_sq(input_images=in_images)
+    run_map = batch_rotator(input_images=in_images)
     wf_output = run_map.outputs.rotated_images
