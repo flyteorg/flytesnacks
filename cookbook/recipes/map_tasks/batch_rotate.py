@@ -7,8 +7,6 @@ from flytekit.sdk.tasks import dynamic_task, inputs, outputs, python_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import Input, workflow_class, Output
 
-from recipes.task import rotate
-
 default_images = [
     'https://upload.wikimedia.org/wikipedia/commons/a/a8/Fractal_pyramid.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Mandel_zoom_00_mandelbrot_set.jpg/640px-Mandel_zoom_00_mandelbrot_set.jpg',
