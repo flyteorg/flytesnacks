@@ -51,6 +51,6 @@ def sample_batch_task_sq(wf_params, input_images, rotated_images):
 
 @workflow_class
 class BatchRotateWorkflow(object):
-    in_images = Input(Types.String, default=default_images)
+    in_images = Input([Types.String], default=default_images)
     run_map = sample_batch_task_sq(input_images=in_images)
     wf_output = run_map.outputs.rotated_images
