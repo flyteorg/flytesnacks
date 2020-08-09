@@ -41,7 +41,7 @@ def rotate(wf_params, image_location, out_image):
 @dynamic_task
 def sample_batch_task_sq(wf_params, input_images, rotated_images):
     results = []
-    for ii in range(input_images):
+    for ii in input_images:
         rotate_task = rotate(image_location=ii)
         yield rotate_task
         results.append(rotate_task.outputs.out_image)
