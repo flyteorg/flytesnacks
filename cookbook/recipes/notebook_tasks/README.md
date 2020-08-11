@@ -1,3 +1,5 @@
+[Back to Cookbook Menu](../..)
+
 # Use Jupyter and papermill to author tasks
 
 Starting [Flytekit 0.10.12](https://github.com/lyft/flytekit/releases/tag/v0.10.12), there is now support  to run Jupyter Notebooks as Flyte Tasks.
