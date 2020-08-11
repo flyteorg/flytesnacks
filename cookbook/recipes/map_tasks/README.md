@@ -26,8 +26,14 @@ class ManualCopy():
     out2 = Output(img2.outputs.out_image, sdk_type=Types.Blob)
 ```
 
-we can use a `dynamic_task` to achieve a better result.
+we can use a `dynamic_task` to achieve a better result. Within a dynamic task, you can yield the regular `rotate` Python task.
 
+```python
+    results = []
+    for ii in input_images:
+        rotate_task = rotate(image_location=ii)
+        yield rotate_task
+        results.append(rotate_task.outputs.out_image)
+```
 
-
- 
+Please see the attached [Python workflow](batch_rotate.py) for a full example. We've rewritten the rotate task here to do the image download in the task itself. Most installations of a Flyte sandbox are pretty resource limited, so we've tamped down the requests and limits pretty hard to ensure that all three subtasks get run.
