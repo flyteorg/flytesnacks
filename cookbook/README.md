@@ -5,7 +5,7 @@
 This is a collection of short "how to" articles demonstrating the various capabilities and idiomatic usage of Flytekit.
 Note this currently does not include articles/tid-bits on how to use the Flyte platform at large, though in the future we may expand it to that.
 
-## Contents   
+## :curry: Contents   
 1. [Write and Execute a Task](recipes/task)
 1. [Create a workflow from Tasks](recipes/workflows)
 1. [Launch Plans](recipes/launchplans)
