@@ -16,7 +16,7 @@ default_images = [
 
 @inputs(image_location=Types.String)
 @outputs(out_image=Types.Blob)
-@python_task
+@python_task(cpu_request="200m", cpu_limit="200m", memory_request="500Mi", memory_limit="500Mi")
 def rotate(wf_params, image_location, out_image):
     """
     Download the given image, rotate it by 180 degrees
