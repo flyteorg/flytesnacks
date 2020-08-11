@@ -1,4 +1,6 @@
-# Flytekit Cookbook
+[Back to Snacks Menu](..)
+
+# :books: Flytekit Cookbook
 
 This is a collection of short "how to" articles demonstrating the various capabilities and idiomatic usage of Flytekit.
 Note this currently does not include articles/tid-bits on how to use the Flyte platform at large, though in the future we may expand it to that.
@@ -46,3 +48,4 @@ If you would like to later push your image to a registry (Dockerhub, ECR, etc.),
 ```bash
 REGISTRY=docker.io/corp make docker_push
 ``` 
+
