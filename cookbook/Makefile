@@ -33,6 +33,14 @@ in_container_register_sandbox:
 register_sandbox: docker_build
 	docker run ${FULL_IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_sandbox
 
+.PHONY: in_container_register_staging
+in_container_register_staging:
+	pyflyte -p ${PROJECT} -d development --config /root/staging.config register workflows
+
+.PHONY: register_staging
+register_staging: docker_build
+	docker run ${FULL_IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_staging
+
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:
 	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
