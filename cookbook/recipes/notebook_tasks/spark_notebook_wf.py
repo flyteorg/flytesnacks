@@ -6,7 +6,7 @@ from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input
 
 interactive_spark = spark_notebook(
-    notebook_path=os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.abspath("spark-notebook.ipynb")),
+    notebook_path=os.path.abspath(__file__),
     inputs=inputs(partitions=Types.Integer),
     outputs=outputs(pi=Types.Float),
     )
