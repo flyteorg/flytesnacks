@@ -5,6 +5,9 @@ from flytekit.sdk.tasks import inputs, outputs
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input
 
+import logging
+logging.warning(f"$$ {os.path.abspath(__file__)}")
+
 interactive_spark = spark_notebook(
     notebook_path=os.path.abspath(__file__),
     inputs=inputs(partitions=Types.Integer),
