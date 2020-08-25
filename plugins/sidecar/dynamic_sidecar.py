@@ -1,6 +1,3 @@
-import time
-import os
-
 from flytekit.sdk.tasks import dynamic_sidecar_task, inputs, outputs, python_task, sidecar_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input
