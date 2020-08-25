@@ -1,6 +1,3 @@
-import time
-import os
-
 from flytekit.sdk.tasks import dynamic_sidecar_task, inputs, outputs, python_task, sidecar_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input
@@ -26,10 +23,14 @@ def individual_python_task(wf_params, index, output):
 @dynamic_sidecar_task(
     pod_spec=generate_simple_pod_spec_for_task(),
     primary_container_name="primary",
+    cpu_limit='1',
+    cpu_request='1',
+    memory_limit='100Mi',
+    memory_request='100Mi',
 )
 def dynamic_sidecar_task(wf_params, tasks_count, assembled_output):
     result = []
-    for i in tasks_count:
+    for i in range(tasks_count):
         individual_task = individual_python_task(index=i)
         yield individual_task
         result.append(individual_task.outputs.output)

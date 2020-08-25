@@ -5,6 +5,7 @@ from flytekit.sdk.tasks import outputs, sidecar_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class
 from k8s.io.api.core.v1 import generated_pb2
+from k8s.io.apimachinery.pkg.api.resource.generated_pb2 import Quantity
 
 _SHARED_DATA_PATH = '/data/message.txt'
 
@@ -22,6 +23,15 @@ def generate_pod_spec_for_task():
     )
     secondary_container.command.extend(["/bin/sh"])
     secondary_container.args.extend(["-c", "echo hi sidecar world > {}".format(_SHARED_DATA_PATH)])
+
+    resources = generated_pb2.ResourceRequirements()
+    resources.limits["cpu"].CopyFrom(Quantity(string="1"))
+    resources.requests["cpu"].CopyFrom(Quantity(string="1"))
+    resources.limits["memory"].CopyFrom(Quantity(string="100Mi"))
+    resources.requests["memory"].CopyFrom(Quantity(string="100Mi"))
+    primary_container.resources.CopyFrom(resources)
+    secondary_container.resources.CopyFrom(resources)
+
     shared_volume_mount = generated_pb2.VolumeMount(
               name="shared-data",
               mountPath="/data",
