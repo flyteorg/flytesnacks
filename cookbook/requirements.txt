@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-flytekit[sidecar,schema]==0.11.5
-=======
 flytekit[sidecar,schema]==0.12.1
->>>>>>> origin/master
 pytest
 statsd
 opencv-python==3.4.4.19
