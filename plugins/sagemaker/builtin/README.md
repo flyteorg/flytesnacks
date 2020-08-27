@@ -5,7 +5,7 @@ Amazon SageMaker provides several built-in machine learning algorithms that you 
 Built-in algorithms are the fastest to get started with, as they are already pre-built and optimized on Sagemaker. To understand how they work and the various options available please refer to [Amazon
 Sagemaker Official Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html)
 
-Flyte Sagemaker plugin intends to greatly simply using Sagemaker for training. We have tried to distill the API into a meaningful subset that makes it easier for users to adopt and run with Sagemaker.
+Flyte Sagemaker plugin intends to greatly simplify using Sagemaker for training. We have tried to distill the API into a meaningful subset that makes it easier for users to adopt and run with Sagemaker.
 Due to the nature of the Sagemaker built-in algorithms, it is possible to run them completely from a local notebook using Flyte. This is because, Flyte will automatically use a pre-built Image for the
 given algorithm.
 
