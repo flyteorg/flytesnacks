@@ -1,5 +1,4 @@
-#flytekit[schema]==0.12.1
-https://github.com/lyft/flytekit/archive/978670a6e0c69f3ce73c18cfd4ccce6fdb91ee7f.zip#egg=flytekit[schema,sidecar]
+flytekit[schema]==0.12.1
 opencv-python==3.4.4.19
 xgboost==0.90
 scikit-learn==0.21.3
