@@ -7,7 +7,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /app
 
 # Install Python3 and other basics
-RUN apt-get update && apt-get install -y python3.6 python3.6-venv make build-essential libssl-dev python3-venv python3-pip curl 
+RUN apt-get update && apt-get install -y python3.6 python3.6-venv make build-essential libssl-dev python3-venv python3-pip curl
 
 # opencv support
 RUN apt-get install -y libsm6 libxext6 libxrender-dev
