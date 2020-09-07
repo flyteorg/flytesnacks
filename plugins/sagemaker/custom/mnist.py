@@ -12,14 +12,6 @@ import tensorflow as tf
 from flytekit.common import utils as _common_utils
 
 
-# @inputs(train_dataset=Types.Blob, validation_dataset=Types.Blob, my_input=Types.String)
-# @outputs(out=Types.Integer)
-# @python_task
-# def custom_training_task(workflow_parameters, train_dataset, validation_dataset, my_input, out):
-#     workflow_parameters.logging.info("My printed value: {}".format(my_input))
-#     out.set(5)
-
-
 @inputs(dummy_train_dataset=Types.Blob, dummy_validation_dataset=Types.Blob, my_input=Types.String)
 @outputs(out_model=Types.Blob, out=Types.Integer, out_extra_output_file=Types.Blob)
 @custom_training_job_task(
