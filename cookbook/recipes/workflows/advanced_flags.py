@@ -34,5 +34,5 @@ class PrestoWorkflow(object):
 
 # Workflows can assign a default output location for raw data generated during execution.
 raw_output_lp = PrestoWorkflow.create_launch_plan(
-    raw_output_data_prefix='s3://lyft-modelbuilder/'
+    raw_output_data_prefix='s3://lyft-modelbuilder/custom-raw-output/'
 )
