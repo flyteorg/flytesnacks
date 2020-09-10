@@ -19,8 +19,7 @@ presto_task = SdkPrestoTask(
 @python_task
 def print_schemas(wf_params, query_output):
     with query_output as r:
-        for x in r.iter_chunks():
-            df = x.read()
+        for df in r.iter_chunks():
             wf_params.logging.info(f"Output schema:\n{df}")
 
 
