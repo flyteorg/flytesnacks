@@ -145,11 +145,13 @@ def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epo
 
     accuracies = [epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval) for epoch in range(1, epochs + 1)]
 
-    model_file = "mnist_cnn.pt"
-    torch.save(model.state_dict(), model_file)
+    if not is_distributed() or dist.get_rank() == 0:
+        model_file = "mnist_cnn.pt"
+        model_to_save = model.module if hasattr(model, 'module') else model
+        torch.save(model_to_save.state_dict(), model_file)
 
-    model_state.set(model_file)
-    epoch_accuracies.set(accuracies)
+        model_state.set(model_file)
+        epoch_accuracies.set(accuracies)
 
 
 @workflow_class
