@@ -149,7 +149,6 @@ def mnist_pytorch_job(workflow_params, no_cuda, batch_size, test_batch_size, epo
         model_file = "mnist_cnn.pt"
         model_to_save = model.module if hasattr(model, 'module') else model
         torch.save(model_to_save.state_dict(), model_file)
-
         model_state.set(model_file)
         epoch_accuracies.set(accuracies)
 
