@@ -1,6 +1,6 @@
 from flytekit.sdk.tasks import python_task, inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
-from flytekit.sdk.workflow import workflow_class, Input
+from flytekit.sdk.workflow import workflow_class, Input, Output
 
 from demo.house_price_predictor import generate_data, save_to_file, fit, predict
 
@@ -23,15 +23,15 @@ def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_
 
 
 @inputs(multi_train=Types.List(Types.CSV))
-@outputs(multi_model=Types.List(Types.Blob))
+@outputs(multi_models=Types.List(Types.Blob))
 @dynamic_task(cache=True, cache_version="0.1", cpu_request="200Mi", memory_request="200Mi")
-def parallel_fit(wf_params, multi_train, multi_model):
+def parallel_fit(wf_params, multi_train, multi_models):
     models = []
     for train in multi_train:
         t = fit(train=train)
         yield t
         models.append(t.outputs.model)
-    multi_model.set(models)
+    multi_models.set(models)
 
 
 @inputs(multi_test=Types.List(Types.CSV), multi_models=Types.List(Types.Blob))
@@ -46,7 +46,7 @@ def parallel_predict(wf_params, multi_test, multi_models, predictions, accuracie
         preds.append(p.outputs.predictions)
         accs.append(p.outputs.accuracy)
     predictions.set(preds)
-    accuracies.set(accuracies)
+    accuracies.set(accs)
 
 
 @workflow_class
@@ -63,9 +63,10 @@ class MultiRegionHousePricePredictionModelTrainer(object):
     # the actual algorithm
     split = generate_and_split_data_multiloc(locations=regions, number_of_houses_per_location=num_houses_per_region,
                                              seed=seed)
-    # fit_task = fit(train=split.outputs.train)
-    # predicted = predict(model_ser=fit_task.outputs.model, test=split.outputs.test)
-    #
-    # # Outputs: joblib seralized model and accuracy of the model
-    # model = Output(fit_task.outputs.model, sdk_type=Types.Blob)
-    # accuracy = Output(predicted.outputs.accuracy, sdk_type=Types.Float)
+    fit_task = parallel_fit(multi_train=split.outputs.train)
+    predicted = parallel_predict(multi_models=fit_task.outputs.multi_models, multi_test=split.outputs.test)
+
+    # Outputs: joblib seralized models per region and accuracy of the model per region
+    # Note we should make this into a map, but for demo we will output a simple list
+    models = Output(fit_task.outputs.multi_models, sdk_type=Types.List(Types.Blob))
+    accuracies = Output(predicted.outputs.accuracies, sdk_type=Types.List(Types.Float))
