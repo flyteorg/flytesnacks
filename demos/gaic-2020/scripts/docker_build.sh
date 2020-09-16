@@ -32,9 +32,15 @@ if [ -n "$RELEASE_SEMVER" ]; then
   IMAGE_TAG_WITH_SEMVER="${IMAGE_NAME}:${RELEASE_SEMVER}${IMAGE_TAG_SUFFIX}"
 fi
 
+IMAGE_TAG=${IMAGE_TAG_WITH_SHA}
+
+if [ -n "$REGISTRY" ]; then
+  IMAGE_TAG="${REGISTRY}/${IMAGE_TAG_WITH_SHA}"
+fi
+
 # build the image
-docker build -t "$IMAGE_TAG_WITH_SHA" --build-arg IMAGE_TAG="${IMAGE_TAG_WITH_SHA}" .
-echo "${IMAGE_TAG_WITH_SHA} built locally."
+docker build -t "$IMAGE_TAG" --build-arg IMAGE_TAG="${IMAGE_TAG}" .
+echo "${IMAGE_TAG} built locally."
 
 # if REGISTRY specified, push the images to the remote registy
 if [ -n "$REGISTRY" ]; then
