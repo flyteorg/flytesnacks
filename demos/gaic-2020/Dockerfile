@@ -11,7 +11,6 @@ RUN : \
 
 # This is necessary for opencv to work
 RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
-#RUN pip3 install --upgrade pip==20.2.2
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
@@ -25,9 +24,6 @@ RUN ${VENV}/bin/pip install wheel
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-ENV SAGEMAKER_PROGRAM /srv/service/venv/bin/flytekit_sagemaker_runner.py
-RUN pip3 install --upgrade sagemaker-training==3.6.2
-
 # Copy the actual code
 COPY . /root
 
@@ -37,8 +33,8 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
-ARG IMAGE_TAG
-ENV FLYTE_INTERNAL_IMAGE $IMAGE_TAG
+ARG tag
+ENV FLYTE_INTERNAL_IMAGE $tag
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
 ENTRYPOINT ["/usr/local/bin/flytekit_venv"]
