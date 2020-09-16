@@ -105,7 +105,7 @@ def generate_and_split_data(wf_params, loc, number_of_houses, seed, train, val, 
 
 @inputs(train=Types.CSV)
 @outputs(model=Types.Blob)
-@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
+@python_task(cache_version='1.0', cache=True, memory_request="200Mi")
 def fit(ctx, train, model):
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
