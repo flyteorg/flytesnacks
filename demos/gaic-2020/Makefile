@@ -1,2 +1,9 @@
+IMAGE_NAME=flytesnacks-gaic
+GIT_SHA=$(shell git rev-parse HEAD)
+IMAGE_TAG_WITH_SHA= $(addsuffix :$(GIT_SHA),$(IMAGE_NAME))
+
 docker_build:
-	IMAGE_NAME=flytesnacks-gaic scripts/docker_build.sh
+	IMAGE_NAME=$(IMAGE_NAME) scripts/docker_build.sh
+
+register-local:
+	docker run --rm --network host -e FLYTE_PLATFORM_URL='127.0.0.1:30081' $(IMAGE_TAG_WITH_SHA) pyflyte -p flytesnacks -d development -c flyte.config register workflows

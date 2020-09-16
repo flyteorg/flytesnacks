@@ -33,8 +33,8 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag
+ARG IMAGE_TAG
+ENV FLYTE_INTERNAL_IMAGE $IMAGE_TAG
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
 ENTRYPOINT ["/usr/local/bin/flytekit_venv"]

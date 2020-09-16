@@ -95,7 +95,7 @@ def save_to_file(n: str, arr: np.ndarray) -> str:
 
 @inputs(loc=Types.String, number_of_houses=Types.Integer, seed=Types.Integer)
 @outputs(train=Types.CSV, val=Types.CSV, test=Types.CSV)
-@python_task(cache=True, cache_version="0.1", cpu_request="1000Mi", memory_request="1Gi")
+@python_task(cache=True, cache_version="0.1", cpu_request="200Mi", memory_request="500Mi")
 def generate_and_split_data(wf_params, loc, number_of_houses, seed, train, val, test):
     _train, _val, _test = generate_data(loc, number_of_houses, seed)
     train.set(save_to_file("train", _train))
