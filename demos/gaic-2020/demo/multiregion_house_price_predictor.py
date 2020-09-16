@@ -7,7 +7,7 @@ from demo.house_price_predictor import generate_data, save_to_file, fit, predict
 
 @inputs(locations=Types.List(Types.String), number_of_houses_per_location=Types.Integer, seed=Types.Integer)
 @outputs(train=Types.List(Types.CSV), val=Types.List(Types.CSV), test=Types.List(Types.CSV))
-@python_task(cache=True, cache_version="0.1", cpu_request="200Mi", memory_request="200Mi")
+@python_task(cache=True, cache_version="0.1", memory_request="200Mi")
 def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_location, seed, train, val, test):
     train_sets = []
     val_sets = []
@@ -24,7 +24,7 @@ def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_
 
 @inputs(multi_train=Types.List(Types.CSV))
 @outputs(multi_models=Types.List(Types.Blob))
-@dynamic_task(cache=True, cache_version="0.1", cpu_request="200Mi", memory_request="200Mi")
+@dynamic_task(cache=True, cache_version="0.1", memory_request="200Mi")
 def parallel_fit(wf_params, multi_train, multi_models):
     models = []
     for train in multi_train:
