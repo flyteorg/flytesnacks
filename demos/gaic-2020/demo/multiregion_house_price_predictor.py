@@ -36,7 +36,7 @@ def parallel_fit(wf_params, multi_train, multi_models):
 
 @inputs(multi_test=Types.List(Types.CSV), multi_models=Types.List(Types.Blob))
 @outputs(predictions=Types.List(Types.List(Types.Float)), accuracies=Types.List(Types.Float))
-@dynamic_task(memory_request="200Mi")
+@dynamic_task(cache_version='1.1', cache=True, memory_request="200Mi")
 def parallel_predict(wf_params, multi_test, multi_models, predictions, accuracies):
     preds = []
     accs = []
