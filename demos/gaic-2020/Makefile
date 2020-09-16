@@ -13,4 +13,4 @@ docker_push:
 	REGISTRY=docker.io/lyft IMAGE_NAME=$(IMAGE_NAME) scripts/docker_build.sh
 
 register-remote:
-	docker run --rm --network host -e FLYTE_PLATFORM_URL=$(REMOTE) $(IMAGE_TAG_WITH_SHA) pyflyte -p flytesnacks -d development -c flyte.config register workflows
+	docker run --rm --network host -e FLYTE_PLATFORM_URL=$(REMOTE) -e FLYTE_PLATFORM_INSECURE=False $(IMAGE_TAG_WITH_SHA) pyflyte -p flytesnacks -d development -c flyte.config register workflows
