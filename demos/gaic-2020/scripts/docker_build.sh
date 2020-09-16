@@ -49,15 +49,13 @@ if [ -n "$REGISTRY" ]; then
     docker login --username="$DOCKER_REGISTRY_USERNAME" --password="$DOCKER_REGISTRY_PASSWORD"
   fi
 
-  docker tag "$IMAGE_TAG_WITH_SHA" "${REGISTRY}/${IMAGE_TAG_WITH_SHA}"
-
-  docker push "${REGISTRY}/${IMAGE_TAG_WITH_SHA}"
+  docker push "${IMAGE_TAG}"
   echo "${REGISTRY}/${IMAGE_TAG_WITH_SHA} pushed to remote."
 
   # If the current commit has a semver tag, also push the images with the semver tag
   if [ -n "$RELEASE_SEMVER" ]; then
 
-    docker tag "$IMAGE_TAG_WITH_SHA" "${REGISTRY}/${IMAGE_TAG_WITH_SEMVER}"
+    docker tag "$IMAGE_TAG" "${REGISTRY}/${IMAGE_TAG_WITH_SEMVER}"
 
     docker push "${REGISTRY}/${IMAGE_TAG_WITH_SEMVER}"
     echo "${REGISTRY}/${IMAGE_TAG_WITH_SEMVER} pushed to remote."
