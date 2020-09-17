@@ -127,7 +127,7 @@ def fit(ctx, train, model):
 
 @inputs(test=Types.CSV, model_ser=Types.Blob)  # TODO: format=".joblib.dat"))
 @outputs(predictions=Types.List(Types.Float), accuracy=Types.Float)
-@python_task(cache_version='1.0', cache=True, memory_limit="200Mi")
+@python_task(cache_version='1.0', cache=True, memory_request="200Mi")
 def predict(ctx, test, model_ser, predictions, accuracy):
     """
     Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
