@@ -2,7 +2,7 @@
 # The example has been borrowed from Sagemaker examples
 # https://github.com/awslabs/amazon-sagemaker-examples/blob/master/advanced_functionality/multi_model_xgboost_home_value/xgboost_multi_model_endpoint_home_value.ipynb
 # Idea is to illustrate parallelized execution and eventually also show Sagemaker execution
-
+import os
 import typing
 
 import joblib
@@ -87,23 +87,34 @@ def generate_data(loc: str, number_of_houses: int, seed: int) -> (np.ndarray, np
     return _train, _val, _test
 
 
-def save_to_file(n: str, arr: np.ndarray) -> str:
-    f = f'{n}_test.csv'
+def save_to_dir(path: str, n: str, arr: np.ndarray) -> str:
+    d = os.path.join(path, n)
+    os.makedirs(d, exist_ok=True)
+    save_to_file(d, n, arr)
+    return d
+
+
+def save_to_file(path: str, n: str, arr: np.ndarray) -> str:
+    f = f'{n}.csv'
+    f = os.path.join(path, f)
     np.savetxt(f, arr, delimiter=',', fmt='%.2f')
     return f
 
 
+# NOTE we are generated multipart csv (or a directory) because Sagemaker wants a directory and cannot work with a
+# single file
 @inputs(loc=Types.String, number_of_houses=Types.Integer, seed=Types.Integer)
-@outputs(train=Types.CSV, val=Types.CSV, test=Types.CSV)
+@outputs(train=Types.MultiPartCSV, val=Types.MultiPartCSV, test=Types.CSV)
 @python_task(cache=True, cache_version="0.1", memory_request="200Mi")
 def generate_and_split_data(wf_params, loc, number_of_houses, seed, train, val, test):
     _train, _val, _test = generate_data(loc, number_of_houses, seed)
-    train.set(save_to_file("train", _train))
-    val.set(save_to_file("val", _val))
-    test.set(save_to_file("test", _test))
+    os.makedirs("data", exist_ok=True)
+    train.set(save_to_dir("data", "train", _train))
+    val.set(save_to_dir("data", "val", _val))
+    test.set(save_to_file("data", "test", _test))
 
 
-@inputs(train=Types.CSV)
+@inputs(train=Types.MultiPartCSV)
 @outputs(model=Types.Blob)
 @python_task(cache_version='1.0', cache=True, memory_request="200Mi")
 def fit(ctx, train, model):
@@ -112,7 +123,9 @@ def fit(ctx, train, model):
     NOTE: We have simplified the algorithm for demo. Default hyper params & no validation dataset :P.
     """
     train.download()
-    df = pd.read_csv(train.local_path, header=None)
+    files = os.listdir(train.local_path)
+    # We know we are writing just one file, so we will just read the one file
+    df = pd.read_csv(os.path.join(train.local_path, files[0]), header=None)
     y = df[df.columns[0]]
     x = df[df.columns[1:]]
     # fit model no training data
@@ -168,4 +181,3 @@ class HousePricePredictionModelTrainer(object):
     # Outputs: joblib seralized model and accuracy of the model
     model = Output(fit_task.outputs.model, sdk_type=Types.Blob)
     accuracy = Output(predicted.outputs.accuracy, sdk_type=Types.Float)
-

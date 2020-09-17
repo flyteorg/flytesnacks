@@ -1,12 +1,14 @@
+import os
+
 from flytekit.sdk.tasks import python_task, inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output
 
-from demo.house_price_predictor import generate_data, save_to_file, fit, predict
+from demo.house_price_predictor import generate_data, save_to_file, save_to_dir, fit, predict
 
 
 @inputs(locations=Types.List(Types.String), number_of_houses_per_location=Types.Integer, seed=Types.Integer)
-@outputs(train=Types.List(Types.CSV), val=Types.List(Types.CSV), test=Types.List(Types.CSV))
+@outputs(train=Types.List(Types.MultiPartCSV), val=Types.List(Types.MultiPartCSV), test=Types.List(Types.CSV))
 @python_task(cache=True, cache_version="0.1", memory_request="200Mi")
 def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_location, seed, train, val, test):
     train_sets = []
@@ -14,15 +16,17 @@ def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_
     test_sets = []
     for loc in locations:
         _train, _val, _test = generate_data(loc, number_of_houses_per_location, seed)
-        train_sets.append(save_to_file("train", _train))
-        val_sets.append(save_to_file("val", _val))
-        test_sets.append(save_to_file("test", _test))
+        dir = "multi_data"
+        os.makedirs(dir, exist_ok=True)
+        train_sets.append(save_to_dir(dir, "train", _train))
+        val_sets.append(save_to_dir(dir, "val", _val))
+        test_sets.append(save_to_file(dir, "test", _test))
     train.set(train_sets)
     val.set(val_sets)
     test.set(test_sets)
 
 
-@inputs(multi_train=Types.List(Types.CSV))
+@inputs(multi_train=Types.List(Types.MultiPartCSV))
 @outputs(multi_models=Types.List(Types.Blob))
 @dynamic_task(cache=True, cache_version="0.1", memory_request="200Mi")
 def parallel_fit(wf_params, multi_train, multi_models):
