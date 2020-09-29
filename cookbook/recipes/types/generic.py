@@ -38,5 +38,5 @@ def generic_to_json(wf_params, replicated, str_repr):
 class GenericDemoWorkflow(object):
     a = Input(Types.Generic, default={}, help="Input for inner workflow")
     generic_type_example = generic_type_task(custom=a)
-    generic_json = generic_to_json(replicated=generic_type_example.replicated)
+    generic_json = generic_to_json(replicated=generic_type_example.outputs.replicated)
     counts = Output(generic_type_example.outputs.counts, sdk_type=Types.Generic)
