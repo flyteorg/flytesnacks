@@ -1,4 +1,4 @@
-https://github.com/lyft/flytekit/archive/6323e3d8ce28f0522554abf11a8ad94ccd17415f.zip#egg=flytekit[sidecar,schema]
+https://github.com/lyft/flytekit/archive/698654eb6c146126ed767ca85e3b9b639d33d0a9.zip#egg=flytekit[sidecar,schema]
 pytest
 statsd
 opencv-python
