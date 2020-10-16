@@ -1,4 +1,4 @@
-flytekit[sidecar,schema]==0.12.8
+https://github.com/lyft/flytekit/archive/6323e3d8ce28f0522554abf11a8ad94ccd17415f.zip#egg=flytekit[sidecar,schema]
 pytest
 statsd
 opencv-python
