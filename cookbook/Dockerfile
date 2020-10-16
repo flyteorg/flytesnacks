@@ -13,7 +13,7 @@ RUN : \
 
 RUN : \
     && apt-get update \
-    && apt-get install -y python3.8 make build-essential libssl-dev curl vim
+    && apt-get install -y python3.8 python3-pip make build-essential libssl-dev curl vim
 
 # This is necessary for opencv to work
 RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
 RUN pip3 install awscli
 
 # Virtual environment
-RUN python3.6 -m venv ${VENV}
+RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
