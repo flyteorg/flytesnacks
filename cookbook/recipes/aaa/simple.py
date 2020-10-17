@@ -1,14 +1,7 @@
-import datetime
-import inspect
 import typing
 
-import flytekit.annotated.task
-import flytekit.annotated.workflow
-from flytekit.annotated import context_manager, promise
-from flytekit.annotated.context_manager import FlyteContext, ExecutionState
-from flytekit.annotated.task import task, AbstractSQLTask, metadata, maptask, dynamic
+from flytekit.annotated.task import task
 from flytekit.annotated.workflow import workflow
-from flytekit.annotated.interface import extract_return_annotation, transform_variable_map
 
 
 @task
