@@ -42,7 +42,7 @@ def my_subwf(a: int) -> (str, str):
 
 @workflow
 def parent_wf(a: int) -> (int, str, str):
-    x, y = t1(a=a)
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
     u, v = my_subwf(a=x)
     return x, u, v
 
