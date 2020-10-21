@@ -1,5 +1,5 @@
-# Good: eeb1fa8ec87203434b0a04f8b652d22e713360c2
-https://github.com/lyft/flytekit/archive/62b3d9f61b81eeab3d15976d6d97ec485cfda9cb.zip#egg=flytekit[sidecar,schema]
+# Good: 62b3d9f61b81eeab3d15976d6d97ec485cfda9cb
+https://github.com/lyft/flytekit/archive/cf0934aa853472f8c1ca62b8a73efd34ad6af849.zip#egg=flytekit[sidecar,schema]
 pytest
 statsd
 opencv-python
