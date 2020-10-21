@@ -16,7 +16,7 @@ RUN : \
     && apt-get install -y python3.8 python3-pip python3-venv make build-essential libssl-dev curl vim
 
 # This is necessary for opencv to work
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
+RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
