@@ -29,7 +29,6 @@ def rotate(image_location: str) -> os.PathLike:
         center = (w / 2, h / 2)
         mat = cv2.getRotationMatrix2D(center, 180, 1)
         res = cv2.warpAffine(img, mat, (w, h))
-        os.path.join()
         out_path = os.path.join(tmp.name, "rotated.jpg")
         cv2.imwrite(out_path, res)
         return flyte_typing.FlyteFilePath(path=out_path)
