@@ -14,11 +14,9 @@ The following scenario demonstrates how to install sandbox setup for Flyte, allo
 
 You will learn how to:
 
-    Install sandbox setup for flyte.
-
-    Register First Workflow
-
-    How to use Flyteconsole to execute your first workflow
+1. Install sandbox setup for flyte.
+2. Register First Workflow
+3. How to use Flyteconsole to execute your first workflow
 
 Once the Flyte is in place, it can be extended to support ..... These are discussed in more advanced scenarios.
 

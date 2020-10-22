@@ -1,4 +1,4 @@
-Install flyte
+flyte Components
 
 <img src="https://raw.githubusercontent.com/lyft/flyte/assets/img/flyte_wf_execution_overview.svg?sanitize=true" >
 
