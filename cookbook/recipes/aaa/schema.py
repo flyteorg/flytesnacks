@@ -3,6 +3,8 @@ import typing
 from flytekit.annotated.task import task
 from flytekit.annotated.workflow import workflow
 
+import pandas
+
 
 @task
 def get_df(a: int) -> pandas.DataFrame:
