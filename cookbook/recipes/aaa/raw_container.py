@@ -11,7 +11,6 @@ square = ContainerTask(
     outputs=kwtypes(out=int),
     image="alpine",
     command=["sh", "-c", "echo $(( {{.Inputs.val}} * {{.Inputs.val}} )) | tee /var/outputs/out"],
-    arguments=None,
 )
 
 sum = ContainerTask(
@@ -23,7 +22,6 @@ sum = ContainerTask(
     outputs=kwtypes(out=int),
     image="alpine",
     command=["sh", "-c", "echo $(( {{.Inputs.x}} + {{.Inputs.y}} )) | tee /var/flyte/outputs/out"],
-    arguments=None,
 )
 
 @workflow
