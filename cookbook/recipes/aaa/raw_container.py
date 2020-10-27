@@ -1,23 +1,29 @@
-from flytekit.annotated.task import kwtypes, ContainerTask
+from flytekit.annotated.task import kwtypes, ContainerTask, metadata
 from flytekit.annotated.workflow import workflow
 
 
 square = ContainerTask(
+    name="square",
+    metadata=metadata(),
     input_data_dir="/var/inputs",
     output_data_dir="/var/outputs",
     inputs=kwtypes(val=int),
     outputs=kwtypes(out=int),
     image="alpine",
     command=["sh", "-c", "echo $(( {{.Inputs.val}} * {{.Inputs.val}} )) | tee /var/outputs/out"],
+    arguments=None,
 )
 
 sum = ContainerTask(
+    name="sum",
+    metadata=metadata(),
     input_data_dir="/var/flyte/inputs",
     output_data_dir="/var/flyte/outputs",
     inputs=kwtypes(x=int, y=int),
     outputs=kwtypes(out=int),
     image="alpine",
     command=["sh", "-c", "echo $(( {{.Inputs.x}} + {{.Inputs.y}} )) | tee /var/flyte/outputs/out"],
+    arguments=None,
 )
 
 @workflow
