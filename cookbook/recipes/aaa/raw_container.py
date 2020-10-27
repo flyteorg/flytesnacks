@@ -27,5 +27,9 @@ sum = ContainerTask(
 )
 
 @workflow
-def raw_container_wf(val1: int, val2, int) -> int:
+def raw_container_wf(val1: int, val2: int) -> int:
    return  sum(x=square(val=val1), y=square(val=val2))
+
+
+if __name__ == "__main__":
+    raw_container_wf(val1=5, val2=5)
