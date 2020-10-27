@@ -1,4 +1,4 @@
-from flytekit.annotated.task import task, kwtypes
+from flytekit.annotated.task import kwtypes, ContainerTask
 from flytekit.annotated.workflow import workflow
 
 
