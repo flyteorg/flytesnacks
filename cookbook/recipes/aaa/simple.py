@@ -2,6 +2,7 @@ import typing
 
 from flytekit.annotated.task import task
 from flytekit.annotated.workflow import workflow
+from flytekit.annotated.launch_plan import LaunchPlan
 
 
 @task
@@ -19,6 +20,9 @@ def my_wf(a: int, b: str) -> (int, str):
     x, y = t1(a=a)
     d = t2(a=y, b=b)
     return x, d
+
+
+my_wf_lp = LaunchPlan.create(f"{my_wf.name}_demo_lp", my_wf, default_inputs={'a': 3}, fixed_inputs={'b': 'hello'})
 
 
 @task
@@ -45,4 +49,3 @@ def parent_wf(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
     u, v = my_subwf(a=x)
     return x, u, v
-
