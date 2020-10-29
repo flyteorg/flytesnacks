@@ -66,3 +66,10 @@ def parent_wf_with_lp_with_default(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
     u, v = my_subwf_lp()
     return x, u, v
+
+
+@workflow
+def parent_wf_with_lp_overriding_input(a: int) -> (int, str, str):
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
+    u, v = my_subwf_lp(a=30)
+    return x, u, v
