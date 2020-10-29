@@ -38,14 +38,31 @@ def string_join_wf(a: int, b: str) -> (int, str):
 
 
 @workflow
-def my_subwf(a: int) -> (str, str):
+def my_subwf(a: int = 42) -> (str, str):
     x, y = t1(a=a)
     u, v = t1(a=x)
     return y, v
+
+
+my_subwf_lp = LaunchPlan.create(f"{my_subwf.name}_demo_lp", my_subwf, default_inputs={'a': 3})
 
 
 @workflow
 def parent_wf(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
     u, v = my_subwf(a=x)
+    return x, u, v
+
+
+@workflow
+def parent_wf_with_subwf_default(a: int) -> (int, str, str):
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
+    u, v = my_subwf()
+    return x, u, v
+
+
+@workflow
+def parent_wf_with_lp_with_default(a: int) -> (int, str, str):
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
+    u, v = my_subwf_lp()
     return x, u, v
