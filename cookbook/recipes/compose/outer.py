@@ -4,14 +4,18 @@ from __future__ import print_function
 from flytekit.sdk.tasks import inputs, outputs, dynamic_task
 from flytekit.sdk.types import Types
 from flytekit.sdk.workflow import workflow_class, Input, Output
+from flytekit.common.workflow import SdkWorkflow
 
 from recipes.compose.inner import IdentityWorkflow, secondary_sibling_identity_lp
+
+
+older_identity_workflow = SdkWorkflow.fetch("flytesnacks", "development", "recipes.compose.inner.IdentityWorkflow", "8f15c3f826a6a737f96de0e0fcfde85c859d5655")
 
 
 @workflow_class()
 class StaticSubWorkflowCaller(object):
     outer_a = Input(Types.Integer, default=5, help="Input for inner workflow")
-    identity_wf_execution = IdentityWorkflow(a=outer_a)
+    identity_wf_execution = older_identity_workflow(a=outer_a)
     wf_output = Output(identity_wf_execution.outputs.task_output, sdk_type=Types.Integer)
 
 
