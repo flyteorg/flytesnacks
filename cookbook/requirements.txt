@@ -1,4 +1,3 @@
-flytekit[sidecar,schema]==0.12.8
 https://github.com/lyft/flytekit/archive/c78b571e2ed9dde4c491d53f12c9bdf9cd203083.zip#egg=flytekit[sidecar,schema]
 pytest
 statsd
