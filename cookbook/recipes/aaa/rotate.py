@@ -36,5 +36,5 @@ def rotate(image_location: str) -> flyte_typing.FlyteFilePath:
 
 
 @workflow
-def rotate_one_workflow(in_image: str) -> os.PathLike:
+def rotate_one_workflow(in_image: str) -> flyte_typing.FlyteFilePath:
     return rotate(image_location=in_image)
