@@ -16,7 +16,7 @@ default_images = [
 
 # TODO: Unit test this - what to do about images?
 @task
-def rotate(image_location: str) -> os.PathLike:
+def rotate(image_location: str) -> flyte_typing.FlyteFilePath:
     """
     Download the given image, rotate it by 180 degrees
     """
