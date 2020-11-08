@@ -28,7 +28,7 @@ RUN ${VENV}/bin/pip install wheel
 # Install Python dependencies
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
-RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/9075e1ee31087d9d90b6c02a28ebad8de4a4e1c2.zip#egg=flytekit[sidecar,schema]
+RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/b0a03867513b8f7a0fb9f4caf9b28b7bc7cd18fc.zip#egg=flytekit[sidecar,schema]
 
 # Copy the actual code
 COPY . /root
