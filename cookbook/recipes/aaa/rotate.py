@@ -16,7 +16,7 @@ default_images = [
 
 # TODO: Unit test this - what to do about images?
 @task
-def rotate(image_location: str) -> flyte_typing.FlyteFilePath:
+def rotate(image_location: str) -> flyte_typing.FlyteFile:
     """
     Download the given image, rotate it by 180 degrees
     """
@@ -32,7 +32,7 @@ def rotate(image_location: str) -> flyte_typing.FlyteFilePath:
     res = cv2.warpAffine(img, mat, (w, h))
     out_path = os.path.join(working_dir, "rotated.jpg")
     cv2.imwrite(out_path, res)
-    return flyte_typing.FlyteFilePath(path=out_path)
+    return flyte_typing.FlyteFile(path=out_path)
 
 
 @workflow
