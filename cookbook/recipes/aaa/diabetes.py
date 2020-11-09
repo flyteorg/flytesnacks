@@ -165,4 +165,4 @@ def diabetes_xgboost_model(
 
 if __name__ == "__main__":
     print("Hello")
-    print(diabetes_xgboost_model(dataset="/tmp/pima-indians-diabetes.data.csv"))
+    print(diabetes_xgboost_model())
