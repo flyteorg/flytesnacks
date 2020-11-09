@@ -21,7 +21,6 @@ def rotate(image_location: str) -> flyte_typing.FlyteFile:
     Download the given image, rotate it by 180 degrees
     """
     working_dir = flytekit.current_context().working_directory
-    os.makedirs(working_dir)
     local_image = os.path.join(working_dir, 'incoming.jpg')
     urllib.request.urlretrieve(image_location, local_image)
     img = cv2.imread(local_image, 0)
