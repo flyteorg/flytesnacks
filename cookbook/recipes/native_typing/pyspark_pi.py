@@ -1,7 +1,8 @@
 import random
 import datetime
 from operator import add
-from flytekit import task, Spark, workflow
+from flytekit import task, workflow
+from flytekit.taskplugins.spark import Spark
 
 
 @task(task_config=Spark(
