@@ -1,4 +1,4 @@
-from recipes.aaa import rotate
+from recipes.native_typing import rotate
 
 
 def test_rotate_mandelbrot():

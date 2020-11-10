@@ -1,4 +1,4 @@
-from recipes.aaa import simple
+from recipes.native_typing import simple
 
 
 def test_wf():

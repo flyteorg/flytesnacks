@@ -2,9 +2,8 @@ import os
 import urllib.request
 
 import cv2
-from flytekit import typing as flyte_typing
-from flytekit.annotated.task import task
-from flytekit.annotated.workflow import workflow
+from flytekit.types import FlyteFile
+from flytekit import task, workflow
 import flytekit
 
 default_images = [
@@ -16,7 +15,7 @@ default_images = [
 
 # TODO: Unit test this - what to do about images?
 @task
-def rotate(image_location: str) -> flyte_typing.FlyteFile:
+def rotate(image_location: str) -> FlyteFile:
     """
     Download the given image, rotate it by 180 degrees
     """
@@ -32,13 +31,14 @@ def rotate(image_location: str) -> flyte_typing.FlyteFile:
     res = cv2.warpAffine(img, mat, (w, h))
     out_path = os.path.join(working_dir, "rotated.jpg")
     cv2.imwrite(out_path, res)
-    return flyte_typing.FlyteFile(path=out_path)
+    return FlyteFile(path=out_path)
 
 
 @workflow
-def rotate_one_workflow(in_image: str) -> flyte_typing.FlyteFile:
+def rotate_one_workflow(in_image: str) -> FlyteFile:
     return rotate(image_location=in_image)
 
 
 if __name__ == "__main__":
-    rotate_one_workflow(in_image=default_images[0])
+    print(f"Running {__file__} main...")
+    print(f"Running rotate_one_workflow(in_image=default_images[0]) {rotate_one_workflow(in_image=default_images[0])}")

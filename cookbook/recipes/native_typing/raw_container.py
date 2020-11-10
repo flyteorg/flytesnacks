@@ -1,5 +1,4 @@
-from flytekit.annotated.task import kwtypes, ContainerTask, metadata
-from flytekit.annotated.workflow import workflow
+from flytekit import ContainerTask, metadata, workflow, kwtypes
 
 
 square = ContainerTask(
@@ -30,4 +29,5 @@ def raw_container_wf(val1: int, val2: int) -> int:
 
 
 if __name__ == "__main__":
-    raw_container_wf(val1=5, val2=5)
+    print(f"Running {__file__} main...")
+    print(f"Running raw_container_wf(val1=5, val2=5) {raw_container_wf(val1=5, val2=5)}")

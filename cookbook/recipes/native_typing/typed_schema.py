@@ -1,7 +1,6 @@
 import pandas
-from flytekit.annotated.task import task, kwtypes
-from flytekit.annotated.type_engine import FlyteSchema
-from flytekit.annotated.workflow import workflow
+from flytekit import task, workflow, kwtypes
+from flytekit.types import FlyteSchema
 
 out_schema = FlyteSchema[kwtypes(x=int, y=str)]
 
@@ -27,4 +26,5 @@ def wf() -> FlyteSchema[kwtypes(x=int)]:
 
 
 if __name__ == "__main__":
-    print(wf())
+    print(f"Running {__file__} main...")
+    print(f"Running wf(), returns columns {wf().columns()}")

@@ -3,10 +3,8 @@ from collections import OrderedDict
 
 import joblib
 import pandas as pd
-from flytekit.annotated.task import task
-from flytekit.annotated.type_engine import FlyteSchema
-from flytekit.annotated.workflow import workflow
-from flytekit.typing import FlyteFile
+from flytekit import task, workflow
+from flytekit.types import FlyteSchema, FlyteFile
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
@@ -164,5 +162,5 @@ def diabetes_xgboost_model(
 
 
 if __name__ == "__main__":
-    print("Hello")
+    print(f"Running {__file__} main...")
     print(diabetes_xgboost_model())

@@ -28,7 +28,7 @@ RUN ${VENV}/bin/pip install wheel
 # Install Python dependencies
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
-RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/994ad2b2251feb2cc18240a6c525c035fc1f6f9c.zip#egg=flytekit[sidecar,schema]
+RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/ae3b83d569f1569b1a29052b2b03db9b86c7a489.zip#egg=flytekit[sidecar,schema]
 RUN ${VENV}/bin/flytekit_install_spark3.sh
 # Adding Tini support for the spark pods
 RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \

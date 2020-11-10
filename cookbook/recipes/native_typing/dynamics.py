@@ -1,7 +1,6 @@
 import typing
 
-from flytekit.annotated.task import dynamic, task
-from flytekit.annotated.workflow import workflow
+from flytekit import dynamic, task, workflow
 
 
 @task
@@ -28,3 +27,10 @@ def my_wf(a: int, b: str) -> (str, typing.List[str], int):
     x = t2(a=b, b=b)
     v, z = my_subwf(a=a)
     return x, v, z
+
+
+if __name__ == "__main__":
+    print(f"Running {__file__} main...")
+    print(f"Running sub-wf directly my_subwf(a=3) = {my_subwf(a=3)}")
+    print(f"Running my_wf(a=5, b='hello') {my_wf(a=5, b='hello')}")
+

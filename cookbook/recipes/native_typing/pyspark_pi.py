@@ -1,8 +1,7 @@
 import random
 import datetime
 from operator import add
-from flytekit.annotated.task import task, Spark
-from flytekit.annotated.workflow import workflow
+from flytekit import task, Spark, workflow
 
 
 @task(task_config=Spark(
@@ -43,4 +42,5 @@ def my_spark(triggered_date: datetime.datetime) -> float:
 
 
 if __name__ == "__main__":
-    my_spark(triggered_date=datetime.datetime.now())
+    print(f"Running {__file__} main...")
+    print(f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}")

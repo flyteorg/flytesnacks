@@ -1,8 +1,6 @@
 import typing
 
-from flytekit.annotated.task import task
-from flytekit.annotated.workflow import workflow
-from flytekit.annotated.launch_plan import LaunchPlan
+from flytekit import task, workflow, LaunchPlan
 
 
 @task
@@ -73,3 +71,11 @@ def parent_wf_with_lp_overriding_input(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
     u, v = my_subwf_lp(a=30)
     return x, u, v
+
+
+if __name__ == "__main__":
+    print(f"Running {__file__} main...")
+    print(f"Running parent_wf(a=3) {parent_wf(a=3)}")
+    print(f"Running parent_wf_with_subwf_default(a=30) {parent_wf_with_subwf_default(a=30)}")
+    print(f"Running parent_wf_with_lp_with_default(a=40) {parent_wf_with_lp_with_default(a=40)}")
+    print(f"Running parent_wf_with_lp_overriding_input(a=50) {parent_wf_with_lp_overriding_input(a=50)}")
