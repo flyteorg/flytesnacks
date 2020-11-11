@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 WORKDIR /root
 ENV VENV /opt/venv
@@ -7,22 +7,41 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
 RUN : \
-    && apt-get update && apt-get install -y python3.6 python3.6-venv python3.6-dev make build-essential libssl-dev python3-venv python3-pip curl
+    && apt-get update \
+    && apt install -y software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa
+
+RUN : \
+    && apt-get update \
+    && apt-get install -y python3.8 python3-pip python3-venv make build-essential libssl-dev curl vim
 
 # This is necessary for opencv to work
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev
+RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
 
 # Virtual environment
-RUN python3.6 -m venv ${VENV}
+RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
-# RUN ${VENV}/bin/pip install pip==19.0.3
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
+RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/ae3b83d569f1569b1a29052b2b03db9b86c7a489.zip#egg=flytekit[sidecar,schema]
+RUN ${VENV}/bin/flytekit_install_spark3.sh
+# Adding Tini support for the spark pods
+RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
+    cp tini /sbin/tini && cp tini /usr/bin/tini && \
+    chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV SPARK_HOME /opt/spark
+ENV SPARK_VERSION 2.4.0
+ENV PYSPARK_PYTHON ${VENV}/bin/python3
+ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
+
+
 
 # Copy the actual code
 COPY . /root
@@ -37,4 +56,4 @@ ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv"]
+ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
