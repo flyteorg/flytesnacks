@@ -1,3 +1,4 @@
+flytekit[schema,sidecar,spark3]==0.16.0a0
 pytest
 statsd
 opencv-python
