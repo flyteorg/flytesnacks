@@ -24,7 +24,8 @@ docker_build:
 # specify REGISTRY=docker.io/lyft before the make command otherwise this won't actually push
 .PHONY: docker_push
 docker_push:
-	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
 
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
