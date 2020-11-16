@@ -13,7 +13,7 @@ def t2(a: str) -> str:
     return a
 
 @workflow
-def my_wf(a: int, b: str) -> (int, str):
+def branches_wf(a: int, b: str) -> (int, str):
     x, y = t1(a=a)
     d = (
         conditional("test1")
