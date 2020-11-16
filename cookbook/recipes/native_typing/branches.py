@@ -1,6 +1,7 @@
 import typing
 
-from flytekit import conditional, task, workflow
+from flytekit import task, workflow
+from flytekit.annotated.condition import conditional
 
 
 @task
