@@ -13,7 +13,8 @@ from flytekit.taskplugins.spark import Spark
         'spark.executor.instances': '2',
         'spark.driver.cores': '1',
     }),
-    cache_version='1')
+    cache_version='1',
+    container_image='{{.image.default.fqn}}:spark-{{.image.default.version}}')
 def hello_spark(spark_context, partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
 
