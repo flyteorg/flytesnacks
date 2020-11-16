@@ -17,7 +17,8 @@ PROJECT=flytesnacks
 
 .PHONY: docker_build
 docker_build:
-	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
 
 # This should only be used by Admins to push images to the public Dockerhub repo. Make sure you
 # specify REGISTRY=docker.io/lyft before the make command otherwise this won't actually push

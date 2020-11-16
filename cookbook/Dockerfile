@@ -29,19 +29,6 @@ RUN ${VENV}/bin/pip install wheel
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 RUN ${VENV}/bin/pip install https://github.com/lyft/flytekit/archive/a6c8cc863af627889af35066a895d6723b7670ea.zip#egg=flytekit[sidecar,schema]
-RUN ${VENV}/bin/flytekit_install_spark3.sh
-# Adding Tini support for the spark pods
-RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
-    cp tini /sbin/tini && cp tini /usr/bin/tini && \
-    chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
-
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV SPARK_HOME /opt/spark
-ENV SPARK_VERSION 2.4.0
-ENV PYSPARK_PYTHON ${VENV}/bin/python3
-ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
-
-
 
 # Copy the actual code
 COPY . /root
@@ -56,4 +43,4 @@ ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
 
 # Enable the virtualenv for this image. Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/flytekit_venv"]
