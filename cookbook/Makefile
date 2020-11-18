@@ -1,6 +1,6 @@
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
-IMAGE_NAME=flytecookbook
+IMAGE_NAME=flytesnacks
 VERSION=$(shell ./version.sh)
 
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
@@ -48,6 +48,6 @@ enter_sandbox: docker_build
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
 
 .PHONY: run_tests
-run_tests: 
+run_tests:
 	export PYTHONPATH=.:$(PYTHONPATH)
 	pytest tests/recipes/
