@@ -31,7 +31,7 @@ def rotate(image_location: str) -> FlyteFile:
     res = cv2.warpAffine(img, mat, (w, h))
     out_path = os.path.join(working_dir, "rotated.jpg")
     cv2.imwrite(out_path, res)
-    return FlyteFile(path=out_path)
+    return FlyteFile["jpg"](path=out_path)
 
 
 @workflow
