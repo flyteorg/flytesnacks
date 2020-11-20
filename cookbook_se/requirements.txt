@@ -13,8 +13,8 @@ attrs==20.3.0             # via black, jsonschema, pytest
 backcall==0.2.0           # via ipython
 black==19.10b0            # via flytekit, papermill
 bleach==3.2.1             # via nbconvert
-boto3==1.16.22            # via flytekit
-botocore==1.19.22         # via boto3, s3transfer
+boto3==1.16.23            # via flytekit
+botocore==1.19.23         # via boto3, s3transfer
 certifi==2020.11.8        # via requests
 cffi==1.14.3              # via argon2-cffi
 chardet==3.0.4            # via requests
@@ -25,7 +25,7 @@ defusedxml==0.6.0         # via nbconvert
 deprecated==1.2.10        # via flytekit
 entrypoints==0.3          # via nbconvert, papermill
 flyteidl==0.18.10         # via flytekit
-https://github.com/lyft/flytekit/archive/418f0f5ffce9b818ae8b78a1dcd4fe6c99cbfe3e.zip#egg=flytekit[schema,sidecar,spark3]  # via -r requirements.in
+flytekit[schema,sidecar,spark3]==0.16.0a0  # via -r requirements.in
 grpcio==1.27.2            # via -r requirements.in, flytekit
 idna==2.10                # via requests
 iniconfig==1.1.1          # via pytest

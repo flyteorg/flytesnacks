@@ -29,6 +29,9 @@ RUN ${VENV}/bin/pip install wheel
 COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
+# TODO delete this once using the alpha
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/418f0f5ffce9b818ae8b78a1dcd4fe6c99cbfe3e.zip#egg=flytekit[sidecar,schema]
+
 # Copy the actual code
 COPY . /root
 
