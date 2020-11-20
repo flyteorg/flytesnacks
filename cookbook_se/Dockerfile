@@ -40,6 +40,7 @@ ENV SPARK_VERSION 2.4.0
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
+RUN ${VENV}/bin/pip install --force-reinstall https://github.com/lyft/flytekit/archive/a3c805c28809ea48ca2e350b49c251ffda9a592d.zip#egg=flytekit[schema,sidecar]
 
 # Copy the actual code
 COPY . /root
