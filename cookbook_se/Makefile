@@ -7,13 +7,6 @@ define PIP_COMPILE
 pip-compile $(1) --upgrade --verbose
 endef
 
-.SILENT: help
-.PHONY: help
-help:
-	echo Available recipes:
-	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
-	tput sgr0
-
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
 #   docker.io/lyft/flytecookbook:<sha> or whatever your REGISTRY is.
@@ -25,6 +18,20 @@ endif
 
 # The Flyte project that we want to register under
 PROJECT=flytesnacks
+
+.SILENT: help
+.PHONY: help
+help:
+	echo Available recipes:
+	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
+	tput sgr0
+
+.PHONY: debug
+debug:
+	echo "IMAGE NAME ${IMAGE_NAME}"
+	echo "FULL IMAGE NAME ${FULL_IMAGE_NAME}"
+	echo "VERSION TAG ${VERSION}"
+	echo "REGISTRY ${REGISTRY}"
 
 .PHONY: docker_build
 docker_build:
