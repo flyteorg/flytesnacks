@@ -54,6 +54,8 @@ in_container_serialize_sandbox:
 serialize_sandbox: docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
+	echo ${FULL_IMAGE_NAME}
+	echo ${IMAGE_NAME}
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: enter_sandbox
