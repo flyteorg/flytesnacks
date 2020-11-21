@@ -13,8 +13,8 @@ attrs==20.3.0             # via black, jsonschema, pytest
 backcall==0.2.0           # via ipython
 black==19.10b0            # via flytekit, papermill
 bleach==3.2.1             # via nbconvert
-boto3==1.16.22            # via flytekit
-botocore==1.19.22         # via boto3, s3transfer
+boto3==1.16.23            # via flytekit
+botocore==1.19.23         # via boto3, s3transfer
 certifi==2020.11.8        # via requests
 cffi==1.14.3              # via argon2-cffi
 chardet==3.0.4            # via requests
@@ -28,7 +28,6 @@ flyteidl==0.18.10         # via flytekit
 flytekit[schema,sidecar,spark3]==0.16.0a0  # via -r requirements.in
 grpcio==1.27.2            # via -r requirements.in, flytekit
 idna==2.10                # via requests
-importlib-metadata==2.0.0  # via jsonschema, keyring, pluggy, pytest
 iniconfig==1.1.1          # via pytest
 ipykernel==5.3.4          # via flytekit, ipywidgets, jupyter, jupyter-console, notebook, qtconsole
 ipython-genutils==0.2.0   # via nbformat, notebook, qtconsole, traitlets
@@ -113,7 +112,6 @@ webencodings==0.5.1       # via bleach
 widgetsnbextension==3.5.1  # via ipywidgets
 wrapt==1.12.1             # via deprecated, flytekit
 xgboost==1.2.1            # via -r requirements.in
-zipp==3.4.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
