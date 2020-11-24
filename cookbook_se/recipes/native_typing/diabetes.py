@@ -1,6 +1,8 @@
 import typing
 from collections import OrderedDict
 
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json
 import joblib
 import pandas as pd
 from flytekit import task, workflow
@@ -47,46 +49,30 @@ CLASSES_COLUMNS = OrderedDict({"class": int})
 MODELSER_JOBLIB = typing.TypeVar("joblib.dat")
 
 
+@dataclass_json
+@dataclass
 class XGBoostModelHyperparams(object):
     """
     These are the xgboost hyper parameters available in scikit-learn library.
     """
-
-    def __init__(
-        self,
-        max_depth=3,
-        learning_rate=0.1,
-        n_estimators=100,
-        objective="binary:logistic",
-        booster="gbtree",
-        n_jobs=1,
-        **kwargs,
-    ):
-        self.n_jobs = int(n_jobs)
-        self.booster = booster
-        self.objective = objective
-        self.n_estimators = int(n_estimators)
-        self.learning_rate = learning_rate
-        self.max_depth = int(max_depth)
-
-    def to_dict(self):
-        return self.__dict__
-
-    @classmethod
-    def from_dict(cls, d):
-        return cls(**d)
+    max_depth: int = 3,
+    learning_rate: float = 0.1
+    n_estimators: int = 100
+    objective: str = "binary:logistic"
+    booster: str = "gbtree"
+    n_jobs: int = 1
 
 
 # load data
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def split_traintest_dataset(
-    dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
+        dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
 ) -> (
-    FlyteSchema[FEATURE_COLUMNS],
-    FlyteSchema[FEATURE_COLUMNS],
-    FlyteSchema[CLASSES_COLUMNS],
-    FlyteSchema[CLASSES_COLUMNS],
+        FlyteSchema[FEATURE_COLUMNS],
+        FlyteSchema[FEATURE_COLUMNS],
+        FlyteSchema[CLASSES_COLUMNS],
+        FlyteSchema[CLASSES_COLUMNS],
 ):
     """
     Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
@@ -109,7 +95,7 @@ def split_traintest_dataset(
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def fit(
-    x: FlyteSchema[FEATURE_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS], hyperparams: dict
+        x: FlyteSchema[FEATURE_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS], hyperparams: XGBoostModelHyperparams,
 ) -> typing.NamedTuple("Outputs", model=FlyteFile[MODELSER_JOBLIB]):
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
@@ -118,15 +104,14 @@ def fit(
     x_df = x.open().all()
     y_df = y.open().all()
 
-    hp = XGBoostModelHyperparams.from_dict(hyperparams)
     # fit model no training data
     m = XGBClassifier(
-        n_jobs=hp.n_jobs,
-        max_depth=hp.max_depth,
-        n_estimators=hp.n_estimators,
-        booster=hp.booster,
-        objective=hp.objective,
-        learning_rate=hp.learning_rate,
+        n_jobs=hyperparams.n_jobs,
+        max_depth=hyperparams.max_depth,
+        n_estimators=hyperparams.n_estimators,
+        booster=hyperparams.booster,
+        objective=hyperparams.objective,
+        learning_rate=hyperparams.learning_rate,
     )
     m.fit(x_df, y_df)
 
@@ -138,7 +123,7 @@ def fit(
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def predict(
-    x: FlyteSchema[FEATURE_COLUMNS], model_ser: FlyteFile[MODELSER_JOBLIB]
+        x: FlyteSchema[FEATURE_COLUMNS], model_ser: FlyteFile[MODELSER_JOBLIB],
 ) -> FlyteSchema[CLASSES_COLUMNS]:
     """
     Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
@@ -157,7 +142,7 @@ def predict(
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def score(
-    predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
+        predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
 ) -> float:
     """
     Compares the predictions with the actuals and returns the accuracy score.
@@ -172,11 +157,11 @@ def score(
 
 @workflow
 def diabetes_xgboost_model(
-    dataset: FlyteFile[
-        typing.TypeVar("csv")
-    ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
-    test_split_ratio: float = 0.33,
-    seed: int = 7,
+        dataset: FlyteFile[
+            typing.TypeVar("csv")
+        ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
+        test_split_ratio: float = 0.33,
+        seed: int = 7,
 ) -> typing.NamedTuple("Outputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float):
     """
     This pipeline trains an XGBoost mode for any given dataset that matches the schema as specified in
@@ -186,7 +171,7 @@ def diabetes_xgboost_model(
         dataset=dataset, seed=seed, test_split_ratio=test_split_ratio
     )
     model = fit(
-        x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4).to_dict()
+        x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4),
     )
     predictions = predict(x=x_test, model_ser=model)
     return model, score(predictions=predictions, y=y_test)
