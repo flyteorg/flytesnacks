@@ -59,13 +59,13 @@ demo_all = HiveTask(
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
     cluster_label="flyte",
     query_template="""
-    SELECT 'per_retry_unique_key' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
+    SELECT '.PerRetryUniqueKey' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
     UNION
-    SELECT 'output_data_prefix' as template_key, '{{ .RawOutputDataPrefix }}' as template_value
+    SELECT '.RawOutputDataPrefix' as template_key, '{{ .RawOutputDataPrefix }}' as template_value
     UNION
-    SELECT 'example_schema_uri' as template_key, '{{ .inputs.earlier_schema }}' as template_value
+    SELECT '.inputs.earlier_schema' as template_key, '{{ .inputs.earlier_schema }}' as template_value
     UNION
-    SELECT 'regular_string_input' as template_key, '{{ .inputs.ds }}' as template_value
+    SELECT '.inputs.ds' as template_key, '{{ .inputs.ds }}' as template_value
     """,
     output_schema_type=FlyteSchema
 )
