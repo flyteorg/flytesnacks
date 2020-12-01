@@ -1,4 +1,4 @@
-from flytekit import workflow, kwtypes
+from flytekit import workflow, kwtypes, task
 from flytekit.taskplugins.hive.task import HiveTask
 from flytekit.types.schema import FlyteSchema
 
@@ -59,17 +59,27 @@ demo_all = HiveTask(
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
     cluster_label="flyte",
     query_template="""
-    SELECT
-      '{{ .PerRetryUniqueKey }}' as per_retry_unique_key, 
-      '{{ .RawOutputDataPrefix }}' as output_data_prefix,
-      '{{ .inputs.earlier_schema }}' as example_schema_uri,
-      '{{ .inputs.ds }}' as regular_string_input
+    SELECT 'per_retry_unique_key' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
+    UNION
+    SELECT 'output_data_prefix' as template_key, '{{ .RawOutputDataPrefix }}' as template_value
+    UNION
+    SELECT 'example_schema_uri' as template_key, '{{ .inputs.earlier_schema }}' as template_value
+    UNION
+    SELECT 'regular_string_input' as template_key, '{{ .inputs.ds }}' as template_value
     """,
     output_schema_type=FlyteSchema
 )
 
 
+@task
+def print_schema(s: FlyteSchema):
+    df = s.open().all()
+    print(df.to_markdown())
+
+
 @workflow
 def full_hive_demo_wf() -> FlyteSchema:
     s = hive_task_w_out()
-    return demo_all(ds="2020-01-01", earlier_schema=s)
+    demo_schema = demo_all(ds="2020-01-01", earlier_schema=s)
+    print_schema(s=demo_schema)
+    return demo_schema
