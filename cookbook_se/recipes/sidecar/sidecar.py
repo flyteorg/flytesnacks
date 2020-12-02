@@ -52,15 +52,16 @@ def generate_pod_spec_for_task():
 
 
 @task(task_config=Sidecar(pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"))
-def my_sidecar_task(shared_message: str) -> str:
+def my_sidecar_task() -> str:
     # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(5)
 
     with open(_SHARED_DATA_PATH, 'r') as shared_message_file:
-        shared_message.set(shared_message_file.read())
+        return shared_message_file.read()
 
 
 @workflow
-def SidecarWorkflow(shared_message: str):
-    s = my_sidecar_task(shared_message=shared_message)
+def SidecarWorkflow() -> str:
+    s = my_sidecar_task()
+    return s
