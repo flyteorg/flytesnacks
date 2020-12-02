@@ -16,6 +16,7 @@ define PIP_COMPILE
 pip-compile $(1) --upgrade --verbose
 endef
 
+<<<<<<< HEAD
 .SILENT: help
 .PHONY: help
 help:
@@ -23,23 +24,51 @@ help:
 	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
 	tput sgr0
 
+=======
+# If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
+#   flytecookbook:<sha> but rather,
+#   docker.io/lyft/flytecookbook:<sha> or whatever your REGISTRY is.
+ifneq ($(origin REGISTRY), undefined)
+	FULL_IMAGE_NAME = ${REGISTRY}/${IMAGE_NAME}
+else
+	FULL_IMAGE_NAME = ${IMAGE_NAME}
+endif
+>>>>>>> annotated
 
 # The Flyte project that we want to register under
 PROJECT=flytesnacks
 
+<<<<<<< HEAD
 .PHONY: ccc
 ccc:
 	echo ${FULL_IMAGE_NAME}
+=======
+.SILENT: help
+.PHONY: help
+help:
+	echo Available recipes:
+	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
+	tput sgr0
+
+.PHONY: debug
+debug:
+	echo "IMAGE NAME ${IMAGE_NAME}"
+	echo "FULL IMAGE NAME ${FULL_IMAGE_NAME}"
+	echo "VERSION TAG ${VERSION}"
+	echo "REGISTRY ${REGISTRY}"
+>>>>>>> annotated
 
 .PHONY: docker_build
 docker_build:
-	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
 
 # This should only be used by Admins to push images to the public Dockerhub repo. Make sure you
 # specify REGISTRY=docker.io/lyft before the make command otherwise this won't actually push
 .PHONY: docker_push
 docker_push:
-	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh .
+	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
+	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
 
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
