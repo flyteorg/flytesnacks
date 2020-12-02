@@ -63,4 +63,4 @@ def my_sidecar_task(shared_message: str) -> str:
 
 @workflow
 def SidecarWorkflow(shared_message: str):
-    s = my_sidecar_task(shared_message)
+    s = my_sidecar_task(shared_message=shared_message)
