@@ -10,3 +10,4 @@ jupyter
 xgboost
 joblib
 sklearn
+tabulate
