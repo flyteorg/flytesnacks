@@ -32,6 +32,7 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1
 
+
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
