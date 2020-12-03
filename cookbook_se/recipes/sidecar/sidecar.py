@@ -14,8 +14,10 @@ _SHARED_DATA_PATH = "/data/message.txt"
 def generate_pod_spec_for_task():
     pod_spec = generated_pb2.PodSpec()
 
+    # Primary containers do not require us to specify an image, the default image built for flyte tasks will get used.
     primary_container = generated_pb2.Container(name="primary")
 
+    # Note: for non-primary containers we must specify an image.
     secondary_container = generated_pb2.Container(name="secondary", image="alpine",)
     secondary_container.command.extend(["/bin/sh"])
     secondary_container.args.extend(
@@ -50,6 +52,9 @@ def generate_pod_spec_for_task():
     return pod_spec
 
 
+# Although sidecar tasks for the most part allow you to customize kubernetes container attributes
+# you can still use flyte directives to specify resources and even the image. The default image built for
+# flyte tasks will get used unless you specify the `container_image` task attribute.
 @task(
     task_config=Sidecar(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
