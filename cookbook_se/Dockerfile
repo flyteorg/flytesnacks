@@ -30,7 +30,7 @@ COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # TODO delete this once using the alpha
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/952cdcadecc883059ee27befcdb20205b1583ff1.zip#egg=flytekit[sidecar,schema]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/cca7c651fc3bfef1ec99d5a154714d1fdc78fc16.zip#egg=flytekit[sidecar,schema]
 
 # Copy the actual code
 COPY . /root
