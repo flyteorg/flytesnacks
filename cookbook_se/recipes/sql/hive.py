@@ -1,19 +1,7 @@
 from flytekit import workflow, kwtypes, task
-from flytekit.taskplugins.hive.task import HiveTask
+from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
 from flytekit.types.schema import FlyteSchema
 
-
-default_select_template = """
-    CREATE TEMPORARY TABLE {table}_tmp AS {query_str};
-    CREATE EXTERNAL TABLE {table} LIKE {table}_tmp STORED AS PARQUET;
-    ALTER TABLE {table} SET LOCATION '{url}';
-
-    INSERT OVERWRITE TABLE {table}
-        SELECT
-            {columnar_query}
-        FROM {table}_tmp;
-    DROP TABLE {table};
-"""
 
 hive_task_no_io = HiveTask(
     name="recipes.sql.hive.no_io",
@@ -54,11 +42,11 @@ def with_output_wf() -> FlyteSchema:
     return hive_task_w_out()
 
 
-demo_all = HiveTask(
+demo_all = HiveSelectTask(
     name="recipes.sql.hive.demo_all",
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
     cluster_label="flyte",
-    query_template="""
+    select_query="""
     SELECT '.PerRetryUniqueKey' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
     UNION
     SELECT '.RawOutputDataPrefix' as template_key, '{{ .RawOutputDataPrefix }}' as template_value
