@@ -41,7 +41,7 @@ ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # TODO delete this once we are using the alpha
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/74a566a9d3721f0d7517b93147f6d74277fc50b7.zip#egg=flytekit[sidecar,schema]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/2511acb9fb5252aaf7acf3a8b4f293d7b4c5b4aa.zip#egg=flytekit[sidecar,schema]
 # Copy the actual code
 COPY . /root
 
