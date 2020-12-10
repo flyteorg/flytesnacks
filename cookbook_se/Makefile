@@ -94,3 +94,11 @@ dev-requirements.txt: dev-requirements.in requirements.txt install-piptools
 
 .PHONY: requirements
 requirements: requirements.txt dev-requirements.txt ## Compile requirements
+
+.PHONY: rsts
+rsts:
+	sphinx-apidoc --force --tocfile index --ext-autodoc --output-dir _rsts recipes
+
+.PHONY: html
+html:
+	sphinx-build -Q -b html -c . _rsts _build
