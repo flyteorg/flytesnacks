@@ -1,3 +1,11 @@
+"""
+How do I write a simple task?
+===============================
+
+This shows simple task construction
+
+"""
+
 import typing
 
 from flytekit import LaunchPlan, task, workflow

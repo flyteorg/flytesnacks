@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('./recipes'))
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +23,6 @@ author = 'Flyte'
 
 # The full version, including alpha/beta/rc tags
 release = '0.16.0'
-
 
 # -- General configuration ---------------------------------------------------
 
