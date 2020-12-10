@@ -9,7 +9,6 @@ Flyte Cookbook
    :caption: Contents:
 
 
-
 Indices and tables
 ==================
 
