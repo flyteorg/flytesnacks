@@ -1,14 +1,12 @@
-.. Flyte Cookbook 2nd documentation master file, created by
-
-
 Flyte Cookbook
 ==============================================
+
+.. automodule:: recipes
+    :members:
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================

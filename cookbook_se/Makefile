@@ -101,4 +101,4 @@ rsts:
 
 .PHONY: html
 html:
-	sphinx-build -Q -b html -c . _rsts _build
+	sphinx-build -b html -c . _rsts _build
