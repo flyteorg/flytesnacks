@@ -1,0 +1,12 @@
+.PHONY: rsts
+rsts:
+	sphinx-apidoc --force --tocfile index --ext-autodoc --output-dir _rsts ../recipes
+
+.PHONY: html
+html:
+	sphinx-build -b html -c . _rsts _build
+
+.PHONY: clean
+clean:
+	rm -rf _rsts
+	rm -rf _build
