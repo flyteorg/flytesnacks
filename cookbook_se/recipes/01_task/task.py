@@ -9,17 +9,25 @@ A task in flytekit can be 2 types
     algorithms, or something that just invokes an API
 
 This section will talk about how to write a Python Function task. Other type of tasks will be covered in later sections
+
 """
 
 from flytekit import task
 
 
-"""
-A ``PythonFunctionTask`` must always be decorated with the ``@task`` decorator.
-"""
 @task
 def square(n: int) -> int:
     """
+    A ``PythonFunctionTask`` must always be decorated with the ``@task`` ``flytekit.task`` decorator.
+
+    .. code-block:: python
+
+        from flytekit import task
+
+        @task
+        def my_task(x: int) -> int:
+          ...
+
     The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
     annotated with the types. The types are regular python types, more on this in the type-system section.
 
@@ -33,9 +41,6 @@ def square(n: int) -> int:
     return n*n
 
 
-"""
-
-"""
 @task()
 def other_task():
     pass
