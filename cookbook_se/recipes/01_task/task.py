@@ -19,6 +19,8 @@ from flytekit import task
 def square(n: int) -> int:
     """
     A ``PythonFunctionTask`` must always be decorated with the ``@task`` ``flytekit.task`` decorator.
+    The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
+    annotated with the types. The types are regular python types, more on this in the type-system section.
 
     .. code-block:: python
 
@@ -28,8 +30,12 @@ def square(n: int) -> int:
         def my_task(x: int) -> int:
           ...
 
-    The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
-    annotated with the types. The types are regular python types, more on this in the type-system section.
+    Parameters:
+        n (int): name of the parameter for the task will be derived from the name of the input variable
+               the type will be automatically deduced to be Types.Integer
+
+    Return:
+        int: The label for the output will be automatically assigned and type will be deduced from the annotation
 
     In this task, one input is ``n`` which has type ``int``.
     the task ``square`` takes the number ``n`` and returns a new integer (squared value)
@@ -39,10 +45,5 @@ def square(n: int) -> int:
     In case of multiple outputs, each output will be numbered in the order starting with 0. For e.g. -> o0, o1, o2, ...
     """
     return n*n
-
-
-@task()
-def other_task():
-    pass
 
 
