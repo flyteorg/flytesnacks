@@ -90,6 +90,8 @@ sphinx_gallery_conf = {
     # specify the order of examples to be according to filename
     'within_subsection_order': FileNameSortKey,
     'min_reported_time': min_reported_time,
+    'filename_pattern': '/run_',
+    'capture_repr': (),
     # Support for binder
     #'binder': {'org': 'sphinx-gallery',
                #'repo': 'sphinx-gallery.github.io',
