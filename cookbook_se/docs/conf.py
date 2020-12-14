@@ -73,6 +73,13 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_logo = "flyte_lockup_on_dark.png"
+html_theme_options = {
+    'logo_only': True,
+    'display_version': True,
+}
+
+
 examples_dirs = ['../recipes', ]
 gallery_dirs = ['auto_recipes']
 
