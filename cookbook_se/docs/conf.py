@@ -12,10 +12,9 @@
 #
 import os
 import sys
-from sphinx_gallery.sorting import FileNameSortKey
+from sphinx_gallery.sorting import ExampleTitleSortKey
 
 sys.path.insert(0, os.path.abspath('../'))
-
 
 # -- Project information -----------------------------------------------------
 
@@ -44,7 +43,6 @@ extensions = [
     'sphinx_gallery.gen_gallery',
     'sphinx-prompt',
 ]
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -75,11 +73,10 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-
 examples_dirs = ['../recipes', ]
 gallery_dirs = ['auto_recipes']
 
-#image_scrapers = ('matplotlib',)
+# image_scrapers = ('matplotlib',)
 image_scrapers = ()
 
 min_reported_time = 0
@@ -88,19 +85,19 @@ sphinx_gallery_conf = {
     'examples_dirs': examples_dirs,
     'gallery_dirs': gallery_dirs,
     # specify the order of examples to be according to filename
-    'within_subsection_order': FileNameSortKey,
+    'within_subsection_order': ExampleTitleSortKey,
     'min_reported_time': min_reported_time,
     'filename_pattern': '/run_',
     'capture_repr': (),
     # Support for binder
-    #'binder': {'org': 'sphinx-gallery',
-               #'repo': 'sphinx-gallery.github.io',
-               #'branch': 'master',
-               #'binderhub_url': 'https://mybinder.org',
-               #'dependencies': './binder/requirements.txt',
-               #'notebooks_dir': 'notebooks',
-               #'use_jupyter_lab': True,
-               #},
+    # 'binder': {'org': 'sphinx-gallery',
+    # 'repo': 'sphinx-gallery.github.io',
+    # 'branch': 'master',
+    # 'binderhub_url': 'https://mybinder.org',
+    # 'dependencies': './binder/requirements.txt',
+    # 'notebooks_dir': 'notebooks',
+    # 'use_jupyter_lab': True,
+    # },
 }
 
 # intersphinx configuration

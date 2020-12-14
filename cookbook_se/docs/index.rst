@@ -3,7 +3,7 @@ Flyte Cookbook
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Contents
 
   auto_recipes/index
 

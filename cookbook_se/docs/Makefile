@@ -8,5 +8,4 @@ html:
 
 .PHONY: clean
 clean:
-	rm -rf _rsts
 	rm -rf _build
