@@ -12,3 +12,4 @@ joblib
 sklearn
 tabulate
 matplotlib
+dataclasses_json

@@ -98,4 +98,4 @@ docs-requirements.txt: docs-requirements.in install-piptools
 	cp docs-requirements.txt docs/requirements.txt
 
 .PHONY: requirements
-requirements: requirements.txt dev-requirements.txt ## Compile requirements
+requirements: requirements.txt dev-requirements.txt docs-requirements.txt ## Compile requirements
