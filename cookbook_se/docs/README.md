@@ -1,5 +1,6 @@
 # FlyteSnacks Docs
-Welcome to Flytesnacks documentation. To generate the documentation run
+Welcome to Flytesnacks documentation. To generate the documentation first
+install dev_requirements.txt, then run
 
 ```bash
 make html
