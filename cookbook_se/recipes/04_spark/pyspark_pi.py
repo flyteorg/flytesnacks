@@ -1,4 +1,7 @@
 """
+Passing Spark DataSets from user functions
+------------------------------------------
+
 This example shows how flytekit simplifies usage of pyspark in a users code.
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
 but when run remote spins up a arbitrarily sized cluster depending on the specified spark configuration. ``spark_conf``

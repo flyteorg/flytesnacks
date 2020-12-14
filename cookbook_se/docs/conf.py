@@ -12,6 +12,8 @@
 #
 import os
 import sys
+from sphinx_gallery.sorting import FileNameSortKey
+
 sys.path.insert(0, os.path.abspath('../'))
 
 
@@ -31,23 +33,34 @@ release = '0.16.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'autoapi.extension',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.coverage',
+    'sphinx_gallery.gen_gallery',
 ]
 
-autoapi_dirs = ['../']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+# generate autosummary even if no references
+autosummary_generate = True
+
+# The suffix of source filenames.
+source_suffix = '.rst'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# The master toctree document.
+master_doc = 'index'
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -60,3 +73,29 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+
+examples_dirs = ['../recipes', ]
+gallery_dirs = ['auto_recipes']
+
+#image_scrapers = ('matplotlib',)
+image_scrapers = ()
+
+min_reported_time = 0
+
+sphinx_gallery_conf = {
+    'examples_dirs': examples_dirs,
+    'gallery_dirs': gallery_dirs,
+    # specify the order of examples to be according to filename
+    'within_subsection_order': FileNameSortKey,
+    'min_reported_time': min_reported_time,
+    # Support for binder
+    #'binder': {'org': 'sphinx-gallery',
+               #'repo': 'sphinx-gallery.github.io',
+               #'branch': 'master',
+               #'binderhub_url': 'https://mybinder.org',
+               #'dependencies': './binder/requirements.txt',
+               #'notebooks_dir': 'notebooks',
+               #'use_jupyter_lab': True,
+               #},
+}

@@ -1,4 +1,7 @@
 """
+Using Schemas
+-------------
+
 This example explains how an untyped schema is passed between tasks using pandas.DataFrame.
 
 Flytekit allows users to directly use pandas.dataframe in their tasks as long as they import

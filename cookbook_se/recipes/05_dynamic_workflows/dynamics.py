@@ -1,3 +1,8 @@
+"""
+Examples of writing dynamic workflows
+-------------------------------------
+
+"""
 import typing
 
 from flytekit import dynamic, task, workflow

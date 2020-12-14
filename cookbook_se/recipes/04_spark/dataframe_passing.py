@@ -1,4 +1,7 @@
 """
+Pass pandas dataframes
+----------------------
+
 This example shows how users can return a spark.Dataset from a task and consume it as a pandas.DataFrame.
 If the dataframe does not fit in memory, it will result in a runtime failure.
 """

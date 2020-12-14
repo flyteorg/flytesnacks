@@ -1,3 +1,7 @@
+"""
+Mechanics of writing a workflow.
+---------------------------------
+"""
 import os
 import urllib.request
 
@@ -12,8 +16,12 @@ default_images = [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Julian_fractal.jpg/256px-Julian_fractal.jpg",
 ]
 
-
-# TODO: Unit test this - what to do about images?
+# %%
+# Rotate example
+#
+# .. todo::
+#
+#  Unit test this - what to do about images?
 @task
 def rotate(image_location: str) -> FlyteFile:
     """
@@ -33,12 +41,15 @@ def rotate(image_location: str) -> FlyteFile:
     cv2.imwrite(out_path, res)
     return FlyteFile(path=out_path)
 
-
+# %%
+# How to write a workflow
 @workflow
 def rotate_one_workflow(in_image: str) -> FlyteFile:
     return rotate(image_location=in_image)
 
 
+# %%
+# Execute it
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(

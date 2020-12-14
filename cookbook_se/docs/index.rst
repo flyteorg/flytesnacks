@@ -1,12 +1,11 @@
 Flyte Cookbook
 ==============================================
 
-.. automodule:: recipes
-    :members:
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+  auto_recipes/index
 
 Indices and tables
 ==================

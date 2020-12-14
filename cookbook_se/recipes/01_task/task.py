@@ -1,4 +1,7 @@
 """
+First task
+----------
+
 This Example shows how to write is task in flytekit python.
 Recap: In Flyte a task is a fundamental building block and an extension point. Flyte has multiple plugins for tasks,
 which can be either a backend-plugin or can be a simple extension that is available in flytekit.
@@ -11,39 +14,39 @@ A task in flytekit can be 2 types
 This section will talk about how to write a Python Function task. Other type of tasks will be covered in later sections
 
 """
-
+# %%
+# For any task in flyte, there is always one required import
 from flytekit import task
 
 
+# %%
+# A ``PythonFunctionTask`` must always be decorated with the ``@task`` ``flytekit.task`` decorator.
+# The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
+# annotated with the types. The types are regular python types, more on this in the type-system section.
+#
 @task
 def square(n: int) -> int:
     """
-    A ``PythonFunctionTask`` must always be decorated with the ``@task`` ``flytekit.task`` decorator.
-    The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
-    annotated with the types. The types are regular python types, more on this in the type-system section.
-
-    .. code-block:: python
-
-        from flytekit import task
-
-        @task
-        def my_task(x: int) -> int:
-          ...
-
-    Parameters:
+     Parameters:
         n (int): name of the parameter for the task will be derived from the name of the input variable
                the type will be automatically deduced to be Types.Integer
 
     Return:
         int: The label for the output will be automatically assigned and type will be deduced from the annotation
 
-    In this task, one input is ``n`` which has type ``int``.
-    the task ``square`` takes the number ``n`` and returns a new integer (squared value)
-
-    Flytekit will assign a default name to the output variable like ``out0`` (TODO: rename to ``o0``)
-
-    In case of multiple outputs, each output will be numbered in the order starting with 0. For e.g. -> o0, o1, o2, ...
     """
     return n*n
 
-
+# %%
+# In this task, one input is ``n`` which has type ``int``.
+# the task ``square`` takes the number ``n`` and returns a new integer (squared value)
+#
+# .. note:: 
+#
+#   Flytekit will assign a default name to the output variable like ``out0``
+#   In case of multiple outputs, each output will be numbered in the order
+#   starting with 0. For e.g. -> ``out0, out1, out2, ...``
+#
+# .. todo::
+#
+#   Use shorthand version ``o0` instead of ``out0``

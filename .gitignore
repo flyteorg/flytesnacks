@@ -6,3 +6,5 @@ __pycache__/
 *.csv
 *.dat
 .DS_Store
+auto_recipes
+gen_modules

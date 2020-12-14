@@ -1,3 +1,7 @@
+"""
+Write an end to end ML pipeline
+---------------------------------
+"""
 import typing
 from collections import OrderedDict
 
@@ -11,6 +15,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
+# %%
 # Since we are working with a specific dataset, we will create a strictly typed schema for the dataset.
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
@@ -39,32 +44,21 @@ DATASET_COLUMNS = OrderedDict(
         "class": int,
     }
 )
-# the first 8 columns are features
+# %%
+# The first 8 columns are features
 FEATURE_COLUMNS = OrderedDict(
     {k: v for k, v in DATASET_COLUMNS.items() if k != "class"}
 )
-# the last column is the class
+# %%
+# The last column is the class
 CLASSES_COLUMNS = OrderedDict({"class": int})
 
-MODELSER_JOBLIB = typing.TypeVar("joblib.dat")
 
-
-@dataclass_json
-@dataclass
-class XGBoostModelHyperparams(object):
-    """
-    These are the xgboost hyper parameters available in scikit-learn library.
-    """
-    max_depth: int = 3,
-    learning_rate: float = 0.1
-    n_estimators: int = 100
-    objective: str = "binary:logistic"
-    booster: str = "gbtree"
-    n_jobs: int = 1
-
-
-# load data
-# Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
+# %% 
+# Let us declare a task that accepts a CSV file with the previously defined
+# columns and converts it to a typed schema.
+# An example CSV file is available at
+# `https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv<https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def split_traintest_dataset(
         dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
@@ -91,6 +85,29 @@ def split_traintest_dataset(
 
     # split data into train and test sets
     return train_test_split(x, y, test_size=test_split_ratio, random_state=seed)
+
+
+# %%
+# It is also possible to defined the output file type. This is useful in
+# combining tasks, where one task may only accept models serialized in ``.joblib.dat`` 
+MODELSER_JOBLIB = typing.TypeVar("joblib.dat")
+
+
+# %%
+# It is also possible in Flyte to pass custom objects, as long as they are
+# declared as ``dataclass``es and also decorated with ``@dataclass_json``.
+@dataclass_json
+@dataclass
+class XGBoostModelHyperparams(object):
+    """
+    These are the xgboost hyper parameters available in scikit-learn library.
+    """
+    max_depth: int = 3,
+    learning_rate: float = 0.1
+    n_estimators: int = 100
+    objective: str = "binary:logistic"
+    booster: str = "gbtree"
+    n_jobs: int = 1
 
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
@@ -154,7 +171,8 @@ def score(
     print("Accuracy: %.2f%%" % (acc * 100.0))
     return acc
 
-
+# %%
+# Workflow sample here
 @workflow
 def diabetes_xgboost_model(
         dataset: FlyteFile[
@@ -177,6 +195,8 @@ def diabetes_xgboost_model(
     return model, score(predictions=predictions, y=y_test)
 
 
+# %%
+# The entire workflow can be executed locally as follows...
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(diabetes_xgboost_model())

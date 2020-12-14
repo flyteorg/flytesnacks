@@ -1,4 +1,7 @@
 """
+Using custom objects
+--------------------
+
 Flyte supports passing JSON's between tasks. But, to simplify the usage for the users and introduce type-safety,
 flytekit supports passing custom data objects between tasks. Currently only dataclasses that are decorated with
 @dataclasses_json are supported.
