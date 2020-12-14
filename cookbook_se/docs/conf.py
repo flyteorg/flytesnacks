@@ -42,6 +42,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx_gallery.gen_gallery',
+    'sphinx-prompt',
 ]
 
 
@@ -98,4 +99,12 @@ sphinx_gallery_conf = {
                #'notebooks_dir': 'notebooks',
                #'use_jupyter_lab': True,
                #},
+}
+
+# intersphinx configuration
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/{.major}'.format(
+        sys.version_info), None),
+    'numpy': ('https://numpy.org/doc/stable', None),
+    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
 }
