@@ -1,6 +1,8 @@
 """
+.. _intermediate_spark_dataframes_passing:
+
 Pass pandas dataframes
-----------------------
+=========================
 
 This example shows how users can return a spark.Dataset from a task and consume it as a pandas.DataFrame.
 If the dataframe does not fit in memory, it will result in a runtime failure.
@@ -11,12 +13,20 @@ from flytekit import task, workflow, kwtypes
 from flytekit.taskplugins.spark import Spark
 from flytekit.types import FlyteSchema
 
-"""
-This section defines a simple schema type with 2 columns, `name: str` and `age: int`
-"""
+# %%
+# .. _df_my_schema_definition:
+#
+# Define my_schema
+# --------------------
+# This section defines a simple schema type with 2 columns, `name: str` and `age: int`
 my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 
 
+# %%
+# ``create_spark_df`` is a spark task, that runs within a spark cotext (relies on having spark cluster up and running). This task generates a spark DataFrame whose schema matches the predefined :any:`df_my_schema_definition`
+# Notice that the task simply returns a pyspark.DataFrame object, even though the return type specifies  :any:`df_my_schema_definition`
+# The flytekit type-system will automatically convert the pyspark.DataFrame to Flyte Schema object.
+# FlyteSchema object is an abstract representation of a DataFrame, that can conform to multiple different dataframe formats.
 @task(task_config=Spark(
     spark_conf={
         'spark.driver.memory': "1000M",
@@ -43,6 +53,12 @@ def create_spark_df() -> my_schema:
     )
 
 
+# %%
+# The task ``sum_of_all_ages`` receives a parameter of type :any:`df_my_schema_definition`. It is important to note that there is no
+# expectation that the schema is a pandas dataframe or a spark dataframe, but just a generic schema object. The Flytekit schema object
+# can be read into multiple formats using the ``open()`` method. Default conversion is to :py:class:`pandas.DataFrame`
+# Refer to :py:class:`flytekit.FlyteSchema` for more details
+#
 @task(cache_version='1')
 def sum_of_all_ages(s: my_schema) -> int:
     """
@@ -57,6 +73,8 @@ def sum_of_all_ages(s: my_schema) -> int:
     return df['age'].sum()
 
 
+# %%
+# The schema workflow allows connecting the ``create_spark_df`` with  ``sum_of_all_ages`` because the return type of the first task and the parameter type for the second task match
 @workflow
 def my_smart_schema() -> int:
     """
@@ -67,6 +85,9 @@ def my_smart_schema() -> int:
     return sum_of_all_ages(s=df)
 
 
+# %%
+# This program can be executed locally and it should work as expected and this greatly simplifies usage of disparate DataFrame technologies for the end user.
+# Also new DataFrame technologies can be dynamically loaded in flytekit's TypeEngine. More on this later.
 if __name__ == "__main__":
     """
     This program can be run locally

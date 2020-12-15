@@ -1,6 +1,6 @@
 """
-Using custom objects
---------------------
+11. Using custom objects
+-------------------------
 
 Flyte supports passing JSON's between tasks. But, to simplify the usage for the users and introduce type-safety,
 flytekit supports passing custom data objects between tasks. Currently only dataclasses that are decorated with
@@ -65,4 +65,3 @@ if __name__ == "__main__":
     This workflow can be run locally. During local execution also, the dataclasses will be marshalled to and from json.
     """
     wf(x=10, y=20)
-

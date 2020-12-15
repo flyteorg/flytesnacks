@@ -50,7 +50,9 @@ The images themselves are parameterizable in the config in the following format
 
 # %%
 # Lets declare a task that uses an image that is derived from the defaults FQN and version
+#
 # .. todo::
+#
 #   Another example for multi-images here
 #
 # For another example where this is done please refer to :any:`intermediate_spark_dataframes_passing`

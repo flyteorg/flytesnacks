@@ -1,6 +1,7 @@
 """
-Write an end to end ML pipeline
+10: Write an end to end ML pipeline
 ---------------------------------
+
 """
 import typing
 from collections import OrderedDict
@@ -20,15 +21,17 @@ from xgboost import XGBClassifier
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
 # Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
 # CSV Columns
-#  1. Number of times pregnant
-#  2. Plasma glucose concentration a 2 hours in an oral glucose tolerance test
-#  3. Diastolic blood pressure (mm Hg)
-#  4. Triceps skin fold thickness (mm)
-#  5. 2-Hour serum insulin (mu U/ml)
-#  6. Body mass index (weight in kg/(height in m)^2)
-#  7. Diabetes pedigree function
-#  8. Age (years)
-#  9. Class variable (0 or 1)
+#
+# #. Number of times pregnant
+# #. Plasma glucose concentration a 2 hours in an oral glucose tolerance test
+# #. Diastolic blood pressure (mm Hg)
+# #. Triceps skin fold thickness (mm)
+# #. 2-Hour serum insulin (mu U/ml)
+# #. Body mass index (weight in kg/(height in m)^2)
+# #. Diabetes pedigree function
+# #. Age (years)
+# #. Class variable (0 or 1)
+#
 # Example Row: 6,148,72,35,0,33.6,0.627,50,1
 # the input dataset schema
 DATASET_COLUMNS = OrderedDict(
