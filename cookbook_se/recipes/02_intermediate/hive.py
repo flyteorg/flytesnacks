@@ -25,7 +25,8 @@ from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
 from flytekit.types.schema import FlyteSchema
 
 # %%
-# This is the world's simplest query.
+# This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
+# Hive task a name that's unique across your project/domain for your Flyte installation.
 hive_task_no_io = HiveTask(
     name="recipes.sql.hive.no_io",
     inputs={},
@@ -59,6 +60,12 @@ hive_task_w_out = HiveTask(
     """,
     output_schema_type=FlyteSchema
 )
+
+# %%
+# .. note::
+#
+#    There is a helper task that will automatically do the wrapping above. Please be patient as we fill out these docs.
+#
 
 
 @workflow
