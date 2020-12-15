@@ -16,24 +16,32 @@ from dataclasses_json import dataclass_json
 from flytekit import task, workflow
 
 
+# %%
+# This Datum is a user defined complex type, which can be used to pass complex data between tasks.
+# Moreover, users can also pass this data between different languages and also input through the Flyteconsole as a
+# raw JSON.
+#
+# .. note::
+#
+#   Only other supported types can be nested in this class, for example it can only contain other ``@dataclass_json``
+#   annotated dataclasses if you want to use complex classes. Arbitrary classes will cause a **failure**.
+#
+# .. note::
+#
+#   All variables in DataClasses should be **annotated with their type**. Failure to do should will result in an error
 @dataclass_json
 @dataclass
 class Datum(object):
     """
-    This Datum is a user defined complex type, which can be used to pass complex data between tasks.
-    Moreover, users can also pass this data between different languages and also input through the Flyteconsole as a
-    raw JSON.
 
-    NOTE: Only other supported types can be nested in this class, for example it can only contain other @dataclass_json
-    annotated dataclasses if you want to use complex classes. Arbitrary classes will cause a failure.
-
-    NOTE: All variables in DataClasses should be annotated with their type. Failure to do should will result in an error
     """
     x: int
     y: str
     z: typing.Dict[int, str]
 
 
+# %%
+# Once declared dataclasses can be returned as outputs or accepted as inputs
 @task
 def stringify(x: int) -> Datum:
     """
@@ -52,6 +60,8 @@ def add(x: Datum, y: Datum) -> Datum:
     return Datum(x=x.x + y.x, y=x.y + y.y, z=x.z)
 
 
+# %%
+# Workflow creation remains identical
 @workflow
 def wf(x: int, y: int) -> Datum:
     """

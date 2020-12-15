@@ -37,7 +37,8 @@ def square(n: int) -> int:
         int: The label for the output will be automatically assigned and type will be deduced from the annotation
 
     """
-    return n*n
+    return n * n
+
 
 # %%
 # In this task, one input is ``n`` which has type ``int``.
@@ -48,3 +49,7 @@ def square(n: int) -> int:
 #   Flytekit will assign a default name to the output variable like ``out0``
 #   In case of multiple outputs, each output will be numbered in the order
 #   starting with 0. For e.g. -> ``out0, out1, out2, ...``
+#
+# Flyte tasks can be executed like normal functions
+if __name__ == "__main__":
+    print(square(n=10))

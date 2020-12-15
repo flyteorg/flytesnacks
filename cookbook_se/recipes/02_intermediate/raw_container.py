@@ -11,7 +11,15 @@ Refer to the raw protocol to understand how to leverage this
 """
 from flytekit import ContainerTask, kwtypes, metadata, workflow
 
-
+# %%
+# A :py:class:`flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
+# is square. This name has to be unique in the entire project. Users can specify some
+#
+# - ``input_data_dir`` -> where inputs will be written to
+# - ``output_data_dir`` -> where Flyte will expect the outputs to exist.
+#
+# inputs and outputs specify the interface for the task, thus it should be an ordered dictionary of typed input and
+# output variables
 square = ContainerTask(
     name="square",
     metadata=metadata(),
@@ -44,6 +52,9 @@ sum = ContainerTask(
 )
 
 
+# %%
+# As can be seen in this example, ContainerTasks can be interacted with like normal python functions, whose inputs
+# correspond to the declared input variables
 @workflow
 def raw_container_wf(val1: int, val2: int) -> int:
     """
@@ -53,6 +64,9 @@ def raw_container_wf(val1: int, val2: int) -> int:
     return sum(x=square(val=val1), y=square(val=val2))
 
 
+# %%
+# ContainerTasks cannot really be executed locally as Flytekit is incapable of executing Containers currently.
+# but it is possible to mock the execution.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(
