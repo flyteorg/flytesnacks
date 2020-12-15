@@ -14,17 +14,17 @@ from flytekit import task, workflow
 # In this example the memory required by the function increases as the dataset size increases. For large datasets we may not be able to run locally. Thus we want to provide hints to flyte backend that we want to request for more memory.
 # This is done by simply decorating the task with the hints as shown in the following code sample. The following parameters are available to be changed for a task
 #
-# #. ``cpu_request``= minimum cpu requested
-# #. ``cpu_limit``= maximum cpu possible
-# #. ``memory_request``= min memory requested
-# #. ``memory_limit``= max memory possible
-# #. ``gpu_request``= min gpus requested
-# #. ``gpu_limit``= max gpus requested, they should be the same?,kub
+# #. ``cpu_request`` minimum cpu requested
+# #. ``cpu_limit`` maximum cpu possible
+# #. ``memory_request`` min memory requested
+# #. ``memory_limit`` max memory possible
+# #. ``gpu_request`` min gpus requested
+# #. ``gpu_limit`` max gpus requested, they should be the same?,kub
 #
 # The following resources are not yet supported, but coming soon
 #
-# #. ``storage_request``= min storage requested
-# #. ``storage_limit``= max storage possible
+# #. ``storage_request`` min storage requested
+# #. ``storage_limit`` max storage possible
 #
 # The acutal values follow the `kubernetes convention <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/>`_.
 #
@@ -58,10 +58,5 @@ def my_workflow(x: typing.List[int]) -> int:
 # %%
 # The workflow and task can be executed locally
 if __name__ == "__main__":
-    # %%
-    # Execute the task locally
     print(count_unique_numbers(x=[1, 1, 2]))
-
-    # %%
-    # Execute the workflow locally
     print(my_workflow(x=[1, 1, 2]))
