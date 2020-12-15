@@ -9,3 +9,4 @@ html:
 .PHONY: clean
 clean:
 	rm -rf _build
+	rm -rf auto_recipes

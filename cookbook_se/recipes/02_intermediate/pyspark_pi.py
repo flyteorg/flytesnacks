@@ -1,7 +1,7 @@
 """
 .. _intermediate_using_spark_tasks:
 
-02: Creating spark tasks as part of your workflow OR running spark jobs
+06: Creating spark tasks as part of your workflow OR running spark jobs
 ------------------------------------------------------------------------
 
 This example shows how flytekit simplifies usage of pyspark in a users code.

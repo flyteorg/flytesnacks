@@ -1,5 +1,5 @@
 """
-03: Conditions
+08: Conditions
 --------------
 
 Flytekit supports conditions as a first class construct in the language. Conditions offer a way to selectively execute

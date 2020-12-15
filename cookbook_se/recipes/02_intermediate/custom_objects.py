@@ -1,5 +1,5 @@
 """
-11. Using custom objects
+07. Using custom objects
 -------------------------
 
 Flyte supports passing JSON's between tasks. But, to simplify the usage for the users and introduce type-safety,

@@ -1,3 +1,5 @@
+.. _working_hosted_service:
+
 Working with a Hosted Flyte Service
 ====================================
 
