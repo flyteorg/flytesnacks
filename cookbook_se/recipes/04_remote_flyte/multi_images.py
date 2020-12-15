@@ -42,6 +42,10 @@ The images themselves are parameterizable in the config in the following format
 
     The default image (name + version) is always ``{{.image.default.fqn}}:{{.image.default.version}}``
 
+.. warning:
+
+    It is the responsibility of the user to push a container image that matches the new name described.
+
 """
 
 # %%
