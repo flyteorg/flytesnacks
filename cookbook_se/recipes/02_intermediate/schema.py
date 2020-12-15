@@ -1,6 +1,6 @@
 """
-Using Schemas
--------------
+01: Using Schemas
+------------------
 
 This example explains how an untyped schema is passed between tasks using pandas.DataFrame.
 
@@ -9,7 +9,7 @@ Flytekit allows users to directly use pandas.dataframe in their tasks as long as
 
     from flytekit.types import schema # noqa: F401
 
-Note: # noqa: F401. This is to ignore pylint comparing about unused imports
+Note: # noqa: F401. This is to ignore pylint complaining about unused imports
 """
 import pandas
 from flytekit import task, workflow
@@ -43,8 +43,5 @@ def df_wf(a: int) -> pandas.DataFrame:
 
 
 if __name__ == "__main__":
-    """
-    Run this locally
-    """
     print(f"Running {__file__} main...")
     print(f"Running df_wf(a=42) {df_wf(a=42)}")

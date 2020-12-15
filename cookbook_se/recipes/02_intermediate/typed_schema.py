@@ -1,10 +1,9 @@
 """
-Typed columns in a schema
--------------------------
+02: Typed columns in a schema
+------------------------------
 
 This example explains how a typed schema can be used in Flyte and declared in flytekit.
 
-TODO: talk about schema
 """
 import pandas
 from flytekit import kwtypes, task, workflow
