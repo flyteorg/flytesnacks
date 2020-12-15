@@ -96,6 +96,8 @@ sphinx_gallery_conf = {
     'min_reported_time': min_reported_time,
     'filename_pattern': '/run_',
     'capture_repr': (),
+    'image_scrapers': image_scrapers,
+    'default_thumb_file': "flyte_lockup_on_dark.png",
     # Support for binder
     # 'binder': {'org': 'sphinx-gallery',
     # 'repo': 'sphinx-gallery.github.io',
