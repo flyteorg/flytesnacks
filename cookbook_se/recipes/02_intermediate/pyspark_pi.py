@@ -1,8 +1,8 @@
 """
-.. _intermediate_spark_dataframes_passing:
+.. _intermediate_using_spark_tasks:
 
-Passing Spark DataSets from user functions
-------------------------------------------
+02: Creating spark tasks as part of your workflow OR running spark jobs
+------------------------------------------------------------------------
 
 This example shows how flytekit simplifies usage of pyspark in a users code.
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
@@ -16,9 +16,16 @@ import random
 import datetime
 from operator import add
 from flytekit import task, workflow
+# %%
+# The follow import is required to configure a Spark Server in Flyte.
 from flytekit.taskplugins.spark import Spark
 
 
+# %%
+# Spark Task sample. This example shows how a spark task can be written simply by adding a ``@task(task_config=Spark(...)...)`` decorator.
+# Refer to :py:class:`flytekit.Spark` class to understand the various configuration options.
+# Also important to note here that the container_image is a special image that is built as part of the samples repo. To understand how to configure
+# different containers per task refer to :any:`hosted_multi_images`.
 @task(task_config=Spark(
     # this configuration is applied to the spark cluster
     spark_conf={
@@ -42,18 +49,22 @@ def hello_spark(partitions: int) -> float:
     return pi_val
 
 
-@task(cache_version='1')
-def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
-    print("My printed value: {} @ {}".format(value_to_print, date_triggered))
-    return 1
-
-
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
     return 1 if x ** 2 + y ** 2 <= 1 else 0
 
 
+# %%
+# This is a regular python function task. This will not execute on the spark cluster
+@task(cache_version='1')
+def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
+    print("My printed value: {} @ {}".format(value_to_print, date_triggered))
+    return 1
+
+
+# %%
+# The Workflow shows that a spark task and any python function (or any other task type) can be chained together as long as they match the parameter specifications
 @workflow
 def my_spark(triggered_date: datetime.datetime) -> float:
     """
@@ -65,6 +76,8 @@ def my_spark(triggered_date: datetime.datetime) -> float:
     return pi
 
 
+# %%
+# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to hive metastores etc may not work, but these are limitations of using Spark and are not introduced by Flyte.
 if __name__ == "__main__":
     """
     NOTE: To run a multi-image workflow locally, all dependencies of all the tasks should be installed, ignoring which

@@ -15,7 +15,7 @@ from flytekit.annotated.condition import conditional
 # In the following example we define two tasks `square` and `double` and depending on whether the workflow input is a fraction (0-1) or not, it decided which to execute.
 #
 # :py:func:`flytekit.task`
-@task()
+@task
 def square(n: int) -> int:
     """
     Parameters:
