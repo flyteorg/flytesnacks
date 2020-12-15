@@ -1,3 +1,8 @@
+"""
+11: Hive plugin example
+-----------------------
+"""
+
 from flytekit import workflow, kwtypes, task
 from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
 from flytekit.types.schema import FlyteSchema
