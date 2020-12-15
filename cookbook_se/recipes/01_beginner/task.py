@@ -2,14 +2,16 @@
 01: Tasks
 ----------
 
-This Example shows how to write is task in flytekit python.
+This example shows how to write a task in flytekit python.
 Recap: In Flyte a task is a fundamental building block and an extension point. Flyte has multiple plugins for tasks,
 which can be either a backend-plugin or can be a simple extension that is available in flytekit.
 
-A task in flytekit can be 2 types
- 1. A task that has a python function associated with it. The execution of the task would be an execution of this function
- 2. a task that does not have a python function, for e.g a SQL query or some other portable task like Sagemaker prebuilt
-    algorithms, or something that just invokes an API
+A task in flytekit can be 2 types:
+
+1. A task that has a python function associated with it. The execution of the task would be an execution of this
+   function
+#. A task that does not have a python function, for e.g a SQL query or some other portable task like Sagemaker prebuilt
+   algorithms, or something that just invokes an API
 
 This section will talk about how to write a Python Function task. Other type of tasks will be covered in later sections
 
@@ -46,7 +48,3 @@ def square(n: int) -> int:
 #   Flytekit will assign a default name to the output variable like ``out0``
 #   In case of multiple outputs, each output will be numbered in the order
 #   starting with 0. For e.g. -> ``out0, out1, out2, ...``
-#
-# .. todo::
-#
-#   Use shorthand version ``o0` instead of ``out0``

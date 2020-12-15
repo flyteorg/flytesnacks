@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Flyte Cookbook 2nd'
+project = 'Flyte Cookbook 2nd Ed.'
 copyright = '2020, Flyte'
 author = 'Flyte'
 
