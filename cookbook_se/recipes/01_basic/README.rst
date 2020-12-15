@@ -1,4 +1,4 @@
-Beginner
+Basic
 =========
 This section provides insight into basic building blocks of Flyte, especially flytekit.
 Flytekit is a python SDK for developing flyte workflows and task and can be used generally, whenever stateful computation is
