@@ -1,4 +1,6 @@
 """
+.. _intermediate_spark_dataframes_passing:
+
 Passing Spark DataSets from user functions
 ------------------------------------------
 
@@ -6,24 +8,7 @@ This example shows how flytekit simplifies usage of pyspark in a users code.
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
 but when run remote spins up a arbitrarily sized cluster depending on the specified spark configuration. ``spark_conf``
 
-This Example also shows how a user can simply create 2 tasks, that use different Docker images. This makes it possible
-to completely separate the image creation between for different tasks, thus reducing the size of images. For example
-a spark image needs JVM, spark jars and other bits installed, while a python task only needs python and libraries for
-python installed.
-
-Moreover, this also makes it possible to separate images for Deep learning that contain nvidia drivers.
-
-To support multiple images, flytekit allows the container images to be parameterized as follows
-
- ``{{.image.<name>.<attribute>}}``
-   the name of the image in the image configuration. The name ``default`` is a reserved keyword and will automatically
-   apply to the default image name for this repository
-   attribute can be either ``fqn`` or ``version``
-   ``fqn`` refers to the fully qualified name of the image. For example it includes the repository and domain url of the
-          image. e.g. docker.io/my_repo/xyz
-   ``version`` refers to the tag of the image. e.g. latest, or python-3.8 etc.
-
-If the container_image is not specified then the default configured image for the project is used.
+This Example also shows how a user can simply create 2 tasks, that use different Docker images. For more information refer to :any:`hosted_multi_images`
 
 """
 import flytekit
