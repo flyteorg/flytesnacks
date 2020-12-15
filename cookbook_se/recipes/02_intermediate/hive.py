@@ -14,7 +14,7 @@ accessible to Flyte, and b) Flyte needs to know exactly what that location is.
 
 You get a couple templating args to help make that happen, along with the usual input interpolation that Flyte provides.
 
-* ``.PerRetryUniqueKey`` - This is a string that will be [a-zA-Z0-9_] and start with a character. It will be unique
+* ``.PerRetryUniqueKey`` - This is a string that will be ``[a-zA-Z0-9_]`` and start with a character. It will be unique
   per retry. Feel free to use it to name temp tables.
 * ``RawOutputDataPrefix`` - This is the "directory" (S3/GCS output prefix) where Flyte will expect the outputs. You
   should write the outputs to this location.
