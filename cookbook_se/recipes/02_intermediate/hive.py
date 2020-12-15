@@ -1,8 +1,31 @@
+"""
+05. Write a Hive Task
+-------------------------
+
+Tasks often start with a data gathering step, and often that data is gathered through Hive. Flytekit allows users to run
+any kind of Hive query (including queries with multiple statements and staging query commands).
+
+The principal concept to understand with respect to Hive or any other query-engine based task is how Flyte interacts
+with the system. That is, when I write a query, how does Flyte become aware of the result? From the user's perspective,
+this is done by carefully constructing your query.
+
+When a Hive (or other querying) task runs, two things need to happen: a) The output data needs to be written to a place
+accessible to Flyte, and b) Flyte needs to know exactly what that location is.
+
+You get a couple templating args to help make that happen, along with the usual input interpolation that Flyte provides.
+
+* ``.PerRetryUniqueKey`` - This is a string that will be [a-zA-Z0-9_] and start with a character. It will be unique
+  per retry. Feel free to use it to name temp tables.
+* ``RawOutputDataPrefix`` - This is the "directory" (S3/GCS output prefix) where Flyte will expect the outputs. You
+  should write the outputs to this location.
+
+"""
 from flytekit import workflow, kwtypes, task
 from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
 from flytekit.types.schema import FlyteSchema
 
-
+# %%
+# This is the world's simplest query.
 hive_task_no_io = HiveTask(
     name="recipes.sql.hive.no_io",
     inputs={},
@@ -19,6 +42,8 @@ def no_io_wf():
     return hive_task_no_io()
 
 
+# %%
+# This is a hive task that demonstrates how you would construct your typical read query. Note where the ``select 1`` is.
 hive_task_w_out = HiveTask(
     name="recipes.sql.hive.w_out",
     inputs={},
@@ -41,6 +66,9 @@ def with_output_wf() -> FlyteSchema:
     return hive_task_w_out()
 
 
+# %%
+# This just demonstrates the things you can do. Note that when an input is a FlyteSchema, the value filled in will
+# be the uri, i.e. where the data is stored.
 demo_all = HiveSelectTask(
     name="recipes.sql.hive.demo_all",
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
