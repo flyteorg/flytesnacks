@@ -35,6 +35,11 @@ def my_subwf(a: int = 42) -> (str, str):
 
 # %%
 # This is the parent workflow. In it, we call the workflow declared above.
+# This also showcases how to override the node name of a task (or subworkflow). Typically, nodes are just named
+# sequentially, ``node-0``, ``node-1``, and so on. Because the inner ``my_subwf`` also has a ``node-0`` you may
+# wish to change the name of the first one. Not doing so is also fine - Flyte will automatically prepend something
+# to the inner ``node-0``, since node IDs need to be distinct within a workflow graph. This issue does not exist
+# when calling something by launch plan since those launch a separate execution entirely.
 @workflow
 def parent_wf(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
