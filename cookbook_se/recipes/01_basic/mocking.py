@@ -52,7 +52,14 @@ def my_wf() -> FlyteSchema:
 def main_1():
     with task_mock(sql) as mock:
         mock.return_value = pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})
-        assert (my_wf().open().all() == pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})).all().all()
+        assert (
+            (
+                my_wf().open().all()
+                == pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})
+            )
+            .all()
+            .all()
+        )
 
 
 # %%
@@ -62,7 +69,14 @@ def main_2():
     @patch(sql)
     def test_user_demo_test(mock_sql):
         mock_sql.return_value = pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})
-        assert (my_wf().open().all() == pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})).all().all()
+        assert (
+            (
+                my_wf().open().all()
+                == pandas.DataFrame(data={"x": [1, 2], "y": ["3", "4"]})
+            )
+            .all()
+            .all()
+        )
 
 
 if __name__ == "__main__":

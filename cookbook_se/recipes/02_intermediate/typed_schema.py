@@ -7,6 +7,7 @@ This example explains how a typed schema can be used in Flyte and declared in fl
 """
 import pandas
 from flytekit import kwtypes, task, workflow
+
 # %%
 # Flytekit consists of some pre-built type extenstions, one of them is the FlyteSchema type
 from flytekit.types import FlyteSchema

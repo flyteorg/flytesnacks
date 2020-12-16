@@ -35,6 +35,7 @@ class Datum(object):
     """
 
     """
+
     x: int
     y: str
     z: typing.Dict[int, str]

@@ -28,7 +28,8 @@ def square(n: int) -> int:
         int: The label for the output will be automatically assigned and type will be deduced from the annotation
 
     """
-    return n*n
+    return n * n
+
 
 # %%
 # In the above example, calling `square(n=2)` twice (even if it's across different executions or different workflows), will only actually execution the multiplication operation once. The second time the output will be made
@@ -48,7 +49,7 @@ def square(n: int) -> (int, int):
         int: The label for the output will be automatically assigned and type will be deduced from the annotation
 
     """
-    return n, n*n
+    return n, n * n
 
 
 # %%

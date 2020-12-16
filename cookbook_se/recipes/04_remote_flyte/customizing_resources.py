@@ -50,6 +50,7 @@ def square(x: int) -> int:
 # %%
 # The tasks decorated with memory and storage hints can be used like regular tasks in a workflow, as follows
 
+
 @workflow
 def my_workflow(x: typing.List[int]) -> int:
     return square(x=count_unique_numbers(x=x))

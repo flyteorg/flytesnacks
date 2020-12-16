@@ -55,12 +55,21 @@ class WaitForObjectStoreFile(PythonTask):
     Add documentation here for your Plugin.
     This plugin creates an object store file sensor, that waits and exits only when the file exists.
     """
+
     _VAR_NAME: str = "path"
 
-    def __init__(self, name: str, metadata: TaskMetadata, poll_interval: timedelta = timedelta(seconds=10)):
+    def __init__(
+        self,
+        name: str,
+        metadata: TaskMetadata,
+        poll_interval: timedelta = timedelta(seconds=10),
+    ):
         super(WaitForObjectStoreFile, self).__init__(
-            task_type="object-store-sensor", name=name,
-            interface=Interface(inputs={self._VAR_NAME: str}, outputs={self._VAR_NAME: str}),
+            task_type="object-store-sensor",
+            name=name,
+            interface=Interface(
+                inputs={self._VAR_NAME: str}, outputs={self._VAR_NAME: str}
+            ),
             metadata=metadata,
         )
         self._poll_interval = poll_interval
@@ -102,9 +111,11 @@ class WaitForObjectStoreFile(PythonTask):
 # Actual Usage
 # -------------
 
-sensor = WaitForObjectStoreFile(name="my-objectstore-sensor",
-                                metadata=metadata(retries=10, timeout=timedelta(minutes=20)),
-                                poll_interval=timedelta(seconds=1))
+sensor = WaitForObjectStoreFile(
+    name="my-objectstore-sensor",
+    metadata=metadata(retries=10, timeout=timedelta(minutes=20)),
+    poll_interval=timedelta(seconds=1),
+)
 
 
 @task
@@ -126,4 +137,3 @@ if __name__ == "__main__":
         w.write("Hello World!")
 
     print(my_workflow(path=f))
-
