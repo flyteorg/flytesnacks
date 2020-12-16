@@ -92,5 +92,10 @@ dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := make dev-requirements.txt
 dev-requirements.txt: dev-requirements.in requirements.txt install-piptools
 	$(call PIP_COMPILE,dev-requirements.in)
 
+docs-requirements.txt: export CUSTOM_COMPILE_COMMAND := make docs-requirements.txt
+docs-requirements.txt: docs-requirements.in install-piptools
+	$(call PIP_COMPILE,docs-requirements.in)
+	cp docs-requirements.txt docs/requirements.txt
+
 .PHONY: requirements
-requirements: requirements.txt dev-requirements.txt ## Compile requirements
+requirements: requirements.txt dev-requirements.txt docs-requirements.txt ## Compile requirements
