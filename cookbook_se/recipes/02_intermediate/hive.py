@@ -58,7 +58,7 @@ hive_task_w_out = HiveTask(
         FROM {{ .PerRetryUniqueKey }}_tmp;
     DROP TABLE {{ .PerRetryUniqueKey }};
     """,
-    output_schema_type=FlyteSchema
+    output_schema_type=FlyteSchema,
 )
 
 # %%
@@ -89,7 +89,7 @@ demo_all = HiveSelectTask(
     UNION
     SELECT '.inputs.ds' as template_key, '{{ .inputs.ds }}' as template_value
     """,
-    output_schema_type=FlyteSchema
+    output_schema_type=FlyteSchema,
 )
 
 

@@ -44,7 +44,7 @@ def square(n: int) -> int:
 # In this task, one input is ``n`` which has type ``int``.
 # the task ``square`` takes the number ``n`` and returns a new integer (squared value)
 #
-# .. note:: 
+# .. note::
 #
 #   Flytekit will assign a default name to the output variable like ``out0``
 #   In case of multiple outputs, each output will be numbered in the order

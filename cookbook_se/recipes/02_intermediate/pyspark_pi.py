@@ -16,6 +16,7 @@ import random
 import datetime
 from operator import add
 from flytekit import task, workflow
+
 # %%
 # The follow import is required to configure a Spark Server in Flyte.
 from flytekit.taskplugins.spark import Spark
@@ -26,18 +27,21 @@ from flytekit.taskplugins.spark import Spark
 # Refer to :py:class:`flytekit.Spark` class to understand the various configuration options.
 # Also important to note here that the container_image is a special image that is built as part of the samples repo. To understand how to configure
 # different containers per task refer to :any:`hosted_multi_images`.
-@task(task_config=Spark(
-    # this configuration is applied to the spark cluster
-    spark_conf={
-        'spark.driver.memory': "1000M",
-        'spark.executor.memory': "1000M",
-        'spark.executor.cores': '1',
-        'spark.executor.instances': '2',
-        'spark.driver.cores': '1',
-    }),
-    cache_version='1',
+@task(
+    task_config=Spark(
+        # this configuration is applied to the spark cluster
+        spark_conf={
+            "spark.driver.memory": "1000M",
+            "spark.executor.memory": "1000M",
+            "spark.executor.cores": "1",
+            "spark.executor.instances": "2",
+            "spark.driver.cores": "1",
+        }
+    ),
+    cache_version="1",
     # a separate image is used
-    container_image='{{.image.default.fqn}}:spark-{{.image.default.version}}')
+    container_image="{{.image.default.fqn}}:spark-{{.image.default.version}}",
+)
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
 
@@ -57,7 +61,7 @@ def f(_):
 
 # %%
 # This is a regular python function task. This will not execute on the spark cluster
-@task(cache_version='1')
+@task(cache_version="1")
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1
@@ -84,4 +88,6 @@ if __name__ == "__main__":
     may result in local runtime failures.
     """
     print(f"Running {__file__} main...")
-    print(f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}")
+    print(
+        f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}"
+    )

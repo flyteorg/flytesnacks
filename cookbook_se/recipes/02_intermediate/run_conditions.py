@@ -52,10 +52,10 @@ def double(n: float) -> float:
 def multiplier(my_input: float) -> float:
     return (
         conditional("fractions")
-            .if_((my_input >= 0.1) & (my_input <= 1.0))
-            .then(double(n=my_input))
-            .else_()
-            .then(square(n=my_input))
+        .if_((my_input >= 0.1) & (my_input <= 1.0))
+        .then(double(n=my_input))
+        .else_()
+        .then(square(n=my_input))
     )
 
 
@@ -72,12 +72,12 @@ print(f"Output of multiplier(my_input=0.5): {multiplier(my_input=0.5)}")
 def multiplier_2(my_input: float) -> float:
     return (
         conditional("fractions")
-            .if_((my_input > 0.1) & (my_input < 1.0))
-            .then(double(n=my_input))
-            .elif_((my_input > 1.0) & (my_input < 10.0))
-            .then(square(n=my_input))
-            .else_()
-            .fail("The input must be between 0 and 10")
+        .if_((my_input > 0.1) & (my_input < 1.0))
+        .then(double(n=my_input))
+        .elif_((my_input > 1.0) & (my_input < 10.0))
+        .then(square(n=my_input))
+        .else_()
+        .fail("The input must be between 0 and 10")
     )
 
 
@@ -92,12 +92,12 @@ print(f"Output of multiplier_2(my_input=10): {multiplier_2(my_input=10)}")
 def multiplier_3(my_input: float) -> float:
     d = (
         conditional("fractions")
-            .if_((my_input > 0.1) & (my_input < 1.0))
-            .then(double(n=my_input))
-            .elif_((my_input > 1.0) & (my_input < 10.0))
-            .then(square(n=my_input))
-            .else_()
-            .fail("The input must be between 0 and 10")
+        .if_((my_input > 0.1) & (my_input < 1.0))
+        .then(double(n=my_input))
+        .elif_((my_input > 1.0) & (my_input < 10.0))
+        .then(square(n=my_input))
+        .else_()
+        .fail("The input must be between 0 and 10")
     )
 
     # d will be either the output of `double` or t he output of `square`. If the conditional() falls through the fail
