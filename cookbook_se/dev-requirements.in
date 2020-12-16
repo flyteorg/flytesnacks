@@ -8,3 +8,5 @@ flake8-isort
 isort
 mock
 pytest
+sphinx
+sphinx-gallery
