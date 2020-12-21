@@ -8,4 +8,4 @@ __pycache__/
 .DS_Store
 auto_recipes
 gen_modules
-.pb
+cookbook*.pb
