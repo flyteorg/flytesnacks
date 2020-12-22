@@ -5,12 +5,7 @@
 
 For background on launch plans, refer to :any:`launch_plans`.
 
-Workflows can run on a schedule, and leveraging launch plans the same workflow can be run with multiple schedules.
-Schedules can either define a cron expression or rate unit for interval-based scheduling.
-
-At most one launch plan version for a given {Project, Domain, Name} combination can be active,
-which means at most one schedule can be active for a launch plan.
-However, many unique launch plans with separate names and corresponding schedules can be defined for the same workflow.
+For up-to-date documentation on schedules, see the `official docs <https://lyft.github.io/flyte/user/concepts/launchplans_schedules.html#schedules>`_
 """
 
 # %%

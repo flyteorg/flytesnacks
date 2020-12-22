@@ -5,27 +5,7 @@
 
 For background on launch plans, refer to :any:`launch_plans`.
 
-Currently notifications are supported on workflow termination and can be of three flavors:
-
-- `Email <#howto-email-notifications>`__
-- `PagerDuty <#howto-pagerduty-notifications>`__
-- `Slack <#howto-slack>`__
-
-You can combine notifications in a single workflow to trigger for different combinations of recipients, domains and terminal phases.
-Notifications can be used in one-off executions or for scheduled workflows when for example, you want to be notified of failure.
-
-Terminal workflow phases include:
-
-- ``WorkflowExecution.Phase.FAILED``
-
-- ``WorkflowExecution.Phase.TIMED_OUT``
-
-- ``WorkflowExecution.Phase.ABORTED``
-
-- ``WorkflowExecution.Phase.SUCCESS``
-
-Notifications can be customized by Flyte platform administrators using templatized variables in the flyteadmin
-`emailer config <https://lyft.github.io/flyte/administrator/install/configure/admin.html#setting-up-workflow-notifications>`_.
+For up-to-date documentation on notifications see the `official docs <https://lyft.github.io/flyte/user/features/notifications.html>`_
 
 """
 
@@ -46,7 +26,7 @@ def int_doubler_wf(a: int) -> str:
     doubled = double_int_and_print(a=a)
     return doubled
 
-
+# This launch plan triggers email notifications when the workflow execution it triggered reaches the phase `SUCCEEDED`.
 int_doubler_wf_lp = LaunchPlan.create(
     "int_doubler_wf",
     int_doubler_wf,
