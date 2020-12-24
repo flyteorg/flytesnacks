@@ -53,7 +53,7 @@ in_container_serialize_sandbox:
 .PHONY: register_sandbox
 register_sandbox: docker_build
 	make serialize_sandbox
-	flyte-cli register-files -p ${PROJECT} -d development -v ${VERSION} workflows -h flyte.lyft.net /tmp/output/*
+	flyte-cli register-files -p ${PROJECT} -d development -v ${VERSION} -h flyte.lyft.net /tmp/output/*
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build
