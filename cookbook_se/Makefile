@@ -47,7 +47,7 @@ docker_push:
 
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
-	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config register workflows
+	pyflyte --config /root/sandbox.config register -p ${PROJECT} -d development workflows
 
 .PHONY: register_sandbox
 register_sandbox: docker_build
@@ -55,7 +55,7 @@ register_sandbox: docker_build
 
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:
-	pyflyte -p ${PROJECT} -d development --config /root/sandbox.config serialize workflows -f /tmp/output
+	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build

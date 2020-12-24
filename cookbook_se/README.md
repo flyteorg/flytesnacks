@@ -42,6 +42,9 @@ The examples written in this cookbook are meant to used in two ways, as a refere
 1. `make docker_build` This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed.
 1. `make register_sandbox` This will register the Flyte entities in this cookbook against your local installation.
 
+If you are registering outside the sandbox, register entities using:
+`flyte-cli register-files -p <myproject> -d development -v <gitsha> -h localhost:30081 [<my_files>]`
+
 If you are just iterating locally, there is no need to push your Docker image. For Docker for Desktop at least, locally built images will be available for use in its K8s cluster.
 
 If you would like to later push your image to a registry (Dockerhub, ECR, etc.), you can
