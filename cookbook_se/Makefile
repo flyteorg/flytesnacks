@@ -50,15 +50,10 @@ docker_push:
 in_container_serialize_sandbox:
 	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
 
-
-.PHONY: in_container_register_sandbox
-in_container_register_sandbox:
-	flyte-cli register-files -p ${PROJECT} -d development -v ${VERSION} workflows -h flyte.lyft.net /tmp/output/*
-
 .PHONY: register_sandbox
 register_sandbox: docker_build
 	make serialize_sandbox
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} --rm --network=host ${FULL_IMAGE_NAME}:${VERSION} make in_container_register_sandbox
+	flyte-cli register-files -p ${PROJECT} -d development -v ${VERSION} workflows -h flyte.lyft.net /tmp/output/*
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build
