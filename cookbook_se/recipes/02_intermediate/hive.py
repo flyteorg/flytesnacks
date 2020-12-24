@@ -48,7 +48,7 @@ def no_io_wf():
 hive_task_w_out = HiveTask(
     name="recipes.sql.hive.w_out",
     inputs={},
-    cluster_label="flyte",
+    config=HiveConfig(cluster_label="flyte"),
     query_template="""
     CREATE TEMPORARY TABLE {{ .PerRetryUniqueKey }}_tmp AS select 1;
     CREATE EXTERNAL TABLE {{ .PerRetryUniqueKey }} LIKE {{ .PerRetryUniqueKey }}_tmp STORED AS PARQUET;
@@ -79,7 +79,7 @@ def with_output_wf() -> FlyteSchema:
 demo_all = HiveSelectTask(
     name="recipes.sql.hive.demo_all",
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
-    cluster_label="flyte",
+    config=HiveConfig(cluster_label="flyte"),
     select_query="""
     SELECT '.PerRetryUniqueKey' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
     UNION
