@@ -47,7 +47,7 @@ docker_push:
 
 .PHONY: in_container_register_sandbox
 in_container_register_sandbox:
-	pyflyte --config /root/sandbox.config register -p ${PROJECT} -d development workflows
+	flyte-cli register-files -p ${PROJECT} -d development -v ${VERSION} workflows -h flyte.lyft.net /tmp/output/*
 
 .PHONY: register_sandbox
 register_sandbox: docker_build
