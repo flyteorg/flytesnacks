@@ -20,8 +20,8 @@ You get a couple templating args to help make that happen, along with the usual 
   should write the outputs to this location.
 
 """
-from flytekit import workflow, kwtypes, task
-from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
+from flytekit import kwtypes, task, workflow
+from flytekit.taskplugins.hive import HiveConfig, HiveSelectTask, HiveTask
 from flytekit.types.schema import FlyteSchema
 
 # %%
@@ -30,7 +30,7 @@ from flytekit.types.schema import FlyteSchema
 hive_task_no_io = HiveTask(
     name="recipes.sql.hive.no_io",
     inputs={},
-    cluster_label="flyte",
+    config=HiveConfig(cluster_label="flyte"),
     query_template="""
         select 1
     """,
