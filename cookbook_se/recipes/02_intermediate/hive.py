@@ -20,8 +20,8 @@ You get a couple templating args to help make that happen, along with the usual 
   should write the outputs to this location.
 
 """
-from flytekit import kwtypes, task, workflow
-from flytekit.taskplugins.hive.task import HiveConfig, HiveSelectTask, HiveTask
+from flytekit import workflow, kwtypes, task
+from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
 from flytekit.types.schema import FlyteSchema
 
 # %%
@@ -30,7 +30,7 @@ from flytekit.types.schema import FlyteSchema
 hive_task_no_io = HiveTask(
     name="recipes.sql.hive.no_io",
     inputs={},
-    config=HiveConfig(cluster_label="flyte"),
+    cluster_label="flyte",
     query_template="""
         select 1
     """,
@@ -48,7 +48,7 @@ def no_io_wf():
 hive_task_w_out = HiveTask(
     name="recipes.sql.hive.w_out",
     inputs={},
-    config=HiveConfig(cluster_label="flyte"),
+    cluster_label="flyte",
     query_template="""
     CREATE TEMPORARY TABLE {{ .PerRetryUniqueKey }}_tmp AS select 1;
     CREATE EXTERNAL TABLE {{ .PerRetryUniqueKey }} LIKE {{ .PerRetryUniqueKey }}_tmp STORED AS PARQUET;
@@ -79,7 +79,7 @@ def with_output_wf() -> FlyteSchema:
 demo_all = HiveSelectTask(
     name="recipes.sql.hive.demo_all",
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
-    config=HiveConfig(cluster_label="flyte"),
+    cluster_label="flyte",
     select_query="""
     SELECT '.PerRetryUniqueKey' as template_key, '{{ .PerRetryUniqueKey }}' as template_value 
     UNION
