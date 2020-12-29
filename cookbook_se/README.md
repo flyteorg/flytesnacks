@@ -15,7 +15,7 @@ The built documentation is available at https://flytecookbook.readthedocs.io/en/
 
 ## Using the Cookbook
 
-The examples written in this cookbook are meant to used in two ways, as a reference to read, and a live project to iterate and test on your local (or EKS/GCP/etc K8s cluster). To make some simple changes to the code in this cookbook to just try things out, or to just see it run on your local cluster, the iteration cycle should be
+The examples written in this cookbook are meant to used in few ways, as a reference to read if you have a specific question about a specific topic, as template to iterate on locally as many parts of Flytekit are built to be locally usable, and finally as test on your local (or EKS/GCP/etc K8s cluster). To make some simple changes to the code in this cookbook to just try things out, or to just see it run on your local cluster, the iteration cycle should be
 
 1. Make your changes and commit (the steps below require a clean git tree).
 1. Activate your Python virtual environment with the requirements installed.
@@ -31,7 +31,7 @@ If you would like to later push your image to a registry (Dockerhub, ECR, etc.),
 
 ```bash
 REGISTRY=docker.io/corp make docker_push
-``` 
+```
 
 ### Setup
 
