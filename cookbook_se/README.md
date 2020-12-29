@@ -1,37 +1,17 @@
 [Back to Snacks Menu](../README.md)
 
-# :books: Flytekit Cookbook
+# :books: Flytekit Cookbook (2nd Edition)
 
 This is a collection of short "how to" articles demonstrating the various capabilities and idiomatic usage of Flytekit.
 Note this currently does not include articles/tid-bits on how to use the Flyte platform at large, though in the future we may expand it to that.
 
-## :curry: Contents   
-1. [Write and Execute a Task](recipes/task)
-1. [Create a workflow from Tasks](recipes/workflows)
-1. [Launch Plans](recipes/launchplans)
-1. [Multiple Schedules for a Workflow](recipes/multi_schedules)
-1. [Executing pre-created tasks & workflows](recipes/interaction)
-1. [Interact with Past Workflow / Task Executions](recipes/interaction)
-1. [Working with Types](recipes/types)
-1. [Composing a Workflow from shared tasks and workflows](recipes/shared)
-1. [Map/Array Tasks](recipes/map_tasks)
-1. [Compose a Workflow from other workflows](recipes/compose)
-1. [Dynamically Generate a Workflow at Runtime](recipes/dynamic_wfs)
-1. [Dynamic Tasks](recipes/dynamictasks)
-1. [Tasks without flytekit or Using arbitrary containers](recipes/rawcontainers)
-1. [Jupyter notebook as a task](recipes/notebook_tasks)
-1. [Different container per task](recipes/differentcontainers)
-1. [Customize Offloaded Data Location](recipes/offloaded_output_data) 
+Also note that this is different than the first cookbook we had written (also in this repo). It may be premature to consider this directory a second edition, but the style is a bit different.
+This book is divided into four sections currently. The first three advance through increasingly complicated Flytekit examples, and the fourth deals with writing Flytekit as it relates to a Flyte deployment.
+Also, this iteration of the cookbook is written in the literate programming style. That is, the contents of this directory should serve as both documentation, as well as a fully-functional Flyte workflow repo.
 
-Each example is organized into a separate folder at this layer, and each has the Readme file linked to in the Contents, as well as supporting .py and .ipynb files, some of which contain information in a lot more depth.
+## :airplane: :closed_book: Built Book
 
-## Setup
-
-Careful care has been taken to ensure that all the .py files contained in this guide are fully usable and compilable into Flyte entities. Readers that want to run these workflows for themselves should
-
-1. Follow instructions in the main Flyte documentation to set up a local Flyte cluster. All the commands in this book assume that you are using Docker Desktop. If you are using minikube or another K8s deployment, the commands will need to be modified.
-1. Please also ensure that you have a Python virtual environment installed and activated, and have pip installed the requirements.
-1. Use flyte-cli to create a project named `flytesnacks` (the name the Makefile is set up to use).
+The built documentation is available at https://flytecookbook.readthedocs.io/en/latest/.
 
 ## Using the Cookbook
 
@@ -53,3 +33,8 @@ If you would like to later push your image to a registry (Dockerhub, ECR, etc.),
 REGISTRY=docker.io/corp make docker_push
 ``` 
 
+### Setup
+
+1. Follow instructions in the main Flyte documentation to set up a local Flyte cluster. All the commands in this book assume that you are using Docker Desktop. If you are using minikube or another K8s deployment, the commands will need to be modified.
+1. Please also ensure that you have a Python virtual environment installed and activated, and have pip installed the requirements.
+1. Use flyte-cli to create a project named `flytesnacks` (the name the Makefile is set up to use).
