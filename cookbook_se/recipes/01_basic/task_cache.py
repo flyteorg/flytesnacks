@@ -11,6 +11,7 @@ commonly shared across different workflows but receive the same inputs.
 # For any task in flyte, there is always one required import
 from flytekit import task
 
+
 # %%
 # Task caching is disabled by default. This is to avoid unintended consequences of caching tasks with side-effects. To enable caching and control its behavior, use the `cache` and `cache_version` parameters when constructing
 # a task. `cache` controls whether caching is enabled or disabled overall and `cache_version` controls which version of the cache is used. Bumping this version is akin to invalidating the cache, the next execution of that task
@@ -50,7 +51,6 @@ def square(n: int) -> (int, int):
 
     """
     return n, n * n
-
 
 # %%
 # To read more about Task caching and how a unique signature is calculated, please proceed to the `Task Cache documentation <https://flyte.readthedocs.io/en/stable/user/features/task_cache.html#features-task-cache>`__.

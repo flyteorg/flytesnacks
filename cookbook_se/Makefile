@@ -97,3 +97,9 @@ docs-requirements.txt: docs-requirements.in install-piptools
 
 .PHONY: requirements
 requirements: requirements.txt dev-requirements.txt docs-requirements.txt ## Compile requirements
+
+
+.PHONE: run-all-examples
+run-examples:
+	sh ./scripts/run-all-examples.sh
+

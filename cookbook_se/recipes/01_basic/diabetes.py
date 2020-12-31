@@ -16,6 +16,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
+
 # %%
 # Since we are working with a specific dataset, we will create a strictly typed schema for the dataset.
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
@@ -173,6 +174,7 @@ def score(
     acc = accuracy_score(y_df, pred_df)
     print("Accuracy: %.2f%%" % (acc * 100.0))
     return acc
+
 
 # %%
 # Workflow sample here
