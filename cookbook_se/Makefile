@@ -63,7 +63,7 @@ serialize_sandbox: docker_build
 
 .PHONY: in_container_fast_serialize_sandbox
 in_container_fast_serialize_sandbox:
-	rm recipes/_pb_output/*.tar.gz
+	rm -f recipes/_pb_output/*.tar.gz
 	pyflyte --config /root/sandbox.config serialize fast workflows -f recipes/_pb_output/ --source-dir /root/recipes
 
 .PHONY: fast_register_sandbox
