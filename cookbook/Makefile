@@ -43,6 +43,24 @@ serialize_sandbox: docker_build
 	mkdir ${CURDIR}/_pb_output || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
 
+.PHONY: in_container_register_nuclyde
+in_container_register_nuclyde:
+	pyflyte -p ${PROJECT} -d development --config /root/nuclyde-demo.config register workflows
+
+.PHONY: register_nuclyde
+register_nuclyde: docker_build
+	docker run --rm --network=host ${FULL_IMAGE_NAME}:${VERSION} /usr/local/bin/flytekit_venv make in_container_register_nuclyde
+
+.PHONY: in_container_serialize_nuclyde
+in_container_serialize_nuclyde:
+	pyflyte -p ${PROJECT} -d development --config /root/nuclyde-demo.config serialize workflows -f /tmp/output
+
+.PHONY: serialize_nuclyde
+serialize_nuclyde: docker_build
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_nuclyde
+
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
