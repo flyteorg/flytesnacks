@@ -15,7 +15,7 @@ import urllib.request
 import cv2
 import flytekit
 from flytekit import task, workflow
-from flytekit.types import FlyteFile
+from flytekit.types.file import FlyteFile
 
 # %%
 # Let's assume our mission here is pretty simple. We want to take each of these links, download the picture, rotate it

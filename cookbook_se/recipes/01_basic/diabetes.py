@@ -11,7 +11,8 @@ from dataclasses_json import dataclass_json
 import joblib
 import pandas as pd
 from flytekit import task, workflow
-from flytekit.types import FlyteFile, FlyteSchema
+from flytekit.types.file import FlyteFile
+from flytekit.types.schema import FlyteSchema
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
