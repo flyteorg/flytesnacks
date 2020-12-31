@@ -61,6 +61,18 @@ serialize_sandbox: docker_build
 	mkdir ${CURDIR}/_pb_output || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
 
+
+.PHONY: fast_register_sandbox
+register_sandbox: docker_build
+	make fast_serialize_sandbox
+	flyte-cli register-files -i -p ${PROJECT} -d development -v ${VERSION} -h localhost:30081 ${CURDIR}/_pb_output/*
+
+.PHONY: fast_serialize_sandbox
+serialize_sandbox: docker_build
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
+
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
