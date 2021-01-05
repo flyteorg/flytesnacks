@@ -115,10 +115,14 @@ class XGBoostModelHyperparams(object):
     n_jobs: int = 1
 
 
+model_file = typing.NamedTuple("Model", model=FlyteFile[MODELSER_JOBLIB])
+workflow_outputs = typing.NamedTuple("WorkflowOutputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float)
+
+
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def fit(
         x: FlyteSchema[FEATURE_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS], hyperparams: XGBoostModelHyperparams,
-) -> typing.NamedTuple("Outputs", model=FlyteFile[MODELSER_JOBLIB]):
+) -> model_file:
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
     NOTE: We have simplified the number of hyper parameters we take for demo purposes
@@ -140,7 +144,7 @@ def fit(
     # TODO model Blob should be a file like object
     fname = "model.joblib.dat"
     joblib.dump(m, fname)
-    return fname
+    return fname,
 
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
@@ -186,7 +190,7 @@ def diabetes_xgboost_model(
         ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
         test_split_ratio: float = 0.33,
         seed: int = 7,
-) -> typing.NamedTuple("Outputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float):
+) -> workflow_outputs:
     """
     This pipeline trains an XGBoost mode for any given dataset that matches the schema as specified in
     https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names.
@@ -197,8 +201,8 @@ def diabetes_xgboost_model(
     model = fit(
         x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4),
     )
-    predictions = predict(x=x_test, model_ser=model)
-    return model, score(predictions=predictions, y=y_test)
+    predictions = predict(x=x_test, model_ser=model.model)
+    return model.model, score(predictions=predictions, y=y_test)
 
 
 # %%
