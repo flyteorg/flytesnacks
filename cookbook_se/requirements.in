@@ -13,3 +13,5 @@ sklearn
 tabulate
 matplotlib
 dataclasses_json
+tensorflow
+tensorflow-datasets
