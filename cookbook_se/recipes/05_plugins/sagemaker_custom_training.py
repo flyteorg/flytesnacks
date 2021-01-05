@@ -1,3 +1,9 @@
+"""
+1. Custom training algorithms on Amazon Sagemaker
+###################################################
+This script shows an example of how you can simply convert your tensorflow training scripts to run on Amazon Sagemaker
+with very few modifications
+"""
 import typing
 
 import matplotlib.pyplot as plt
