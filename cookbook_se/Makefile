@@ -51,8 +51,7 @@ in_container_serialize_sandbox:
 	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
 
 .PHONY: register_sandbox
-register_sandbox: docker_build
-	make serialize_sandbox
+register_sandbox: docker_build serialize_sandbox
 	flyte-cli register-files -i -p ${PROJECT} -d development -v ${VERSION} -h localhost:30081 ${CURDIR}/_pb_output/*
 
 .PHONY: serialize_sandbox
