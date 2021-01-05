@@ -11,3 +11,6 @@ gen_modules
 cookbook*.pb
 *.png
 *.h5
+data/
+*.pt
+logs/

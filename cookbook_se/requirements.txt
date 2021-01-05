@@ -38,9 +38,9 @@ black==19.10b0
     #   papermill
 bleach==3.2.1
     # via nbconvert
-boto3==1.16.48
+boto3==1.16.49
     # via flytekit
-botocore==1.19.48
+botocore==1.19.49
     # via
     #   boto3
     #   s3transfer
@@ -221,7 +221,7 @@ notebook==6.1.6
     # via
     #   jupyter
     #   widgetsnbextension
-numpy==1.19.4
+numpy==1.19.5
     # via
     #   flytekit
     #   h5py
@@ -234,8 +234,10 @@ numpy==1.19.4
     #   scikit-learn
     #   scipy
     #   tensorboard
+    #   tensorboardx
     #   tensorflow
     #   tensorflow-datasets
+    #   torch
     #   xgboost
 oauthlib==3.1.0
     # via requests-oauthlib
@@ -269,7 +271,7 @@ prometheus-client==0.9.0
     # via notebook
 promise==2.3
     # via tensorflow-datasets
-prompt-toolkit==3.0.8
+prompt-toolkit==3.0.9
     # via
     #   ipython
     #   jupyter-console
@@ -280,6 +282,7 @@ protobuf==3.14.0
     #   googleapis-common-protos
     #   k8s-proto
     #   tensorboard
+    #   tensorboardx
     #   tensorflow
     #   tensorflow-datasets
     #   tensorflow-metadata
@@ -393,6 +396,7 @@ six==1.15.0
     #   responses
     #   tenacity
     #   tensorboard
+    #   tensorboardx
     #   tensorflow
     #   tensorflow-datasets
 sklearn==0.0
@@ -413,6 +417,8 @@ tensorboard-plugin-wit==1.7.0
     # via tensorboard
 tensorboard==2.4.0
     # via tensorflow
+tensorboardx==2.1
+    # via -r requirements.in
 tensorflow-datasets==4.1.0
     # via -r requirements.in
 tensorflow-estimator==2.4.0
@@ -437,6 +443,8 @@ toml==0.10.2
     # via
     #   black
     #   pytest
+torch==1.7.1
+    # via -r requirements.in
 tornado==6.1
     # via
     #   ipykernel
@@ -464,6 +472,7 @@ typed-ast==1.4.2
 typing-extensions==3.7.4.3
     # via
     #   tensorflow
+    #   torch
     #   typing-inspect
 typing-inspect==0.6.0
     # via dataclasses-json

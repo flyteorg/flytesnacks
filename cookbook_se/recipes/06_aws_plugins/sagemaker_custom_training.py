@@ -1,5 +1,5 @@
 """
-1. Custom training algorithms on Amazon Sagemaker
+2. Custom training algorithms on Amazon Sagemaker
 ###################################################
 This script shows an example of how you can simply convert your tensorflow training scripts to run on Amazon Sagemaker
 with very few modifications
@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_datasets as tfds
 from flytekit import task, workflow
-from flytekit.models.sagemaker import training_job as training_job_models
-from flytekit.taskplugins.sagemaker import SagemakerTrainingJobConfig
+from flytekit.taskplugins.sagemaker import (
+    SagemakerTrainingJobConfig, TrainingJobResourceConfig, AlgorithmSpecification, InputMode, AlgorithmName,
+    InputContentType)
 from flytekit.types.file import FlyteFile
-
 
 # %%
 # Training Algorithm
@@ -50,13 +50,13 @@ def normalize_img(image, label):
 
 @task(
     task_config=SagemakerTrainingJobConfig(
-        algorithm_specification=training_job_models.AlgorithmSpecification(
-            input_mode=training_job_models.InputMode.FILE,
-            algorithm_name=training_job_models.AlgorithmName.CUSTOM,
+        algorithm_specification=AlgorithmSpecification(
+            input_mode=InputMode.FILE,
+            algorithm_name=AlgorithmName.CUSTOM,
             algorithm_version="",
-            input_content_type=training_job_models.InputContentType.TEXT_CSV,
+            input_content_type=InputContentType.TEXT_CSV,
         ),
-        training_job_resource_config=training_job_models.TrainingJobResourceConfig(
+        training_job_resource_config=TrainingJobResourceConfig(
             instance_type="ml.m4.xlarge",
             instance_count=1,
             volume_size_in_gb=25,

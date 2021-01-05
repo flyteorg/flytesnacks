@@ -14,3 +14,6 @@ matplotlib
 dataclasses_json
 tensorflow
 tensorflow-datasets
+tensorboardX
+torch
+torchvision
