@@ -43,6 +43,7 @@ def normalize_img(image, label):
     ),
     cache_version="1.0",
     cache=True,
+    container_image="{{.image.sagemaker-tf.fqn}}:{{.image.default.version}}"
 )
 def custom_training_task(hyper_params: HyperParameters) -> TrainingOutputs:
     (ds_train, ds_test), ds_info = tfds.load(
