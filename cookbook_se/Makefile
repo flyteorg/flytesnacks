@@ -59,6 +59,7 @@ register_sandbox: docker_build
 serialize_sandbox: docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
+	rm ${CURDIR}/_pb_output/* || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
 
 .PHONY: in_container_fast_serialize_sandbox
