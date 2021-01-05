@@ -32,18 +32,23 @@ debug:
 	echo "FULL IMAGE NAME ${FULL_IMAGE_NAME}"
 	echo "VERSION TAG ${VERSION}"
 	echo "REGISTRY ${REGISTRY}"
+	echo "ECR REGISTRY ${ECR_REGISTRY}"
 
 .PHONY: docker_build
 docker_build:
 	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
 	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.sagemaker sagemaker
 
 # This should only be used by Admins to push images to the public Dockerhub repo. Make sure you
 # specify REGISTRY=docker.io/lyft before the make command otherwise this won't actually push
+# Also if you want to push the docker image for sagemaker consumption then
+# specify ECR_REGISTRY
 .PHONY: docker_push
 docker_push:
 	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile
 	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.spark spark
+	REGISTRY=${ECR_REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile.sagemaker sagemaker
 
 
 .PHONY: in_container_serialize_sandbox

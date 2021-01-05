@@ -83,10 +83,10 @@ def custom_training_task(hyper_params: HyperParameters) -> TrainingOutputs:
         validation_data=ds_test,
     )
 
-    tempfile_name = "my_model.h5"
-    model.save(tempfile_name, overwrite=True)
+    serialized_model = "my_model.h5"
+    model.save(serialized_model, overwrite=True)
 
-    return tempfile_name, history.history
+    return TrainingOutputs(model=HDF5EncodedModelFile(serialized_model), epoch_logs=history.history)
 
 
 @task

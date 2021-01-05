@@ -9,3 +9,5 @@ __pycache__/
 auto_recipes
 gen_modules
 cookbook*.pb
+*.png
+*.h5
