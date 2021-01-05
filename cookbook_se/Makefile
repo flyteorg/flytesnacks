@@ -1,6 +1,6 @@
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
-IMAGE_NAME=flytecookbook_se
+IMAGE_NAME=flytecookbook
 VERSION=$(shell ./version.sh)
 
 define PIP_COMPILE
