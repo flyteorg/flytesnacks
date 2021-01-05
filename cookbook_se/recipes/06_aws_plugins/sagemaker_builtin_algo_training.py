@@ -8,10 +8,10 @@ perform Hyper parameter optimization using Sagemaker HPO
 Defining a XGBoost Training job
 --------------------------------
 We will create a job that will train an XGBoost model using the prebuilt algorithms @Sagemaker.
-Refer to :ref:`Sagemaker XGBoost docs here<https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost.html>`
-To understand more about XGBoost refer :ref:`here<https://xgboost.readthedocs.io/en/latest/>`.
+Refer to `Sagemaker XGBoost docs here <https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost.html>`_
+To understand more about XGBoost refer `here <https://xgboost.readthedocs.io/en/latest/>`_.
 To dive deeper into the Flytekit API refer to
-:ref:`docs<https://lyft.github.io/flyte/flytekit/flytekit.common.tasks.sagemaker.html?highlight=sagemaker#module-flytekit.common.tasks.sagemaker>`
+`docs <https://lyft.github.io/flyte/flytekit/flytekit.common.tasks.sagemaker.html?highlight=sagemaker#module-flytekit.common.tasks.sagemaker>`_
 """
 import typing
 
@@ -97,7 +97,7 @@ xgboost_train_task = SagemakerBuiltinAlgorithmsTask(
 
 # %%
 # You can use
-# :ref:`Single task Execution<https://lyft.github.io/flyte/user/features/single_task_execution.html?highlight=single%20task%20execution>`
+# `Single task Execution <https://lyft.github.io/flyte/user/features/single_task_execution.html?highlight=single%20task%20execution>`_
 # to execute just the task without needing to create a workflow.  To trigger an execution, you need to provide
 #
 # Project (flyteexamples) project where the execution will be created under
@@ -106,10 +106,11 @@ xgboost_train_task = SagemakerBuiltinAlgorithmsTask(
 #
 # Pre-built algorithms have restrictive set of inputs. They always expect
 #
-# Training data set
-# Validation data set
-# Static set of hyper parameters as a dictionary
-# In this case we have taken the :ref:`PIMA Diabetes dataset<https://www.kaggle.com/kumargh/pimaindiansdiabetescsv>`
+# #. Training data set
+# #. Validation data set
+# #. Static set of hyper parameters as a dictionary
+#
+# In this case we have taken the `PIMA Diabetes dataset <https://www.kaggle.com/kumargh/pimaindiansdiabetescsv>`_
 # and split it and uploaded to an s3 bucket
 def execute_training():
     xgboost_train_task(
@@ -160,6 +161,7 @@ xgboost_hpo_task = SagemakerHPOTask(
 # #. tuning strategy - Bayesian OR Random (or others as described in Sagemaker)
 # #. Stopping condition and
 # #. Objective metric name and type (whether to minimize etc)
+#
 # When launching the TrainingJob and HPOJob, we need to define the inputs.
 # Inputs are those directly related to algorithm outputs. We use the inputs
 # and the version information to decide cache hit/miss

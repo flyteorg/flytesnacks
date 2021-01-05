@@ -2,7 +2,7 @@
 02. Running Distributed Pytorch Training using KF PytorchOperator
 -------------------------------------------------------------------
 This example is the same as the default example available on Kubeflow's pytorch site
-:ref:`here<https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py>`
+`here <https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py>`_
 
 """
 import os
@@ -132,7 +132,7 @@ class Hyperparameters(object):
 # Actual Training algorithm
 # ---------------------------
 # The output model using `torch.save` saves the `state_dict` as described
-# :ref:`here<https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`.
+# `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
 # A common convention is to have the ``.pt`` extension for the file
 PytorchPickledFile = FlyteFile[typing.TypeVar("pt")]
 TrainingOutputs = typing.NamedTuple("TrainingOutputs", epoch_accuracies=typing.List[float],
