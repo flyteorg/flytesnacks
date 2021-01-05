@@ -48,15 +48,19 @@ def double(n: float) -> float:
     """
     return 2 * n
 
+@task
+def half() -> float:
+    return 0.5
 
 @workflow
-def multiplier(my_input: float) -> float:
+def multiplier() -> float:
+    h = half()
     return (
         conditional("fractions")
-        .if_((my_input >= 0.1) & (my_input <= 1.0))
-        .then(double(n=my_input))
+        .if_((h >= 0.1) & (h <= 1.0))
+        .then(double(n=h))
         .else_()
-        .then(square(n=my_input))
+        .then(square(n=h))
     )
 
 
