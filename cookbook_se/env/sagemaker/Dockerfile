@@ -34,7 +34,7 @@ ENV SAGEMAKER_PROGRAM /srv/service/venv/bin/flytekit_sagemaker_runner.py
 RUN pip3 install --upgrade sagemaker-training==3.6.2
 
 # Leaving this in here for easier iteration
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/32639010ba72c35aa18a77da31a28ac8c8fea896.zip#egg=flytekit[sagemaker]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/96ba42c52c3548273f6b3521c81704e72232a251.zip#egg=flytekit[sidecar,schema,spark3]
 
 # Copy the actual code
 COPY . /root

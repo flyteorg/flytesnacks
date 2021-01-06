@@ -4,8 +4,6 @@
 #
 #    make requirements.txt
 #
--e git+https://github.com/lyft/flytekit.git@96ba42c52c3548273f6b3521c81704e72232a251#egg=flytekit
-    # via -r ../common/requirements-common.in
 absl-py==0.10.0
     # via
     #   tensorboard
@@ -28,7 +26,6 @@ attrs==20.3.0
     # via
     #   black
     #   jsonschema
-    #   scantree
     #   tensorflow-datasets
 backcall==0.2.0
     # via ipython
@@ -65,14 +62,14 @@ deprecated==1.2.10
     # via flytekit
 dill==0.3.3
     # via tensorflow-datasets
-dirhash==0.2.1
-    # via flytekit
 entrypoints==0.3
     # via papermill
 flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
+flytekit==0.16.0a1
+    # via -r ../common/requirements-common.in
 future==0.18.2
     # via tensorflow-datasets
 gast==0.3.3
@@ -137,9 +134,7 @@ marshmallow==3.10.0
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
-    # via
-    #   croniter
-    #   flytekit
+    # via croniter
 nbclient==0.5.1
     # via papermill
 nbformat==5.0.8
@@ -165,9 +160,7 @@ papermill==2.2.2
 parso==0.8.1
     # via jedi
 pathspec==0.8.1
-    # via
-    #   black
-    #   scantree
+    # via black
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
@@ -233,8 +226,6 @@ rsa==4.6
     # via google-auth
 s3transfer==0.3.3
     # via boto3
-scantree==0.0.1
-    # via dirhash
 six==1.15.0
     # via
     #   absl-py
@@ -250,7 +241,6 @@ six==1.15.0
     #   protobuf
     #   python-dateutil
     #   responses
-    #   scantree
     #   tenacity
     #   tensorboard
     #   tensorflow
