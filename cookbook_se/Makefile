@@ -42,8 +42,8 @@ run-examples:
 
 PWD=$(CURDIR)
 .PHONY: all_docker_build
-all_docker_build:
-	ENV_BASE_PATH="${PWD}/env/" REGISTRY=${REGISTRY} scripts/make-all-docker.sh docker_build
+all_docker_push:
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.sagemaker sagemaker
 
 .PHONY: all_docker_build
 all_requirements:
