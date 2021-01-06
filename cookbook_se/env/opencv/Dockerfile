@@ -30,7 +30,7 @@ COPY ./requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Leaving this in here for easier iteration
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/6658422c4d982322b169dfc09e85e5a33f0f3b54.zip#egg=flytekit[sidecar,schema,spark3]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/32639010ba72c35aa18a77da31a28ac8c8fea896.zip#egg=flytekit
 
 # Copy the actual code
 COPY . /root

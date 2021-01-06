@@ -1,0 +1,2 @@
+#-e git+https://github.com/lyft/flytekit/archive/ba6da90b1b0ffcfd7469386ced5b206e686fd767.zip#egg=flytekit
+flytekit==0.16.0a1

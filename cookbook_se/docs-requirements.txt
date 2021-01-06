@@ -4,6 +4,15 @@
 #
 #    make docs-requirements.txt
 #
+<<<<<<< HEAD
+=======
+absl-py==0.10.0
+    # via
+    #   tensorboard
+    #   tensorflow
+    #   tensorflow-datasets
+    #   tensorflow-metadata
+>>>>>>> fix-latest-alpha
 alabaster==0.7.12
     # via sphinx
 ansiwrap==0.8.4
@@ -16,6 +25,11 @@ appnope==0.1.2
     #   ipython
 argon2-cffi==20.1.0
     # via notebook
+<<<<<<< HEAD
+=======
+astunparse==1.6.3
+    # via tensorflow
+>>>>>>> fix-latest-alpha
 async-generator==1.10
     # via nbclient
 attrs==20.3.0
@@ -23,7 +37,11 @@ attrs==20.3.0
     #   black
     #   jsonschema
     #   pytest
+<<<<<<< HEAD
     #   scantree
+=======
+    #   tensorflow-datasets
+>>>>>>> fix-latest-alpha
 babel==2.9.0
     # via sphinx
 backcall==0.2.0
@@ -34,12 +52,23 @@ black==19.10b0
     #   papermill
 bleach==3.2.1
     # via nbconvert
+<<<<<<< HEAD
 boto3==1.16.48
     # via flytekit
 botocore==1.19.48
     # via
     #   boto3
     #   s3transfer
+=======
+boto3==1.16.49
+    # via flytekit
+botocore==1.19.49
+    # via
+    #   boto3
+    #   s3transfer
+cachetools==4.2.0
+    # via google-auth
+>>>>>>> fix-latest-alpha
 certifi==2020.12.5
     # via requests
 cffi==1.14.4
@@ -67,14 +96,20 @@ defusedxml==0.6.0
     # via nbconvert
 deprecated==1.2.10
     # via flytekit
+<<<<<<< HEAD
 dirhash==0.2.1
     # via flytekit
+=======
+dill==0.3.3
+    # via tensorflow-datasets
+>>>>>>> fix-latest-alpha
 docutils==0.16
     # via sphinx
 entrypoints==0.3
     # via
     #   nbconvert
     #   papermill
+<<<<<<< HEAD
 flyteidl==0.18.11
     # via flytekit
 https://github.com/lyft/flytekit/archive/aa2694fbb145e77e7dbeec4be3adf92de4d4c1b7.zip#egg=flytekit[schema,sidecar,spark3]
@@ -83,10 +118,44 @@ grpcio==1.27.2
     # via
     #   -r requirements.in
     #   flytekit
+=======
+flatbuffers==1.12
+    # via tensorflow
+flyteidl==0.18.11
+    # via flytekit
+flytekit[schema,sidecar,spark3]==0.16.0a1
+    # via -r requirements.in
+future==0.18.2
+    # via tensorflow-datasets
+gast==0.3.3
+    # via tensorflow
+google-auth-oauthlib==0.4.2
+    # via tensorboard
+google-auth==1.24.0
+    # via
+    #   google-auth-oauthlib
+    #   tensorboard
+google-pasta==0.2.0
+    # via tensorflow
+googleapis-common-protos==1.52.0
+    # via tensorflow-metadata
+grpcio==1.32.0
+    # via
+    #   flytekit
+    #   tensorboard
+    #   tensorflow
+h5py==2.10.0
+    # via tensorflow
+>>>>>>> fix-latest-alpha
 idna==2.10
     # via requests
 imagesize==1.2.0
     # via sphinx
+<<<<<<< HEAD
+=======
+importlib-resources==4.1.1
+    # via tensorflow-datasets
+>>>>>>> fix-latest-alpha
 iniconfig==1.1.1
     # via pytest
 ipykernel==5.4.2
@@ -154,10 +223,20 @@ k8s-proto==0.0.3
     # via
     #   -r requirements.in
     #   flytekit
+<<<<<<< HEAD
+=======
+keras-preprocessing==1.1.2
+    # via tensorflow
+>>>>>>> fix-latest-alpha
 keyring==21.8.0
     # via flytekit
 kiwisolver==1.3.1
     # via matplotlib
+<<<<<<< HEAD
+=======
+markdown==3.3.3
+    # via tensorboard
+>>>>>>> fix-latest-alpha
 markupsafe==1.1.1
     # via jinja2
 marshmallow-enum==1.5.1
@@ -173,9 +252,13 @@ mistune==0.8.4
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
+<<<<<<< HEAD
     # via
     #   croniter
     #   flytekit
+=======
+    # via croniter
+>>>>>>> fix-latest-alpha
 nbclient==0.5.1
     # via
     #   nbconvert
@@ -197,18 +280,44 @@ notebook==6.1.6
     # via
     #   jupyter
     #   widgetsnbextension
+<<<<<<< HEAD
 numpy==1.19.4
     # via
     #   flytekit
     #   matplotlib
     #   opencv-python
+=======
+numpy==1.19.5
+    # via
+    #   flytekit
+    #   h5py
+    #   keras-preprocessing
+    #   matplotlib
+    #   opencv-python
+    #   opt-einsum
+>>>>>>> fix-latest-alpha
     #   pandas
     #   pyarrow
     #   scikit-learn
     #   scipy
+<<<<<<< HEAD
     #   xgboost
 opencv-python==4.5.1.48
     # via -r requirements.in
+=======
+    #   tensorboard
+    #   tensorboardx
+    #   tensorflow
+    #   tensorflow-datasets
+    #   torch
+    #   xgboost
+oauthlib==3.1.0
+    # via requests-oauthlib
+opencv-python==4.5.1.48
+    # via -r requirements.in
+opt-einsum==3.3.0
+    # via tensorflow
+>>>>>>> fix-latest-alpha
 packaging==20.8
     # via
     #   bleach
@@ -223,9 +332,13 @@ papermill==2.2.2
 parso==0.8.1
     # via jedi
 pathspec==0.8.1
+<<<<<<< HEAD
     # via
     #   black
     #   scantree
+=======
+    # via black
+>>>>>>> fix-latest-alpha
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
@@ -238,7 +351,13 @@ pluggy==0.13.1
     # via pytest
 prometheus-client==0.9.0
     # via notebook
+<<<<<<< HEAD
 prompt-toolkit==3.0.8
+=======
+promise==2.3
+    # via tensorflow-datasets
+prompt-toolkit==3.0.9
+>>>>>>> fix-latest-alpha
     # via
     #   ipython
     #   jupyter-console
@@ -246,7 +365,17 @@ protobuf==3.14.0
     # via
     #   flyteidl
     #   flytekit
+<<<<<<< HEAD
     #   k8s-proto
+=======
+    #   googleapis-common-protos
+    #   k8s-proto
+    #   tensorboard
+    #   tensorboardx
+    #   tensorflow
+    #   tensorflow-datasets
+    #   tensorflow-metadata
+>>>>>>> fix-latest-alpha
 ptyprocess==0.7.0
     # via
     #   pexpect
@@ -259,6 +388,15 @@ py==1.10.0
     #   retry
 pyarrow==0.17.1
     # via flytekit
+<<<<<<< HEAD
+=======
+pyasn1-modules==0.2.8
+    # via google-auth
+pyasn1==0.4.8
+    # via
+    #   pyasn1-modules
+    #   rsa
+>>>>>>> fix-latest-alpha
 pycparser==2.20
     # via cffi
 pygments==2.7.3
@@ -308,20 +446,40 @@ qtpy==1.9.0
     # via qtconsole
 regex==2020.11.13
     # via black
+<<<<<<< HEAD
+=======
+requests-oauthlib==1.3.0
+    # via google-auth-oauthlib
+>>>>>>> fix-latest-alpha
 requests==2.25.1
     # via
     #   flytekit
     #   papermill
+<<<<<<< HEAD
     #   responses
     #   sphinx
+=======
+    #   requests-oauthlib
+    #   responses
+    #   sphinx
+    #   tensorboard
+    #   tensorflow-datasets
+>>>>>>> fix-latest-alpha
 responses==0.12.1
     # via flytekit
 retry==0.9.2
     # via flytekit
+<<<<<<< HEAD
 s3transfer==0.3.3
     # via boto3
 scantree==0.0.1
     # via dirhash
+=======
+rsa==4.6
+    # via google-auth
+s3transfer==0.3.3
+    # via boto3
+>>>>>>> fix-latest-alpha
 scikit-learn==0.24.0
     # via sklearn
 scipy==1.6.0
@@ -332,6 +490,7 @@ send2trash==1.5.0
     # via notebook
 six==1.15.0
     # via
+<<<<<<< HEAD
     #   argon2-cffi
     #   bleach
     #   cycler
@@ -343,6 +502,29 @@ six==1.15.0
     #   responses
     #   scantree
     #   tenacity
+=======
+    #   absl-py
+    #   argon2-cffi
+    #   astunparse
+    #   bleach
+    #   cycler
+    #   flytekit
+    #   google-auth
+    #   google-pasta
+    #   grpcio
+    #   h5py
+    #   jsonschema
+    #   keras-preprocessing
+    #   promise
+    #   protobuf
+    #   python-dateutil
+    #   responses
+    #   tenacity
+    #   tensorboard
+    #   tensorboardx
+    #   tensorflow
+    #   tensorflow-datasets
+>>>>>>> fix-latest-alpha
 sklearn==0.0
     # via -r requirements.in
 snowballstemmer==2.0.0
@@ -382,6 +564,27 @@ tabulate==0.8.7
     # via -r requirements.in
 tenacity==6.3.1
     # via papermill
+<<<<<<< HEAD
+=======
+tensorboard-plugin-wit==1.7.0
+    # via tensorboard
+tensorboard==2.4.0
+    # via tensorflow
+tensorboardx==2.1
+    # via -r requirements.in
+tensorflow-datasets==4.1.0
+    # via -r requirements.in
+tensorflow-estimator==2.4.0
+    # via tensorflow
+tensorflow-metadata==0.26.0
+    # via tensorflow-datasets
+tensorflow==2.4.0
+    # via -r requirements.in
+termcolor==1.1.0
+    # via
+    #   tensorflow
+    #   tensorflow-datasets
+>>>>>>> fix-latest-alpha
 terminado==0.9.2
     # via notebook
 testpath==0.4.4
@@ -394,6 +597,11 @@ toml==0.10.2
     # via
     #   black
     #   pytest
+<<<<<<< HEAD
+=======
+torch==1.7.1
+    # via -r requirements.in
+>>>>>>> fix-latest-alpha
 tornado==6.1
     # via
     #   ipykernel
@@ -401,7 +609,13 @@ tornado==6.1
     #   notebook
     #   terminado
 tqdm==4.55.1
+<<<<<<< HEAD
     # via papermill
+=======
+    # via
+    #   papermill
+    #   tensorflow-datasets
+>>>>>>> fix-latest-alpha
 traitlets==5.0.5
     # via
     #   ipykernel
@@ -417,7 +631,14 @@ traitlets==5.0.5
 typed-ast==1.4.2
     # via black
 typing-extensions==3.7.4.3
+<<<<<<< HEAD
     # via typing-inspect
+=======
+    # via
+    #   tensorflow
+    #   torch
+    #   typing-inspect
+>>>>>>> fix-latest-alpha
 typing-inspect==0.6.0
     # via dataclasses-json
 urllib3==1.25.11
@@ -430,12 +651,26 @@ wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
     # via bleach
+<<<<<<< HEAD
+=======
+werkzeug==1.0.1
+    # via tensorboard
+wheel==0.36.2
+    # via
+    #   astunparse
+    #   tensorboard
+    #   tensorflow
+>>>>>>> fix-latest-alpha
 widgetsnbextension==3.5.1
     # via ipywidgets
 wrapt==1.12.1
     # via
     #   deprecated
     #   flytekit
+<<<<<<< HEAD
+=======
+    #   tensorflow
+>>>>>>> fix-latest-alpha
 xgboost==1.3.1
     # via -r requirements.in
 
