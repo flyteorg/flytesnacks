@@ -71,7 +71,7 @@ def split_traintest_dataset(
         FlyteSchema[FEATURE_COLUMNS],
         FlyteSchema[FEATURE_COLUMNS],
         FlyteSchema[CLASSES_COLUMNS],
-        FlyteSchema[CLASSES_COLUMNS],
+        FlyteSchema[CLASSES_COLUMNS]
 ):
     """
     Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
@@ -140,7 +140,7 @@ def fit(
     # TODO model Blob should be a file like object
     fname = "model.joblib.dat"
     joblib.dump(m, fname)
-    return fname
+    return (fname)
 
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
@@ -197,8 +197,8 @@ def diabetes_xgboost_model(
     model = fit(
         x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4),
     )
-    predictions = predict(x=x_test, model_ser=model)
-    return model, score(predictions=predictions, y=y_test)
+    predictions = predict(x=x_test, model_ser=model.model)
+    return model.model, score(predictions=predictions, y=y_test)
 
 
 # %%

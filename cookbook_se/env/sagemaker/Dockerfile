@@ -26,8 +26,12 @@ RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
-COPY ./requirements.txt /root
+COPY ./env/sagemaker/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
+
+# Setup Sagemaker entrypoints
+ENV SAGEMAKER_PROGRAM /srv/service/venv/bin/flytekit_sagemaker_runner.py
+RUN pip3 install --upgrade sagemaker-training==3.6.2
 
 # Leaving this in here for easier iteration
 RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/96ba42c52c3548273f6b3521c81704e72232a251.zip#egg=flytekit[sidecar,schema,spark3]
