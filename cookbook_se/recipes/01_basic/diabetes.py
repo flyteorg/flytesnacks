@@ -71,7 +71,7 @@ def split_traintest_dataset(
         FlyteSchema[FEATURE_COLUMNS],
         FlyteSchema[FEATURE_COLUMNS],
         FlyteSchema[CLASSES_COLUMNS],
-        FlyteSchema[CLASSES_COLUMNS],
+        FlyteSchema[CLASSES_COLUMNS]
 ):
     """
     Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
