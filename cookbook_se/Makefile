@@ -40,3 +40,8 @@ enter_sandbox: docker_build
 run-examples:
 	sh ./scripts/run-all-examples.sh
 
+PWD=$(CURDIR)
+.PHONY: all_docker_build
+all_docker_build:
+	ENV_BASE_PATH="${PWD}/env/" REGISTRY=${REGISTRY} scripts/make-all-docker.sh docker_build
+
