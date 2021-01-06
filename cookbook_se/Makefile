@@ -45,3 +45,7 @@ PWD=$(CURDIR)
 all_docker_build:
 	ENV_BASE_PATH="${PWD}/env/" REGISTRY=${REGISTRY} scripts/make-all-docker.sh docker_build
 
+.PHONY: all_docker_build
+all_requirements:
+	ENV_BASE_PATH="${PWD}/env/" scripts/make-all-docker.sh requirements
+

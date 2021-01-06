@@ -4,7 +4,7 @@
 #
 #    make requirements.txt
 #
--e git+https://github.com/lyft/flytekit.git@96ba42c52c3548273f6b3521c81704e72232a251#egg=flytekit
+-e git+https://github.com/lyft/flytekit/archive/ba6da90b1b0ffcfd7469386ced5b206e686fd767.zip#egg=flytekit
     # via -r ../common/requirements-common.in
 ansiwrap==0.8.4
     # via papermill
