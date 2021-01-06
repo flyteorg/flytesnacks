@@ -44,6 +44,7 @@ PWD=$(CURDIR)
 .PHONY: all_docker_build
 all_docker_push:
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.sagemaker sagemaker
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.spark spark
 
 .PHONY: all_docker_build
 all_requirements:

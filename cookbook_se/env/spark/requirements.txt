@@ -4,8 +4,6 @@
 #
 #    make requirements.txt
 #
--e git+https://github.com/lyft/flytekit.git@96ba42c52c3548273f6b3521c81704e72232a251#egg=flytekit
-    # via -r ../common/requirements-common.in
 ansiwrap==0.8.4
     # via papermill
 appdirs==1.4.4
@@ -20,16 +18,15 @@ attrs==20.3.0
     # via
     #   black
     #   jsonschema
-    #   scantree
 backcall==0.2.0
     # via ipython
 black==19.10b0
     # via
     #   flytekit
     #   papermill
-boto3==1.16.49
+boto3==1.16.50
     # via flytekit
-botocore==1.19.49
+botocore==1.19.50
     # via
     #   boto3
     #   s3transfer
@@ -42,8 +39,10 @@ click==7.1.2
     #   black
     #   flytekit
     #   papermill
-croniter==0.3.37
+croniter==1.0.1
     # via flytekit
+cycler==0.10.0
+    # via matplotlib
 dataclasses-json==0.5.2
     # via flytekit
 decorator==4.4.2
@@ -52,12 +51,12 @@ decorator==4.4.2
     #   retry
 deprecated==1.2.10
     # via flytekit
-dirhash==0.2.1
-    # via flytekit
 entrypoints==0.3
     # via papermill
 flyteidl==0.18.11
     # via flytekit
+flytekit==0.16.0a1
+    # via -r ../common/requirements-common.in
 grpcio==1.34.0
     # via flytekit
 idna==2.10
@@ -88,18 +87,20 @@ jupyter-core==4.7.0
     #   nbformat
 keyring==21.8.0
     # via flytekit
+kiwisolver==1.3.1
+    # via matplotlib
 marshmallow-enum==1.5.1
     # via dataclasses-json
 marshmallow==3.10.0
     # via
     #   dataclasses-json
     #   marshmallow-enum
+matplotlib==3.3.3
+    # via -r ../common/requirements-common.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
-    # via
-    #   croniter
-    #   flytekit
+    # via croniter
 nbclient==0.5.1
     # via papermill
 nbformat==5.0.8
@@ -108,18 +109,20 @@ nbformat==5.0.8
     #   papermill
 nest-asyncio==1.4.3
     # via nbclient
+numpy==1.19.5
+    # via matplotlib
 papermill==2.2.2
     # via flytekit
 parso==0.8.1
     # via jedi
 pathspec==0.8.1
-    # via
-    #   black
-    #   scantree
+    # via black
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
+pillow==8.1.0
+    # via matplotlib
 prompt-toolkit==3.0.9
     # via ipython
 protobuf==3.14.0
@@ -134,6 +137,8 @@ py==1.10.0
     # via retry
 pygments==2.7.3
     # via ipython
+pyparsing==2.4.7
+    # via matplotlib
 pyrsistent==0.17.3
     # via jsonschema
 pyspark==3.0.1
@@ -144,6 +149,7 @@ python-dateutil==2.8.1
     #   croniter
     #   flytekit
     #   jupyter-client
+    #   matplotlib
 pytimeparse==1.1.8
     # via flytekit
 pytz==2018.4
@@ -165,17 +171,15 @@ retry==0.9.2
     # via flytekit
 s3transfer==0.3.3
     # via boto3
-scantree==0.0.1
-    # via dirhash
 six==1.15.0
     # via
+    #   cycler
     #   flytekit
     #   grpcio
     #   jsonschema
     #   protobuf
     #   python-dateutil
     #   responses
-    #   scantree
     #   tenacity
 sortedcontainers==2.3.0
     # via flytekit
