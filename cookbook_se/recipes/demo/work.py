@@ -14,14 +14,14 @@ def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
     return results
 
 
-@task(requests=Resources(cpu='1', mem="2Gi"), limits=Resources(cpu='1', mem="2Gi"))
+@task(requests=Resources(cpu='1', mem="5Gi"), limits=Resources(cpu='1', mem="5Gi"))
 def solve_tower(num_discs: int) -> pd.DataFrame:
     results = tower(num_discs, 1, 3, 2)
     df = pd.DataFrame.from_records(results, columns=['From', 'To'])
     return df
 
 
-@task(requests=Resources(cpu='1', mem="2Gi"), limits=Resources(cpu='1', mem="2Gi"))
+@task(requests=Resources(cpu='1', mem="5Gi"), limits=Resources(cpu='1', mem="5Gi"))
 def count_rows(steps: FlyteSchema) -> int:
     # Reconstitute the DataFrame
     df = steps.open().all()
