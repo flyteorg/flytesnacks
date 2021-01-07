@@ -9,7 +9,7 @@ commonly shared across different workflows but receive the same inputs.
 
 # %%
 # For any task in flyte, there is always one required import
-from flytekit import task
+from flytekit import task, workflow
 
 
 # %%
@@ -45,3 +45,6 @@ def square(n: int) -> int:
 
 # %%
 # To read more about Task caching and how a unique signature is calculated, please proceed to the `Task Cache documentation <https://flyte.readthedocs.io/en/stable/user/features/task_cache.html#features-task-cache>`__.
+@workflow
+def wf_with_cached_task(in1: int) -> int:
+    return square(n=in1)
