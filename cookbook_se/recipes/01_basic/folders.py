@@ -3,9 +3,6 @@
 ---------------------
 
 Please also see the entry on files. After files, folders are the other fundamental operating system primitive users might find themselves working with. The Flyte IDL's support of folders take the form of ``multi-part blobs <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/types.proto#L50>`__.
-
-Since the type is fundamentally the same as files, the format option exists as well to parameterize the type, though it may make less intuitive sense to use it.
-
 """
 import pathlib
 import os
@@ -33,7 +30,6 @@ def download_files() -> FlyteDirectory:
     working_dir = flytekit.current_context().working_directory
     pp = pathlib.Path(os.path.join(working_dir, "images"))
     pp.mkdir(exist_ok=True)
-    print(f"Writing to {pp}")
     for idx, remote_location in enumerate(default_images):
         local_image = os.path.join(working_dir, "images", f"image_{idx}.jpg")
         urllib.request.urlretrieve(remote_location, local_image)
@@ -47,7 +43,6 @@ def rotate(local_image: str):
     """
     In place rotation of the image
     """
-    print(f"Reading {local_image}!")
     img = cv2.imread(local_image, 0)
     if img is None:
         raise Exception("Failed to read image")
