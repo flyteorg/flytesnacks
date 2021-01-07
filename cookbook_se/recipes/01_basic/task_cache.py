@@ -37,20 +37,11 @@ def square(n: int) -> int:
 # available immediately.
 
 # %%
-# If, in a subsequent code update, we updated the interface to return the original number along with the result, it'll automatically invalidate the cache (even though the cache version remains the same).
+# If, in a subsequent code update, we update the signature of the task to return the original number along with the result, it'll automatically invalidate the cache (even though the cache version remains the same).
 # :py:func:`flytekit.task`
-# @task(cache=True, cache_version="2.0")
+# @task(cache=True, cache_version="1.0")
 # def square(n: int) -> (int, int):
-#     """
-#      Parameters:
-#         n (int): name of the parameter for the task will be derived from the name of the input variable
-#                the type will be automatically deduced to be Types.Integer
-#
-#     Return:
-#         int: The label for the output will be automatically assigned and type will be deduced from the annotation
-#
-#     """
-#     return n, n * n
+#    ...
 
 # %%
 # To read more about Task caching and how a unique signature is calculated, please proceed to the `Task Cache documentation <https://flyte.readthedocs.io/en/stable/user/features/task_cache.html#features-task-cache>`__.
