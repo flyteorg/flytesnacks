@@ -1,19 +1,22 @@
+from typing import List, Tuple
 from flytekit import task
 
 
-def tower(n, source, destination, auxiliary):
+def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
     if n == 1:
-        print(f"({source}, {destination})")
-        return
-    tower(n - 1, source, auxiliary, destination)
-    print(f"({source}, {destination})")
-    tower(n - 1, auxiliary, destination, source)
+        return [(source, destination)]
+
+    results = tower(n - 1, source, auxiliary, destination)
+    results.append((source, destination))
+    results.extend(tower(n - 1, auxiliary, destination, source))
+    return results
 
 
 @task
-def solve_tower(num_discs: int):
-    tower(num_discs, 1, 3, 2)
+def solve_tower(num_discs: int) -> int:
+    results = tower(num_discs, 1, 3, 2)
+    return len(results)
 
 
 if __name__ == "__main__":
-    solve_tower(num_discs=10)
+    print(solve_tower(num_discs=23))
