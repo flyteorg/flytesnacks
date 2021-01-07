@@ -2,7 +2,9 @@
 11: Work with folders
 ---------------------
 
-Please also see the entry on files. After files, folders are the next fundamental grouping users might find themselves working with. Flyte's IDL supports folders as what we call a multi
+Please also see the entry on files. After files, folders are the other fundamental operating system primitive users might find themselves working with. The Flyte IDL's support of folders take the form of ``multi-part blobs <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/types.proto#L50>`__.
+
+Since the type is fundamentally the same as files, the format option exists as well to parameterize the type, though it may make less intuitive sense to use it.
 
 """
 import pathlib
@@ -24,12 +26,10 @@ default_images = [
 ]
 
 
+# %%
+# This task downloads the two files above using non-Flyte libraries, and returns the path to the folder, in a FlyteDirectory object.
 @task
 def download_files() -> FlyteDirectory:
-    """
-    Download the given image, rotate it by 180 degrees
-    """
-
     working_dir = flytekit.current_context().working_directory
     pp = pathlib.Path(os.path.join(working_dir, "images"))
     pp.mkdir(exist_ok=True)
@@ -41,6 +41,8 @@ def download_files() -> FlyteDirectory:
     return FlyteDirectory(path=os.path.join(working_dir, "images"))
 
 
+# %%
+# Purely Python function, no Flyte components here.
 def rotate(local_image: str):
     """
     In place rotation of the image
@@ -57,6 +59,8 @@ def rotate(local_image: str):
     cv2.imwrite(local_image, res)
 
 
+# %%
+# This task accepts the previously downloaded folder, and calls the rotate function above on each. Since the rotate function does the image manipulation in place, we just create a new FlyteDirectory object pointed to the same place.
 @task
 def rotate_all(img_dir: FlyteDirectory) -> FlyteDirectory:
     """
