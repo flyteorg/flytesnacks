@@ -148,6 +148,7 @@ TrainingOutputs = typing.NamedTuple("TrainingOutputs", epoch_accuracies=typing.L
     retries=2,
     cache=True,
     cache_version="1.0",
+    container_image="{{.image.default.fqn}}:pytorch-{{.image.default.version}}",
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     # USE GLOO backend

@@ -24,9 +24,9 @@ black==19.10b0
     # via
     #   flytekit
     #   papermill
-boto3==1.16.49
+boto3==1.16.50
     # via flytekit
-botocore==1.19.49
+botocore==1.19.50
     # via
     #   boto3
     #   s3transfer
@@ -39,7 +39,7 @@ click==7.1.2
     #   black
     #   flytekit
     #   papermill
-croniter==0.3.37
+croniter==1.0.1
     # via flytekit
 cycler==0.10.0
     # via matplotlib
@@ -96,7 +96,9 @@ marshmallow==3.10.0
     #   dataclasses-json
     #   marshmallow-enum
 matplotlib==3.3.3
-    # via -r requirements.in
+    # via
+    #   -r ../common/requirements-common.in
+    #   -r requirements.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0

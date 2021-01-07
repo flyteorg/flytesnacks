@@ -4,8 +4,6 @@
 #
 #    make requirements.txt
 #
--e git+https://github.com/lyft/flytekit.git@96ba42c52c3548273f6b3521c81704e72232a251#egg=flytekit
-    # via -r ../common/requirements-common.in
 ansiwrap==0.8.4
     # via papermill
 appdirs==1.4.4
@@ -20,16 +18,15 @@ attrs==20.3.0
     # via
     #   black
     #   jsonschema
-    #   scantree
 backcall==0.2.0
     # via ipython
 black==19.10b0
     # via
     #   flytekit
     #   papermill
-boto3==1.16.49
+boto3==1.16.50
     # via flytekit
-botocore==1.19.49
+botocore==1.19.50
     # via
     #   boto3
     #   s3transfer
@@ -42,7 +39,7 @@ click==7.1.2
     #   black
     #   flytekit
     #   papermill
-croniter==0.3.37
+croniter==1.0.1
     # via flytekit
 cycler==0.10.0
     # via matplotlib
@@ -54,12 +51,12 @@ decorator==4.4.2
     #   retry
 deprecated==1.2.10
     # via flytekit
-dirhash==0.2.1
-    # via flytekit
 entrypoints==0.3
     # via papermill
 flyteidl==0.18.11
     # via flytekit
+flytekit==0.16.0a1
+    # via -r ../common/requirements-common.in
 grpcio==1.34.0
     # via flytekit
 idna==2.10
@@ -103,13 +100,13 @@ marshmallow==3.10.0
     #   dataclasses-json
     #   marshmallow-enum
 matplotlib==3.3.3
-    # via -r requirements.in
+    # via
+    #   -r ../common/requirements-common.in
+    #   -r requirements.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
-    # via
-    #   croniter
-    #   flytekit
+    # via croniter
 nbclient==0.5.1
     # via papermill
 nbformat==5.0.8
@@ -129,9 +126,7 @@ papermill==2.2.2
 parso==0.8.1
     # via jedi
 pathspec==0.8.1
-    # via
-    #   black
-    #   scantree
+    # via black
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
@@ -182,8 +177,6 @@ retry==0.9.2
     # via flytekit
 s3transfer==0.3.3
     # via boto3
-scantree==0.0.1
-    # via dirhash
 scikit-learn==0.24.0
     # via sklearn
 scipy==1.6.0
@@ -199,7 +192,6 @@ six==1.15.0
     #   protobuf
     #   python-dateutil
     #   responses
-    #   scantree
     #   tenacity
 sklearn==0.0
     # via -r requirements.in
