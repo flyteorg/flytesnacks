@@ -27,7 +27,7 @@ COPY ./env/sagemaker/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Setup Sagemaker entrypoints
-ENV SAGEMAKER_PROGRAM /srv/service/venv/bin/flytekit_sagemaker_runner.py
+ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 RUN pip3 install --upgrade sagemaker-training==3.6.2
 
 # Leaving this in here for easier iteration
