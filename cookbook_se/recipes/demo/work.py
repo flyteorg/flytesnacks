@@ -1,4 +1,4 @@
-
+from flytekit import task
 
 
 def tower(n, source, destination, auxiliary):
@@ -10,9 +10,10 @@ def tower(n, source, destination, auxiliary):
     tower(n - 1, auxiliary, destination, source)
 
 
+@task
 def solve_tower(num_discs: int):
     tower(num_discs, 1, 3, 2)
 
 
 if __name__ == "__main__":
-    solve_tower(3)
+    solve_tower(num_discs=10)
