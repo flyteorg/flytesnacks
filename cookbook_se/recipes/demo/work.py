@@ -1,5 +1,5 @@
 from typing import List, Tuple
-from flytekit import task
+from flytekit import task, Resources
 
 
 def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
@@ -12,7 +12,7 @@ def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
     return results
 
 
-@task
+@task(requests=Resources(cpu='1', mem="1Gi"))
 def solve_tower(num_discs: int) -> int:
     results = tower(num_discs, 1, 3, 2)
     return len(results)
