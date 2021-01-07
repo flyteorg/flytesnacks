@@ -12,7 +12,7 @@ def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
     return results
 
 
-@task(requests=Resources(cpu='1', mem="1Gi"), limits=Resources(cpu='1', mem="1Gi"))
+@task(requests=Resources(cpu='1', mem="2Gi"), limits=Resources(cpu='1', mem="2Gi"))
 def solve_tower(num_discs: int) -> int:
     results = tower(num_discs, 1, 3, 2)
     return len(results)
