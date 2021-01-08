@@ -41,12 +41,12 @@ run-examples:
 	sh ./scripts/run-all-examples.sh
 
 PWD=$(CURDIR)
-.PHONY: all_docker_build
-all_docker_push:
+.PHONY: all_docker_push
+all_docker_push: docker_push
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.sagemaker sagemaker
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.spark spark
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.pytorch pytorch
 
-.PHONY: all_docker_build
-all_requirements:
+.PHONY: all_requirements
+all_requirements: requirements
 	ENV_BASE_PATH="${PWD}/env/" scripts/make-all-docker.sh requirements
