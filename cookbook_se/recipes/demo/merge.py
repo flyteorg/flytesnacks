@@ -76,7 +76,7 @@ def merge_sort(input: typing.List[int], count: int) -> typing.List[int]:
 
 
 def generate_inputs(count: int) -> typing.List[int]:
-    x = list[int]()
+    x: typing.List[int] = list()
     # generate random numbers between 0-1
     for _ in range(count):
         value = int(random()*10000)
