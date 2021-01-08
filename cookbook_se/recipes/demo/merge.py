@@ -22,7 +22,7 @@ def split(input: typing.List[int]) -> (typing.List[int], typing.List[int], int):
 def merge(x: typing.List[int], y: typing.List[int]) -> typing.List[int]:
     n1 = len(x)
     n2 = len(y)
-    result = list[int]()
+    result = list()
     i = 0
     j = 0
 
@@ -89,4 +89,5 @@ def generate_inputs(count: int) -> typing.List[int]:
 # The entire workflow can be executed locally as follows...
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
+    print(generate_inputs(2000))
     print(merge_sort(input=generate_inputs(2000), count=2000))
