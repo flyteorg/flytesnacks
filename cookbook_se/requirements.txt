@@ -26,6 +26,7 @@ attrs==20.3.0
     # via
     #   black
     #   jsonschema
+    #   scantree
     #   tensorflow-datasets
 backcall==0.2.0
     # via ipython
@@ -33,9 +34,9 @@ black==19.10b0
     # via
     #   flytekit
     #   papermill
-boto3==1.16.49
+boto3==1.16.51
     # via flytekit
-botocore==1.19.49
+botocore==1.19.51
     # via
     #   boto3
     #   s3transfer
@@ -50,7 +51,7 @@ click==7.1.2
     #   black
     #   flytekit
     #   papermill
-croniter==0.3.37
+croniter==1.0.1
     # via flytekit
 cycler==0.10.0
     # via matplotlib
@@ -64,13 +65,15 @@ deprecated==1.2.10
     # via flytekit
 dill==0.3.3
     # via tensorflow-datasets
+dirhash==0.2.1
+    # via flytekit
 entrypoints==0.3
     # via papermill
 flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
-flytekit==0.16.0a1
+flytekit[schema,sidecar,spark3]==0.16.0a2
     # via
     #   -r env/default/../common/requirements-common.in
     #   -r env/opencv/../common/requirements-common.in
@@ -111,8 +114,10 @@ ipython-genutils==0.2.0
     #   traitlets
 ipython==7.19.0
     # via ipykernel
-jedi==0.18.0
-    # via ipython
+jedi==0.17.2
+    # via
+    #   ipython
+    #   jupyter-client
 jmespath==0.10.0
     # via
     #   boto3
@@ -123,7 +128,7 @@ joblib==1.0.0
     #   scikit-learn
 jsonschema==3.2.0
     # via nbformat
-jupyter-client==6.1.7
+jupyter-client==6.1.10
     # via
     #   ipykernel
     #   nbclient
@@ -131,6 +136,8 @@ jupyter-core==4.7.0
     # via
     #   jupyter-client
     #   nbformat
+k8s-proto==0.0.3
+    # via flytekit
 keras-preprocessing==1.1.2
     # via tensorflow
 keyring==21.8.0
@@ -147,12 +154,20 @@ marshmallow==3.10.0
     #   marshmallow-enum
 matplotlib==3.3.3
     # via
+    #   -r env/default/../common/requirements-common.in
     #   -r env/default/requirements.in
+    #   -r env/opencv/../common/requirements-common.in
+    #   -r env/pytorch/../common/requirements-common.in
+    #   -r env/sagemaker/../common/requirements-common.in
+    #   -r env/spark/../common/requirements-common.in
+    #   -r env/xgboost-scikit/../common/requirements-common.in
     #   -r env/xgboost-scikit/requirements.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
-    # via croniter
+    # via
+    #   croniter
+    #   flytekit
 nbclient==0.5.1
     # via papermill
 nbformat==5.0.8
@@ -163,11 +178,14 @@ nest-asyncio==1.4.3
     # via nbclient
 numpy==1.19.5
     # via
+    #   flytekit
     #   h5py
     #   keras-preprocessing
     #   matplotlib
     #   opencv-python
     #   opt-einsum
+    #   pandas
+    #   pyarrow
     #   scikit-learn
     #   scipy
     #   tensorboard
@@ -183,12 +201,16 @@ opencv-python==4.5.1.48
     # via -r env/opencv/requirements.in
 opt-einsum==3.3.0
     # via tensorflow
+pandas==1.2.0
+    # via flytekit
 papermill==2.2.2
     # via flytekit
-parso==0.8.1
+parso==0.7.1
     # via jedi
 pathspec==0.8.1
-    # via black
+    # via
+    #   black
+    #   scantree
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
@@ -199,13 +221,14 @@ pillow==8.1.0
     #   torchvision
 promise==2.3
     # via tensorflow-datasets
-prompt-toolkit==3.0.9
+prompt-toolkit==3.0.10
     # via ipython
 protobuf==3.14.0
     # via
     #   flyteidl
     #   flytekit
     #   googleapis-common-protos
+    #   k8s-proto
     #   tensorboard
     #   tensorboardx
     #   tensorflow
@@ -217,6 +240,8 @@ py4j==0.10.9
     # via pyspark
 py==1.10.0
     # via retry
+pyarrow==0.17.1
+    # via flytekit
 pyasn1-modules==0.2.8
     # via google-auth
 pyasn1==0.4.8
@@ -230,7 +255,9 @@ pyparsing==2.4.7
 pyrsistent==0.17.3
     # via jsonschema
 pyspark==3.0.1
-    # via -r env/spark/requirements.in
+    # via
+    #   -r env/spark/requirements.in
+    #   flytekit
 python-dateutil==2.8.1
     # via
     #   botocore
@@ -238,10 +265,13 @@ python-dateutil==2.8.1
     #   flytekit
     #   jupyter-client
     #   matplotlib
+    #   pandas
 pytimeparse==1.1.8
     # via flytekit
 pytz==2018.4
-    # via flytekit
+    # via
+    #   flytekit
+    #   pandas
 pyyaml==5.3.1
     # via papermill
 pyzmq==20.0.0
@@ -266,6 +296,8 @@ rsa==4.6
     # via google-auth
 s3transfer==0.3.3
     # via boto3
+scantree==0.0.1
+    # via dirhash
 scikit-learn==0.24.0
     # via sklearn
 scipy==1.6.0
@@ -288,6 +320,7 @@ six==1.15.0
     #   protobuf
     #   python-dateutil
     #   responses
+    #   scantree
     #   tenacity
     #   tensorboard
     #   tensorboardx
@@ -311,7 +344,7 @@ tensorboard==2.4.0
     # via tensorflow
 tensorboardx==2.1
     # via -r env/pytorch/requirements.in
-tensorflow-datasets==4.1.0
+tensorflow-datasets==4.2.0
     # via -r env/sagemaker/requirements.in
 tensorflow-estimator==2.4.0
     # via tensorflow

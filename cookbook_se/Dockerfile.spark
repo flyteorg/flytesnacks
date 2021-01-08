@@ -37,8 +37,6 @@ ENV SPARK_VERSION 2.4.0
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
-# TODO delete this once we are using the alpha
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/6658422c4d982322b169dfc09e85e5a33f0f3b54.zip#egg=flytekit[schema,spark3]
 # Copy the actual code
 COPY . /root
 
