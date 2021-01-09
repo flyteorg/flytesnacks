@@ -74,6 +74,4 @@ def download_and_rotate() -> FlyteDirectory:
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(
-        f"Running main {download_and_rotate()}"
-    )
+    print(f"Running main {download_and_rotate()}")

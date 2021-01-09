@@ -94,13 +94,16 @@ min_reported_time = 0
 sphinx_gallery_conf = {
     "examples_dirs": examples_dirs,
     "gallery_dirs": gallery_dirs,
-    "subsection_order": ExplicitOrder(['../recipes/02_intermediate',
-                                       '../recipes/03_advanced',
-                                       '../recipes/01_basic',
-                                       '../recipes/05_native_plugins',
-                                       '../recipes/04_remote_flyte',
-                                       '../recipes/06_aws_plugins',
-                                       ]),
+    "subsection_order": ExplicitOrder(
+        [
+            "../recipes/02_intermediate",
+            "../recipes/03_advanced",
+            "../recipes/01_basic",
+            "../recipes/05_native_plugins",
+            "../recipes/04_remote_flyte",
+            "../recipes/06_aws_plugins",
+        ]
+    ),
     # specify the order of examples to be according to filename
     "within_subsection_order": ExampleTitleSortKey,
     "min_reported_time": min_reported_time,

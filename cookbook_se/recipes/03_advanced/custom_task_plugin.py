@@ -58,10 +58,7 @@ class WaitForObjectStoreFile(PythonTask):
     _VAR_NAME: str = "path"
 
     def __init__(
-        self,
-        name: str,
-        poll_interval: timedelta = timedelta(seconds=10),
-        **kwargs,
+        self, name: str, poll_interval: timedelta = timedelta(seconds=10), **kwargs,
     ):
         super(WaitForObjectStoreFile, self).__init__(
             task_type="object-store-sensor",

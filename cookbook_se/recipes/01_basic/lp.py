@@ -1,4 +1,3 @@
-
 """
 .. _launch_plans:
 

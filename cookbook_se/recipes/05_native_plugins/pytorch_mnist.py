@@ -20,7 +20,7 @@ from torch import distributed as dist, nn, optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 
-WORLD_SIZE = int(os.environ.get('WORLD_SIZE', 1))
+WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
 
 # %%
@@ -58,11 +58,17 @@ def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
         loss.backward()
         optimizer.step()
         if batch_idx % log_interval == 0:
-            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tloss={:.4f}'.format(
-                epoch, batch_idx * len(data), len(train_loader.dataset),
-                       100. * batch_idx / len(train_loader), loss.item()))
+            print(
+                "Train Epoch: {} [{}/{} ({:.0f}%)]\tloss={:.4f}".format(
+                    epoch,
+                    batch_idx * len(data),
+                    len(train_loader.dataset),
+                    100.0 * batch_idx / len(train_loader),
+                    loss.item(),
+                )
+            )
             niter = epoch * len(train_loader) + batch_idx
-            writer.add_scalar('loss', loss.item(), niter)
+            writer.add_scalar("loss", loss.item(), niter)
 
 
 # %%
@@ -76,18 +82,24 @@ def test(model, device, test_loader, writer, epoch):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
-            pred = output.max(1, keepdim=True)[1]  # get the index of the max log-probability
+            test_loss += F.nll_loss(
+                output, target, reduction="sum"
+            ).item()  # sum up batch loss
+            pred = output.max(1, keepdim=True)[
+                1
+            ]  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
-    print('\naccuracy={:.4f}\n'.format(float(correct) / len(test_loader.dataset)))
+    print("\naccuracy={:.4f}\n".format(float(correct) / len(test_loader.dataset)))
     accuracy = float(correct) / len(test_loader.dataset)
-    writer.add_scalar('accuracy', accuracy, epoch)
+    writer.add_scalar("accuracy", accuracy, epoch)
     return accuracy
 
 
-def epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval):
+def epoch_step(
+    model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval
+):
     train(model, device, train_loader, optimizer, epoch, writer, log_interval)
     return test(model, device, test_loader, writer, epoch)
 
@@ -118,6 +130,7 @@ class Hyperparameters(object):
         log_interval: how many batches to wait before logging training status
         dir: directory where summary logs are stored
     """
+
     sgd_momentum: float = 0.5
     seed: int = 1
     log_interval: int = 10
@@ -135,15 +148,18 @@ class Hyperparameters(object):
 # `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
 # A common convention is to have the ``.pt`` extension for the file
 PytorchPickledFile = FlyteFile[typing.TypeVar("pt")]
-TrainingOutputs = typing.NamedTuple("TrainingOutputs", epoch_accuracies=typing.List[float],
-                                    model_state=PytorchPickledFile)
+TrainingOutputs = typing.NamedTuple(
+    "TrainingOutputs",
+    epoch_accuracies=typing.List[float],
+    model_state=PytorchPickledFile,
+)
 
 
 @task(
     task_config=PyTorch(
         num_workers=2,
         per_replica_requests=Resources(cpu="500m", mem="4Gi", gpu="1"),
-        per_replica_limits=Resources(mem="8Gi", gpu="1")
+        per_replica_limits=Resources(mem="8Gi", gpu="1"),
     ),
     retries=2,
     cache=True,
@@ -160,48 +176,78 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
 
     use_cuda = torch.cuda.is_available()
     print(f"Use cuda {use_cuda}")
-    device = torch.device('cuda' if use_cuda else 'cpu')
+    device = torch.device("cuda" if use_cuda else "cpu")
 
-    print('Using device: {}, world size: {}'.format(device, WORLD_SIZE))
+    print("Using device: {}, world size: {}".format(device, WORLD_SIZE))
 
     if should_distribute():
-        print('Using distributed PyTorch with {} backend'.format(backend_type))
+        print("Using distributed PyTorch with {} backend".format(backend_type))
         dist.init_process_group(backend=backend_type)
 
     # LOAD Data
-    kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
+    kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=True, download=True,
-                       transform=transforms.Compose([
-                           transforms.ToTensor(),
-                           transforms.Normalize((0.1307,), (0.3081,))
-                       ])),
-        batch_size=hp.batch_size, shuffle=True, **kwargs)
+        datasets.MNIST(
+            "../data",
+            train=True,
+            download=True,
+            transform=transforms.Compose(
+                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+            ),
+        ),
+        batch_size=hp.batch_size,
+        shuffle=True,
+        **kwargs,
+    )
     test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=False, transform=transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.1307,), (0.3081,))
-        ])),
-        batch_size=hp.test_batch_size, shuffle=False, **kwargs)
+        datasets.MNIST(
+            "../data",
+            train=False,
+            transform=transforms.Compose(
+                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+            ),
+        ),
+        batch_size=hp.test_batch_size,
+        shuffle=False,
+        **kwargs,
+    )
 
     # Train the model
     model = Net().to(device)
 
     if is_distributed():
-        Distributor = nn.parallel.DistributedDataParallel if use_cuda else nn.parallel.DistributedDataParallelCPU
+        Distributor = (
+            nn.parallel.DistributedDataParallel
+            if use_cuda
+            else nn.parallel.DistributedDataParallelCPU
+        )
         model = Distributor(model)
 
-    optimizer = optim.SGD(model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum)
+    optimizer = optim.SGD(
+        model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum
+    )
 
-    accuracies = [epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, hp.log_interval) for
-                  epoch
-                  in range(1, hp.epochs + 1)]
+    accuracies = [
+        epoch_step(
+            model,
+            device,
+            train_loader,
+            test_loader,
+            optimizer,
+            epoch,
+            writer,
+            hp.log_interval,
+        )
+        for epoch in range(1, hp.epochs + 1)
+    ]
 
     # Save the model
     model_file = "mnist_cnn.pt"
     torch.save(model.state_dict(), model_file)
 
-    return TrainingOutputs(epoch_accuracies=accuracies, model_state=PytorchPickledFile(model_file))
+    return TrainingOutputs(
+        epoch_accuracies=accuracies, model_state=PytorchPickledFile(model_file)
+    )
 
 
 # %%
@@ -215,9 +261,9 @@ PNGImage = FlyteFile[typing.TypeVar("png")]
 def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImage:
     # summarize history for accuracy
     plt.plot(epoch_accuracies)
-    plt.title('Accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
+    plt.title("Accuracy")
+    plt.ylabel("accuracy")
+    plt.xlabel("epoch")
     accuracy_plot = "accuracy.png"
     plt.savefig(accuracy_plot)
 

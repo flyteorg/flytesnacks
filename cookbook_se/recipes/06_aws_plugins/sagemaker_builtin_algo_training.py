@@ -34,7 +34,7 @@ from flytekit.taskplugins.sagemaker import (
     InputContentType,
     InputMode,
     TrainingJobResourceConfig,
-    AlgorithmName
+    AlgorithmName,
 )
 
 # %%
@@ -86,9 +86,7 @@ xgboost_train_task = SagemakerBuiltinAlgorithmsTask(
     task_config=SagemakerTrainingJobConfig(
         algorithm_specification=alg_spec,
         training_job_resource_config=TrainingJobResourceConfig(
-            instance_type="ml.m4.xlarge",
-            instance_count=1,
-            volume_size_in_gb=25,
+            instance_type="ml.m4.xlarge", instance_count=1, volume_size_in_gb=25,
         ),
     ),
     metadata=TaskMetadata(cache_version="1.0", cache=True),
@@ -114,10 +112,7 @@ xgboost_train_task = SagemakerBuiltinAlgorithmsTask(
 # and split it and uploaded to an s3 bucket
 def execute_training():
     xgboost_train_task(
-        static_hyperparameters=xgboost_hyperparameters,
-        train="",
-        validation="",
-
+        static_hyperparameters=xgboost_hyperparameters, train="", validation="",
     )
 
 
@@ -143,7 +138,7 @@ xgboost_hpo_task = SagemakerHPOTask(
     task_config=HPOJob(
         max_number_of_training_jobs=10,
         max_parallel_training_jobs=5,
-        tunable_params=["num_round", "max_depth", "gamma"]
+        tunable_params=["num_round", "max_depth", "gamma"],
     ),
     training_task=xgboost_train_task,
     metadata=TaskMetadata(cache=True, cache_version="1.0", retries=2),
@@ -183,13 +178,25 @@ def execute():
         ),
         # The following parameters are tunable parameters are specified during the configuration of the task
         # this section provides the ranges to be sweeped
-        num_round=ParameterRangeOneOf(param=IntegerParameterRange(min_value=3, max_value=10,
-                                                                  scaling_type=HyperparameterScalingType.LINEAR)),
-        max_depth=ParameterRangeOneOf(param=IntegerParameterRange(min_value=5, max_value=7,
-                                                                  scaling_type=HyperparameterScalingType.LINEAR)),
-        gamma=ParameterRangeOneOf(param=ContinuousParameterRange(min_value=0.0, max_value=0.3,
-                                                                 scaling_type=HyperparameterScalingType.LINEAR)),
+        num_round=ParameterRangeOneOf(
+            param=IntegerParameterRange(
+                min_value=3, max_value=10, scaling_type=HyperparameterScalingType.LINEAR
+            )
+        ),
+        max_depth=ParameterRangeOneOf(
+            param=IntegerParameterRange(
+                min_value=5, max_value=7, scaling_type=HyperparameterScalingType.LINEAR
+            )
+        ),
+        gamma=ParameterRangeOneOf(
+            param=ContinuousParameterRange(
+                min_value=0.0,
+                max_value=0.3,
+                scaling_type=HyperparameterScalingType.LINEAR,
+            )
+        ),
     )
+
 
 # %%
 # Register and launch the task standalone!

@@ -26,6 +26,7 @@ def int_doubler_wf(a: int) -> str:
     doubled = double_int_and_print(a=a)
     return doubled
 
+
 # This launch plan triggers email notifications when the workflow execution it triggered reaches the phase `SUCCEEDED`.
 int_doubler_wf_lp = LaunchPlan.create(
     "int_doubler_wf",
