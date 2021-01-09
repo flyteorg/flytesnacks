@@ -107,6 +107,7 @@ class XGBoostModelHyperparams(object):
     """
     These are the xgboost hyper parameters available in scikit-learn library.
     """
+    # TODO: Ketan - is this max depth supposed to be a tuple?
     max_depth: int = 3,
     learning_rate: float = 0.1
     n_estimators: int = 100
