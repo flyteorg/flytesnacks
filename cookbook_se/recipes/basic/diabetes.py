@@ -59,19 +59,19 @@ FEATURE_COLUMNS = OrderedDict(
 CLASSES_COLUMNS = OrderedDict({"class": int})
 
 
-# %% 
+# %%
 # Let us declare a task that accepts a CSV file with the previously defined
 # columns and converts it to a typed schema.
 # An example CSV file is available at
 # `https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv<https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def split_traintest_dataset(
-        dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
+    dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
 ) -> (
-        FlyteSchema[FEATURE_COLUMNS],
-        FlyteSchema[FEATURE_COLUMNS],
-        FlyteSchema[CLASSES_COLUMNS],
-        FlyteSchema[CLASSES_COLUMNS]
+    FlyteSchema[FEATURE_COLUMNS],
+    FlyteSchema[FEATURE_COLUMNS],
+    FlyteSchema[CLASSES_COLUMNS],
+    FlyteSchema[CLASSES_COLUMNS],
 ):
     """
     Retrieves the training dataset from the given blob location and then splits it using the split ratio and returns the result
@@ -94,7 +94,7 @@ def split_traintest_dataset(
 
 # %%
 # It is also possible to defined the output file type. This is useful in
-# combining tasks, where one task may only accept models serialized in ``.joblib.dat`` 
+# combining tasks, where one task may only accept models serialized in ``.joblib.dat``
 MODELSER_JOBLIB = typing.TypeVar("joblib.dat")
 
 
@@ -107,8 +107,8 @@ class XGBoostModelHyperparams(object):
     """
     These are the xgboost hyper parameters available in scikit-learn library.
     """
-    # TODO: Ketan - is this max depth supposed to be a tuple?
-    max_depth: int = 3,
+
+    max_depth: int = 3
     learning_rate: float = 0.1
     n_estimators: int = 100
     objective: str = "binary:logistic"
@@ -117,12 +117,16 @@ class XGBoostModelHyperparams(object):
 
 
 model_file = typing.NamedTuple("Model", model=FlyteFile[MODELSER_JOBLIB])
-workflow_outputs = typing.NamedTuple("WorkflowOutputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float)
+workflow_outputs = typing.NamedTuple(
+    "WorkflowOutputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float
+)
 
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def fit(
-        x: FlyteSchema[FEATURE_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS], hyperparams: XGBoostModelHyperparams,
+    x: FlyteSchema[FEATURE_COLUMNS],
+    y: FlyteSchema[CLASSES_COLUMNS],
+    hyperparams: XGBoostModelHyperparams,
 ) -> model_file:
     """
     This function takes the given input features and their corresponding classes to train a XGBClassifier.
@@ -145,12 +149,12 @@ def fit(
     # TODO model Blob should be a file like object
     fname = "model.joblib.dat"
     joblib.dump(m, fname)
-    return fname,
+    return (fname,)
 
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def predict(
-        x: FlyteSchema[FEATURE_COLUMNS], model_ser: FlyteFile[MODELSER_JOBLIB],
+    x: FlyteSchema[FEATURE_COLUMNS], model_ser: FlyteFile[MODELSER_JOBLIB],
 ) -> FlyteSchema[CLASSES_COLUMNS]:
     """
     Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
@@ -169,7 +173,7 @@ def predict(
 
 @task(cache_version="1.0", cache=True, memory_limit="200Mi")
 def score(
-        predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
+    predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
 ) -> float:
     """
     Compares the predictions with the actuals and returns the accuracy score.
@@ -186,11 +190,11 @@ def score(
 # Workflow sample here
 @workflow
 def diabetes_xgboost_model(
-        dataset: FlyteFile[
-            typing.TypeVar("csv")
-        ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
-        test_split_ratio: float = 0.33,
-        seed: int = 7,
+    dataset: FlyteFile[
+        typing.TypeVar("csv")
+    ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
+    test_split_ratio: float = 0.33,
+    seed: int = 7,
 ) -> workflow_outputs:
     """
     This pipeline trains an XGBoost mode for any given dataset that matches the schema as specified in
@@ -199,9 +203,7 @@ def diabetes_xgboost_model(
     x_train, x_test, y_train, y_test = split_traintest_dataset(
         dataset=dataset, seed=seed, test_split_ratio=test_split_ratio
     )
-    model = fit(
-        x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4),
-    )
+    model = fit(x=x_train, y=y_train, hyperparams=XGBoostModelHyperparams(max_depth=4),)
     predictions = predict(x=x_test, model_ser=model.model)
     return model.model, score(predictions=predictions, y=y_test)
 
