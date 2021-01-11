@@ -11,8 +11,13 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from flytekit import task, workflow
 from flytekit.taskplugins.sagemaker import (
-    SagemakerTrainingJobConfig, TrainingJobResourceConfig, AlgorithmSpecification, InputMode, AlgorithmName,
-    InputContentType)
+    SagemakerTrainingJobConfig,
+    TrainingJobResourceConfig,
+    AlgorithmSpecification,
+    InputMode,
+    AlgorithmName,
+    InputContentType,
+)
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 
@@ -34,8 +39,9 @@ HDF5EncodedModelFile = FlyteFile[typing.TypeVar("hdf5")]
 #
 # Refer to section :ref:`sagemaker_tensorboard` to visualize the outputs of this example.
 TensorboardLogs = FlyteDirectory[typing.TypeVar("tensorboard")]
-TrainingOutputs = typing.NamedTuple("TrainingOutputs", model=HDF5EncodedModelFile, epoch_logs=dict,
-                                    logs=TensorboardLogs)
+TrainingOutputs = typing.NamedTuple(
+    "TrainingOutputs", model=HDF5EncodedModelFile, epoch_logs=dict, logs=TensorboardLogs
+)
 
 
 # %%
@@ -53,7 +59,7 @@ TrainingOutputs = typing.NamedTuple("TrainingOutputs", model=HDF5EncodedModelFil
 #        )
 def normalize_img(image, label):
     """Normalizes images: `uint8` -> `float32`."""
-    return tf.cast(image, tf.float32) / 255., label
+    return tf.cast(image, tf.float32) / 255.0, label
 
 
 @task(
@@ -65,42 +71,44 @@ def normalize_img(image, label):
             input_content_type=InputContentType.TEXT_CSV,
         ),
         training_job_resource_config=TrainingJobResourceConfig(
-            instance_type="ml.m4.xlarge",
-            instance_count=1,
-            volume_size_in_gb=25,
+            instance_type="ml.m4.xlarge", instance_count=1, volume_size_in_gb=25,
         ),
     ),
     cache_version="1.0",
     cache=True,
-    container_image="{{.image.sagemaker.fqn}}:sagemaker-{{.image.default.version}}"
+    container_image="{{.image.sagemaker.fqn}}:sagemaker-{{.image.default.version}}",
 )
 def custom_training_task(epochs: int, batch_size: int) -> TrainingOutputs:
     (ds_train, ds_test), ds_info = tfds.load(
-        'mnist',
-        split=['train', 'test'],
+        "mnist",
+        split=["train", "test"],
         shuffle_files=True,
         as_supervised=True,
         with_info=True,
     )
 
     ds_train = ds_train.map(
-        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE
+    )
     ds_train = ds_train.cache()
-    ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples)
+    ds_train = ds_train.shuffle(ds_info.splits["train"].num_examples)
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)
 
     ds_test = ds_test.map(
-        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE
+    )
     ds_test = ds_test.batch(batch_size)
     ds_test = ds_test.cache()
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
 
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Flatten(input_shape=(28, 28)),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dense(10)
-    ])
+    model = tf.keras.models.Sequential(
+        [
+            tf.keras.layers.Flatten(input_shape=(28, 28)),
+            tf.keras.layers.Dense(128, activation="relu"),
+            tf.keras.layers.Dense(10),
+        ]
+    )
     model.compile(
         optimizer=tf.keras.optimizers.Adam(0.001),
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -111,17 +119,17 @@ def custom_training_task(epochs: int, batch_size: int) -> TrainingOutputs:
     tb_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
 
     history = model.fit(
-        ds_train,
-        epochs=epochs,
-        validation_data=ds_test,
-        callbacks=[tb_callback],
+        ds_train, epochs=epochs, validation_data=ds_test, callbacks=[tb_callback],
     )
 
     serialized_model = "my_model.h5"
     model.save(serialized_model, overwrite=True)
 
-    return TrainingOutputs(model=HDF5EncodedModelFile(serialized_model), epoch_logs=history.history,
-                           logs=TensorboardLogs(log_dir))
+    return TrainingOutputs(
+        model=HDF5EncodedModelFile(serialized_model),
+        epoch_logs=history.history,
+        logs=TensorboardLogs(log_dir),
+    )
 
 
 # %%
@@ -136,21 +144,21 @@ PlotOutputs = typing.NamedTuple("PlotOutputs", accuracy=PNGImage, loss=PNGImage)
 @task
 def plot_loss_and_accuracy(epoch_logs: dict) -> PlotOutputs:
     # summarize history for accuracy
-    plt.plot(epoch_logs['sparse_categorical_accuracy'])
-    plt.plot(epoch_logs['val_sparse_categorical_accuracy'])
-    plt.title('Sparse Categorical accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.plot(epoch_logs["sparse_categorical_accuracy"])
+    plt.plot(epoch_logs["val_sparse_categorical_accuracy"])
+    plt.title("Sparse Categorical accuracy")
+    plt.ylabel("accuracy")
+    plt.xlabel("epoch")
+    plt.legend(["train", "test"], loc="upper left")
     accuracy_plot = "accuracy.png"
     plt.savefig(accuracy_plot)
     # summarize history for loss
-    plt.plot(epoch_logs['loss'])
-    plt.plot(epoch_logs['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.plot(epoch_logs["loss"])
+    plt.plot(epoch_logs["val_loss"])
+    plt.title("model loss")
+    plt.ylabel("loss")
+    plt.xlabel("epoch")
+    plt.legend(["train", "test"], loc="upper left")
     loss_plot = "loss.png"
     plt.savefig(loss_plot)
 
@@ -161,8 +169,9 @@ def plot_loss_and_accuracy(epoch_logs: dict) -> PlotOutputs:
 # The workflow takes in the hyperparams - in this case just the epochs and the batch_size and outputs the trained model
 # and the plotted curves
 @workflow
-def mnist_trainer(epochs: int = 5, batch_size: int = 128) -> (
-        HDF5EncodedModelFile, PNGImage, PNGImage, TensorboardLogs):
+def mnist_trainer(
+    epochs: int = 5, batch_size: int = 128
+) -> (HDF5EncodedModelFile, PNGImage, PNGImage, TensorboardLogs):
     model, history, logs = custom_training_task(epochs=epochs, batch_size=batch_size)
     accuracy, loss = plot_loss_and_accuracy(epoch_logs=history)
     return model, accuracy, loss, logs
@@ -172,7 +181,9 @@ def mnist_trainer(epochs: int = 5, batch_size: int = 128) -> (
 # As long as you have tensorflow setup locally, it will run like a regular python script
 if __name__ == "__main__":
     model, accurracy, loss, logs = mnist_trainer()
-    print(f"Model: {model}, Accuracy PNG: {accurracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}")
+    print(
+        f"Model: {model}, Accuracy PNG: {accurracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}"
+    )
 
 # %%
 #

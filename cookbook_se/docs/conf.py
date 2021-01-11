@@ -13,7 +13,7 @@
 import os
 import sys
 import logging
-from sphinx_gallery.sorting import ExampleTitleSortKey, FileNameSortKey
+from sphinx_gallery.sorting import FileNameSortKey
 from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -32,6 +32,7 @@ class CustomSorter(FileNameSortKey):
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
     """
+
     CUSTOM_FILE_SORT_ORDER = [
         # Basic
         "task.py",
@@ -43,7 +44,6 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         "graphviz.py",
         "diabetes.py",
-
         # Intermediate
         "schema.py",
         "typed_schema.py",
@@ -56,20 +56,16 @@ class CustomSorter(FileNameSortKey):
         "run_conditions.py",
         "raw_container.py",
         "sidecar.py",
-
         # Advanced
         "custom_task_plugin.py",
         "run_custom_types.py",
-
         # Remote Flyte
         "multi_images.py",
         "customizing_resources.py",
         "lp_schedules.py",
         "lp_notifications.py",
-
         # Native Plugins
         "pytorch_mnist.py",
-
         # AWS Plugins
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
@@ -80,7 +76,9 @@ class CustomSorter(FileNameSortKey):
         if filename in self.CUSTOM_FILE_SORT_ORDER:
             return f"{self.CUSTOM_FILE_SORT_ORDER.index(filename):03d}"
         else:
-            logging.warning(f"File {filename} not found in static ordering list, temporarily adding to the end")
+            logging.warning(
+                f"File {filename} not found in static ordering list, temporarily adding to the end"
+            )
             self.CUSTOM_FILE_SORT_ORDER.append(src_file)
             return f"{len(self.CUSTOM_FILE_SORT_ORDER)-1:03d}"
 
