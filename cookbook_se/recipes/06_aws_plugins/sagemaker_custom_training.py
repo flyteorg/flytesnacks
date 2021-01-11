@@ -32,7 +32,7 @@ HDF5EncodedModelFile = FlyteFile[typing.TypeVar("hdf5")]
 # #. Tensorboard Logs: We will also output A Directory that contains Tensorboard compatible logs. Flyte will collect
 #    these logs and make them available for visualization in tensorboard - locally or if running remote.
 #
-# Refer to section :ref:`tensorboard` to visualize the outputs of this example.
+# Refer to section :ref:`sagemaker_tensorboard` to visualize the outputs of this example.
 TensorboardLogs = FlyteDirectory[typing.TypeVar("tensorboard")]
 TrainingOutputs = typing.NamedTuple("TrainingOutputs", model=HDF5EncodedModelFile, epoch_logs=dict,
                                     logs=TensorboardLogs)
@@ -176,7 +176,7 @@ if __name__ == "__main__":
 
 # %%
 #
-# .. _tensorboard:
+# .. _sagemaker_tensorboard:
 #
 # Rendering the output logs in tensorboard
 # -----------------------------------------
