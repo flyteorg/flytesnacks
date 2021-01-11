@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import logging
 from sphinx_gallery.sorting import ExampleTitleSortKey, FileNameSortKey
 from sphinx_gallery.sorting import ExplicitOrder
 
@@ -28,37 +29,50 @@ release = "0.16.0"
 
 
 class CustomSorter(FileNameSortKey):
+    """
+    Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
+    """
     CUSTOM_FILE_SORT_ORDER = [
-        "customizing_resources.py",
+        # Basic
+        "task.py",
+        "basic_workflow.py",
+        "lp.py",
+        "task_cache.py",
+        "files.py",
+        "folders.py",
+        "mocking.py",
+        "graphviz.py",
+        "diabetes.py",
+
+        # Intermediate
+        "schema.py",
+        "typed_schema.py",
+        "subworkflows.py",
+        "dataframe_passing.py",
+        "dynamics.py",
+        "hive.py",
+        "pyspark_pi.py",
+        "custom_objects.py",
+        "run_conditions.py",
+        "raw_container.py",
+        "sidecar.py",
+
+        # Advanced
+        "custom_task_plugin.py",
+        "run_custom_types.py",
+
+        # Remote Flyte
         "multi_images.py",
+        "customizing_resources.py",
         "lp_schedules.py",
         "lp_notifications.py",
-        "dynamics.py",
-        "schema.py",
-        "subworkflows.py",
-        "custom_objects.py",
-        "dataframe_passing.py",
-        "hive.py",
-        "raw_container.py",
-        "run_conditions.py",
-        "sidecar.py",
-        "typed_schema.py",
-        "pyspark_pi.py",
-        "run_custom_types.py",
-        "custom_task_plugin.py",
+
+        # Native Plugins
         "pytorch_mnist.py",
+
+        # AWS Plugins
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
-        "graphviz.py",
-        "task.py",
-        "model.joblib.dat",
-        "basic_workflow.py",
-        "files.py",
-        "mocking.py",
-        "folders.py",
-        "lp.py",
-        "diabetes.py",
-        "task_cache.py",
     ]
 
     def __call__(self, filename):
@@ -66,6 +80,7 @@ class CustomSorter(FileNameSortKey):
         if filename in self.CUSTOM_FILE_SORT_ORDER:
             return f"{self.CUSTOM_FILE_SORT_ORDER.index(filename):03d}"
         else:
+            logging.warning(f"File {filename} not found in static ordering list, temporarily adding to the end")
             self.CUSTOM_FILE_SORT_ORDER.append(src_file)
             return f"{len(self.CUSTOM_FILE_SORT_ORDER)-1:03d}"
 
@@ -140,12 +155,12 @@ sphinx_gallery_conf = {
     "gallery_dirs": gallery_dirs,
     "subsection_order": ExplicitOrder(
         [
-            "../recipes/02_intermediate",
-            "../recipes/03_advanced",
-            "../recipes/01_basic",
-            "../recipes/05_native_plugins",
-            "../recipes/04_remote_flyte",
-            "../recipes/06_aws_plugins",
+            "../recipes/basic",
+            "../recipes/intermediate",
+            "../recipes/advanced",
+            "../recipes/remote_flyte",
+            "../recipes/native_plugins",
+            "../recipes/aws_plugins",
         ]
     ),
     # specify the order of examples to be according to filename
