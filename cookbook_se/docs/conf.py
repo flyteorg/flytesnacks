@@ -12,7 +12,7 @@
 #
 import os
 import sys
-from sphinx_gallery.sorting import ExampleTitleSortKey
+from sphinx_gallery.sorting import ExampleTitleSortKey, FileNameSortKey
 from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -25,6 +25,50 @@ author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
 release = "0.16.0"
+
+
+class CustomSorter(FileNameSortKey):
+    CUSTOM_FILE_SORT_ORDER = [
+        "customizing_resources.py",
+        "multi_images.py",
+        "lp_schedules.py",
+        "lp_notifications.py",
+        "dynamics.py",
+        "schema.py",
+        "subworkflows.py",
+        "custom_objects.py",
+        "dataframe_passing.py",
+        "hive.py",
+        "raw_container.py",
+        "run_conditions.py",
+        "sidecar.py",
+        "typed_schema.py",
+        "pyspark_pi.py",
+        "run_custom_types.py",
+        "custom_task_plugin.py",
+        "pytorch_mnist.py",
+        "sagemaker_builtin_algo_training.py",
+        "sagemaker_custom_training.py",
+        "graphviz.py",
+        "task.py",
+        "model.joblib.dat",
+        "basic_workflow.py",
+        "files.py",
+        "mocking.py",
+        "folders.py",
+        "lp.py",
+        "diabetes.py",
+        "task_cache.py",
+    ]
+
+    def __call__(self, filename):
+        src_file = os.path.normpath(os.path.join(self.src_dir, filename))
+        if filename in self.CUSTOM_FILE_SORT_ORDER:
+            return f"{self.CUSTOM_FILE_SORT_ORDER.index(filename):03d}"
+        else:
+            self.CUSTOM_FILE_SORT_ORDER.append(src_file)
+            return f"{len(self.CUSTOM_FILE_SORT_ORDER)-1:03d}"
+
 
 # -- General configuration ---------------------------------------------------
 
@@ -105,7 +149,7 @@ sphinx_gallery_conf = {
         ]
     ),
     # specify the order of examples to be according to filename
-    "within_subsection_order": ExampleTitleSortKey,
+    "within_subsection_order": CustomSorter,
     "min_reported_time": min_reported_time,
     "filename_pattern": "/run_",
     "capture_repr": (),
