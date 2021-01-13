@@ -23,7 +23,7 @@ fast_register_sandbox: fast_serialize_sandbox
 		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
 
 .PHONY: fast_serialize_sandbox
-fast_serialize_sandbox: docker_build
+fast_serialize_sandbox:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
