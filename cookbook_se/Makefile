@@ -20,7 +20,7 @@ in_container_fast_serialize_sandbox:
 	pyflyte --config /root/sandbox.config serialize fast workflows -f /tmp/output --source-dir /root/recipes
 
 .PHONY: fast_register_sandbox
-fast_register_sandbox: docker_build fast_serialize_sandbox
+fast_register_sandbox: fast_serialize_sandbox
 	FLYTE_AWS_ENDPOINT=http://localhost:9000/ FLYTE_AWS_ACCESS_KEY_ID=minio FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage \
 		flyte-cli fast-register-files -p ${PROJECT} -d development -h localhost:30081 -i \
 		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
@@ -30,6 +30,9 @@ fast_serialize_sandbox: docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
+	pyflyte -c sandbox.config  --pkgs recipes serialize --in-container-config-path /root/sandbox.config  --local-source-root  \
+		${CURDIR}  --image flytecookbook:${VERSION}  workflows -f _pb_output/
+
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_fast_serialize_sandbox
 
 .PHONY: enter_sandbox
