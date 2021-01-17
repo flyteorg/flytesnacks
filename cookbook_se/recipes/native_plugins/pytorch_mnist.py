@@ -1,8 +1,9 @@
 """
 Running Distributed Pytorch Training using KF PytorchOperator
 -------------------------------------------------------------------
-This example is the same as the default example available on Kubeflow's pytorch site
+This example is adapted from the default example available on Kubeflow's pytorch site.
 `here <https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py>`_
+It has been modified to show how to integrate it with Flyte and can be probably simplified and cleaned up.
 
 """
 import os
@@ -132,6 +133,7 @@ class Hyperparameters(object):
         dir: directory where summary logs are stored
     """
 
+    backend: str = dist.Backend.GLOO
     sgd_momentum: float = 0.5
     seed: int = 1
     log_interval: int = 10
@@ -173,9 +175,6 @@ TrainingOutputs = typing.NamedTuple(
     container_image="{{.image.default.fqn}}:pytorch-{{.image.default.version}}",
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
-    # USE GLOO backend
-    backend_type = dist.Backend.GLOO
-
     log_dir = "logs"
     writer = SummaryWriter(log_dir)
 
@@ -188,8 +187,8 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     print("Using device: {}, world size: {}".format(device, WORLD_SIZE))
 
     if should_distribute():
-        print("Using distributed PyTorch with {} backend".format(backend_type))
-        dist.init_process_group(backend=backend_type)
+        print("Using distributed PyTorch with {} backend".format(hp.backend))
+        dist.init_process_group(backend=hp.backend)
 
     # LOAD Data
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
