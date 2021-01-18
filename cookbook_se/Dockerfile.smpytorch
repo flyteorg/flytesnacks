@@ -35,7 +35,7 @@ RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 # Copy the actual code
 COPY . /root
 
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/111fcd4945968ffc90ae862d6846c38a80e3f4f2.zip#egg=flytekit[schema]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/b26dc3404da841728921689ce4d81ee6695d2d88.zip#egg=flytekit[schema]
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
