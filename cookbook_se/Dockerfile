@@ -31,7 +31,7 @@ RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Copy the actual code
 COPY . /root
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/79003cd1ca7f2a13bbb87935c2e41bd37917c26b.zip#egg=flytekit[sidecar,schema,spark3]
+RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/111fcd4945968ffc90ae862d6846c38a80e3f4f2.zip#egg=flytekit[sidecar,schema,spark3]
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
