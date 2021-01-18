@@ -316,7 +316,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> PythonPickledFile:
         # Config MASTER_ADDR and MASTER_PORT for PyTorch Distributed Training
         os.environ['MASTER_ADDR'] = args.hosts[0]
         os.environ['MASTER_PORT'] = '29500'
-        os.environ['NCCL_SOCKET_IFNAME'] = (ctx.distributed_training_contex.network_interface_name)
+        os.environ['NCCL_SOCKET_IFNAME'] = (ctx.distributed_training_context.network_interface_name)
         os.environ['NCCL_DEBUG'] = 'INFO'
         # The function is called as fn(i, *args), where i is the process index and args is the passed
         # through tuple of arguments.
