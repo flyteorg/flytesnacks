@@ -33,7 +33,6 @@ RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
     cp tini /sbin/tini && cp tini /usr/bin/tini && \
     chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
 
-
 # Copy the actual code
 COPY . /root
 
