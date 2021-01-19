@@ -26,4 +26,10 @@ RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 # Copy the actual code
 COPY . /root
 
+# This tag is supplied by the build script and will be used to determine the version
+# when registering tasks, workflows, and launch plans
+ARG tag
+ENV FLYTE_INTERNAL_IMAGE $tag
+
+# Because we have not released flytekit yet, we will use this git-sha
 RUN pip install -U https://github.com/lyft/flytekit/archive/b26dc3404da841728921689ce4d81ee6695d2d88.zip#egg=flytekit[schema]
