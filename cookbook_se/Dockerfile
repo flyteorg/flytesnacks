@@ -28,6 +28,3 @@ COPY . /root
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-
-# Because we have not released flytekit yet, we will use this git-sha
-RUN pip install -U https://github.com/lyft/flytekit/archive/b26dc3404da841728921689ce4d81ee6695d2d88.zip#egg=flytekit[schema]
