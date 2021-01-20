@@ -1,19 +1,19 @@
 """
-Sidecar plugin example
+Pod plugin example
 --------------------------
 
-Sidecar tasks can be used anytime you need to bring up multiple containers within a single task. They expose a fully
+Pod tasks can be used anytime you need to bring up multiple containers within a single task. They expose a fully
 modifable kubernetes `pod spec
 <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#podspec-v1-core>`_ you can use to customize
 your task execution runtime.
 
-All you need to use sidecar tasks are to 1) define a pod spec and 2) specify the primary container name
+All you need to use Pod tasks are to 1) define a pod spec and 2) specify the primary container name
 The primary container is the driver for the flyte task execution for example, producing inputs and outputs.
 """
 
 
 # %%
-# Sidecar tasks accept all the same arguments that ordinary container tasks accept, such as resource specifications.
+# Pod tasks accept all the same arguments that ordinary container tasks accept, such as resource specifications.
 # However, these are only applied to the primary container. To customize other containers brought up during execution
 # we define a fully-fledged pod spec.
 #
@@ -40,7 +40,7 @@ def generate_pod_spec_for_task():
     secondary_container = generated_pb2.Container(name="secondary", image="alpine",)
     secondary_container.command.extend(["/bin/sh"])
     secondary_container.args.extend(
-        ["-c", "echo hi sidecar world > {}".format(_SHARED_DATA_PATH)]
+        ["-c", "echo hi pod world > {}".format(_SHARED_DATA_PATH)]
     )
 
     resources = generated_pb2.ResourceRequirements()
@@ -72,7 +72,7 @@ def generate_pod_spec_for_task():
 
 
 # %%
-# Although sidecar tasks for the most part allow you to customize kubernetes container attributes
+# Although Pod tasks for the most part allow you to customize kubernetes container attributes
 # you can still use flyte directives to specify resources and even the image. The default image built for
 # flyte tasks will get used unless you specify the `container_image` task attribute.
 @task(
@@ -80,7 +80,7 @@ def generate_pod_spec_for_task():
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     )
 )
-def my_sidecar_task() -> str:
+def my_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(5)
@@ -90,8 +90,8 @@ def my_sidecar_task() -> str:
 
 
 @workflow
-def SidecarWorkflow() -> str:
-    s = my_sidecar_task()
+def PodWorkflow() -> str:
+    s = my_pod_task()
     return s
 
 
