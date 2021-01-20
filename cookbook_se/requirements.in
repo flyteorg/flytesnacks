@@ -1,5 +1,5 @@
 -r env/default/requirements.in
--r env/opencv/requirements.in
+-r recipes/core/intermediate/custom_containers/requirements.in
 -r recipes/plugins/pytorch/requirements.in
 -r recipes/plugins/sagemaker/requirements.in
 -r recipes/plugins/spark/requirements.in
