@@ -1,3 +1,3 @@
 PREFIX=hive
 
-include ../../../Makefile
+include ../../../env/common/Makefile.common
