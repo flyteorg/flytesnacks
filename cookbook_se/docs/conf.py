@@ -55,7 +55,7 @@ class CustomSorter(FileNameSortKey):
         "custom_objects.py",
         "run_conditions.py",
         "raw_container.py",
-        "sidecar.py",
+        "pod.py",
         # Advanced
         "run_merge_sort.py",
         "custom_task_plugin.py",
