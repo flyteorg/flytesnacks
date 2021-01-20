@@ -52,7 +52,8 @@ hosted endpoint:
 
 ```
 flyte-cli fast-register-files -p ${PROJECT} -d development -h YOUR_HOST_HERE -i \
-		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
+		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes \
+		--assumable-iam-role user-role --output-location-prefix s3://my-s3-bucket/output/ ${CURDIR}/_pb_output/*
 ```
 
 ### Building Images
