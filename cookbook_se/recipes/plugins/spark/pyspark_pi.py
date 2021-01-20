@@ -19,7 +19,7 @@ from flytekit import task, workflow
 
 # %%
 # The follow import is required to configure a Spark Server in Flyte.
-from flytekit.taskplugins.spark import Spark
+from flytekitplugins.spark import Spark
 
 
 # %%
