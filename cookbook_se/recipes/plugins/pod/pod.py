@@ -23,7 +23,7 @@ import os
 import time
 
 from flytekit import task, workflow
-from flytekit.taskplugins.pod import Pod
+from flytekitplugins.pod import Pod
 from k8s.io.api.core.v1 import generated_pb2
 from k8s.io.apimachinery.pkg.api.resource.generated_pb2 import Quantity
 

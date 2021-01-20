@@ -21,8 +21,8 @@ You get a couple templating args to help make that happen, along with the usual 
 
 """
 from flytekit import workflow, kwtypes, task
-from flytekit.taskplugins.hive import HiveTask, HiveSelectTask
-from flytekit.taskplugins.hive.task import HiveConfig
+from flytekitplugins.hive import HiveTask, HiveSelectTask
+from flytekitplugins.hive.task import HiveConfig
 from flytekit.types.schema import FlyteSchema
 
 # %%

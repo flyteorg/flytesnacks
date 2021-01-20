@@ -15,7 +15,7 @@ import torch
 import torch.nn.functional as F
 from dataclasses_json import dataclass_json
 from flytekit import task, Resources, workflow
-from flytekit.taskplugins.pytorch import PyTorch
+from flytekitplugins.kfpytorch import PyTorch
 from flytekit.types.directory import TensorboardLogs
 from flytekit.types.file import PythonPickledFile, PNGImageFile
 from tensorboardX import SummaryWriter
