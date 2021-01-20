@@ -1,4 +1,4 @@
--r env/common/requirements.in
+-r env/common/requirements-common.in
 -r recipes/core/intermediate/custom_containers/requirements.in
 -r recipes/plugins/hive/requirements.in
 -r recipes/plugins/pod/requirements.in

@@ -36,7 +36,9 @@ cffi==1.14.4
 chardet==4.0.0
     # via requests
 click==7.1.2
-    # via flytekit
+    # via
+    #   flytekit
+    #   hmsclient
 croniter==1.0.2
     # via flytekit
 cryptography==3.3.1
@@ -57,22 +59,30 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
-flytekit==0.16.0a3
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#egg=flytekit
     # via
-    #   -r env/default/../common/requirements-common.in
+    #   -r env/common/requirements-common.in
     #   -r env/xgboost-scikit/../common/requirements-common.in
     #   -r recipes/core/intermediate/custom_containers/../../../../env/common/requirements-common.in
+    #   -r recipes/plugins/hive/../../../env/common/requirements-common.in
+    #   -r recipes/plugins/pod/../../../env/common/requirements-common.in
     #   -r recipes/plugins/pytorch/../../../env/common/requirements-common.in
     #   -r recipes/plugins/sagemaker/../../../env/common/requirements-common.in
     #   -r recipes/plugins/spark/../../../env/common/requirements-common.in
     #   flytekitplugins-awssagemaker
+    #   flytekitplugins-hive
     #   flytekitplugins-kfpytorch
+    #   flytekitplugins-pod
     #   flytekitplugins-spark
-https://github.com/lyft/flytekit/archive/ab0e02ae7e66afd14eaa3eddd5521091494ecdbf.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
     # via -r recipes/plugins/sagemaker/requirements.in
-https://github.com/lyft/flytekit/archive/ab0e02ae7e66afd14eaa3eddd5521091494ecdbf.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
+    # via -r recipes/plugins/hive/requirements.in
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
     # via -r recipes/plugins/pytorch/requirements.in
-https://github.com/lyft/flytekit/archive/ab0e02ae7e66afd14eaa3eddd5521091494ecdbf.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
+    # via -r recipes/plugins/pod/requirements.in
+https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
     # via -r recipes/plugins/spark/requirements.in
 future==0.18.2
     # via tensorflow-datasets
@@ -99,6 +109,8 @@ grpcio==1.32.0
     #   tensorflow
 h5py==2.10.0
     # via tensorflow
+hmsclient==0.1.1
+    # via flytekitplugins-hive
 idna==2.10
     # via requests
 importlib-resources==5.1.0
@@ -113,6 +125,8 @@ joblib==1.0.0
     # via
     #   -r env/xgboost-scikit/requirements.in
     #   scikit-learn
+k8s-proto==0.0.3
+    # via flytekitplugins-pod
 keras-preprocessing==1.1.2
     # via tensorflow
 keyring==21.8.0
@@ -129,14 +143,16 @@ marshmallow==3.10.0
     #   marshmallow-enum
 matplotlib==3.3.3
     # via
-    #   -r env/default/../common/requirements-common.in
-    #   -r env/default/requirements.in
+    #   -r env/common/requirements-common.in
     #   -r env/xgboost-scikit/../common/requirements-common.in
     #   -r env/xgboost-scikit/requirements.in
     #   -r recipes/core/intermediate/custom_containers/../../../../env/common/requirements-common.in
+    #   -r recipes/plugins/hive/../../../env/common/requirements-common.in
+    #   -r recipes/plugins/pod/../../../env/common/requirements-common.in
     #   -r recipes/plugins/pytorch/../../../env/common/requirements-common.in
     #   -r recipes/plugins/sagemaker/../../../env/common/requirements-common.in
     #   -r recipes/plugins/spark/../../../env/common/requirements-common.in
+    #   -r requirements.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.0
@@ -150,6 +166,7 @@ numpy==1.19.5
     #   matplotlib
     #   opencv-python
     #   opt-einsum
+    #   pandas
     #   sagemaker-training
     #   scikit-learn
     #   scipy
@@ -166,6 +183,8 @@ opencv-python==4.5.1.48
     # via -r recipes/core/intermediate/custom_containers/requirements.in
 opt-einsum==3.3.0
     # via tensorflow
+pandas==1.2.1
+    # via flytekit
 paramiko==2.7.2
     # via sagemaker-training
 pathspec==0.8.1
@@ -181,6 +200,7 @@ protobuf==3.14.0
     #   flyteidl
     #   flytekit
     #   googleapis-common-protos
+    #   k8s-proto
     #   sagemaker-training
     #   tensorboard
     #   tensorboardx
@@ -215,10 +235,13 @@ python-dateutil==2.8.1
     #   croniter
     #   flytekit
     #   matplotlib
+    #   pandas
 pytimeparse==1.1.8
     # via flytekit
 pytz==2018.4
-    # via flytekit
+    # via
+    #   flytekit
+    #   pandas
 requests-oauthlib==1.3.0
     # via google-auth-oauthlib
 requests==2.25.1
@@ -274,6 +297,7 @@ six==1.15.0
     #   tensorboardx
     #   tensorflow
     #   tensorflow-datasets
+    #   thrift
 sklearn==0.0
     # via -r env/xgboost-scikit/requirements.in
 sortedcontainers==2.3.0
@@ -304,6 +328,8 @@ termcolor==1.1.0
     #   tensorflow-datasets
 threadpoolctl==2.1.0
     # via scikit-learn
+thrift==0.13.0
+    # via hmsclient
 torch==1.7.1
     # via
     #   -r recipes/plugins/pytorch/requirements.in
