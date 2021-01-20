@@ -10,7 +10,7 @@ If the dataframe does not fit in memory, it will result in a runtime failure.
 import flytekit
 import pandas
 from flytekit import task, workflow, kwtypes
-from flytekit.taskplugins.spark import Spark
+from flytekitplugins.spark import Spark
 from flytekit.types.schema import FlyteSchema
 
 # %%
