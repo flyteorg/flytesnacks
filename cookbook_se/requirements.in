@@ -2,5 +2,5 @@
 -r env/opencv/requirements.in
 -r env/pytorch/requirements.in
 -r env/sagemaker/requirements.in
--r env/spark/requirements.in
+-r recipes/plugins/spark/requirements.in
 -r env/xgboost-scikit/requirements.in
