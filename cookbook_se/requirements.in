@@ -1,5 +1,7 @@
 -r env/default/requirements.in
 -r recipes/core/intermediate/custom_containers/requirements.in
+-r recipes/plugins/hive/requirements.in
+-r recipes/plugins/pod/requirements.in
 -r recipes/plugins/pytorch/requirements.in
 -r recipes/plugins/sagemaker/requirements.in
 -r recipes/plugins/spark/requirements.in
