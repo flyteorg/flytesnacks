@@ -1,0 +1,3 @@
+PREFIX=hive
+
+include ../../../Makefile
