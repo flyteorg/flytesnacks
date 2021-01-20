@@ -24,7 +24,7 @@ import torch.nn.functional as functional
 import torch.optim as optim
 from dataclasses_json import dataclass_json
 from flytekit import task, workflow
-from flytekit.taskplugins.sagemaker import (
+from flytekitplugins.awssagemaker import (
     SagemakerTrainingJobConfig, AlgorithmSpecification, InputMode, AlgorithmName,
     InputContentType, TrainingJobResourceConfig,
 )

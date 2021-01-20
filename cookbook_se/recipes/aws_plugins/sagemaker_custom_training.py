@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_datasets as tfds
 from flytekit import task, workflow
-from flytekit.taskplugins.sagemaker import (
+from flytekitplugins.awssagemaker import (
     SagemakerTrainingJobConfig,
     TrainingJobResourceConfig,
     AlgorithmSpecification,

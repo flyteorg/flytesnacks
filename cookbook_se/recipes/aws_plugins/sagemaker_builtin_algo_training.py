@@ -16,7 +16,7 @@ To dive deeper into the Flytekit API refer to
 import typing
 
 from flytekit import TaskMetadata
-from flytekit.taskplugins.sagemaker import (
+from flytekitplugins.awssagemaker import (
     SagemakerBuiltinAlgorithmsTask,
     SagemakerTrainingJobConfig,
     SagemakerHPOTask,
