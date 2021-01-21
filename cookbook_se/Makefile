@@ -1,4 +1,4 @@
-include env/common/Makefile.common
+include recipes/common/Makefile.common
 
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:

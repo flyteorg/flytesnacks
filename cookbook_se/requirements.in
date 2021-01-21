@@ -1,2 +1,2 @@
--r env/common/requirements-common.in
+-r recipes/common/requirements-common.in
 matplotlib

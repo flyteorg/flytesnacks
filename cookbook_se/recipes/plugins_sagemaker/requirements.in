@@ -1,4 +1,4 @@
--r ../../../env/common/requirements-common.in
+-r ../common/requirements-common.in
 https://github.com/lyft/flytekit/archive/4f784dfe4034ca917628eb023ffa0d10f2a1d357.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
 tensorflow
 tensorflow-datasets

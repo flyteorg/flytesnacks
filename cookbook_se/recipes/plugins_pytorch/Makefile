@@ -1,2 +1,2 @@
 PREFIX=pytorch
-include ../../env/common/Makefile.common
+include ../common/Makefile.common

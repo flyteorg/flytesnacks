@@ -1,2 +1,2 @@
--r ../../../../env/common/requirements-common.in
+-r ../common/requirements-common.in
 opencv-python
