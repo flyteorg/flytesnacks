@@ -15,6 +15,12 @@ serialize_sandbox: docker_build
 	rm ${CURDIR}/_pb_output/* || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
 
+.PHONY: serialize
+serialize:
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	rm ${CURDIR}/_pb_output/* || true
+	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image flytecookbook:${VERSION} workflows -f _pb_output/
 
 .PHONY: fast_register_sandbox
 fast_register_sandbox: fast_serialize_sandbox
