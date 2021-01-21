@@ -1,2 +1,2 @@
 PREFIX=spark
-include ../common/Makefile.common
+include ../../common/Makefile.common
