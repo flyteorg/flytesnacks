@@ -1,2 +1,2 @@
 PREFIX=smpytorch
-include ../../../env/common/Makefile.common
+include ../../env/common/Makefile.common
