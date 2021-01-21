@@ -7,7 +7,9 @@ leverage flytekit.
    :maxdepth: 2
    :caption: Contents
 
-   auto_recipes/index
+   auto_core/index
+   auto_case_studies/index
+   auto_plugins/index
 
 
 Indices and tables
