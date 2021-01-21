@@ -40,6 +40,11 @@ COPY . /root
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
 
+# Copy over the helper script that the SDK relies on
+RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
+RUN chmod a+x /usr/local/bin/flytekit_venv
+
 # For spark we want to use the default entrypoint which is part of the
-# distribution
-ENTRYPOINT ["/opt/entrypoint.sh"]
+# distribution, also enable the virtualenv for this image. 
+# Note this relies on the VENV variable we've set in this image.
+ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
