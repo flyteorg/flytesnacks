@@ -22,6 +22,11 @@ serialize:
 	rm ${CURDIR}/_pb_output/* || true
 	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image flytecookbook:${VERSION} workflows -f _pb_output/
 
+.PHONY: register
+register:
+	flyte-cli register-files -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} _pb_output/*
+
+
 .PHONY: fast_register_sandbox
 fast_register_sandbox: fast_serialize_sandbox
 	echo "Registering against localhost. Follow the README to use a remote Flyte installation"
