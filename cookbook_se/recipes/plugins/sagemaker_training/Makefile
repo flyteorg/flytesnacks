@@ -1,2 +1,2 @@
 PREFIX=sagemaker
-include ../common/Makefile.common
+include ../../common/Makefile.common
