@@ -47,11 +47,11 @@ run-examples:
 
 PWD=$(CURDIR)
 .PHONY: all_docker_push
-all_docker_push:
+all_docker_push: docker_push
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins_sagemaker/Dockerfile sagemaker
-# 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.spark spark
-# 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.pytorch pytorch
-# 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh Dockerfile.smpytorch smpytorch
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins_spark/Dockerfile spark
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins_pytorch/Dockerfile pytorch
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins_smpytorch/Dockerfile smpytorch
 
 .PHONY: all_requirements
 all_requirements: requirements
