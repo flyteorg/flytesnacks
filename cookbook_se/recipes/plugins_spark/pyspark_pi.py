@@ -83,7 +83,7 @@ def my_spark(triggered_date: datetime.datetime) -> float:
 
 
 # %%
-# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to hive metastores etc may not work, but these are limitations of using Spark and are not introduced by Flyte.
+# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to plugins_hive metastores etc may not work, but these are limitations of using Spark and are not introduced by Flyte.
 if __name__ == "__main__":
     """
     NOTE: To run a multi-image workflow locally, all dependencies of all the tasks should be installed, ignoring which

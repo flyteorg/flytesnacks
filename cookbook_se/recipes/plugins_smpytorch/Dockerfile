@@ -1,5 +1,5 @@
-# We use devel because sagemaker-training needs gcc to build
-# TODO get rid of sagemaker-training
+# We use devel because plugins_sagemaker-training needs gcc to build
+# TODO get rid of plugins_sagemaker-training
 FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-devel
 
 WORKDIR /root
