@@ -140,9 +140,11 @@ html_theme_options = {
 
 
 examples_dirs = [
-    "../recipes",
+    "../recipes/core",
+    "../recipes/case_studies",
+    "../recipes/plugins",
 ]
-gallery_dirs = ["auto_recipes"]
+gallery_dirs = ["auto_core", "auto_case_studies", "auto_plugins"]
 
 # image_scrapers = ('matplotlib',)
 image_scrapers = ()
@@ -154,12 +156,17 @@ sphinx_gallery_conf = {
     "gallery_dirs": gallery_dirs,
     "subsection_order": ExplicitOrder(
         [
-            "../recipes/basic",
-            "../recipes/intermediate",
-            "../recipes/advanced",
-            "../recipes/remote_flyte",
-            "../recipes/native_plugins",
-            "../recipes/aws_plugins",
+            "../recipes/core/basic",
+            "../recipes/core/intermediate",
+            "../recipes/core/advanced",
+            "../recipes/core/remote_flyte",
+            "../recipes/case_studies/pima_diabetes",
+            "../recipes/plugins/hive",
+            "../recipes/plugins/sagemaker_training",
+            "../recipes/plugins/k8s_spark",
+            "../recipes/plugins/kfpytorch",
+            "../recipes/plugins/pod/", 
+            "../recipes/plugins/sagemaker_pytorch/",
         ]
     ),
     # specify the order of examples to be according to filename
