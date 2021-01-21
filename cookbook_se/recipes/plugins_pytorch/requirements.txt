@@ -26,7 +26,7 @@ dirhash==0.2.1
     # via flytekit
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/4d23e6b3f8f17bbe3bb8aa6d3c781251dbc69883.zip#egg=flytekit
+https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#egg=flytekit
     # via
     #   -r ../common/requirements-common.in
     #   flytekitplugins-kfpytorch

@@ -26,11 +26,11 @@ dirhash==0.2.1
     # via flytekit
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/4d23e6b3f8f17bbe3bb8aa6d3c781251dbc69883.zip#egg=flytekit
+https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#egg=flytekit
     # via
     #   -r ../common/requirements-common.in
     #   flytekitplugins-hive
-https://github.com/lyft/flytekit/archive/eaabbdf9b7050feab0249d023f79698c739fb114.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
+https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
     # via -r requirements.in
 grpcio==1.34.1
     # via flytekit
