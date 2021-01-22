@@ -1,3 +1,2 @@
 -r recipes/common/requirements-common.in
--r recipes/plugins/k8s_spark/requirements.in
 opencv-python

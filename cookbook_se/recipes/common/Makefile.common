@@ -71,4 +71,4 @@ requirements.txt: requirements.in install-piptools
 	$(call PIP_COMPILE,requirements.in)
 
 .PHONY: requirements
-requirements: requirements.txt 
+requirements: requirements.txt dev-requirements.txt
