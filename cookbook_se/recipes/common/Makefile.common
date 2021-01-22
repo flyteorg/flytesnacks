@@ -56,7 +56,7 @@ install-piptools:
 
 .PHONY: setup
 setup: install-piptools ## Install requirements
-	pip-sync requirements.txt dev-requirements.txt
+	pip-sync dev-requirements.txt
 
 .PHONY: lint
 lint: ## Run linters
