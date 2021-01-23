@@ -22,7 +22,7 @@ from flytekit.types.schema import FlyteSchema
 my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 
 # %%
-# This string is used in the task defitions below (see the `hosted_multi_images` section for more information) and
+# This string is used in the task definitions below (see the `hosted_multi_images` section for more information) and
 # its usage means that the tasks tagged with this setting will use the spark- image instead of the default one.
 # This image will have additional dependencies like pyspark and Java installed and will be substantially larger
 # than the default container.
