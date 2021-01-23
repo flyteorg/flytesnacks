@@ -117,6 +117,8 @@ urllib3==1.25.11
     #   flytekit
     #   requests
     #   responses
+wheel==0.36.2
+    # via -r recipes/common/requirements-common.in
 wrapt==1.12.1
     # via
     #   deprecated
