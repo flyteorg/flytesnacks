@@ -16,7 +16,7 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY ./env/smpytorch/requirements.txt /root
+COPY ./recipes/plugins/smpytorch/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # Setup Sagemaker entrypoints
