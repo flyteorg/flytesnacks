@@ -21,6 +21,12 @@ from flytekit.types.schema import FlyteSchema
 # This section defines a simple schema type with 2 columns, `name: str` and `age: int`
 my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 
+# %%
+# This string is used in the task defitions below (see the `hosted_multi_images` section for more information) and
+# its usage means that the tasks tagged with this setting will use the spark- image instead of the default one.
+# This image will have additional dependencies like pyspark and Java installed and will be substantially larger
+# than the default container.
+CONTAINER_TEMPLATE = "{{.image.default.fqn}}:spark-{{.image.default.version}}"
 
 # %%
 # ``create_spark_df`` is a spark task, that runs within a spark cotext (relies on having spark cluster up and running). This task generates a spark DataFrame whose schema matches the predefined :any:`df_my_schema_definition`
@@ -38,7 +44,7 @@ my_schema = FlyteSchema[kwtypes(name=str, age=int)]
         }
     ),
     cache_version="1",
-    container_image="{{.image.default.fqn}}:spark-{{.image.default.version}}",
+    container_image=CONTAINER_TEMPLATE,
 )
 def create_spark_df() -> my_schema:
     """
@@ -57,7 +63,7 @@ def create_spark_df() -> my_schema:
 # can be read into multiple formats using the ``open()`` method. Default conversion is to :py:class:`pandas.DataFrame`
 # Refer to :py:class:`flytekit.FlyteSchema` for more details
 #
-@task(cache_version="1")
+@task(cache_version="1", container_image=CONTAINER_TEMPLATE)
 def sum_of_all_ages(s: my_schema) -> int:
     """
     The schema is passed into this task. Schema is just a reference to the actually object and has almost no overhead.
