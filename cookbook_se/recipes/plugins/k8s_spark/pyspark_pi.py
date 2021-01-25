@@ -16,6 +16,7 @@ import random
 import datetime
 from operator import add
 from flytekit import task, workflow
+from recipes.plugins.k8s_spark.dataframe_passing import CONTAINER_TEMPLATE
 
 # %%
 # The follow import is required to configure a Spark Server in Flyte.
@@ -40,7 +41,7 @@ from flytekitplugins.spark import Spark
     ),
     cache_version="1",
     # a separate image is used
-    container_image="{{.image.default.fqn}}:spark-{{.image.default.version}}",
+    container_image=CONTAINER_TEMPLATE,
 )
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
@@ -63,7 +64,7 @@ def f(_):
 
 # %%
 # This is a regular python function task. This will not execute on the spark cluster
-@task(cache_version="1")
+@task(cache_version="1", container_image=CONTAINER_TEMPLATE)
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1

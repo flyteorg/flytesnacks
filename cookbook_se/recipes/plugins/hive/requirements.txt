@@ -26,17 +26,17 @@ dirhash==0.2.1
     # via flytekit
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#egg=flytekit
+https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#egg=flytekit
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-hive
-https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
+https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
     # via -r requirements.in
 grpcio==1.35.0
     # via flytekit
 idna==2.10
     # via requests
-keyring==21.8.0
+keyring==22.0.0
     # via flytekit
 kiwisolver==1.3.1
     # via matplotlib
@@ -50,7 +50,7 @@ matplotlib==3.3.3
     # via -r ../../common/requirements-common.in
 mypy-extensions==0.4.3
     # via typing-inspect
-natsort==7.1.0
+natsort==7.1.1
     # via
     #   croniter
     #   flytekit
@@ -118,6 +118,8 @@ urllib3==1.25.11
     #   flytekit
     #   requests
     #   responses
+wheel==0.36.2
+    # via -r ../../common/requirements-common.in
 wrapt==1.12.1
     # via
     #   deprecated

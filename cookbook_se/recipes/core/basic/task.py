@@ -1,6 +1,6 @@
 """
 Tasks
-----------
+------
 
 This example shows how to write a task in flytekit python.
 Recap: In Flyte a task is a fundamental building block and an extension point. Flyte has multiple plugins for tasks,
