@@ -1,5 +1,5 @@
 Kubeflow PyTorch Operator: Native execution on K8s cluster
------------------------------------------------------------
+==========================================================
 Pytorch Operator
 This section provides examples of how to use Flyte Native Plugins. Native
 Plugins are plugins that can be executed without any external service
@@ -8,7 +8,7 @@ provisioned kubernetes clusters
 
 
 How to build your Dockerfile for Pytorch on K8s
-=================================================
+-----------------------------------------------
 
 .. note::
 
