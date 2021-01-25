@@ -1,7 +1,7 @@
 .. _working_hosted_service:
 
 Working with a Hosted Flyte Service
-====================================
+-----------------------------------
 
 Flytekit provides a python SDK for authoring and executing workflows and tasks in python.
 Flytekit comes with a simplistic local scheduler that executes code in a local environment.
