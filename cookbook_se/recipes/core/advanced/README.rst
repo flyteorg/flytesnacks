@@ -1,5 +1,6 @@
 Advanced
-=========
+-----------
+
 Now that you have seen the capabilities of Flyte and flytekit, you might have found some cases in which you may want to
 extend flytekit natively for your own project or better yet contribute to the open source community. This section provides
 examples of how flytekit can be easily extended. Flytekit allows 2 fundamental extensions

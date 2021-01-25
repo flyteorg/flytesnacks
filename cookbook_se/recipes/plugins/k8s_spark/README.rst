@@ -1,5 +1,5 @@
 Executing Spark Jobs natively on K8s Cluster
-============================================
+---------------------------------------------
 Flyte can execute spark jobs natively on a Kubernetes Cluster. Flyte will manage the lifecycle, spin-up and tear down
 of a virtual cluster. This leverages open source :ref:`Spark On K8s Operator<>`_ and can be enabled without signing up
 for any service. If you want to enable Spark for your Flyte Cluster refer to :ref:`Enable & Configure Spark for K8s<>`_.
@@ -7,7 +7,7 @@ Flytekit makes it possible to write pyspark code natively as a task and the Spar
 using the decorated SparkConf. The examples in this section provide a hands on tutorial of writing pyspark tasks.
 
 Pre-Requisites / Setup
------------------------
+=========================
 
 #. Install ``flytekitplugins-spark`` using ``pip`` in your environment that contains ``flytekit >= 0.16.0``
 
@@ -25,7 +25,8 @@ In-addition, Flyte uses the SparkOperator to run Spark Jobs as well as separate 
 .. _spark-docker-image:
 
 How to build your Dockerfile for Spark on K8s
------------------------------------------------
+==============================================
+
 Using Spark on K8s is extremely easy to use and provides full versioning using the custom built Spark container. The
 built container can execute both regular
 For Spark, the image must contain spark dependencies as well as the correct entrypoint for the Spark driver/executors. This can be achieved by using the :ref:`flytekit_install_spark.sh<>` script provided as referenced in the Dockerfile included here.

@@ -1,5 +1,5 @@
 Basic
-=========
+-------
 This section provides insight into basic building blocks of Flyte, especially flytekit.
 Flytekit is a python SDK for developing flyte workflows and task and can be used generally, whenever stateful computation is
 desirable. Flytekit developed workflows and tasks are completely runnable locally, unless they need some advanced backend
@@ -8,7 +8,7 @@ functionality like, starting a distributed spark cluster.
 .. _flyte_type_system:
 
 Flyte Type-system
-------------------
+===================
 Flyte is a data-aware DAG scheduling system. The Graph itself is derived automatically from the flow of data and this closely resembles how a functional programming language passes data between methods.
 
 Data awareness is powered by Flyte's own type system, which closely maps most programming languages. These types are what power Flyte's magic of
@@ -24,7 +24,7 @@ and opens up possibilities of future optimizations.
 .. _flytekit_to_flyte_type_mapping:
 
 Mapping of Types between Python and Flyte - using Flytekit
------------------------------------------------------------
+===========================================================
 FlyteKit automagically maps Python types to Flyte types. This section provides details of the mappings, but for most part you can skip this section, as almost all of Python types are mapped automatically.
 
 The following table provides a quick over-view of how types are converted from the type-hints (python native) to Flyte understood, cross-language types.

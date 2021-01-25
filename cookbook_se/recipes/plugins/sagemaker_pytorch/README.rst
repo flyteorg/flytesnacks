@@ -1,8 +1,8 @@
 AWS Sagemaker distributed training using PyTorch
-=================================================
+--------------------------------------------------
 
 Creating a dockerfile for Sagemaker custom training [Required]
----------------------------------------------------------------
+===============================================================
 
 .. literalinclude:: ../../smpytorch.Dockerfile
     :language: dockerfile

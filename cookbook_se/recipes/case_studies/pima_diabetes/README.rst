@@ -1,11 +1,11 @@
 PIMA Indians diabetes prediction using XGBoost
-===============================================
+-----------------------------------------------
 The workflow demonstrates how to train an XGBoost model. The workflow is designed for the :ref:`Pima Indian Diabetes dataset <https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names>`_.
 
 An example dataset is available :ref:`here <https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`_.
 
 Why a Workflow?
-----------------
+================
 One common question when you read through the example might be - is it really required to split the training of xgboost into multiple steps. The answer is COMPLICATED!, but let us try and understand what advantages and disadvantages of doing so,
 
 Pros:
@@ -21,7 +21,7 @@ Cons:
  - Performance for small datasets is a concern. The reason is, the intermediate data is durably stored and the state recorded. Each step is essnetially a checkpoint
 
 Steps of the Pipeline
-----------------------
+======================
 
  - Step1: Gather data and split it into training and validation sets
  - Step2: Fit the actual model
@@ -30,7 +30,7 @@ Steps of the Pipeline
 
 
 Takeaways
-----------
+===========
 
  - Usage of FlyteSchema Type. Schema type allows passing a type safe vector from one task to task. The vector is also directly loaded into a pandas dataframe. We could use an unstructured Schema (By simply omiting the column types). this will allow any data to be accepted by the train algorithm.
 
