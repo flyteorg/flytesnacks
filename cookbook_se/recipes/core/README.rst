@@ -14,15 +14,6 @@ level sections.
 
 Please see additional information in the [GitHub Readme](https://github.com/lyft/flytesnacks/tree/master/cookbook_se) as well.
 
-
-How to build your Dockerfile?
-------------------------------
-
-.. literalinclude:: ../../Dockerfile
-    :language: dockerfile
-    :emphasize-lines: 1
-    :linenos:
-
 .. _flyte_type_system:
 
 Flyte Type-system
