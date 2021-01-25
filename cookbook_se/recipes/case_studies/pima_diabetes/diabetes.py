@@ -1,6 +1,6 @@
 """
-Write an end to end ML pipeline
-------------------------------------
+Train an XGBoost model and validate it
+----------------------------------------
 
 """
 import typing

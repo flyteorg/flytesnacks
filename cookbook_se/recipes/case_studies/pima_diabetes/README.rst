@@ -35,3 +35,7 @@ Takeaways
  - Usage of FlyteSchema Type. Schema type allows passing a type safe vector from one task to task. The vector is also directly loaded into a pandas dataframe. We could use an unstructured Schema (By simply omiting the column types). this will allow any data to be accepted by the train algorithm.
 
  - We pass the file as a CSV input. The file is auto-loaded.
+
+
+Walkthrough
+====================
