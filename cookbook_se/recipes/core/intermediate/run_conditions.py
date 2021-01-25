@@ -10,7 +10,7 @@ only be performed on primitive values.
 
 # %%
 # To start off, import `conditional` module
-import typing
+import random
 
 from flytekit import task, workflow
 from flytekit.annotated.condition import conditional
@@ -60,8 +60,9 @@ def multiplier(my_input: float) -> float:
     )
 
 
-print(f"Output of multiplier(my_input=3): {multiplier(my_input=3)}")
-print(f"Output of multiplier(my_input=0.5): {multiplier(my_input=0.5)}")
+if __name__ == "__main__":
+    print(f"Output of multiplier(my_input=3): {multiplier(my_input=3)}")
+    print(f"Output of multiplier(my_input=0.5): {multiplier(my_input=0.5)}")
 
 
 # %%
@@ -87,7 +88,8 @@ def multiplier_2(my_input: float) -> float:
     )
 
 
-print(f"Output of multiplier_2(my_input=10): {multiplier_2(my_input=10)}")
+if __name__ == "__main__":
+    print(f"Output of multiplier_2(my_input=10): {multiplier_2(my_input=10)}")
 
 
 # %%
@@ -111,35 +113,53 @@ def multiplier_3(my_input: float) -> float:
     return double(n=d)
 
 
-print(f"Output of multiplier_3(my_input=5): {multiplier_3(my_input=5)}")
+if __name__ == "__main__":
+    print(f"Output of multiplier_3(my_input=5): {multiplier_3(my_input=5)}")
 
 
 # %%
 # Example 4
 # ^^^^^^^^^^
-#
-# It is possible to test if a boolean retruned from previous tasks is True or False. But, Unary operations are not supported in Flytekit. To achieve this users can use helpful methods like is_true, is_false or is_ on the output variable.
+# It is possible to test if a boolean returned from previous tasks is True or False. But, unary operations are not
+# supported. Instead, please use the `is_true`, `is_false` or `is_` on the result.
 #
 # .. note::
 #
 #    Wondering how output values get these methods. In a workflow no output value is available to access directly. The inputs and outputs are auto-wrapped in a special object called :ref:pyclass:`flytekit.annotated.promise.Promise`.
 #
 @task
-def return_true() -> bool:
-    return True
+def coin_toss() -> bool:
+    """
+    Mimic some condition checking to see if something ran correctly
+    """
+    if random.random() < 0.5:
+        return True
+    return False
 
 
-@workflow
+@task
 def failed() -> int:
-    return 10
+    """
+    Mimic a task that handles a failure case
+    """
+    return -1
 
 
-@workflow
+@task
 def success() -> int:
-    return 20
+    """
+    Mimic a task that handles a success case
+    """
+    return 0
 
 
 @workflow
-def decompose() -> int:
-    result = return_true()
-    return 10  # conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
+def basic_boolean_wf() -> int:
+    result = coin_toss()
+    return conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
+
+
+if __name__ == "__main__":
+    print("Running basic_boolean_wf a few times")
+    for i in range(0, 5):
+        print(f"Basic boolean wf output {basic_boolean_wf()}")
