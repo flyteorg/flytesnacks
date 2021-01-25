@@ -142,4 +142,4 @@ def success() -> int:
 @workflow
 def decompose() -> int:
     result = return_true()
-    return conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
+    return 10  # conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
