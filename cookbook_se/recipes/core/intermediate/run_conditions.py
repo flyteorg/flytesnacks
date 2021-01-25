@@ -128,7 +128,7 @@ if __name__ == "__main__":
 #    Wondering how output values get these methods. In a workflow no output value is available to access directly. The inputs and outputs are auto-wrapped in a special object called :ref:pyclass:`flytekit.annotated.promise.Promise`.
 #
 @task
-def ran_successfully() -> bool:
+def coin_toss() -> bool:
     """
     Mimic some condition checking to see if something ran correctly
     """
@@ -155,7 +155,7 @@ def success() -> int:
 
 @workflow
 def basic_boolean_wf() -> int:
-    result = ran_successfully()
+    result = coin_toss()
     return conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
 
 
