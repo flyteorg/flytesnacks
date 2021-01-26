@@ -57,7 +57,7 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
-flytekit==0.16.0b0
+flytekit==0.16.0b1
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-awssagemaker
