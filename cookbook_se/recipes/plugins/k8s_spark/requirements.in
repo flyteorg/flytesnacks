@@ -1,4 +1,4 @@
 -r ../../common/requirements-common.in
 pyspark
 
-https://github.com/lyft/flytekit/archive/68568756b305b97aeb65dbca950e695d2368cfb3.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
+flytekitplugins-spark==0.1.0
