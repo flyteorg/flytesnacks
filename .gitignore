@@ -8,7 +8,6 @@ __pycache__/
 .DS_Store
 gen_modules
 cookbook*.pb
-*.png
 *.h5
 data/
 *.pt
