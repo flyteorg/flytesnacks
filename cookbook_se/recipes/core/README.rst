@@ -1,4 +1,3 @@
-.. _cookbook_core
 ############################################
 Getting Started with Flytekit [python]
 ############################################
@@ -110,7 +109,7 @@ The following table provides a quick over-view of how types are converted from t
    * - User defined types
      - Any
      - Custom Transformers
-     - Use python 3 type hints, but need to provide custom transformers. Refer to :ref:`<advanced_custom_types>`_   .
+     - Use python 3 type hints, but need to provide custom transformers. Refer to :ref:`advanced_custom_types`.
 
 
 .. prompt:: bash
