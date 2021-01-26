@@ -1,3 +1,3 @@
-https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#egg=flytekit
+flytekit==0.16.0b0
 wheel
 matplotlib

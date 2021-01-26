@@ -57,11 +57,11 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#egg=flytekit
+flytekit==0.16.0b0
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-awssagemaker
-https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
+flytekitplugins-awssagemaker==0.1.0
     # via -r requirements.in
 future==0.18.2
     # via tensorflow-datasets
@@ -127,6 +127,7 @@ numpy==1.19.5
     #   matplotlib
     #   opt-einsum
     #   pandas
+    #   pyarrow
     #   sagemaker-training
     #   scipy
     #   tensorboard
@@ -160,6 +161,8 @@ psutil==5.8.0
     # via sagemaker-training
 py==1.10.0
     # via retry
+pyarrow==2.0.0
+    # via flytekit
 pyasn1-modules==0.2.8
     # via google-auth
 pyasn1==0.4.8

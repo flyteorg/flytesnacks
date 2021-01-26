@@ -26,11 +26,11 @@ dirhash==0.2.1
     # via flytekit
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/e6ad0b2b61fd6c746d5a2d8c10ad959c03648854.zip#egg=flytekit
+flytekit==0.16.0b0
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-spark
-https://github.com/lyft/flytekit/archive/68568756b305b97aeb65dbca950e695d2368cfb3.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
+flytekitplugins-spark==0.1.0
     # via -r requirements.in
 grpcio==1.35.0
     # via flytekit
@@ -58,6 +58,7 @@ numpy==1.19.5
     # via
     #   matplotlib
     #   pandas
+    #   pyarrow
 pandas==1.2.1
     # via flytekit
 pathspec==0.8.1
@@ -72,6 +73,8 @@ py4j==0.10.9
     # via pyspark
 py==1.10.0
     # via retry
+pyarrow==2.0.0
+    # via flytekit
 pyparsing==2.4.7
     # via matplotlib
 pyspark==3.0.1
