@@ -9,11 +9,11 @@ register_sandbox: docker_build serialize_sandbox
 	flyte-cli register-files -i -p ${PROJECT} -d development -v ${VERSION} -h localhost:30081 ${CURDIR}/_pb_output/*
 
 .PHONY: serialize_sandbox
-serialize_sandbox: docker_build
+serialize_sandbox: dev_docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${VERSION} make in_container_serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:dev-${VERSION} make in_container_serialize_sandbox
 
 .PHONY: serialize
 serialize:
@@ -45,12 +45,12 @@ fast_register_sandbox: fast_serialize_sandbox
 		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
 
 .PHONY: fast_serialize_sandbox
-fast_serialize_sandbox:
+fast_serialize_sandbox: dev_docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
 	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root \
-		${CURDIR} --image flytecookbook:${VERSION} fast workflows -f _pb_output/
+		${CURDIR} --image ${FULL_IMAGE_NAME}:dev-${VERSION} fast workflows -f _pb_output/
 
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
@@ -68,11 +68,12 @@ all_docker_push: docker_push
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh k8sspark.Dockerfile spark
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh kfpytorch.Dockerfile pytorch
 	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh smpytorch.Dockerfile smpytorch
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh dev.Dockerfile dev
 
 .PHONY: all_requirements
 all_requirements: requirements
 	ENV_BASE_PATH="${PWD}/env/" scripts/make-all-docker.sh requirements
 
-.PHONY: docker_dev_build
-docker_dev_build:
+.PHONY: dev_docker_build
+dev_docker_build:
 	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./dev.Dockerfile dev
