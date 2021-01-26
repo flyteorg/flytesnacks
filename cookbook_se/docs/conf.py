@@ -42,7 +42,6 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         "mocking.py",
-        "graphviz.py",
         "diabetes.py",
         # Intermediate
         "schema.py",

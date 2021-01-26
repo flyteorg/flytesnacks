@@ -24,7 +24,7 @@ from flytekit import task
 # %%
 # A ``PythonFunctionTask`` must always be decorated with the ``@task`` ``flytekit.task`` decorator.
 # The task itself is a regular python function, with one exception, it needs all the inputs and outputs to be clearly
-# annotated with the types. The types are regular python types, more on this in the type-system section.
+# annotated with the types. The types are regular python types; we'll go over more on this in the type-system section.
 # :py:func:`flytekit.task`
 @task
 def square(n: int) -> int:

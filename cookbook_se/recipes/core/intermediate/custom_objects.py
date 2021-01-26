@@ -42,7 +42,7 @@ class Datum(object):
 
 
 # %%
-# Once declared dataclasses can be returned as outputs or accepted as inputs
+# Once declared, dataclasses can be returned as outputs or accepted as inputs
 @task
 def stringify(x: int) -> Datum:
     """

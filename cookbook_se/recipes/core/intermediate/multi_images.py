@@ -7,7 +7,7 @@ Working with Multiple Container Images in the same workflow
 Typically when you are working locally, it is preferable to install all requirements of your project locally
 (maybe in a single virtual environment). This gets complicated when you want to deploy your code to a remote
 environment. This is because most tasks in Flyte (function tasks) get deployed using a Docker Container. A docker
-container allows you to create an exepected environment for your tasks. Though it is completely possible to build a
+container allows you to create an expected environment for your tasks. Though it is completely possible to build a
 single Container Image that contains all your dependencies, it is complicated to achieve this in practice.
 Reasons why it is complicated and not recommended,
 

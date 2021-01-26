@@ -38,7 +38,7 @@ def download_files() -> FlyteDirectory:
 
 
 # %%
-# Purely Python function, no Flyte components here.
+# This helper method is a purely Python function; no Flyte components here.
 def rotate(local_image: str):
     """
     In place rotation of the image

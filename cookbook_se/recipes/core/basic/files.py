@@ -6,7 +6,7 @@ Files are one of the most fundamental things that users of Python work with, and
 In the IDL, they are known as `Blob <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/literals.proto#L33>`__ literals
 and are backed by the `blob type <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/types.proto#L47>`__
 
-Note that the type message includes a ``format`` field which is text.
+Note that the type message includes an optional ``format`` field which is a text-field used to denote the file extension.
 """
 
 import os
