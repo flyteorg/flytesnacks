@@ -6,7 +6,6 @@ __pycache__/
 *.csv
 *.dat
 .DS_Store
-auto_recipes
 gen_modules
 cookbook*.pb
 *.png
@@ -14,3 +13,10 @@ cookbook*.pb
 data/
 *.pt
 logs/
+_pb_output/
+_build/
+.vim/
+._rsts/
+*.zip
+auto_*/
+docs/_rsts/
