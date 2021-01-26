@@ -1,4 +1,4 @@
-Flyte Cookbook (2nd Edition)
+Flyte Cookbook
 ==============================================
 This cookbook provides a hands on tutorial of various features in Flyte using flytekit, the platform's Python SDK. Flytekit is
 intended to be useful even without Flyte backend. All the examples in this book are executable locally and we recommend the best way to try out

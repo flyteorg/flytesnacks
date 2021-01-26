@@ -1,8 +1,8 @@
 """
 .. _advanced_merge_sort:
 
-01: Merge Sort; Conditions & Recursion in Flyte
-*************************************************
+Merge Sort; Conditions & Recursion in Flyte
+----------------------------------------------
 
 FlyteIdl (the fundamental building block of the Flyte Language) allows various programming language features;
 Conditionals, Recursion, Custom Typing and more.
