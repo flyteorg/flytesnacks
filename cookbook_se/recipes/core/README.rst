@@ -1,5 +1,5 @@
 ############################################
-Examples of using flytekit without plugins
+Getting Started with Flytekit [python]
 ############################################
 
 The intention of this cookbook is to provide a hands on tutorial of various
