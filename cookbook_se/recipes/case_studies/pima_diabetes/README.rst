@@ -1,8 +1,8 @@
 PIMA Indians diabetes prediction using XGBoost
 -----------------------------------------------
-The workflow demonstrates how to train an XGBoost model. The workflow is designed for the :ref:`Pima Indian Diabetes dataset <https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names>`_.
+The workflow demonstrates how to train an XGBoost model. The workflow is designed for the `Pima Indian Diabetes dataset <https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names>`_.
 
-An example dataset is available :ref:`here <https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`_.
+An example dataset is available `here <https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`_.
 
 Why a Workflow?
 ================

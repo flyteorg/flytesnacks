@@ -97,8 +97,8 @@ and just like that you can update your code without requiring a rebuild of your 
 
 .. _working_hosted_service:
 
-Some concepts available remote only
------------------------------------
+Features @Hosted Flyte: Schedules, Notifications etc
+-----------------------------------------------------
 
 Using remote Flyte gives you the ability to:
 

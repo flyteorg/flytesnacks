@@ -2,7 +2,7 @@
 .. _advanced_custom_task_plugin:
 
 How to write your own flytekit task plugins?
-*************************************************
+----------------------------------------------
 
 Flytekit is designed to be extremely extensible. You can add new task-types that are useful only for your use-cases.
 Flyte does come with the capability of extending the backend, but that is only required if you want the capability to be
@@ -14,12 +14,12 @@ in the object store. Remember, if you follow the Flyte/flytekit constructs, you 
 across all cloud platforms that Flyte supports
 
 Sensor Plugin
-==============
+^^^^^^^^^^^^^^
 A sensor Plugin waits for some event to happen, before marking the task as success. You do not need to worry about the
 timeout as that will be handled by the flyte engine itself, when running in production
 
 Plugin API
------------------
+^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -45,7 +45,7 @@ from flytekit.annotated.interface import Interface
 
 # %%
 # Plugin Structure
-# -----------------
+# ^^^^^^^^^^^^^^^^^
 # As illustrated above to achieve this structure we need to create a Class called  ``WaitForObjectStoreFile``, which
 # derives from :py:class:`flytekit.annotated.PythonFunctionTask` as follows.
 #
@@ -106,7 +106,7 @@ class WaitForObjectStoreFile(PythonTask):
 # We will try to cover an example of Config objects in a subsequent tutorial
 #
 # Actual Usage
-# -------------
+# ^^^^^^^^^^^^^
 
 sensor = WaitForObjectStoreFile(
     name="my-objectstore-sensor",

@@ -21,7 +21,7 @@ from xgboost import XGBClassifier
 # %%
 # Since we are working with a specific dataset, we will create a strictly typed schema for the dataset.
 # If we wanted a generic data splitter we could use a Generic schema without any column type and name information
-# Example file: https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
+# `Example file <https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`_
 # CSV Columns
 #
 # #. Number of times pregnant
