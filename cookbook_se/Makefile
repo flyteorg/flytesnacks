@@ -72,3 +72,7 @@ all_docker_push: docker_push
 .PHONY: all_requirements
 all_requirements: requirements
 	ENV_BASE_PATH="${PWD}/env/" scripts/make-all-docker.sh requirements
+
+.PHONY: docker_dev_build
+docker_dev_build:
+	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./dev.Dockerfile dev
