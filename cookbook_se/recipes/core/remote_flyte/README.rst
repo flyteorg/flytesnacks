@@ -73,6 +73,28 @@ Of interest are the following args:
 - `-v` is a unique string used to identify this version of entities registered under a project and domain.
 - If required, you can specify a `kubernetes-service-account` or `assumable_iam_role` which your tasks will run with.
 
+
+Fast(er) iteration
+^^^^^^^^^^^^^^^^^^
+Re-building a new Docker container image for every code change you make can become cumbersome and slow.
+If you're making purely code changes that **do not** require updating your container definition, you can make use of
+fast serialization and registration to speed up your iteration process and reduce the time it takes to upload new entity
+versions to your hosted Flyte deployment.
+
+First, run the fast serialization target:
+
+.. code-block::
+
+   make fast_serialize
+
+And then the fast register target:
+
+.. code-block::
+
+   OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw_data FLYTE_HOST=flyte.example.com ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/archives make register
+
+and just like that you can update your code without requiring a rebuild of your container!
+
 .. _working_hosted_service:
 
 Some concepts available remote only

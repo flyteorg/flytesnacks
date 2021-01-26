@@ -26,6 +26,16 @@ serialize:
 register:
 	flyte-cli register-files -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} _pb_output/*
 
+.PHONY: fast_serialize
+serialize:
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	rm ${CURDIR}/_pb_output/* || true
+	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} fast workflows -f _pb_output/
+
+.PHONY: fast_register
+register:
+	flyte-cli fast-register-files -p flytetester -d development --kubernetes-service-account demo --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
 
 .PHONY: fast_register_sandbox
 fast_register_sandbox: fast_serialize_sandbox
