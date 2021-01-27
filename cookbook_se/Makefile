@@ -46,7 +46,7 @@ fast_register_sandbox: fast_serialize_sandbox
 
 .PHONY: in_container_fast_serialize_sandbox
 in_container_fast_serialize_sandbox:
-	pyflyte --config /root/sandbox.config serialize workflows fast -f /tmp/output
+	pyflyte --config /root/sandbox.config serialize fast workflows -f /tmp/output
 
 .PHONY: fast_serialize_sandbox
 fast_serialize_sandbox: dev_docker_build
