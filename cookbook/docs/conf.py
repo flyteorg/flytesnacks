@@ -137,6 +137,7 @@ html_theme_options = {
     "display_version": True,
 }
 
+html_additional_pages = {"index": "index.html"}
 
 examples_dirs = [
     "../recipes/core",
