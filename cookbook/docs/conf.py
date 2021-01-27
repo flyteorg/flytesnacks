@@ -167,11 +167,23 @@ html_logo = "flyte_circle_gradient_1_4x4.png"
 # html_additional_pages = {"index": "index.html"}
 
 examples_dirs = [
-    "../recipes/core",
-    "../recipes/case_studies",
-    "../recipes/plugins",
+    "../recipes/core/basic",
+    "../recipes/core/intermediate",
+    "../recipes/core/advanced",
+    "../recipes/case_studies/pima_diabetes",
+    "../recipes/plugins/hive",
+    "../recipes/plugins/sagemaker_training",
+    "../recipes/plugins/k8s_spark",
+    "../recipes/plugins/kfpytorch",
+    "../recipes/plugins/pod/",
+    "../recipes/plugins/sagemaker_pytorch/",
+
 ]
-gallery_dirs = ["auto_core", "auto_case_studies", "auto_plugins"]
+gallery_dirs = ["auto_core_basic",
+        "auto_core_intermediate",
+        "auto_core_advanced",
+        "auto_case_studies",
+        "auto_plugins"]
 
 # image_scrapers = ('matplotlib',)
 image_scrapers = ()

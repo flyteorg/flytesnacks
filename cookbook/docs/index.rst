@@ -14,7 +14,9 @@ The tutorial is divided into 3 sections:
    :maxdepth: 2
    :caption: Contents
 
-   auto_core/index
+   auto_core_basic/index
+   auto_core_intermediate/index
+   auto_core_advanced/index
    auto_case_studies/index
    auto_plugins/index
 
