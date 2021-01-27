@@ -1,0 +1,24 @@
+-r requirements.in
+
+-r ./recipes/plugins/pod/requirements.in
+-r ./recipes/plugins/k8s_spark/requirements.in
+-r ./recipes/plugins/sagemaker_training/requirements.in
+-r ./recipes/plugins/kfpytorch/requirements.in
+-r ./recipes/plugins/sagemaker_pytorch/requirements.in
+-r ./recipes/plugins/hive/requirements.in
+-r ./recipes/case_studies/pima_diabetes/requirements.in
+
+black==19.10b0
+coverage
+flake8
+flake8-black
+flake8-isort
+isort
+mock
+pytest
+sphinx
+sphinx-gallery
+sphinx-prompt
+sphinx-rtd-theme
+sphinx-code-include
+sphinx-autoapi
