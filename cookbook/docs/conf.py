@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Flyte Cookbook"
+project = "Flyte Cookbook [Python]"
 copyright = "2021, Flyte"
 author = "Flyte"
 
