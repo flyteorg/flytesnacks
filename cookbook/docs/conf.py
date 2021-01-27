@@ -20,12 +20,12 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Flyte Cookbook 2nd Ed."
-copyright = "2020, Flyte"
+project = "Flyte Cookbook"
+copyright = "2021, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
-release = "0.16.0"
+release = "0.16.0b1"
 
 
 class CustomSorter(FileNameSortKey):
