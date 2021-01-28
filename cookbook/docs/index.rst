@@ -11,14 +11,12 @@ The tutorial is divided into 3 sections:
 * :ref:`Plugins <sphx_glr_auto_plugins>` - This section details flytekit extensibility
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents
 
-   auto_core_basic/index
-   auto_core_intermediate/index
-   auto_core_advanced/index
-   auto_case_studies/index
-   auto_plugins/index
+   core
+   case_studies
+   plugins
 
 
 Indices and tables

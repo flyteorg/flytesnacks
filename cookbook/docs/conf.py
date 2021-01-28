@@ -183,7 +183,12 @@ gallery_dirs = ["auto_core_basic",
         "auto_core_intermediate",
         "auto_core_advanced",
         "auto_case_studies",
-        "auto_plugins"]
+        "auto_plugins_hive",
+        "auto_plugins_sagemaker_training",
+        "auto_plugins_k8s_spark",
+        "auto_plugins_kfpytorch",
+        "auto_plugins_pod",
+        "auto_plugins_sagemaker_pytorch",]
 
 # image_scrapers = ('matplotlib',)
 image_scrapers = ()
