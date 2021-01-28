@@ -37,6 +37,13 @@ The tutorial is divided into 3 sections:
    auto_plugins_pod/index
    auto_plugins_sagemaker_pytorch/index
 
+.. toctree::
+   :maxdepth: 4
+   :caption: Additional Flyte Documentation
+
+   Flyte Project <https://flyte.readthedocs.io/en/latest//>
+   Flytekit Python <https://flytekit.readthedocs.io/en/latest/">
+
 
 Indices and tables
 ==================
