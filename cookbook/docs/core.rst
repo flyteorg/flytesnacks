@@ -8,14 +8,6 @@ The first three chapters of this part of the cookbook is organized into increasi
 Please see additional information in the `GitHub Readme <https://github.com/lyft/flytesnacks/tree/master/cookbook_se>`_ as well.
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
-
-   auto_core_basic/index
-   auto_core_intermediate/index
-   auto_core_advanced/index
-
 .. _flyte_type_system:
 
 Flyte Type-system

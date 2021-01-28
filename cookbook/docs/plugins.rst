@@ -4,20 +4,6 @@
 Flyte Plugins
 ############################################
 
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
-
-
-   auto_plugins_hive/index
-   auto_plugins_sagemaker_training/index
-   auto_plugins_k8s_spark/index
-   auto_plugins_kfpytorch/index
-   auto_plugins_pod/index
-   auto_plugins_sagemaker_pytorch/index
-
-
 Flyte is designed to be highly extensible. Flyte can be extended in multiple ways
 
 #. Flytekit only plugins: Plugins that are like executing a python function in a container
