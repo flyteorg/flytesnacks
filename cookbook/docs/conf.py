@@ -222,4 +222,7 @@ intersphinx_mapping = {
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
+    "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/master/", None),
+    # Uncomment for local development
+    # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
 }
