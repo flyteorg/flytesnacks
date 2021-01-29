@@ -171,6 +171,7 @@ examples_dirs = [
     "../recipes/core/basic",
     "../recipes/core/intermediate",
     "../recipes/core/advanced",
+    "../recipes/core/remote_flyte",
     "../recipes/case_studies/pima_diabetes",
     "../recipes/plugins/hive",
     "../recipes/plugins/sagemaker_training",
@@ -180,9 +181,11 @@ examples_dirs = [
     "../recipes/plugins/sagemaker_pytorch/",
 
 ]
-gallery_dirs = ["auto_core_basic",
+gallery_dirs = [
+        "auto_core_basic",
         "auto_core_intermediate",
         "auto_core_advanced",
+        "auto_core_remote_flyte",
         "auto_case_studies",
         "auto_plugins_hive",
         "auto_plugins_sagemaker_training",

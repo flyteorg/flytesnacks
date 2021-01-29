@@ -28,6 +28,7 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    auto_core_basic/index
    auto_core_intermediate/index
    auto_core_advanced/index
+   auto_core_remote_flyte/index
 
 .. toctree::
    :maxdepth: 4
