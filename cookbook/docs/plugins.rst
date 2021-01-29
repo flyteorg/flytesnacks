@@ -1,4 +1,5 @@
 .. currentmodule:: plugins
+.. _plugins_main:
 
 ############################################
 Flyte Plugins
