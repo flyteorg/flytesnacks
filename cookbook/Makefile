@@ -24,7 +24,7 @@ serialize:
 
 .PHONY: register
 register:
-	flyte-cli register-files -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} _pb_output/*
+	flyte-cli register-files -p flytetester -d development -v ${VERSION} --output-location-prefix ${OUTPUT_DATA_PREFIX} -i  -h ${FLYTE_HOST} _pb_output/*
 
 .PHONY: fast_serialize
 fast_serialize:
