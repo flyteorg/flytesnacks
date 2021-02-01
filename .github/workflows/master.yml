@@ -1,9 +1,7 @@
 name: Master
 
 on:
-  push:
-    branches:
-      - master
+  pull_request
 
 jobs:
   push-github:
@@ -21,7 +19,7 @@ jobs:
         with:
           username: "${{ github.actor }}"
           password: "${{ secrets.GITHUB_TOKEN }}"
-          image_name: ${{ github.repository }}/${{ github.event.repository.name }}
+          image_name: flytecookbook
           image_tag: latest,${{ github.sha }},${{ needs.bump-version.outputs.version }}
           push_git_tag: true
           registry: ghcr.io
