@@ -76,6 +76,8 @@ def main_2():
             .all()
         )
 
+    test_user_demo_test()
+
 
 if __name__ == "__main__":
     main_1()
