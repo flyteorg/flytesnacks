@@ -38,15 +38,14 @@ from datetime import timedelta
 from time import sleep
 
 from flytekit import TaskMetadata, task, workflow
-from flytekit.extend import Interface, PythonTask
-from flytekit.extend import context_manager
+from flytekit.extend import Interface, PythonTask, context_manager
 
 
 # %%
 # Plugin Structure
 # ^^^^^^^^^^^^^^^^^
 # As illustrated above to achieve this structure we need to create a Class called  ``WaitForObjectStoreFile``, which
-# derives from :py:class:`flytekit.annotated.PythonFunctionTask` as follows.
+# derives from :py:class:`flytekit.core.PythonFunctionTask` as follows.
 #
 class WaitForObjectStoreFile(PythonTask):
     """
