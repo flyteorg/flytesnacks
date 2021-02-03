@@ -92,7 +92,7 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.11
     # via flytekit
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#egg=flytekit
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#egg=flytekit
     # via
     #   -r ./recipes/case_studies/pima_diabetes/../../common/requirements-common.in
     #   -r ./recipes/plugins/hive/../../common/requirements-common.in
@@ -107,17 +107,17 @@ https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540
     #   flytekitplugins-kfpytorch
     #   flytekitplugins-pod
     #   flytekitplugins-spark
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
     # via
     #   -r ./recipes/plugins/sagemaker_pytorch/requirements.in
     #   -r ./recipes/plugins/sagemaker_training/requirements.in
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
     # via -r ./recipes/plugins/hive/requirements.in
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
     # via -r ./recipes/plugins/kfpytorch/requirements.in
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
     # via -r ./recipes/plugins/pod/requirements.in
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
     # via -r ./recipes/plugins/k8s_spark/requirements.in
 future==0.18.2
     # via
