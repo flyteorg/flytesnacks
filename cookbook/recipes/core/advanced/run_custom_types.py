@@ -27,7 +27,8 @@ from typing import Type
 
 # %%
 # Defined type here represents a list of Files on the disk. We will refer to it as ``MyDataset``
-from flytekit import FlyteContext, TypeEngine, TypeTransformer, task, workflow
+from flytekit import FlyteContext, task, workflow
+from flytekit.extend import TypeEngine, TypeTransformer
 from flytekit.models.core.types import BlobType
 from flytekit.models.literals import Blob, BlobMetadata, Literal, Scalar
 from flytekit.models.types import LiteralType
