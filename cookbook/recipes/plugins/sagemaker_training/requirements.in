@@ -1,5 +1,5 @@
 -r ../../common/requirements-common.in
 # flytekitplugins-awssagemaker==0.1.0
-https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
+https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
 tensorflow
 tensorflow-datasets
