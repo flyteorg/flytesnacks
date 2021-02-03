@@ -30,7 +30,7 @@ https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-kfpytorch
-flytekitplugins-kfpytorch==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
     # via -r requirements.in
 future==0.18.2
     # via croniter

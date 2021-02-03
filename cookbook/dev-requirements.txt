@@ -36,9 +36,9 @@ black==19.10b0
     # via
     #   -r dev-requirements.in
     #   flake8-black
-boto3==1.16.63
+boto3==1.17.0
     # via sagemaker-training
-botocore==1.19.63
+botocore==1.20.0
     # via
     #   boto3
     #   s3transfer
@@ -107,17 +107,17 @@ https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540
     #   flytekitplugins-kfpytorch
     #   flytekitplugins-pod
     #   flytekitplugins-spark
-flytekitplugins-awssagemaker==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
     # via
     #   -r ./recipes/plugins/sagemaker_pytorch/requirements.in
     #   -r ./recipes/plugins/sagemaker_training/requirements.in
-flytekitplugins-hive==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
     # via -r ./recipes/plugins/hive/requirements.in
-flytekitplugins-kfpytorch==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
     # via -r ./recipes/plugins/kfpytorch/requirements.in
-flytekitplugins-pod==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
     # via -r ./recipes/plugins/pod/requirements.in
-flytekitplugins-spark==0.1.0
+https://github.com/lyft/flytekit/archive/82a0ac707bbc4203757a88a9fa9d33d63614540e.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
     # via -r ./recipes/plugins/k8s_spark/requirements.in
 future==0.18.2
     # via
@@ -350,7 +350,7 @@ rsa==4.7
     # via google-auth
 s3transfer==0.3.4
     # via boto3
-sagemaker-training==3.7.2
+sagemaker-training==3.7.3
     # via flytekitplugins-awssagemaker
 scantree==0.0.1
     # via dirhash
