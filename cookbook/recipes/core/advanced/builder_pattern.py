@@ -39,9 +39,9 @@ def transform():
 
 
 sample_query = "select * from my_input_table"
-built_wf, built_task = Builder.create(sample_query).assign_function(transform).build()
+my_wf, my_task = Builder.create(sample_query).assign_function(transform).build()
 
 
 if __name__ == "__main__":
-    built_wf()
-    print(f"WF {built_wf}, Task {built_task}")
+    my_wf()
+    print(f"WF {my_wf}, Task {my_task}")
