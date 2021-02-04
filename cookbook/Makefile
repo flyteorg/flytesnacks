@@ -21,7 +21,7 @@ serialize:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} workflows -f _pb_output/
+	pyflyte -c sandbox.config --pkgs recipes.core serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} workflows -f _pb_output/
 
 .PHONY: register
 register:
@@ -34,7 +34,7 @@ fast_serialize:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} fast workflows -f _pb_output/
+	pyflyte -c sandbox.config --pkgs.core recipes.core serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} fast workflows -f _pb_output/
 
 .PHONY: fast_register
 fast_register:
