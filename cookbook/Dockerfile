@@ -24,7 +24,7 @@ RUN pip install -r /root/requirements.txt
 # Copy the actual code
 COPY . /root
 
-RUN pip install https://github.com/lyft/flytekit/archive/b13ebb44eaae6635be41c1e20ed5c9296816d94f.zip#egg=flytekit
+RUN pip install https://github.com/flyteorg/flytekit/archive/b13ebb44eaae6635be41c1e20ed5c9296816d94f.zip#egg=flytekit
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
