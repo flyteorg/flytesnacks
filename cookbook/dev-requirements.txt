@@ -36,9 +36,9 @@ black==19.10b0
     # via
     #   -r dev-requirements.in
     #   flake8-black
-boto3==1.17.0
+boto3==1.17.1
     # via sagemaker-training
-botocore==1.20.0
+botocore==1.20.1
     # via
     #   boto3
     #   s3transfer
@@ -90,9 +90,9 @@ flake8==3.8.4
     #   flake8-isort
 flatbuffers==1.12
     # via tensorflow
-flyteidl==0.18.11
+flyteidl==0.18.12
     # via flytekit
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#egg=flytekit
+flytekit==0.16.0b6
     # via
     #   -r ./recipes/case_studies/pima_diabetes/../../common/requirements-common.in
     #   -r ./recipes/plugins/hive/../../common/requirements-common.in
@@ -107,17 +107,17 @@ https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd4
     #   flytekitplugins-kfpytorch
     #   flytekitplugins-pod
     #   flytekitplugins-spark
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/awssagemaker&egg=flytekitplugins-awssagemaker
+flytekitplugins-awssagemaker==0.1.1
     # via
     #   -r ./recipes/plugins/sagemaker_pytorch/requirements.in
     #   -r ./recipes/plugins/sagemaker_training/requirements.in
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/hive&egg=flytekitplugins-hive
+flytekitplugins-hive==0.1.1
     # via -r ./recipes/plugins/hive/requirements.in
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/kfpytorch&egg=flytekitplugins-kfpytorch
+flytekitplugins-kfpytorch==0.1.1
     # via -r ./recipes/plugins/kfpytorch/requirements.in
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
+flytekitplugins-pod==0.1.1
     # via -r ./recipes/plugins/pod/requirements.in
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/spark&egg=flytekitplugins-spark
+flytekitplugins-spark==0.1.1
     # via -r ./recipes/plugins/k8s_spark/requirements.in
 future==0.18.2
     # via
@@ -129,7 +129,7 @@ gevent==21.1.2
     # via sagemaker-training
 google-auth-oauthlib==0.4.2
     # via tensorboard
-google-auth==1.24.0
+google-auth==1.25.0
     # via
     #   google-auth-oauthlib
     #   tensorboard
