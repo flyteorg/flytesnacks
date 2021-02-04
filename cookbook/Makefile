@@ -6,7 +6,8 @@ in_container_serialize_sandbox:
 
 .PHONY: register_sandbox
 register_sandbox: docker_build serialize_sandbox
-	flyte-cli register-files -i -p ${PROJECT} -d development -v ${VERSION} -h localhost:30081 ${CURDIR}/_pb_output/*
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
+	flyte-cli register-files -i -p ${PROJECT} -d development -v ${VERSION} -h ${FLYTE_HOST} ${CURDIR}/_pb_output/*
 
 .PHONY: serialize_sandbox
 serialize_sandbox: dev_docker_build
@@ -24,8 +25,8 @@ serialize:
 
 .PHONY: register
 register:
-	test $(OUTPUT_DATA_PREFIX)
-	test $(FLYTE_HOST)
+	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	flyte-cli register-files ${INSECURE} -p flytetester -d development -v ${VERSION} --kubernetes-service-account default --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} _pb_output/*
 
 .PHONY: fast_serialize
@@ -37,11 +38,15 @@ fast_serialize:
 
 .PHONY: fast_register
 fast_register:
+	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
+	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
 	flyte-cli fast-register-files ${INSECURE} -p flytetester -d development --kubernetes-service-account default --output-location-prefix ${OUTPUT_DATA_PREFIX} -h ${FLYTE_HOST} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
 
 .PHONY: fast_register_sandbox
 fast_register_sandbox: fast_serialize_sandbox
 	echo "Registering against localhost. Follow the README to use a remote Flyte installation"
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	FLYTE_AWS_ENDPOINT=http://localhost:9000/ FLYTE_AWS_ACCESS_KEY_ID=minio FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage \
 		flyte-cli fast-register-files ${INSECURE} -p ${PROJECT} -d development -h localhost:30081 -i \
 		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
