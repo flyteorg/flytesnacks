@@ -1,3 +1,2 @@
 -r ../../common/requirements-common.in
-https://github.com/lyft/flytekit/archive/a965d02fe95f0c62576ddaa0d031c7613a63fd42.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
 # flytekitplugins-pod==0.1.0
