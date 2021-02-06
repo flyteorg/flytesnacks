@@ -21,6 +21,8 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY ./requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/a32ab82bef4d9ff53c2b7b4e69ff11f1e93858ea.zip#egg=flytekit
+
 # Copy the actual code
 COPY . /root
 
