@@ -35,7 +35,7 @@ serialize:
 register:
 	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development -v ${VERSION} --kubernetes-service-account default --output-location-prefix ${OUTPUT_DATA_PREFIX} _pb_output/*
+	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo --output-location-prefix ${OUTPUT_DATA_PREFIX} _pb_output/*
 
 .PHONY: fast_serialize
 fast_serialize:
