@@ -10,7 +10,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 shopt -s dotglob
-find recipes/* -type d | while IFS= read -r d; do
+find * -type d | while IFS= read -r d; do
     if [ -f "$d/Makefile" ]; then
         echo "Running make in $d..."
         cd $d;

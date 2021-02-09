@@ -27,7 +27,7 @@ dirhash==0.2.1
 flyteidl==0.18.12
     # via flytekit
 flytekit==0.16.0b6
-    # via -r recipes/common/requirements-common.in
+    # via -r common/requirements-common.in
 future==0.18.2
     # via croniter
 grpcio==1.35.0
@@ -45,7 +45,7 @@ marshmallow==3.10.0
     #   dataclasses-json
     #   marshmallow-enum
 matplotlib==3.3.4
-    # via -r recipes/common/requirements-common.in
+    # via -r common/requirements-common.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
@@ -124,7 +124,7 @@ urllib3==1.25.11
     #   responses
 wheel==0.36.2
     # via
-    #   -r recipes/common/requirements-common.in
+    #   -r common/requirements-common.in
     #   flytekit
 wrapt==1.12.1
     # via

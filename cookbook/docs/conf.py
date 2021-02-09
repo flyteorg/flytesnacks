@@ -164,17 +164,17 @@ html_logo = "flyte_circle_gradient_1_4x4.png"
 # html_additional_pages = {"index": "index.html"}
 
 examples_dirs = [
-    "../recipes/core/basic",
-    "../recipes/core/intermediate",
-    "../recipes/core/advanced",
-    "../recipes/core/remote_flyte",
-    "../recipes/case_studies/pima_diabetes",
-    "../recipes/plugins/hive",
-    "../recipes/plugins/sagemaker_training",
-    "../recipes/plugins/k8s_spark",
-    "../recipes/plugins/kfpytorch",
-    "../recipes/plugins/pod/",
-    "../recipes/plugins/sagemaker_pytorch/",
+    "../core/basic",
+    "../core/intermediate",
+    "../core/advanced",
+    "../core/remote_flyte",
+    "../case_studies/pima_diabetes",
+    "../plugins/hive",
+    "../plugins/sagemaker_training",
+    "../plugins/k8s_spark",
+    "../plugins/kfpytorch",
+    "../plugins/pod/",
+    "../plugins/sagemaker_pytorch/",
 ]
 gallery_dirs = [
     "auto_core_basic",
@@ -200,17 +200,17 @@ sphinx_gallery_conf = {
     "gallery_dirs": gallery_dirs,
     "subsection_order": ExplicitOrder(
         [
-            "../recipes/core/basic",
-            "../recipes/core/intermediate",
-            "../recipes/core/advanced",
-            "../recipes/core/remote_flyte",
-            "../recipes/case_studies/pima_diabetes",
-            "../recipes/plugins/hive",
-            "../recipes/plugins/sagemaker_training",
-            "../recipes/plugins/k8s_spark",
-            "../recipes/plugins/kfpytorch",
-            "../recipes/plugins/pod/",
-            "../recipes/plugins/sagemaker_pytorch/",
+            "../core/basic",
+            "../core/intermediate",
+            "../core/advanced",
+            "../core/remote_flyte",
+            "../case_studies/pima_diabetes",
+            "../plugins/hive",
+            "../plugins/sagemaker_training",
+            "../plugins/k8s_spark",
+            "../plugins/kfpytorch",
+            "../plugins/pod/",
+            "../plugins/sagemaker_pytorch/",
         ]
     ),
     # specify the order of examples to be according to filename

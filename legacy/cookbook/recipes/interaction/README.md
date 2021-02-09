@@ -85,7 +85,7 @@ Execution flytesnacks:development:f696cca32ffa44513b25
 Error:
 		Code: USER:Unknown
 		Message:
-			Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/tasks.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
+			Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/interaction/tasks.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
 
 	Node Executions:
 
@@ -118,7 +118,7 @@ Error:
 Error:
 				Code: USER:Unknown
 				Message:
-					Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/tasks.py", line 34, in rotate		        raise Exception("User signaled failure")		Message:				    User signaled failure				User error.
+					Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/interaction/tasks.py", line 34, in rotate		        raise Exception("User signaled failure")		Message:				    User signaled failure				User error.
 
 			Task Executions:
 
@@ -137,7 +137,7 @@ Error:
 Error:
 						Code: USER:Unknown
 						Message:
-							Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/recipes/interaction/interaction.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
+							Traceback (most recent call last):				      File "/opt/venv/lib/python3.6/site-packages/flytekit/common/exceptions/scopes.py", line 206, in user_entry_point		        return wrapped(*args, **kwargs)		      File "/root/interaction/interaction.py", line 34, in rotate		        raise Exception("User signaled failure")				Message:				    User signaled failure				User error.
 
 ``` 
 
