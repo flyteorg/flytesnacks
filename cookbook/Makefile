@@ -81,11 +81,11 @@ PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: docker_push
 	# REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f splugins/sagemaker
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f plugins/pod.Dockerfile pod
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f plugins/k8s_spark.Dockerfile k8s_spark
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f plugins/kfpytorch.Dockerfile kfpytorch
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f plugins/sagemaker_pytorch.Dockerfile sagemaker_pytorch
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f plugins/sagemaker_training.Dockerfile sagemaker_training
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/pod.Dockerfile pod
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/k8s_spark.Dockerfile k8s_spark
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/kfpytorch.Dockerfile kfpytorch
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/sagemaker_pytorch.Dockerfile sagemaker_pytorch
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/sagemaker_training.Dockerfile sagemaker_training
 
 .PHONY: all_requirements
 all_requirements: requirements
