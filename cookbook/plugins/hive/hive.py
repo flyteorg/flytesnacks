@@ -28,7 +28,7 @@ from flytekitplugins.hive import HiveConfig, HiveSelectTask, HiveTask
 # This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
 # Hive task a name that's unique across your project/domain for your Flyte installation.
 hive_task_no_io = HiveTask(
-    name="recipes.sql.hive.no_io",
+    name="sql.hive.no_io",
     inputs={},
     task_config=HiveConfig(cluster_label="flyte"),
     query_template="""
@@ -46,7 +46,7 @@ def no_io_wf():
 # %%
 # This is a hive task that demonstrates how you would construct your typical read query. Note where the ``select 1`` is.
 hive_task_w_out = HiveTask(
-    name="recipes.sql.hive.w_out",
+    name="sql.hive.w_out",
     inputs={},
     task_config=HiveConfig(cluster_label="flyte"),
     query_template="""
@@ -77,7 +77,7 @@ def with_output_wf() -> FlyteSchema:
 # This just demonstrates the things you can do. Note that when an input is a FlyteSchema, the value filled in will
 # be the uri, i.e. where the data is stored.
 demo_all = HiveSelectTask(
-    name="recipes.sql.hive.demo_all",
+    name="sql.hive.demo_all",
     inputs=kwtypes(ds=str, earlier_schema=FlyteSchema),
     task_config=HiveConfig(cluster_label="flyte"),
     select_query="""

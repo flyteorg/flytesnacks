@@ -1,4 +1,4 @@
-from recipes.core.intermediate import custom_objects
+from core.intermediate import custom_objects
 
 
 def test_custom_objects():

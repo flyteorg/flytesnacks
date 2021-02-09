@@ -1,6 +1,6 @@
 import os
 
-from recipes.core.basic import basic_workflow, files, folders, mocking
+from core.basic import basic_workflow, files, folders, mocking
 
 
 def test_basic_wf():

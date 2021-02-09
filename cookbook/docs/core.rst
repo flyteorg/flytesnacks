@@ -132,4 +132,4 @@ format **10H** (for 10 hours) or **10S** or **2D** (days etc)
 
 .. prompt:: bash
 
-    flyte-cli -p flytesnacks -d development execute-launch-plan -u lp:flytesnacks:development:recipes.types.generic.GenericDemoWorkflow:version -r demo -- a='{"a": "hello", "b": "how are you", "c": ["array"], "d": {"nested": "value"}}'
+    flyte-cli -p flytesnacks -d development execute-launch-plan -u lp:flytesnacks:development:types.generic.GenericDemoWorkflow:version -r demo -- a='{"a": "hello", "b": "how are you", "c": ["array"], "d": {"nested": "value"}}'

@@ -6,7 +6,7 @@
 
 Snippet
 ```python
-    from recipes.types.generic import generic_type_task
+    from types.generic import generic_type_task
 
     in1 = {
         'a': 'hello',
