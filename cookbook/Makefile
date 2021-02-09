@@ -81,7 +81,7 @@ PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: 
 	# REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f splugins/sagemaker
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh pod.Dockerfile plugins/pod
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/pod.Dockerfile pod
 
 .PHONY: all_requirements
 all_requirements: requirements
