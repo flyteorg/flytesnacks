@@ -1,4 +1,4 @@
-FROM python:3.8-buster
+FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
 
 WORKDIR /root
 ENV LANG C.UTF-8
@@ -8,22 +8,17 @@ ENV PYTHONPATH /root
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
 
-# Setup a virtual environment
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY kfpytorch/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
-# Setup Sagemaker entrypoints
-ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
-RUN pip install --upgrade sagemaker-training==3.6.2 natsort
-
 # Copy the actual code
-COPY . /root
+COPY kfpytorch/ /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

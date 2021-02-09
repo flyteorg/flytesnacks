@@ -1,4 +1,4 @@
-include recipes/common/Makefile.common
+include common/Makefile.common
 
 # If you're port-forwarding your service or running the sandbox Flyte deployment, just don't specify anything.
 # If your Flyte Admin is behind SSL, add SECURE=1 before your make command
@@ -80,12 +80,12 @@ run-examples:
 PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: docker_push
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/sagemaker
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/pod
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/k8s_spark
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/kfpytorch
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/sagemaker_pytorch
-	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh recipes/plugins/sagemaker_training
+	# REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f splugins/sagemaker
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f pod.Dockerfile plugins/pod
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f k8s_spark.Dockerfile plugins/k8s_spark
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f kfpytorch.Dockerfile plugins/kfpytorch
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f sagemaker_pytorch.Dockerfile plugins/sagemaker_pytorch
+	REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh -f sagemaker_training.Dockerfile plugins/sagemaker_training
 
 .PHONY: all_requirements
 all_requirements: requirements
