@@ -28,5 +28,5 @@ jobs:
           push_git_tag: true
           registry: ghcr.io
           build_extra_args: "--compress=true"
-          context: ./cookbook/recipes/plugins/k8s_spark
-          dockerfile: Dockerfile
+          context: ./cookbook/plugins
+          dockerfile: k8s_spark.Dockerfile
