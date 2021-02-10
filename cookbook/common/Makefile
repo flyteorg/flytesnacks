@@ -84,6 +84,7 @@ register_sandbox: docker_build serialize_sandbox
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build
+	echo ${VERSION}
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
