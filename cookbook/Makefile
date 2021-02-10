@@ -82,8 +82,8 @@ run-examples:
 	sh ./scripts/run-all-examples.sh
 
 PWD=$(CURDIR)
-.ONESHELL: # Only applies to all target
 .PHONY: all_docker_push
+.ONESHELL: # Only applies to all target
 all_docker_push: #docker_push
 	cd plugins
 	echo $(CURDIR)
