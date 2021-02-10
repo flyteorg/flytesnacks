@@ -83,7 +83,7 @@ run-examples:
 
 PWD=$(CURDIR)
 .PHONY: all_docker_push
-all_docker_push: docker_push
+all_docker_push:
 	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh pod/Dockerfile pod
 	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh k8s_spark/Dockerfile k8s_spark
 	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh kfpytorch/Dockerfile kfpytorch
