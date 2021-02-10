@@ -19,6 +19,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
+COPY in_container.Makefile /root/Makefile
 # Install Python dependencies
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
@@ -38,7 +39,6 @@ ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the actual code
 COPY k8s_spark/ /root/k8s_spark
-COPY k8s_spark/Makefile /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

@@ -8,6 +8,7 @@ ENV PYTHONPATH /root
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
 
+COPY in_container.Makefile /root/Makefile
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
@@ -19,7 +20,6 @@ RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
 COPY kfpytorch/ /root/kfpytorch/
-COPY kfpytorch/Makefile /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
