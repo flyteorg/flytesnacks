@@ -7,7 +7,6 @@ ENV PYTHONPATH /root
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
-COPY in_container.Makefile /root/Makefile
 
 ENV VENV /opt/venv
 # Virtual environment
@@ -18,8 +17,11 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY kfpytorch/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
+COPY in_container.Makefile /root/Makefile
+
 # Copy the actual code
 COPY kfpytorch/ /root/kfpytorch/
+COPY kfpytorch/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

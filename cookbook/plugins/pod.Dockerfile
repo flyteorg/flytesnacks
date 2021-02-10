@@ -8,7 +8,6 @@ ENV PYTHONPATH /root
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
-COPY in_container.Makefile /root/Makefile
 
 ENV VENV /opt/venv
 # Virtual environment
@@ -19,8 +18,11 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY pod/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
+COPY in_container.Makefile /root/Makefile
+
 # Copy the actual code
 COPY pod/ /root/pod/
+COPY pod/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

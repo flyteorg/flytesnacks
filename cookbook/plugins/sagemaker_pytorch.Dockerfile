@@ -10,8 +10,6 @@ ENV PYTHONPATH /root
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
 
-COPY in_container.Makefile /root/Makefile
-
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
@@ -21,12 +19,15 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY sagemaker_pytorch/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
+COPY in_container.Makefile /root/Makefile
+
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 
 # Copy the actual code
 COPY sagemaker_pytorch/ /root/sagemaker_pytorch
+COPY sagemaker_pytorch/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
