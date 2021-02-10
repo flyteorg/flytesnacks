@@ -14,12 +14,13 @@ RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-ess
 # in future versions to make it completely portable
 RUN pip3 install awscli
 
+COPY in_container.Makefile /root/Makefile
+
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-COPY in_container.Makefile /root/Makefile
 # Install Python dependencies
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt

@@ -7,8 +7,8 @@ ENV PYTHONPATH /root
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
-
 COPY in_container.Makefile /root/Makefile
+
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}

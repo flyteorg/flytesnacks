@@ -8,8 +8,6 @@ ENV PYTHONPATH /root
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
 
-COPY in_container.Makefile /root/Makefile
-
 # Setup a virtual environment
 ENV VENV /opt/venv
 # Virtual environment
@@ -19,6 +17,8 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY sagemaker_training/requirements.txt /root
 RUN pip install -r /root/requirements.txt
+
+COPY in_container.Makefile /root/Makefile
 
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
