@@ -33,17 +33,13 @@ debug:
 	echo "VERSION TAG ${VERSION}"
 	echo "REGISTRY ${REGISTRY}"
 
-.PHONY: docker_build
-docker_build:
-	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile ${PREFIX}
-
 # This should only be used by Admins to push images to the public Dockerhub repo. Make sure you
 # specify REGISTRY=ghcr.io/flyteorg or your registry before the make command otherwise this won't actually push
 # Also if you want to push the docker image for sagemaker consumption then
 # specify ECR_REGISTRY
 .PHONY: docker_push
 docker_push:
-	IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile ${PREFIX}
+	DOCKER_BUILDKIT=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
 
 .PHONY: fmt
 fmt: ## Format code with black and isort
@@ -72,3 +68,23 @@ requirements.txt: requirements.in install-piptools
 
 .PHONY: requirements
 requirements: requirements.txt dev-requirements.txt
+
+.PHONY: in_container_serialize_sandbox
+in_container_serialize_sandbox:
+	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
+
+.PHONY: docker_build
+docker_build:
+	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
+
+.PHONY: register_sandbox
+register_sandbox: docker_build serialize_sandbox
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
+	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} ${CURDIR}/_pb_output/*
+
+.PHONY: serialize_sandbox
+serialize_sandbox: docker_build
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	rm ${CURDIR}/_pb_output/* || true
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make in_container_serialize_sandbox
