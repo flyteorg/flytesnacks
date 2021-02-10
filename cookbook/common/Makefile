@@ -69,10 +69,6 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt dev-requirements.txt
 
-.PHONY: in_container_serialize_sandbox
-in_container_serialize_sandbox:
-	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
-
 .PHONY: docker_build
 docker_build:
 	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
