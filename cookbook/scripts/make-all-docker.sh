@@ -8,7 +8,7 @@ for i in `ls ${ENV_BASE_PATH}`;do
     ENV_PATH=${ENV_BASE_PATH}${i}
     cd ${ENV_PATH};
     echo "Running make command in `pwd`"
-    make ${1};
+    $(MAKE) ${1};
     cd ${DIR};
   fi
 done
