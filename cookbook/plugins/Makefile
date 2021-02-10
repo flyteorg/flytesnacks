@@ -16,15 +16,21 @@ SUBDIRS = $(shell ls -d */)
 
 .PHONY: register_sandbox
 register_sandbox:
-    for dir in $(SUBDIRS) ; do \
-        make -C $$dir register_sandbox; \
-    done
+    @for a in $$(ls); do \
+        if [ -d $$a ]; then \
+            echo "processing folder $$a"; \
+            $(MAKE) -C $$a register_sandbox; \
+        fi; \
+    done;
 
 .PHONY: serialize_sandbox
 serialize_sandbox:
-    for dir in $(SUBDIRS) ; do \
-        make -C $(dir) serialize_sandbox; \
-    done
+    @for a in $$(ls); do \
+        if [ -d $$a ]; then \
+            echo "processing folder $$a"; \
+            $(MAKE) -C $$a serialize_sandbox; \
+        fi; \
+    done;
 
 PWD=$(CURDIR)
 .PHONY: docker_push
