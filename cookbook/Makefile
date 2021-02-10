@@ -8,6 +8,10 @@ else
 	INSECURE_FLAG = -i
 endif
 
+ifndef SERVICE_ACCOUNT
+	SERVICE_ACCOUNT=default
+endif
+
 .PHONY: in_container_serialize_sandbox
 in_container_serialize_sandbox:
 	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
@@ -35,7 +39,7 @@ serialize:
 register:
 	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development -v ${VERSION} --kubernetes-service-account default --output-location-prefix ${OUTPUT_DATA_PREFIX} _pb_output/*
+	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development -v ${VERSION} --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} _pb_output/*
 
 .PHONY: fast_serialize
 fast_serialize:
@@ -49,7 +53,7 @@ fast_register:
 	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
-	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development --kubernetes-service-account default --output-location-prefix ${OUTPUT_DATA_PREFIX} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
+	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
 
 .PHONY: fast_register_sandbox
 fast_register_sandbox: fast_serialize_sandbox
