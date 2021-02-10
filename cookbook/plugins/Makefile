@@ -15,8 +15,8 @@ endif
 SUBDIRS = $(shell ls -d */)
 PWD=$(CURDIR)
 
-.PHONY: register_sandbox
-register_sandbox:
+.PHONY: all_register_sandbox
+all_register_sandbox:
 	for dir in $(SUBDIRS) ; do \
 		make -C  $$dir register_sandbox; \
 	done
@@ -29,14 +29,14 @@ all_serialize_sandbox:
 		make -C $$dir serialize_sandbox; \
 	done
 
-.PHONY: docker_push
-docker_push:
+.PHONY: all_docker_push
+all_docker_push:
 	echo "processing ${PWD}"
 	for dir in $(SUBDIRS) ; do \
 		echo "processing $$dir"; \
 		make -C $$dir docker_push; \
 	done
 
-.PHONY: requirements
-requirements: requirements
+.PHONY: all_requirements
+all_requirements:
 	ENV_BASE_PATH="${PWD}/env/" ../scripts/make-all-docker.sh requirements
