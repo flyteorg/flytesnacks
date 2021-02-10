@@ -13,8 +13,6 @@ shopt -s dotglob
 find * -type d | while IFS= read -r d; do
     if [ -f "$d/Makefile" ]; then
         echo "Running make in $d..."
-        cd $d;
-        make $1;
-        cd -;
+        $(MAKE) -C $d $1;
     fi
 done
