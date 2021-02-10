@@ -7,7 +7,7 @@ in_container_serialize_sandbox:
 
 .PHONY: docker_build
 docker_build:
-	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./Dockerfile ${PREFIX}
+	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
 
 .PHONY: docker_push
 docker_push: docker_build
