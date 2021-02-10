@@ -93,3 +93,18 @@ all_requirements: requirements
 .PHONY: dev_docker_build
 dev_docker_build:
 	NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ./dev.Dockerfile dev
+
+.PHONY: all_register_sandbox
+all_register_sandbox:
+	make -C core register_sandbox
+	make -C plugins all_register_sandbox
+
+.PHONY: all_serialize_sandbox
+all_serialize_sandbox:
+	make -C core serialize_sandbox
+	make -C plugins all_serialize_sandbox
+
+.PHONY: all_docker_push
+all_docker_push:
+	make -C core docker_push
+	make -C plugins all_docker_push
