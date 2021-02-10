@@ -1,2 +1,2 @@
-PREFIX=pytorch
+PREFIX=kfpytorch
 include ../../common/Makefile
