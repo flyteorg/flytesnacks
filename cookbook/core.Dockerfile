@@ -25,7 +25,7 @@ COPY in_container.Makefile /root/Makefile
 
 # Copy the actual code
 COPY core /root/core
-COPY k8s_spark/sandbox.config /root
+COPY core/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
