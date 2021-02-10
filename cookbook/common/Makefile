@@ -16,6 +16,19 @@ else
 	FULL_IMAGE_NAME = ${IMAGE_NAME}
 endif
 
+# If you're port-forwarding your service or running the sandbox Flyte deployment, just don't specify anything.
+# If your Flyte Admin is behind SSL, add SECURE=1 before your make command
+ifneq ($(origin SECURE), undefined)
+	INSECURE_FLAG =
+else
+	INSECURE_FLAG = -i
+endif
+
+# If you are using a different service account on your k8s cluster, add SERVICE_ACCOUNT=my_account before your make command
+ifndef SERVICE_ACCOUNT
+	SERVICE_ACCOUNT=default
+endif
+
 # The Flyte project that we want to register under
 PROJECT=flytesnacks
 

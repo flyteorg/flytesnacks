@@ -81,12 +81,6 @@ enter_sandbox: docker_build
 run-examples:
 	sh ./scripts/run-all-examples.sh
 
-CHDIR_SHELL := $(SHELL)
-define chdir
-   $(eval _D=$(firstword $(1) $(@D)))
-   $(info $(MAKE): cd $(_D)) $(eval SHELL = cd $(_D); $(CHDIR_SHELL))
-endef
-
 PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: docker_push

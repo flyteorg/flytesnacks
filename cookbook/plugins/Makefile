@@ -1,17 +1,5 @@
 include ../common/Makefile
 
-# If you're port-forwarding your service or running the sandbox Flyte deployment, just don't specify anything.
-# If your Flyte Admin is behind SSL, add SECURE=1 before your make command
-ifneq ($(origin SECURE), undefined)
-	INSECURE_FLAG =
-else
-	INSECURE_FLAG = -i
-endif
-
-ifndef SERVICE_ACCOUNT
-	SERVICE_ACCOUNT=default
-endif
-
 SUBDIRS = $(shell ls -d */)
 PWD=$(CURDIR)
 
