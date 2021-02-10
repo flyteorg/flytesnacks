@@ -13,29 +13,29 @@ ifndef SERVICE_ACCOUNT
 endif
 
 SUBDIRS = $(shell ls -d */)
+PWD=$(CURDIR)
 
 .PHONY: register_sandbox
 register_sandbox:
-    @for a in $$(ls); do \
-        if [ -d $$a ]; then \
-            echo "processing folder $$a"; \
-            $(MAKE) -C $$a register_sandbox; \
-        fi; \
-    done;
+	for dir in $(SUBDIRS) ; do \
+		make -C  $$dir register_sandbox; \
+	done
 
-.PHONY: serialize_sandbox
-serialize_sandbox:
-    @for a in $$(ls); do \
-        if [ -d $$a ]; then \
-            echo "processing folder $$a"; \
-            $(MAKE) -C $$a serialize_sandbox; \
-        fi; \
-    done;
+.PHONY: all_serialize_sandbox
+all_serialize_sandbox:
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		make -C $$dir serialize_sandbox; \
+	done
 
-PWD=$(CURDIR)
 .PHONY: docker_push
 docker_push:
-	../scripts/make_all_subdirs.sh docker_push
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		make -C $$dir docker_push; \
+	done
 
 .PHONY: requirements
 requirements: requirements
