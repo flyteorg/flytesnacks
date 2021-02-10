@@ -36,7 +36,7 @@ all_docker_push:
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh kfpytorch.Dockerfile kfpytorch
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh sagemaker_pytorch.Dockerfile sagemaker_pytorch
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh sagemaker_training.Dockerfile sagemaker_training
-	../script/make_all_subdirs.sh docker_push
+	../scripts/make_all_subdirs.sh docker_push
 
 .PHONY: register_sandbox_plugins
 register_sandbox_plugins: all_docker_push
