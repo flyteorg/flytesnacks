@@ -12,13 +12,19 @@ ifndef SERVICE_ACCOUNT
 	SERVICE_ACCOUNT=default
 endif
 
+SUBDIRS = $(shell ls -d */)
+
 .PHONY: register_sandbox
 register_sandbox:
-	../scripts/make_all_subdirs.sh register_sandbox
+    for dir in $(SUBDIRS) ; do \
+        make -C $$dir register_sandbox; \
+    done
 
 .PHONY: serialize_sandbox
 serialize_sandbox:
-	../scripts/make_all_subdirs.sh serialize_sandbox
+    for dir in $(SUBDIRS) ; do \
+        make -C $$dir serialize_sandbox; \
+    done
 
 PWD=$(CURDIR)
 .PHONY: docker_push
