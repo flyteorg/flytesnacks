@@ -19,6 +19,7 @@ COPY pod/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
+RUN mkdir -p /root/pod
 COPY pod/ /root/pod/
 
 # This tag is supplied by the build script and will be used to determine the version
