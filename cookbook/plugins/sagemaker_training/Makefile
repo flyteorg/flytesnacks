@@ -1,4 +1,4 @@
-PREFIX=sagemaker
+PREFIX=sagemaker_training
 include ../../common/Makefile.common
 
 .PHONY: in_container_serialize_sandbox

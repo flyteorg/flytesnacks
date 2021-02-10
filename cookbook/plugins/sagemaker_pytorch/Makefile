@@ -1,4 +1,4 @@
-PREFIX=smpytorch
+PREFIX=sagemaker_pytorch
 include ../../common/Makefile.common
 
 .PHONY: in_container_serialize_sandbox
