@@ -23,7 +23,7 @@ register_sandbox:
 .PHONY: serialize_sandbox
 serialize_sandbox:
     for dir in $(SUBDIRS) ; do \
-        make -C $$dir serialize_sandbox; \
+        make -C $(dir) serialize_sandbox; \
     done
 
 PWD=$(CURDIR)
