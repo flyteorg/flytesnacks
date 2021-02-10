@@ -90,7 +90,7 @@ endef
 PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: docker_push
-	$(MAKE) -c plugins all_docker_push
+	$(MAKE) -C plugins all_docker_push
 
 .PHONY: all_requirements
 all_requirements: requirements
