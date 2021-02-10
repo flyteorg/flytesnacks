@@ -24,6 +24,7 @@ RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 
 # Copy the actual code
 COPY sagemaker_training/ /root/sagemaker_training
+COPY sagemaker_training/Makefile /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

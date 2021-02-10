@@ -1,8 +1,6 @@
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
 IMAGE_NAME=flytecookbook
-# VERSION=$(shell echo git rev-parse HEAD)
-# PREV_BUILD_HASH = $(shell cat build-hash || echo “”)
 VERSION=$(shell git rev-parse HEAD)
 
 define PIP_COMPILE

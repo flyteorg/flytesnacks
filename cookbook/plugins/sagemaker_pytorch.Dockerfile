@@ -25,6 +25,7 @@ RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 
 # Copy the actual code
 COPY sagemaker_pytorch/ /root/sagemaker_pytorch
+COPY sagemaker_pytorch/Makefile /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
