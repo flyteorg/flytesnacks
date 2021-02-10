@@ -85,8 +85,8 @@ PWD=$(CURDIR)
 .PHONY: all_docker_push
 all_docker_push: docker_push
 	pushd plugins
-	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh pod/Dockerfile pod
-	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/k8s_spark.Dockerfile k8s_spark
+	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh pod/Dockerfile pod
+	DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh k8s_spark/Dockerfile k8s_spark
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/kfpytorch.Dockerfile kfpytorch
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/sagemaker_pytorch.Dockerfile sagemaker_pytorch
 	# DOCKER_BUILDKIT=1 REGISTRY=${REGISTRY} IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh plugins/sagemaker_training.Dockerfile sagemaker_training
