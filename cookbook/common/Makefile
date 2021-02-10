@@ -88,4 +88,4 @@ serialize_sandbox: docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make in_container_serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make serialize_sandbox
