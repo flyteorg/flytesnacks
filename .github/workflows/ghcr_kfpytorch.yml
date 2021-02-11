@@ -29,4 +29,4 @@ jobs:
           registry: ghcr.io
           build_extra_args: "--compress=true"
           context: ./cookbook/plugins
-          dockerfile: kfpytorch.Dockerfile
+          dockerfile: kfpytorch/Dockerfile

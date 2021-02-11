@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+name: Build and Push Core Docker Images
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   push-github:
-    name: Push to GHCR
+    name: Push Core examples to GHCR
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,6 +27,6 @@ jobs:
           image_tag: latest,${{ github.sha }},${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
-          build_extra_args: "--compress=true"
+          build_extra_args: "--compress=true --tag=${{ github.repository_owner }}/flytecookbook:${{ github.sha }}"
           context: ./cookbook
-          dockerfile: Dockerfile
+          dockerfile: core/Dockerfile

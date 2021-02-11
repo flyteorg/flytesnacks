@@ -1,4 +1,4 @@
-name: Build & Push SageMaker Training Plugin Docker Image
+name: Build and Push Core Docker Images
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   push-github:
-    name: Push to GHCR
+    name: Push Core examples to GHCR
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,16 +17,16 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - name: Push SageMaker Training Plugin Docker Image to Github Registry
+      - name: Push Docker Image to Github Registry
         uses: whoan/docker-build-with-cache-action@v5
         with:
           # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
-          image_name: ${{ github.repository_owner }}/flytecookbook-sagemaker-training
+          image_name: ${{ github.repository_owner }}/flytecookbook
           image_tag: latest,${{ github.sha }},${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
-          build_extra_args: "--compress=true"
-          context: ./cookbook/plugins
-          dockerfile: sagemaker_training/Dockerfile
+          build_extra_args: "--compress=true --tag=${{ github.repository_owner }}/flytecookbook:${{ github.sha }}"
+          context: ./cookbook/case_studies
+          dockerfile: pima_diabetes/Dockerfile

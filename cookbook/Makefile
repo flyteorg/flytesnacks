@@ -24,7 +24,7 @@ all_requirements: requirements
 all_register_sandbox:
 	make -C core register_sandbox
 	make -C plugins all_register_sandbox
-	make -C case_studies all_serialize_sandbox
+	make -C case_studies all_register_sandbox
 
 .PHONY: all_serialize_sandbox
 all_serialize_sandbox:
@@ -36,4 +36,4 @@ all_serialize_sandbox:
 all_docker_push:
 	make -C core docker_push
 	make -C plugins all_docker_push
-	make -C case_studies all_serialize_sandbox
+	make -C case_studies all_docker_push
