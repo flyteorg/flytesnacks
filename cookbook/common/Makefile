@@ -82,6 +82,34 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt dev-requirements.txt
 
+.PHONY: fast_serialize
+fast_serialize:
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	rm ${CURDIR}/_pb_output/* || true
+	pyflyte -c sandbox.config --pkgs ${PREFIX} serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} fast workflows -f _pb_output/
+
+.PHONY: fast_register
+fast_register:
+	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
+	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
+	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
+	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
+
+.PHONY: fast_register_sandbox
+fast_register_sandbox: fast_serialize_sandbox
+	echo "Registering against localhost. Follow the README to use a remote Flyte installation"
+	FLYTE_AWS_ENDPOINT=http://localhost:9000/ FLYTE_AWS_ACCESS_KEY_ID=minio FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage \
+		flyte-cli fast-register-files -h localhost:80 ${INSECURE_FLAG} -p ${PROJECT} -d development ${INSECURE_FLAG} \
+		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
+
+.PHONY: fast_serialize_sandbox
+fast_serialize_sandbox: docker_build
+	echo ${CURDIR}
+	mkdir ${CURDIR}/_pb_output || true
+	rm -f ${CURDIR}/_pb_output/*.tar.gz
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make fast_serialize_sandbox
+
 .PHONY: docker_build
 docker_build:
 	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
