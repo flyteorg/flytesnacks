@@ -52,7 +52,7 @@ natsort==7.1.1
     # via
     #   croniter
     #   flytekit
-numpy==1.20.0
+numpy==1.20.1
     # via
     #   matplotlib
     #   opencv-python
@@ -60,13 +60,13 @@ numpy==1.20.0
     #   pyarrow
 opencv-python==4.5.1.48
     # via -r requirements.in
-pandas==1.2.1
+pandas==1.2.2
     # via flytekit
 pathspec==0.8.1
     # via scantree
 pillow==8.1.0
     # via matplotlib
-protobuf==3.14.0
+protobuf==3.15.0rc1
     # via
     #   flyteidl
     #   flytekit
@@ -74,7 +74,7 @@ py==1.10.0
     # via retry
 pyarrow==2.0.0
     # via flytekit
-pyparsing==2.4.7
+pyparsing==3.0.0b2
     # via matplotlib
 python-dateutil==2.8.1
     # via

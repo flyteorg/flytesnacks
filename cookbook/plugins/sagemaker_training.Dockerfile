@@ -18,7 +18,7 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY sagemaker_training/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
-COPY in_container.Makefile /root/Makefile
+COPY in_container.mk /root/Makefile
 
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py

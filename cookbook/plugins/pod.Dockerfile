@@ -18,7 +18,7 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY pod/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-COPY in_container.Makefile /root/Makefile
+COPY in_container.mk /root/Makefile
 
 # Copy the actual code
 COPY pod/ /root/pod/

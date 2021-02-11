@@ -4,7 +4,7 @@ IMAGE_NAME=flytecookbook
 VERSION=$(shell git rev-parse HEAD)
 
 define PIP_COMPILE
-pip-compile $(1) --upgrade --verbose
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
 endef
 
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as

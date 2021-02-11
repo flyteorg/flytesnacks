@@ -12,7 +12,7 @@ run-examples:
 
 .PHONY: all_fast_serialize
 all_fast_serialize:
-	make -C core fast_serialize
+	PREFIX=core make fast_serialize
 	make -C plugins all_fast_serialize
 	make -C case_studies all_fast_serialize
 

@@ -36,7 +36,7 @@ ENV SPARK_VERSION 3.0.1
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
-COPY in_container.Makefile /root/Makefile
+COPY in_container.mk /root/Makefile
 
 # Copy the actual code
 COPY k8s_spark/ /root/k8s_spark
