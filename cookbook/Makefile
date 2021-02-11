@@ -98,13 +98,16 @@ dev_docker_build:
 all_register_sandbox:
 	make -C core register_sandbox
 	make -C plugins all_register_sandbox
+	make -C case_studies serialize_sandbox
 
 .PHONY: all_serialize_sandbox
 all_serialize_sandbox:
 	make -C core serialize_sandbox
 	make -C plugins all_serialize_sandbox
+	make -C case_studies serialize_sandbox
 
 .PHONY: all_docker_push
 all_docker_push:
 	make -C core docker_push
 	make -C plugins all_docker_push
+	make -C case_studies serialize_sandbox
