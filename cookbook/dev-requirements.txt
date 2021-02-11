@@ -36,9 +36,9 @@ black==19.10b0
     # via
     #   -r dev-requirements.in
     #   flake8-black
-boto3==1.17.5
+boto3==1.17.6
     # via sagemaker-training
-botocore==1.20.5
+botocore==1.20.6
     # via
     #   boto3
     #   s3transfer
@@ -46,7 +46,7 @@ cachetools==4.2.1
     # via google-auth
 certifi==2020.12.5
     # via requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   bcrypt
     #   cryptography
@@ -92,7 +92,7 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.12
     # via flytekit
-flytekit==0.16.0b6
+flytekit==0.16.0b7
     # via
     #   -r ./case_studies/pima_diabetes/../../common/requirements-common.in
     #   -r ./plugins/hive/../../common/requirements-common.in
@@ -101,7 +101,6 @@ flytekit==0.16.0b6
     #   -r ./plugins/pod/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_pytorch/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_training/../../common/requirements-common.in
-    #   -r common/requirements-common.in
     #   flytekitplugins-awssagemaker
     #   flytekitplugins-hive
     #   flytekitplugins-kfpytorch
@@ -129,7 +128,7 @@ gevent==21.1.2
     # via sagemaker-training
 google-auth-oauthlib==0.4.2
     # via tensorboard
-google-auth==1.26.0
+google-auth==1.26.1
     # via
     #   google-auth-oauthlib
     #   tensorboard
@@ -204,7 +203,6 @@ matplotlib==3.3.4
     #   -r ./plugins/pod/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_pytorch/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_training/../../common/requirements-common.in
-    #   -r common/requirements-common.in
 mccabe==0.6.1
     # via flake8
 mock==4.0.3
@@ -220,7 +218,6 @@ numpy==1.19.5
     #   h5py
     #   keras-preprocessing
     #   matplotlib
-    #   opencv-python
     #   opt-einsum
     #   pandas
     #   pyarrow
@@ -236,8 +233,6 @@ numpy==1.19.5
     #   xgboost
 oauthlib==3.1.0
     # via requests-oauthlib
-opencv-python==4.5.1.48
-    # via -r requirements.in
 opt-einsum==3.3.0
     # via tensorflow
 packaging==20.9
@@ -254,6 +249,7 @@ pathspec==0.8.1
     #   scantree
 pillow==8.1.0
     # via
+    #   -r ./docs-requirements.in
     #   matplotlib
     #   torchvision
 pluggy==1.0.0.dev0
@@ -280,7 +276,7 @@ py==1.10.0
     # via
     #   pytest
     #   retry
-pyarrow==2.0.0
+pyarrow==3.0.0
     # via flytekit
 pyasn1-modules==0.2.8
     # via google-auth
@@ -396,26 +392,29 @@ sortedcontainers==2.3.0
 soupsieve==2.2
     # via beautifulsoup4
 sphinx-autoapi==1.7.0
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
 sphinx-code-include==1.1.1
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
 sphinx-copybutton==0.3.1
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
 sphinx-gallery==0.8.2
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
 sphinx-material==0.0.32
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
 sphinx-prompt==1.3.0
-    # via -r dev-requirements.in
+    # via -r ./docs-requirements.in
+sphinx-rtd-theme==0.5.1
+    # via -r ./docs-requirements.in
 sphinx==3.4.3
     # via
-    #   -r dev-requirements.in
+    #   -r ./docs-requirements.in
     #   sphinx-autoapi
     #   sphinx-code-include
     #   sphinx-copybutton
     #   sphinx-gallery
     #   sphinx-material
     #   sphinx-prompt
+    #   sphinx-rtd-theme
 sphinxcontrib-applehelp==1.0.2
     # via sphinx
 sphinxcontrib-devhelp==1.0.2
@@ -507,7 +506,6 @@ wheel==0.36.2
     #   -r ./plugins/pod/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_pytorch/../../common/requirements-common.in
     #   -r ./plugins/sagemaker_training/../../common/requirements-common.in
-    #   -r common/requirements-common.in
     #   astunparse
     #   flytekit
     #   tensorboard

@@ -18,9 +18,9 @@ attrs==20.3.0
     #   tensorflow-datasets
 bcrypt==3.2.0
     # via paramiko
-boto3==1.17.1
+boto3==1.17.6
     # via sagemaker-training
-botocore==1.20.1
+botocore==1.20.6
     # via
     #   boto3
     #   s3transfer
@@ -28,7 +28,7 @@ cachetools==4.2.1
     # via google-auth
 certifi==2020.12.5
     # via requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   bcrypt
     #   cryptography
@@ -39,7 +39,7 @@ click==7.1.2
     # via flytekit
 croniter==1.0.6
     # via flytekit
-cryptography==3.3.1
+cryptography==3.4.4
     # via paramiko
 cycler==0.10.0
     # via matplotlib
@@ -57,11 +57,11 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.12
     # via flytekit
-flytekit==0.16.0b6
+flytekit==0.16.0b7
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-awssagemaker
-flytekitplugins-awssagemaker==0.1.1
+flytekitplugins-awssagemaker==0.16.0b7
     # via -r requirements.in
 future==0.18.2
     # via
@@ -73,13 +73,13 @@ gevent==21.1.2
     # via sagemaker-training
 google-auth-oauthlib==0.4.2
     # via tensorboard
-google-auth==1.25.0
+google-auth==1.26.1
     # via
     #   google-auth-oauthlib
     #   tensorboard
 google-pasta==0.2.0
     # via tensorflow
-googleapis-common-protos==1.52.0
+googleapis-common-protos==1.53.0.dev2
     # via tensorflow-metadata
 greenlet==1.0.0
     # via gevent
@@ -139,7 +139,7 @@ oauthlib==3.1.0
     # via requests-oauthlib
 opt-einsum==3.3.0
     # via tensorflow
-pandas==1.2.1
+pandas==1.2.2
     # via flytekit
 paramiko==2.7.2
     # via sagemaker-training
@@ -149,7 +149,7 @@ pillow==8.1.0
     # via matplotlib
 promise==2.3
     # via tensorflow-datasets
-protobuf==3.14.0
+protobuf==3.15.0rc1
     # via
     #   flyteidl
     #   flytekit
@@ -163,7 +163,7 @@ psutil==5.8.0
     # via sagemaker-training
 py==1.10.0
     # via retry
-pyarrow==2.0.0
+pyarrow==3.0.0
     # via flytekit
 pyasn1-modules==0.2.8
     # via google-auth
@@ -175,7 +175,7 @@ pycparser==2.20
     # via cffi
 pynacl==1.4.0
     # via paramiko
-pyparsing==2.4.7
+pyparsing==3.0.0b2
     # via matplotlib
 python-dateutil==2.8.1
     # via
@@ -220,7 +220,6 @@ six==1.15.0
     #   absl-py
     #   astunparse
     #   bcrypt
-    #   cryptography
     #   cycler
     #   flytekit
     #   google-auth
@@ -261,7 +260,7 @@ termcolor==1.1.0
     # via
     #   tensorflow
     #   tensorflow-datasets
-tqdm==4.56.0
+tqdm==4.56.2
     # via tensorflow-datasets
 typing-extensions==3.7.4.3
     # via
@@ -275,7 +274,7 @@ urllib3==1.25.11
     #   flytekit
     #   requests
     #   responses
-werkzeug==1.0.1
+werkzeug==2.0.0rc1
     # via
     #   sagemaker-training
     #   tensorboard

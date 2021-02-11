@@ -1,5 +1,3 @@
--r requirements.in
-
 -r ./plugins/pod/requirements.in
 -r ./plugins/k8s_spark/requirements.in
 -r ./plugins/sagemaker_training/requirements.in
@@ -7,6 +5,7 @@
 -r ./plugins/sagemaker_pytorch/requirements.in
 -r ./plugins/hive/requirements.in
 -r ./case_studies/pima_diabetes/requirements.in
+-r ./docs-requirements.in
 
 black==19.10b0
 coverage
@@ -16,10 +15,3 @@ flake8-isort
 isort
 mock
 pytest
-sphinx
-sphinx-gallery
-sphinx-prompt
-sphinx-material
-sphinx-code-include
-sphinx-autoapi
-sphinx-copybutton

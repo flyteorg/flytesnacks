@@ -33,4 +33,8 @@ all_docker_push:
 
 .PHONY: all_requirements
 all_requirements:
-	ENV_BASE_PATH="${PWD}/env/" ../scripts/make-all-docker.sh requirements
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		make -C $$dir requirements; \
+	done
