@@ -3,6 +3,12 @@ include ../common/Makefile
 SUBDIRS = $(shell ls -d */)
 PWD=$(CURDIR)
 
+.PHONY: all_fast_serialize
+all_fast_serialize:
+	make -C core fast_serialize
+	make -C plugins all_fast_serialize
+	make -C case_studies all_fast_serialize
+
 .PHONY: all_register_sandbox
 all_register_sandbox:
 	for dir in $(SUBDIRS) ; do \

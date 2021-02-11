@@ -1,5 +1,7 @@
 include common/Makefile
 
+PWD=$(CURDIR)
+
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
@@ -8,7 +10,12 @@ enter_sandbox: docker_build
 run-examples:
 	sh ./scripts/run-all-examples.sh
 
-PWD=$(CURDIR)
+.PHONY: all_fast_serialize
+all_fast_serialize:
+	make -C core fast_serialize
+	make -C plugins all_fast_serialize
+	make -C case_studies all_fast_serialize
+
 .PHONY: all_docker_push
 all_docker_push: docker_push
 	$(MAKE) -C plugins all_docker_push
