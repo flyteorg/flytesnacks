@@ -16,10 +16,6 @@ all_fast_serialize:
 	make -C plugins all_fast_serialize
 	make -C case_studies all_fast_serialize
 
-.PHONY: all_docker_push
-all_docker_push: docker_push
-	$(MAKE) -C plugins all_docker_push
-
 .PHONY: all_requirements
 all_requirements: requirements
 	ENV_BASE_PATH="${PWD}/env/" scripts/make-all-docker.sh requirements
