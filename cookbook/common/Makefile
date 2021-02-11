@@ -46,13 +46,15 @@ debug:
 	echo "VERSION TAG ${VERSION}"
 	echo "REGISTRY ${REGISTRY}"
 
+TAGGED_IMAGE=${FULL_IMAGE_NAME}:${PREFIX}-${VERSION}
+
 # This should only be used by Admins to push images to the public Dockerhub repo. Make sure you
 # specify REGISTRY=ghcr.io/flyteorg or your registry before the make command otherwise this won't actually push
 # Also if you want to push the docker image for sagemaker consumption then
 # specify ECR_REGISTRY
 .PHONY: docker_push
-docker_push:
-	DOCKER_BUILDKIT=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
+docker_push: docker_build
+	docker push ${TAGGED_IMAGE}
 
 .PHONY: fmt
 fmt: ## Format code with black and isort
@@ -108,21 +110,21 @@ fast_serialize_sandbox: docker_build
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make fast_serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make fast_serialize_sandbox
 
 .PHONY: docker_build
 docker_build:
-	DOCKER_BUILDKIT=1 NOPUSH=1 IMAGE_NAME=${IMAGE_NAME} flytekit_build_image.sh ../${PREFIX}.Dockerfile ${PREFIX}
+	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: register_sandbox
-register_sandbox: docker_build serialize_sandbox
+register_sandbox: docker_push serialize_sandbox
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} ${CURDIR}/_pb_output/*
 
 .PHONY: serialize_sandbox
 serialize_sandbox: docker_build
-	echo ${VERSION}
-	echo ${CURDIR}
+	@echo ${VERSION}
+	@echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} make serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make serialize_sandbox
