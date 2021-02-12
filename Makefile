@@ -24,7 +24,7 @@ _install-demo-deps:
 
 .PHONY: start
 start: _install-demo-deps  ## Start a local Flyte cluster
-	_bin/k3d cluster create -p "$(FLYTE_PROXY_PORT):30081" --no-lb --k3s-server-arg '--no-deploy=traefik' --k3s-server-arg '--no-deploy=servicelb' --kubeconfig-update-default $(FLYTE_CLUSTER_NAME)
+	_bin/k3d cluster create -p "$(FLYTE_PROXY_PORT):30081" --no-lb --k3s-server-arg '--no-deploy=traefik' --k3s-server-arg '--no-deploy=servicelb' --kubeconfig-update-default=false $(FLYTE_CLUSTER_NAME)
 	_bin/k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
 	_bin/kubectl --context $(FLYTE_CLUSTER_CONTEXT) apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	_bin/kubectl --context $(FLYTE_CLUSTER_CONTEXT) wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
