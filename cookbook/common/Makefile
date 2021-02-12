@@ -13,52 +13,36 @@ endef
 ifdef SANDBOX
 
 # The url for Flyte Control plane
-ifndef FLYTE_HOST
-	export FLYTE_HOST=localhost:8001
-endif
+export FLYTE_HOST ?= localhost:8001
 
 # Overrides s3 url. This is solely needed for SANDBOX deployments. Shouldn't be overriden in production AWS S3.
-ifndef FLYTE_AWS_ENDPOINT
-	export FLYTE_AWS_ENDPOINT=http://localhost:9000/
-endif
+export FLYTE_AWS_ENDPOINT ?= http://localhost:9000/
 
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
-ifndef FLYTE_AWS_ACCESS_KEY_ID
-	export FLYTE_AWS_ACCESS_KEY_ID=minio
-endif
+export FLYTE_AWS_ACCESS_KEY_ID ?= minio
 
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
-ifndef FLYTE_AWS_SECRET_ACCESS_KEY
-	export FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage
-endif
+export FLYTE_AWS_SECRET_ACCESS_KEY ?= miniostorage
 
 # Used to publish artifacts for fast registration
-ifndef ADDL_DISTRIBUTION_DIR
-	export ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/fast/
-endif
+export ADDL_DISTRIBUTION_DIR ?= s3://my-s3-bucket/fast/
 
 # The base of where Blobs, Schemas and other offloaded types are, by default, serialized.
-ifndef OUTPUT_DATA_PREFIX
-	export OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw-data
-endif
+export OUTPUT_DATA_PREFIX ?= s3://my-s3-bucket/raw-data
 
 # Instructs flyte-cli commands to use insecure channel when communicating with Flyte's control plane.
 # If you're port-forwarding your service or running the sandbox Flyte deployment, specify INSECURE=1 before your make command.
 # If your Flyte Admin is behind SSL, don't specify anything.
-ifdef INSECURE
+ifndef INSECURE
 	export INSECURE_FLAG=-i
 endif
 
 # The Flyte project that we want to register under
-ifndef PROJECT
-	export PROJECT=flytesnacks
-endif
+export PROJECT ?= flytesnacks
 
 # The docker registry that should be used to push images.
-ifndef REGISTRY
-	# e.g.: 
-	# export REGISTRY=ghcr.io/flyteorg
-endif
+# e.g.: 
+# export REGISTRY ?= ghcr.io/flyteorg
 endif
 
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
@@ -95,7 +79,9 @@ TAGGED_IMAGE=${FULL_IMAGE_NAME}:${PREFIX}-${VERSION}
 # specify ECR_REGISTRY
 .PHONY: docker_push
 docker_push: docker_build
+ifdef REGISTRY
 	docker push ${TAGGED_IMAGE}
+endif
 
 .PHONY: fmt
 fmt: ## Format code with black and isort
@@ -145,6 +131,8 @@ fast_serialize:
 
 .PHONY: docker_build
 docker_build:
+	echo "Tagged Image: "
+	echo ${TAGGED_IMAGE}
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: register

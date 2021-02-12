@@ -1,3 +1,5 @@
+.SILENT:
+
 # This is a Makefile you can include in directories that have child directories you want to build common flyte targets on.
 SUBDIRS = $(shell ls -d */)
 PWD=$(CURDIR)
