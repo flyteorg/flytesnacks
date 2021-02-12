@@ -25,8 +25,8 @@ help:
 	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
 	tput sgr0
 
-.PHONY: _requires-cluster
-_requires-cluster:
+.PHONY: _requires-active-cluster
+_requires-active-cluster:
 	ifneq ($(IS_UP),true)
 		$(error Cluster has not been started! Use 'make start' to start a cluster)
 	endif
@@ -43,13 +43,13 @@ start: _install-cluster-deps  ## Start a local Flyte cluster
 	k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
 
 .PHONY: teardown
-teardown: _requires-cluster _install-cluster-deps  ## Teardown the local Flyte cluster
+teardown: _requires-active-cluster _install-cluster-deps  ## Teardown the local Flyte cluster
 	k3d cluster delete $(FLYTE_CLUSTER_NAME)
 
 .PHONY: status
-status: _requires-cluster _install-cluster-deps  ## Show status of Flyte deployment
+status: _requires-active-cluster _install-cluster-deps  ## Show status of Flyte deployment
 	kubectl --context $(FLYTE_CLUSTER_CONTEXT) get pods -n flyte
 
 .PHONY: console
-console: _requires-cluster _install-cluster-deps  ## Open Flyte console
+console: _requires-active-cluster _install-cluster-deps  ## Open Flyte console
 	open "http://localhost:$(FLYTE_PROXY_PORT)/console"
