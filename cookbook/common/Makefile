@@ -1,3 +1,5 @@
+.SILENT:
+
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
 IMAGE_NAME=flytecookbook
@@ -9,50 +11,64 @@ endef
 
 # Set SANDBOX=1 to automatically fill in sandbox config
 ifdef SANDBOX
+
+# The url for Flyte Control plane
 ifndef FLYTE_HOST
-	export FLYTE_HOST=localhost:30084
+	export FLYTE_HOST=localhost:8001
 endif
+
+# Overrides s3 url. This is solely needed for SANDBOX deployments. Shouldn't be overriden in production AWS S3.
 ifndef FLYTE_AWS_ENDPOINT
 	export FLYTE_AWS_ENDPOINT=http://localhost:9000/
 endif
+
+# Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 ifndef FLYTE_AWS_ACCESS_KEY_ID
 	export FLYTE_AWS_ACCESS_KEY_ID=minio
 endif
+
+# Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 ifndef FLYTE_AWS_SECRET_ACCESS_KEY
 	export FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage
 endif
+
+# Used to publish artifacts for fast registration
 ifndef ADDL_DISTRIBUTION_DIR
 	export ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/fast/
 endif
+
+# The base of where Blobs, Schemas and other offloaded types are, by default, serialized.
 ifndef OUTPUT_DATA_PREFIX
 	export OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw-data
 endif
-ifndef INSECURE_FLAG
+
+# Instructs flyte-cli commands to use insecure channel when communicating with Flyte's control plane.
+# If you're port-forwarding your service or running the sandbox Flyte deployment, specify INSECURE=1 before your make command.
+# If your Flyte Admin is behind SSL, don't specify anything.
+ifdef INSECURE
 	export INSECURE_FLAG=-i
 endif
+
+# The Flyte project that we want to register under
 ifndef PROJECT
-	export PROJECT=flytetester
+	export PROJECT=flytesnacks
 endif
+
+# The docker registry that should be used to push images.
 ifndef REGISTRY
-	export REGISTRY=ghcr.io/flyteorg
+	# e.g.: 
+	# export REGISTRY=ghcr.io/flyteorg
 endif
 endif
 
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
 #   ghcr.io/flyteorg/flytecookbook:<sha> or whatever your REGISTRY is.
-ifneq ($(origin REGISTRY), undefined)
+ifdef REGISTRY
 	FULL_IMAGE_NAME = ${REGISTRY}/${IMAGE_NAME}
-else
-	FULL_IMAGE_NAME = ${IMAGE_NAME}
 endif
-
-# If you're port-forwarding your service or running the sandbox Flyte deployment, just don't specify anything.
-# If your Flyte Admin is behind SSL, add SECURE=1 before your make command
-ifneq ($(origin SECURE), undefined)
-	INSECURE_FLAG =
-else
-	INSECURE_FLAG = -i
+ifndef REGISTRY
+	FULL_IMAGE_NAME = ${IMAGE_NAME}
 endif
 
 # If you are using a different service account on your k8s cluster, add SERVICE_ACCOUNT=my_account before your make command
@@ -60,15 +76,9 @@ ifndef SERVICE_ACCOUNT
 	SERVICE_ACCOUNT=default
 endif
 
-# The Flyte project that we want to register under
-PROJECT=flytesnacks
-
-.SILENT: help
 .PHONY: help
-help:
-	echo Available recipes:
-	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
-	tput sgr0
+help: ## show help message
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 .PHONY: debug
 debug:
@@ -101,7 +111,7 @@ setup: install-piptools ## Install requirements
 	pip-sync dev-requirements.txt
 
 .PHONY: lint
-lint: ## Run linters
+lint:  ## Run linters
 	flake8 .
 
 requirements.txt: export CUSTOM_COMPILE_COMMAND := make requirements.txt
