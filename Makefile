@@ -21,25 +21,25 @@ help:
 	cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' | awk 'BEGIN { FS = ":.*?## " } { cnt++; a[cnt] = $$1; b[cnt] = $$2; if (length($$1) > max) max = length($$1) } END { for (i = 1; i <= cnt; i++) printf "  $(shell tput setaf 6)%-*s$(shell tput setaf 0) %s\n", max, a[i], b[i] }'
 	tput sgr0
 
-.PHONY: _install-demo-deps
-_install-demo-deps:
-	scripts/install_demo_deps.sh
+.PHONY: _install-cluster-deps
+_install-cluster-deps:
+	scripts/install_cluster_deps.sh
 
 .PHONY: start
-start: _install-demo-deps  ## Start a local Flyte cluster
+start: _install-cluster-deps  ## Start a local Flyte cluster
 	k3d cluster create -p "$(FLYTE_PROXY_PORT):30081" --no-lb --k3s-server-arg '--no-deploy=traefik' --k3s-server-arg '--no-deploy=servicelb' --kubeconfig-update-default=false $(FLYTE_CLUSTER_NAME)
 	k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
 	kubectl --context $(FLYTE_CLUSTER_CONTEXT) apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl --context $(FLYTE_CLUSTER_CONTEXT) wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
 
 .PHONY: teardown
-teardown: _install-demo-deps  ## Teardown the local Flyte cluster
+teardown: _install-cluster-deps  ## Teardown the local Flyte cluster
 	k3d cluster delete $(FLYTE_CLUSTER_NAME)
 
 .PHONY: status
-status: _install-demo-deps  ## Show status of Flyte deployment
+status: _install-cluster-deps  ## Show status of Flyte deployment
 	kubectl --context $(FLYTE_CLUSTER_CONTEXT) get pods -n flyte
 
 .PHONY: console
-console: _install-demo-deps  ## Open Flyte console
+console: _install-cluster-deps  ## Open Flyte console
 	open "http://localhost:$(FLYTE_PROXY_PORT)/console"
