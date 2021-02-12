@@ -7,6 +7,36 @@ define PIP_COMPILE
 pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
 endef
 
+ifdef SANDBOX
+ifndef FLYTE_HOST
+	export FLYTE_HOST=localhost:30084
+endif
+ifndef FLYTE_AWS_ENDPOINT
+	export FLYTE_AWS_ENDPOINT=http://localhost:9000/
+endif
+ifndef FLYTE_AWS_ACCESS_KEY_ID
+	export FLYTE_AWS_ACCESS_KEY_ID=minio
+endif
+ifndef FLYTE_AWS_SECRET_ACCESS_KEY
+	export FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage
+endif
+ifndef ADDL_DISTRIBUTION_DIR
+	export ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/fast/
+endif
+ifndef OUTPUT_DATA_PREFIX
+	export OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw-data
+endif
+ifndef INSECURE_FLAG
+	export INSECURE_FLAG=-i
+endif
+ifndef PROJECT
+	export PROJECT=flytetester
+endif
+ifndef REGISTRY
+	export REGISTRY=ghcr.io/flyteorg
+endif
+endif
+
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
 #   ghcr.io/flyteorg/flytecookbook:<sha> or whatever your REGISTRY is.
@@ -92,21 +122,15 @@ fast_register:
 	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
-	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p flytetester -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
+	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} \
+		--additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
 
-.PHONY: fast_register_sandbox
-fast_register_sandbox: fast_serialize_sandbox
-	echo "Registering against localhost. Follow the README to use a remote Flyte installation"
-	FLYTE_AWS_ENDPOINT=http://localhost:9000/ FLYTE_AWS_ACCESS_KEY_ID=minio FLYTE_AWS_SECRET_ACCESS_KEY=miniostorage \
-		flyte-cli fast-register-files -h localhost:80 ${INSECURE_FLAG} -p ${PROJECT} -d development ${INSECURE_FLAG} \
-		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
-
-.PHONY: fast_serialize_sandbox
-fast_serialize_sandbox:
+.PHONY: fast_serialize
+fast_serialize:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output -v  ${TAGGED_IMAGE} make fast_serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output -v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) ${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: docker_build
 docker_build:
