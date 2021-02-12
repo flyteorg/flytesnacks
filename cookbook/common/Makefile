@@ -7,6 +7,7 @@ define PIP_COMPILE
 pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
 endef
 
+# Set SANDBOX=1 to automatically fill in sandbox config
 ifdef SANDBOX
 ifndef FLYTE_HOST
 	export FLYTE_HOST=localhost:30084
