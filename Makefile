@@ -1,5 +1,8 @@
 .SILENT:
 
+# Update PATH variable to leverage _bin directory
+export PATH := _bin:$(PATH)
+
 # Dependencies
 export K3D_VERSION := v4.2.0
 export KUBECTL_VERSION := v1.20.2
@@ -24,14 +27,14 @@ _install-demo-deps:
 
 .PHONY: start
 start: _install-demo-deps  ## Start a local Flyte cluster
-	_bin/k3d cluster create -p "$(FLYTE_PROXY_PORT):30081" --no-lb --k3s-server-arg '--no-deploy=traefik' --k3s-server-arg '--no-deploy=servicelb' --kubeconfig-update-default=false $(FLYTE_CLUSTER_NAME)
-	_bin/k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
-	_bin/kubectl --context $(FLYTE_CLUSTER_CONTEXT) apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
-	_bin/kubectl --context $(FLYTE_CLUSTER_CONTEXT) wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
+	k3d cluster create -p "$(FLYTE_PROXY_PORT):30081" --no-lb --k3s-server-arg '--no-deploy=traefik' --k3s-server-arg '--no-deploy=servicelb' --kubeconfig-update-default=false $(FLYTE_CLUSTER_NAME)
+	k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
+	kubectl --context $(FLYTE_CLUSTER_CONTEXT) apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
+	kubectl --context $(FLYTE_CLUSTER_CONTEXT) wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
 
 .PHONY: teardown
 teardown: _install-demo-deps  ## Teardown the local Flyte cluster
-	_bin/k3d cluster delete $(FLYTE_CLUSTER_NAME)
+	k3d cluster delete $(FLYTE_CLUSTER_NAME)
 
 .PHONY: status
 status: _install-demo-deps  ## Show status of Flyte deployment
