@@ -1,5 +1,5 @@
-.PHONY: serialize_sandbox
-serialize_sandbox:
+.PHONY: serialize
+serialize:
 	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/output
 
 .PHONY: fast_serialize_sandbox

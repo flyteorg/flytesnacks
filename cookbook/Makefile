@@ -29,17 +29,17 @@ all_requirements: dev-requirements
 	make -C plugins all_requirements
 	make -C case_studies all_requirements
 
-.PHONY: all_register_sandbox
-all_register_sandbox:
-	make -C core register_sandbox
-	make -C plugins all_register_sandbox
-	make -C case_studies all_register_sandbox
+.PHONY: all_register
+all_register:
+	make -C core register
+	make -C plugins all_register
+	make -C case_studies all_register
 
-.PHONY: all_serialize_sandbox
-all_serialize_sandbox:
-	make -C core serialize_sandbox
-	make -C plugins all_serialize_sandbox
-	make -C case_studies all_serialize_sandbox
+.PHONY: all_serialize
+all_serialize:
+	make -C core serialize
+	make -C plugins all_serialize
+	make -C case_studies all_serialize
 
 .PHONY: all_docker_push
 all_docker_push:

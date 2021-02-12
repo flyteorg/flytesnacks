@@ -7,11 +7,11 @@ docker_build: ;
 .PHONY: docker_push
 docker_push: ;
 	
-.PHONY: register_sandbox
-register_sandbox: ;
+.PHONY: register
+register: ;
 
-.PHONY: serialize_sandbox
-serialize_sandbox: ;
+.PHONY: serialize
+serialize: ;
 
 .PHONY: docker_push
 docker_push: ;

@@ -8,7 +8,7 @@ Please refer to the `Installing Flyte <https://lyft.github.io/flyte/administrato
 
 
 1. First commit your changes. Some of the steps below default to referencing the git sha.
-1. Run `make serialize_sandbox`. This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed. See the image building section below for additional information.
+1. Run `make serialize`. This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed. See the image building section below for additional information.
 
 Build your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -53,7 +53,7 @@ Notice that the commands above are run locally, _not_ inside the container. Stri
 Take a look at this make target to see how it's done.
 .. code-block::
 
-   make serialize_sandbox
+   make serialize
 
 Register your Workflows and Tasks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

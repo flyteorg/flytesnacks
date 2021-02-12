@@ -102,25 +102,25 @@ fast_register_sandbox: fast_serialize_sandbox
 		--additional-distribution-dir s3://my-s3-bucket/fast/ --dest-dir /root/recipes ${CURDIR}/_pb_output/*
 
 .PHONY: fast_serialize_sandbox
-fast_serialize_sandbox: docker_build
+fast_serialize_sandbox:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make fast_serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output -v  ${TAGGED_IMAGE} make fast_serialize_sandbox
 
 .PHONY: docker_build
 docker_build:
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
-.PHONY: register_sandbox
-register_sandbox: docker_push serialize_sandbox
+.PHONY: register
+register: docker_push serialize
 	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
 	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} ${CURDIR}/_pb_output/*
 
-.PHONY: serialize_sandbox
-serialize_sandbox: docker_build
+.PHONY: serialize
+serialize: docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make serialize_sandbox
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make serialize

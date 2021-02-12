@@ -18,15 +18,16 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY sagemaker_training/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
-COPY in_container.mk /root/Makefile
-
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 RUN pip install --upgrade sagemaker-training==3.6.2 natsort
 
+# Copy the makefile targets to expose on the container. This makes it easier to register.
+COPY in_container.mk /root/Makefile
+COPY sagemaker_training/sandbox.config /root
+
 # Copy the actual code
 COPY sagemaker_training/ /root/sagemaker_training
-COPY sagemaker_training/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

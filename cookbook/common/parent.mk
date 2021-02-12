@@ -9,18 +9,18 @@ all_fast_serialize:
 		PREFIX=$$trimmed make fast_serialize; \
 	done
 
-.PHONY: all_register_sandbox
-all_register_sandbox:
+.PHONY: all_register
+all_register:
 	for dir in $(SUBDIRS) ; do \
-		make -C  $$dir register_sandbox; \
+		make -C  $$dir register; \
 	done
 
-.PHONY: all_serialize_sandbox
-all_serialize_sandbox:
+.PHONY: all_serialize
+all_serialize:
 	echo "processing ${PWD}"
 	for dir in $(SUBDIRS) ; do \
 		echo "processing $$dir"; \
-		make -C $$dir serialize_sandbox; \
+		make -C $$dir serialize; \
 	done
 
 .PHONY: all_docker_push

@@ -18,11 +18,12 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY pod/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
+# Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
+COPY pod/sandbox.config /root
 
 # Copy the actual code
 COPY pod/ /root/pod/
-COPY pod/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

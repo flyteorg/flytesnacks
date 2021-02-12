@@ -36,11 +36,12 @@ ENV SPARK_VERSION 3.0.1
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
+# Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
+COPY k8s_spark/sandbox.config /root
 
 # Copy the actual code
 COPY k8s_spark/ /root/k8s_spark
-COPY k8s_spark/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

@@ -22,7 +22,6 @@ COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
-#
 COPY in_container.mk /root/Makefile
 COPY core/sandbox.config /root
 

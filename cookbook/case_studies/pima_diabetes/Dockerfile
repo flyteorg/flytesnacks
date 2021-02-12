@@ -29,14 +29,12 @@ RUN ${VENV}/bin/pip install wheel
 COPY pima_diabetes/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-# Leaving this in here for easier iteration
-RUN ${VENV}/bin/pip install -U https://github.com/lyft/flytekit/archive/d31eedaa693f1c779075be63c0212bcdd7ca64e6.zip#egg=flytekit
-
+# Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
+COPY pima_diabetes/sandbox.config /root
 
 # Copy the actual code
 COPY pima_diabetes/ /root/pima_diabetes/
-COPY pima_diabetes/sandbox.config /root
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
