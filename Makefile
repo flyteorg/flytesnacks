@@ -43,7 +43,7 @@ start: _install-cluster-deps  ## Start a local Flyte cluster
 	k3d kubeconfig write $(FLYTE_CLUSTER_NAME)
 
 .PHONY: teardown
-teardown: _requires-active-cluster _install-cluster-deps  ## Teardown the local Flyte cluster
+teardown: _requires-active-cluster _install-cluster-deps  ## Teardown Flyte cluster
 	k3d cluster delete $(FLYTE_CLUSTER_NAME)
 
 .PHONY: status
