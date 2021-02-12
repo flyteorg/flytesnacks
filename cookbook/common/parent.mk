@@ -52,3 +52,11 @@ all_requirements: ## Makes all requirement files in sub directories.
 		echo "processing $$dir"; \
 		make -C $$dir requirements; \
 	done
+
+.PHONY: all_clean
+all_clean: ## Deletes build directories (e.g. _pb_output/)
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		test -f $$dir/Makefile && make -C $$dir clean; \
+	done

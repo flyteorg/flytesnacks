@@ -159,3 +159,7 @@ serialize: docker_build
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make serialize
+
+.PHONY: clean
+clean:
+	rm -rf _pb_output/

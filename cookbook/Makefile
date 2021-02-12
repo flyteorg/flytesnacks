@@ -52,3 +52,9 @@ all_docker_push: ## Builds and pushes all docker images.
 	make -C core docker_push
 	make -C plugins all_docker_push
 	make -C case_studies all_docker_push
+
+.PHONY: all_clean
+all_clean: ## Cleans build directories
+	PREFIX=core make clean
+	make -C plugins all_clean
+	make -C case_studies all_clean
