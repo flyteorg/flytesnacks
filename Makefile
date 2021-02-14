@@ -22,7 +22,7 @@ define LOG
 echo $(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)
 endef
 
-define RUN_ON_CLUSTER
+define RUN_IN_SANDBOX
 docker run -it --rm \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
@@ -80,4 +80,4 @@ console: _requires-active-cluster  ## Open Flyte console
 register: _requires-active-cluster  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows)
 	# TODO: Get this working!
-	$(call RUN_ON_CLUSTER,-e SANDBOX=1,make -C cookbook/core register)
+	$(call RUN_IN_SANDBOX,-e SANDBOX=1,make -C cookbook/core register)
