@@ -8,7 +8,7 @@ export PATH := .sandbox/bin:$(PATH)
 export DOCKER_VERSION := 20.10.3
 export K3S_VERSION := v1.20.2%2Bk3s1
 export KUBECTL_VERSION := v1.20.2
-export K3S_CLUSTER_IMAGE := k3s-dind:latest
+export FLYTE_SANDBOX_IMAGE := flyte-sandbox:latest
 
 # Flyte cluster configuration variables
 KUBERNETES_API_PORT := 51234
@@ -31,7 +31,7 @@ docker run -it --rm \
 	-w /usr/src \
 	--entrypoint="tini" \
 	$(1) \
-	$(K3S_CLUSTER_IMAGE) \
+	$(FLYTE_SANDBOX_IMAGE) \
 	$(2)
 endef
 
@@ -54,7 +54,7 @@ _prepare:
 .PHONY: start
 start: _prepare  ## Start a local Flyte cluster
 	$(call LOG,Starting sandboxed Kubernetes cluster)
-	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.sandbox/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(K3S_CLUSTER_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
+	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.sandbox/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
 	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)
