@@ -14,17 +14,18 @@ export K3S_CLUSTER_IMAGE := k3s-dind:latest
 KUBERNETES_API_PORT := 51234
 FLYTE_PROXY_PORT := 51235
 FLYTE_CLUSTER_NAME := k3s-flyte
-FLYTE_WORKER_IMAGE := flytecookbook:latest
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
 export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
 
 define RUN_ON_CLUSTER
 docker run -it --rm \
+	-e MAKEFLAGS \
+	-e DOCKER_BUILDKIT=1 \
 	--volumes-from $(FLYTE_CLUSTER_NAME) \
 	-v $(PWD):/usr/src \
 	-w /usr/src \
-	--entrypoint="" \
+	--entrypoint="tini" \
 	$(1) \
 	$(K3S_CLUSTER_IMAGE) \
 	$(2)
@@ -65,14 +66,7 @@ status: _requires-active-cluster  ## Show status of Flyte deployment
 console: _requires-active-cluster  ## Open Flyte console
 	open "http://localhost:$(FLYTE_PROXY_PORT)/console"
 
-.PHONY: _build-worker-image
-_build-worker-image: _requires-active-cluster
-	$(call RUN_ON_CLUSTER,-e DOCKER_BUILDKIT=1,docker build -f cookbook/core/Dockerfile --build-arg tag=$(FLYTE_WORKER_IMAGE) -t $(FLYTE_WORKER_IMAGE) cookbook)
-
 .PHONY: register
-register: _build-worker-image  ## Register Flyte cookbook workflows
-	$(call RUN_ON_CLUSTER,,docker run -it --rm $(FLYTE_WORKER_IMAGE) pyflyte --config sandbox.config register --project flyteexamples --domain development workflows)
-
-.PHONY: shell
-shell:  ## Drop into a shell with access to the cluster
-	$(call RUN_ON_CLUSTER,,sh)
+register: _requires-active-cluster  ## Register Flyte cookbook workflows
+	# TODO: Get this working!
+	$(call RUN_ON_CLUSTER,-e SANDBOX=1,make -C cookbook/core register)
