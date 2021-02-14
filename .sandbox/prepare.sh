@@ -12,13 +12,13 @@ get_kubectl() {
 }
 
 # Get dependencies
-mkdir -p .k3s/bin
+mkdir -p .sandbox/bin
 for dep in kubectl; do
-    "get_${dep}" .k3s/bin
+    "get_${dep}" .sandbox/bin
 done
 
 # Build cluster image
 docker build \
     --build-arg DOCKER_VERSION="${DOCKER_VERSION:-20.10.3}" \
     --build-arg K3S_VERSION="${K3S_VERSION:-v1.20.2%2Bk3s1}" \
-    -t "${K3S_CLUSTER_IMAGE:-k3s-dind:latest}" .k3s
+    -t "${K3S_CLUSTER_IMAGE:-k3s-dind:latest}" .sandbox

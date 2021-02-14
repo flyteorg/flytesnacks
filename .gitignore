@@ -19,5 +19,5 @@ _build/
 *.zip
 auto_*/
 docs/_rsts/
-.k3s/bin/
-.k3s/data/
+.sandbox/bin/
+.sandbox/data/

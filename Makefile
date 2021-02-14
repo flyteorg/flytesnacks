@@ -2,7 +2,7 @@ include cookbook/Makefile
 .SILENT:
 
 # Update PATH variable to leverage _bin directory
-export PATH := .k3s/bin:$(PATH)
+export PATH := .sandbox/bin:$(PATH)
 
 # Dependencies
 export DOCKER_VERSION := 20.10.3
@@ -17,7 +17,7 @@ FLYTE_CLUSTER_NAME := k3s-flyte
 FLYTE_WORKER_IMAGE := flytecookbook:latest
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
-export KUBECONFIG=$(PWD)/.k3s/data/config/kubeconfig
+export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
 
 define RUN_ON_CLUSTER
 docker run -it --rm \
@@ -43,11 +43,11 @@ endif
 
 .PHONY: _prepare
 _prepare:
-	.k3s/prepare.sh
+	.sandbox/prepare.sh
 
 .PHONY: start
 start: _prepare  ## Start a local Flyte cluster
-	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.k3s/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(K3S_CLUSTER_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
+	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.sandbox/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(K3S_CLUSTER_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
 	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 	# TODO switch to https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/07734da0a902887678a7901114dbd96481aeecbc/deployment/sandbox/flyte_generated.yaml
@@ -72,3 +72,7 @@ _build-worker-image: _requires-active-cluster
 .PHONY: register
 register: _build-worker-image  ## Register Flyte cookbook workflows
 	$(call RUN_ON_CLUSTER,,docker run -it --rm $(FLYTE_WORKER_IMAGE) pyflyte --config sandbox.config register --project flyteexamples --domain development workflows)
+
+.PHONY: shell
+shell:  ## Drop into a shell with access to the cluster
+	$(call RUN_ON_CLUSTER,,sh)
