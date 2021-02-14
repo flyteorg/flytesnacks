@@ -1,8 +1,8 @@
 ARG DOCKER_VERSION
 FROM docker:${DOCKER_VERSION}-dind
 
-# Install tini
-RUN apk add --no-cache tini git make
+# Install dependencies
+RUN apk add --no-cache bash git make tini
 
 # Install k3s
 ARG K3S_VERSION
