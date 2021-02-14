@@ -8,15 +8,28 @@ export PATH := .k3s/bin:$(PATH)
 export DOCKER_VERSION := 20.10.3
 export K3S_VERSION := v1.20.2%2Bk3s1
 export KUBECTL_VERSION := v1.20.2
+export K3S_CLUSTER_IMAGE := k3s-dind:latest
 
 # Flyte cluster configuration variables
 DOCKER_BIND_PORT := 51234
 KUBERNETES_API_PORT := 51235
 FLYTE_PROXY_PORT := 51236
 FLYTE_CLUSTER_NAME := k3s-flyte
+FLYTE_WORKER_IMAGE := flytecookbook:latest
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
 export KUBECONFIG=$(PWD)/.k3s/data/config/kubeconfig
+
+define RUN_ON_CLUSTER
+docker run -it --rm \
+	--volumes-from $(FLYTE_CLUSTER_NAME) \
+	-v $(PWD):/usr/src \
+	-w /usr/src \
+	--entrypoint="" \
+	$(1) \
+	$(K3S_CLUSTER_IMAGE) \
+	$(2)
+endef
 
 .PHONY: help
 help: ## show help message
@@ -35,7 +48,7 @@ _prepare:
 
 .PHONY: start
 start: _prepare  ## Start a local Flyte cluster
-	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.k3s/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 k3s-dind:latest --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
+	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.k3s/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(K3S_CLUSTER_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
 	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 	# TODO switch to https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/07734da0a902887678a7901114dbd96481aeecbc/deployment/sandbox/flyte_generated.yaml
@@ -53,6 +66,10 @@ status: _requires-active-cluster  ## Show status of Flyte deployment
 console: _requires-active-cluster  ## Open Flyte console
 	open "http://localhost:$(FLYTE_PROXY_PORT)/console"
 
-.PHONY: _build-task-image
-_build-task-image: _requires-active-cluster
-	docker run -it --rm --volumes-from $(FLYTE_CLUSTER_NAME) -e DOCKER_BUILDKIT=1 -v $(PWD)/cookbook:/workspace --entrypoint="" k3s-dind:latest docker build -f /workspace/core/Dockerfile -t cookbook /workspace
+.PHONY: _build-worker-image
+_build-worker-image: _requires-active-cluster
+	$(call RUN_ON_CLUSTER,-e DOCKER_BUILDKIT=1,docker build -f cookbook/core/Dockerfile --build-arg tag=$(FLYTE_WORKER_IMAGE) -t $(FLYTE_WORKER_IMAGE) cookbook)
+
+.PHONY: register
+register: _build-worker-image  ## Register Flyte cookbook workflows
+	$(call RUN_ON_CLUSTER,,docker run -it --rm $(FLYTE_WORKER_IMAGE) pyflyte --config sandbox.config register --project flyteexamples --domain development workflows)

@@ -21,4 +21,4 @@ done
 docker build \
     --build-arg DOCKER_VERSION="${DOCKER_VERSION:-20.10.3}" \
     --build-arg K3S_VERSION="${K3S_VERSION:-v1.20.2%2Bk3s1}" \
-    -t k3s-dind:latest .k3s
+    -t "${K3S_CLUSTER_IMAGE:-k3s-dind:latest}" .k3s
