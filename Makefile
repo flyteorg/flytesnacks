@@ -11,9 +11,8 @@ export KUBECTL_VERSION := v1.20.2
 export K3S_CLUSTER_IMAGE := k3s-dind:latest
 
 # Flyte cluster configuration variables
-DOCKER_BIND_PORT := 51234
-KUBERNETES_API_PORT := 51235
-FLYTE_PROXY_PORT := 51236
+KUBERNETES_API_PORT := 51234
+FLYTE_PROXY_PORT := 51235
 FLYTE_CLUSTER_NAME := k3s-flyte
 FLYTE_WORKER_IMAGE := flytecookbook:latest
 
