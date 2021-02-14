@@ -1,4 +1,3 @@
-include cookbook/Makefile
 .SILENT:
 
 # Update PATH variable to leverage _bin directory
