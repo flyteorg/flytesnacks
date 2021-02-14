@@ -17,7 +17,7 @@ for dep in kubectl; do
     "get_${dep}" .sandbox/bin
 done
 
-# Build cluster image
+# Build sandbox image
 docker build \
     --build-arg DOCKER_VERSION="${DOCKER_VERSION:-20.10.3}" \
     --build-arg K3S_VERSION="${K3S_VERSION:-v1.20.2%2Bk3s1}" \
