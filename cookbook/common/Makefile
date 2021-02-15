@@ -41,7 +41,7 @@ endif
 export PROJECT ?= flytesnacks
 
 # The docker registry that should be used to push images.
-# e.g.: 
+# e.g.:
 # export REGISTRY ?= ghcr.io/flyteorg
 endif
 
@@ -147,13 +147,6 @@ serialize: docker_build
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
 	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} $(MAKE) serialize
-
-# Cluster Name used for k3d installation
-export FLYTE_CLUSTER_NAME ?= flyte
-
-.PHONY: k3d_load_image
-k3d_load_image: docker_build
-	k3d --cluster ${FLYTE_CLUSTER_NAME} image import ${TAGGED_IMAGE}
 
 .PHONY: clean
 clean:
