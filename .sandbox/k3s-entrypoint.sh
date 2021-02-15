@@ -20,7 +20,7 @@ DOCKERD_PID=$!
 timeout 10 sh -c "until docker info &> /dev/null; do sleep 1; done"
 
 # Start k3s
-k3s server --docker $@ &
+k3s server --docker --https-listen-port "${KUBERNETES_API_PORT:-6443}" --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server &
 K3S_PID=$!
 
 # Monitor running processes. Exit when the first process exits.

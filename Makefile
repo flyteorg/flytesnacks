@@ -12,7 +12,7 @@ export FLYTE_SANDBOX_IMAGE := flyte-sandbox:latest
 # Flyte cluster configuration variables
 KUBERNETES_API_PORT := 51234
 FLYTE_PROXY_PORT := 51235
-FLYTE_CLUSTER_NAME := k3s-flyte
+FLYTE_SANDBOX_NAME := flyte-sandbox
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
 export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
@@ -25,7 +25,7 @@ define RUN_IN_SANDBOX
 docker run -it --rm \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
-	--volumes-from $(FLYTE_CLUSTER_NAME) \
+	--volumes-from $(FLYTE_SANDBOX_NAME) \
 	-v $(PWD):/usr/src \
 	-w /usr/src \
 	--entrypoint="tini" \
@@ -41,7 +41,7 @@ help: ## show help message
 # Helper to determine if a cluster is up and running
 .PHONY: _requires-active-cluster
 _requires-active-cluster:
-ifeq ($(shell docker ps -f name=$(FLYTE_CLUSTER_NAME) --format={.ID}),)
+ifeq ($(shell docker ps -f name=$(FLYTE_SANDBOX_NAME) --format={.ID}),)
 	$(error Cluster has not been started! Use 'make start' to start a cluster)
 endif
 
@@ -53,27 +53,23 @@ _prepare:
 .PHONY: start
 start: _prepare  ## Start a local Flyte cluster
 	$(call LOG,Starting sandboxed Kubernetes cluster)
-	docker run -d --rm --privileged --name $(FLYTE_CLUSTER_NAME) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v /var/run -v $(PWD)/.sandbox/data/config:/config -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) --https-listen-port $(KUBERNETES_API_PORT) --no-deploy=traefik --no-deploy=servicelb --no-deploy=local-storage --no-deploy=metrics-server > /dev/null
+	docker run -d --rm --privileged --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
 	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)
 	# TODO switch to https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/07734da0a902887678a7901114dbd96481aeecbc/deployment/sandbox/flyte_generated.yaml
 	kubectl wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
-	$(call LOG,"Flyte deployment ready! Use 'make console' to open the Flyte console on your browser.")
+	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console.")
 
 .PHONY: teardown
 teardown: _requires-active-cluster  ## Teardown Flyte cluster
-	$(call LOG,Tearing down)
-	docker rm -f -v $(FLYTE_CLUSTER_NAME) > /dev/null
+	$(call LOG,Tearing down Flyte sandbox)
+	docker rm -f -v $(FLYTE_SANDBOX_NAME) > /dev/null
 
 .PHONY: status
 status: _requires-active-cluster  ## Show status of Flyte deployment
 	kubectl get pods -n flyte
-
-.PHONY: console
-console: _requires-active-cluster  ## Open Flyte console
-	open "http://localhost:$(FLYTE_PROXY_PORT)/console"
 
 .PHONY: register
 register: _requires-active-cluster  ## Register Flyte cookbook workflows
