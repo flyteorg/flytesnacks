@@ -7,14 +7,14 @@ PWD=$(CURDIR)
 .SILENT: help
 .PHONY: help
 help: ## show help message
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  $(MAKE) \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 .PHONY: all_fast_serialize
 all_fast_serialize:
 	for dir in $(SUBDIRS) ; do \
 		trimmed=$${dir%/}; \
 		test -f $$dir/Dockerfile && \
-		PREFIX=$$trimmed make fast_serialize; \
+		PREFIX=$$trimmed $(MAKE) fast_serialize; \
 	done
 
 .PHONY: all_fast_register
@@ -22,7 +22,7 @@ all_fast_register: ## Registers new code changes using the last built image (ass
 	for dir in $(SUBDIRS) ; do \
 		trimmed=$${dir%/}; \
 		test -f $$dir/Dockerfile && \
-		PREFIX=$$trimmed make fast_register; \
+		PREFIX=$$trimmed $(MAKE) fast_register; \
 	done
 
 .PHONY: all_register
@@ -55,10 +55,19 @@ all_requirements: ## Makes all requirement files in sub directories.
 		make -C $$dir requirements; \
 	done
 
+.PHONY: all_k3d_load_image
+all_k3d_load_image: 
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		test -f $$dir/Dockerfile && \
+		test -f $$dir/Makefile && $(MAKE) -C $$dir k3d_load_image; \
+	done
+
 .PHONY: all_clean
 all_clean: ## Deletes build directories (e.g. _pb_output/)
 	echo "processing ${PWD}"
 	for dir in $(SUBDIRS) ; do \
 		echo "processing $$dir"; \
-		test -f $$dir/Makefile && make -C $$dir clean; \
+		test -f $$dir/Makefile && $(MAKE) -C $$dir clean; \
 	done

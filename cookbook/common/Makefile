@@ -84,7 +84,7 @@ ifdef REGISTRY
 endif
 
 .PHONY: fmt
-fmt: ## Format code with black and isort
+fmt: # Format code with black and isort
 	black .
 	isort .
 
@@ -93,14 +93,14 @@ install-piptools:
 	pip install -U pip-tools
 
 .PHONY: setup
-setup: install-piptools ## Install requirements
+setup: install-piptools # Install requirements
 	pip-sync dev-requirements.txt
 
 .PHONY: lint
-lint:  ## Run linters
+lint:  # Run linters
 	flake8 .
 
-requirements.txt: export CUSTOM_COMPILE_COMMAND := make requirements.txt
+requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) requirements.txt
 requirements.txt: requirements.in install-piptools
 	$(call PIP_COMPILE,requirements.in)
 
@@ -127,7 +127,7 @@ fast_serialize:
 	echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output -v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) ${TAGGED_IMAGE} make fast_serialize
+	docker run -v ${CURDIR}/_pb_output:/tmp/output -v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) ${TAGGED_IMAGE} $(MAKE) fast_serialize
 
 .PHONY: docker_build
 docker_build:
@@ -146,7 +146,14 @@ serialize: docker_build
 	@echo ${CURDIR}
 	mkdir ${CURDIR}/_pb_output || true
 	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} make serialize
+	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} $(MAKE) serialize
+
+# Cluster Name used for k3d installation
+export FLYTE_CLUSTER_NAME ?= flyte
+
+.PHONY: k3d_load_image
+k3d_load_image: docker_build
+	k3d --cluster ${FLYTE_CLUSTER_NAME} image import ${TAGGED_IMAGE}
 
 .PHONY: clean
 clean:
