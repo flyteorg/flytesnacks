@@ -23,6 +23,7 @@ endef
 
 define RUN_IN_SANDBOX
 docker run -it --rm \
+	--network $(FLYTE_SANDBOX_NAME) \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
 	--volumes-from $(FLYTE_SANDBOX_NAME) \
@@ -53,7 +54,8 @@ _prepare:
 .PHONY: start
 start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Starting sandboxed Kubernetes cluster)
-	docker run -d --rm --privileged --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
+	docker network create $(FLYTE_SANDBOX_NAME) > /dev/null ||:
+	docker run -d --rm --privileged --network $(FLYTE_SANDBOX_NAME) --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
 	timeout 30 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)
@@ -65,6 +67,7 @@ start: _prepare  ## Start a local Flyte sandbox
 teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
 	$(call LOG,Tearing down Flyte sandbox)
 	docker rm -f -v $(FLYTE_SANDBOX_NAME) > /dev/null
+	docker network rm $(FLYTE_SANDBOX_NAME) > /dev/null ||:
 
 .PHONY: status
 status: _requires-sandbox-up  ## Show status of Flyte deployment
@@ -73,5 +76,4 @@ status: _requires-sandbox-up  ## Show status of Flyte deployment
 .PHONY: register
 register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows)
-	# TODO: Get this working!
-	$(call RUN_IN_SANDBOX,-e SANDBOX=1,make -C cookbook/core register)
+	$(call RUN_IN_SANDBOX,-e SANDBOX=1 -e FLYTE_HOST=$(FLYTE_SANDBOX_NAME):30081,make -C cookbook/core register)

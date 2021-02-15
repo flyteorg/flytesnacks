@@ -136,18 +136,14 @@ docker_build:
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: register
-register: docker_push serialize
-	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} ${CURDIR}/_pb_output/*
-
-.PHONY: serialize
-serialize: docker_build
+register: docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} $(MAKE) serialize
-
-.PHONY: clean
-clean:
-	rm -rf _pb_output/
+	docker run -it --rm \
+		--network host \
+		-e MAKEFLAGS \
+		-e FLYTE_HOST \
+		-e INSECURE_FLAG \
+		-e PROJECT \
+		-e VERSION=${VERSION} \
+		${TAGGED_IMAGE} make register
