@@ -54,7 +54,7 @@ _prepare:
 start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Starting sandboxed Kubernetes cluster)
 	docker run -d --rm --privileged --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
-	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
+	timeout 30 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)
 	# TODO switch to https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
