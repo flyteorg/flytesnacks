@@ -9,7 +9,7 @@ export K3S_VERSION := v1.20.2%2Bk3s1
 export KUBECTL_VERSION := v1.20.2
 export FLYTE_SANDBOX_IMAGE := flyte-sandbox:latest
 
-# Flyte cluster configuration variables
+# Flyte sandbox configuration variables
 KUBERNETES_API_PORT := 51234
 FLYTE_PROXY_PORT := 51235
 FLYTE_SANDBOX_NAME := flyte-sandbox
@@ -38,9 +38,9 @@ endef
 help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-# Helper to determine if a cluster is up and running
-.PHONY: _requires-active-cluster
-_requires-active-cluster:
+# Helper to determine if a sandbox is up and running
+.PHONY: _requires-sandbox-up
+_requires-sandbox-up:
 ifeq ($(shell docker ps -f name=$(FLYTE_SANDBOX_NAME) --format={.ID}),)
 	$(error Cluster has not been started! Use 'make start' to start a cluster)
 endif
@@ -51,7 +51,7 @@ _prepare:
 	.sandbox/prepare.sh
 
 .PHONY: start
-start: _prepare  ## Start a local Flyte cluster
+start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Starting sandboxed Kubernetes cluster)
 	docker run -d --rm --privileged --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
 	timeout 600 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
@@ -63,16 +63,16 @@ start: _prepare  ## Start a local Flyte cluster
 	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console.")
 
 .PHONY: teardown
-teardown: _requires-active-cluster  ## Teardown Flyte cluster
+teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
 	$(call LOG,Tearing down Flyte sandbox)
 	docker rm -f -v $(FLYTE_SANDBOX_NAME) > /dev/null
 
 .PHONY: status
-status: _requires-active-cluster  ## Show status of Flyte deployment
+status: _requires-sandbox-up  ## Show status of Flyte deployment
 	kubectl get pods -n flyte
 
 .PHONY: register
-register: _requires-active-cluster  ## Register Flyte cookbook workflows
+register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows)
 	# TODO: Get this working!
 	$(call RUN_IN_SANDBOX,-e SANDBOX=1,make -C cookbook/core register)
