@@ -1,6 +1,6 @@
 .SILENT:
 
-# Update PATH variable to leverage bin directory
+# Update PATH variable to leverage _bin directory
 export PATH := .sandbox/bin:$(PATH)
 
 # Dependencies

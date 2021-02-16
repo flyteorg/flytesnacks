@@ -79,8 +79,6 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
-    # a separate image is used
-    container_image="{{.image.default.fqn}}:pod-{{.image.default.version}}",
 )
 def my_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.

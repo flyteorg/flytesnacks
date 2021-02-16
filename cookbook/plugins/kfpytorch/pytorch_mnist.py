@@ -171,7 +171,6 @@ TrainingOutputs = typing.NamedTuple(
     retries=2,
     cache=True,
     cache_version="1.0",
-    container_image="{{.image.default.fqn}}:pytorch-{{.image.default.version}}",
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     log_dir = "logs"

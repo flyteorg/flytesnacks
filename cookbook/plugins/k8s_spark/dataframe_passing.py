@@ -22,17 +22,12 @@ from flytekitplugins.spark import Spark
 my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 
 # %%
-# This string is used in the task definitions below (see the `hosted_multi_images` section for more information) and
-# its usage means that the tasks tagged with this setting will use the spark- image instead of the default one.
-# This image will have additional dependencies like pyspark and Java installed and will be substantially larger
-# than the default container.
-CONTAINER_TEMPLATE = "{{.image.default.fqn}}:spark-{{.image.default.version}}"
-
-# %%
 # ``create_spark_df`` is a spark task, that runs within a spark cotext (relies on having spark cluster up and running). This task generates a spark DataFrame whose schema matches the predefined :any:`df_my_schema_definition`
 # Notice that the task simply returns a pyspark.DataFrame object, even though the return type specifies  :any:`df_my_schema_definition`
 # The flytekit type-system will automatically convert the pyspark.DataFrame to Flyte Schema object.
 # FlyteSchema object is an abstract representation of a DataFrame, that can conform to multiple different dataframe formats.
+
+
 @task(
     task_config=Spark(
         spark_conf={
@@ -44,7 +39,6 @@ CONTAINER_TEMPLATE = "{{.image.default.fqn}}:spark-{{.image.default.version}}"
         }
     ),
     cache_version="1",
-    container_image=CONTAINER_TEMPLATE,
 )
 def create_spark_df() -> my_schema:
     """
@@ -53,7 +47,7 @@ def create_spark_df() -> my_schema:
     """
     sess = flytekit.current_context().spark_session
     return sess.createDataFrame(
-        [("Alice", 5), ("Bob", 10), ("Charlie", 15),], my_schema.column_names(),
+        [("Alice", 5), ("Bob", 10), ("Charlie", 15), ], my_schema.column_names(),
     )
 
 
@@ -63,7 +57,7 @@ def create_spark_df() -> my_schema:
 # can be read into multiple formats using the ``open()`` method. Default conversion is to :py:class:`pandas.DataFrame`
 # Refer to :py:class:`flytekit.FlyteSchema` for more details
 #
-@task(cache_version="1", container_image=CONTAINER_TEMPLATE)
+@task(cache_version="1")
 def sum_of_all_ages(s: my_schema) -> int:
     """
     The schema is passed into this task. Schema is just a reference to the actually object and has almost no overhead.

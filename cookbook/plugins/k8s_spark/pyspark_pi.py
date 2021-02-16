@@ -22,14 +22,10 @@ from flytekit import task, workflow
 # The follow import is required to configure a Spark Server in Flyte.
 from flytekitplugins.spark import Spark
 
-from k8s_spark.dataframe_passing import CONTAINER_TEMPLATE
-
 
 # %%
 # Spark Task sample. This example shows how a spark task can be written simply by adding a ``@task(task_config=Spark(...)...)`` decorator.
 # Refer to :py:class:`flytekit.Spark` class to understand the various configuration options.
-# Also important to note here that the container_image is a special image that is built as part of the samples repo. To understand how to configure
-# different containers per task refer to :any:`hosted_multi_images`.
 @task(
     task_config=Spark(
         # this configuration is applied to the spark cluster
@@ -42,8 +38,6 @@ from k8s_spark.dataframe_passing import CONTAINER_TEMPLATE
         }
     ),
     cache_version="1",
-    # a separate image is used
-    container_image=CONTAINER_TEMPLATE,
 )
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
@@ -66,7 +60,7 @@ def f(_):
 
 # %%
 # This is a regular python function task. This will not execute on the spark cluster
-@task(cache_version="1", container_image=CONTAINER_TEMPLATE)
+@task(cache_version="1")
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1

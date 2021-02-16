@@ -356,7 +356,6 @@ def download_test_data(training_dir):
     ),
     cache_version="1.0",
     cache=True,
-    container_image="{{.image.sagemaker.fqn}}:smpytorch-{{.image.default.version}}",
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> PythonPickledFile:
     # pytorch's save() function does not create a path if the path specified does not exist
