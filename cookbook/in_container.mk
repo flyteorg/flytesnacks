@@ -1,18 +1,20 @@
+SERIALIZED_PB_OUTPUT_DIR := /tmp/flyte/_pb_output
+
 .PHONY: clean
 clean:
-	rm -rf /tmp/flyte
+	rm -rf $(SERIALIZED_PB_OUTPUT_DIR)
 
-/tmp/flyte/_pb_output: clean
-	mkdir -p /tmp/flyte/_pb_output
+$(SERIALIZED_PB_OUTPUT_DIR): clean
+	mkdir -p $(SERIALIZED_PB_OUTPUT_DIR)
 
 .PHONY: register
 register: serialize
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} /tmp/flyte/_pb_output/*
+	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} $(SERIALIZED_PB_OUTPUT_DIR)/*
 
 .PHONY: serialize
-serialize: /tmp/flyte/_pb_output
-	pyflyte --config /root/sandbox.config serialize workflows -f /tmp/flyte/_pb_output
+serialize: $(SERIALIZED_PB_OUTPUT_DIR)
+	pyflyte --config /root/sandbox.config serialize workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
 
 .PHONY: fast_serialize
-fast_serialize: /tmp/flyte/_pb_output
-	pyflyte --config /root/sandbox.config serialize fast workflows -f /tmp/flyte/_pb_output
+fast_serialize: $(SERIALIZED_PB_OUTPUT_DIR)
+	pyflyte --config /root/sandbox.config serialize fast workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
