@@ -41,7 +41,7 @@ endif
 export PROJECT ?= flytesnacks
 
 # The docker registry that should be used to push images.
-# e.g.: 
+# e.g.:
 # export REGISTRY ?= ghcr.io/flyteorg
 endif
 
@@ -108,26 +108,32 @@ requirements.txt: requirements.in install-piptools
 requirements: requirements.txt
 
 .PHONY: fast_serialize
-fast_serialize:
+fast_serialize: clean _pb_output
 	echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm ${CURDIR}/_pb_output/* || true
-	pyflyte -c sandbox.config --pkgs ${PREFIX} serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} fast workflows -f _pb_output/
+	docker run -it --rm \
+		-e MAKEFLAGS \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
-fast_register:
-	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
-	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
-	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} \
-		--additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
-
-.PHONY: fast_serialize
-fast_serialize:
-	echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output -v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) ${TAGGED_IMAGE} $(MAKE) fast_serialize
+fast_register: clean _pb_output
+	@echo ${CURDIR}
+	docker run -it --rm \
+		--network host \
+		-e MAKEFLAGS \
+		-e FLYTE_HOST \
+		-e INSECURE_FLAG \
+		-e PROJECT \
+		-e FLYTE_AWS_ENDPOINT \
+		-e FLYTE_AWS_ACCESS_KEY_ID \
+		-e FLYTE_AWS_SECRET_ACCESS_KEY \
+		-e OUTPUT_DATA_PREFIX \
+		-e ADDL_DISTRIBUTION_DIR \
+		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		${TAGGED_IMAGE} make fast_register
 
 .PHONY: docker_build
 docker_build:
@@ -135,26 +141,33 @@ docker_build:
 	echo ${TAGGED_IMAGE}
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
-.PHONY: register
-register: docker_push serialize
-	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} ${CURDIR}/_pb_output/*
-
 .PHONY: serialize
-serialize: docker_build
+serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm ${CURDIR}/_pb_output/* || true
-	docker run -v ${CURDIR}/_pb_output:/tmp/output ${TAGGED_IMAGE} $(MAKE) serialize
+	docker run -it --rm \
+		-e MAKEFLAGS \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		${TAGGED_IMAGE} make serialize
 
-# Cluster Name used for k3d installation
-export FLYTE_CLUSTER_NAME ?= flyte
 
-.PHONY: k3d_load_image
-k3d_load_image: docker_build
-	k3d --cluster ${FLYTE_CLUSTER_NAME} image import ${TAGGED_IMAGE}
+.PHONY: register
+register: clean _pb_output docker_push
+	@echo ${VERSION}
+	@echo ${CURDIR}
+	docker run -it --rm \
+		--network host \
+		-e MAKEFLAGS \
+		-e FLYTE_HOST \
+		-e INSECURE_FLAG \
+		-e PROJECT \
+		-e VERSION=${VERSION} \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		${TAGGED_IMAGE} make register
+
+_pb_output:
+	mkdir -p _pb_output
 
 .PHONY: clean
 clean:
-	rm -rf _pb_output/
+	rm -rf _pb_output/*
