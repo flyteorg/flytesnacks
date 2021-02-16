@@ -107,20 +107,33 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt
 
-.PHONY: fast_register
-fast_register:
-	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
-	test $(FLYTE_HOST) || ( echo ">> FLYTE_HOST is not set"; exit 1 )
-	test $(ADDL_DISTRIBUTION_DIR) || ( echo ">> ADDL_DISTRIBUTION_DIR is not set"; exit 1 )
-	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} \
-		--additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} _pb_output/*
-
 .PHONY: fast_serialize
-fast_serialize:
+fast_serialize: clean _pb_output
 	echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm -f ${CURDIR}/_pb_output/*.tar.gz
-	docker run -v ${CURDIR}/_pb_output:/tmp/output -v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) ${TAGGED_IMAGE} $(MAKE) fast_serialize
+	docker run -it --rm \
+		-e MAKEFLAGS \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		${TAGGED_IMAGE} make fast_serialize
+
+.PHONY: fast_register
+fast_register: clean _pb_output
+	@echo ${CURDIR}
+	docker run -it --rm \
+		--network host \
+		-e MAKEFLAGS \
+		-e FLYTE_HOST \
+		-e INSECURE_FLAG \
+		-e PROJECT \
+		-e FLYTE_AWS_ENDPOINT \
+		-e FLYTE_AWS_ACCESS_KEY_ID \
+		-e FLYTE_AWS_SECRET_ACCESS_KEY \
+		-e OUTPUT_DATA_PREFIX \
+		-e ADDL_DISTRIBUTION_DIR \
+		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		${TAGGED_IMAGE} make fast_register
 
 .PHONY: docker_build
 docker_build:
@@ -128,8 +141,18 @@ docker_build:
 	echo ${TAGGED_IMAGE}
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
+.PHONY: serialize
+serialize: clean _pb_output docker_build
+	@echo ${VERSION}
+	@echo ${CURDIR}
+	docker run -it --rm \
+		-e MAKEFLAGS \
+		-v ${CURDIR}/_pb_output:/tmp/output \
+		${TAGGED_IMAGE} make serialize
+
+
 .PHONY: register
-register: docker_push
+register: clean _pb_output docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -it --rm \
@@ -139,4 +162,12 @@ register: docker_push
 		-e INSECURE_FLAG \
 		-e PROJECT \
 		-e VERSION=${VERSION} \
+		-v ${CURDIR}/_pb_output:/tmp/output \
 		${TAGGED_IMAGE} make register
+
+_pb_output:
+	mkdir -p _pb_output
+
+.PHONY: clean
+clean:
+	rm -rf _pb_output/*

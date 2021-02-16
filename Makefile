@@ -17,6 +17,9 @@ FLYTE_SANDBOX_NAME := flyte-sandbox
 # Use an ephemeral kubeconfig, so as not to litter the default one
 export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
 
+# Module of cookbook examples to register
+EXAMPLES_MODULE := core
+
 define LOG
 echo $(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)
 endef
@@ -26,12 +29,14 @@ docker run -it --rm \
 	--network $(FLYTE_SANDBOX_NAME) \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
+	-e SANDBOX=1 \
+	-e FLYTE_HOST=$(FLYTE_SANDBOX_NAME):30081 \
+	-e FLYTE_AWS_ENDPOINT=http://$(FLYTE_SANDBOX_NAME):30084 \
 	--volumes-from $(FLYTE_SANDBOX_NAME) \
 	-v $(PWD):/mnt/src \
 	-w /usr/src \
-	$(1) \
 	$(FLYTE_SANDBOX_IMAGE) \
-	with-src-snapshot.sh $(2)
+	with-src-snapshot.sh $(1)
 endef
 
 .PHONY: help
@@ -72,7 +77,16 @@ teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
 status: _requires-sandbox-up  ## Show status of Flyte deployment
 	kubectl get pods -n flyte
 
+.PHONY: shell
+shell: _requires-sandbox-up  ## Drop into a development shell
+	$(call RUN_IN_SANDBOX,bash)
+
 .PHONY: register
 register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows)
-	$(call RUN_IN_SANDBOX,-e SANDBOX=1 -e FLYTE_HOST=$(FLYTE_SANDBOX_NAME):30081,make -C cookbook/core register)
+	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
+
+.PHONY: fast_register
+fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
+	$(call LOG,Fast registering example workflows)
+	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
