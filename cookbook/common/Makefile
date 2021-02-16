@@ -37,13 +37,13 @@ ifndef INSECURE
 	export INSECURE_FLAG=-i
 endif
 
-# The Flyte project that we want to register under
-export PROJECT ?= flytesnacks
-
 # The docker registry that should be used to push images.
 # e.g.:
 # export REGISTRY ?= ghcr.io/flyteorg
 endif
+
+# The Flyte project that we want to register under
+export PROJECT ?= flytesnacks
 
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
@@ -161,6 +161,12 @@ register: clean _pb_output docker_push
 		-e FLYTE_HOST \
 		-e INSECURE_FLAG \
 		-e PROJECT \
+		-e FLYTE_AWS_ENDPOINT \
+		-e FLYTE_AWS_ACCESS_KEY_ID \
+		-e FLYTE_AWS_SECRET_ACCESS_KEY \
+		-e OUTPUT_DATA_PREFIX \
+		-e ADDL_DISTRIBUTION_DIR \
+		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		${TAGGED_IMAGE} make register
