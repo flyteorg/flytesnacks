@@ -27,12 +27,11 @@ docker run -it --rm \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
 	--volumes-from $(FLYTE_SANDBOX_NAME) \
-	-v $(PWD):/usr/src \
+	-v $(PWD):/mnt/src \
 	-w /usr/src \
-	--entrypoint="tini" \
 	$(1) \
 	$(FLYTE_SANDBOX_IMAGE) \
-	$(2)
+	with-src-snapshot.sh $(2)
 endef
 
 .PHONY: help
@@ -55,7 +54,7 @@ _prepare:
 start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Starting sandboxed Kubernetes cluster)
 	docker network create $(FLYTE_SANDBOX_NAME) > /dev/null ||:
-	docker run -d --rm --privileged --network $(FLYTE_SANDBOX_NAME) --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) > /dev/null
+	docker run -d --rm --privileged --network $(FLYTE_SANDBOX_NAME) --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) k3s-entrypoint.sh > /dev/null
 	timeout 30 sh -c "until kubectl cluster-info &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)

@@ -2,7 +2,7 @@ ARG DOCKER_VERSION
 FROM docker:${DOCKER_VERSION}-dind
 
 # Install dependencies
-RUN apk add --no-cache bash git make tini
+RUN apk add --no-cache bash git make rsync tini
 
 # Install k3s
 ARG K3S_VERSION
@@ -13,7 +13,7 @@ VOLUME /var/lib/rancher/k3s
 VOLUME /var/lib/cni
 VOLUME /var/log
 
-# Copy entrypoint that properly launches docker and k3s
-COPY k3s-entrypoint.sh /usr/local/bin
+# Copy entrypoints
+COPY k3s-entrypoint.sh with-src-snapshot.sh /usr/local/bin
 
-ENTRYPOINT ["tini", "k3s-entrypoint.sh"]
+ENTRYPOINT ["tini"]
