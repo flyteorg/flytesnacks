@@ -107,13 +107,6 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt
 
-.PHONY: fast_serialize
-fast_serialize:
-	echo ${CURDIR}
-	mkdir ${CURDIR}/_pb_output || true
-	rm ${CURDIR}/_pb_output/* || true
-	pyflyte -c sandbox.config --pkgs ${PREFIX} serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${PREFIX}-${VERSION} fast workflows -f _pb_output/
-
 .PHONY: fast_register
 fast_register:
 	test $(OUTPUT_DATA_PREFIX) || ( echo ">> OUTPUT_DATA_PREFIX is not set"; exit 1 )
