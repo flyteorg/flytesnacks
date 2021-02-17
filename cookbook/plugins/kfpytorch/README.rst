@@ -20,7 +20,7 @@ How to build your Dockerfile for Pytorch on K8s
     If using CPU for training then special dockerfile is NOT REQUIRED. If GPU or TPUs are required then, the dockerfile differs only in the driver setup. The following dockerfile is enabled for GPU accelerated training using CUDA
 
 
-.. literalinclude:: ../../kfpytorch.Dockerfile
+.. literalinclude:: ../Dockerfile
     :language: dockerfile
     :emphasize-lines: 1
     :linenos:

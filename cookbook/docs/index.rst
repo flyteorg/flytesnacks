@@ -8,7 +8,7 @@ If you have access to a whole Flyte platform deployment, this cookbook can also 
 
 The tutorial is divided into 3 sections:
 
-* :ref:`Getting Started <sphx_glr_auto_core>` - This covers the basics of Flytekit, as well as working with a deployed Flyte platform.
+* :ref:`Core Language <sphx_glr_auto_core>` - This covers the basics of Flytekit, as well as working with a deployed Flyte platform.
 * :ref:`Case Studies <sphx_glr_auto_case_studies>` - These are examples that showcase the power of Flyte.
 * :ref:`Plugins <plugins_main>` - This section details flytekit extensibility
 

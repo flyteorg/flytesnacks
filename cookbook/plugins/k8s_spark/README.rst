@@ -31,7 +31,7 @@ Using Spark on K8s is extremely easy and provides full versioning using the cust
 built container can also execute regular Spark tasks.
 For Spark, the image must contain spark dependencies as well as the correct entrypoint for the Spark driver/executors. This can be achieved by using the `flytekit_install_spark.sh <https://github.com/lyft/flytekit/blob/67b00ef6173c77a940dbe612baa9b76408ef1448/scripts/flytekit_install_spark3.sh>`__ script provided as referenced in the Dockerfile included here.
 
-.. literalinclude:: ../../k8sspark.Dockerfile
+.. literalinclude:: ../Dockerfile
     :language: dockerfile
     :emphasize-lines: 26-37,47-54
     :linenos:

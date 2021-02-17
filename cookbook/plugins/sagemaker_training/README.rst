@@ -47,7 +47,7 @@ Before following this example, make sure that
 Creating a dockerfile for Sagemaker custom training [Required]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. literalinclude:: ../../sagemaker.Dockerfile
+.. literalinclude:: ../Dockerfile
     :language: dockerfile
     :emphasize-lines: 22-24
     :linenos:

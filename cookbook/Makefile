@@ -13,6 +13,13 @@ dev-requirements.txt: dev-requirements.in install-piptools
 .PHONY: dev-requirements
 dev-requirements: dev-requirements.txt
 
+docs-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) docs-requirements.txt
+docs-requirements.txt: docs-requirements.in install-piptools
+	$(call PIP_COMPILE,docs-requirements.in)
+
+.PHONY: docs-requirements
+docs-requirements: docs-requirements.txt
+
 .PHONY: enter_sandbox
 enter_sandbox: docker_build
 	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
@@ -34,7 +41,7 @@ all_fast_serialize:
 	make -C ${mkfile_dir}case_studies all_fast_serialize
 
 .PHONY: all_requirements
-all_requirements: dev-requirements ## Makes all requirements in sub directories
+all_requirements: dev-requirements docs-requirements ## Makes all requirements in sub directories
 	make -C ${mkfile_dir}core requirements
 	make -C ${mkfile_dir}plugins all_requirements
 	make -C ${mkfile_dir}case_studies all_requirements

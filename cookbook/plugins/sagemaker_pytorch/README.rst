@@ -17,7 +17,7 @@ Creating a dockerfile for Sagemaker custom training [Required]
 --------------------------------------------------------------
 The dockerfile for Sagemaker custom training is similar to any regular dockerfile, except for the difference in using the Nvidia cuda base.
 
-.. literalinclude:: ../../smpytorch.Dockerfile
+.. literalinclude:: ../Dockerfile
     :language: dockerfile
     :emphasize-lines: 1, 22-24
     :linenos:
