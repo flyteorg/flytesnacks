@@ -1,4 +1,5 @@
-.. currentmodule:: getting_started
+.. _flyte-tutorial:
+.. currentmodule:: flyte_tutorial
 
 ############################################
 Getting Started with Flyte
