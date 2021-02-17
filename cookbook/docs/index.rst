@@ -24,6 +24,13 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    :maxdepth: 4
    :caption: Getting Started
 
+   getting_started
+   playground
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Core Language Examples
+
    core
    auto_core_basic/index
    auto_core_intermediate/index
