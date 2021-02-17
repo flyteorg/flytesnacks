@@ -10,8 +10,9 @@ With `docker installed <https://docs.docker.com/get-docker/>`, run this command 
 
   docker network create flyte-sandbox > /dev/null ||: docker run --network flyte-sandbox --rm --privileged -p 30081:30081 ghcr.io/flyteorg/flyte-sandbox
 
+Once the container is ready, it'll output the Console URL. Go ahead and visit that to check out the Flyte UI.
 
-Once you see a `Flyte deployment is ready` message, open your browser to `https://localhost:30081/console` to see the Flyte Console UI.
+
 
 
 The first three chapters of this part of the cookbook is organized into increasing levels of complexity. The last chapter shows the reader the optimal way to use flytekit with a live Flyte deployment.
