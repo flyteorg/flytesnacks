@@ -35,7 +35,7 @@ The make target is a handy wrapper around the following:
 
 .. code-block::
 
-   pyflyte -c sandbox.config --pkgs recipes serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} workflows -f _pb_output/
+   pyflyte -c sandbox.config --pkgs core serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} workflows -f _pb_output/
 
 - the `-c` is the path to the config definition on your machine. This config specifies SDK default attributes.
 - the `--pkgs` arg points to the packages within the

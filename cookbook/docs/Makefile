@@ -1,6 +1,6 @@
 .PHONY: rsts
 rsts:
-	sphinx-apidoc --force --tocfile index --ext-autodoc --output-dir _rsts ../recipes
+	sphinx-apidoc --force --tocfile index --ext-autodoc --output-dir _rsts ../../
 
 .PHONY: html
 html:

@@ -10,6 +10,8 @@ import typing
 from flytekit import task, workflow
 
 
+# You can change the signature of the workflow to take in an argument like this:
+# def say_hello(name: str) -> str:
 @task
 def say_hello() -> str:
     return "hello world"
@@ -18,6 +20,8 @@ def say_hello() -> str:
 # %%
 # You can treat the outputs of a task as you normally would a Python function. Assign the output to two variables
 # and use them in subsequent tasks as normal. See :py:func:`flytekit.workflow`
+# You can change the signature of the workflow to take in an argument like this:
+# def my_wf(name: str) -> str:
 @workflow
 def my_wf() -> str:
     res = say_hello()
