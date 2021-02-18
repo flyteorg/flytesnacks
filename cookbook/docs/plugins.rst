@@ -1,4 +1,3 @@
-.. currentmodule:: plugins
 .. _plugins_main:
 
 ############################################

@@ -1,5 +1,6 @@
+================================
 Flyte Cookbook
-==============================================
+================================
 Flytesnacks is intended to be a ``learn by example`` style cookbook.  We cover all the various concepts in Flyte along with most of the maintained
 plugins. This cookbook is designed to get you running both locally, and on a Flyte cluster using `Flyte Python SDK (flytekit) <https://github.com/lyft/flytekit>`__
 
@@ -30,7 +31,17 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    auto_core_intermediate/index
    auto_core_advanced/index
    auto_core_remote_flyte/index
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Case Studies
+
    case_studies
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Flytekit Plugins
+
    plugins
    auto_plugins_hive/index
    auto_plugins_sagemaker_training/index
@@ -38,8 +49,13 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    auto_plugins_kfpytorch/index
    auto_plugins_pod/index
    auto_plugins_sagemaker_pytorch/index
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Additional Flyte Documentation
+
    Flyte Project <https://flyte.readthedocs.io/en/latest/>
-   Flytekit Python <https://flytekit.readthedocs.io/en/latest/">
+   Flytekit Python <https://flytekit.readthedocs.io/en/latest/>
 
 
 Indices and tables

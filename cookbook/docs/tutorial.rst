@@ -1,5 +1,4 @@
 .. _flyte-tutorial:
-.. currentmodule:: flyte_tutorial
 
 ############################################
 Tutorial: Hello World!
