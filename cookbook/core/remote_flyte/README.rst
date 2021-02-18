@@ -14,7 +14,7 @@ Build your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
 The first step of this process is building a container image that holds your code.
 
-.. literalinclude:: ../../Dockerfile
+.. literalinclude:: ../../core/Dockerfile
     :language: dockerfile
     :emphasize-lines: 1
     :linenos:
