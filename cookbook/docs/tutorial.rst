@@ -19,9 +19,11 @@ Prerequisites
 Steps
 *****
 
-1. First install the python Flytekit SDK and clone the ``flytesnacks`` repo ::
+1. First install the python Flytekit SDK and clone the ``flytesnacks`` repo:
 
-  pip install flytekit==0.16.0b6
+.. prompt:: bash
+
+  pip install flytekit>=0.16.0b6
   git clone git@github.com:flyteorg/flytesnacks.git flytesnacks
   cd flytesnacks
 
@@ -32,14 +34,19 @@ Steps
 
 4. Update the simple test at the bottom of the file to pass in a name. E.g. `print(f"Running my_wf(name="adam") {my_wf(name="adam")}")`
 
-5. Run this file in Python: ::
+5. Run this file in Python:
+
+.. prompt:: bash
   python cookbook/core/basic/hello_world.py
 
   It should output `hello world, adam`.
 
 Congratulations! You have just ran your first workflow. Let's now run it on the sandbox cluster you deployed earlier.
 
-6. Run: ::
+6. Run:
+
+.. prompt:: bash
+
   make fast_register
 
 7. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`__, click launch, and enter your name.

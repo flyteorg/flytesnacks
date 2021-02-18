@@ -14,8 +14,10 @@ alabaster==0.7.12
     # via sphinx
 appdirs==1.4.4
     # via black
-astroid==2.5
-    # via sphinx-autoapi
+astroid==2.4.2
+    # via
+    #   -r ./docs-requirements.in
+    #   sphinx-autoapi
 astunparse==1.6.3
     # via tensorflow
 attrs==20.3.0
@@ -36,9 +38,9 @@ black==19.10b0
     # via
     #   -r dev-requirements.in
     #   flake8-black
-boto3==1.17.9
+boto3==1.17.11
     # via sagemaker-training
-botocore==1.20.9
+botocore==1.20.11
     # via
     #   boto3
     #   s3transfer
@@ -77,8 +79,10 @@ dill==0.3.3
     # via tensorflow-datasets
 dirhash==0.2.1
     # via flytekit
-docutils==0.17b1
-    # via sphinx
+docutils==0.16
+    # via
+    #   -r ./docs-requirements.in
+    #   sphinx
 flake8-black==0.2.1
     # via -r dev-requirements.in
 flake8-isort==4.0.0
@@ -106,11 +110,11 @@ flytekit==0.16.0b12
     #   flytekitplugins-kfpytorch
     #   flytekitplugins-pod
     #   flytekitplugins-spark
-flytekitplugins-awssagemaker==0.16.0b11
+flytekitplugins-awssagemaker==0.16.0b12
     # via
     #   -r ./plugins/sagemaker_pytorch/requirements.in
     #   -r ./plugins/sagemaker_training/requirements.in
-flytekitplugins-hive==0.16.0b11
+flytekitplugins-hive==0.16.0b12
     # via -r ./plugins/hive/requirements.in
 flytekitplugins-kfpytorch==0.16.0b12
     # via -r ./plugins/kfpytorch/requirements.in
@@ -179,7 +183,7 @@ keyring==22.0.1
     # via flytekit
 kiwisolver==1.3.1
     # via matplotlib
-lazy-object-proxy==1.5.2
+lazy-object-proxy==1.4.3
     # via astroid
 lxml==4.6.2
     # via sphinx-material
@@ -256,7 +260,7 @@ pluggy==1.0.0.dev0
     # via pytest
 promise==2.3
     # via tensorflow-datasets
-protobuf==3.15.0rc1
+protobuf==3.15.0rc2
     # via
     #   flyteidl
     #   flytekit
@@ -352,7 +356,7 @@ scantree==0.0.1
     # via dirhash
 scikit-learn==0.24.1
     # via sklearn
-scipy==1.6.0
+scipy==1.6.1
     # via
     #   sagemaker-training
     #   scikit-learn
@@ -360,6 +364,7 @@ scipy==1.6.0
 six==1.15.0
     # via
     #   absl-py
+    #   astroid
     #   astunparse
     #   bcrypt
     #   cycler
@@ -430,7 +435,7 @@ statsd==3.3.0
     # via flytekit
 stringcase==1.2.0
     # via dataclasses-json
-tabulate==0.8.7
+tabulate==0.8.8
     # via -r ./case_studies/pima_diabetes/requirements.in
 tensorboard-plugin-wit==1.8.0
     # via tensorboard
@@ -471,7 +476,7 @@ torchvision==0.8.2
     # via
     #   -r ./plugins/kfpytorch/requirements.in
     #   -r ./plugins/sagemaker_pytorch/requirements.in
-tqdm==4.56.2
+tqdm==4.57.0
     # via tensorflow-datasets
 typed-ast==1.4.2
     # via black
