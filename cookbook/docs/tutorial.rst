@@ -18,29 +18,31 @@ Prerequisites
 Steps
 *****
 
-1. First install the python Flytekit SDK and clone the ``flytesnacks`` repo ::
+#. First install the python Flytekit SDK and clone the ``flytesnacks`` repo ::
 
-  pip install flytekit==0.16.0b6
-  git clone git@github.com:flyteorg/flytesnacks.git flytesnacks
-  cd flytesnacks
+    pip install flytekit==0.16.0b6
+    git clone git@github.com:flyteorg/flytesnacks.git flytesnacks
+    cd flytesnacks
 
 
-2. Open `cookbook/core/basic/hello_world.py` in your favorite editor.
+#. Open `cookbook/core/basic/hello_world.py` in your favorite editor.
 
-3. Add `name: str` as an argument to both `my_wf` and `say_hello` functions. Then update the body of `say_hello` to consume that argument.
+#. Add `name: str` as an argument to both `my_wf` and `say_hello` functions. Then update the body of `say_hello` to consume that argument.
 
-4. Update the simple test at the bottom of the file to pass in a name. E.g. `print(f"Running my_wf(name="adam") {my_wf(name="adam")}")`
+#. Update the simple test at the bottom of the file to pass in a name. E.g. `print(f"Running my_wf(name="adam") {my_wf(name="adam")}")`
 
-5. Run this file in Python: ::
-  python cookbook/core/basic/hello_world.py
+#. Run this file in Python: ::
 
-  It should output `hello world, adam`.
+    python cookbook/core/basic/hello_world.py
+
+ It should output ``hello world, adam``.
 
 Congratulations! You have just ran your first workflow. Let's now run it on the sandbox cluster you deployed earlier.
 
-6. Run: ::
-  make fast_register
+#. Run: ::
 
-7. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`__, click launch, and enter your name.
+    make fast_register
 
-8. Give it a minute and one it's done, check out "Inputs/Outputs" on the top right corner to see your greeting updated.
+#. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`__, click launch, and enter your name.
+
+#. Give it a minute and one it's done, check out "Inputs/Outputs" on the top right corner to see your greeting updated.

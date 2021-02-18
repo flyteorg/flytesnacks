@@ -105,6 +105,9 @@ extensions = [
     "sphinx_copybutton",
 ]
 
+# Get rid of all those "duplicate label" warnings
+autosectionlabel_prefix_document = True
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
