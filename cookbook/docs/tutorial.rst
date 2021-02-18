@@ -2,9 +2,31 @@
 .. currentmodule:: flyte_tutorial
 
 ############################################
-Getting Started with Flyte
+Tutorial: Hello World!
 ############################################
 
+.. rubric:: Estimated time to complete: 2 minutes.
+
+The goal of this tutorial is to modify an existing example 
+
+Prerequisites
+*************
+
+* Ensure that you have completed the `Getting Started <https://docs.flyte.org/en/latest/tutorials/first_run.html>`__ guide.
+
+* Ensure that you have `git <https://git-scm.com/>`__ installed.
+
+Steps
+*****
+
+1. First install the python Flytekit SDK and clone the ``flytesnacks`` repo ::
+
+  pip install flytekit==0.16.0b6
+  git clone git@github.com:flyteorg/flytesnacks.git flytesnacks
+  cd flytesnacks
+
+
+2. 
 Flyte enables scalable, reproducable and reliable orchestration of massively large workflows. In order to get a sense of the product, we have packaged a minimalist version of the Flyte system into a Docker image.
 
 With `docker installed <https://docs.docker.com/get-docker/>`, run this command ::

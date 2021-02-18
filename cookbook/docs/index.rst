@@ -53,7 +53,7 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    :maxdepth: 4
    :caption: Additional Flyte Documentation
 
-   Flyte Project <https://flyte.readthedocs.io/en/latest//>
+   Flyte Project <https://flyte.readthedocs.io/en/latest/>
    Flytekit Python <https://flytekit.readthedocs.io/en/latest/">
 
 
