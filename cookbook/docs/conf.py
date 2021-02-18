@@ -37,6 +37,7 @@ class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
         # Basic
         "task.py",
+        "hello_world.py",
         "basic_workflow.py",
         "lp.py",
         "task_cache.py",
@@ -148,7 +149,7 @@ html_theme_options = {
     "globaltoc_collapse": False,
     # If True, show hidden TOC entries
     "globaltoc_includehidden": False,
-    "heroes": {"": "Flyte",},
+    "heroes": {"": "Flyte", },
 }
 
 html_sidebars = {
