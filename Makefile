@@ -20,8 +20,10 @@ export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core
 
+reset=$(shell tput sgr0)
+
 define LOG
-echo $(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)
+$(info $(shell tput bold)$(shell tput setaf 2)$(1)$(reset))
 endef
 
 define RUN_IN_SANDBOX
