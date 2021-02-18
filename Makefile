@@ -67,12 +67,12 @@ start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Deploying Flyte)
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
-	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console.")
+	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console")
 
 .PHONY: teardown
 teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
 	$(call LOG,Tearing down Flyte sandbox)
-	docker rm -f -v $(FLYTE_SANDBOX_NAME) > /dev/null
+	docker rm -f -v $(FLYTE_SANDBOX_NAME) > /dev/null ||:
 	docker network rm $(FLYTE_SANDBOX_NAME) > /dev/null ||:
 
 .PHONY: status
@@ -80,7 +80,7 @@ status: _requires-sandbox-up  ## Show status of Flyte deployment
 	kubectl get pods -n flyte
 
 .PHONY: shell
-shell: _requires-sandbox-up  ## Drop into a development shell
+shell: _requires-sandbox-up  # Drop into a development shell
 	$(call RUN_IN_SANDBOX,bash)
 
 .PHONY: register
