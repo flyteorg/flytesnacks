@@ -118,18 +118,21 @@ fast_serialize: clean _pb_output
 
 .PHONY: fast_register
 fast_register: clean _pb_output
+	@echo "Tagged Image: "
+	@echo ${TAGGED_IMAGE}
 	@echo ${CURDIR}
 	docker run -it --rm \
 		--network host \
-		-e MAKEFLAGS \
-		-e FLYTE_HOST \
-		-e INSECURE_FLAG \
-		-e PROJECT \
-		-e FLYTE_AWS_ENDPOINT \
-		-e FLYTE_AWS_ACCESS_KEY_ID \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY \
-		-e OUTPUT_DATA_PREFIX \
-		-e ADDL_DISTRIBUTION_DIR \
+		-e REGISTRY=${REGISTRY} \
+		-e MAKEFLAGS=${MAKEFLAGS} \
+		-e FLYTE_HOST=${FLYTE_HOST} \
+		-e INSECURE_FLAG=${INSECURE_FLAG} \
+		-e PROJECT=${PROJECT} \
+		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
+		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
+		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
+		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
+		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
@@ -157,6 +160,7 @@ register: clean _pb_output docker_push
 	@echo ${CURDIR}
 	docker run -it --rm \
 		--network host \
+		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS \
 		-e FLYTE_HOST \
 		-e INSECURE_FLAG \

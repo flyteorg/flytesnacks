@@ -34,6 +34,7 @@ docker run -it --rm \
 	-e SANDBOX=1 \
 	-e FLYTE_HOST=$(FLYTE_SANDBOX_NAME):30081 \
 	-e FLYTE_AWS_ENDPOINT=http://$(FLYTE_SANDBOX_NAME):30084 \
+	-e REGISTRY=${REGISTRY} \
 	--volumes-from $(FLYTE_SANDBOX_NAME) \
 	-v $(PWD):/mnt/src \
 	-w /usr/src \
@@ -85,10 +86,10 @@ shell: _requires-sandbox-up  # Drop into a development shell
 
 .PHONY: register
 register: _requires-sandbox-up  ## Register Flyte cookbook workflows
-	$(call LOG,Registering example workflows)
+	$(call LOG,Registering example workflows in cookbook/$(EXAMPLES_MODULE))
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
 
 .PHONY: fast_register
 fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
-	$(call LOG,Fast registering example workflows)
+	$(call LOG,Fast registering example workflows in cookbook/$(EXAMPLES_MODULE))
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
