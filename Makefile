@@ -10,9 +10,9 @@ export KUBECTL_VERSION := v1.20.2
 export FLYTE_SANDBOX_IMAGE := flyte-sandbox:latest
 
 # Flyte sandbox configuration variables
-KUBERNETES_API_PORT := 51234
-FLYTE_PROXY_PORT := 51235
-MINIO_PROXY_PORT := 51236
+KUBERNETES_API_PORT := 30080
+FLYTE_PROXY_PORT := 30081
+MINIO_PROXY_PORT := 30084
 FLYTE_SANDBOX_NAME := flyte-sandbox
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
@@ -65,8 +65,6 @@ start: _prepare  ## Start a local Flyte sandbox
 		-v $(CURDIR):/usr/src \
 		-v /var/run \
 		-p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) \
-		-p $(FLYTE_PROXY_PORT):30081 \
-		-p $(MINIO_PROXY_PORT):30084 \
 		$(FLYTE_SANDBOX_IMAGE) > /dev/null
 	timeout 30 sh -c "until kubectl explain deployment &> /dev/null; do sleep 1; done"
 
@@ -74,8 +72,8 @@ start: _prepare  ## Start a local Flyte sandbox
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl wait --for=condition=available deployment/flyteadmin -n flyte --timeout=10m
 
-	$(call LOG,Registering examples from commit: v0.2.1)
-	REGISTRY=ghcr.io/flyteorg VERSION=v0.2.1 $(MAKE) fast_register
+	$(call LOG,Registering examples from commit: latest)
+	REGISTRY=ghcr.io/flyteorg VERSION=latest $(MAKE) fast_register
 
 	kubectl wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
 	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console")

@@ -13,10 +13,10 @@ endef
 ifdef SANDBOX
 
 # The url for Flyte Control plane
-export FLYTE_HOST ?= localhost:51235
+export FLYTE_HOST ?= localhost:30081
 
 # Overrides s3 url. This is solely needed for SANDBOX deployments. Shouldn't be overriden in production AWS S3.
-export FLYTE_AWS_ENDPOINT ?= http://localhost:51236/
+export FLYTE_AWS_ENDPOINT ?= http://localhost:30084/
 
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 export FLYTE_AWS_ACCESS_KEY_ID ?= minio
@@ -111,7 +111,7 @@ requirements: requirements.txt
 fast_serialize: clean _pb_output
 	echo ${CURDIR}
 	docker run -it --rm \
-		-e MAKEFLAGS \
+		-e MAKEFLAGS=${MAKEFLAGS} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_serialize
@@ -134,6 +134,7 @@ fast_register: clean _pb_output ## Packages code and registers without building 
 		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
 		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
+		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_register
@@ -149,7 +150,7 @@ serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -it --rm \
-		-e MAKEFLAGS \
+		-e MAKEFLAGS=${MAKEFLAGS} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		${TAGGED_IMAGE} make serialize
 
@@ -161,15 +162,15 @@ register: clean _pb_output docker_push
 	docker run -it --rm \
 		--network host \
 		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS \
-		-e FLYTE_HOST \
-		-e INSECURE_FLAG \
-		-e PROJECT \
-		-e FLYTE_AWS_ENDPOINT \
-		-e FLYTE_AWS_ACCESS_KEY_ID \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY \
-		-e OUTPUT_DATA_PREFIX \
-		-e ADDL_DISTRIBUTION_DIR \
+		-e MAKEFLAGS=${MAKEFLAGS} \
+		-e FLYTE_HOST=${FLYTE_HOST} \
+		-e INSECURE_FLAG=${INSECURE_FLAG} \
+		-e PROJECT=${PROJECT} \
+		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
+		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
+		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
+		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
+		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \

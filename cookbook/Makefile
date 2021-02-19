@@ -2,8 +2,6 @@
 
 include common/Makefile
 
-PWD=$(CURDIR)
-
 dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.txt
 dev-requirements.txt: dev-requirements.in install-piptools
 	$(call PIP_COMPILE,dev-requirements.in)
@@ -28,13 +26,13 @@ run-examples: ## Runs all examples
 
 .PHONY: all_fast_register
 all_fast_register: ## Registers new code changes using the last built image (assumes current HEAD refers to a built image).
-	PREFIX=core $(MAKE) -C  fast_register
+	$(MAKE) -C core fast_register
 	$(MAKE) -C plugins all_fast_register
 	$(MAKE) -C case_studies all_fast_register
 
 .PHONY: all_fast_serialize
 all_fast_serialize:
-	PREFIX=core $(MAKE) -C  fast_serialize
+	$(MAKE) -C core fast_serialize
 	$(MAKE) -C plugins all_fast_serialize
 	$(MAKE) -C case_studies all_fast_serialize
 
@@ -70,7 +68,7 @@ all_k3d_load_image:
 
 .PHONY: all_clean
 all_clean: # Cleans build directories (e.g. _pb_output/)
-	PREFIX=core $(MAKE) -C  clean
+	$(MAKE) -C core clean
 	$(MAKE) -C docs clean
 	$(MAKE) -C plugins all_clean
 	$(MAKE) -C case_studies all_clean
