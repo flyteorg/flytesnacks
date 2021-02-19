@@ -9,7 +9,7 @@ Papermill execute the notebook as it
 Installation
 ------------
 
-To use the flytekit pod plugin simply run the following:
+To use the flytekit papermill plugin simply run the following:
 
 .. prompt:: bash
 
