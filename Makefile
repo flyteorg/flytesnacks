@@ -74,8 +74,8 @@ start: _prepare  ## Start a local Flyte sandbox
 	kubectl apply -f https://raw.githubusercontent.com/flyteorg/flyte/master/deployment/sandbox/flyte_generated.yaml
 	kubectl wait --for=condition=available deployment/flyteadmin -n flyte --timeout=10m
 
-	$(call LOG,Registering examples from commit: 5af5fc26812941ae82762325ddd4bc787f49cda7)
-	REGISTRY=ghcr.io/flyteorg VERSION=5af5fc26812941ae82762325ddd4bc787f49cda7 $(MAKE) fast_register
+	$(call LOG,Registering examples from commit: v0.2.1)
+	REGISTRY=ghcr.io/flyteorg VERSION=v0.2.1 $(MAKE) fast_register
 
 	kubectl wait --for=condition=available deployment/{datacatalog,flyteadmin,flyteconsole,flytepropeller} -n flyte --timeout=10m
 	$(call LOG,"Flyte deployment ready! Flyte console is now available at http://localhost:$(FLYTE_PROXY_PORT)/console")
