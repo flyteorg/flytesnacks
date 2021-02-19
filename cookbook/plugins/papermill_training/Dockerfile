@@ -15,15 +15,15 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY papermill/requirements.txt /root/.
+COPY papermill_training/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
-COPY papermill/sandbox.config /root
+COPY papermill_training/sandbox.config /root
 
 # Copy the actual code
-COPY papermill/ /root/papermill/
+COPY papermill_training/ /root/papermill_training/
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
