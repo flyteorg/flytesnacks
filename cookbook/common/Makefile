@@ -3,7 +3,7 @@
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
 IMAGE_NAME=flytecookbook
-VERSION=$(shell git rev-parse HEAD)
+export VERSION ?= $(shell git rev-parse HEAD)
 
 define PIP_COMPILE
 pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
@@ -13,10 +13,10 @@ endef
 ifdef SANDBOX
 
 # The url for Flyte Control plane
-export FLYTE_HOST ?= localhost:30081
+export FLYTE_HOST ?= localhost:51235
 
 # Overrides s3 url. This is solely needed for SANDBOX deployments. Shouldn't be overriden in production AWS S3.
-export FLYTE_AWS_ENDPOINT ?= http://localhost:30084/
+export FLYTE_AWS_ENDPOINT ?= http://localhost:51236/
 
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 export FLYTE_AWS_ACCESS_KEY_ID ?= minio
@@ -117,7 +117,7 @@ fast_serialize: clean _pb_output
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
-fast_register: clean _pb_output
+fast_register: clean _pb_output ## Packages code and registers without building docker images.
 	@echo "Tagged Image: "
 	@echo ${TAGGED_IMAGE}
 	@echo ${CURDIR}
