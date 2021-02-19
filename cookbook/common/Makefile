@@ -113,7 +113,7 @@ fast_serialize: clean _pb_output
 	docker run -it --rm \
 		-e MAKEFLAGS \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
@@ -135,7 +135,7 @@ fast_register: clean _pb_output
 		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_register
 
 .PHONY: docker_build

@@ -15,31 +15,26 @@ FLYTE_PROXY_PORT := 51235
 FLYTE_SANDBOX_NAME := flyte-sandbox
 
 # Use an ephemeral kubeconfig, so as not to litter the default one
-export KUBECONFIG=$(PWD)/.sandbox/data/config/kubeconfig
+export KUBECONFIG=$(CURDIR)/.sandbox/data/config/kubeconfig
 
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core
 
-reset=$(shell tput sgr0)
-
 define LOG
-$(info $(shell tput bold)$(shell tput setaf 2)$(1)$(reset))
+echo "$(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)"
 endef
 
 define RUN_IN_SANDBOX
-docker run -it --rm \
-	--network $(FLYTE_SANDBOX_NAME) \
+docker exec -it \
 	-e MAKEFLAGS \
 	-e DOCKER_BUILDKIT=1 \
 	-e SANDBOX=1 \
 	-e FLYTE_HOST=$(FLYTE_SANDBOX_NAME):30081 \
 	-e FLYTE_AWS_ENDPOINT=http://$(FLYTE_SANDBOX_NAME):30084 \
 	-e REGISTRY=${REGISTRY} \
-	--volumes-from $(FLYTE_SANDBOX_NAME) \
-	-v $(PWD):/mnt/src \
 	-w /usr/src \
-	$(FLYTE_SANDBOX_IMAGE) \
-	with-src-snapshot.sh $(1)
+	$(FLYTE_SANDBOX_NAME) \
+	$(1)
 endef
 
 .PHONY: help
@@ -62,7 +57,7 @@ _prepare:
 start: _prepare  ## Start a local Flyte sandbox
 	$(call LOG,Starting sandboxed Kubernetes cluster)
 	docker network create $(FLYTE_SANDBOX_NAME) > /dev/null ||:
-	docker run -d --rm --privileged --network $(FLYTE_SANDBOX_NAME) --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(PWD)/.sandbox/data/config:/config -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) k3s-entrypoint.sh > /dev/null
+	docker run -d --rm --privileged --network $(FLYTE_SANDBOX_NAME) --name $(FLYTE_SANDBOX_NAME) -e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) -e K3S_KUBECONFIG_OUTPUT=/config/kubeconfig -v $(CURDIR)/.sandbox/data/config:/config -v $(CURDIR):/usr/src -v /var/run -p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) -p $(FLYTE_PROXY_PORT):30081 $(FLYTE_SANDBOX_IMAGE) k3s-entrypoint.sh > /dev/null
 	timeout 30 sh -c "until kubectl explain deployment &> /dev/null; do sleep 1; done"
 
 	$(call LOG,Deploying Flyte)
