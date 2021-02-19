@@ -24,9 +24,9 @@ jobs:
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: latest,${{ github.sha }},${{ github.event.ref }}
+          image_tag: pima_diabetes-latest,pima_diabetes-${{ github.sha }},pima_diabetes-${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
-          build_extra_args: "--compress=true --tag=${{ github.repository_owner }}/flytecookbook:${{ github.sha }}"
+          build_extra_args: "--compress=true"
           context: ./cookbook/case_studies
           dockerfile: pima_diabetes/Dockerfile

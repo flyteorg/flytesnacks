@@ -1,4 +1,5 @@
 FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
+LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
 ENV LANG C.UTF-8

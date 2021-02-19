@@ -1,6 +1,7 @@
 # We use devel because plugins_sagemaker-training needs gcc to build
 # TODO get rid of plugins_sagemaker-training
 FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-devel
+LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
 ENV LANG C.UTF-8

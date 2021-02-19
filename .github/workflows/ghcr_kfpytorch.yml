@@ -23,8 +23,8 @@ jobs:
           # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
-          image_name: ${{ github.repository_owner }}/flytecookbook-kfpytorch
-          image_tag: latest,${{ github.sha }},${{ github.event.ref }}
+          image_name: ${{ github.repository_owner }}/flytecookbook
+          image_tag: kfpytorch-latest,kfpytorch-${{ github.sha }},kfpytorch-${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
           build_extra_args: "--compress=true"
