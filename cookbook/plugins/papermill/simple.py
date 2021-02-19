@@ -1,12 +1,13 @@
 import math
 import os
+import pathlib
 
 from flytekit import kwtypes, task, workflow
 from flytekitplugins.papermill import NotebookTask
 
 nb = NotebookTask(
     name="simple-nb",
-    notebook_path=os.path.abspath("./nb-simple.ipynb"),
+    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "nb-simple.ipynb"),
     inputs=kwtypes(v=float),
     outputs=kwtypes(square=float),
 )
