@@ -14,6 +14,6 @@ VOLUME /var/lib/cni
 VOLUME /var/log
 
 # Copy entrypoints
-COPY k3s-entrypoint.sh with-src-snapshot.sh /usr/local/bin
+COPY k3s-entrypoint.sh /usr/local/bin
 
-ENTRYPOINT ["tini"]
+ENTRYPOINT ["tini", "k3s-entrypoint.sh"]

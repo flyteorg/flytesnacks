@@ -16,7 +16,7 @@ ifdef SANDBOX
 export FLYTE_HOST ?= localhost:30081
 
 # Overrides s3 url. This is solely needed for SANDBOX deployments. Shouldn't be overriden in production AWS S3.
-export FLYTE_AWS_ENDPOINT ?= http://localhost:9000/
+export FLYTE_AWS_ENDPOINT ?= http://localhost:30084/
 
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 export FLYTE_AWS_ACCESS_KEY_ID ?= minio
@@ -113,7 +113,7 @@ fast_serialize: clean _pb_output
 	docker run -it --rm \
 		-e MAKEFLAGS \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
@@ -135,7 +135,7 @@ fast_register: clean _pb_output
 		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(firstword $(subst /, ,$(CURDIR))) \
+		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_register
 
 .PHONY: docker_build
