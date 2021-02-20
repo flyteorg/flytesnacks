@@ -38,4 +38,4 @@ def my_wf(name: str) -> str:
 #   every argument should be passed in the form ``arg=value``. Failure to do so
 #   will result in an error
 if __name__ == "__main__":
-    print(f"Running my_wf() {my_wf(name="abc")}")
+    print(f"Running my_wf() {my_wf(name='abc')}")
