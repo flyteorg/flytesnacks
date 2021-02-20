@@ -177,6 +177,7 @@ examples_dirs = [
     "../plugins/k8s_spark",
     "../plugins/kfpytorch",
     "../plugins/pod/",
+    "../plugins/papermilltasks/",
     "../plugins/sagemaker_pytorch/",
 ]
 gallery_dirs = [
@@ -190,6 +191,7 @@ gallery_dirs = [
     "auto_plugins_k8s_spark",
     "auto_plugins_kfpytorch",
     "auto_plugins_pod",
+    "auto_plugins_papermilltasks",
     "auto_plugins_sagemaker_pytorch",
 ]
 
@@ -208,11 +210,12 @@ sphinx_gallery_conf = {
             "../core/advanced",
             "../core/remote_flyte",
             "../case_studies/pima_diabetes",
+            "../plugins/pod/",
+            "../plugins/k8s_spark",
+            "../plugins/papermilltasks/",
             "../plugins/hive",
             "../plugins/sagemaker_training",
-            "../plugins/k8s_spark",
             "../plugins/kfpytorch",
-            "../plugins/pod/",
             "../plugins/sagemaker_pytorch/",
         ]
     ),
