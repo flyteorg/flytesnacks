@@ -68,7 +68,7 @@ Steps
 
   .. code-block:: python
     
-    print(f"Running my_wf(name=\"adam\") {my_wf(name="adam")}")
+    print(f"Running my_wf(name='adam') {my_wf(name='adam')}")
 
 8. When you run this file locally, it should output ``hello world, adam``. Run this command in your terminal:
 
