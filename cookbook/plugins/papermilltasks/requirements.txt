@@ -55,7 +55,7 @@ entrypoints==0.3
     #   papermill
 flyteidl==0.18.12
     # via flytekit
-flytekit==0.16.0b12
+flytekit==0.16.0b13
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-papermill
@@ -67,7 +67,7 @@ grpcio==1.35.0
     # via flytekit
 idna==2.10
     # via requests
-ipykernel==5.4.3
+ipykernel==5.5.0
     # via flytekitplugins-papermill
 ipython-genutils==0.2.0
     # via
