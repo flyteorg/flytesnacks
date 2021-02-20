@@ -21,7 +21,7 @@ Steps
 
 .. prompt:: bash
 
-  pip install flytekit>=0.16.0b6
+  pip install --pre flytekit
   git clone git@github.com:flyteorg/flytesnacks.git flytesnacks
   cd flytesnacks
 
@@ -37,11 +37,19 @@ Steps
 .. image:: https://github.com/flyteorg/flyte/raw/static-resources/img/first-run-console-2.gif
     :alt: A quick visual tour for launching your first Workflow.
 
-4. Open ``cookbook/core/basic/hello_world.py`` in your favorite editor.
+4. Open ``hell_world.py`` in your favorite editor.
+
+.. code-block::
+
+  cookbook/core/basic/hello_world.py
 
 5. Add ``name: str`` as an argument to both ``my_wf`` and ``say_hello`` functions. Then update the body of ``say_hello`` to consume that argument.
 
-6. Update the simple test at the bottom of the file to pass in a name. E.g. ``print(f"Running my_wf(name="adam") {my_wf(name="adam")}")``
+6. Update the simple test at the bottom of the file to pass in a name. E.g. 
+
+.. code-block:: python
+  
+  print(f"Running my_wf(name=\"adam\") {my_wf(name="adam")}")
 
 8. When you run this file locally, it should output ``hello world, adam``. Run this command in your terminal:
 
@@ -57,17 +65,16 @@ Steps
 
   make fast_register
 
-7. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`__, click launch, and enter your name.
+7. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`__, click launch, and enter your name as the input.
 
 8. Give it a minute and one it's done, check out "Inputs/Outputs" on the top right corner to see your greeting updated.
 
-Recap
-*****
+.. admonition:: Recap
 
-You have successfully:
+  You have successfully:
 
-1. Ran a flyte sandbox cluster,
-2. Ran a flyte workflow locally,
-3. Ran a flyte workflow on a cluster.
+  1. Ran a flyte sandbox cluster,
+  2. Ran a flyte workflow locally,
+  3. Ran a flyte workflow on a cluster.
 
-Head over to the next section to learn more about FlyteKit and how to start leveraging all the functionality flyte has to offer in simple and idiomatic python.
+Head over to the next section to :ref:`flyte-core` learn more about FlyteKit and how to start leveraging all the functionality flyte has to offer in simple and idiomatic python.
