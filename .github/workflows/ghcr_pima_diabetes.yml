@@ -27,6 +27,6 @@ jobs:
           image_tag: pima_diabetes-latest,pima_diabetes-${{ github.sha }},pima_diabetes-${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
-          build_extra_args: "--compress=true --build-arg --tag=${{ github.repository_owner }}/flytecookbook:pima_diabetes-${{ github.sha }}"
+          build_extra_args: "--compress=true --build-arg=tag=${{ github.repository_owner }}/flytecookbook:pima_diabetes-${{ github.sha }}"
           context: ./cookbook/case_studies
           dockerfile: pima_diabetes/Dockerfile
