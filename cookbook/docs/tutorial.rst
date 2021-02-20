@@ -45,11 +45,30 @@ Steps
 
 5. Add ``name: str`` as an argument to both ``my_wf`` and ``say_hello`` functions. Then update the body of ``say_hello`` to consume that argument.
 
+.. tip::
+
+  .. code-block:: python
+
+    @task
+    def say_hello(name: str) -> str:
+        return f"hello world, {name}"
+
+.. tip::
+
+  .. code-block:: python
+
+    @workflow
+    def my_wf(name: str) -> str:
+        res = say_hello(name=name)
+        return res
+
 6. Update the simple test at the bottom of the file to pass in a name. E.g. 
 
-.. code-block:: python
-  
-  print(f"Running my_wf(name=\"adam\") {my_wf(name="adam")}")
+.. tip::
+
+  .. code-block:: python
+    
+    print(f"Running my_wf(name=\"adam\") {my_wf(name="adam")}")
 
 8. When you run this file locally, it should output ``hello world, adam``. Run this command in your terminal:
 
