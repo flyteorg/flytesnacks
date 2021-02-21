@@ -88,6 +88,9 @@ Steps
 
 8. Give it a minute and one it's done, check out "Inputs/Outputs" on the top right corner to see your greeting updated.
 
+.. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/tutorial/exercise.gif
+    :alt: A quick visual tour for launching a workflow and checking the outputs when it's done.
+
 .. admonition:: Recap
 
   You have successfully:
