@@ -37,7 +37,7 @@ Steps
 .. image:: https://github.com/flyteorg/flyte/raw/static-resources/img/first-run-console-2.gif
     :alt: A quick visual tour for launching your first Workflow.
 
-4. Open ``hell_world.py`` in your favorite editor.
+4. Open ``hello_world.py`` in your favorite editor.
 
 .. code-block::
 
