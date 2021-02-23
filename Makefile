@@ -26,7 +26,7 @@ echo "$(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)"
 endef
 
 define ERROR
-echo >&2 "$(shell tput bold)$(shell tput setaf 1)$(1)! Please 'make teardown' and 'make start' again to retry.$(shell tput sgr0)"; exit 1
+( echo >&2 "$(shell tput bold)$(shell tput setaf 1)$(1)! Please 'make teardown' and 'make start' again to retry.$(shell tput sgr0)"; exit 1 )
 endef
 
 define RUN_IN_SANDBOX
