@@ -29,6 +29,8 @@ COPY core/sandbox.config /root
 # Copy the actual code
 COPY core /root/core
 
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/ae3e251b55be00890c7f5c37936a56f5ac2dd207.zip#egg=flytekit
+
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
 ARG tag
