@@ -1,3 +1,5 @@
+from core.resolver_examples.class_builder import Builder
+
 
 def get_hello(a: int):
     """
@@ -15,3 +17,8 @@ def get_hello(a: int):
         return 42
 
     return hello
+
+
+# Using the class based builder
+b = Builder.read("my query").process(get_hello(1))
+wf = b.build(workflow_name="user.platform_unique_name_1")
