@@ -1,6 +1,7 @@
 from core.resolver_examples.class_builder import Builder
 from core.resolver_examples.workflow_builder import Builder as WorkflowBuilder
 
+
 def get_hello(a: int):
     """
     This mimics a user returning an arbitrary function that needs to run at Task execution time.
