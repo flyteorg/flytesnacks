@@ -16,6 +16,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Push Docker Image to Github Registry
         uses: whoan/docker-build-with-cache-action@v5
         with:
@@ -23,9 +27,9 @@ jobs:
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: latest,core-latest,core-${{ github.sha }},core-${{ github.event.ref }}
+          image_tag: latest,core-latest,core-${{ github.event.after }},core-${{ github.event.ref }}
           push_git_tag: true
           registry: ghcr.io
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:core-${{ github.sha }}"
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:core-${{ github.event.after }}"
           context: ./cookbook
           dockerfile: core/Dockerfile
