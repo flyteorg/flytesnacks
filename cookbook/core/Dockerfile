@@ -29,7 +29,7 @@ COPY core/sandbox.config /root
 # Copy the actual code
 COPY core /root/core
 
-RUN pip install -U https://github.com/flyteorg/flytekit/archive/1923e98d02fafb2afe42500aac32f7117dbe107e.zip#egg=flytekit
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/d66405e7f04423d3cdcdf38675eab1ce3c97348b.zip#egg=flytekit
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
