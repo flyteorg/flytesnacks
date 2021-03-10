@@ -1,7 +1,7 @@
 .SILENT:
 
 # Flyte sandbox configuration variables
-KUEBERNETES_API_PORT := 30086
+KUBERNETES_API_PORT := 30086
 FLYTE_PROXY_PORT := 30081
 K8S_DASHBOARD_PROXY_PORT := 30082
 MINIO_PROXY_PORT := 30084
@@ -42,12 +42,12 @@ start: ## Start a local Flyte sandbox
 	$(call LOG,Starting Flyte sandbox)
 	docker run -d --rm --privileged --name $(FLYTE_SANDBOX_NAME) \
 		-e SANDBOX=1 \
-		-e KUEBERNETES_API_PORT=$(KUEBERNETES_API_PORT) \
+		-e KUBERNETES_API_PORT=$(KUBERNETES_API_PORT) \
 		-e FLYTE_HOST=localhost:30081 \
 		-e FLYTE_AWS_ENDPOINT=http://localhost:30084/ \
 		-v $(CURDIR):/usr/src \
-		-v $(KUBE_CONFIG):/etc/rancher/k3s/ \
-		-p $(KUEBERNETES_API_PORT):$(KUEBERNETES_API_PORT) \
+		-v $(KUBE_CONFIG):/etc/rancher/ \
+		-p $(KUBERNETES_API_PORT):$(KUBERNETES_API_PORT) \
 		-p $(FLYTE_PROXY_PORT):30081 \
 		-p $(K8S_DASHBOARD_PROXY_PORT):30082 \
 		-p $(MINIO_PROXY_PORT):30084 \
@@ -85,4 +85,4 @@ fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 .PHONY: setup-kubectl
 kubectl-config: 
 	# In shell/bash, run: `eval $(make kubectl-config)`
-	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s.yaml"
+	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
