@@ -57,7 +57,8 @@ start: ## Start a local Flyte sandbox
 
 	$(call LOG,Registering examples from commit: latest)
 	REGISTRY=ghcr.io/flyteorg VERSION=latest $(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
-	$(call RUN_IN_SANDBOX, wait-for-flyte.sh)
+	
+	echo "Flyte is ready! Flyte UI is available at http://localhost:$(FLYTE_PROXY_PORT)/console."
 
 .PHONY: teardown
 teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
@@ -85,4 +86,7 @@ fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 .PHONY: setup-kubectl
 kubectl-config: 
 	# In shell/bash, run: `eval $(make kubectl-config)`
+	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
+	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
+	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
