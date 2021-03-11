@@ -12,7 +12,7 @@ import flytekit
 
 # %%
 # Flytekit exposes a type/class called Secrets. It can be imported as follows.
-from flytekit import Secret, task
+from flytekit import Secret, task, workflow
 
 # %%
 # Secrets consists of a name and an enum that indicates how the secrets will be accessed. If the mounting_requirement is
@@ -41,6 +41,7 @@ def secret_task() -> str:
 
 # %%
 # You can use these tasks in your workflow as usual
+@workflow
 def my_secret_workflow() -> str:
     return secret_task()
 
