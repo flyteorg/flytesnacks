@@ -1,2 +1,2 @@
 Excluded:
-- .*requirements.txt
+- '*requirements.txt'
