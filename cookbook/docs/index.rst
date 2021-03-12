@@ -6,7 +6,7 @@ plugins. This cookbook is designed to get you running both locally, and on a Fly
 All the examples in this book are executable locally and we recommend the best way to try out Flyte is to run these examples in your terminal or IDE.
 If you have access to a whole Flyte platform deployment, this cookbook can also be used as a fully functional workflow repo.
 
-The tutorial is divided into 3 sections:
+The tutorial is divided into these 3 sections:
 
 * :ref:`Core Language Examples <flyte-core>` - This covers the basics of Flytekit, as well as working with a deployed Flyte platform.
 * :ref:`Case Studies <sphx_glr_auto_case_studies>` - These are examples that showcase the power of Flyte.
