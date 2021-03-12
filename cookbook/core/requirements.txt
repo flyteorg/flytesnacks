@@ -20,13 +20,13 @@ dataclasses-json==0.5.2
     # via flytekit
 decorator==4.4.2
     # via retry
-deprecated==1.2.11
+deprecated==1.2.12
     # via flytekit
 dirhash==0.2.1
     # via flytekit
 docker-image-py==0.1.10
     # via flytekit
-flyteidl==0.18.17
+flyteidl==0.18.18
     # via flytekit
 flytekit==0.16.0b17
     # via -r ../common/requirements-common.in

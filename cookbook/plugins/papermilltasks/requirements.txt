@@ -45,7 +45,7 @@ decorator==4.4.2
     #   retry
 defusedxml==0.7.1
     # via nbconvert
-deprecated==1.2.11
+deprecated==1.2.12
     # via flytekit
 dirhash==0.2.1
     # via flytekit
@@ -55,13 +55,13 @@ entrypoints==0.3
     # via
     #   nbconvert
     #   papermill
-flyteidl==0.18.17
+flyteidl==0.18.18
     # via flytekit
 flytekit==0.16.0b17
     # via
     #   -r ../../common/requirements-common.in
     #   flytekitplugins-papermill
-flytekitplugins-papermill==0.1.1
+flytekitplugins-papermill==0.16.0b17
     # via -r requirements.in
 future==0.18.2
     # via croniter
@@ -85,7 +85,7 @@ jinja2==2.11.3
     # via nbconvert
 jsonschema==3.2.0
     # via nbformat
-jupyter-client==6.1.11
+jupyter-client==6.1.12
     # via
     #   ipykernel
     #   nbclient
