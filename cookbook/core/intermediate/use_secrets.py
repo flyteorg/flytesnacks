@@ -22,7 +22,7 @@ from flytekit import Secret, task, workflow
 # Let us declare a secret named user_secret,
 
 SECRET_NAME = "user_secret"
-SECRET_GROUP = "user_info"
+SECRET_GROUP = "user-info"
 
 
 # %%
