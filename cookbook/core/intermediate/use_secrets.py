@@ -34,7 +34,7 @@ SECRET_GROUP = "user-info"
 #   In case of failure to access the secret (it is not found at execution time) an error is raised
 @task(secret_requests=[Secret(key=SECRET_NAME, group=SECRET_GROUP)])
 def secret_task() -> str:
-    secret_val = flytekit.current_context().secrets.get(SECRET_NAME, group=SECRET_GROUP)
+    secret_val = flytekit.current_context().secrets.get(SECRET_NAME, secrets_group=SECRET_GROUP)
     # Please do not print the secret value, we are doing so just as a demonstration
     print(secret_val)
     return secret_val
