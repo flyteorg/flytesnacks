@@ -22,6 +22,7 @@ from flytekit import Secret, task, workflow
 # Let us declare a secret named user_secret,
 
 SECRET_NAME = "user_secret"
+SECRET_GROUP = "user_info"
 
 
 # %%
@@ -31,7 +32,7 @@ SECRET_NAME = "user_secret"
 # .. note::
 #
 #   In case of failure to access the secret (it is not found at execution time) an error is raised
-@task(secret_requests=[Secret(key=SECRET_NAME)])
+@task(secret_requests=[Secret(key=SECRET_NAME, group=SECRET_GROUP)])
 def secret_task() -> str:
     secret_val = flytekit.current_context().secrets.get(SECRET_NAME)
     # Please do not print the secret value, we are doing so just as a demonstration
@@ -49,7 +50,6 @@ def secret_task() -> str:
 # As an example, let us define 2 secrets username and password, defined in the group user_info
 USERNAME_SECRET = "username"
 PASSWORD_SECRET = "password"
-SECRET_GROUP = "user_info"
 
 
 # %%
