@@ -88,9 +88,7 @@ Fast(er) iteration
 Re-building a new Docker container image for every code change you make can become cumbersome and slow.
 If you're making purely code changes that **do not** require updating your container definition, you can make use of
 fast serialization and registration to speed up your iteration process and reduce the time it takes to upload new entity
-versions to your hosted Flyte deployment. Fast registration may be run in your local venv or in a previously built image which mounts your dev folder.
-
-Fast registration can be used to push workflow changes as well as the associated development code that you are developping alongside your workflows.
+versions and development code to your hosted Flyte deployment. 
 
 First, run the fast serialization target:
 
@@ -106,10 +104,10 @@ And then the fast register target:
 
 and just like that you can update your code without requiring a rebuild of your container!
 
-As fast registration takes code from your local workstation and pushes is to the docker containers that are running workflows on the flyte cluster, make sure to specify the following arguments correclty:
+As fast registration takes code from your local workstation and pushes is to the hoste flyte deployment, make sure to specify the following arguments correclty:
 
-- :code:`flyte-cli fast-register-files` has a :code:`--dest-dir` option which specified which folder (in the container) the fast serialization will dump the code in.
 - :code:`pyflyte serialize` has a :code:`--local-source-root` option which specicies which code is uploaded during the fast registration step.
+- :code:`flyte-cli fast-register-files` has a :code:`--dest-dir` option which specifies which folder (in the container) the fast serialization will dump the code in.
 
 
 Building Images
