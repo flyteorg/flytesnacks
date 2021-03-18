@@ -1,2 +1,2 @@
 -r ../../common/requirements-common.in
-flytekitplugins-pod>=0.16.0b17
+flytekitplugins-pod>=0.16.0
