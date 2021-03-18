@@ -37,11 +37,11 @@ The make target is a handy wrapper around the following:
 
    pyflyte -c sandbox.config --pkgs core serialize --in-container-config-path /root/sandbox.config --local-source-root ${CURDIR} --image ${FULL_IMAGE_NAME}:${VERSION} workflows -f _pb_output/
 
-- the `-c` is the path to the config definition on your machine. This config specifies SDK default attributes.
-- the `--pkgs` arg points to the packages within the
-- `--local-source-root` which contains the code copied over into your Docker container image that will be serialized (and later, executed)
-- `--in-container-config-path` maps to the location within your Docker container image where the above config file will be copied over too
-- `--image` is the non-optional fully qualified name of the container image housing your code
+- the :code:`-c` is the path to the config definition on your machine. This config specifies SDK default attributes.
+- the :code:`--pkgs` arg points to the packages within the
+- :code:`--local-source-root` which contains the code copied over into your Docker container image that will be serialized (and later, executed)
+- :code:`--in-container-config-path` maps to the location within your Docker container image where the above config file will be copied over too
+- :code:`--image` is the non-optional fully qualified name of the container image housing your code
 
 In-container serialization
 """"""""""""""""""""""""""
