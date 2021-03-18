@@ -146,9 +146,9 @@ html_theme_options = {
     "repo_url": "https://github.com/lyft/flyte/",
     "repo_name": "flyte",
     # Visible levels of the global TOC; -1 means unlimited
-    "globaltoc_depth": -1,
+    "globaltoc_depth": 1,
     # If False, expand all TOC entries
-    "globaltoc_collapse": True,
+    "globaltoc_collapse": False,
     # If True, show hidden TOC entries
     "globaltoc_includehidden": False,
     # don't include home link in breadcrumb bar, since it's included
@@ -163,7 +163,7 @@ html_theme_options = {
 }
 
 html_sidebars = {
-    "**": ["logo-text.html", "globaltoc.html", "searchbox.html"]
+    "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
