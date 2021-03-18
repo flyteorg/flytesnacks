@@ -1,7 +1,8 @@
 Flyte Tutorials
 ==============================================
-These tutorials are intended to be a learn by example style cookbook.  We cover all the various concepts in Flyte along with most of the maintained
-plugins. This cookbook is designed to get you running both locally, and on a Flyte cluster using `Flytekit Python <https://github.com/lyft/flytekit>`__
+These tutorials are intended to help the user learn by example. We start with various concepts in flyte and flytekit with examples and
+then introduce some of the core plugins. This cookbook is designed to get you running both locally, and on a Flyte cluster using
+`Flytekit Python <https://github.com/lyft/flytekit>`__
 
 All the examples are executable locally and we recommend the best way to try out Flyte is to run these examples in your terminal or IDE.
 If you have access to a whole Flyte platform deployment, this cookbook can also be used as a fully functional workflow repo.
