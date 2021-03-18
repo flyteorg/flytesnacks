@@ -4,8 +4,7 @@ These tutorials are intended to help the user learn by example. We start with va
 then introduce some of the core plugins. This cookbook is designed to get you running both locally, and on a Flyte cluster using
 `Flytekit Python <https://github.com/lyft/flytekit>`__
 
-All the examples are executable locally and we recommend the best way to try out Flyte is to run these examples in your terminal or IDE.
-If you have access to a whole Flyte platform deployment, this cookbook can also be used as a fully functional workflow repo.
+All the examples are authored using `Flytekit Python <https://github.com/lyft/flytekit>`__ and are designed to be run-locally (this may not be possible for some plugins) or on a Flyte cluster.
 
 The tutorial is divided into 3 sections:
 
