@@ -138,7 +138,6 @@ html_theme_options = {
     # Specify a base_url used to generate sitemap.xml. If not
     # specified, then no sitemap will be built.
     "base_url": "https://github.com/lyft/flytekit",
-    "collapse_navigation": False,
     # Set the color and the accent color
     "color_primary": "deep-purple",
     "color_accent": "blue",
