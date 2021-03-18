@@ -77,10 +77,10 @@ Under the hood this recipe again supplies some defaults you may find yourself wi
 
 Of interest are the following args:
 
-- `-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
-- `-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment
-- `-v` is a unique string used to identify this version of entities registered under a project and domain.
-- If required, you can specify a `kubernetes-service-account` or `assumable_iam_role` which your tasks will run with.
+- :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
+- :code:`-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment
+- :code:`-v` is a unique string used to identify this version of entities registered under a project and domain.
+- If required, you can specify a :code:`kubernetes-service-account` or :code:`assumable_iam_role` which your tasks will run with.
 
 
 Fast(er) iteration
