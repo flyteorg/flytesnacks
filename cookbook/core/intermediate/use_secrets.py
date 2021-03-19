@@ -32,9 +32,9 @@ SECRET_GROUP = "user-info"
 # .. note::
 #
 #   In case of failure to access the secret (it is not found at execution time) an error is raised
-@task(secret_requests=[Secret(key=SECRET_NAME, group=SECRET_GROUP)])
+@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])
 def secret_task() -> str:
-    secret_val = flytekit.current_context().secrets.get(SECRET_NAME, secrets_group=SECRET_GROUP)
+    secret_val = flytekit.current_context().secrets.get(SECRET_GROUP, SECRET_NAME)
     # Please do not print the secret value, we are doing so just as a demonstration
     print(secret_val)
     return secret_val
@@ -57,8 +57,8 @@ PASSWORD_SECRET = "password"
 @task(
     secret_requests=[Secret(key=USERNAME_SECRET, group=SECRET_GROUP), Secret(key=PASSWORD_SECRET, group=SECRET_GROUP)])
 def user_info_task() -> (str, str):
-    secret_username = flytekit.current_context().secrets.get(USERNAME_SECRET, secrets_group=SECRET_GROUP)
-    secret_pwd = flytekit.current_context().secrets.get(PASSWORD_SECRET, secrets_group=SECRET_GROUP)
+    secret_username = flytekit.current_context().secrets.get(SECRET_GROUP, USERNAME_SECRET)
+    secret_pwd = flytekit.current_context().secrets.get(SECRET_GROUP, PASSWORD_SECRET)
     # Please do not print the secret value, we are doing so just as a demonstration
     print(f"{secret_username}={secret_pwd}")
     return secret_username, secret_pwd
@@ -80,9 +80,9 @@ from flytekit.testing import SecretsManager
 
 if __name__ == "__main__":
     sec = SecretsManager()
-    os.environ[sec.get_secrets_env_var(SECRET_NAME)] = "value"
-    os.environ[sec.get_secrets_env_var(USERNAME_SECRET, SECRET_GROUP)] = "username_value"
-    os.environ[sec.get_secrets_env_var(PASSWORD_SECRET, SECRET_GROUP)] = "password_value"
+    os.environ[sec.get_secrets_env_var(SECRET_GROUP, SECRET_NAME)] = "value"
+    os.environ[sec.get_secrets_env_var(SECRET_GROUP, USERNAME_SECRET)] = "username_value"
+    os.environ[sec.get_secrets_env_var(SECRET_GROUP, PASSWORD_SECRET)] = "password_value"
     x, y, z = my_secret_workflow()
     assert x == "value"
     assert y == "username_value"

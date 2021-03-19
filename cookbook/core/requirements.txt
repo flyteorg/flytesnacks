@@ -26,9 +26,9 @@ dirhash==0.2.1
     # via flytekit
 docker-image-py==0.1.10
     # via flytekit
-flyteidl==0.18.20
+flyteidl==0.18.24
     # via flytekit
-https://github.com/flyteorg/flytekit/archive/739c8744635e1bf285948983e1e3a98b1ae38ff5.zip#egg=flytekit
+https://github.com/flyteorg/flytekit/archive/4f6b7dc2767b15f9946be9586d16e0d1d233e362.zip#egg=flytekit
     # via -r ../common/requirements-common.in
 future==0.18.2
     # via croniter
@@ -92,13 +92,13 @@ pytz==2018.4
     # via
     #   flytekit
     #   pandas
-regex==2020.11.13
+regex==2021.3.17
     # via docker-image-py
 requests==2.25.1
     # via
     #   flytekit
     #   responses
-responses==0.12.1
+responses==0.13.1
     # via flytekit
 retry==0.9.2
     # via flytekit
