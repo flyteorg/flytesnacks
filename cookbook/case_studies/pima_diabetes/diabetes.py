@@ -10,7 +10,7 @@ from dataclasses import dataclass
 import joblib
 import pandas as pd
 from dataclasses_json import dataclass_json
-from flytekit import task, workflow, Resources
+from flytekit import Resources, task, workflow
 from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
 from sklearn.metrics import accuracy_score
