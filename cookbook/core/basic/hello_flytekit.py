@@ -1,8 +1,8 @@
 """
-Hello World Workflow
+Hello, Flytekit! Workflow
 --------------------
 
-This simple workflow calls a task that returns "Hello World" and then just sets that as the final output of the workflow.
+This simple workflow calls a task that returns "Hello, Flytekit!" and then just sets that as the final output of the workflow.
 
 """
 import typing
@@ -14,7 +14,7 @@ from flytekit import task, workflow
 # def say_hello(name: str) -> str:
 @task
 def say_hello() -> str:
-    return "hello world"
+    return "Hello, Flytekit!"
 
 
 # %%
