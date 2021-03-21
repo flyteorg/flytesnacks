@@ -19,7 +19,10 @@ from flytekit import Secret, task, workflow
 # not specified then the secret will be injected as an environment variable is possible. Ideally, you need not worry
 # about the mounting requirement, just specify the ``Secret.name`` that matches the declared ``secret`` in Flyte backend
 #
-# Let us declare a secret named user_secret,
+# Let us declare a secret named user_secret in a secret group ``user-info``. A secret group can have multiple secret
+# associated with the group. Optionally it may also have a group_version. The version helps in rotating secrets. If not
+# specified the task will always retrieve the latest version. Though not recommended some users may want the task
+# version to be bound to a secret version.
 
 SECRET_NAME = "user_secret"
 SECRET_GROUP = "user-info"
@@ -31,7 +34,10 @@ SECRET_GROUP = "user-info"
 #
 # .. note::
 #
-#   In case of failure to access the secret (it is not found at execution time) an error is raised
+#   - In case of failure to access the secret (it is not found at execution time) an error is raised.
+#   - Secrets group and key are required parameter during declaration and usage. Failure to specify will cause an
+#     exception
+#
 @task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])
 def secret_task() -> str:
     secret_val = flytekit.current_context().secrets.get(SECRET_GROUP, SECRET_NAME)
@@ -42,10 +48,9 @@ def secret_task() -> str:
 
 # %%
 # In some cases you may have multiple secrets and sometimes, they maybe grouped as one secret in the SecretStore.
-# For example, AWS Secret Manager, has the secret(name, version). Thus in this case the name would be the group, version
-# would be the key
-# In Kubernetes secrets, it is possible to nest multiple keys under the same secret. Thus in this case the name
-# would be the actual name of the nested secret, and the group would be the identifier for the kubernetes secret.
+# For example, In Kubernetes secrets, it is possible to nest multiple keys under the same secret.
+# Thus in this case the name would be the actual name of the nested secret, and the group would be the identifier for
+# the kubernetes secret.
 #
 # As an example, let us define 2 secrets username and password, defined in the group user_info
 USERNAME_SECRET = "username"
@@ -65,12 +70,28 @@ def user_info_task() -> (str, str):
 
 
 # %%
+# It is also possible to enforce Flyte to mount the secret as a file. This is particularly useful for large secrets
+# that do not fit in environment variables - typically asymmetric keys (certs etc)
+# Another reason may be that a dependent library necessitates that the secret be available as a file.
+# In these secnarios you can specify the mount_requirement to be file as follows,
+@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.MountType.FILE)])
+def secret_file_task() -> (str, str):
+    # SM here is a handle to the secrets manager
+    sm = flytekit.current_context().secrets
+    f = sm.get_secrets_file(SECRET_GROUP, SECRET_NAME)
+    secret_val = sm.get(SECRET_GROUP, SECRET_NAME)
+    # returning the filename and the secret_val
+    return f, secret_val
+
+
+# %%
 # You can use these tasks in your workflow as usual
 @workflow
-def my_secret_workflow() -> (str, str, str):
+def my_secret_workflow() -> (str, str, str, str, str):
     x = secret_task()
     y, z = user_info_task()
-    return x, y, z
+    f, s = secret_file_task()
+    return x, y, z, f, s
 
 
 # %%
@@ -83,7 +104,9 @@ if __name__ == "__main__":
     os.environ[sec.get_secrets_env_var(SECRET_GROUP, SECRET_NAME)] = "value"
     os.environ[sec.get_secrets_env_var(SECRET_GROUP, USERNAME_SECRET)] = "username_value"
     os.environ[sec.get_secrets_env_var(SECRET_GROUP, PASSWORD_SECRET)] = "password_value"
-    x, y, z = my_secret_workflow()
+    x, y, z, f, s = my_secret_workflow()
     assert x == "value"
     assert y == "username_value"
     assert z == "password_value"
+    assert f == sec.get_secrets_file(SECRET_GROUP, SECRET_NAME)
+    assert s == "value"
