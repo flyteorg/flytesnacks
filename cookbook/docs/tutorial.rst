@@ -76,7 +76,7 @@ The reason behind passing an argument is to help you get a hands-on experience a
 
   .. code-block:: python
 
-    print(f"Running my_wf(name='Flytekit') {my_wf(name='Flytekit')}")
+    print(f"Running my_wf(name='Flyte Python SDK') {my_wf(name='Flyte Python SDK')}")
 
 8. Now, run the below command in your terminal.
 
@@ -84,7 +84,7 @@ The reason behind passing an argument is to help you get a hands-on experience a
 
   python cookbook/core/basic/hello_flytekit.py
 
-When you run this file locally, it should output ``Hello, Flytekit!``.
+When you run this file locally, it should output ``Hello, Flyte Python SDK!``.
 
 *Congratulations!* You successfully ran your first workflow! 
 

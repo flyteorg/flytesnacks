@@ -1,6 +1,6 @@
 """
 Hello, Flytekit! Workflow
---------------------
+-------------------------
 
 This simple workflow calls a task that returns "Hello, Flytekit!" and then just sets that as the final output of the workflow.
 
