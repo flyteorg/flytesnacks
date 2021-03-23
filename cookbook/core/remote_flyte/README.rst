@@ -106,7 +106,7 @@ and just like that you can update your code without requiring a rebuild of your 
 
 As fast registration serializes code from your local workstation and uploads it to the hosted flyte deployment, make sure to specify the following arguments correctly to ensure that the changes are picked up when the workflow is run.
 
-- :code:`pyflyte serialize` has a :code:`--local-source-root` option which specicies which code is uploaded during the fast registration step. This ensures that the files you want to modify are serialized.
+- :code:`pyflyte serialize` has a :code:`--local-source-root` option which specifies which code is uploaded during the fast registration step. This ensures that the files you want to modify are serialized. This is optional and should be used when your code lies outside of your current working directory.
 - :code:`flyte-cli fast-register-files` has a :code:`--dest-dir` option which specifies which folder (in the container) the fast serialization will dump the code in at execution time. This ensures that the running workflow loads the code changes that were uploaded via :code:`fast registration`.
 
 
