@@ -8,9 +8,8 @@ Workflows are typically created and specified by decorating a function with the 
 run through the body of the function at compile time, using the subsequent calls of the underlying tasks to determine
 and record the workflow structure. This is the declarative style and makes sense when a human is writing it up by hand.
 
-For cases where workflows are constructed programmatically, an imperative style makes more sense. For example, assuming
-that tasks have already been defined, and your goal is to orchestrate those tasks whose order and dependencies have
-been specified text format of some kind (perhaps you're converting from a legacy system).
+For cases where workflows are constructed programmatically, an imperative style makes more sense. For example, when tasks have already been defined, their order and dependencies have
+been specified in text format of some kind (perhaps you're converting from a legacy system), and your goal is to orchestrate those tasks. 
 
 """
 import typing
@@ -19,7 +18,7 @@ from flytekit import Workflow, task
 
 
 # %%
-# Assume we have the following tasks, meant to represent more complicated tasks. ``t1`` has simple scalar I/O, ``t2`` is
+# Assume we have the following tasks, and they are meant to represent more complicated tasks. ``t1`` has simple scalar I/O, ``t2`` is
 # a pure side effect task (though we typically don't recommend these, they are inevitable), and ``t3`` takes in a list
 # as an input.
 @task
@@ -59,7 +58,7 @@ node_t1 = wb.add_entity(t1, a=wb.inputs["in1"])
 wb.add_workflow_output("output_from_t1", node_t1.outputs["o0"])
 
 # %%
-# To add a task that has neither inputs nor output, just add the entity. We don't need to capture the resulting node
+# To add a task that has no inputs or outputs, just add the entity. We don't need to capture the resulting node
 # because we have no use for it.
 wb.add_entity(t2)
 
