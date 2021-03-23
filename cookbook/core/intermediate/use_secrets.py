@@ -30,13 +30,7 @@ SECRET_GROUP = "user-info"
 
 # %%
 # Now declare the secret in the requests. The secret can be accessed using the :py:class:`flytekit.ExecutionParameters`,
-# through the global flytekit context as shown in the body of the method
-#
-# .. note::
-#
-#   - In case of failure to access the secret (it is not found at execution time) an error is raised.
-#   - Secrets group and key are required parameter during declaration and usage. Failure to specify will cause an
-#     exception
+# through the global flytekit context as shown below
 #
 @task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])
 def secret_task() -> str:
@@ -47,9 +41,15 @@ def secret_task() -> str:
 
 
 # %%
-# Multiple secrets may be grouped as one secret in the SecretStore.
-# For example, in Kubernetes secrets, it is possible to nest multiple keys under the same secret.
-# In this case, the name would be the actual name of the nested secret, and the group would be the identifier for
+# .. note::
+#
+#   - In case of failure to access the secret (it is not found at execution time) an error is raised.
+#   - Secrets group and key are required parameters during declaration and usage. Failure to specify will cause a
+#     :py:class:`ValueError`
+#
+# In some cases you may have multiple secrets and sometimes, they maybe grouped as one secret in the SecretStore.
+# For example, In Kubernetes secrets, it is possible to nest multiple keys under the same secret.
+# Thus in this case the name would be the actual name of the nested secret, and the group would be the identifier for
 # the kubernetes secret.
 #
 # As an example, let us define 2 secrets username and password, defined in the group user_info
@@ -70,11 +70,12 @@ def user_info_task() -> (str, str):
 
 
 # %%
-# It is also possible to enforce Flyte to mount the secret as a file. This is particularly useful for large secrets
-# that do not fit in environment variables - typically asymmetric keys (certs, etc).
-# Another reason may be that a dependent library requires the secret to be available as a file.
-# In these secnarios you can specify the mount_requirement to be the following file:
-@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.MountType.FILE)])
+# It is also possible to enforce Flyte to mount the secret as a file or an environment variable.
+# The File type is useful This is for large secrets that do not fit in environment variables - typically asymmetric
+# keys (certs etc). Another reason may be that a dependent library necessitates that the secret be available as a file.
+# In these scenarios you can specify the mount_requirement. In the following example we force the mounting to be
+# and Env variable
+@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.MountType.ENV_VAR)])
 def secret_file_task() -> (str, str):
     # SM here is a handle to the secrets manager
     sm = flytekit.current_context().secrets
@@ -95,8 +96,8 @@ def my_secret_workflow() -> (str, str, str, str, str):
 
 
 # %%
-# The simplest way to test secret accessibility is to export the secret as an environment variable. Here are some
-# helper methods:
+# Simplest way to test the secret accessibility is to export the secret as an environment variable. There are some
+# helper methods available to do so
 from flytekit.testing import SecretsManager
 
 if __name__ == "__main__":
