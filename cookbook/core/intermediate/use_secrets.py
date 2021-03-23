@@ -47,9 +47,9 @@ def secret_task() -> str:
 
 
 # %%
-# In some cases you may have multiple secrets and sometimes, they maybe grouped as one secret in the SecretStore.
-# For example, In Kubernetes secrets, it is possible to nest multiple keys under the same secret.
-# Thus in this case the name would be the actual name of the nested secret, and the group would be the identifier for
+# Multiple secrets may be grouped as one secret in the SecretStore.
+# For example, in Kubernetes secrets, it is possible to nest multiple keys under the same secret.
+# In this case, the name would be the actual name of the nested secret, and the group would be the identifier for
 # the kubernetes secret.
 #
 # As an example, let us define 2 secrets username and password, defined in the group user_info
@@ -58,22 +58,22 @@ PASSWORD_SECRET = "password"
 
 
 # %%
-# The Secret structure allows passing two fields, as described previously matching the key and the group
+# The Secret structure allows passing two fields, matching the key and the group, as previously described:
 @task(
     secret_requests=[Secret(key=USERNAME_SECRET, group=SECRET_GROUP), Secret(key=PASSWORD_SECRET, group=SECRET_GROUP)])
 def user_info_task() -> (str, str):
     secret_username = flytekit.current_context().secrets.get(SECRET_GROUP, USERNAME_SECRET)
     secret_pwd = flytekit.current_context().secrets.get(SECRET_GROUP, PASSWORD_SECRET)
-    # Please do not print the secret value, we are doing so just as a demonstration
+    # Please do not print the secret value, this is just a demonstration.
     print(f"{secret_username}={secret_pwd}")
     return secret_username, secret_pwd
 
 
 # %%
 # It is also possible to enforce Flyte to mount the secret as a file. This is particularly useful for large secrets
-# that do not fit in environment variables - typically asymmetric keys (certs etc)
-# Another reason may be that a dependent library necessitates that the secret be available as a file.
-# In these secnarios you can specify the mount_requirement to be file as follows,
+# that do not fit in environment variables - typically asymmetric keys (certs, etc).
+# Another reason may be that a dependent library requires the secret to be available as a file.
+# In these secnarios you can specify the mount_requirement to be the following file:
 @task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.MountType.FILE)])
 def secret_file_task() -> (str, str):
     # SM here is a handle to the secrets manager
@@ -95,8 +95,8 @@ def my_secret_workflow() -> (str, str, str, str, str):
 
 
 # %%
-# Simplest way to test the secret accessibility is to export the secret as an environment variable. There are some
-# helper methods available to do so
+# The simplest way to test secret accessibility is to export the secret as an environment variable. Here are some
+# helper methods:
 from flytekit.testing import SecretsManager
 
 if __name__ == "__main__":
