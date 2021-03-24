@@ -38,8 +38,7 @@ LOCATIONS = [
     "SanFrancisco_CA",
 ]
 
-PARALLEL_TRAINING_JOBS = 4  # len(LOCATIONS) if your account limits can handle it
-MAX_YEAR = 2019
+MAX_YEAR = 2021
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
 
