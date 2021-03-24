@@ -147,7 +147,7 @@ def save_to_file(path: str, n: str, arr: np.ndarray) -> str:
     return f
 
 
-# Generation and Splitting up of Data
+# Generating and Splitting the Data
 @task(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
 def generate_and_split_data(
     loc: str, number_of_houses: int, seed: int

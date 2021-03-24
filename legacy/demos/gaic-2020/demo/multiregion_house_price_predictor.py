@@ -29,7 +29,7 @@ LOCATIONS = [
     "SanFrancisco_CA",
 ]
 
-# Generating and Splitting up of Data for Multiple Regions
+# Generating and Splitting the Data for Multiple Regions
 @task(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
