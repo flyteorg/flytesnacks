@@ -26,7 +26,7 @@ square = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(val=int),
     outputs=kwtypes(out=int),
-    image="docker.io/library/alpine",
+    image="public.ecr.aws/a1p3q7r0/alpine:3.12",
     command=[
         "sh",
         "-c",
@@ -41,7 +41,7 @@ sum = ContainerTask(
     output_data_dir="/var/flyte/outputs",
     inputs=kwtypes(x=int, y=int),
     outputs=kwtypes(out=int),
-    image="docker.io/library/alpine",
+    image="public.ecr.aws/a1p3q7r0/alpine:3.12",
     command=[
         "sh",
         "-c",
