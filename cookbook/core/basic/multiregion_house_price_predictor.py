@@ -29,7 +29,7 @@ LOCATIONS = [
 ]
 
 # Generating and Splitting the Data for Multiple Regions
-@task(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
+@task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
     number_of_houses_per_location: int,
@@ -54,7 +54,7 @@ def generate_and_split_data_multiloc(
 
 # Training the XGBoost Model for Multiple Regions
 # A "Dynamic" Task (aka Workflow) spins up internal workflows
-@dynamic(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
+@dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit(
     multi_train: typing.List[FlyteDirectory[typing.TypeVar("csv")]],
 ) -> typing.List[FlyteFile[typing.TypeVar("joblib.dat")]]:
@@ -70,7 +70,7 @@ def parallel_fit(
 
 # Generating the Predictions
 # A "Dynamic" Task (aka Workflow) spins up internal workflows
-@dynamic(cache_version="1.1", cache=True, limits=Resources(mem="200Mi"))
+@dynamic(cache_version="1.1", cache=True, limits=Resources(mem="600Mi"))
 def parallel_predict(
     multi_test: typing.List[FlyteFile[typing.TypeVar("csv")]],
     multi_models: typing.List[FlyteFile[typing.TypeVar("joblib.dat")]],

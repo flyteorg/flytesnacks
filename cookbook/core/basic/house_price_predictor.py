@@ -165,7 +165,7 @@ def generate_and_split_data(
 
 
 # Training the XGBoost Model
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(
     loc: str,
     train: FlyteDirectory[typing.TypeVar("csv")],
@@ -191,7 +191,7 @@ def fit(
 
 
 # Generating the Predictions
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def predict(
     test: FlyteFile[typing.TypeVar("csv")],
     model_ser: FlyteFile[typing.TypeVar("joblib.dat")],
