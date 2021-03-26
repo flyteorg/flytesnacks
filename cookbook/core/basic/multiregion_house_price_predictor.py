@@ -1,12 +1,11 @@
 import os
 import typing
 
-import flytekit
 from flytekit import Resources, dynamic, task, workflow
 from flytekit.types.file import FlyteFile
 from flytekit.types.directory import FlyteDirectory
 
-from house_price_predictor import (
+from .house_price_predictor import (
     generate_data,
     save_to_file,
     save_to_dir,
