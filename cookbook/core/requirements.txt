@@ -138,3 +138,6 @@ wrapt==1.12.1
     #   flytekit
 zipp==3.4.1
     # via importlib-metadata
+sklearn==0.0
+joblib==1.0.1
+xgboost==1.3.3
