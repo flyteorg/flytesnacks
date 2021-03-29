@@ -1,11 +1,9 @@
 furo
 pillow
-readthedocs-sphinx-search
 sphinx
 sphinx_rtd_theme
 sphinx-gallery
 sphinx-prompt
-sphinx-material
 sphinx-code-include
 sphinx-autoapi
 sphinx-copybutton
