@@ -3,7 +3,9 @@ import time
 from typing import Any
 
 import typing
-from flytekit import PythonInstanceTask, workflow, dynamic
+
+import flytekit
+from flytekit import PythonInstanceTask, workflow, dynamic, LaunchPlan
 from flytekit.core.context_manager import SerializationSettings
 from flytekit.extend import Interface
 
@@ -34,10 +36,13 @@ def sleeper_workflow():
     tk()
 
 
+sleeper_lp = LaunchPlan.get_default_launch_plan(flytekit.current_context(), sleeper_workflow)
+
+
 @dynamic
 def launch_n(n: int):
     for i in range(n):
-        sleeper_workflow()
+        sleeper_lp()
 
 
 @workflow
