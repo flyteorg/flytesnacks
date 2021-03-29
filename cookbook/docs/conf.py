@@ -156,43 +156,6 @@ html_theme_options = {
     },
 }
 
-
-# html_theme = "sphinx_material"
-# html_theme_options = {
-#     # Set the name of the project to appear in the navigation.
-#     "nav_title": "Flyte Tutorials",
-#     # Set you GA account ID to enable tracking
-#     "google_analytics_account": "G-YQL24L5CKY",
-#     # Specify a base_url used to generate sitemap.xml. If not
-#     # specified, then no sitemap will be built.
-#     "base_url": "https://github.com/lyft/flytekit",
-#     # Set the color and the accent color
-#     "color_primary": "deep-purple",
-#     "color_accent": "blue",
-#     # Set the repo location to get a badge with stats
-#     "repo_url": "https://github.com/lyft/flyte/",
-#     "repo_name": "flyte",
-#     # Visible levels of the global TOC; -1 means unlimited
-#     "globaltoc_depth": 1,
-#     # If False, expand all TOC entries
-#     "globaltoc_collapse": False,
-#     # If True, show hidden TOC entries
-#     "globaltoc_includehidden": False,
-#     # don't include home link in breadcrumb bar, since it's included
-#     # in the nav_links key below.
-#     "master_doc": False,
-#     # custom nav in breadcrumb bar
-#     "nav_links": [
-#         {"href": "https://flyte.readthedocs.io/", "internal": False, "title": "Flyte"},
-#         {"href": "index", "internal": True, "title": "Tutorials"},
-#         {
-#             "href": "https://flytekit.readthedocs.io/en/latest/",
-#             "internal": False,
-#             "title": "Flytekit Python Reference",
-#         },
-#     ],
-# }
-
 # html_sidebars = {
 #     "**": ["logo-text.html", "globaltoc.html", "localtoc.html", "searchbox.html"]
 # }
