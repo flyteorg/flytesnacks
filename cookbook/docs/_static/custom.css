@@ -31,3 +31,11 @@ div.sphx-glr-thumbcontainer:hover {
     border-color: white;
     box-shadow: none;
 }
+
+.sphx-glr-script-out .highlight pre {
+    background-color: #f8f8f8;
+}
+
+p.sphx-glr-script-out {
+    padding-top: 0em;
+}
