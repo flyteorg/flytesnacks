@@ -1,5 +1,5 @@
-Flyte Tutorials
-==============================================
+Tutorials
+=========
 These tutorials are intended to help the user learn by example. We start with various concepts in flyte and flytekit with examples and
 then introduce some of the core plugins. This cookbook is designed to get you running both locally, and on a Flyte cluster using
 `Flytekit Python <https://github.com/lyft/flytekit>`__
@@ -22,7 +22,16 @@ Please join our Slack channel as well through this `form <https://docs.google.co
 
 .. toctree::
    :maxdepth: 4
+   :hidden:
+
+   Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
+   Tutorials <self>
+   API Reference <https://docs.flyte.org/en/latest/reference/index.html>
+
+.. toctree::
+   :maxdepth: 4
    :caption: Examples
+   :hidden:
 
    tutorial
    core
@@ -34,12 +43,14 @@ Please join our Slack channel as well through this `form <https://docs.google.co
 .. toctree::
    :maxdepth: 4
    :caption: Case Studies
+   :hidden:
 
    case_studies
 
 .. toctree::
    :maxdepth: 4
    :caption: Flytekit Plugins
+   :hidden:
 
    plugins
    auto_plugins_pod/index
@@ -49,11 +60,3 @@ Please join our Slack channel as well through this `form <https://docs.google.co
    auto_plugins_sagemaker_training/index
    auto_plugins_kfpytorch/index
    auto_plugins_sagemaker_pytorch/index
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
