@@ -22,7 +22,7 @@ class SleeperTask(PythonInstanceTask):
             self._sleep_time = datetime.timedelta(seconds=1)
 
     def get_config(self, settings: SerializationSettings) -> typing.Dict[str, str]:
-        return {self._VAR: f"{int(self._sleep_time.total_seconds() * 1000)  }ms"}
+        return {self._VAR: f"{int(self._sleep_time.total_seconds() * 1000)}ms"}
 
     def execute(self, **kwargs) -> Any:
         time.sleep(self._sleep_time.total_seconds())
@@ -45,10 +45,16 @@ def launch_n(n: int):
         sleeper_lp()
 
 
+@dynamic
+def launch_m(m: int, n: int):
+    for i in range(m):
+        launch_n(n=n)
+
+
 @workflow
-def scale_tester(n: int):
-    launch_n(n=n)
+def scale_tester(m: int, n: int):
+    launch_m(m=m, n=n)
 
 
 if __name__ == "__main__":
-    scale_tester(n=2)
+    scale_tester(m=5, n=2)
