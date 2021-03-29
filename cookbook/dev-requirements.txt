@@ -336,6 +336,8 @@ pyyaml==5.4.1
     # via
     #   kubernetes
     #   sphinx-autoapi
+readthedocs-sphinx-search==0.1.0
+    # via -r ./docs-requirements.in
 regex==2021.3.17
     # via
     #   black
