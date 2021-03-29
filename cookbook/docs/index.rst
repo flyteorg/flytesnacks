@@ -26,7 +26,7 @@ Please join our Slack channel as well through this `form <https://docs.google.co
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
    Tutorials <self>
-   API Reference <https://docs.flyte.org/en/latest/reference/index.html>
+   reference/index
 
 .. toctree::
    :maxdepth: 4
