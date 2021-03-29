@@ -37,17 +37,17 @@ import typing
 from datetime import timedelta
 from time import sleep
 
-from flytekit import TaskMetadata, task, workflow
-from flytekit.extend import Interface, PythonTask, context_manager
+from flytekit import TaskMetadata, task, workflow, PythonInstanceTask
+from flytekit.extend import Interface, context_manager
 
 
 # %%
 # Plugin Structure
 # ^^^^^^^^^^^^^^^^^
 # As illustrated above to achieve this structure we need to create a Class called  ``WaitForObjectStoreFile``, which
-# derives from :py:class:`flytekit.core.PythonFunctionTask` as follows.
+# derives from :py:class:`flytekit.core.PythonInstanceTask` as follows.
 #
-class WaitForObjectStoreFile(PythonTask):
+class WaitForObjectStoreFile(PythonInstanceTask):
     """
     Add documentation here for your Plugin.
     This plugin creates an object store file sensor, that waits and exits only when the file exists.
