@@ -56,5 +56,10 @@ def scale_tester(m: int, n: int):
     launch_m(m=m, n=n)
 
 
+@workflow
+def linear_scale_tester(n: int):
+    launch_n(n=n)
+
+
 if __name__ == "__main__":
     scale_tester(m=5, n=2)
