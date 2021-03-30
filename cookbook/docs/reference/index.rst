@@ -10,7 +10,7 @@ API Reference
    Flytekit Python <https://flytekit.readthedocs.io/en/latest/>
    Flytekit JAVA  <https://github.com/spotify/flytekit-java>
    Flyte Core Language Specification (FlyteIDL) <https://flyteidl.readthedocs.io/en/latest/>
-   Flytectl <https://flytectl.readthedocs.io/en/latest/>
+   Flytectl <self>
 
 .. toctree::
    :maxdepth: 1

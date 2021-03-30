@@ -98,7 +98,7 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.18.26
     # via flytekit
-flytekit==0.17.0b1
+flytekit==0.17.0b2
     # via
     #   -r ./case_studies/pima_diabetes/../../common/requirements-common.in
     #   -r ./plugins/hive/../../common/requirements-common.in
@@ -329,6 +329,8 @@ pyyaml==5.4.1
     # via
     #   kubernetes
     #   sphinx-autoapi
+readthedocs-sphinx-search==0.1.0
+    # via -r ./docs-requirements.in
 regex==2021.3.17
     # via
     #   black
