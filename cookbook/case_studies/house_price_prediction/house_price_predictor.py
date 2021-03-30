@@ -1,15 +1,20 @@
-##############################
-# The example has been borrowed from Sagemaker examples
-# https://github.com/awslabs/amazon-sagemaker-examples/blob/master/advanced_functionality/multi_model_xgboost_home_value/xgboost_multi_model_endpoint_home_value.ipynb
-# Idea is to illustrate parallelized execution and eventually also show Sagemaker execution
-###########################
-## Libraries ##
-# pip install sklearn
-# pip install joblib
-# pip install xgboost
-# brew install libomp (Mac)
-###########################
+"""
+Predicting House Price in a Region Using an XGBoost Model and Flytekit (Python)
+-------------------------------------------------------------------------------
 
+"""
+
+# %%
+# Install the following three libraries before running the model (locally):
+# .. code-block:: python
+#
+#       pip install sklearn
+#       pip install joblib
+#       pip install xgboost
+
+# %%
+# Step 1: Importing the Libraries
+# -------------------------------
 import os
 import typing
 
@@ -23,7 +28,9 @@ from flytekit import Resources, dynamic, task, workflow
 from flytekit.types.file import FlyteFile
 from flytekit.types.directory import FlyteDirectory
 
-
+# %%
+# Step 2: Initializing the Variables
+# ----------------------------------
 NUM_HOUSES_PER_LOCATION = 1000
 LOCATIONS = [
     "NewYork_NY",
@@ -41,7 +48,11 @@ LOCATIONS = [
 MAX_YEAR = 2021
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
-
+# %%
+# Step 3: Defining the Data Generation Functions
+# ----------------------------------------------
+#
+# House price generation function:
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
     _price = int(
@@ -53,8 +64,8 @@ def gen_price(house) -> int:
         - (5000 * (MAX_YEAR - house["YEAR_BUILT"]))
     )
     return _price
-
-
+# %%
+# Random data pertaining to a house:
 def gen_random_house() -> typing.List:
     _house = {
         "SQUARE_FEET": int(np.random.normal(3000, 750)),
@@ -75,7 +86,8 @@ def gen_random_house() -> typing.List:
         _house["GARAGE_SPACES"],
     ]
 
-
+# %%
+# Dataframe with all the houses details:
 def gen_houses(num_houses) -> pd.DataFrame:
     _house_list = []
     for i in range(num_houses):
@@ -94,7 +106,8 @@ def gen_houses(num_houses) -> pd.DataFrame:
     )
     return _df
 
-
+# %%
+# Splitting the Data:
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
 ) -> (np.ndarray, np.ndarray, np.ndarray):
@@ -124,7 +137,8 @@ def split_data(
 
     return _train, _val, _test
 
-
+# %%
+# Generating the train, val, and test datasets:
 def generate_data(
     loc: str, number_of_houses: int, seed: int
 ) -> (np.ndarray, np.ndarray, np.ndarray):
@@ -132,7 +146,8 @@ def generate_data(
     _train, _val, _test = split_data(_houses, seed, split=SPLIT_RATIOS)
     return _train, _val, _test
 
-
+# %%
+# Generating CSV files to store train, val, and test datasets:
 def save_to_dir(path: str, n: str, arr: np.ndarray) -> str:
     d = os.path.join(path, n)
     os.makedirs(d, exist_ok=True)
@@ -146,8 +161,10 @@ def save_to_file(path: str, n: str, arr: np.ndarray) -> str:
     np.savetxt(f, arr, delimiter=",", fmt="%.2f")
     return f
 
-
-# Generating and Splitting the Data
+# %%
+# Step 4: Task -- Generating & Splitting the Data
+# -----------------------------------------------
+# Train and validation datasets are directories (consisting of one CSV file) and test data is a CSV file
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data(
     loc: str, number_of_houses: int, seed: int
@@ -163,8 +180,10 @@ def generate_and_split_data(
     test = save_to_file("data", "test", _test)
     return train, val, test
 
-
-# Training the XGBoost Model
+# %%
+# Step 5: Task -- Training the XGBoost Model
+# ------------------------------------------
+# Serialize the XGBoost model using joblib and store the model in a dat file
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(
     loc: str,
@@ -189,8 +208,10 @@ def fit(
     joblib.dump(m, fname)
     return fname
 
-
-# Generating the Predictions
+# %%
+# Step 6: Task -- Generating the Predictions
+# ------------------------------------------
+# Unserialize the XGBoost model using joblib and generate the predictions
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def predict(
     test: FlyteFile[typing.TypeVar("csv")],
@@ -211,7 +232,9 @@ def predict(
 
     return y_pred
 
-
+# %%
+# Step 7: Workflow -- Defining the Workflow
+# -----------------------------------------
 @workflow
 def house_price_predictor_trainer():
     """
@@ -224,4 +247,7 @@ def house_price_predictor_trainer():
     fit_task = fit(loc=LOCATIONS[0], train=train)
     predictions = predict(model_ser=fit_task, test=test)
 
-    print(predictions)
+    return predictions
+
+# %%
+# You can call the ``house_price_predictor_trainer`` workflow to print the predictions. However, our goal is to expand this to multiple regions. Thus, the tasks and helper functions defined here are called in the other Python script.
