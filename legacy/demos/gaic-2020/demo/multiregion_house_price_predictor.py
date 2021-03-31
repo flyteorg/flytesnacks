@@ -1,45 +1,16 @@
 import os
-import typing
 
-import flytekit
-from flytekit import Resources, dynamic, task, workflow
-from flytekit.types.file import FlyteFile
-from flytekit.types.directory import FlyteDirectory
+from flytekit.sdk.tasks import python_task, inputs, outputs, dynamic_task
+from flytekit.sdk.types import Types
+from flytekit.sdk.workflow import workflow_class, Input, Output
 
-from house_price_predictor import (
-    generate_data,
-    save_to_file,
-    save_to_dir,
-    fit,
-    predict,
-)
+from demo.house_price_predictor import generate_data, save_to_file, save_to_dir, fit, predict
 
 
-NUM_HOUSES_PER_LOCATION = 1000
-LOCATIONS = [
-    "NewYork_NY",
-    "LosAngeles_CA",
-    "Chicago_IL",
-    "Houston_TX",
-    "Dallas_TX",
-    "Phoenix_AZ",
-    "Philadelphia_PA",
-    "SanAntonio_TX",
-    "SanDiego_CA",
-    "SanFrancisco_CA",
-]
-
-# Generating and Splitting the Data for Multiple Regions
-@task(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
-def generate_and_split_data_multiloc(
-    locations: typing.List[str],
-    number_of_houses_per_location: int,
-    seed: int,
-) -> (
-    typing.List[FlyteDirectory[typing.TypeVar("csv")]],
-    typing.List[FlyteDirectory[typing.TypeVar("csv")]],
-    typing.List[FlyteFile[typing.TypeVar("csv")]],
-):
+@inputs(locations=Types.List(Types.String), number_of_houses_per_location=Types.Integer, seed=Types.Integer)
+@outputs(train=Types.List(Types.MultiPartCSV), val=Types.List(Types.MultiPartCSV), test=Types.List(Types.CSV))
+@python_task(cache=True, cache_version="0.1", memory_request="200Mi")
+def generate_and_split_data_multiloc(wf_params, locations, number_of_houses_per_location, seed, train, val, test):
     train_sets = []
     val_sets = []
     test_sets = []
@@ -47,61 +18,59 @@ def generate_and_split_data_multiloc(
         _train, _val, _test = generate_data(loc, number_of_houses_per_location, seed)
         dir = "multi_data"
         os.makedirs(dir, exist_ok=True)
-        train_sets.append(save_to_dir(os.path.join(dir, loc), "train", _train))
-        val_sets.append(save_to_dir(os.path.join(dir, loc), "val", _val))
-        test_sets.append(save_to_file(os.path.join(dir, loc), "test", _test))
-    return train_sets, val_sets, test_sets
+        train_sets.append(save_to_dir(dir, "train", _train))
+        val_sets.append(save_to_dir(dir, "val", _val))
+        test_sets.append(save_to_file(dir, "test", _test))
+    train.set(train_sets)
+    val.set(val_sets)
+    test.set(test_sets)
 
 
-# Training the XGBoost Model for Multiple Regions
-# A "Dynamic" Task (aka Workflow) spins up internal workflows
-@dynamic(cache=True, cache_version="0.1", limits=Resources(mem="200Mi"))
-def parallel_fit(
-    multi_train: typing.List[FlyteDirectory[typing.TypeVar("csv")]],
-) -> typing.List[FlyteFile[typing.TypeVar("joblib.dat")]]:
+@inputs(multi_train=Types.List(Types.MultiPartCSV))
+@outputs(multi_models=Types.List(Types.Blob))
+@dynamic_task(cache=True, cache_version="0.1", memory_request="200Mi")
+def parallel_fit(wf_params, multi_train, multi_models):
     models = []
-    for loc, train in zip(LOCATIONS, multi_train):
-        t = fit(
-            loc=loc,
-            train=train,
-        )
-        models.append(t)
-    return models
+    for train in multi_train:
+        t = fit(train=train)
+        yield t
+        models.append(t.outputs.model)
+    multi_models.set(models)
 
 
-# Generating the Predictions
-# A "Dynamic" Task (aka Workflow) spins up internal workflows
-@dynamic(cache_version="1.1", cache=True, limits=Resources(mem="200Mi"))
-def parallel_predict(
-    multi_test: typing.List[FlyteFile[typing.TypeVar("csv")]],
-    multi_models: typing.List[FlyteFile[typing.TypeVar("joblib.dat")]],
-) -> typing.List[typing.List[float]]:
+@inputs(multi_test=Types.List(Types.CSV), multi_models=Types.List(Types.Blob))
+@outputs(predictions=Types.List(Types.List(Types.Float)), accuracies=Types.List(Types.Float))
+@dynamic_task(cache_version='1.1', cache=True, memory_request="200Mi")
+def parallel_predict(wf_params, multi_test, multi_models, predictions, accuracies):
     preds = []
-
+    accs = []
     for test, model in zip(multi_test, multi_models):
         p = predict(test=test, model_ser=model)
-        preds.append(p)
+        yield p
+        preds.append(p.outputs.predictions)
+        accs.append(p.outputs.accuracy)
+    predictions.set(preds)
+    accuracies.set(accs)
 
-    return preds
 
-
-@workflow
-def multi_region_house_price_prediction_model_trainer():
-
+@workflow_class
+class MultiRegionHousePricePredictionModelTrainer(object):
     """
     This pipeline trains an XGBoost model, also generated synthetic data and runs predictions against test dataset
     """
+    regions = Input(Types.List(Types.String), default=["SFO", "SEA", "DEN"],
+                    help="Regions for where to train the model.")
+    seed = Input(Types.Integer, default=7, help="Seed to use for splitting.")
+    num_houses_per_region = Input(Types.Integer, default=1000,
+                                  help="Number of houses to generate data for in each region")
 
-    train, _, test = generate_and_split_data_multiloc(
-        locations=LOCATIONS,
-        number_of_houses_per_location=NUM_HOUSES_PER_LOCATION,
-        seed=7,
-    )
-    fit_task = parallel_fit(multi_train=train)
-    predictions = parallel_predict(multi_models=fit_task, multi_test=test)
+    # the actual algorithm
+    split = generate_and_split_data_multiloc(locations=regions, number_of_houses_per_location=num_houses_per_region,
+                                             seed=seed)
+    fit_task = parallel_fit(multi_train=split.outputs.train)
+    predicted = parallel_predict(multi_models=fit_task.outputs.multi_models, multi_test=split.outputs.test)
 
-    print(predictions)
-
-
-if __name__ == "__main__":
-    multi_region_house_price_prediction_model_trainer()
+    # Outputs: joblib seralized models per region and accuracy of the model per region
+    # Note we should make this into a map, but for demo we will output a simple list
+    models = Output(fit_task.outputs.multi_models, sdk_type=Types.List(Types.Blob))
+    accuracies = Output(predicted.outputs.accuracies, sdk_type=Types.List(Types.Float))
