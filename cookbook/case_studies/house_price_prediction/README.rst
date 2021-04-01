@@ -9,7 +9,7 @@ Where does Flyte fit in?
  - Orchestrates the machine learning pipeline
  - Can cache the output state between the steps (tasks as per Flyte)
  - Easier backtracking to the error source
- - Provides a Rich UI (if Flyte backend is enabled) to view and manage the pipeline
+ - Provides a Rich UI (if the Flyte backend is enabled) to view and manage the pipeline
 
 A typical house price prediction model isn’t dynamic, but a task has to be dynamic when multiple regions are involved. 
 
@@ -38,21 +38,13 @@ Steps to Make the Pipeline Flyte-Compatible
 ===========================================
  - Create two Python files to segregate the house price prediction logic. One consists of the logic per region, and the other is for multiple regions
  - Define a couple of helper functions that are to be used while defining Flyte tasks and workflow 
- - Define three Flyte tasks -- to generate and split data, fit the model, and generate predictions. If there are multiple regions, the tasks are dynamic
- - Define a workflow in both the files to call the tasks/dynamic tasks in a specified order
+ - Define three Flyte tasks -- to generate and split the data, fit the model, and generate predictions. If there are multiple regions, the tasks are dynamic
+ - Define a workflow to call the dynamic tasks in a specified order
 
 Takeaways
 =========
  - An in-depth dive into dynamic workflows
  - How the Flyte type-system works
- - Saving the dataset into CSV files and loading them again to fit the model and later, generating predictions
 
 Code Walkthrough
 ================
-
-
-
-
-
-
-

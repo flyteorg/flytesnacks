@@ -7,27 +7,22 @@ Predicting House Prices in Multiple Regions Using an XGBoost Model and Flytekit 
 # %%
 # Step 1: Importing the Libraries
 # ----------------------------------
-import os
 import typing
 
 import flytekit
+import pandas as pd
 from flytekit import Resources, dynamic, task, workflow
 from flytekit.types.file import FlyteFile
-from flytekit.types.directory import FlyteDirectory
 
 try:
     from .house_price_predictor import (
-        generate_data,
-        save_to_file,
-        save_to_dir,
+        generate_and_split_data,
         fit,
         predict,
     )
 except ImportError:
     from house_price_predictor import (
-        generate_data,
-        save_to_file,
-        save_to_dir,
+        generate_and_split_data,
         fit,
         predict,
     )
@@ -36,6 +31,15 @@ except ImportError:
 # Step 2: Initializing the Variables
 # ----------------------------------
 NUM_HOUSES_PER_LOCATION = 1000
+COLUMNS = [
+    "PRICE",
+    "YEAR_BUILT",
+    "SQUARE_FEET",
+    "NUM_BEDROOMS",
+    "NUM_BATHROOMS",
+    "LOT_ACRES",
+    "GARAGE_SPACES",
+]
 LOCATIONS = [
     "NewYork_NY",
     "LosAngeles_CA",
@@ -52,57 +56,59 @@ LOCATIONS = [
 # %%
 # Step 3: Task -- Generating & Splitting the Data for Multiple Regions
 # --------------------------------------------------------------------
-# Train and validation datasets are a list of directories (consisting of one CSV file per directory) and test data is a list of CSV files
-@task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
+#
+# Train, validation, and test datasets are lists of DataFrames.
+@dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
     number_of_houses_per_location: int,
     seed: int,
-) -> (
-    typing.List[FlyteDirectory[typing.TypeVar("csv")]],
-    typing.List[FlyteDirectory[typing.TypeVar("csv")]],
-    typing.List[FlyteFile[typing.TypeVar("csv")]],
-):
+) -> (typing.List[pd.DataFrame], typing.List[pd.DataFrame], typing.List[pd.DataFrame]):
     train_sets = []
     val_sets = []
     test_sets = []
     for loc in locations:
-        _train, _val, _test = generate_data(loc, number_of_houses_per_location, seed)
-        dir = "multi_data"
-        os.makedirs(dir, exist_ok=True)
-        train_sets.append(save_to_dir(os.path.join(dir, loc), "train", _train))
-        val_sets.append(save_to_dir(os.path.join(dir, loc), "val", _val))
-        test_sets.append(save_to_file(os.path.join(dir, loc), "test", _test))
+        _train, _val, _test = generate_and_split_data(
+            loc=loc, number_of_houses=number_of_houses_per_location, seed=seed
+        )
+        train_sets.append(
+            _train,
+        )
+        val_sets.append(
+            _val,
+        )
+        test_sets.append(
+            _test,
+        )
     return train_sets, val_sets, test_sets
+
 
 # %%
 # Step 4: Dynamic Task -- Training the XGBoost Model for Multiple Regions
 # -----------------------------------------------------------------------
 # (A "Dynamic" Task (aka Workflow) spins up internal workflows)
 #
-# Serialize the XGBoost models using joblib and store the models in dat files
+# Serialize the XGBoost models using joblib and store the models in dat files.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit(
-    multi_train: typing.List[FlyteDirectory[typing.TypeVar("csv")]],
+    multi_train: typing.List[pd.DataFrame], multi_val: typing.List[pd.DataFrame]
 ) -> typing.List[FlyteFile[typing.TypeVar("joblib.dat")]]:
     models = []
-    for loc, train in zip(LOCATIONS, multi_train):
-        t = fit(
-            loc=loc,
-            train=train,
-        )
+    for loc, train, val in zip(LOCATIONS, multi_train, multi_val):
+        t = fit(loc=loc, train=train, val=val)
         models.append(t)
     return models
 
+
 # %%
-# Step 5: Dynamic Task -- Generating the Predictions for Multiple Regions 
+# Step 5: Dynamic Task -- Generating the Predictions for Multiple Regions
 # -----------------------------------------------------------------------
 # (A "Dynamic" Task (aka Workflow) spins up internal workflows)
 #
-# Unserialize the XGBoost models using joblib and generate the predictions
+# Unserialize the XGBoost models using joblib and generate the predictions.
 @dynamic(cache_version="1.1", cache=True, limits=Resources(mem="600Mi"))
 def parallel_predict(
-    multi_test: typing.List[FlyteFile[typing.TypeVar("csv")]],
+    multi_test: typing.List[pd.DataFrame],
     multi_models: typing.List[FlyteFile[typing.TypeVar("joblib.dat")]],
 ) -> typing.List[typing.List[float]]:
     preds = []
@@ -113,33 +119,40 @@ def parallel_predict(
 
     return preds
 
+
 # %%
 # Step 6: Workflow -- Defining the Workflow
 # -----------------------------------------
+#
 # #. Generate and split the data
 # #. Parallelly fit the XGBoost model for multiple regions
 # #. Generate predictions for multiple regions
 @workflow
-def multi_region_house_price_prediction_model_trainer():
+def multi_region_house_price_prediction_model_trainer(
+    seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
+) -> typing.List[typing.List[float]]:
 
-    """
-    This pipeline trains an XGBoost model, also generated synthetic data and runs predictions against test dataset
-    """
-
-    train, _, test = generate_and_split_data_multiloc(
+    # Generate and split the data
+    train, val, test = generate_and_split_data_multiloc(
         locations=LOCATIONS,
-        number_of_houses_per_location=NUM_HOUSES_PER_LOCATION,
-        seed=7,
+        number_of_houses_per_location=number_of_houses,
+        seed=seed,
     )
-    fit_task = parallel_fit(multi_train=train)
-    predictions = parallel_predict(multi_models=fit_task, multi_test=test)
+
+    # Parallelly fit the XGBoost model for multiple regions
+    model = parallel_fit(multi_train=train, multi_val=val)
+
+    # Generate predictions for multiple regions
+    predictions = parallel_predict(multi_models=model, multi_test=test)
 
     return predictions
 
+
 # %%
-# Trigger the workflow locally by calling the workflow function
+# Trigger the workflow locally by calling the workflow function.
 if __name__ == "__main__":
     print(multi_region_house_price_prediction_model_trainer())
 
+
 # %%
-# The output will be a list of lists (one list per region) of house prices predictions.
+# The output will be a list of lists (one list per region) of house price predictions.
