@@ -189,10 +189,7 @@ def predict(
     test: pd.DataFrame,
     model_ser: FlyteFile[typing.TypeVar("joblib.dat")],
 ) -> typing.List[float]:
-    """
-    Given a any trained model, serialized using joblib (this method can be shared!) and features, this method returns
-    predictions.
-    """
+
     # Load model
     model = joblib.load(model_ser)
 
