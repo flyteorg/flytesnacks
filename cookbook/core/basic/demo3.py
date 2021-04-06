@@ -46,11 +46,20 @@ def merge(sorted_list1: typing.List[int], sorted_list2: typing.List[int]) -> typ
 
 
 @workflow
-def merge_sort(numbers: typing.List[int], numbers_count: int, base_case_limit: int = 5):
-    if numbers_count < base_case_limit:
-        return native_sort(numbers)
-    else:
-        return split_and_recurse(numbers=numbers, base_case_limit=base_case_limit)
+def merge_sort(numbers: typing.List[int], numbers_count: int, base_case_limit: int = 5) -> typing.List[int]:
+    # if numbers_count < base_case_limit:
+    #     return native_sort(numbers)
+    # else:
+    #     return split_and_recurse(numbers=numbers, base_case_limit=base_case_limit)
+    return (
+        conditional("terminal_case")
+        .if_(numbers_count <= base_case_limit)
+        .then(native_sort(numbers=numbers))
+        .else_()
+        .then(
+            split_and_recurse(numbers=numbers, base_case_limit=base_case_limit)
+        )
+    )
 
 
 def generate_inputs(numbers_count: int) -> typing.List[int]:
@@ -63,8 +72,6 @@ def generate_inputs(numbers_count: int) -> typing.List[int]:
     return generated_list
 
 
-# %%
-# The entire workflow can be executed locally as follows...
 if __name__ == "__main__":
     print(f"Running Merge Sort Locally...")
     count = 20
