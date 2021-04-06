@@ -1,89 +1,55 @@
-import typing
-
-from datetime import datetime
-from random import random, seed
+from typing import List, Tuple
 
 
-# seed random number generator
-seed(datetime.now().microsecond)
+def tower(n, source, destination, auxiliary) -> List[Tuple[int, int]]:
+    if n == 1:
+        return [(source, destination)]
+
+    results = tower(n - 1, source, auxiliary, destination)
+    results.append((source, destination))
+    results.extend(tower(n - 1, auxiliary, destination, source))
+    return results
 
 
-def native_sort(numbers: typing.List[int]) -> typing.List[int]:
-    return sorted(numbers)
-
-
-def split(numbers: typing.List[int]) -> (typing.List[int], typing.List[int], int):
-    return (
-        numbers[0:int(len(numbers)/2)],
-        numbers[int(len(numbers)/2):],
-        int(len(numbers)/2),
-    )
-
-
-def split_and_recurse(numbers: typing.List[int], base_case_limit: int) -> typing.List[int]:
-    split1, split2, new_count = split(numbers=numbers)
-    sorted1 = merge_sort(
-        numbers=split1, numbers_count=new_count, base_case_limit=base_case_limit
-    )
-    sorted2 = merge_sort(
-        numbers=split2, numbers_count=new_count, base_case_limit=base_case_limit
-    )
-    return merge(sorted_list1=sorted1, sorted_list2=sorted2)
-
-
-def merge(
-    sorted_list1: typing.List[int], sorted_list2: typing.List[int]
-) -> typing.List[int]:
-    n1 = len(sorted_list1)
-    n2 = len(sorted_list2)
-    result = []
-    i = 0
-    j = 0
-
-    # Traverse both array
-    while i < n1 and j < n2:
-        # Check if current element of first array is smaller than current element of second array. If yes,
-        # store first array element and increment first array index. Otherwise do same with second array
-        if sorted_list1[i] < sorted_list2[j]:
-            result.append(sorted_list1[i])
-            i = i + 1
-        else:
-            result.append(sorted_list2[j])
-            j = j + 1
-
-    # Store remaining elements of first array
-    while i < n1:
-        result.append(sorted_list1[i])
-        i = i + 1
-
-    # Store remaining elements of second array
-    while j < n2:
-        result.append(sorted_list2[j])
-        j = j + 1
-
-    return result
-
-
-def merge_sort(numbers: typing.List[int], numbers_count: int, base_case_limit: int = 5) -> typing.List[int]:
-    if numbers_count < base_case_limit:
-        return native_sort(numbers)
-    else:
-        return split_and_recurse(numbers=numbers, base_case_limit=base_case_limit)
-
-
-def generate_inputs(numbers_count: int) -> typing.List[int]:
-    generated_list = []
-    # generate random numbers between 0-1
-    for _ in range(numbers_count):
-        value = int(random() * 10000)
-        generated_list.append(value)
-
-    return generated_list
+def solve_tower(num_discs: int) -> int:
+    results = tower(num_discs, 1, 3, 2)
+    print(results)
+    return len(results)
 
 
 if __name__ == "__main__":
-    print(f"Running Merge Sort Locally...")
-    count = 20
-    x = generate_inputs(count)
-    print(x)
-    print(merge_sort(numbers=x, numbers_count=count))
+    print(solve_tower(num_discs=3))
+
+
+@task
+def model_parity_task(
+    research_inference_execution_id: str,
+    production_inference_execution_id: str,
+    paritea_spec: str,  # noqa: BLK100
+) -> str:
+    """Placeholder tasks for the model score parity task. Takes workflows execution ids to go and get the correct outputs.
+    Args:
+        research_inference_execution_id (str): research run/model ID
+        production_inference_execution_id (str): production run/model ID
+    Returns:
+        None: saves plot to output file
+    """
+    # Check if we want to skip
+
+    paritea_data = PariteaSpec.from_spec(paritea_spec)
+    if not paritea_data.model_parity:
+        logging.info("Model Parity Skipped!")
+        return json.dumps({"error_code": "skipped"})
+    research_framework = paritea_data.research_framework_spec
+    production_framework = paritea_data.production_framework_spec
+    # Save the generated execution_id to the framework object
+    research_framework.execution_id = research_inference_execution_id
+    production_framework.execution_id = production_inference_execution_id
+    # Create a context to load features from cloud storage to pull flyte inputs/ouputs
+    with _common_utils.AutoDeletingTempDir("feature_dir") as feature_dir:
+        with _data_proxy.LocalWorkingDirectoryContext(feature_dir):
+            research_np_scores = research_framework.get_inference_scores()
+            production_np_scores = production_framework.get_inference_scores()
+            research_np_predictions = research_framework.get_inference_predictions()
+            production_np_predictions = production_framework.get_inference_predictions()
+
