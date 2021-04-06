@@ -11,14 +11,6 @@ def native_sort(numbers: typing.List[int]) -> typing.List[int]:
     return sorted(numbers)
 
 
-def split(numbers: typing.List[int]) -> (typing.List[int], typing.List[int], int):
-    return (
-        numbers[0:int(len(numbers) / 2)],
-        numbers[int(len(numbers) / 2):],
-        int(len(numbers) / 2),
-    )
-
-
 def split_and_recurse(numbers: typing.List[int], base_case_limit: int) -> typing.List[int]:
     left = numbers[0:int(len(numbers) / 2)]
     right = numbers[int(len(numbers) / 2):]
