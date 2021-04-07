@@ -196,7 +196,7 @@ register: clean _pb_output docker_push
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make register
+		${TAGGED_IMAGE} make -n register
 
 _pb_output:
 	mkdir -p _pb_output
