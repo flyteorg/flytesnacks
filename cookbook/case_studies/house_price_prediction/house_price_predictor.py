@@ -177,7 +177,7 @@ def house_price_predictor_trainer(
 
     # Generate and split the data
     train, val, test = generate_and_split_data(
-        loc="NewYork_NY", number_of_houses=number_of_houses, seed=seed
+        number_of_houses=number_of_houses, seed=seed
     )
 
     # Fit the XGBoost model

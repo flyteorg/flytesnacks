@@ -1,15 +1,6 @@
-"""
-Predicting House Prices in Multiple Regions Using an XGBoost Model and Flytekit (Python)
-----------------------------------------------------------------------------------------
-
-"""
-
-# %%
 # Step 1: Importing the Libraries
-# ----------------------------------
 import typing
 
-import flytekit
 import pandas as pd
 from flytekit import Resources, dynamic, task, workflow
 from flytekit.types.file import FlyteFile
@@ -27,9 +18,7 @@ except ImportError:
         predict,
     )
 
-# %%
 # Step 2: Initializing the Variables
-# ----------------------------------
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
@@ -53,10 +42,8 @@ LOCATIONS = [
     "SanFrancisco_CA",
 ]
 
-# %%
+
 # Step 3: Task -- Generating & Splitting the Data for Multiple Regions
-# --------------------------------------------------------------------
-#
 # Train, validation, and test datasets are lists of DataFrames.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
@@ -69,7 +56,7 @@ def generate_and_split_data_multiloc(
     test_sets = []
     for loc in locations:
         _train, _val, _test = generate_and_split_data(
-            loc=loc, number_of_houses=number_of_houses_per_location, seed=seed
+            number_of_houses=number_of_houses_per_location, seed=seed
         )
         train_sets.append(
             _train,
@@ -83,11 +70,8 @@ def generate_and_split_data_multiloc(
     return train_sets, val_sets, test_sets
 
 
-# %%
 # Step 4: Dynamic Task -- Training the XGBoost Model for Multiple Regions
-# -----------------------------------------------------------------------
 # (A "Dynamic" Task (aka Workflow) spins up internal workflows)
-#
 # Serialize the XGBoost models using joblib and store the models in dat files.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit(
@@ -100,11 +84,8 @@ def parallel_fit(
     return models
 
 
-# %%
 # Step 5: Dynamic Task -- Generating the Predictions for Multiple Regions
-# -----------------------------------------------------------------------
 # (A "Dynamic" Task (aka Workflow) spins up internal workflows)
-#
 # Unserialize the XGBoost models using joblib and generate the predictions.
 @dynamic(cache_version="1.1", cache=True, limits=Resources(mem="600Mi"))
 def parallel_predict(
@@ -120,10 +101,7 @@ def parallel_predict(
     return preds
 
 
-# %%
 # Step 6: Workflow -- Defining the Workflow
-# -----------------------------------------
-#
 # #. Generate and split the data
 # #. Parallelly fit the XGBoost model for multiple regions
 # #. Generate predictions for multiple regions
@@ -148,11 +126,9 @@ def multi_region_house_price_prediction_model_trainer(
     return predictions
 
 
-# %%
 # Trigger the workflow locally by calling the workflow function.
+# The output will be a list of lists (one list per region) of house price predictions.
 if __name__ == "__main__":
     print(multi_region_house_price_prediction_model_trainer())
 
 
-# %%
-# The output will be a list of lists (one list per region) of house price predictions.
