@@ -1,20 +1,3 @@
-"""
-Predicting House Price in a Region Using an XGBoost Model and Flytekit (Python)
--------------------------------------------------------------------------------
-
-"""
-
-# %%
-# Install the following three libraries before running the model (locally):
-# .. code-block:: python
-#
-#       pip install scikit-learn
-#       pip install joblib
-#       pip install xgboost
-
-# %%
-# Step 1: Importing the Libraries
-# -------------------------------
 import typing
 
 import joblib
@@ -25,9 +8,6 @@ from xgboost import XGBRegressor
 from flytekit import Resources, dynamic, task, workflow
 from flytekit.types.file import FlyteFile
 
-# %%
-# Step 2: Initializing the Variables
-# ----------------------------------
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
