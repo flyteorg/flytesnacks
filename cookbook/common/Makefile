@@ -181,7 +181,7 @@ serialize: clean _pb_output docker_build
 register: clean _pb_output docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	docker run -it --rm \
+	echo docker run -it --rm \
 		--network host \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
