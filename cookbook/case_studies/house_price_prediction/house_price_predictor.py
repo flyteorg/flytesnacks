@@ -176,9 +176,7 @@ def house_price_predictor_trainer(
 ) -> typing.List[float]:
 
     # Generate and split the data
-    train, val, test = generate_and_split_data(
-        number_of_houses=number_of_houses, seed=seed
-    )
+    train, val, test = generate_and_split_data(number_of_houses=number_of_houses, seed=seed)
 
     # Fit the XGBoost model
     model = fit(loc="NewYork_NY", train=train, val=val)
