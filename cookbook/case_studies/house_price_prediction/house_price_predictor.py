@@ -21,10 +21,8 @@ COLUMNS = [
 MAX_YEAR = 2021
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
-# %%
+
 # Step 3: Defining the Data Generation Functions
-# ----------------------------------------------
-#
 # House price generation function:
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
@@ -39,7 +37,6 @@ def gen_price(house) -> int:
     return _price
 
 
-# %%
 # Dataframe with All the House Details:
 def gen_houses(num_houses) -> pd.DataFrame:
     _house_list = []
@@ -71,7 +68,6 @@ def gen_houses(num_houses) -> pd.DataFrame:
     return _df
 
 
-# %%
 # Splitting the Data into Train, Val, and Test Datasets:
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
@@ -120,23 +116,14 @@ def split_data(
     )
 
 
-# %%
 # Step 4: Task -- Generating & Splitting the Data
-# -----------------------------------------------
-#
-# Train, validation, and test datasets are DataFrames.
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
-def generate_and_split_data(
-    loc: str, number_of_houses: int, seed: int
-) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
+def generate_and_split_data(number_of_houses: int, seed: int) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
     _houses = gen_houses(number_of_houses)
     return split_data(_houses, seed, split=SPLIT_RATIOS)
 
 
-# %%
 # Step 5: Task -- Training the XGBoost Model
-# ------------------------------------------
-#
 # Serialize the XGBoost model using joblib and store the model in a dat file.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(
@@ -159,10 +146,7 @@ def fit(
     return fname
 
 
-# %%
 # Step 6: Task -- Generating the Predictions
-# ------------------------------------------
-#
 # Unserialize the XGBoost model using joblib and generate the predictions.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def predict(
@@ -182,10 +166,7 @@ def predict(
     return y_pred
 
 
-# %%
 # Step 7: Workflow -- Defining the Workflow
-# -----------------------------------------
-#
 # #. Generate and split the data
 # #. Fit the XGBoost model
 # #. Generate predictions
@@ -206,7 +187,3 @@ def house_price_predictor_trainer(
     predictions = predict(model_ser=model, test=test)
 
     return predictions
-
-
-# %%
-# You can call the ``house_price_predictor_trainer`` workflow to print the predictions. However, our goal is to expand this to multiple regions. Thus, the tasks and helper functions defined here are called in the other Python script.
