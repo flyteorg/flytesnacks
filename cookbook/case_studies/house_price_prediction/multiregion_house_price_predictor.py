@@ -101,6 +101,17 @@ def parallel_predict(
     return preds
 
 
+@task
+def diffs(
+    original_test_data: typing.List[pd.DataFrame],
+    predictions: typing.List[typing.List[float]],
+) -> typing.List[typing.List[float]]:
+    offs = []
+    for orig_test_data, pred in zip(original_test_data, predictions):
+        offs.append(pred - orig_test_data["PRICE"])
+    return offs
+
+
 # Step 6: Workflow -- Defining the Workflow
 # #. Generate and split the data
 # #. Parallelly fit the XGBoost model for multiple regions
@@ -108,8 +119,7 @@ def parallel_predict(
 @workflow
 def multi_region_house_price_prediction_model_trainer(
     seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
-) -> typing.List[typing.List[float]]:
-
+) -> (typing.List[typing.List[float]], typing.List[typing.List[float]]):
     # Generate and split the data
     train, val, test = generate_and_split_data_multiloc(
         locations=LOCATIONS,
@@ -122,8 +132,9 @@ def multi_region_house_price_prediction_model_trainer(
 
     # Generate predictions for multiple regions
     predictions = parallel_predict(multi_models=model, multi_test=test)
+    off = diffs(original_test_data=test, predictions=predictions)
 
-    return predictions
+    return predictions, off
 
 
 # Trigger the workflow locally by calling the workflow function.
