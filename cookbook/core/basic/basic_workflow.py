@@ -12,7 +12,7 @@ workflow is not used for computation, it is only used to structure the tasks, i.
 of ``t2`` in the workflow below. As such, the body of workflows is run at "registration" time. Please refer to the
 registration docs for additional information as well since it is actually a two-step process.
 
-Take a look at the conceptual `discussion <https://docs.flyte.org/en/latest/dive_deep/workflows_nodes.html>`__
+Take a look at the conceptual :std:ref:`discussion <flyte:divedeep-workflow-nodes>`.
 behind workflows for additional information.
 
 """
