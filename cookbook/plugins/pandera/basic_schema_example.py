@@ -23,13 +23,11 @@ from pandera.typing import DataFrame, Series
 def total_pay(df):
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
 
-def add_id(df, id):
-    return df.assign(worker_id=id)
+def add_id(df, worker_id):
+    return df.assign(worker_id=worker_id)
 
-def process_data():
-    worker_id = 100
-    df = pd.DataFrame({"hourly_pay": [12.0, 13.5, 10.1], "hours_worked": [30.5, 40.0, 41.75]})
-    return add_id(df=total_pay(df=df), id=worker_id)
+def process_data(df, worker_id):
+    return add_id(df=total_pay(df=df), worker_id=worker_id)
 
 # %%
 # As you can see, the ``process_data`` function is composed of two simpler functions:
@@ -94,19 +92,19 @@ def total_pay(df: DataFrame[InSchema]) -> DataFrame[IntermediateSchema]:
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
 
 @task
-def add_id(df: DataFrame[IntermediateSchema], id: str) -> DataFrame[OutSchema]:
-    return df.assign(worker_id=id)
+def add_id(df: DataFrame[IntermediateSchema], worker_id: str) -> DataFrame[OutSchema]:
+    return df.assign(worker_id=worker_id)
 
 @workflow
-def pandera_workflow(df: DataFrame[InSchema], worker_id: str) -> DataFrame[OutSchema]:
-    return add_id(df=total_pay(df=df), id=worker_id)
+def process_data(df: DataFrame[InSchema], worker_id: str) -> DataFrame[OutSchema]:
+    return add_id(df=total_pay(df=df), worker_id=worker_id)
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     df = pd.DataFrame(
         {"hourly_pay": [12.0, 13.5, 10.1], "hours_worked": [30.5, 40.0, 41.75]}
     )
-    result = pandera_workflow(df=df, worker_id="qwerty")
+    result = process_data(df=df, worker_id="qwerty")
     print(f"Running wf(), returns dataframe\n{result}\n{result.dtypes}")
 
 
