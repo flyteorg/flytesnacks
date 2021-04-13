@@ -86,5 +86,3 @@ indicating the failure case and the index where they were found in the dataframe
 
 Using Pandera with Flytekit Python
 ----------------------------------
-
-The examples below demonstrate how to use pandera schemas with flyte tasks and workflows.
