@@ -12,6 +12,8 @@ import typing
 
 from flytekit import dynamic, task, workflow
 
+from core.basic.lp import morning_greeting2
+
 
 @task
 def t1(a: int) -> str:
@@ -36,22 +38,19 @@ def t2(a: str, b: str) -> str:
 # a ``WorkflowTemplate``, which it then passes back to Flyte Propeller for further running, much like how sub-workflows
 # are handled.
 @dynamic
-def my_subwf(a: int) -> (typing.List[str], int):
+def my_subwf(a: int) -> (typing.List[str], int, str):
     s = []
     for i in range(a):
         s.append(t1(a=i))
-    return s, 5
-
-
-from core.basic.lp import morning_greeting2
+    greeting = morning_greeting2(number=3, day_of_week="weds", am=False)
+    return s, 5, greeting
 
 
 @workflow
 def my_wf(a: int, b: str) -> (str, typing.List[str], int, str):
     x = t2(a=b, b=b)
-    v, z = my_subwf(a=a)
-    greeting = morning_greeting2(number=3, day_of_week="weds", am=False)
-    return x, v, z, greeting
+    v, z, g = my_subwf(a=a)
+    return x, v, z, g
 
 
 if __name__ == "__main__":
