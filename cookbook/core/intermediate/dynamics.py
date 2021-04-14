@@ -43,11 +43,15 @@ def my_subwf(a: int) -> (typing.List[str], int):
     return s, 5
 
 
+from core.basic.lp import morning_greeting2
+
+
 @workflow
-def my_wf(a: int, b: str) -> (str, typing.List[str], int):
+def my_wf(a: int, b: str) -> (str, typing.List[str], int, str):
     x = t2(a=b, b=b)
     v, z = my_subwf(a=a)
-    return x, v, z
+    greeting = morning_greeting2(number=3, day_of_week="weds", am=False)
+    return x, v, z, greeting
 
 
 if __name__ == "__main__":

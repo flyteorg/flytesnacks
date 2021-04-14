@@ -77,6 +77,12 @@ morning_greeting = LaunchPlan.create(
     default_inputs={"number": 1},
 )
 
+morning_greeting2 = LaunchPlan.create(
+    "morning_greeting2",
+    go_greet,
+)
+
+
 # Let's see if we can convincingly pass a Turing test!
 today = datetime.datetime.today()
 for n in range(7):
