@@ -241,3 +241,7 @@ def house_price_predictor_trainer(
 # Trigger the workflow locally by calling the workflow function.
 if __name__ == "__main__":
     print(house_price_predictor_trainer())
+
+
+# %%
+# The output will be a list of house price predictions.
