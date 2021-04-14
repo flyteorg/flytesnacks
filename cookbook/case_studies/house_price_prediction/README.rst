@@ -37,7 +37,7 @@ Steps to Build the Machine Learning Pipeline
 Steps to Make the Pipeline Flyte-Compatible
 ===========================================
  - Create two Python files to segregate the house price prediction logic. One consists of the logic per region, and the other is for multiple regions
- - Define a couple of helper functions that are to be used while defining Flyte tasks and workflow 
+ - Define a couple of helper functions that are to be used while defining Flyte tasks and workflows
  - Define three Flyte tasks -- to generate and split the data, fit the model, and generate predictions. If there are multiple regions, the tasks are dynamic
  - Define a workflow to call the dynamic tasks in a specified order
 

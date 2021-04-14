@@ -58,18 +58,27 @@ LOCATIONS = [
 # --------------------------------------------------------------------
 #
 # Train, validation, and test datasets are lists of DataFrames.
+
+dataset = typing.NamedTuple(
+    "GenerateSplitDataOutputs",
+    train_data=typing.List[pd.DataFrame],
+    val_data=typing.List[pd.DataFrame],
+    test_data=typing.List[pd.DataFrame],
+)
+
+
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
     number_of_houses_per_location: int,
     seed: int,
-) -> (typing.List[pd.DataFrame], typing.List[pd.DataFrame], typing.List[pd.DataFrame]):
+) -> dataset:
     train_sets = []
     val_sets = []
     test_sets = []
-    for loc in locations:
+    for _ in locations:
         _train, _val, _test = generate_and_split_data(
-            loc=loc, number_of_houses=number_of_houses_per_location, seed=seed
+            number_of_houses=number_of_houses_per_location, seed=seed
         )
         train_sets.append(
             _train,
@@ -84,44 +93,29 @@ def generate_and_split_data_multiloc(
 
 
 # %%
-# Step 4: Dynamic Task -- Training the XGBoost Model for Multiple Regions
+# Step 4: Dynamic Task -- Training the XGBoost Model & Generating the Predictionsfor Multiple Regions
 # -----------------------------------------------------------------------
 # (A "Dynamic" Task (aka Workflow) spins up internal workflows)
 #
-# Serialize the XGBoost models using joblib and store the models in dat files.
+# Fit the model to the data and generate predictions (two functionalities in a single task to make it more powerful!)
+# Note: You can also use two separate methods to fit the model and generate predictions but this basically means parallelizing an entire set of tasks.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
-def parallel_fit(
-    multi_train: typing.List[pd.DataFrame], multi_val: typing.List[pd.DataFrame]
-) -> typing.List[FlyteFile[typing.TypeVar("joblib.dat")]]:
-    models = []
-    for loc, train, val in zip(LOCATIONS, multi_train, multi_val):
-        t = fit(loc=loc, train=train, val=val)
-        models.append(t)
-    return models
-
-
-# %%
-# Step 5: Dynamic Task -- Generating the Predictions for Multiple Regions
-# -----------------------------------------------------------------------
-# (A "Dynamic" Task (aka Workflow) spins up internal workflows)
-#
-# Unserialize the XGBoost models using joblib and generate the predictions.
-@dynamic(cache_version="1.1", cache=True, limits=Resources(mem="600Mi"))
-def parallel_predict(
+def parallel_fit_predict(
+    multi_train: typing.List[pd.DataFrame],
+    multi_val: typing.List[pd.DataFrame],
     multi_test: typing.List[pd.DataFrame],
-    multi_models: typing.List[FlyteFile[typing.TypeVar("joblib.dat")]],
 ) -> typing.List[typing.List[float]]:
     preds = []
 
-    for test, model in zip(multi_test, multi_models):
-        p = predict(test=test, model_ser=model)
-        preds.append(p)
+    for loc, train, val, test in zip(LOCATIONS, multi_train, multi_val, multi_test):
+        model = fit(loc=loc, train=train, val=val)
+        preds.append(predict(test=test, model_ser=model))
 
     return preds
 
 
 # %%
-# Step 6: Workflow -- Defining the Workflow
+# Step 5: Workflow -- Defining the Workflow
 # -----------------------------------------
 #
 # #. Generate and split the data
@@ -133,17 +127,19 @@ def multi_region_house_price_prediction_model_trainer(
 ) -> typing.List[typing.List[float]]:
 
     # Generate and split the data
-    train, val, test = generate_and_split_data_multiloc(
+    split_data_vals = generate_and_split_data_multiloc(
         locations=LOCATIONS,
         number_of_houses_per_location=number_of_houses,
         seed=seed,
     )
 
     # Parallelly fit the XGBoost model for multiple regions
-    model = parallel_fit(multi_train=train, multi_val=val)
-
     # Generate predictions for multiple regions
-    predictions = parallel_predict(multi_models=model, multi_test=test)
+    predictions = parallel_fit_predict(
+        multi_train=split_data_vals.train_data,
+        multi_val=split_data_vals.val_data,
+        multi_test=split_data_vals.test_data,
+    )
 
     return predictions
 

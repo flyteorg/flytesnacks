@@ -145,10 +145,16 @@ def split_data(
 # -----------------------------------------------
 #
 # Train, validation, and test datasets are DataFrames.
+dataset = typing.NamedTuple(
+    "GenerateSplitDataOutputs",
+    train_data=pd.DataFrame,
+    val_data=pd.DataFrame,
+    test_data=pd.DataFrame,
+)
+
+
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
-def generate_and_split_data(
-    loc: str, number_of_houses: int, seed: int
-) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
+def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
     _houses = gen_houses(number_of_houses)
     return split_data(_houses, seed, split=SPLIT_RATIOS)
 
@@ -158,10 +164,11 @@ def generate_and_split_data(
 # ------------------------------------------
 #
 # Serialize the XGBoost model using joblib and store the model in a dat file.
+model_file = typing.NamedTuple("Model", model=FlyteFile[typing.TypeVar("joblib.dat")])
+
+
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def fit(
-    loc: str, train: pd.DataFrame, val: pd.DataFrame
-) -> FlyteFile[typing.TypeVar("joblib.dat")]:
+def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> model_file:
 
     # Fetch the input and output data from train dataset
     x = train[train.columns[1:]]
@@ -215,18 +222,22 @@ def house_price_predictor_trainer(
 ) -> typing.List[float]:
 
     # Generate and split the data
-    train, val, test = generate_and_split_data(
-        loc="NewYork_NY", number_of_houses=number_of_houses, seed=seed
+    split_data_vals = generate_and_split_data(
+        number_of_houses=number_of_houses, seed=seed
     )
 
     # Fit the XGBoost model
-    model = fit(loc="NewYork_NY", train=train, val=val)
+    model = fit(
+        loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data
+    )
 
     # Generate predictions
-    predictions = predict(model_ser=model, test=test)
+    predictions = predict(model_ser=model.model, test=split_data_vals.test_data)
 
     return predictions
 
 
 # %%
-# You can call the ``house_price_predictor_trainer`` workflow to print the predictions. However, our goal is to expand this to multiple regions. Thus, the tasks and helper functions defined here are called in the other Python script.
+# Trigger the workflow locally by calling the workflow function.
+if __name__ == "__main__":
+    print(house_price_predictor_trainer())
