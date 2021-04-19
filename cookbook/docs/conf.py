@@ -275,10 +275,11 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
-    "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/master/", None),
+    "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
