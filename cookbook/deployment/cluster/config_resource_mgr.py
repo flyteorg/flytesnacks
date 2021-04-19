@@ -1,0 +1,3 @@
+"""
+Configuring Your Resource Manager
+"""
