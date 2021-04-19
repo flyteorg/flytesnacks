@@ -1,4 +1,4 @@
-Tutorials
+User Guide
 =========
 
 These tutorials are intended to help the user learn by example. We start with various concepts in flyte and flytekit with examples and
@@ -12,44 +12,115 @@ Main Sections
 * :ref:`Case Studies <sphx_glr_auto_case_studies>` - These are examples that showcase the power of Flyte.
 * :ref:`Plugins Examples <plugins_main>` - This section details flytekit extensibility
 
+
 .. toctree::
    :maxdepth: 4
    :hidden:
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   Tutorials <self>
+   User Guide <self>
+   Concepts <https://docs.flyte.org/en/latest/dive_deep/index.html>
    reference/index
    Community <https://docs.flyte.org/en/latest/community/index.html>
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Examples
+   :maxdepth: 1
+   :caption: Flyte Basics
    :hidden:
 
-   tutorial
-   core
-   auto_core_basic/index
-   auto_core_intermediate/index
-   auto_core_advanced/index
-   auto_core_remote_flyte/index
+   auto_core_flyte_basics/task
+   auto_core_flyte_basics/basic_workflow
+   auto_core_flyte_basics/imperative_wf_style
+   auto_core_flyte_basics/lp
+   auto_core_flyte_basics/task_cache
+   auto_core_flyte_basics/files
+   auto_core_flyte_basics/folders
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Control Flow
+   :hidden:
+
+   auto_core_control_flow/run_conditions
+   auto_core_control_flow/subworkflows
+   auto_core_control_flow/dynamics
+   auto_core_control_flow/map_task
+   auto_core_control_flow/run_merge_sort
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Type System
+   :hidden:
+
+   auto_type_system/core
+   auto_type_system/schema
+   auto_type_system/typed_schema
+   auto_type_system/custom_objects
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Testing
+   :hidden:
+
+   auto_testing/mocking
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Containerization
+   :hidden:
+
+   auto_core_containerization/raw_container
+   auto_core_containerization/multi_images
+   auto_core_containerization/use_secrets
+   auto_core_containerization/spot_instances
+   auto_core_containerization/workflow_labels_annotations
 
 .. toctree::
    :maxdepth: 4
-   :caption: Case Studies
+   :caption: Deployment
    :hidden:
 
-   case_studies
+   auto_deployment_workflow/index
+   auto_deployment_cluster/index
+   auto_deployment_guides/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Control Plane
+   :hidden:
+
+   auto_control_plane/register_project
+   auto_control_plane/run_task
+   auto_control_plane/run_workflow
 
 .. toctree::
    :maxdepth: 4
-   :caption: Flytekit Plugins
+   :caption: Integrations
    :hidden:
 
    plugins
-   auto_plugins_pod/index
-   auto_plugins_k8s_spark/index
-   auto_plugins_papermilltasks/index
-   auto_plugins_hive/index
-   auto_plugins_sagemaker_training/index
-   auto_plugins_kfpytorch/index
-   auto_plugins_sagemaker_pytorch/index
+   backend_plugins
+   flytekit_plugins
+   kubernetes
+   aws
+   gcp
+   external_services
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Extending Flyte
+   :hidden:
+
+   auto_core_extend_flyte/introduction
+   auto_core_extend_flyte/custom_task_plugin
+   auto_core_extend_flyte/run_custom_types
+   auto_core_extend_flyte/backend_plugins
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorials
+   :hidden:
+
+   ml_training
+   data_processing
+   ml_monitoring
