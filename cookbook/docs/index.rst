@@ -111,10 +111,10 @@ Main Sections
    :caption: Extending Flyte
    :hidden:
 
-   auto_core_extend_flyte/introduction
+   extend_flyte_introduction
    auto_core_extend_flyte/custom_task_plugin
    auto_core_extend_flyte/run_custom_types
-   auto_core_extend_flyte/backend_plugins
+   extend_flyte_backend_plugins
 
 .. toctree::
    :maxdepth: 1
