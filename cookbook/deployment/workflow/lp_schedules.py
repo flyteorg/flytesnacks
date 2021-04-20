@@ -28,7 +28,7 @@ def date_formatter_wf(kickoff_time: datetime):
 
 # %%
 # Cron Expression
-# ---------------
+# ===============
 # Cron expression strings use the `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`_.
 # These are validated at launch plan registration time.
 from flytekit import CronSchedule, LaunchPlan
@@ -46,7 +46,7 @@ cron_lp = LaunchPlan.create(
 
 # %%
 # Fixed Rate
-# ----------
+# ==========
 # If you prefer to use an interval rather than the cron syntax to schedule your workflows, this is currently supported
 # for Flyte deployments hosted on AWS.
 # To run ``date_formatter_wf`` every 10 minutes read on below:

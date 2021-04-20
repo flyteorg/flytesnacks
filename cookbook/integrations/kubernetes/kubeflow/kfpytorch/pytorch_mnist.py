@@ -28,7 +28,7 @@ WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
 # %%
 # Actual model
-# -------------
+# ============
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -50,7 +50,7 @@ class Net(nn.Module):
 
 # %%
 # Trainer
-# -------
+# =======
 def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -76,7 +76,7 @@ def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
 
 # %%
 # Test the model
-# ----------------
+# ==============
 def test(model, device, test_loader, writer, epoch):
     model.eval()
     test_loss = 0
@@ -117,7 +117,7 @@ def is_distributed():
 
 # %%
 # Training Hyperparameters
-# -------------------------
+# ========================
 #
 @dataclass_json
 @dataclass
@@ -146,7 +146,7 @@ class Hyperparameters(object):
 
 # %%
 # Actual Training algorithm
-# ---------------------------
+# =========================
 # The output model using `torch.save` saves the `state_dict` as described
 # `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
 # A common convention is to have the ``.pt`` extension for the file
@@ -258,7 +258,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
 
 # %%
 # Let us plot the accuracy
-# -------------------------
+# ========================
 # We will output the accuracy plot as a PNG image
 @task
 def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
@@ -275,7 +275,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
 
 # %%
 # Create a pipeline
-# ------------------
+# =================
 # now the training and the plotting can be together put into a pipeline, in which case the training is performed first
 # followed by the plotting of the accuracy. Data is passed between them and the workflow itself outputs the image and
 # the serialize model
@@ -290,7 +290,7 @@ def pytorch_training_wf(
 
 # %%
 # Run the model locally
-# ----------------------
+# =====================
 # It is possible to run the model locally with almost no modifications (as long as the code takes care of the resolving
 # if distributed or not)
 if __name__ == "__main__":
@@ -304,7 +304,7 @@ if __name__ == "__main__":
 # .. _pytorch_tensorboard:
 #
 # Rendering the output logs in tensorboard
-# -----------------------------------------
+# ========================================
 # When running locally, the output of execution looks like
 #
 # .. code-block::

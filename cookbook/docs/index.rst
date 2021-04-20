@@ -80,9 +80,9 @@ Main Sections
    :caption: Deployment
    :hidden:
 
-   auto_deployment_workflow/index
-   auto_deployment_cluster/index
-   auto_deployment_guides/index
+   workflow
+   cluster
+   guides
 
 .. toctree::
    :maxdepth: 1
