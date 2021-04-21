@@ -8,6 +8,7 @@ or injected into a file.
 
 """
 import os
+
 import flytekit
 
 # %%
@@ -60,9 +61,15 @@ PASSWORD_SECRET = "password"
 # %%
 # The Secret structure allows passing two fields, matching the key and the group, as previously described:
 @task(
-    secret_requests=[Secret(key=USERNAME_SECRET, group=SECRET_GROUP), Secret(key=PASSWORD_SECRET, group=SECRET_GROUP)])
+    secret_requests=[
+        Secret(key=USERNAME_SECRET, group=SECRET_GROUP),
+        Secret(key=PASSWORD_SECRET, group=SECRET_GROUP),
+    ]
+)
 def user_info_task() -> (str, str):
-    secret_username = flytekit.current_context().secrets.get(SECRET_GROUP, USERNAME_SECRET)
+    secret_username = flytekit.current_context().secrets.get(
+        SECRET_GROUP, USERNAME_SECRET
+    )
     secret_pwd = flytekit.current_context().secrets.get(SECRET_GROUP, PASSWORD_SECRET)
     # Please do not print the secret value, this is just a demonstration.
     print(f"{secret_username}={secret_pwd}")
@@ -75,7 +82,15 @@ def user_info_task() -> (str, str):
 # keys (certs etc). Another reason may be that a dependent library necessitates that the secret be available as a file.
 # In these scenarios you can specify the mount_requirement. In the following example we force the mounting to be
 # and Env variable
-@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.MountType.ENV_VAR)])
+@task(
+    secret_requests=[
+        Secret(
+            group=SECRET_GROUP,
+            key=SECRET_NAME,
+            mount_requirement=Secret.MountType.ENV_VAR,
+        )
+    ]
+)
 def secret_file_task() -> (str, str):
     # SM here is a handle to the secrets manager
     sm = flytekit.current_context().secrets
@@ -103,8 +118,12 @@ from flytekit.testing import SecretsManager
 if __name__ == "__main__":
     sec = SecretsManager()
     os.environ[sec.get_secrets_env_var(SECRET_GROUP, SECRET_NAME)] = "value"
-    os.environ[sec.get_secrets_env_var(SECRET_GROUP, USERNAME_SECRET)] = "username_value"
-    os.environ[sec.get_secrets_env_var(SECRET_GROUP, PASSWORD_SECRET)] = "password_value"
+    os.environ[
+        sec.get_secrets_env_var(SECRET_GROUP, USERNAME_SECRET)
+    ] = "username_value"
+    os.environ[
+        sec.get_secrets_env_var(SECRET_GROUP, PASSWORD_SECRET)
+    ] = "password_value"
     x, y, z, f, s = my_secret_workflow()
     assert x == "value"
     assert y == "username_value"
