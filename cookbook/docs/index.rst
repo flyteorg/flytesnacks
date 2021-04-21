@@ -19,6 +19,7 @@ Main Sections
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
    User Guide <self>
+   Tutorials <tutorials>
    Concepts <https://docs.flyte.org/en/latest/dive_deep/index.html>
    reference/index
    Community <https://docs.flyte.org/en/latest/community/index.html>
@@ -115,12 +116,3 @@ Main Sections
    auto_core_extend_flyte/custom_task_plugin
    auto_core_extend_flyte/run_custom_types
    extend_flyte_backend_plugins
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-   :hidden:
-
-   ml_training
-   data_processing
-   ml_monitoring
