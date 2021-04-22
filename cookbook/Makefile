@@ -51,8 +51,8 @@ all_register: ## Builds, pushes and registers all docker images, workflows and t
 .PHONY: all_serialize
 all_serialize: # Builds and serializes all docker images, workflows and tasks in all sub directories.
 	$(MAKE) -C core serialize
-	$(MAKE) -C plugins all_serialize
-	$(MAKE) -C case_studies all_serialize
+	# $(MAKE) -C plugins all_serialize
+	# $(MAKE) -C case_studies all_serialize
 
 .PHONY: all_docker_push
 all_docker_push: # Builds and pushes all docker images.
