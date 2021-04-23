@@ -18,101 +18,33 @@ Main Sections
    :hidden:
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   User Guide <self>
-   Tutorials <tutorials>
-   Concepts <https://docs.flyte.org/en/latest/dive_deep/index.html>
+   Cookbook <self>
+   Concepts <https://docs.flyte.org/en/latest/concepts/core.html>
    reference/index
    Community <https://docs.flyte.org/en/latest/community/index.html>
 
 .. toctree::
    :maxdepth: 1
-   :caption: Flyte Basics
+   :caption: User Guide
    :hidden:
 
-   auto_core_flyte_basics/task
-   auto_core_flyte_basics/basic_workflow
-   auto_core_flyte_basics/imperative_wf_style
-   auto_core_flyte_basics/lp
-   auto_core_flyte_basics/task_cache
-   auto_core_flyte_basics/files
-   auto_core_flyte_basics/folders
+   flyte_basics
+   control_flow
+   type_system
+   testing
+   containerization
+   deployment
+   control_plane
+   integrations 
+   extending_flyte
 
 .. toctree::
    :maxdepth: 1
-   :caption: Control Flow
+   :caption: Tutorials
    :hidden:
 
-   auto_core_control_flow/run_conditions
-   auto_core_control_flow/subworkflows
-   auto_core_control_flow/dynamics
-   auto_core_control_flow/map_task
-   auto_core_control_flow/run_merge_sort
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Type System
-   :hidden:
-
-   auto_type_system/core
-   auto_type_system/schema
-   auto_type_system/typed_schema
-   auto_type_system/custom_objects
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Testing
-   :hidden:
-
-   auto_testing/mocking
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Containerization
-   :hidden:
-
-   auto_core_containerization/raw_container
-   auto_core_containerization/multi_images
-   auto_core_containerization/use_secrets
-   auto_core_containerization/spot_instances
-   auto_core_containerization/workflow_labels_annotations
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Deployment
-   :hidden:
-
-   workflow
-   cluster
-   guides
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Control Plane
-   :hidden:
-
-   auto_control_plane/register_project
-   auto_control_plane/run_task
-   auto_control_plane/run_workflow
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Integrations
-   :hidden:
-
-   plugins
-   backend_plugins
-   flytekit_plugins
-   kubernetes
-   aws
-   gcp
-   external_services
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Extending Flyte
-   :hidden:
-
-   extend_flyte_introduction
-   auto_core_extend_flyte/custom_task_plugin
-   auto_core_extend_flyte/run_custom_types
-   extend_flyte_backend_plugins
+   ml_training
+   data_processing
+   ml_monitoring
+   feature_engineering
+   batch_prediction
