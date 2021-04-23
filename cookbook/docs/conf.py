@@ -130,8 +130,6 @@ master_doc = "index"
 pygments_style = "tango"
 pygments_dark_style = "native"
 
-html_css_files = ["custom.css"]
-
 html_context = {
     "home_page": "https://docs.flyte.org",
 }
@@ -163,6 +161,7 @@ html_theme_options = {
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 
+html_favicon = "flyte_circle_gradient_1_4x4.png"
 html_logo = "flyte_circle_gradient_1_4x4.png"
 
 examples_dirs = [

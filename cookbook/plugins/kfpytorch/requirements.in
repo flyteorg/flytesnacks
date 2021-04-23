@@ -1,4 +1,4 @@
--r ../../common/requirements-common.in
+-r ../../../../common/requirements-common.in
 flytekitplugins-kfpytorch>=0.16.0
 tensorboardX
 torch

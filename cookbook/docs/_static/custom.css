@@ -1,5 +1,38 @@
-h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+.sidebar-tree > :not(:first-child) {
+  display: none;
+}
+
+.sidebar-tree ul:first-child {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.sidebar-tree > ul:not(:first-child) {
+  border-left: 1px solid rgb(206, 206, 206);
+  margin-left: 20px;
+}
+
+.sidebar-tree ul:first-child li:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .sidebar-drawer {
+    width: 20em;
+  }
+}
+
+.sidebar-container {
+  width: 20em;
 }
 
 .sidebar-logo {

@@ -13,44 +13,51 @@ Main Sections
 * :ref:`Plugins Examples <plugins_main>` - This section details flytekit extensibility
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
    :hidden:
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   Tutorials <self>
-   reference/index
+   User Guide <user_guide>
+   Tutorials <tutorials>
+   Concepts <https://docs.flyte.org/en/latest/basics/flyte_ui.html>
+   API Reference <https://docs.flyte.org/en/latest/reference/index.html>
    Community <https://docs.flyte.org/en/latest/community/index.html>
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Examples
+   :maxdepth: -1
+   :caption: Tutorials
    :hidden:
 
-   tutorial
-   core
-   auto_core_basic/index
-   auto_core_intermediate/index
-   auto_core_advanced/index
-   auto_core_remote_flyte/index
+   Introduction <tutorials>
+   ml_training
+   data_processing
+   ml_monitoring
+   feature_engineering
+   batch_prediction
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Case Studies
+   :maxdepth: -1
+   :caption: User Guide
    :hidden:
 
-   case_studies
+   Introduction <user_guide>
+   Flyte Basics <auto_core_flyte_basics/index>
+   Control Flow <auto_core_control_flow/index>
+   Type System <auto_type_system/index>
+   Testing <auto_testing/index>
+   Containerization <auto_core_containerization/index>
+   deployment
+   Control Plane <auto_control_plane/index>
+   integrations 
+   extending_flyte
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Flytekit Plugins
+   :maxdepth: 1
+   :caption: Tutorials
    :hidden:
 
-   plugins
-   auto_plugins_pod/index
-   auto_plugins_k8s_spark/index
-   auto_plugins_pandera/index
-   auto_plugins_papermilltasks/index
-   auto_plugins_hive/index
-   auto_plugins_sagemaker_training/index
-   auto_plugins_kfpytorch/index
-   auto_plugins_sagemaker_pytorch/index
+   ml_training
+   data_processing
+   ml_monitoring
+   feature_engineering
+   batch_prediction

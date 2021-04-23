@@ -1,6 +1,6 @@
-.. _intermediate:
+.. _controlflow:
 
-Intermediate Examples: Custom Objects, Schema, Conditions, Dynamic, SubWorkflows etc
+Control Flow: Conditionals, Map Tasks, Dynamic Tasks
 -------------------------------------------------------------------------------------
 Once you have completed the beginner section, the intermediate section provides more intricate examples.
 These examples touch more complex features of Flyte - like conditions, dynamic workflows, structured large objects
