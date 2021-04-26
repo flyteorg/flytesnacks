@@ -8,7 +8,7 @@ from flytekit.types.schema import FlyteSchema
 EXAMPLE_DB = "https://cdn.sqlitetutorial.net/wp-content/uploads/2018/03/chinook.zip"
 
 sql_task = SQLite3Task(
-    "cookbook.sqlite3.sample",
+    name="cookbook.sqlite3.sample",
     query_template="select TrackId, Name from tracks limit {{.inputs.limit}}",
     inputs=kwtypes(limit=int),
     output_schema_type=FlyteSchema[kwtypes(TrackId=int, Name=str)],
