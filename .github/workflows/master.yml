@@ -41,7 +41,6 @@ jobs:
           make all_requirements
           make all_serialize
           make archive
-          make cleanup
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
