@@ -1,7 +1,6 @@
 name: Build & Push SageMaker Pytorch Plugin Docker Image
 
 on:
-  pull_request:
   create:
     tags:
       - v*

@@ -1,7 +1,6 @@
 name: Build & Push Papermill Plugin Docker Image
 
 on:
-  pull_request:
   create:
     tags:
       - v*

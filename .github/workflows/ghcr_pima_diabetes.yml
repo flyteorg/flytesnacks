@@ -1,7 +1,6 @@
 name: Build and Push Pima Diabetes Docker Images
 
 on:
-  pull_request:
   create:
     tags:
       - v*

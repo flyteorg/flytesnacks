@@ -1,7 +1,9 @@
 name: Build and Push Core Docker Images
 
 on:
-  pull_request:
+  create:
+    tags:
+      - v*
 
 jobs:
   push-github:
