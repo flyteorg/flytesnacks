@@ -2,9 +2,6 @@
 
 set -e
 
-tar -zcvf ./release-snacks/flytesnacks-core.tar.gz  ./core/_pb_output
-
-allPluginSnacks=("hive","k8s-spark","pod")
-for plugin in ${allSnacks[@]}; do
-  tar -zcvf ./release-snacks/flytesnacks-${plugin}.tar.gz  ./${plugin}/_pb_output
+for row in $(cat flytetester.json | jq -c '.[]'); do
+  echo "tar -zcvf ./release-snacks/flytesnacks-$(echo ${row} | jq -r '.name').tar.gz  ./$(echo ${row} | jq -r '.path')/_pb_output"
 done

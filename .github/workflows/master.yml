@@ -38,6 +38,7 @@ jobs:
       - name: Generate Serialize proto
         run: |
           cd cookbook
+          apt-get install -y jq
           make all_requirements
           make all_serialize
           make archive
