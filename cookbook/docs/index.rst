@@ -18,16 +18,30 @@ Main Sections
    :hidden:
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   Cookbook <self>
-   Concepts <https://docs.flyte.org/en/latest/concepts/core.html>
+   User Guide <user_guide>
+   Tutorials <tutorials>
+   Concepts <https://docs.flyte.org/en/latest/basics/flyte_ui.html>
    reference/index
    Community <https://docs.flyte.org/en/latest/community/index.html>
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Tutorials
+   :hidden:
+
+   tutorials
+   ml_training
+   data_processing
+   ml_monitoring
+   feature_engineering
+   batch_prediction
 
 .. toctree::
    :maxdepth: 1
    :caption: User Guide
    :hidden:
 
+   user_guide
    flyte_basics
    control_flow
    type_system
@@ -37,14 +51,3 @@ Main Sections
    control_plane
    integrations 
    extending_flyte
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Tutorials
-   :hidden:
-
-   ml_training
-   data_processing
-   ml_monitoring
-   feature_engineering
-   batch_prediction
