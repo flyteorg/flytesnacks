@@ -12,7 +12,7 @@ sql_task = SQLite3Task(
     query_template="select TrackId, Name from tracks limit {{.inputs.limit}}",
     inputs=kwtypes(limit=int),
     output_schema_type=FlyteSchema[kwtypes(TrackId=int, Name=str)],
-    task_config=SQLite3Config(uri=EXAMPLE_DB, compressed=True,),
+    task_config=SQLite3Config(uri=EXAMPLE_DB, compressed=True),
 )
 
 
