@@ -56,8 +56,9 @@ start: ## Start a local Flyte sandbox
 	$(call RUN_IN_SANDBOX, wait-for-flyte.sh)
 
 	$(call LOG,Registering examples from commit: latest)
-	REGISTRY=ghcr.io/flyteorg VERSION=latest $(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
-	
+	FLYTESNACK_VERSION=$(curl --silent "https://api.github.com/repos/flyteorg/flytesnacks/releases/latest" | jq -r .tag_name)
+	$(call RUN_IN_SANDBOX,flytectl register files  https://github.com/flyteorg/flytesnacks/release/releases/download/$(FLYTESNACK_VERSION)/flytesnacks-Core.tgz -d development -p flytesnacks )
+
 	echo "Flyte is ready! Flyte UI is available at http://localhost:$(FLYTE_PROXY_PORT)/console."
 
 .PHONY: teardown
