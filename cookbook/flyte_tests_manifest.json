@@ -1,13 +1,13 @@
  [{
     "name": "Core",
     "priority": "P0",
-    "path": "core/",
+    "path": "core",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
     }
   },{
-    "name": "Plugin-Hive",
+    "name": "Plugin-hive",
     "priority": "P1",
     "path": "plugins/hive",
     "exitCondition": {
@@ -15,7 +15,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-Pod",
+    "name": "Plugins-pod",
     "priority": "P1",
     "path": "plugins/pod",
     "exitCondition": {
@@ -39,9 +39,9 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-pendera",
+    "name": "Plugins-pandera",
     "priority": "P1",
-    "path": "plugins/pendera",
+    "path": "plugins/pandera",
     "exitCondition": {
       "exit_success": true,
         "exit_message": ""

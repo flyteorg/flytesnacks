@@ -1,6 +1,6 @@
 _build/
 _pb_output/
-release-snacks/*.tar.gz
+release-snacks/*.tgz
 .bash_history
 .cache/
 .ipython/

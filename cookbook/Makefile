@@ -75,4 +75,4 @@ all_clean: # Cleans build directories (e.g. _pb_output/)
 
 .PHONY: archive
 archive: # archive directories (e.g. _pb_output/)
-    sh scripts/archive-all-example.sh
+	sh scripts/archive-all-example.sh

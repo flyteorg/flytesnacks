@@ -37,11 +37,13 @@ jobs:
           go-version: 1.14
       - name: Generate Serialize proto
         run: |
-          cd cookbook
-          apt-get install -y jq
-          make all_requirements
-          make all_serialize
-          make archive
+          make -C cookbook all_requirements
+          make -C cookbook all_serialize
+          make -C cookbook archive
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+          ref: ${{ steps.bump-version.outputs.tag }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
