@@ -1,5 +1,5 @@
  [{
-    "name": "Core",
+    "name": "core",
     "priority": "P0",
     "path": "core",
     "exitCondition": {
@@ -15,7 +15,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-pod",
+    "name": "plugins-pod",
     "priority": "P1",
     "path": "plugins/pod",
     "exitCondition": {
@@ -23,7 +23,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-k8s-spark",
+    "name": "plugins-k8s-spark",
     "priority": "P1",
     "path": "plugins/k8s_spark",
     "exitCondition": {
@@ -31,7 +31,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-kfpytorch",
+    "name": "plugins-kfpytorch",
     "priority": "P1",
     "path": "plugins/kfpytorch",
     "exitCondition": {
@@ -39,7 +39,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-pandera",
+    "name": "plugins-pandera",
     "priority": "P1",
     "path": "plugins/pandera",
     "exitCondition": {
@@ -47,7 +47,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-papermilltasks",
+    "name": "plugins-papermilltasks",
     "priority": "P1",
     "path": "plugins/papermilltasks",
     "exitCondition": {
@@ -55,7 +55,7 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-sagemaker-pytorch",
+    "name": "plugins-sagemaker-pytorch",
     "priority": "P1",
     "path": "plugins/sagemaker_pytorch",
     "exitCondition": {
@@ -63,12 +63,28 @@
         "exit_message": ""
     }
   },{
-    "name": "Plugins-sagemaker-training",
+    "name": "plugins-sagemaker-training",
     "priority": "P1",
     "path": "plugins/sagemaker_training",
     "exitCondition": {
       "exit_success": true,
         "exit_message": ""
     }
-  }]
+  },{
+   "name": "case-studies-house-price-predication",
+   "priority": "P2",
+   "path": "case_studies/house_price_prediction",
+   "exitCondition": {
+     "exit_success": true,
+     "exit_message": ""
+   }
+ },{
+   "name": "case-studies-pima-diabetes",
+   "priority": "P2",
+   "path": "case_studies/pima-diabetes",
+   "exitCondition": {
+     "exit_success": true,
+     "exit_message": ""
+   }
+ }]
 
