@@ -1,4 +1,4 @@
-export REPOSITORY=flytepropeller
+export REPOSITORY=flytesnacks
 
 .SILENT:
 
