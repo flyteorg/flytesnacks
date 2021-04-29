@@ -53,7 +53,7 @@ The backend plugin is where the actual logic of the execution is implemented. Th
 Kubernetes operator Plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. CAUTION::
+.. NOTE::
 
       Coming soon 🛠
   
@@ -61,7 +61,7 @@ Kubernetes operator Plugin
 Web API plugin
 ^^^^^^^^^^^^^^^
 
-.. CAUTION::
+.. NOTE::
 
       Coming soon 🛠
   
@@ -69,7 +69,7 @@ Web API plugin
 Catch-all - Core Plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. CAUTION::
+.. NOTE::
 
       Coming soon 🛠
   

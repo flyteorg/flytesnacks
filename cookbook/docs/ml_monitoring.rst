@@ -2,6 +2,6 @@
 ML Monitoring
 ################
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠

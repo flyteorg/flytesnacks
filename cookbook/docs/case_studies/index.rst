@@ -3,6 +3,6 @@ Real world examples of using Flytekit
 ####################################################
 
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠

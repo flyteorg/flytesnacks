@@ -2,6 +2,6 @@
 Feature Engineering
 ###################
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠

@@ -2,6 +2,6 @@
 Batch Predictions
 #################
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠

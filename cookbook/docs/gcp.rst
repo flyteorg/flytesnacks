@@ -2,6 +2,6 @@
 GCP
 ###
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠

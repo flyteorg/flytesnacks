@@ -14,7 +14,7 @@ When & How to Extend Flyte
     auto_core_extend_flyte/run_custom_types
     extend_flyte_backend_plugins
 
-.. caution:: These docs are still work in progress. Please read through and if you have any questions don't shy away from either filing a github issue or ping us in the Slack channel. The community loves plugins and would love to help you in any way.
+.. NOTE:: These docs are still work in progress. Please read through and if you have any questions don't shy away from either filing a github issue or ping us in the Slack channel. The community loves plugins and would love to help you in any way.
 
 The Core of Flyte is a container execution engine, where you can write one or more tasks and string them together to form a data dependency DAG - called a ``workflow``.
 If your work involves writing simple python or java tasks that can either perform operations on their own or can call out to external services - then there is **NO NEED to extend FLYTE**.

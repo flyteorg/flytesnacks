@@ -2,6 +2,6 @@
 Data Processing
 ###############
 
-.. CAUTION::
+.. NOTE::
 
     Coming soon 🛠
