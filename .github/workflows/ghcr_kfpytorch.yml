@@ -29,4 +29,4 @@ jobs:
           registry: ghcr.io
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:kfpytorch-${{ github.sha }}"
           context: ./cookbook/integrations
-          dockerfile: kubernetes/kubeflow/kfpytorch/Dockerfile
+          dockerfile: kubernetes/kfpytorch/Dockerfile

@@ -1,2 +1,2 @@
-PREFIX=papermill
+PREFIX=sagemaker_pytorch
 include ../../../common/Makefile

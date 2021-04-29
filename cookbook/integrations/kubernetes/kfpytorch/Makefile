@@ -1,2 +1,2 @@
-PREFIX=papermill
+PREFIX=kfpytorch
 include ../../../common/Makefile

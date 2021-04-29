@@ -7,5 +7,5 @@ AWS
     :caption: Contents
 
     auto_integrations_aws_athena/index
-    auto_integrations_aws_sagemaker_sagemaker_training/index
-    auto_integrations_aws_sagemaker_sagemaker_pytorch/index
+    auto_integrations_aws_sagemaker_training/index
+    auto_integrations_aws_sagemaker_pytorch/index

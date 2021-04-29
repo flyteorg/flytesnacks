@@ -1,2 +1,2 @@
 PREFIX=pod
-include ../../common/Makefile
+include ../../../common/Makefile

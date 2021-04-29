@@ -61,6 +61,7 @@ External Service Backend Plugins
 .. toctree::
     :maxdepth: -1
     :caption: Integrations
+    :hidden:
  
     flytekit_plugins
     kubernetes
