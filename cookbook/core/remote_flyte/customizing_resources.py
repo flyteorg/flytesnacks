@@ -25,9 +25,9 @@ Flytekit makes it possible to specify these requirements declaratively and close
 # #. ``mem``
 # #. ``gpu``
 #
-# It is not necessary to adjust admission controllers for gpu nodes, but they will need to be configured with a taint. 
+# To ensure regular tasks that do not require GPUs are not scheduled on GPU nodes, a separate node group for GPU nodes can be configured with taints.
 #
-# To ensure that the regular tasks do not get shceduled on a gpu node, set up flytepropeller using the following `configuration <https://github.com/flyteorg/flytepropeller/blob/master/config.yaml#L51,L56>`_.
+# To ensure tasks that do require GPUs get the needed tolerations on their pods, set up flytepropeller using the following `configuration <https://github.com/flyteorg/flytepropeller/blob/master/config.yaml#L51,L56>`_.
 #
 # The ``storage`` resources option is not yet supported, but coming soon.
 #
