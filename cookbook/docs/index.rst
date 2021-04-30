@@ -4,8 +4,8 @@
    :hidden:
 
    Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   User Guide <https://docs.flyte.org/en/latest/user_guide.html>
-   Tutorials <https://docs.flyte.org/en/latest/tutorials.html>
+   User Guide <https://docs.flyte.org/projects/cookbook/en/latest/user_guide.html>
+   Tutorials <https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html>
    Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
    API Reference <https://docs.flyte.org/en/latest/reference/index.html>
    Community <https://docs.flyte.org/en/latest/community/index.html>
