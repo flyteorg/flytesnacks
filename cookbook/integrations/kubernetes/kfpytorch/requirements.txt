@@ -129,11 +129,13 @@ stringcase==1.2.0
     # via dataclasses-json
 tensorboardx==2.1
     # via -r requirements.in
-torch==1.8.0
+    # torch==1.8.1+cpu doesn't work currently.Hence using the wheel link directly.
+https://download.pytorch.org/whl/cpu/torch-1.8.1%2Bcpu-cp38-cp38-linux_x86_64.whl
     # via
     #   -r requirements.in
     #   torchvision
-torchvision==0.9.0
+    # torchvision==0.9.1+cpu doesn't work currently.Hence using the wheel link directly. 
+https://download.pytorch.org/whl/cpu/torchvision-0.9.1%2Bcpu-cp38-cp38-linux_x86_64.whl
     # via -r requirements.in
 typing-extensions==3.7.4.3
     # via
