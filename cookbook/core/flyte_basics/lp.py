@@ -1,6 +1,4 @@
 """
-.. _launch_plans:
-
 Launch Plans
 -------------
 
