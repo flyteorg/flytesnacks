@@ -4,4 +4,4 @@ ENV FLYTE_INTERNAL_IMAGE=flytecli-sqlite3:v0.1.0
 
 RUN pip install awscli
 
-RUN pip install -U https://github.com/flyteorg/flytekit/archive/683c821aa13777222af07aa043e9cbf3fb42eb43.zip#egg=flytekit
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/d6bd796b73b5525493fec345712cc65eb6c170e5.zip#egg=flytekit

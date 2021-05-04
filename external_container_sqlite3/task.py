@@ -11,7 +11,7 @@ import pandas as pd
 from flytekit import FlyteContext, kwtypes
 from flytekit.core.base_sql_task import SQLTask
 from flytekit.core.context_manager import SerializationSettings
-from flytekit.core.python_third_party_task import PythonThirdPartyContainerTask
+from flytekit.core.python_customized_container_task import PythonCustomizedContainerTask
 from flytekit.core.shim_task import ShimTaskExecutor
 from flytekit.models import task as task_models
 from flytekit.types.schema import FlyteSchema
@@ -50,7 +50,7 @@ class SQLite3Config(object):
     compressed: bool = False
 
 
-class SQLite3Task(PythonThirdPartyContainerTask[SQLite3Config], SQLTask[SQLite3Config]):
+class SQLite3Task(PythonCustomizedContainerTask[SQLite3Config], SQLTask[SQLite3Config]):
     """
     Makes it possible to run client side SQLite3 queries that optionally return a FlyteSchema object
 
