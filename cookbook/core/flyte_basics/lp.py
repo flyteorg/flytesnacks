@@ -118,9 +118,9 @@ for n in range(7):
 
     from flytekit import LaunchPlan
 
-    sea_launch_plan = LaunchPlan.create(
-        "sea_lp",
-        MyWorkflow,
+    sea_launch_plan = LaunchPlan.get_or_create(
+        name="sea_lp",
+        workflow=MyWorkflow,
         default_inputs={'sample_size': 1000},
         fixed_inputs={'region': 'SEA'},                
     )
