@@ -33,7 +33,7 @@ def return_index(character: str) -> int:
 # %%
 # We now write a task that prepares the 26 characters list by populating the frequency of every character.
 @task
-def prepare_list(freq_list: typing.List[int], list_index: int) -> typing.List[int]:
+def update_list(freq_list: typing.List[int], list_index: int) -> typing.List[int]:
     """
     Notes the frequency of characters"""
     freq_list[list_index] += 1
@@ -55,7 +55,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 # %%
 # In this step, we perform the following:
 #
-# #. Initialize empty 26 characters list to be sent to the ``prepare_list`` task
+# #. Initialize empty 26 characters list to be sent to the ``update_list`` task
 # #. Loop through every character of the first string (s1) and populate the frequency list
 # #. Loop through every character of the second string (s2) and populate the frequency list
 # #. Derive the number of common characters by comparing the two frequency lists
@@ -86,21 +86,23 @@ def count_characters(s1: str, s2: str) -> int:
 
         # index and freq1 are not accesible as they are promises
         index = return_index(character=s1[i])
-        freq1 = prepare_list(freq_list=freq1, list_index=index)
+        freq1 = update_list(freq_list=freq1, list_index=index)
 
     # looping through the string s2
     for i in range(len(s2)):
 
         # index and freq2 are not accesible as they are promises
         index = return_index(character=s2[i])
-        freq2 = prepare_list(freq_list=freq2, list_index=index)
+        freq2 = update_list(freq_list=freq2, list_index=index)
 
     # counting the common characters
     return derive_count(freq1=freq1, freq2=freq2)
 
 
 # %%
-# When tasks are called within any workflow, they return Promise objects. Likewise, in a dynamic workflow, the tasks' outputs are Promise objects that cannot be directly accessed (they shall be fulfilled by Flyte later). To get around this problem, the values need to be passed to the other tasks to unwrap them.
+# When tasks are called within any workflow, they return Promise objects. Likewise, in a dynamic workflow, the tasks' outputs are Promise objects that cannot be directly accessed (they shall be fulfilled by Flyte later).
+# Because of this fact, operations on the ``index variable`` (say) like ``index + 1`` are not valid.
+# To get around this problem, the values need to be passed to the other tasks to unwrap them.
 #
 # A point to note is, local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a task that shall run with the Python native inputs.
 
