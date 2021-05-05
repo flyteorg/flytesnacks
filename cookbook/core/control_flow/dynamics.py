@@ -16,7 +16,7 @@ Output: 3
 # Let's first import all the required libraries.
 import typing
 
-from flytekit import task, dynamic, workflow
+from flytekit import dynamic, task, workflow
 
 # %%
 # Next, we write a task that returns the index of a character (A-Z/a-z is equivalent to 0 to 25).
