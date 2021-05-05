@@ -104,8 +104,8 @@ def count_characters(s1: str, s2: str) -> int:
 # Because of this fact, operations on the ``index variable`` (say) like ``index + 1`` are not valid.
 # To get around this problem, the values need to be passed to the other tasks to unwrap them.
 #
-# A point to note is, local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a task that shall run with the Python native inputs. 
-# Thus, in a local execution, there aren't any Promise objects.
+# A point to note is, local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that shall run with the Python native inputs. 
+# Thus locally, there are no Promise objects within the function decorated with ``@dynamic`` as it is treated as a ``task``.
 
 # %%
 # Finally, we define a workflow that calls the dynamic workflow.
