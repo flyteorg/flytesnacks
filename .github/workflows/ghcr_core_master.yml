@@ -1,6 +1,7 @@
 name: Push Core Examples
 
 on:
+  pull_request:
   create:
     tags:
       - v*
@@ -28,5 +29,5 @@ jobs:
           push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           registry: ghcr.io
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:core-${{ github.sha }}"
-          context: ./cookbook
-          dockerfile: core/Dockerfile
+          context: ./cookbook/core
+          dockerfile: Dockerfile

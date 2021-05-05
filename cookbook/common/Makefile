@@ -154,7 +154,7 @@ fast_register: clean _pb_output ## Packages code and registers without building 
 docker_build:
 	echo "Tagged Image: "
 	echo ${TAGGED_IMAGE}
-	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
+	docker build ${PWD} --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: serialize
 serialize: clean _pb_output docker_build
