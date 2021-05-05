@@ -95,7 +95,7 @@ def count_characters(s1: str, s2: str) -> int:
         index = return_index(character=s2[i])
         freq2 = prepare_list(freq_list=freq2, list_index=index)
 
-    # counts the common characters
+    # counting the common characters
     return derive_count(freq1=freq1, freq2=freq2)
 
 
