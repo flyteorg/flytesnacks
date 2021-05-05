@@ -101,7 +101,7 @@ def count_characters(s1: str, s2: str) -> int:
 
 # %%
 # When tasks are called within any workflow, they return Promise objects. Likewise, in a dynamic workflow, the tasks' outputs are Promise objects that cannot be directly accessed (they shall be fulfilled by Flyte later).
-# Because of this fact, operations on the ``index variable`` (say) like ``index + 1`` are not valid.
+# Because of this fact, operations on the ``index`` variable like ``index + 1`` are not valid.
 # To manage this problem, the values need to be passed to the other tasks to unwrap them.
 #
 # A point to note is that local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs. 
