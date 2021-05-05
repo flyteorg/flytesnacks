@@ -59,6 +59,7 @@ def square(n: int) -> int:
    def hash_string_task(original: str) -> str:
       ...
 
+# %%
 # A task execution is cached based on the **Project, Domain, Cache_version, Task Signature and Inputs** associated with the execution of the task.
 
 # - *Project:* A task run under one project cannot use the cached task execution from another project. This could cause inadvertent results between project teams that could cause data corruption.
