@@ -2,7 +2,7 @@
 Dynamic Workflow
 ----------------
 
-A workflow is typically static where the directed acyclic graph's (DAG) structure is known well ahead of time. However, scenarios could exist where an "unknown" variable only known at run-time could determine the proper DAG structure.
+A workflow is typically static where the directed acyclic graph's (DAG) structure is known at compile-time. However, scenarios exist where a run-time parameter (e.g. the output of an earlier task) determines the full DAG structure.
 
 In such cases, dynamic workflows can be used. Here's a code example that counts the common characters between any two strings.
 
