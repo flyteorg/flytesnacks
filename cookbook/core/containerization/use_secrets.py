@@ -29,7 +29,7 @@ How to Enable Secrets Injection
 
 This feature is available in Flytekit v0.17.0+. Here is how to use Secrets in a task:
 
-The webhook is included in all overlays in this repo. The deployment file creates (mainly) two things; a Job and a Deployment.
+The webhook is included in all overlays in the Flytekit repo. The deployment file creates (mainly) two things; a Job and a Deployment.
 
 1) flyte-pod-webhook-secrets Job: This job runs ``flytepropeller webhook init-certs`` command that issues self-signed
    CA Certificate as well as a derived TLS certificate and its private key. It stores them into a new secret ``flyte-pod-webhook-secret``.
