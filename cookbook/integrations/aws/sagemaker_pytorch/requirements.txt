@@ -4,6 +4,8 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make requirements.txt
 #
+--find-links https://download.pytorch.org/whl/torch_stable.html
+
 attrs==20.3.0
     # via scantree
 bcrypt==3.2.0
