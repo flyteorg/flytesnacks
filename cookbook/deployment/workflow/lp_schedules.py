@@ -177,7 +177,7 @@ fixed_rate_lp = LaunchPlan.create(
 
 # %%        
 # Platform Configuration Changes
-# ------------------------------
+# ##############################
 # 
 # Scheduling features requires additional infrastructure to run so these will have to be created and configured.
 # 
