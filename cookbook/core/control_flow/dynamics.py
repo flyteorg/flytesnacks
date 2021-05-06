@@ -67,7 +67,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 # body of workflows is run at compile (aka registration) time``. Essentially, this is what a dynamic workflow leverages -- it’s a workflow that is compiled at run time (the best of both worlds)!
 #
 # At execution (run) time, Flytekit runs the compilation step, and produces
-# a ``WorkflowTemplate`` (from the dynamic workflow), which Flytekit then passes back to Flyte Propeller for further running, much like how sub-workflows are handled.
+# a ``WorkflowTemplate`` (from the dynamic workflow), which Flytekit then passes back to Flyte Propeller for further running, exactly how sub-workflows are handled.
 #
 # We now define the dynamic workflow encapsulating the above mentioned points.
 @dynamic
