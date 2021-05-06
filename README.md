@@ -11,10 +11,9 @@ To start using Flyte, go to the [Getting started guide](https://docs.flyte.org/e
 After Getting Started, use this repository for a deeper dive.
 
 # Index
-1. [Simple Examples using Flytekit Python](./python)
-2. [Cookbook for recipes to leverage various features of Flytekit Python](./cookbook)
-3. [Examples of using Flyte Plugins in Flytekit Python](./plugins)
-4. [Jupyter Notebook Examples](./notebooks)
-5. [Past Demos examples](./demos)
+1. [Simple Examples using Flytekit Python](./legacy/python)
+1. [Cookbook for recipes to leverage various features of Flytekit Python](./cookbook)
+1. [Jupyter Notebook Examples](./legacy/notebooks)
+1. [Past Demos examples](./legacy/demos)
 
 
