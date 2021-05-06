@@ -6,7 +6,7 @@ Scheduling Workflow Executions With Launch Plans
 For background on launch plans, refer to :any:`launch_plans`.
 
 Launch plans can be set to run automatically on a schedule if the Flyte platform is properly configured.
-The scheduled kick-off time can be used in the workflow as an input.
+Additionally, the scheduled kick-off time can be used in the workflow as input.
 
 """
 
@@ -239,4 +239,3 @@ fixed_rate_lp = LaunchPlan.create(
 # * **region**: this specifies which region AWS clients should will use when creating an SQS subscriber client
 # * **scheduleQueueName**: this is the name of the SQS Queue you've allocated to scheduling workflows
 # * **accountId**: Your AWS `account id <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId>`_
-
