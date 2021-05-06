@@ -27,7 +27,7 @@ Where:
 How to Enable Secrets Injection
 ###############################
 
-This feature is available in Flytekit v0.17.0+. Here is an example of an annotated task: <TODO FlyteSnacks Cross Reference>
+This feature is available in Flytekit v0.17.0+. Here is how to use Secrets in a task:
 
 The webhook is included in all overlays in this repo. The deployment file creates (mainly) two things; a Job and a Deployment.
 
