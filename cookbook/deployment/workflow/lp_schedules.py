@@ -29,7 +29,7 @@ def date_formatter_wf(kickoff_time: datetime):
 
 
 # %%
-# There are two types of schedules: Cron Schedules and Fixed Rate Intervals.
+# The `date_formatter_wf` workflow can be scheduled either using Cron Schedule or Fixed Rate Interval.
 #
 # Cron Schedules
 # ##############
