@@ -1,5 +1,7 @@
--r ../../../../common/requirements-common.in
+-r ../../../common/requirements-common.in
 flytekitplugins-awssagemaker>=0.16.0
-torch
-torchvision
+# torch==1.8.1+cpu doesn't work currently.Hence using the wheel link directly.
+--find-links https://download.pytorch.org/whl/torch_stable.html torch==1.8.1+cpu
+# torchvision==0.9.1+cpu doesn't work currently.Hence using the wheel link directly.
+--find-links https://download.pytorch.org/whl/torch_stable.html torchvision==0.9.1+cpu
 tensorboardX
