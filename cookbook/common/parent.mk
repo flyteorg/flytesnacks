@@ -55,6 +55,15 @@ all_requirements: ## Makes all requirement files in sub directories.
 		make -C $$dir requirements; \
 	done
 
+.PHONY: all_requirements_recurse
+all_requirements_recurse: ## Makes all requirement files in sub directories.
+	echo "processing ${PWD}"
+	for dir in $(SUBDIRS) ; do \
+		echo "processing $$dir"; \
+		make -C $$dir all_requirements; \
+	done
+
+
 .PHONY: all_k3d_load_image
 all_k3d_load_image: 
 	echo "processing ${PWD}"
