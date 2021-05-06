@@ -104,7 +104,7 @@ def count_characters(s1: str, s2: str) -> int:
 # Because of this fact, operations on the ``index`` variable like ``index + 1`` are not valid.
 # To manage this problem, the values need to be passed to the other tasks to unwrap them.
 #
-# A point to note is that local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs. 
+# .. note:: The local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs. 
 # Therefore, there are no Promise objects locally within the function decorated with ``@dynamic`` as it is treated as a ``task``.
 
 # %%
