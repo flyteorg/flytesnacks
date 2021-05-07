@@ -31,7 +31,7 @@ In order to run your workload on spot, you can set interruptible to True. For ex
         return value_to_print + 1
 
 
-By setting this value, Flyte will schedule your task on an ASG with only spot instances. In the case your task gets preempted, Flyte will retry your task on a non-spot instance. This retry will not count towards a retry that a user sets.
+By setting this value, Flyte will schedule your task on an auto-scaling group with only spot instances. In the case your task gets preempted, Flyte will retry your task on a non-spot instance. This retry will not count towards a retry that a user sets.
 
 Which Tasks Should Be Set To Interruptible?
 ===========================================
