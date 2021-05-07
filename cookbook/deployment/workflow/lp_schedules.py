@@ -225,7 +225,7 @@ This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a
 
 #    Failure to configure a workflow executor will result in all your scheduled events piling up silently without ever kicking off workflow executions.
 
-# Again, let's break down a sample config: ::
+# Again, let's break down a sample config:
 
     scheduler:
       eventScheduler:
