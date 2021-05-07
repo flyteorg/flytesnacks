@@ -19,15 +19,15 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /root/Makefile
-COPY sandbox.config /root
+COPY core/sandbox.config /root
 
 # Copy the actual code
-COPY . /root/core
+COPY core /root/core
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
