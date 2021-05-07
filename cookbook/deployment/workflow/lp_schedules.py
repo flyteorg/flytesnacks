@@ -151,6 +151,7 @@ fixed_rate_lp = LaunchPlan.create(
     fixed_inputs={"name": "you"},
 )
 
+This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a fixed-rate scheduler also accepts ``kickoff_time_input_arg`` (which is omitted in this example).
 # %%
 # Activating a Schedule 
 # #####################
