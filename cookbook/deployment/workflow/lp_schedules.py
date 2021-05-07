@@ -227,14 +227,14 @@ This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a
 
 # Again, let's break down a sample config:
 
-    scheduler:
-      eventScheduler:
-        ...
-      workflowExecutor:
-        scheme: "aws"
-        region: "us-east-1"
-        scheduleQueueName: "{{ YOUR QUEUE NAME }}"
-        accountId: "{{ YOUR ACCOUNT ID }}"
+scheduler:
+  eventScheduler:
+    ...
+  workflowExecutor:
+    scheme: "aws"
+    region: "us-east-1"
+    scheduleQueueName: "{{ YOUR QUEUE NAME }}"
+    accountId: "{{ YOUR ACCOUNT ID }}"
 
 # %%            
 # * **scheme**: in this case because AWS is the only cloud back-end supported for executing scheduled workflows, only ``"aws"`` is a valid value. By default, the no-op executor is used.
