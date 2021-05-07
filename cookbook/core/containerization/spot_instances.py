@@ -16,7 +16,6 @@ Generally, most spot instances are obtained for around 2 hours (median), with th
 What Are Interruptible Tasks?
 ======================
 
-Anyone looking to realize cost savings should look into interruptible.
 If specified, the interruptible flag is added to the task definition, and signals to the Flyte engine that it may be scheduled on machines that may be preempted, such as AWS spot instances.  This is low-hanging fruit for any cost-savings initiative. 
 
 Setting Interruptible
