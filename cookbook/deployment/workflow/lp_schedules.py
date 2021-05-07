@@ -122,9 +122,10 @@ assigned to the ``triggered_time`` input you could define the following launch p
     )
 
 # %%    
-# If you prefer to use an interval rather than the cron syntax to schedule your workflows, this is currently supported
-# for Flyte deployments hosted on AWS.
-# To run ``date_formatter_wf`` every 10 minutes read on below:
+# If you prefer to use an interval rather than a cron scheduler to schedule your workflows, you can use the fixed-rate scheduler. 
+# A fixed-rate scheduler runs at the specified interval and is currently supported for Flyte deployments hosted on AWS.
+#
+# Here's an example:
 
 from datetime import timedelta
 
