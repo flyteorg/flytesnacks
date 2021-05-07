@@ -215,7 +215,7 @@ scheduler:
 #
 # Workflow Executor
 # ^^^^^^^^^^^^^^^^^
-# Scheduled events which trigger need to be handled by the workflow executor, which subscribes to triggered events from the SQS queue you've configured above.
+# Scheduled events which trigger need to be handled by the workflow executor, which subscribes to triggered events from the SQS queue configured above.
 #
 # .. NOTE::
 #
