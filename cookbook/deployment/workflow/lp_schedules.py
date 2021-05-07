@@ -189,11 +189,11 @@ flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-laun
 #
 # Event Scheduler
 # ^^^^^^^^^^^^^^^
-
+#
 # In order to schedule workflow executions, you'll need to set up an `AWS SQS <https://aws.amazon.com/sqs/>`_ queue. A standard type queue should suffice. The flyteadmin event scheduler creates `AWS CloudWatch <https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-Scheduled-Rule.html>`_ event rules that invokes your SQS queue as a target.
-
-# With that in mind, let's take a look at an example ``eventScheduler`` config section and dive into what each value represents: ::
-
+#
+# With that in mind, let's take a look at an example ``eventScheduler`` config section and dive into what each value represents: 
+#
 scheduler:
   eventScheduler:
   scheme: "aws"
