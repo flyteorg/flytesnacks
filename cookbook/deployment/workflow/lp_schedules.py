@@ -182,7 +182,7 @@ fixed_rate_lp = LaunchPlan.create(
 # Scheduling features requires additional infrastructure to run so these will have to be created and configured.
 # 
 # Setting up Scheduled Workflows
-# ##############################
+# ------------------------------
 # In order to run workflow executions based on user-specified schedules you'll need to fill out the top-level ``scheduler`` portion of the flyteadmin application configuration.
 
 # In particular you'll need to configure the two components responsible for scheduling workflows and processing schedule event triggers.
