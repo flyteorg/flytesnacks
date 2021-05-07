@@ -1,6 +1,6 @@
 <html>
     <p align="center"> 
-        <img src="https://github.com/flyteorg/flyte/blob/master/rsts/images/flyte_circle_gradient_1_4x4.png" alt="Flyte Logo" width="300">
+        <img src="https://github.com/flyteorg/flyte/blob/master/rsts/images/flyte_circle_gradient_1_4x4.png" alt="Flyte Logo" width="100">
     </p>
     <h1 align="center">
         Flyte User Guide & Tutorials
@@ -37,6 +37,7 @@ Here are the setup instructions to start contributing to `flytesnacks` repo:
     * Visit https://localhost:30081 to view the Flyte console consisting of the examples present in flytesnacks/cookbook/core directory
     * To fetch new dependencies and rebuild the image, run `make register`
     * If examples from a different directory (other than `core`) have to registered, run the following command in the `flytesnacks` repo:
+
     ```
     SANDBOX=1 make -C <directory> register
     ```
