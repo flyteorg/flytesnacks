@@ -82,46 +82,7 @@ cron_lp = LaunchPlan.create(
 # %%
 # Fixed Rate Intervals
 # ####################
-#
-# Fixed rate schedules will run at the specified interval.
-
-.. code-block::
-
-    from flytekit import FixedRate
-    from datetime import timedelta
-
-    schedule = FixedRate(duration=timedelta(minutes=10))
-
-# %%
-# Complete Fixed Rate Example
-# ---------------------------
-
-.. code:: python
-
-    from flytekit workflow
-
-    @workflow
-    def MyOtherWorkflow(triggered_time: datetime, an_input: int, another_input: int=10):
-        ....
-
-# %%
-# To run ``MyOtherWorkflow`` every 5 minutes with a value set for ``an_input`` and the scheduled execution time
-assigned to the ``triggered_time`` input you could define the following launch plan:
-
-.. code:: python
-
-    from datetime import timedelta
-    from flytekit import FixedRate, LaunchPlan
-
-    fixed_rate_lp = LaunchPlan.create(
-        "my_fixed_rate_lp",
-        MyOtherWorkflow,
-        # Note that kickoff_time_input_arg matches the workflow input we defined above: triggered_time
-        schedule=FixedRate(duration=timedelta(minutes=5), kickoff_time_input_arg="triggered_time"),
-        fixed_inputs={"an_input": 3},
-    )
-
-# %%    
+#     
 # If you prefer to use an interval rather than a cron scheduler to schedule your workflows, you can use the fixed-rate scheduler. 
 # A fixed-rate scheduler runs at the specified interval and is currently supported for Flyte deployments hosted on AWS.
 #
