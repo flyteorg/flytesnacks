@@ -158,24 +158,20 @@ This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a
 # #####################
 
 # Once you've initialized your launch plan, don't forget to set it to active so that the schedule is run.
-# You can use pyflyte in container ::
-
-  pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
+# You can use pyflyte in container:
+pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
 
 # %%
-# Or with flyte-cli view and activate launch plans ::
-
-  flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
+# Or with flyte-cli view and activate launch plans:
+flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
  
 # %%
-# Extract the URN returned for the launch plan you're interested in and make the call to activate it ::
-
-  flyte-cli update-launch-plan -i -h localhost:30081 --state active -u {{ urn }}
+# Extract the URN returned for the launch plan you're interested in and make the call to activate it:
+flyte-cli update-launch-plan -i -h localhost:30081 --state active -u {{ urn }}
 
 # %%
-# Verify your active launch plans::
-
-  flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-launch-plans
+# Verify your active launch plans:
+flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-launch-plans
 
 # %%        
 # Platform Configuration Changes
