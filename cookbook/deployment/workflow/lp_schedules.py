@@ -190,7 +190,7 @@ fixed_rate_lp = LaunchPlan.create(
 # Note this functionality is currently only supported for AWS installs.
 
 # Event Scheduler
-# ---------------
+# ^^^^^^^^^^^^^^^
 
 # In order to schedule workflow executions, you'll need to set up an `AWS SQS <https://aws.amazon.com/sqs/>`_ queue. A standard type queue should suffice. The flyteadmin event scheduler creates `AWS CloudWatch <https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-Scheduled-Rule.html>`_ event rules that invokes your SQS queue as a target.
 
