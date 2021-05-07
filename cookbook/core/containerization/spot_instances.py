@@ -13,7 +13,7 @@ Spot Instances are unused EC2 capacity in AWS. `Spot instances <https://aws.amaz
 
 Generally, most spot instances are obtained for around 2 hours (median), with the floor being around 20 minutes, and the ceiling of unbounded duration.
 
-What Is Interruptible?
+What Are Interruptible Tasks?
 ======================
 
 Anyone looking to realize cost savings should look into interruptible.
