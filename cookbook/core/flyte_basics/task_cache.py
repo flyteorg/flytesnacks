@@ -13,7 +13,7 @@ from flytekit import task
 
 
 # %%
-# Task Cache Default
+# Default Behavior
 # ##################
 #
 # Task caching is disabled by default. This is to avoid unintended consequences of caching tasks with side-effects. To enable caching and control its behavior, use the `cache` and `cache_version` parameters when constructing
