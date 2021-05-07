@@ -17,7 +17,7 @@ What Are Interruptible Tasks?
 ======================
 
 Anyone looking to realize cost savings should look into interruptible.
-Interruptible allows users to specify that their tasks are ok to be scheduled on machines that may get preempted such as AWS spot instances. 
+If specified, the interruptible flag is added to the task definition, and signals to the Flyte engine that it may be scheduled on machines that may be preempted, such as AWS spot instances.  This is low-hanging fruit for any cost-savings initiative. 
 
 Setting Interruptible
 =====================
