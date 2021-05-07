@@ -9,15 +9,11 @@
         Flytesnacks encompasses code examples built on top of Flytekit Python
     </p>
     <h3 align="center">
-        <a href="#quickstart">Quick Start</a>
-        <span> · </span>
         <a href="https://docs.flyte.org/projects/cookbook/en/latest/index.html">User Guide</a>
         <span> · </span>
         <a href="https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html">Tutorials</a>
         <span> · </span>
         <a href="#contribution-guide">Contribution Guide</a>
-        <span> · </span>
-        <a href="#file-an-issue">File an Issue</a>
     </h3>
 </html>
 
