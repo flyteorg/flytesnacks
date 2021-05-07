@@ -23,7 +23,7 @@ rabbits_conf = DoltConfig(
 
 @task
 def populate_rabbits(a: int) -> DoltTable:
-    rabbits = [("George", a), ("Alice", a*2), ("Stephanie", a*3)]
+    rabbits = [("George", a), ("Alice", a*2), ("Sugar Maple", a*3)]
     df = pd.DataFrame(rabbits, columns=["name", "count"])
     return DoltTable(data=df, config=rabbits_conf)
 

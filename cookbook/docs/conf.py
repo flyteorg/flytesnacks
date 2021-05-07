@@ -210,6 +210,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/papermilltasks",
     "../integrations/flytekit_plugins/sqlalchemy",
     "../integrations/flytekit_plugins/pandera",
+    "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",

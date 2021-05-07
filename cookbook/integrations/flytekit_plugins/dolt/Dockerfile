@@ -33,7 +33,7 @@ COPY dolt/sandbox.config /root
 COPY dolt/ /root/dolt/
 
 RUN mkdir -p /root/foo &&\
-    cd /root/foo &&\
+    cd /root/dolt/foo &&\
     dolt init
 
 # This tag is supplied by the build script and will be used to determine the version

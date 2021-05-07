@@ -19,7 +19,7 @@ import pandas as pd
 # %%
 # A Simple Workflow
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# We will be running a simple data workflow:
+# We will run a simple data workflow:
 # 1. Create a `users` table with `name` and `count` columns.
 # 2. Filter the `users` table for users with `count > 5`.
 # 3. Record the filtered user's names in a `big_users` table.
@@ -29,7 +29,7 @@ import pandas as pd
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 # Let's define our database configuration.
 # Our `DoltConfig`s reference a `foo` folder containing
-# our database, and either a `tablename` or and `sql` select
+# our database. Either a `tablename` or a `sql` select
 # statement to fetch data.
 
 doltdb_path = os.path.join(os.path.dirname(__file__), "foo")
@@ -44,31 +44,36 @@ def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:
     query_users = DoltTable(
         config=DoltConfig(
             db_path=doltdb_path,
-            sql="select * from users where users.count > 5",
-            branch_conf=NewBranch(f"run/a_is_{a}")
+            sql="select * from users where `count` > 5",
+            branch_conf=NewBranch(f"run/a_is_{a}"),
         ),
     )
 
     big_users_conf = DoltConfig(
         db_path=doltdb_path,
         tablename="big_users",
-        io_args=dict(if_exists="replace", index=False),
-        branch_conf=NewBranch(f"run/a_is_{a}")
+        branch_conf=NewBranch(f"run/a_is_{a}"),
     )
 
     return users_conf, query_users, big_users_conf
 
 # %%
 # A `DoltTable` is an  extension of `DoltConfig` that wraps
-# a `pandas.DataFrame` -- the `DoltTable.data` attribute.
+# a `pandas.DataFrame` -- accessible via the `DoltTable.data`
+# attribute at execution time.
 
 # %%
 # Type Annotating Tasks and Workflows
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 # We can turn our data processing pipeline into a Flyte workflow
-# by decorating our functions with the :py:func:`~flytekit.task` and :py:func:`~flytekit.workflow` decorators and
-# annotating the inputs and outputs of those functions with the dolt schemas:
+# by decorating functions with the :py:func:`~flytekit.task` and :py:func:`~flytekit.workflow` decorators.
+# Annotating the inputs and outputs of those functions with dolt schemas
+# indicates how to save and load data between tasks.
+
+# The `DoltTable.data` attribute loads dataframes for input arguments.
+# Return types of `DoltTable` save the `data` to the
+# Dolt database given a connection configuration.
 
 @task
 def get_confs(a: int) -> typing.Tuple[DoltConfig, DoltTable, DoltConfig]:
@@ -105,4 +110,7 @@ if __name__ == "__main__":
     result = wf(a=a)
     print(f"Running wf(), returns int\n{result}\n{type(result)}")
 
-# %% Now your data for all hyperparameters are
+# %% Results
+# ^^^^^^^^^^^^
+
+# Output results are split between branches:
