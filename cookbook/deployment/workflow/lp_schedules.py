@@ -194,13 +194,13 @@ flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-laun
 
 # With that in mind, let's take a look at an example ``eventScheduler`` config section and dive into what each value represents: ::
 
-    scheduler:
-      eventScheduler:
-        scheme: "aws"
-        region: "us-east-1"
-        scheduleRole: "arn:aws:iam::{{ YOUR ACCOUNT ID }}:role/{{ ROLE }}"
-        targetName: "arn:aws:sqs:us-east-1:{{ YOUR ACCOUNT ID }}:{{ YOUR QUEUE NAME }}"
-        scheduleNamePrefix: "flyte"
+scheduler:
+  eventScheduler:
+  scheme: "aws"
+  region: "us-east-1"
+  scheduleRole: "arn:aws:iam::{{ YOUR ACCOUNT ID }}:role/{{ ROLE }}"
+  targetName: "arn:aws:sqs:us-east-1:{{ YOUR ACCOUNT ID }}:{{ YOUR QUEUE NAME }}"
+  scheduleNamePrefix: "flyte"
 
 # %%            
 # * **scheme**: in this case because AWS is the only cloud back-end supported for scheduling workflows, only ``"aws"`` is a valid value. By default, the no-op scheduler is used.
