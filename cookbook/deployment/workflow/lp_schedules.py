@@ -186,7 +186,7 @@ This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a
 # Setting up Scheduled Workflows
 # ------------------------------
 # In order to run workflow executions based on user-specified schedules you'll need to fill out the top-level ``scheduler`` portion of the flyteadmin application configuration.
-
+#
 # In particular you'll need to configure the two components responsible for scheduling workflows and processing schedule event triggers.
 
 # Note this functionality is currently only supported for AWS installs.
