@@ -184,9 +184,9 @@ flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-laun
 # In order to run workflow executions based on user-specified schedules you'll need to fill out the top-level ``scheduler`` portion of the flyteadmin application configuration.
 #
 # In particular you'll need to configure the two components responsible for scheduling workflows and processing schedule event triggers.
-
+#
 # Note this functionality is currently only supported for AWS installs.
-
+#
 # Event Scheduler
 # ^^^^^^^^^^^^^^^
 
