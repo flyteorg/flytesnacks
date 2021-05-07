@@ -216,7 +216,7 @@ fixed_rate_lp = LaunchPlan.create(
 # * **scheduleNamePrefix** this is an entirely optional prefix used when creating schedule rules. Because of AWS naming length restrictions, scheduled rules are a random hash and having a shared prefix makes these names more readable and indicates who generated the rules.
 
 # Workflow Executor
-# -----------------
+# ^^^^^^^^^^^^^^^^^
 # Scheduled events which trigger need to be handled by the workflow executor, which subscribes to triggered events from the SQS queue you've configured above.
 
 # .. NOTE::
