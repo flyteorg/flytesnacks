@@ -4,7 +4,7 @@ Adding Workflow Labels and Annotations
 
 In Flyte, workflow executions are created as Kubernetes resources. These can be extended with
 `labels <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/>`__ and
-`annotations <https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/>`_.
+`annotations <https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/>`__.
 
 **Labels** and **annotations** are key value pairs which can be used to identify workflows for your own uses.
 Labels are meant to be used as identifing attributes, whereas annotations are arbitrary, *non-identifying* metadata.
