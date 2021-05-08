@@ -1,6 +1,10 @@
 """
+
+.. _secrets:
+
 Accessing Secrets
 -----------------
+
 What Is Secrets Injection?
 ##########################
 
@@ -24,44 +28,20 @@ Where:
 5. Flyte Pod Webhook will then lookup globally mounted secrets for each of the requested secrets. 
 6. If found, Pod Webhook will mount them directly in the Pod. If not found, it will inject the appropriate annotations to load the secrets for K8s (or Vault or Confidant or any other secret management system plugin configured) into the Pod.
 
+The webhook is included in all overlays in the Flytekit repo. The deployment file creates (mainly) two things; a Job and a Deployment.
+
+1) flyte-pod-webhook-secrets Job: This job runs ``flytepropeller webhook init-certs`` command that issues self-signed CA Certificate as well as a derived TLS certificate and its private key. It stores them into a new secret ``flyte-pod-webhook-secret``.
+2) flyte-pod-webhook Deployment: This deployment creates the Webhook pod which creates a MutatingWebhookConfiguration on startup. This serves as the registration contract with the ApiServer to know about the Webhook before it starts serving traffic.
+
 How to Enable Secrets Injection
 ###############################
 
-This feature is available in Flytekit v0.17.0+. Here is how to use Secrets in a task:
-
-The webhook is included in all overlays in the Flytekit repo. The deployment file creates (mainly) two things; a Job and a Deployment.
-
-1) flyte-pod-webhook-secrets Job: This job runs ``flytepropeller webhook init-certs`` command that issues self-signed
-   CA Certificate as well as a derived TLS certificate and its private key. It stores them into a new secret ``flyte-pod-webhook-secret``.
-2) flyte-pod-webhook Deployment: This deployment creates the Webhook pod which creates a MutatingWebhookConfiguration
-   on startup. This serves as the registration contract with the ApiServer to know about the Webhook before it starts serving
-   traffic.
-
-Scaling the Webhook
-###################
-
-Vertical Scaling
-=================
-
-To scale the Webhook to be able to process the number/rate of pods you need, you may need to configure a vertical `pod
-autoscaler <https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler>`_.
-
-Horizontal Scaling
-==================
-
-The Webhook does not make any external API Requests in response to Pod mutation requests. It should be able to handle traffic
-quickly, but a benchmark is needed. For horizontal scaling, adding additional replicas for the Pod in the
-deployment should be sufficient. A single MutatingWebhookConfiguration object will be used, the same TLS certificate
-will be shared across the pods and the Service created will automatically load balance traffic across the available pods.
-
-Using Secrets in a Task
-#######################
-
-This example explains how a secret can be accessed in a Flyte Task. Flyte provides different types of Secrets, as part of
+This feature is available in Flytekit v0.17.0+. This example explains how a secret can be accessed in a Flyte Task. Flyte provides different types of Secrets, as part of
 SecurityContext. But, for users writing python tasks, you can only access ``secure secrets`` either as environment variable
 or injected into a file.
-
 """
+
+# %%
 import os
 import flytekit
 
@@ -166,3 +146,21 @@ if __name__ == "__main__":
     assert z == "password_value"
     assert f == sec.get_secrets_file(SECRET_GROUP, SECRET_NAME)
     assert s == "value"
+
+# %%
+# Scaling the Webhook
+# ###################
+#
+# Vertical Scaling
+# =================
+#
+# To scale the Webhook to be able to process the number/rate of pods you need, you may need to configure a vertical `pod
+# autoscaler <https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler>`_.
+#
+# Horizontal Scaling
+# ==================
+#
+# The Webhook does not make any external API Requests in response to Pod mutation requests. It should be able to handle traffic
+# quickly. For horizontal scaling, adding additional replicas for the Pod in the
+# deployment should be sufficient. A single MutatingWebhookConfiguration object will be used, the same TLS certificate
+# will be shared across the pods and the Service created will automatically load balance traffic across the available pods.
