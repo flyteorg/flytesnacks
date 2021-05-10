@@ -6,7 +6,7 @@ Scheduling Workflow Executions With Launch Plans
 For background on launch plans, refer to :any:`launch_plans`.
 
 Launch plans can be set to run automatically on a schedule if the Flyte platform is properly configured.
-Additionally, the scheduled kick-off time can be used in the workflow as input.
+The scheduled kick-off time at which the shceudle event was triggered is used in the workflow as input, and not the actual time, which will be a few seconds off.
 
 """
 
@@ -29,7 +29,7 @@ def date_formatter_wf(kickoff_time: datetime):
 
 
 # %%
-# The `date_formatter_wf` workflow can be scheduled either using Cron Schedule or Fixed Rate Interval.
+# The `date_formatter_wf` workflow can be scheduled using either `CronSchedule` or the `FixedRate` object.
 #
 # Cron Schedules
 # ##############
@@ -86,8 +86,9 @@ fixed_rate_lp = LaunchPlan.get_or_create(
     fixed_inputs={"name": "you"},
 )
 
-This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a fixed-rate scheduler also accepts ``kickoff_time_input_arg`` (which is omitted in this example).
 # %%
+# This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a fixed-rate scheduler also accepts ``kickoff_time_input_arg`` (which is omitted in this example).
+# 
 # Activating a Schedule 
 # #####################
 
