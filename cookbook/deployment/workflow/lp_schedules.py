@@ -77,9 +77,9 @@ def positive_wf(name: str):
     print(f"{reminder}")
 
 
-fixed_rate_lp = LaunchPlan.create(
-    "my_fixed_rate_lp",
-    positive_wf,
+fixed_rate_lp = LaunchPlan.get_or_create(
+    name="my_fixed_rate_lp",
+    workflow=positive_wf,
     # Note that the workflow above doesn't accept any kickoff time arguments.
     # We just omit the ``kickoff_time_input_arg`` from the FixedRate schedule invocation
     schedule=FixedRate(duration=timedelta(minutes=10)),
