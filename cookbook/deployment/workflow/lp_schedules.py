@@ -50,34 +50,7 @@ cron_lp = LaunchPlan.create(
 )
 
 # %%
-# This ``schedule`` object can then be used in the construction of a :py:class:`flytekit:flytekit.LaunchPlan`
-# 
-# Complete Cron Example
-# ----------------------
-
-# For example, take the following workflow:
-
-.. code:: python
-
-    from flytekit workflow
-
-    @workflow
-    def MyWorkflow(an_input: int, another_input: int=10):
-        ....
-
-# %%
-# The above workflow can be run on a cron schedule every 5 minutes like so:
-
-.. code:: python
-
-    from flytekit import CronSchedule, LaunchPlan
-
-    cron_lp = LaunchPlan.create(
-        "my_cron_lp",
-        MyWorkflow,
-        schedule=CronSchedule(cron_expression="0 5 * * ? *"),
-        fixed_inputs={"an_input": 5},
-    )
+The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``. This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs at 10 AM UTC every day.
 
 # %%
 # Fixed Rate Intervals
