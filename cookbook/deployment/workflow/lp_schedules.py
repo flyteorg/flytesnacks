@@ -39,9 +39,9 @@ def date_formatter_wf(kickoff_time: datetime):
 from flytekit import CronSchedule, LaunchPlan
 
 # creates a launch plan that runs at 10am UTC every day.
-cron_lp = LaunchPlan.create(
-    "my_cron_scheduled_lp",
-    date_formatter_wf,
+cron_lp = LaunchPlan.get_or_create(
+    name="my_cron_scheduled_lp",
+    workflow=date_formatter_wf,
     schedule=CronSchedule(
         # Note that kickoff_time_input_arg matches the workflow input we defined above: kickoff_time
         cron_expression="0 10 * * ? *",
