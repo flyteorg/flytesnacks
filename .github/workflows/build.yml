@@ -14,7 +14,8 @@ jobs:
         with:
           fetch-depth: "0"
       - run: docker pull ghcr.io/flyteorg/flyte-sandbox:dind
-      - name: Make Start
+      - name: setup sandbox
         shell: 'script -q -e -c "bash {0}"'
-        run: |
-          make setup wait fast_register
+        run: make setup
+      - name: wait for sandbox
+        run: make wait fast_register
