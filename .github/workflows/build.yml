@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump-version.outputs.tag }}
+    steps:
+      - name: Make Start
+        run: make start
