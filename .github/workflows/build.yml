@@ -12,5 +12,8 @@ jobs:
     outputs:
       version: ${{ steps.bump-version.outputs.tag }}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
       - name: Make Start
         run: make start
