@@ -29,7 +29,7 @@ def date_formatter_wf(kickoff_time: datetime):
 
 
 # %%
-# The `date_formatter_wf` workflow can be scheduled using either `CronSchedule` or the `FixedRate` object.
+# The `date_formatter_wf` workflow can be scheduled using either the `CronSchedule` or the `FixedRate` object.
 #
 # Cron Schedules
 # ##############
