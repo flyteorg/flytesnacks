@@ -23,7 +23,8 @@ jobs:
           n=0
           until [ "$n" -ge 5 ]
           do
-            make wait ** break
+            echo "retry $n"
+            make wait && break
             n=$((n+1))
             sleep 1
           done
