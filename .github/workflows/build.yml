@@ -24,9 +24,8 @@ jobs:
       - name: wait for sandbox
         run: |
           n=0
-          until [ "$n" -ge 5 ]
-          do
-            echo "retry $n"
+          until [ "$n" -ge 5 ]; do
+            echo "try $n"
             make wait && break
             n=$((n+1))
             sleep 1
