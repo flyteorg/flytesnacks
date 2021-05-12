@@ -134,4 +134,4 @@ wrapt==1.12.1
     #   flytekit
 zipp==3.4.1
     # via importlib-metadata
-yt-flyte-playground-flytectl==0.1.0
+yt-flyte-playground-flytectl==0.1.1
