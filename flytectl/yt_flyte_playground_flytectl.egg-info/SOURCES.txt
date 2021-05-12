@@ -1,9 +1,0 @@
-setup.py
-flyteplayground/__init__.py
-flyteplayground/flytectl/__init__.py
-flyteplayground/flytectl/task.py
-yt_flyte_playground_flytectl.egg-info/PKG-INFO
-yt_flyte_playground_flytectl.egg-info/SOURCES.txt
-yt_flyte_playground_flytectl.egg-info/dependency_links.txt
-yt_flyte_playground_flytectl.egg-info/requires.txt
-yt_flyte_playground_flytectl.egg-info/top_level.txt
