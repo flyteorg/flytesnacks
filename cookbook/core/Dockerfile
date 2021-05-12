@@ -21,7 +21,7 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
-RUN pip install -U yt-flyte-playground-flytectl==0.1.6
+RUN pip install -U yt-flyte-playground-flytectl==0.1.7
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /root/Makefile
 COPY core/sandbox.config /root
