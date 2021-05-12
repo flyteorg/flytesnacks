@@ -26,11 +26,10 @@ It also opens up possibilities of future optimizations.
 Mapping of Types between Python and Flyte - using Flytekit
 ###########################################################
 
-FlyteKit automagically maps Python types to Flyte types. This section provides details of the mappings, but for the most
+FlyteKit automatically maps Python types to Flyte types. This section provides details of the mappings, but for the most
 part you can skip this section, as almost all of Python types are mapped automatically.
 
-The following table provides a quick over-view of how types are converted from the type-hints (python native) to Flyte
-understood, cross-language types.
+The following table provides a quick overview of how types are converted from the type-hints (python native) to Flyte-understood, cross-language types.
 
 .. list-table:: Supported Python types and mapping to underlying Flyte Type
    :widths: auto
@@ -59,11 +58,11 @@ understood, cross-language types.
    * - bytes/bytearray
      - binary
      - Not Supported
-     - Let us know if this is an interesting usecase. But you can currently support this using your own transformers.
+     - Let us know if this is an interesting usecase that you can currently support using your own transformers.
    * - complex
      - NA
      - Not Supported
-     - Let us know if this is an interesting usecase. But you can currently support this using your own transformers.
+     - Let us know if this is an interesting usecase that you can currently support using your own transformers.
    * - datetime.timedelta
      - Duration
      - Automatic
