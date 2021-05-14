@@ -1,13 +1,11 @@
 """
-
 Scheduling Workflow Executions With Launch Plans
 ------------------------------------------------
 
 For background on launch plans, refer to :any:`launch_plans`.
 
 Launch plans can be set to run automatically on a schedule if the Flyte platform is properly configured.
-The scheduled kick-off time at which the shceudle event was triggered is used in the workflow as input, and not the actual time, which will be a few seconds off.
-
+For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow. 
 """
 
 # %%
@@ -50,7 +48,7 @@ cron_lp = LaunchPlan.get_or_create(
 )
 
 # %%
-The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``. This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs at 10 AM UTC every day.
+# The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``. This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs at 10 AM UTC every day.
 
 # %%
 # Fixed Rate Intervals
@@ -91,51 +89,90 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 # 
 # Activating a Schedule 
 # #####################
-
+#
 # Once you've initialized your launch plan, don't forget to set it to active so that the schedule is run.
 # You can use pyflyte in container:
-pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
+#
+# .. code-block:: bash
+# 
+#   pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
 
 # %%
-# Or with flyte-cli view and activate launch plans:
-flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
+# (or)
+#
+# With flyte-cli:
+#
+# - View and activate launch plans: flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
+# 
+# .. code-block:: bash
+#
+#   flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
  
 # %%
-# Extract the URN returned for the launch plan you're interested in and make the call to activate it:
-flyte-cli update-launch-plan -i -h localhost:30081 --state active -u {{ urn }}
+# - Extract the URN returned for the launch plan you're interested in and make the call to activate it: 
+# 
+# .. code-block:: bash
+# 
+#   flyte-cli update-launch-plan -i -h localhost:30081 --state active -u {{ urn }}
+#
+# .. tip::
+#   The equivalent command in `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__ is:
+#
+#   .. code-block:: bash
+#
+#       flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate``
+#   
+#   Example: 
+# 
+#   .. code-block:: bash
+#
+#       flytectl update launchplan -p flyteexamples -d development core.basic.lp.go_greet --activate
 
 # %%
-# Verify your active launch plans:
-flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-launch-plans
+# - Verify your active launch plans: 
+# 
+# .. code-block:: bash
+# 
+#   flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-launch-plans
+# 
+# .. tip::
+#   The equivalent command in `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__ is:
+#   
+#   .. code-block:: bash 
+#
+#       flytectl get launchplan -p flytesnacks -d development``
 
 # %%        
 # Platform Configuration Changes
 # ##############################
 # 
-# Scheduling features requires additional infrastructure to run so these will have to be created and configured.
+# Scheduling features require additional infrastructure to run, so these will have to be created and configured.
 # 
 # Setting up Scheduled Workflows
-# ------------------------------
-# In order to run workflow executions based on user-specified schedules you'll need to fill out the top-level ``scheduler`` portion of the flyteadmin application configuration.
+# ==============================
+# To run workflow executions based on user-specified schedules, you'll need to fill out the top-level ``scheduler`` portion of the flyteadmin application configuration.
 #
-# In particular you'll need to configure the two components responsible for scheduling workflows and processing schedule event triggers.
+# In particular, you'll need to configure the two components responsible for scheduling workflows and processing schedule event triggers.
 #
-# Note this functionality is currently only supported for AWS installs.
+# .. note::
+#   This functionality is currently only supported for AWS installs.
 #
 # Event Scheduler
 # ^^^^^^^^^^^^^^^
 #
-# In order to schedule workflow executions, you'll need to set up an `AWS SQS <https://aws.amazon.com/sqs/>`_ queue. A standard type queue should suffice. The flyteadmin event scheduler creates `AWS CloudWatch <https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-Scheduled-Rule.html>`_ event rules that invokes your SQS queue as a target.
+# To schedule workflow executions, you'll need to set up an `AWS SQS <https://aws.amazon.com/sqs/>`_ queue. A standard-type queue should suffice. The flyteadmin event scheduler creates `AWS CloudWatch <https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-Scheduled-Rule.html>`_ event rules that invoke your SQS queue as a target.
 #
 # With that in mind, let's take a look at an example ``eventScheduler`` config section and dive into what each value represents: 
 #
-scheduler:
-  eventScheduler:
-  scheme: "aws"
-  region: "us-east-1"
-  scheduleRole: "arn:aws:iam::{{ YOUR ACCOUNT ID }}:role/{{ ROLE }}"
-  targetName: "arn:aws:sqs:us-east-1:{{ YOUR ACCOUNT ID }}:{{ YOUR QUEUE NAME }}"
-  scheduleNamePrefix: "flyte"
+# .. code-block:: bash
+# 
+#    scheduler:
+#      eventScheduler:
+#        scheme: "aws"
+#        region: "us-east-1"
+#        scheduleRole: "arn:aws:iam::{{ YOUR ACCOUNT ID }}:role/{{ ROLE }}"
+#        targetName: "arn:aws:sqs:us-east-1:{{ YOUR ACCOUNT ID }}:{{ YOUR QUEUE NAME }}"
+#        scheduleNamePrefix: "flyte"
 
 # %%            
 # * **scheme**: in this case because AWS is the only cloud back-end supported for scheduling workflows, only ``"aws"`` is a valid value. By default, the no-op scheduler is used.
@@ -157,15 +194,17 @@ scheduler:
 #    Failure to configure a workflow executor will result in all your scheduled events piling up silently without ever kicking off workflow executions.
 #
 # Again, let's break down a sample config:
-
-scheduler:
-  eventScheduler:
-    ...
-  workflowExecutor:
-    scheme: "aws"
-    region: "us-east-1"
-    scheduleQueueName: "{{ YOUR QUEUE NAME }}"
-    accountId: "{{ YOUR ACCOUNT ID }}"
+#
+# .. code-block:: bash
+#
+#    scheduler:
+#      eventScheduler:
+#        ...
+#      workflowExecutor:
+#        scheme: "aws"
+#        region: "us-east-1"
+#        scheduleQueueName: "{{ YOUR QUEUE NAME }}"
+#        accountId: "{{ YOUR ACCOUNT ID }}"
 
 # %%            
 # * **scheme**: in this case because AWS is the only cloud back-end supported for executing scheduled workflows, only ``"aws"`` is a valid value. By default, the no-op executor is used.
