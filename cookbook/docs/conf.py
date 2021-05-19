@@ -47,7 +47,8 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         # Control Flow
-        "run_conditions.py" "subworkflows.py",
+        "run_conditions.py",
+        "subworkflows.py",
         "dynamics.py",
         "map_task.py",
         "run_merge_sort.py",
