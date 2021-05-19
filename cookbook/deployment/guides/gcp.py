@@ -11,8 +11,8 @@ Using Flyte with the Google Cloud Platform
 Troubleshooting Using Flyte with the Google Cloud Platform
 **********************************************************
 
-I tried to run examples, but task fails with 401 error?
--------------------------------------------------------
+When running examples, the task fails with 401 error
+----------------------------------------------------
 Steps:
 
  #. If you are using Workload Identity, then you have to pass in the ServiceAccount when you create the launchplan.
