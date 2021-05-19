@@ -6,6 +6,7 @@ Deployment
     :maxdepth: -1
     :caption: Deployment
  
-    workflow_deployment
+    Workflow Deployment <auto/deployment/workflow/index>
+    fast_registration
     Cluster Deployment <auto/deployment/cluster/index>
     Deployment Guides <auto/deployment/guides/index>
