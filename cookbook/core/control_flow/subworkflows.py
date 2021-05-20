@@ -24,7 +24,7 @@ def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
     if a == 3:
       time.sleep(45)
       raise Exception("Sorry, failing the parent workflow")
-    time.sleep(30)
+    time.sleep(90)
     return a + 2, "world"
 
 
