@@ -1,7 +1,6 @@
 name: Push Core Examples
 
 on:
-  pull_request:
   create:
     tags:
       - v*

@@ -337,5 +337,4 @@ intersphinx_mapping = {
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
-    "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
 }
