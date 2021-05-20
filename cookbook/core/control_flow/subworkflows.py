@@ -21,8 +21,9 @@ from flytekit import task, workflow
 @task
 def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
     if a == 3:
-      time.sleep(5)
+      time.sleep(15)
       raise Exception("Sorry, failing the parent workflow")
+    time.sleep(30)
     return a + 2, "world"
 
 
@@ -32,7 +33,7 @@ def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
 @workflow
 def my_subwf(a: int = 42) -> (str, str):
     x, y = t1(a=a)
-    u, v = t1(a=x)
+    u, v = t1(a=a + 3)
     return y, v
 
 
