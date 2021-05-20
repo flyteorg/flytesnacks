@@ -21,6 +21,7 @@ from flytekit import task, workflow
 @task
 def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
     if a == 3:
+      time.sleep(5)
       raise Exception("Sorry, failing the parent workflow")
     return a + 2, "world"
 
