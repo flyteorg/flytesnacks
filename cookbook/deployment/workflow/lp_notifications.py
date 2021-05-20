@@ -49,7 +49,7 @@ int_doubler_wf_lp = LaunchPlan.get_or_create(
     notifications=[
         Email(
             phases=[WorkflowExecutionPhase.SUCCEEDED],
-            recipients_email=["admin@example.com"],
+            recipients_email=["jd@runx.dev", "katrina@union.ai"],
         )
     ],
 )
