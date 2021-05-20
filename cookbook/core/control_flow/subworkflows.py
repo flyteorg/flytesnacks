@@ -14,6 +14,7 @@ copied into workflow B at the point where it is called.
 """
 
 import typing
+import time
 
 from flytekit import task, workflow
 
@@ -33,7 +34,7 @@ def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
 @workflow
 def my_subwf(a: int = 42) -> (str, str):
     x, y = t1(a=a)
-    u, v = t1(a=a+3)
+    u, v = t1(a=23)
     return y, v
 
 
