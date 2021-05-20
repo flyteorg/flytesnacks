@@ -20,6 +20,8 @@ from flytekit import task, workflow
 
 @task
 def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
+    if a == 3:
+      raise Exception("Sorry, failing the parent workflow")
     return a + 2, "world"
 
 
@@ -43,7 +45,7 @@ def my_subwf(a: int = 42) -> (str, str):
 @workflow
 def parent_wf(a: int) -> (int, str, str):
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
-    u, v = my_subwf(a=x)
+    u, v = my_subwf(a=10)
     return x, u, v
 
 
