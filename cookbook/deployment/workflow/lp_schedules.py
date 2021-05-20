@@ -42,7 +42,7 @@ cron_lp = LaunchPlan.get_or_create(
     workflow=date_formatter_wf,
     schedule=CronSchedule(
         # Note that kickoff_time_input_arg matches the workflow input we defined above: kickoff_time
-        cron_expression="0 10 * * ? *",
+        cron_expression="0 1 * * ? *",
         kickoff_time_input_arg="kickoff_time",
     ),
 )
@@ -80,7 +80,7 @@ fixed_rate_lp = LaunchPlan.get_or_create(
     workflow=positive_wf,
     # Note that the workflow above doesn't accept any kickoff time arguments.
     # We just omit the ``kickoff_time_input_arg`` from the FixedRate schedule invocation
-    schedule=FixedRate(duration=timedelta(minutes=10)),
+    schedule=FixedRate(duration=timedelta(minutes=1)),
     fixed_inputs={"name": "you"},
 )
 
