@@ -6,17 +6,19 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import logging
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import glob
+import logging
 import os
 import re
+import shutil
 import sys
 
-from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
+from sphinx.errors import ConfigError
+from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -46,7 +48,7 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         # Control Flow
-        "run_conditions.py"
+        "run_conditions.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -68,7 +70,6 @@ class CustomSorter(FileNameSortKey):
         "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
-        "fast_registration.py",
         "multiple_k8s.py",
         ## Cluster
         "productionize_cluster.py",
@@ -107,6 +108,11 @@ class CustomSorter(FileNameSortKey):
         # Extending Flyte
         "custom_task_plugin.py",
         "run_custom_types.py",
+        ## Tutorials
+        # ML Training
+        "diabetes.py",
+        "house_price_predictor.py",
+        "multiregion_house_price_predictor.py",
     ]
 
     def __call__(self, filename):
@@ -140,6 +146,7 @@ extensions = [
     "sphinx-prompt",
     "sphinx_copybutton",
     "sphinx_search.extension",
+    "sphinxext.remoteliteralinclude",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -305,6 +312,23 @@ sphinx_gallery_conf = {
     # },
 }
 
+if len(examples_dirs) != len(gallery_dirs):
+    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
+
+for i in range(len(sphinx_gallery_conf["examples_dirs"])):
+    gallery_dir = sphinx_gallery_conf["gallery_dirs"][i]
+    source_dir = sphinx_gallery_conf["examples_dirs"][i]
+    # Create gallery dirs if it doesn't exist
+    try:
+        os.makedirs(gallery_dir)
+    except OSError:
+        pass
+
+    # Copy rst files from source dir to gallery dir
+    for f in glob.glob(os.path.join(source_dir, "*.rst")):
+        if "README" not in f:
+            shutil.copy(f, gallery_dir)
+
 # intersphinx configuration
 intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
@@ -318,4 +342,6 @@ intersphinx_mapping = {
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
+    "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
+    "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
