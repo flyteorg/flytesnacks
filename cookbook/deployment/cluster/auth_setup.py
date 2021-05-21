@@ -4,11 +4,14 @@ Authentication in Flyte
 
 Flyte ships with a canonical implementation of OpenIDConnect client and OAuth2 Server, integrating seamlessly into an organization's existing identity provider.
 
-This sesction includes:
-- Overview
-- Authentication Setup
-- Migrating Your Authentication Config
-- References
+This section includes:
+
+- :ref:`Overview <auth-overview>`
+- :ref:`Authentication Setup <auth-setup>`
+- :ref:`Migrating Your Authentication Config <migrating-auth-config>`
+- :ref:`References <auth-references>`
+
+.. _auth-overview:
 
 ########
 Overview
@@ -93,6 +96,8 @@ Identity Providers Support
 | Custom RP       |   Yes  |      No     |          Yes        |    Yes   |   ?   |    Yes   |   No   |
 +-----------------+--------+-------------+---------------------+----------+-------+----------+--------+
 
+.. _auth-setup:
+
 ####################
 Authentication Setup
 ####################
@@ -111,7 +116,7 @@ Please refer to the `inline documentation <https://github.com/flyteorg/flyteadmi
 Example Configurations
 **********************
 
-Below are listed some canonical examples of how to set up some of the common IdPs to secure your Fyte services. OpenID Connect enables users to authenticate, in the
+Below are some canonical examples of how to set up some of the common IdPs to secure your Fyte services. OpenID Connect enables users to authenticate, in the
 browser, with an existing IdP. Flyte also allows connecting to an external OAuth2 Authorization Server to allow centrally managed third party app access.
 
 OpenID Connect
@@ -121,7 +126,7 @@ OpenID Connect allows users to authenticate to Flyte in their browser using a fa
 Flyte supports connecting with external OIdC providers. Here are some examples for how to set these up:
 
 Google OpenID Connect
----------------------
+=====================
 
 Follow `Google Docs <https://developers.google.com/identity/protocols/oauth2/openid-connect>`__ on how to configure the IdP for OpenIDConnect.
 
@@ -131,25 +136,22 @@ Follow `Google Docs <https://developers.google.com/identity/protocols/oauth2/ope
   steps.
 
 Okta OpenID Connect
--------------------
+===================
 
 Okta supports OpenID Connect protocol and the creation of custom OAuth2 Authorization Servers, allowing it to act as both the user and apps IdP.
 It offers more detailed control on access policies, user consent, and app management.
 
 1. If you don't already have an Okta account, sign up for one `here <https://developer.okta.com/signup/>`__.
 2. Create an app (choose Web for the platform) and OpenID Connect for the sign-on method.
-3. Add Login redirect URIs (e.g. http://localhost:30081/callback for sandbox or https://<your deployment url>/callback)
-4. OPTIONAL: Add logout redirect URIs (e.g. http://localhost:30081/logout for sandbox)
+3. Add Login redirect URIs (e.g. http://localhost:30081/callback for sandbox or ``https://<your deployment url>/callback``)
+4. *Optional*: Add logout redirect URIs (e.g. http://localhost:30081/logout for sandbox)
 5. Write down the Client ID and Client Secret
 
 KeyCloak OpenID Connect
-------------------------
+=======================
 
 `KeyCloak <https://www.keycloak.org/>`__ is an open source solution for authentication, it supports both OpenID Connect and OAuth2 protocols (among others). 
 KeyCloak can be configured to be both the OpenID Connect and OAuth2 Authorization Server provider for Flyte.
-
-Apply configuration
--------------------
 
 1. Store the `client_secret` in a k8s secret as follows:
 
@@ -212,8 +214,9 @@ Save and exit your editor.
 
   kubectl rollout restart deployment/flyteadmin -n flyte
 
+***************************
 OAuth2 Authorization Server
-===========================
+***************************
 
 An OAuth2 Authorization Server allows external clients to request to authenticate and act on behalf of users (or as their own identities). Having 
 an OAuth2 Authorization Server enables Flyte administrators control over which apps can be installed and what scopes they are allowed to request or be granted (i.e. what privileges can they assume).
@@ -225,7 +228,7 @@ and the corresponding section can be modified through configs.
 To set up an external OAuth2 Authorization Server, please follow the instructions below:
 
 Okta IdP
---------
+========
 
 1. Under security -> API, click `Add Authorization Server`. Set the audience to the public URL of flyte admin (e.g. https://flyte.mycompany.io/).
 2. Under `Access Policies`, click `Add New Access Policy` and walk through the wizard to allow access to the authorization server.
@@ -235,13 +238,13 @@ Okta IdP
    FlytePropeller should be created as an `OAuth Service` and note the client ID and client Secrets provided.
 
 KeyCloak IdP
-------------
+============
 
 `KeyCloak <https://www.keycloak.org/>`__ is an open source solution for authentication, it supports both OpenID Connect and OAuth2 protocols (among others). 
 KeyCloak can be configured to be both the OpenID Connect and OAuth2 Authorization Server provider for flyte.
 
-Apply Configurations
---------------------
+Apply Configuration
+===================
 
 1. It is possible to direct Flyte admin to use an external authorization server. To do so, edit the same config map once more and follow these changes:
 
@@ -345,6 +348,8 @@ The following is a listing of the Flytekit configuration values we set in CI, al
   Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're rolling out the requirement.
 
 
+.. _migrating-auth-config:
+
 ####################################
 Migrating Your Authentication Config
 ####################################
@@ -352,6 +357,7 @@ Migrating Your Authentication Config
 Using Okta as an example, you would have previously seen something like the following:
 
 On the Okta side:
+=================
 
 * An Application (OpenID Connect Web) for Flyte Admin itself (e.g. **0oal5rch46pVhCGF45d6**).
 * An Application (OpenID Native app) for Flyte-cli/flytectl (e.g. **0oal62nxuD6OSFSRq5d6**).
@@ -359,7 +365,8 @@ On the Okta side:
 * An Application (Web) for Flyte Propeller (e.g. **0abc5rch46pVhCGF9876**).
   This application would either use the default Authorization server, or you would create a new one.
 
-On the Admin side, you would have had the following configuration:
+On the Admin side:
+==================
 
 .. code-block:: yaml
 
@@ -495,9 +502,11 @@ Specifically,
 * **tokenUrl** and **scopes** will also be discovered through a metadata call.
 * **clientId** and **clientSecretLocation** have defaults that work out of the box with the built-in authorization server (e.g. if you setup Google OpenID Connect).
 
-**********
+.. _auth-references:
+
+##########
 References
-**********
+##########
 
 This collection of RFCs may be helpful to those who wish to investigate the implementation in more depth.
 
