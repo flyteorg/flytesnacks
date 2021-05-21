@@ -188,7 +188,7 @@ Illustration of Setting up Flyte Cluster in a Single AWS EKS
      - this S3 bucket/prefix should be accessible to all FlytePropeller, FlyteAdmin, Datacatalog and running executions (user pods).
    - FlyteAdmin can use any RDBMS database, but we recommend Postgres. At scale, we have used AWS Aurora.
    - Datacatalog also uses a postgres database similar to admin. They both could share the same physical instance, but prefer to have 2 logically separate databases.
-   - If you want to use AWS IAM role for SeviceAccounts, then you have to manage the provisioning of the service account and providing it to Flyte at the time of execution.
+   - If you want to use AWS IAM role for SeviceAccounts, first enable the IAM for service accounts for your EKS cluster and the provisioning of the service account should be managed outside of flyte and provided to Flyte at the time of execution (as a parameter). Ensure that pods in the EKS cluster can assume this role.
    - For secrets, you can use Vault or Kube secrets. We are working on getting first class support for this.
    
 .. TODO: check if first class support is still being worked on
