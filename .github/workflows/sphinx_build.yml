@@ -1,42 +1,38 @@
-name: Sphinx Build
+name: Build & Generate Documentation
 
 on:
   pull_request:
     branches:
       - master
 
+defaults:
+  run:
+    working-directory: cookbook
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      # - name: Setup SSH
-      #   uses: webfactory/ssh-agent@v0.5.2
-      #   with:
-      #     host: github.com
-      #     private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Copy docs-requirements.txt 
-        run:
-          cp "cookbook/docs-requirements.txt" "cookbook/docs/requirements.txt"
-      - uses: ammaraskar/sphinx-action@master
+      - name: Fetch the code
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
         with:
-          docs-folder: "cookbook/docs/"
-      - name: Commit documentation changes
+          python-version: "3.8"
+      - name: Install dependencies
         run: |
-          git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
-          cp -r docs/_build/html/* gh-pages/
-          cd gh-pages
-          touch .nojekyll
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "Update documentation" -a || true
-          # The above command will fail if no changes were present, so we ignore
-          # that.
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+          python -m pip install --upgrade pip
+          if [ -f docs-requirements.txt ]; then pip install -r docs-requirements.txt; fi
+      - name: Build the documentation
+        run: |
+          cd docs/
+          sphinx-build -b html . _build
+      - name: Tar HTML files
+        run: tar -czvf docfiles.tar docs/_build/
+      - name: Archive HTML files
+        uses: actions/upload-artifact@v2
         with:
-          branch: gh-pages
-          directory: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: docs-html-files
+          path: cookbook/docfiles.tar
+          retention-days: 2
