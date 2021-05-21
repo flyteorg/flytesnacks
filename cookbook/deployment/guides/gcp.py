@@ -5,7 +5,7 @@ GCP
 Using Flyte with the Google Cloud Platform
 ******************************************
 
-(insert intro paragraph)
+.. TODO: insert intro paragraph
 
 **********************************************************
 Troubleshooting Using Flyte with the Google Cloud Platform
