@@ -18,6 +18,11 @@ jobs:
       #   uses: actions/setup-python@v2
       #   with:
       #     python-version: ${{ matrix.python-version }}
+      - name: Setup SSH
+        uses: MrSquaare/ssh-setup-action@v1
+        with:
+          host: github.com
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Copy docs-requirements.txt 
         run:
           cp "cookbook/docs-requirements.txt" "cookbook/docs/requirements.txt"
