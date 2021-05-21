@@ -121,7 +121,7 @@ Do the same thing in ``datacatalog/datacatalog_config.yaml``, but use the dbname
 
 Note: *You can mount the database password into the pod and use the "passwordPath" config to point to a file on disk instead of specifying the password here.*
 
-Next, remove the "check-db-ready" init container from `admindeployment/admindeployment.yaml <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/admindeployment/admindeployment.yaml#L10-L14>`__. This check is no longer needed.
+Next, remove the "check-db-ready" init container from `admindeployment/admindeployment.yaml <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/flyte/admin/deployment.yaml#L14-L21>`__. This check is no longer needed.
 
 Production Grade Object Store
 *****************************
