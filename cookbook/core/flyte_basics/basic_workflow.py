@@ -18,7 +18,8 @@ behind workflows for additional information.
 """
 import typing
 
-from flytekit import task, workflow
+from flytekit import task, workflow, LaunchPlan, Email
+from flytekit.models.core.execution import WorkflowExecutionPhase
 
 
 @task
@@ -39,6 +40,19 @@ def my_wf(a: int, b: str) -> (int, str):
     x, y = t1(a=a)
     d = t2(a=y, b=b)
     return x, d
+
+
+katrina_notif_lp = LaunchPlan.get_or_create(
+    name="katrina_notif",
+    workflow=my_wf,
+    default_inputs={"a": 4, "b": 5},
+    notifications=[
+        Email(
+            phases=[WorkflowExecutionPhase.SUCCEEDED],
+            recipients_email=["jd@runx.dev", "katrina@union.ai"],
+        )
+    ],
+)
 
 
 # %%
