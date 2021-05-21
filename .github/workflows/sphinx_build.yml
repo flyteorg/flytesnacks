@@ -19,7 +19,7 @@ jobs:
       #   with:
       #     python-version: ${{ matrix.python-version }}
       - name: Setup SSH
-        uses: MrSquaare/ssh-setup-action@v1
+        uses: webfactory/ssh-agent@v0.5.2
         with:
           host: github.com
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
