@@ -15,7 +15,7 @@ Flyte allows these custom settings along with the following combination of dimen
 - project and domain
 - project, domain, and name (must be either the name of a workflow name or a launch plan)
 
-Please see the `Control Plane <https://docs.flyte.org/en/latest/concepts/control_plane.html>`__ document to get to know about projects and domains. 
+Please see the :doc:`Control Plane <flyte:concepts/control_plane>` document to get to know about projects and domains. 
 Along these dimensions, the following settings are configurable. 
 
 .. admonition:: Alert
@@ -31,9 +31,7 @@ Along these dimensions, the following settings are configurable.
 - Determining how workflow executions are assigned to clusters in a multi-cluster Flyte deployment.
 
 .. tip::
-  The proto definition is the definitive source encapsulating which
-  `matchable attributes <https://github.com/flyteorg/flyteidl/blob/master/protos/flyteidl/admin/matchable_resource.proto>`_
-  can be customized.
+  The proto definition is the definitive source encapsulating which :ref:`Matchable Resource <protos/docs/admin/admin:matchableresource>` attributes can be customized.
 
 Each of the four above settings is discussed below. 
 
@@ -59,6 +57,14 @@ To update individual project-domain attributes, use the following command for yo
     curl --request PUT 'https://flyte.company.net/api/v1/project_domain_attributes/projectname/staging' \
         --header 'Content-Type: application/json' --data-raw \
         '{"attributes":{"matchingAttributes":{"taskResourceAttributes":{"defaults":{"cpu": "1000", "memory": "5000Gi"}, "limits": {"cpu": "4000"}}}}'
+
+.. tip::
+    The equivalent ``flytectl`` command is:
+
+    .. prompt:: bash
+        flytectl update task-resource-attribute
+
+        Refer to the :ref:`docs <flytectl:flytectl_update_task-resource-attribute>` to learn more about the command and its supported flag(s).
 
 Cluster Resources
 =================
@@ -173,9 +179,14 @@ All other inbound CreateExecution requests will use the default values specified
 *********
 Debugging
 *********
-Use the `get <https://github.com/flyteorg/flyteidl/blob/ba13965bcfbf7e7bfce40664800aaf1f2a1088a1/protos/flyteidl/service/admin.proto#L395>`__ endpoint
-to see if overrides exist for a specific resource. Hit the URL: ``protocol://<host/api/v1/project_domain_attributes/widgetmodels/production?resource_type=2>``.
+To get the matchable resources of :ref:`execution queue attributes <flytectl_get_execution-queue-attribute>`, run the command:
+
+.. prompt:: bash
+    flytectl get execution-queue-attribute
+
+.. note::
+    Alternatively, you can also hit the URL: ``protocol://<host/api/v1/project_domain_attributes/widgetmodels/production?resource_type=2>``.
 
 To get the global state of the world, list all endpoints. For example, visit ``protocol://<host>/api/v1/matchable_attributes?resource_type=2``.
 
-The resource type enum (int) is defined in the `proto <https://github.com/flyteorg/flyteidl/blob/ba13965bcfbf7e7bfce40664800aaf1f2a1088a1/protos/flyteidl/admin/matchable_resource.proto#L8,L20>`__.
+The resource type enum (int) is defined in the :ref:`Matchable Resource <protos/docs/admin/admin:matchableresource>`.
