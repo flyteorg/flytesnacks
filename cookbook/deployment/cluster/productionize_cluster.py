@@ -187,6 +187,8 @@ Illustration of Setting up Flyte Cluster in a Single AWS EKS
    - Datacatalog also uses a postgres database similar to admin. They both could share the same physical instance, but prefer to have 2 logically separate databases.
    - If you want to use AWS IAM role for SeviceAccounts, then you have to manage the provisioning of the service account and providing it to Flyte at the time of execution.
    - For secrets, you can use Vault or Kube secrets. We are working on getting first class support for this.
+   
+.. TODO: check if first class support is still being worked on
 
 .. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/core/flyte_single_cluster_eks.png
     :alt: Illustration of setting up Flyte Cluster in a single AWS EKS (or any K8s cluster on AWS)
