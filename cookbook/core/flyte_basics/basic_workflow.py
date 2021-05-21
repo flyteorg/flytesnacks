@@ -45,7 +45,7 @@ def my_wf(a: int, b: str) -> (int, str):
 katrina_notif_lp = LaunchPlan.get_or_create(
     name="katrina_notif",
     workflow=my_wf,
-    default_inputs={"a": 4, "b": 5},
+    default_inputs={"a": 4, "b": "5"},
     notifications=[
         Email(
             phases=[WorkflowExecutionPhase.SUCCEEDED],
