@@ -41,7 +41,7 @@ The sandbox overlays live in the `kustomize/overlays/sandbox <https://github.com
 
   Using kustomize "patches", we add or override specific configs from the ``base`` resources. For example, in the "console" overlay, we specify a patch in the `kustomization.yaml <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/flyte/kustomization.yaml>`__. This patch adds memory and cpu limits to the console deployment config.
 
-  Each Flyte component requires at least one configuration file. The configuration files for each component live in the component overlay. For example, the FlyteAdmin config lives at `kustomize/overlays/sandbox/admindeployment/flyteadmin_config.yaml <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/admindeployment/flyteadmin_config.yaml>`__. These files get included as Kubernetes configmaps and mounted into pods.
+  Each Flyte component requires at least one configuration file. The configuration files for each component live in the component overlay. For example, the FlyteAdmin config lives at `kustomize/overlays/sandbox/flyte/admin/deployment.yaml <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/flyte/admin/deployment.yaml>`__. These files get included as Kubernetes configmaps and mounted into pods.
 
 **Flyte Overlay**
   The ``flyte`` overlay is meant to aggregate the components into a single deployment file.
