@@ -154,7 +154,7 @@ Change the ``storage`` configuration in each of these configs to use your new s3
 
 Note: *To use IAM roles for authentication, switch to the "iam" auth-type.*
 
-Next, open ``propeller/plugins/config.yaml`` and remove the `default-env-vars <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/propeller/plugins/config.yaml#L13-L15>`__ (no need to replace them, the default behavior is sufficient).
+Next, open ``propeller/plugins/config.yaml`` and remove the `default-env-vars <https://github.com/flyteorg/flyte/blob/master/kustomize/overlays/sandbox/flyte/config/propeller/plugins/k8s.yaml#L3-L6>`__ (no need to replace them, the default behavior is sufficient).
 
 Now if you re-run ``kustomize build flyte > flyte_generated.yaml``, you should see that the configmaps have been updated.
 
