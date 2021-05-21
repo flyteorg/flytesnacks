@@ -40,7 +40,9 @@ click==7.1.2
 croniter==1.0.12
     # via flytekit
 cryptography==3.4.7
-    # via paramiko
+    # via
+    #   paramiko
+    #   secretstorage
 cycler==0.10.0
     # via matplotlib
 dataclasses-json==0.5.3
@@ -67,7 +69,7 @@ flytekitplugins-awssagemaker==0.18.0
     # via -r requirements.in
 future==0.18.2
     # via tensorflow-datasets
-gast==0.3.3
+gast==0.4.0
     # via tensorflow
 gevent==21.1.2
     # via sagemaker-training
@@ -83,25 +85,29 @@ googleapis-common-protos==1.53.0
     # via tensorflow-metadata
 greenlet==1.0.0
     # via gevent
-grpcio==1.32.0
+grpcio==1.34.1
     # via
     #   flytekit
     #   tensorboard
     #   tensorflow
-h5py==2.10.0
+h5py==3.1.0
     # via tensorflow
 idna==2.10
     # via requests
 importlib-metadata==4.0.1
     # via keyring
-importlib-resources==5.1.2
-    # via tensorflow-datasets
 inotify_simple==1.2.1
     # via sagemaker-training
+jeepney==0.6.0
+    # via
+    #   keyring
+    #   secretstorage
 jmespath==0.10.0
     # via
     #   boto3
     #   botocore
+keras-nightly==2.5.0.dev2021032900
+    # via tensorflow
 keras-preprocessing==1.1.2
     # via tensorflow
 keyring==23.0.1
@@ -217,6 +223,8 @@ scantree==0.0.1
     # via dirhash
 scipy==1.6.3
     # via sagemaker-training
+secretstorage==3.3.1
+    # via keyring
 six==1.15.0
     # via
     #   absl-py
@@ -227,7 +235,6 @@ six==1.15.0
     #   google-auth
     #   google-pasta
     #   grpcio
-    #   h5py
     #   keras-preprocessing
     #   promise
     #   protobuf
@@ -253,11 +260,11 @@ tensorboard==2.5.0
     # via tensorflow
 tensorflow-datasets==4.2.0
     # via -r requirements.in
-tensorflow-estimator==2.4.0
+tensorflow-estimator==2.5.0
     # via tensorflow
 tensorflow-metadata==0.30.0
     # via tensorflow-datasets
-tensorflow==2.4.1
+tensorflow==2.5.0
     # via -r requirements.in
 termcolor==1.1.0
     # via
