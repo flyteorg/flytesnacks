@@ -8,6 +8,7 @@ This sesction includes:
 - Overview
 - Authentication Setup
 - Migrating Your Authentication Config
+- References
 
 ########
 Overview
@@ -494,5 +495,15 @@ Specifically,
 * **tokenUrl** and **scopes** will also be discovered through a metadata call.
 * **clientId** and **clientSecretLocation** have defaults that work out of the box with the built-in authorization server (e.g. if you setup Google OpenID Connect).
 
+**********
+References
+**********
+
+This collection of RFCs may be helpful to those who wish to investigate the implementation in more depth.
+
+* `OAuth2 RFC 6749 <https://tools.ietf.org/html/rfc6749>`_
+* `OAuth Discovery RFC 8414 <https://tools.ietf.org/html/rfc8414>`_
+* `PKCE RFC 7636 <https://tools.ietf.org/html/rfc7636>`_
+* `JWT RFC 7519 <https://tools.ietf.org/html/rfc7519>`_
 
 """
