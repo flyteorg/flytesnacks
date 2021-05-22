@@ -6,10 +6,10 @@ Locally, Flytekit relies on the Python interpreter to execute both tasks and wor
 To leverage the full power of Flyte, we recommend using a deployed backend of Flyte. Flyte can be run
 on any Kubernetes cluster - a local cluster like `kind <https://kind.sigs.k8s.io/>`__, in a cloud environment or on-prem.
 
-Please refer to the `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`__ for details on getting started with the Flyte installation.
+Please refer to the :doc:`Getting Started <flyte:getting_started>` for details on getting started with the Flyte installation.
 
 1. First commit your changes. Some of the steps below default to referencing the git sha.
-1. Run `make serialize`. This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed. See the image building section below for additional information.
+2. Run `make serialize`. This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed. See the image building section below for additional information.
 
 Build your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
