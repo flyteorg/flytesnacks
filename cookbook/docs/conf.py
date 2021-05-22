@@ -6,17 +6,20 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import logging
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import glob
+import logging
 import os
 import re
+import shutil
 import sys
+from pathlib import Path
 
-from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
+from sphinx.errors import ConfigError
+from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -46,7 +49,7 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         # Control Flow
-        "run_conditions.py"
+        "run_conditions.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -105,8 +108,14 @@ class CustomSorter(FileNameSortKey):
         ## External Services
         "hive.py"
         # Extending Flyte
-        "custom_task_plugin.py",
         "run_custom_types.py",
+        "custom_task_plugin.py",
+        "backend_plugins.py",
+        ## Tutorials
+        # ML Training
+        "diabetes.py",
+        "house_price_predictor.py",
+        "multiregion_house_price_predictor.py",
     ]
 
     def __call__(self, filename):
@@ -140,6 +149,7 @@ extensions = [
     "sphinx-prompt",
     "sphinx_copybutton",
     "sphinx_search.extension",
+    "sphinxext.remoteliteralinclude",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -305,6 +315,20 @@ sphinx_gallery_conf = {
     # },
 }
 
+if len(examples_dirs) != len(gallery_dirs):
+    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
+
+# Sphinx gallery makes specific assumptions about the structure of example gallery.
+# The main one is the the gallery's entrypoint is a README.rst file and the rest
+# of the files are *.py files that are auto-converted to .rst files. This makes
+# sure that the only rst files in the example directories are README.rst
+for source_dir in sphinx_gallery_conf["examples_dirs"]:
+    for f in Path(source_dir).glob("*.rst"):
+        if f.name != "README.rst":
+            raise ValueError(
+                f"non-README.rst file {f} not permitted in sphinx gallery directories"
+            )
+
 # intersphinx configuration
 intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
@@ -318,4 +342,6 @@ intersphinx_mapping = {
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
+    "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
+    "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
