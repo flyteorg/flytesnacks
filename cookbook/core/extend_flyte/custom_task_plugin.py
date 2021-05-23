@@ -1,7 +1,7 @@
 """
 .. _advanced_custom_task_plugin:
 
-How to write your own flytekit task plugins?
+Writing Custom Flytekit Task Plugins
 ----------------------------------------------
 
 Flytekit is designed to be extremely extensible. You can add new task-types that are useful only for your use-cases.
@@ -45,7 +45,7 @@ from flytekit.extend import Interface, PythonTask, context_manager
 # Plugin Structure
 # ^^^^^^^^^^^^^^^^^
 # As illustrated above to achieve this structure we need to create a Class called  ``WaitForObjectStoreFile``, which
-# derives from :py:class:`flytekit.core.PythonFunctionTask` as follows.
+# derives from :py:class:`flytekit.PythonFunctionTask` as follows.
 #
 class WaitForObjectStoreFile(PythonTask):
     """
