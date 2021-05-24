@@ -18,6 +18,7 @@ import shutil
 import sys
 
 from sphinx.errors import ConfigError
+import sphinx_fontawesome
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -147,6 +148,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_search.extension",
     "sphinxext.remoteliteralinclude",
+    "sphinx_fontawesome",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
