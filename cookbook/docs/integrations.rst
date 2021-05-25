@@ -27,12 +27,6 @@ Flytekit Plugins are simply loaded and can be released independently like librar
 
 For example ``flytekitplugins-papermill`` enables users to author flytekit tasks using `Papermill <https://papermill.readthedocs.io/en/latest/>`_.
 
-Examples of Flytekit-Only Plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-#. Papermill implementation `flytekitplugins-papermill <https://github.com/lyft/flytekit/tree/master/plugins/papermill>`_
-#. SQLite3 implementation `SQLite3 Queries <https://github.com/lyft/flytekit/blob/master/flytekit/extras/sqlite3/task.py>`_
-
 What are Backend Plugins?
 =========================
 
@@ -46,11 +40,6 @@ Flyte has a unique capability of adding backend plugins. Backend plugins enable 
 
 Flyte backend plugins are more involved and implementation needs writing code in ``Golang`` that gets plugged into the Flyte backend engine. These plugins are statically loaded into the FlytePropeller. The contract for the plugin can be encoded in any serialization format - e.g. JSON, OpenAPI, protobuf. The community in general prefers using protobuf.
 Once the backend plugin is implemented, any language SDK can be implemented to provide a specialized interface for the user.
-
-Examples
-^^^^^^^^^
-#. `Sagemaker <https://github.com/lyft/flytekit/tree/master/plugins/awssagemaker>`_
-#. `K8s Spark <https://github.com/lyft/flytekit/tree/master/plugins/spark>`_
 
 Native Backend Plugins
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,7 +60,6 @@ External Service Backend Plugins
 
 Enabling Backend Plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^
-
 To enable a backend plugin you have to add the ``ID`` of the plugin to the enabled plugins list. The ``enabled-plugins`` is available under the ``tasks > task-plugins`` section of FlytePropeller's configuration.
 The `plugin configuration structure is defined here <https://pkg.go.dev/github.com/flyteorg/flytepropeller@v0.6.1/pkg/controller/nodes/task/config#TaskPluginConfig>`_. An example of the config follows,
 
@@ -86,7 +74,9 @@ Enabling a Specific Backend Plugin in Your Own Kustomize Generator
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to `kustomize your own deployment <https://github.com/flyteorg/flyte/tree/master/kustomize>`_.
 
-We will soon be supporting helm or a better deployment model - See issue :issue:`299`.
+.. admonition:: Coming Soon!
+
+    We will soon be supporting Helm. Track the `GitHub Issue <https://github.com/flyteorg/flyte/issues/299>`__ to stay tuned!
 
 
 .. toctree::
