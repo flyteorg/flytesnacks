@@ -173,6 +173,12 @@ def bool_input_wf(b: bool) -> int:
     return conditional("test").if_(b.is_true()).then(success()).else_().then(failed())
 
 
+# %%
+# Also it is possible to arbitrarily nest conditional sections, inside other
+# conditional sections. Remember - conditional sections can only be in the
+# `then` part for a previous conditional block
+# The follow example shows how you can use float comparisons to create
+# a multi-level nested workflow
 @workflow
 def so_nested(my_input: float) -> float:
     return (
@@ -182,13 +188,15 @@ def so_nested(my_input: float) -> float:
             conditional("inner_fractions")
             .if_(my_input < 0.5)
             .then(double(n=my_input))
+            .elif_((my_input > 0.5) & (my_input < 0.7))
+            .then(square(n=my_input))
             .else_()
-            .fail("Only <0.5 allowed")
+            .fail("Only <0.7 allowed")
         )
         .elif_((my_input > 1.0) & (my_input < 10.0))
         .then(square(n=my_input))
         .else_()
-        .fail("The input must be between 0 and 10")
+        .then(double(n=my_input))
     )
 
 
