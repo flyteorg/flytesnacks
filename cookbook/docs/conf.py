@@ -16,8 +16,10 @@ import os
 import re
 import shutil
 import sys
+from pathlib import Path
 
 from sphinx.errors import ConfigError
+import sphinx_fontawesome
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -70,6 +72,7 @@ class CustomSorter(FileNameSortKey):
         "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
+        "fast_registration.py",
         "multiple_k8s.py",
         ## Cluster
         "productionize_cluster.py",
@@ -106,8 +109,9 @@ class CustomSorter(FileNameSortKey):
         ## External Services
         "hive.py"
         # Extending Flyte
-        "custom_task_plugin.py",
         "run_custom_types.py",
+        "custom_task_plugin.py",
+        "backend_plugins.py",
         ## Tutorials
         # ML Training
         "diabetes.py",
@@ -147,6 +151,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_search.extension",
     "sphinxext.remoteliteralinclude",
+    "sphinx_fontawesome",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -315,19 +320,16 @@ sphinx_gallery_conf = {
 if len(examples_dirs) != len(gallery_dirs):
     raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
 
-for i in range(len(sphinx_gallery_conf["examples_dirs"])):
-    gallery_dir = sphinx_gallery_conf["gallery_dirs"][i]
-    source_dir = sphinx_gallery_conf["examples_dirs"][i]
-    # Create gallery dirs if it doesn't exist
-    try:
-        os.makedirs(gallery_dir)
-    except OSError:
-        pass
-
-    # Copy rst files from source dir to gallery dir
-    for f in glob.glob(os.path.join(source_dir, "*.rst")):
-        if "README" not in f:
-            shutil.copy(f, gallery_dir)
+# Sphinx gallery makes specific assumptions about the structure of example gallery.
+# The main one is the the gallery's entrypoint is a README.rst file and the rest
+# of the files are *.py files that are auto-converted to .rst files. This makes
+# sure that the only rst files in the example directories are README.rst
+for source_dir in sphinx_gallery_conf["examples_dirs"]:
+    for f in Path(source_dir).glob("*.rst"):
+        if f.name != "README.rst":
+            raise ValueError(
+                f"non-README.rst file {f} not permitted in sphinx gallery directories"
+            )
 
 # intersphinx configuration
 intersphinx_mapping = {
