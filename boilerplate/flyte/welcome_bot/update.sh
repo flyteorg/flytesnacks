@@ -9,4 +9,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-cp ${DIR}/pull_request_template.md ${DIR}/../../../pull_request_template.md
+# Clone the config.yml file
+echo "     - copying ${DIR}/config.yml to the root directory."
+cp "${DIR}"/config.yml "${DIR}"/../../../.github/config.yml
+
