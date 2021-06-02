@@ -25,10 +25,10 @@ export FLYTE_AWS_ACCESS_KEY_ID ?= minio
 export FLYTE_AWS_SECRET_ACCESS_KEY ?= miniostorage
 
 # Used to publish artifacts for fast registration
-export ADDL_DISTRIBUTION_DIR ?= s3://flyte/fast/
+export ADDL_DISTRIBUTION_DIR ?= s3://my-s3-bucket/fast/
 
 # The base of where Blobs, Schemas and other offloaded types are, by default, serialized.
-export OUTPUT_DATA_PREFIX ?= s3://flyte/raw-data
+export OUTPUT_DATA_PREFIX ?= s3://my-s3-bucket/raw-data
 
 # Instructs flyte-cli commands to use insecure channel when communicating with Flyte's control plane.
 # If you're port-forwarding your service or running the sandbox Flyte deployment, specify INSECURE=1 before your make command.
@@ -71,9 +71,6 @@ requirements: requirements.txt
 fast_serialize: clean _pb_output
 	echo ${CURDIR}
 	docker run -it --rm \
-		-e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
-		-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
-		-e FLYTE_CREDENTIALS_AUTH_MODE=basic \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
@@ -108,10 +105,6 @@ serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -i --rm \
-		-e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
-		-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
-		-e FLYTE_CREDENTIALS_AUTH_MODE=basic \
-		-e FLYTE_CREDENTIALS_SCOPES=all \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \

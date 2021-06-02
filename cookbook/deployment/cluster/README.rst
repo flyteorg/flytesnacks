@@ -100,7 +100,7 @@ Again, you can make use of the included make target like so:
 
 .. code-block::
 
-   OUTPUT_DATA_PREFIX=s3://flyte/raw_data FLYTE_HOST=flyte.example.com make register
+   OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw_data FLYTE_HOST=flyte.example.com make register
 
 making sure to appropriately substitute the correct output data location (to persist workflow execution outputs) along
 with the URL to your hosted Flyte deployment.
@@ -110,7 +110,7 @@ Under the hood this recipe again supplies some defaults you may find yourself wi
 .. code-block::
 
    flyte-cli register-files -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo \
-       --output-location-prefix s3://flyte/raw_data -h flyte.example.com _pb_output/*
+       --output-location-prefix s3://my-s3-bucket/raw_data -h flyte.example.com _pb_output/*
 
 
 Of interest are the following args:
@@ -138,7 +138,7 @@ And then the fast register target:
 
 .. code-block::
 
-   OUTPUT_DATA_PREFIX=s3://flyte/raw_data FLYTE_HOST=flyte.example.com ADDL_DISTRIBUTION_DIR=s3://flyte/archives make register
+   OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw_data FLYTE_HOST=flyte.example.com ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/archives make register
 
 and just like that you can update your code without requiring a rebuild of your container!
 
