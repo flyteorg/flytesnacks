@@ -47,5 +47,33 @@ def parent_wf(a: int) -> (int, str, str):
     return x, u, v
 
 
+@task
+def t2(a: int) -> (int, str):
+    return a, "helo"
+
+
+@workflow
+def sub_wf_1(a: int) -> (int, str):
+    x, y = t1(a=a)
+    a, b = t2(a=x)
+    return x, b
+
+
+@workflow
+def sub_wf_2(a: int) -> (int, str):
+    x, y = t2(a=a)
+    a, b = t2(a=x)
+    return x, b
+
+
+@workflow
+def parent_wf_nested(a: int) -> (int, str, str):
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
+    u, v = my_subwf(a=x)
+    e, f = sub_wf_1(a=a)
+    g, h = sub_wf_2(a=a)
+    return x, u, v
+
+
 if __name__ == "__main__":
     print(f"Running parent_wf(a=3) {parent_wf(a=3)}")
