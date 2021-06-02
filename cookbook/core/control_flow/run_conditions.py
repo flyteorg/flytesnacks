@@ -52,10 +52,10 @@ def double(n: float) -> float:
 def multiplier(my_input: float) -> float:
     return (
         conditional("fractions")
-        .if_((my_input >= 0.1) & (my_input <= 1.0))
-        .then(double(n=my_input))
-        .else_()
-        .then(square(n=my_input))
+            .if_((my_input >= 0.1) & (my_input <= 1.0))
+            .then(double(n=my_input))
+            .else_()
+            .then(square(n=my_input))
     )
 
 
@@ -78,12 +78,12 @@ if __name__ == "__main__":
 def multiplier_2(my_input: float) -> float:
     return (
         conditional("fractions")
-        .if_((my_input > 0.1) & (my_input < 1.0))
-        .then(double(n=my_input))
-        .elif_((my_input > 1.0) & (my_input <= 10.0))
-        .then(square(n=my_input))
-        .else_()
-        .fail("The input must be between 0 and 10")
+            .if_((my_input > 0.1) & (my_input < 1.0))
+            .then(double(n=my_input))
+            .elif_((my_input > 1.0) & (my_input <= 10.0))
+            .then(square(n=my_input))
+            .else_()
+            .fail("The input must be between 0 and 10")
     )
 
 
@@ -99,12 +99,12 @@ if __name__ == "__main__":
 def multiplier_3(my_input: float) -> float:
     d = (
         conditional("fractions")
-        .if_((my_input > 0.1) & (my_input < 1.0))
-        .then(double(n=my_input))
-        .elif_((my_input > 1.0) & (my_input < 10.0))
-        .then(square(n=my_input))
-        .else_()
-        .fail("The input must be between 0 and 10")
+            .if_((my_input > 0.1) & (my_input < 1.0))
+            .then(double(n=my_input))
+            .elif_((my_input > 1.0) & (my_input < 10.0))
+            .then(square(n=my_input))
+            .else_()
+            .fail("The input must be between 0 and 10")
     )
 
     # d will be either the output of `double` or t he output of `square`. If the conditional() falls through the fail
@@ -183,21 +183,50 @@ def bool_input_wf(b: bool) -> int:
 def so_nested(my_input: float) -> float:
     return (
         conditional("fractions")
-        .if_((my_input > 0.1) & (my_input < 1.0))
-        .then(
+            .if_((my_input > 0.1) & (my_input < 1.0))
+            .then(
             conditional("inner_fractions")
-            .if_(my_input < 0.5)
-            .then(double(n=my_input))
-            .elif_((my_input > 0.5) & (my_input < 0.7))
+                .if_(my_input < 0.5)
+                .then(double(n=my_input))
+                .elif_((my_input > 0.5) & (my_input < 0.7))
+                .then(square(n=my_input))
+                .else_()
+                .fail("Only <0.7 allowed")
+        )
+            .elif_((my_input > 1.0) & (my_input < 10.0))
             .then(square(n=my_input))
             .else_()
-            .fail("Only <0.7 allowed")
-        )
-        .elif_((my_input > 1.0) & (my_input < 10.0))
-        .then(square(n=my_input))
-        .else_()
-        .then(double(n=my_input))
+            .then(double(n=my_input))
     )
+
+
+@task
+def sum_diff(a: float, b: float) -> (float, float):
+    """
+    sum_diff returns the sum and difference between a and b.
+    """
+    return a + b, a - b
+
+
+# %%
+# Just like other nodes, conditional nodes produce outputs. In the case of conditionals though, the outputs are computed
+# to be the subset of outputs that all then-nodes produce. In the following example, we call square() in one condition
+# and call double in another.
+
+@workflow
+def consume_outputs(my_input: float) -> float:
+    is_heads = coin_toss()
+    res = (
+        conditional("double_or_square")
+            .if_(is_heads == True)
+            .then(square(n=my_input))
+            .else_()
+            .then(sum_diff(a=my_input, b=my_input))
+    )
+
+    # Regardless of the result, always double before returning
+    # the variable `res` in this case will carry the value of either square or double of the variable `my_input`
+    return double(n=res)
 
 
 if __name__ == "__main__":

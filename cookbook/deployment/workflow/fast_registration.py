@@ -27,7 +27,7 @@ Upgrade your Flytekit dependency to ``>= 0.16.0`` and re-run pip-tools if necess
  .. code-block:: bash
 
     [sdk]
-    fast_registration_dir=s3://my-s3-bucket/distributions/<myproject>
+    fast_registration_dir=s3://flyte/distributions/<myproject>
 
 You'll need to build a base image with these changes incorporated before you can use fast registration.
 

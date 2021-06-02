@@ -25,10 +25,10 @@ export FLYTE_AWS_ACCESS_KEY_ID ?= minio
 export FLYTE_AWS_SECRET_ACCESS_KEY ?= miniostorage
 
 # Used to publish artifacts for fast registration
-export ADDL_DISTRIBUTION_DIR ?= s3://my-s3-bucket/fast/
+export ADDL_DISTRIBUTION_DIR ?= s3://flyte/fast/
 
 # The base of where Blobs, Schemas and other offloaded types are, by default, serialized.
-export OUTPUT_DATA_PREFIX ?= s3://my-s3-bucket/raw-data
+export OUTPUT_DATA_PREFIX ?= s3://flyte/raw-data
 
 # Instructs flyte-cli commands to use insecure channel when communicating with Flyte's control plane.
 # If you're port-forwarding your service or running the sandbox Flyte deployment, specify INSECURE=1 before your make command.
@@ -71,6 +71,9 @@ requirements: requirements.txt
 fast_serialize: clean _pb_output
 	echo ${CURDIR}
 	docker run -it --rm \
+		-e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
+		-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
+		-e FLYTE_CREDENTIALS_AUTH_MODE=basic \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
@@ -92,23 +95,7 @@ fast_register: clean _pb_output ## Packages code and registers without building 
 	@echo "Tagged Image: "
 	@echo ${TAGGED_IMAGE}
 	@echo ${CURDIR}
-	docker run -it --rm \
-		--network host \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
-		${TAGGED_IMAGE} make fast_register
+	flyte-cli fast-register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} --additional-distribution-dir ${ADDL_DISTRIBUTION_DIR} ${CURDIR}/_pb_output/*
 
 .PHONY: docker_build
 docker_build:
@@ -121,6 +108,10 @@ serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -i --rm \
+		-e FLYTE_CREDENTIALS_CLIENT_ID=${FLYTE_CREDENTIALS_CLIENT_ID} \
+		-e FLYTE_CREDENTIALS_CLIENT_SECRET=${FLYTE_CREDENTIALS_CLIENT_SECRET} \
+		-e FLYTE_CREDENTIALS_AUTH_MODE=basic \
+		-e FLYTE_CREDENTIALS_SCOPES=all \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
@@ -138,25 +129,10 @@ serialize: clean _pb_output docker_build
 
 
 .PHONY: register
-register: clean _pb_output docker_push
+register: clean _pb_output serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	docker run -i --rm \
-		--network host \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make register
+	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} ${CURDIR}/_pb_output/*
 
 _pb_output:
 	mkdir -p _pb_output
