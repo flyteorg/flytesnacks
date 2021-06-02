@@ -45,6 +45,10 @@ endif
 # The Flyte project that we want to register under
 export PROJECT ?= flytesnacks
 
+
+# The Flyte domain that we want to register under
+export DOMAIN ?= development
+
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
 #   ghcr.io/flyteorg/flytecookbook:<sha> or whatever your REGISTRY is.
@@ -138,25 +142,10 @@ serialize: clean _pb_output docker_build
 
 
 .PHONY: register
-register: clean _pb_output docker_push
+register: clean _pb_output serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	docker run -i --rm \
-		--network host \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make register
+	flytectl register file ${CURDIR}/_pb_output/* -d ${DOMAIN} -p ${PROJECT} --continueOnError
 
 _pb_output:
 	mkdir -p _pb_output

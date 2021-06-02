@@ -9,6 +9,7 @@ K8S_DASHBOARD_PROXY_PORT := 30082
 MINIO_PROXY_PORT := 30084
 FLYTE_SANDBOX_NAME := flyte-sandbox
 KUBE_CONFIG := ~/kubeconfig
+FLYTE_CONFIG := ~/.flyte/config.yaml
 
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core
@@ -66,9 +67,9 @@ wait:
 
 ## Start a local Flyte sandbox
 .PHONY: start
-start: setup wait
-	$(call LOG,Registering examples from commit: latest)
-	REGISTRY=ghcr.io/flyteorg VERSION=latest $(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
+start: flytectl-config setup wait
+    # Register all flytesnacks example
+	@cookbook/scripts/register-all-examples.sh
 
 	echo "Flyte is ready! Flyte UI is available at http://localhost:$(FLYTE_PROXY_PORT)/console."
 
@@ -90,6 +91,7 @@ register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows in cookbook/$(EXAMPLES_MODULE))
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
 
+
 .PHONY: fast_register
 fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 	$(call LOG,Fast registering example workflows in cookbook/$(EXAMPLES_MODULE))
@@ -102,3 +104,8 @@ kubectl-config:
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
+
+.PHONY: flytectl-config
+flytectl-config:
+	mkdir -p ~/.flyte
+	cp flytectl-config.yaml $(FLYTE_CONFIG)
