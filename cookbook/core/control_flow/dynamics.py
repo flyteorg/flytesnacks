@@ -18,6 +18,7 @@ import typing
 
 from flytekit import dynamic, task, workflow
 
+
 # %%
 # Next, we write a task that returns the index of a character (A-Z/a-z is equivalent to 0 to 25).
 @task
@@ -69,7 +70,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 # At execution (run) time, Flytekit runs the compilation step, and produces
 # a ``WorkflowTemplate`` (from the dynamic workflow), which Flytekit then passes back to Flyte Propeller for further running, exactly how sub-workflows are handled.
 #
-# .. note:: For iterating over a list, the dynamic pattern is not always the most efficient method. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_ might be more efficient in certain cases, keeping in mind they only work for Python tasks (tasks decorated with the @task decorator, not sql/spark/etc). 
+# .. note:: For iterating over a list, the dynamic pattern is not always the most efficient method. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_ might be more efficient in certain cases, keeping in mind they only work for Python tasks (tasks decorated with the @task decorator, not sql/spark/etc).
 #
 # We now define the dynamic workflow encapsulating the above mentioned points.
 @dynamic
@@ -106,7 +107,7 @@ def count_characters(s1: str, s2: str) -> int:
 # Because of this fact, operations on the ``index`` variable like ``index + 1`` are not valid.
 # To manage this problem, the values need to be passed to the other tasks to unwrap them.
 #
-# .. note:: The local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs. 
+# .. note:: The local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs.
 # Therefore, there are no Promise objects locally within the function decorated with ``@dynamic`` as it is treated as a ``task``.
 
 # %%

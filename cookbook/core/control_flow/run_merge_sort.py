@@ -27,8 +27,8 @@ seed(datetime.now().microsecond)
 @task
 def split(numbers: typing.List[int]) -> (typing.List[int], typing.List[int], int):
     return (
-        numbers[0:int(len(numbers) / 2)],
-        numbers[int(len(numbers) / 2):],
+        numbers[0 : int(len(numbers) / 2)],
+        numbers[int(len(numbers) / 2) :],
         int(len(numbers) / 2),
     )
 

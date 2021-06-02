@@ -14,7 +14,7 @@ Let's see how task caching can be enabled.
 """
 
 # %%
-# 
+#
 # For any :py:func:`flytekit.task` in Flyte, there is always one required import, which is:
 from flytekit import task
 
