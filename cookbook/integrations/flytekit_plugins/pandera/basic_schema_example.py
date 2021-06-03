@@ -2,7 +2,7 @@
 Basic Schema Example
 --------------------
 
-In this example we'll show you how to use :ref:`pandera.SchemaModel <pandera:schema_models>`
+This example will show you how to use :ref:`pandera.SchemaModel <pandera:schema_models>`
 to annotate dataframe inputs and outputs in your flyte tasks.
 
 """
@@ -16,9 +16,9 @@ from pandera.typing import DataFrame, Series
 
 # %%
 # A Simple Data Processing Pipeline
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# Let's first define a simple data processing pipeline in pure python.
+# First, define a simple data processing pipeline in pure python.
 
 def total_pay(df):
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
@@ -30,15 +30,15 @@ def process_data(df, worker_id):
     return add_id(df=total_pay(df=df), worker_id=worker_id)
 
 # %%
-# As you can see, the ``process_data`` function is composed of two simpler functions:
+# The ``process_data`` function is composed of two simpler functions:
 # One that computes ``total_pay`` and another that simply adds an ``id`` column to
 # a pandas dataframe.
 
 # %%
 # Defining DataFrame Schemas
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# Next we define the schemas that provide type and statistical annotations
+# Next, define the schemas that provide type and statistical annotations
 # for the raw, intermediate, and final outputs of our pipeline.
 
 class InSchema(pa.SchemaModel):
@@ -66,16 +66,17 @@ class OutSchema(IntermediateSchema):
 
 # %%
 # Columns are specified as class attributes with a specified data type using the
-# type-hinting syntax, and you can place additional statistical constraints on the
-# values of each column using :py:func:`~pandera.model_components.Field`. You can also define custom validation functions
-# by decorating methods with :py:func:`~pandera.model_components.check` (column-level checks) or
+# type-hinting syntax. Additional statistical constraints can be placed on the
+# values of each column using :py:func:`~pandera.model_components.Field`. 
+#
+# Custom validation functions can be defined by decorating methods with :py:func:`~pandera.model_components.check` (column-level checks) or
 # :py:func:`~pandera.model_components.dataframe_check` (dataframe-level checks), which automatically make them
 # class methods.
 #
 # Pandera uses inheritence to make sure that :py:class:`~pandera.model.SchemaModel` subclasses contain
 # all of the same columns and custom check methods as their base class. Inheritance semantics
-# apply to schema models so you can override column attributes or check methods in subclasses. This has
-# the nice effect of providing an explicit graph of type dependencies as data
+# apply to schema models to override column attributes or check methods in subclasses. This has
+# the pleasant effect of providing an explicit graph of type dependencies as data
 # flows through the various tasks in your workflow.
 
 
@@ -83,8 +84,8 @@ class OutSchema(IntermediateSchema):
 # Type Annotating Tasks and Workflows
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# Finally, we can turn our data processing pipeline into a Flyte workflow
-# by decorating our functions with the :py:func:`~flytekit.task` and :py:func:`~flytekit.workflow` decorators and
+# Finally, data processing pipelines can be turned into a Flyte workflow
+# by decorating functions with the :py:func:`~flytekit.task` and :py:func:`~flytekit.workflow` decorators and
 # annotating the inputs and outputs of those functions with the pandera schemas:
 
 @task
@@ -108,4 +109,5 @@ if __name__ == "__main__":
     print(f"Running wf(), returns dataframe\n{result}\n{result.dtypes}")
 
 
-# %% Now your workflows and tasks are guarded against unexpected data at runtime!
+# %% 
+# Workflows and tasks are now protected against unexpected data at runtime.
