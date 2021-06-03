@@ -40,7 +40,7 @@ def print_athena_schema(s: FlyteSchema):
 
 
 @workflow
-def full_hive_demo_wf(limit: int) -> FlyteSchema:
+def athena_output_passing_wf(limit: int) -> FlyteSchema:
     demo_schema = athena_task_w_out(limit=limit)
     print_athena_schema(s=demo_schema)
     return demo_schema
