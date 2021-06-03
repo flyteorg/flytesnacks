@@ -1,5 +1,11 @@
-from flytekit import dynamic, kwtypes, task, workflow
-from flytekit.types.file import FlyteFile
+"""
+Athena Query
+############
+
+This example shows how to use a Flyte AthenaTask to execute a query.
+"""
+
+from flytekit import kwtypes, task, workflow
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.athena import AthenaConfig, AthenaTask
 
@@ -24,7 +30,12 @@ def no_io_wf():
 
 # %%
 # Of course, in real world applications we are usually more interested in using Athena to query a dataset.
-# In this case we assume that the vaccinations table exists and has been populated data according to this schema
+# In this case we've populated our vaccinations table with the publicly available dataset
+# `here <https://www.kaggle.com/gpreda/covid-world-vaccination-progress>`__.
+# For a primer on how upload a dataset, checkout of the official
+# `AWS docs <https://docs.aws.amazon.com/quicksight/latest/user/create-a-data-set-athena.html>`__.
+# The data is formatted according to this schema:
+#
 #     +----------------------------------------------+
 #     | country (string)                             |
 #     +----------------------------------------------+
@@ -57,18 +68,30 @@ def no_io_wf():
 #     | source_website (string)                      |
 #     +----------------------------------------------+
 #
-# Let's look out how we can parameterize our query to filter results for a specific country.
+# Let's look out how we can parameterize our query to filter results for a specific country, provided as a user input
+# specifying a country iso code.
 # We'll produce a FlyteSchema that we can use in downstream flyte tasks for further analysis or manipulation.
+# Note that we cache this output data so we don't have to re-run the query in future workflow iterations
+# should we decide to change how we manipulate data downstream
 
 athena_task_templatized_query = AthenaTask(
     name="sql.athena.w_io",
-    inputs=kwtypes(limit=int),
+    # Define inputs as well as their types that can be used to customize the query.
+    inputs=kwtypes(iso_code=str),
     task_config=AthenaConfig(database="vaccinations"),
     query_template="""
     SELECT * FROM vaccinations where iso_code like  {{ .inputs.iso_code }}
     """,
+    # While we define a generic schema as the output here, Flyte supports more strongly typed schemas to provide
+    # better compile-time checks for task compatibility. Refer to :py:class:`flytekit.FlyteSchema` for more details
     output_schema_type=FlyteSchema,
+    # Cache the output data so we don't have to re-run the query in future workflow iterations
+    # should we decide to change how we manipulate data downstream.
+    # For more information about caching, visit :ref:`Task Caching <task_cache>`
+    cache=True,
+    cache_version="1.0",
 )
+
 
 # %%
 # Now we (trivially) clean up and interact with the data produced from the above Athena query in a separate Flyte task.
@@ -79,6 +102,6 @@ def manipulate_athena_schema(s: FlyteSchema) -> FlyteSchema:
 
 
 @workflow
-def full_hive_demo_wf(country_iso_code: str) -> FlyteSchema:
+def full_athena_wf(country_iso_code: str) -> FlyteSchema:
     demo_schema = athena_task_templatized_query(iso_code=country_iso_code)
     return manipulate_athena_schema(s=demo_schema)
