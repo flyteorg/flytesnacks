@@ -174,13 +174,22 @@ def bool_input_wf(b: bool) -> int:
 
 
 # %%
+# Let us execute these workflows
+if __name__ == "__main__":
+    print("Running basic_boolean_wf a few times")
+    for i in range(0, 5):
+        print(f"Basic boolean wf output {basic_boolean_wf()}")
+        print(f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}")
+
+
+# %%
 # Also it is possible to arbitrarily nest conditional sections, inside other
 # conditional sections. Remember - conditional sections can only be in the
 # `then` part for a previous conditional block
 # The follow example shows how you can use float comparisons to create
 # a multi-level nested workflow
 @workflow
-def so_nested(my_input: float) -> float:
+def nested_conditions(my_input: float) -> float:
     return (
         conditional("fractions")
         .if_((my_input > 0.1) & (my_input < 1.0))
@@ -200,8 +209,7 @@ def so_nested(my_input: float) -> float:
     )
 
 
+# %%
+# As usual you can execute nested conditionals locally
 if __name__ == "__main__":
-    print("Running basic_boolean_wf a few times")
-    for i in range(0, 5):
-        print(f"Basic boolean wf output {basic_boolean_wf()}")
-        print(f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}")
+    print(f"nested_conditions(0.4) -> {nested_conditions(my_input=0.4)}")
