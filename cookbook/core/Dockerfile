@@ -33,3 +33,5 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
+
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/ecddf77773f7a0a13bab5e153ed3fd959fe5c255.zip#egg=flytekit
