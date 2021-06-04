@@ -91,6 +91,8 @@ class CustomSorter(FileNameSortKey):
         ## Flytekit Plugins
         "simple.py",
         "basic_schema_example.py",
+        "branch_example.py",
+        "quickstart_example.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
