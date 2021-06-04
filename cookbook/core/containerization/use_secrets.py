@@ -2,8 +2,8 @@
 
 .. _secrets:
 
-Accessing Secrets
------------------
+Using Secrets in a Task
+-----------------------
 
 What Is Secrets Injection?
 ##########################

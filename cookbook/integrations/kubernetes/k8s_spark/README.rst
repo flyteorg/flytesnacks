@@ -1,5 +1,5 @@
-Executing Spark Jobs natively on K8s Cluster
-============================================
+Spark on Kubernetes
+====================
 Flyte can execute spark jobs natively on a Kubernetes Cluster. Flyte will manage the lifecycle, spin-up and tear down
 of a virtual cluster. This leverages open source `Spark On K8s Operator <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator>`_
 and can be enabled without signing up for any service. If you want to enable Spark for your Flyte Cluster refer to

@@ -1,8 +1,8 @@
 """
 .. _intermediate_spark_dataframes_passing:
 
-Pass pandas dataframes
-===========================
+Converting a Spark DataFrame to a Pandas DataFrame
+==================================================
 
 This example shows how users can return a spark.Dataset from a task and consume it as a pandas.DataFrame.
 If the dataframe does not fit in memory, it will result in a runtime failure.

@@ -1,5 +1,5 @@
-Executing Distributed Tensorflow training jobs on K8s
-==========================================================
+TF Operator
+===========
 
 .. NOTE::
 

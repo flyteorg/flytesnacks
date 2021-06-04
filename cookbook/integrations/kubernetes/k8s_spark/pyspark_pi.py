@@ -1,8 +1,8 @@
 """
 .. _intermediate_using_spark_tasks:
 
-Creating spark tasks as part of your workflow OR running spark jobs
-------------------------------------------------------------------------
+Spark Tasks
+------------
 
 This example shows how flytekit simplifies usage of pyspark in a users code.
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
