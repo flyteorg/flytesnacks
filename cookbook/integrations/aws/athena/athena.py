@@ -1,7 +1,8 @@
-from flytekit import kwtypes, task, workflow
-from flytekit.types.schema import FlyteSchema
+from flytekit import kwtypes, task, workflow, dynamic
 
 from flytekitplugins.athena import AthenaTask, AthenaConfig
+from flytekit.types.file import FlyteFile
+from flytekit.types.schema import FlyteSchema
 
 # %%
 # This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
@@ -44,6 +45,5 @@ def full_hive_demo_wf(limit: int) -> FlyteSchema:
     demo_schema = athena_task_w_out(limit=limit)
     print_athena_schema(s=demo_schema)
     return demo_schema
-
 
 
