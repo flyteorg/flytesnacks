@@ -4,13 +4,15 @@
 SQL Query Tasks - example SQLite3
 ===================================
 
-Flyte tasks are not restricted to pure containers. This is one of the most important design decisions in Flyte.
-Non-container tasks can have arbitrary targets for execution - example an API that executes SQL queries like SnowFlake,
-BigQuery etc, a synchronous WebAPI etc
+Flyte tasks are not always restricted to running user-supplied containers, nor even containers at all. Indeed, this is
+one of the most important design decisions in Flyte. Non-container tasks can have arbitrary targets for execution -
+example an API that executes SQL queries like SnowFlake, BigQuery etc, a synchronous WebAPI etc
 
-The follow example shows how you can write SQLite3 queries using the SQLite3Task, which is bundled as part of the core
-flytekit. Since SQL Queries are portable across SQL environments (as long as the data exists), users are not required
-to build a container for SQLite3. You can simply implement the task and register and execute it immediately.
+The following example shows how you can write SQLite3 queries using the SQLite3Task, which is bundled as part of the
+core flytekit. Since SQL Queries are portable across workflows and Flyte installations (as long as the data exists),
+this task will always run with a pre-built container, specifically the [flytekit container](https://github.com/flyteorg/flytekit/blob/v0.19.0/Dockerfile.py38) itself.
+and thus users are not required to build a container for SQLite3. You can simply implement the task - register and
+execute it immediately.
 
 In some cases local execution is not possible - e.g. Snowflake. But for SQLlite3 local execution is also supported.
 """
