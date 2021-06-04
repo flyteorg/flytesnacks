@@ -1,8 +1,8 @@
 .. _plugins_extend_intro:
 
-###########################
-When & How to Extend Flyte
-###########################
+################
+Extending Flyte
+################
 
 .. NOTE:: These docs are still work in progress. Please read through and if you have any questions don't shy away from either filing a github issue or ping us in the Slack channel. The community loves plugins and would love to help you in any way.
 

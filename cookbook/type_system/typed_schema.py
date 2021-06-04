@@ -1,6 +1,6 @@
 """
-Typed columns in a schema
-------------------------------
+Typed Columns in a Schema
+--------------------------
 
 This example explains how a typed schema can be used in Flyte and declared in flytekit.
 
