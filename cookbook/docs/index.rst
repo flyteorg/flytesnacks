@@ -16,12 +16,12 @@ the `getting started <https://docs.flyte.org/en/latest/getting_started.html>`__ 
    :maxdepth: 1
    :hidden:
 
-   Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   User Guide <https://docs.flyte.org/projects/cookbook/en/latest/index.html>
-   Tutorials <https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html>
-   Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
-   API Reference <https://docs.flyte.org/en/latest/reference/index.html>
-   Community <https://docs.flyte.org/en/latest/community/index.html>
+   |plane| Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
+   |book-reader| User Guide <https://docs.flyte.org/projects/cookbook/en/latest/index.html>
+   |chalkboard| Tutorials <https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html>
+   |project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
+   |book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
+   |hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
 
 .. toctree::
    :maxdepth: -1
@@ -29,15 +29,15 @@ the `getting started <https://docs.flyte.org/en/latest/getting_started.html>`__ 
    :hidden:
 
    Introduction <self>
-   Flyte Basics <auto_core_flyte_basics/index>
-   Control Flow <auto_core_control_flow/index>
-   Type System <auto_type_system/index>
-   Testing <auto_testing/index>
-   Containerization <auto_core_containerization/index>
+   Flyte Basics <auto/core/flyte_basics/index>
+   Control Flow <auto/core/control_flow/index>
+   Type System <auto/type_system/index>
+   Testing <auto/testing/index>
+   Containerization <auto/core/containerization/index>
    deployment
-   Control Plane <auto_control_plane/index>
-   integrations 
-   Extending flyte <extending_flyte>
+   Control Plane <auto/control_plane/index>
+   integrations
+   Extending flyte <auto/core/extend_flyte/index>
 
 .. toctree::
    :maxdepth: -1

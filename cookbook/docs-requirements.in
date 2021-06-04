@@ -8,5 +8,9 @@ sphinx-prompt
 sphinx-code-include
 sphinx-autoapi
 sphinx-copybutton
+sphinxext-remoteliteralinclude
+sphinx_fontawesome
 docutils==0.16
 astroid==2.4.2
+matplotlib
+flytekit

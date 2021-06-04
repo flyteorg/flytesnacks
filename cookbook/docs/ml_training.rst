@@ -6,5 +6,9 @@ ML Training
     :maxdepth: -1
     :caption: Contents
 
-    auto_case_studies_ml_training_pima_diabetes/index
-    auto_case_studies_ml_training_house_price_prediction/index
+    auto/case_studies/ml_training/pima_diabetes/index
+    auto/case_studies/ml_training/house_price_prediction/index
+
+.. admonition:: Coming Soon!
+
+    Data Parallel Training, Distributed Training, and Single Node Training 

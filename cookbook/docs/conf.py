@@ -6,17 +6,21 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import logging
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import glob
+import logging
 import os
 import re
+import shutil
 import sys
+from pathlib import Path
 
-from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
+from sphinx.errors import ConfigError
+import sphinx_fontawesome
+from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -46,7 +50,7 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         # Control Flow
-        "run_conditions.py"
+        "run_conditions.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -107,8 +111,14 @@ class CustomSorter(FileNameSortKey):
         ## External Services
         "hive.py"
         # Extending Flyte
-        "custom_task_plugin.py",
         "run_custom_types.py",
+        "custom_task_plugin.py",
+        "backend_plugins.py",
+        ## Tutorials
+        # ML Training
+        "diabetes.py",
+        "house_price_predictor.py",
+        "multiregion_house_price_predictor.py",
     ]
 
     def __call__(self, filename):
@@ -142,12 +152,16 @@ extensions = [
     "sphinx-prompt",
     "sphinx_copybutton",
     "sphinx_search.extension",
+    "sphinxext.remoteliteralinclude",
+    "sphinx_fontawesome",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 html_static_path = ["_static"]
+
+html_css_files = ["sphx_gallery_autogen.css"]
 
 # generate autosummary even if no references
 autosummary_generate = True
@@ -187,6 +201,13 @@ html_theme_options = {
         "color-brand-primary": "#9D68E4",
         "color-brand-content": "#9D68E4",
     },
+    # custom flyteorg furo theme options
+    "github_repo": "flytesnacks",
+    "github_username": "flyteorg",
+    "github_commit": "master",
+    "docs_path": "cookbook/docs",  # path to documentation source
+    "sphinx_gallery_src_dir": "cookbook",  # path to directory of sphinx gallery source files relative to repo root
+    "sphinx_gallery_dest_dir": "auto",  # path to root directory containing auto-generated sphinx gallery examples
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -199,7 +220,7 @@ html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 examples_dirs = [
     "../core/flyte_basics",
     "../core/control_flow",
-    "../type_system",
+    "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../testing",
@@ -302,6 +323,61 @@ sphinx_gallery_conf = {
     # },
 }
 
+if len(examples_dirs) != len(gallery_dirs):
+    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
+
+# Sphinx gallery makes specific assumptions about the structure of example gallery.
+# The main one is the the gallery's entrypoint is a README.rst file and the rest
+# of the files are *.py files that are auto-converted to .rst files. This makes
+# sure that the only rst files in the example directories are README.rst
+hide_download_page_ids = []
+
+def hide_example_page(file_handler):
+    """Heuristic that determines whether example file contains python code."""
+    example_content = file_handler.read().strip()
+
+    no_percent_comments = True
+    no_imports = True
+
+    for line in example_content.split("\n"):
+        if line.startswith(r"# %%"):
+            no_percent_comments = False
+        if line.startswith("import"):
+            no_imports = False
+
+    return example_content.startswith('"""') and example_content.endswith('"""') and no_percent_comments and no_imports
+
+for source_dir in sphinx_gallery_conf["examples_dirs"]:
+    for f in Path(source_dir).glob("*.rst"):
+        if f.name != "README.rst":
+            raise ValueError(
+                f"non-README.rst file {f} not permitted in sphinx gallery directories"
+            )
+
+    # we want to hide the download example button in pages that don't actually contain python code.
+    for f in Path(source_dir).glob("*.py"):
+        with f.open() as fh:
+            if hide_example_page(fh):
+                page_id = str(f).replace("..", "auto").replace("/", "-").replace(".", "-").replace("_", "-")
+                hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
+
+SPHX_GALLERY_CSS_TEMPLATE = \
+"""
+{hide_download_page_ids} {{
+    height: 0px;
+    visibility: hidden;
+}}
+"""
+
+with Path("_static/sphx_gallery_autogen.css").open("w") as f:
+    f.write(
+        SPHX_GALLERY_CSS_TEMPLATE.format(
+            hide_download_page_ids=",\n".join(
+                f"#{x}" for x in hide_download_page_ids
+            )
+        )
+    )
+
 # intersphinx configuration
 intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
@@ -316,4 +392,6 @@ intersphinx_mapping = {
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
+    "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
+    "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
