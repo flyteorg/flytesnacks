@@ -9,9 +9,7 @@ ENV PYTHONPATH /root
 # Install dolt
 RUN sudo bash -c 'curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | sudo bash' &&\
     dolt config --global --add user.email bojack@horseman.com &&\
-    dolt config --global --add user.name "Bojack Horseman" &&\
-    dolt config --global --add metrics.host eventsapi.awsdev.ld-corp.com &&\
-    dolt config --global --add metrics.port 443
+    dolt config --global --add user.name "Bojack Horseman"
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
