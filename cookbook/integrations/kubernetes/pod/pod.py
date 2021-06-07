@@ -24,6 +24,7 @@ The primary container is the driver for the flyte task execution for example, pr
 #
 # In this example, we define a simple pod spec in which a shared volume is mounted in both the primary and secondary
 # containers. The secondary writes a file that the primary waits on before completing.
+import logging
 import os
 import time
 from typing import List
@@ -82,10 +83,12 @@ def generate_pod_spec_for_task():
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
 )
-def my_pod_task(a: int) -> str:
+def my_pod_task(attempts: int) -> str:
     # The code defined in this task will get injected into the primary container.
-    while not os.path.isfile(_SHARED_DATA_PATH):
-        time.sleep(a)
+    while not os.path.isfile(_SHARED_DATA_PATH) and attempts > 0:
+        attempts = attempts-1
+        time.sleep(5)
+        logging.info(f"sleeping. {attempts} left")
 
     with open(_SHARED_DATA_PATH, "r") as shared_message_file:
         return shared_message_file.read()
@@ -93,7 +96,7 @@ def my_pod_task(a: int) -> str:
 
 @workflow
 def PodWorkflow(a: int=5) -> str:
-    s = my_pod_task(a=a)
+    s = my_pod_task(attempts=a)
     return s
 
 
@@ -109,7 +112,7 @@ def coalesce(b: List[str]) -> str:
 # input type defined for ``a_mappable_task``.
 @workflow
 def my_map_workflow(a: List[int]) -> str:
-    mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(a=a)
+    mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(attempts=a)
     coalesced = coalesce(b=mapped_out)
     return coalesced
 
