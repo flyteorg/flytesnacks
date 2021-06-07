@@ -26,8 +26,9 @@ The primary container is the driver for the flyte task execution for example, pr
 # containers. The secondary writes a file that the primary waits on before completing.
 import os
 import time
+from typing import List
 
-from flytekit import task, workflow
+from flytekit import TaskMetadata, map_task, task, workflow
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -81,10 +82,10 @@ def generate_pod_spec_for_task():
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
 )
-def my_pod_task() -> str:
+def my_pod_task(a: int=5) -> str:
     # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
-        time.sleep(5)
+        time.sleep(a)
 
     with open(_SHARED_DATA_PATH, "r") as shared_message_file:
         return shared_message_file.read()
@@ -94,6 +95,23 @@ def my_pod_task() -> str:
 def PodWorkflow() -> str:
     s = my_pod_task()
     return s
+
+
+@task
+def coalesce(b: List[str]) -> str:
+    coalesced = ", ".join(b)
+    return coalesced
+
+
+# %%
+# To use a map task in your workflow, use the :py:func:`flytekit:flytekit.core.map_task` function and pass in an individual
+# task to be repeated across a collection of inputs. In this case the type of a, ``typing.List[int]`` is a list of the
+# input type defined for ``a_mappable_task``.
+@workflow
+def my_map_workflow(a: List[int]) -> str:
+    mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(a=a)
+    coalesced = coalesce(b=mapped_out)
+    return coalesced
 
 
 if __name__ == "__main__":
