@@ -82,7 +82,7 @@ def generate_pod_spec_for_task():
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
 )
-def my_pod_task(a: int=5) -> str:
+def my_pod_task(a: int) -> str:
     # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(a)
@@ -92,8 +92,8 @@ def my_pod_task(a: int=5) -> str:
 
 
 @workflow
-def PodWorkflow() -> str:
-    s = my_pod_task()
+def PodWorkflow(a: int=5) -> str:
+    s = my_pod_task(a=a)
     return s
 
 
