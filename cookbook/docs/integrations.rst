@@ -12,7 +12,7 @@ Flyte is designed to be highly extensible and can be customized in multiple ways
        :text: Flytekit Plugins
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Plugins that are like executing a python function in a container
+    These are Flytekit (python) plugins that are like executing a python function in a container.
 
     ---
 
@@ -21,7 +21,7 @@ Flyte is designed to be highly extensible and can be customized in multiple ways
        :text: Native Backend Plugins
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Plugins that enable backend capabilities in Flyte and are independent of any external services.
+    Plugins that enable backend capabilities in Flyte and are independent of external services.
 
     ---
 
