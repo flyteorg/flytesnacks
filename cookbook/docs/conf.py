@@ -6,17 +6,21 @@
 
 # -- Path setup --------------------------------------------------------------
 
-import logging
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import glob
+import logging
 import os
 import re
+import shutil
 import sys
+from pathlib import Path
 
-from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
+from sphinx.errors import ConfigError
+import sphinx_fontawesome
+from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -46,7 +50,7 @@ class CustomSorter(FileNameSortKey):
         "files.py",
         "folders.py",
         # Control Flow
-        "run_conditions.py"
+        "run_conditions.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -91,6 +95,8 @@ class CustomSorter(FileNameSortKey):
         ## Flytekit Plugins
         "simple.py",
         "basic_schema_example.py",
+        "branch_example.py",
+        "quickstart_example.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
@@ -105,8 +111,14 @@ class CustomSorter(FileNameSortKey):
         ## External Services
         "hive.py"
         # Extending Flyte
-        "custom_task_plugin.py",
         "run_custom_types.py",
+        "custom_task_plugin.py",
+        "backend_plugins.py",
+        ## Tutorials
+        # ML Training
+        "diabetes.py",
+        "house_price_predictor.py",
+        "multiregion_house_price_predictor.py",
     ]
 
     def __call__(self, filename):
@@ -140,12 +152,16 @@ extensions = [
     "sphinx-prompt",
     "sphinx_copybutton",
     "sphinx_search.extension",
+    "sphinxext.remoteliteralinclude",
+    "sphinx_fontawesome",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 html_static_path = ["_static"]
+
+html_css_files = ["sphx_gallery_autogen.css"]
 
 # generate autosummary even if no references
 autosummary_generate = True
@@ -204,7 +220,7 @@ html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 examples_dirs = [
     "../core/flyte_basics",
     "../core/control_flow",
-    "../type_system",
+    "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../testing",
@@ -217,6 +233,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/papermilltasks",
     "../integrations/flytekit_plugins/sqlalchemy",
     "../integrations/flytekit_plugins/pandera",
+    "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
@@ -233,7 +250,7 @@ examples_dirs = [
 gallery_dirs = [
     "auto/core/flyte_basics",
     "auto/core/control_flow",
-    "auto/type_system",
+    "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/testing",
@@ -246,6 +263,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/papermilltasks",
     "auto/integrations/flytekit_plugins/sqlalchemy",
     "auto/integrations/flytekit_plugins/pandera",
+    "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
@@ -305,12 +323,68 @@ sphinx_gallery_conf = {
     # },
 }
 
+if len(examples_dirs) != len(gallery_dirs):
+    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
+
+# Sphinx gallery makes specific assumptions about the structure of example gallery.
+# The main one is the the gallery's entrypoint is a README.rst file and the rest
+# of the files are *.py files that are auto-converted to .rst files. This makes
+# sure that the only rst files in the example directories are README.rst
+hide_download_page_ids = []
+
+def hide_example_page(file_handler):
+    """Heuristic that determines whether example file contains python code."""
+    example_content = file_handler.read().strip()
+
+    no_percent_comments = True
+    no_imports = True
+
+    for line in example_content.split("\n"):
+        if line.startswith(r"# %%"):
+            no_percent_comments = False
+        if line.startswith("import"):
+            no_imports = False
+
+    return example_content.startswith('"""') and example_content.endswith('"""') and no_percent_comments and no_imports
+
+for source_dir in sphinx_gallery_conf["examples_dirs"]:
+    for f in Path(source_dir).glob("*.rst"):
+        if f.name != "README.rst":
+            raise ValueError(
+                f"non-README.rst file {f} not permitted in sphinx gallery directories"
+            )
+
+    # we want to hide the download example button in pages that don't actually contain python code.
+    for f in Path(source_dir).glob("*.py"):
+        with f.open() as fh:
+            if hide_example_page(fh):
+                page_id = str(f).replace("..", "auto").replace("/", "-").replace(".", "-").replace("_", "-")
+                hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
+
+SPHX_GALLERY_CSS_TEMPLATE = \
+"""
+{hide_download_page_ids} {{
+    height: 0px;
+    visibility: hidden;
+}}
+"""
+
+with Path("_static/sphx_gallery_autogen.css").open("w") as f:
+    f.write(
+        SPHX_GALLERY_CSS_TEMPLATE.format(
+            hide_download_page_ids=",\n".join(
+                f"#{x}" for x in hide_download_page_ids
+            )
+        )
+    )
+
 # intersphinx configuration
 intersphinx_mapping = {
     "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
+    "dolt": ("https://docs.dolthub.com/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
@@ -318,4 +392,6 @@ intersphinx_mapping = {
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
+    "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
+    "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
