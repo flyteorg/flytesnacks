@@ -5,7 +5,10 @@
 Accessing Secrets
 -----------------
 
-Flyte supports running a wide variety of tasks, from containers to SQL queries and service calls. In order for Flyte-run
+What Is Secrets Injection?
+##########################
+
+Flyte supports running a wide variety of tasks; from containers to SQL queries and service calls. In order for Flyte-run
 containers to request and access secrets, Flyte provides a native Secret construct.
 
 For a simple task that launches a Pod, the flow will look something like this:
@@ -40,8 +43,8 @@ or injected into a file.
 
 # %%
 import os
-import flytekit
 
+import flytekit
 # %%
 # Flytekit exposes a type/class called Secrets. It can be imported as follows.
 from flytekit import Secret, task, workflow
@@ -56,15 +59,15 @@ from flytekit import Secret, task, workflow
 # specified the task will always retrieve the latest version. Though not recommended some users may want the task
 # version to be bound to a secret version.
 
-SECRET_NAME = "user_secret"
-SECRET_GROUP = "user-info"
+SECRET_NAME = "flyte/sec/api-AT9da7"
+SECRET_GROUP = "arn:aws:secretsmanager:us-west-1:757267728559:secret"
 
 
 # %%
 # Now declare the secret in the requests. The secret can be accessed using the :py:class:`flytekit.ExecutionParameters`,
 # through the global flytekit context as shown below
 #
-@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])
+@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME, mount_requirement=Secret.mount_requirement.ANY)])
 def secret_task() -> str:
     secret_val = flytekit.current_context().secrets.get(SECRET_GROUP, SECRET_NAME)
     # Please do not print the secret value, we are doing so just as a demonstration
@@ -122,9 +125,9 @@ def secret_file_task() -> (str, str):
 @workflow
 def my_secret_workflow() -> (str, str, str, str, str):
     x = secret_task()
-    y, z = user_info_task()
-    f, s = secret_file_task()
-    return x, y, z, f, s
+    # y, z = user_info_task()
+    # f, s = secret_file_task()
+    return x, x, x, x, x
 
 
 # %%
