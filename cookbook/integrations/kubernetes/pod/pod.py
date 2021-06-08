@@ -109,7 +109,7 @@ def coalesce(b: List[str]) -> str:
 # %%
 # To use a map task in your workflow, use the :py:func:`flytekit:flytekit.core.map_task` function and pass in an individual
 # task to be repeated across a collection of inputs. In this case the type of a, ``typing.List[int]`` is a list of the
-# input type defined for ``a_mappable_task``.
+# input type defined for ``a_mappable_task`` which gets mapped over.
 @workflow
 def my_map_workflow(a: List[int]) -> str:
     mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(attempts=a)
