@@ -1,4 +1,4 @@
-name: Build and Push Pima Diabetes Docker Images
+name: Build and Push House Price Prediction example Docker Images
 
 on:
   pull_request:
