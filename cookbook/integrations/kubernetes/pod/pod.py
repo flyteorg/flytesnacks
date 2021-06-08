@@ -29,7 +29,7 @@ import os
 import time
 from typing import List
 
-from flytekit import TaskMetadata, map_task, task, workflow
+from flytekit import TaskMetadata, map_task, task, workflow, Resources
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -82,6 +82,7 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
+    requests=Resources(cpu="1", mem="2048"), limits=Resources(cpu="2", mem="4096"),
 )
 def my_pod_task(attempts: int) -> str:
     # The code defined in this task will get injected into the primary container.
