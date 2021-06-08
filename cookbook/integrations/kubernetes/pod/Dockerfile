@@ -19,6 +19,9 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY pod/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/8bc182973266034121395c56d123b90c59aaae6f.zip#egg=flytekit
+RUN pip install https://github.com/lyft/flytekit/archive/8bc182973266034121395c56d123b90c59aaae6f.zip#subdirectory=plugins/pod&egg=flytekitplugins-pod
+
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
 COPY pod/sandbox.config /root
