@@ -178,7 +178,9 @@ if __name__ == "__main__":
 
 
 # %%
-# Also it is possible to arbitrarily nest conditional sections, inside other
+# Example 5
+# ^^^^^^^^^
+# It is possible to arbitrarily nest conditional sections, inside other
 # conditional sections. Remember - conditional sections can only be in the
 # `then` part for a previous conditional block
 # The follow example shows how you can use float comparisons to create
