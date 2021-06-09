@@ -1,4 +1,6 @@
 """
+.. _typed_schema:
+
 Typed Columns in a Schema
 --------------------------
 
