@@ -27,7 +27,7 @@ def a_mappable_task(a: int) -> str:
 @task
 def coalesce(b: typing.List[str]) -> str:
     coalesced = "".join(b)
-    return coalesc
+    return coalesced
 
 
 # %%
