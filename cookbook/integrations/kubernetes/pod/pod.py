@@ -82,7 +82,7 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
-    requests=Resources(cpu="0.1", mem="1000"),
+    requests=Resources(cpu="0.1", mem="1000"), limits=Resources(cpu="0.1", mem="2000"),
 )
 def my_pod_task(attempts: int) -> str:
     # The code defined in this task will get injected into the primary container.
