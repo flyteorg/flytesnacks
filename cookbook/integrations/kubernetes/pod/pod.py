@@ -67,7 +67,9 @@ def generate_pod_spec_for_task():
         containers=[primary_container, secondary_container],
         volumes=[
             V1Volume(
-                name="shared-data", empty_dir=V1EmptyDirVolumeSource(medium="Memory")
+                name="shared-data", empty_dir=V1EmptyDirVolumeSource(medium="Memory"), config_map=V1ConfigMap(
+                data={"proxy.yaml": "foo"}
+            ),
             )
         ],
     )
