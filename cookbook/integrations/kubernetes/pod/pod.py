@@ -24,12 +24,11 @@ The primary container is the driver for the flyte task execution for example, pr
 #
 # In this example, we define a simple pod spec in which a shared volume is mounted in both the primary and secondary
 # containers. The secondary writes a file that the primary waits on before completing.
-import logging
 import os
 import time
 from typing import List
 
-from flytekit import TaskMetadata, map_task, task, workflow, Resources
+from flytekit import task, workflow
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -49,9 +48,15 @@ def generate_pod_spec_for_task():
     primary_container = V1Container(name="primary")
 
     # Note: for non-primary containers we must specify an image.
-    secondary_container = V1Container(name="secondary", image="alpine",)
+    secondary_container = V1Container(
+        name="secondary",
+        image="alpine",
+    )
     secondary_container.command = ["/bin/sh"]
-    secondary_container.args = ["-c", "echo hi pod world > {}".format(_SHARED_DATA_PATH)]
+    secondary_container.args = [
+        "-c",
+        "echo hi pod world > {}".format(_SHARED_DATA_PATH),
+    ]
 
     resources = V1ResourceRequirements(
         requests={"cpu": "1", "memory": "100Mi"}, limits={"cpu": "1", "memory": "100Mi"}
@@ -59,7 +64,10 @@ def generate_pod_spec_for_task():
     primary_container.resources = resources
     secondary_container.resources = resources
 
-    shared_volume_mount = V1VolumeMount(name="shared-data", mount_path="/data",)
+    shared_volume_mount = V1VolumeMount(
+        name="shared-data",
+        mount_path="/data",
+    )
     secondary_container.volume_mounts = [shared_volume_mount]
     primary_container.volume_mounts = [shared_volume_mount]
 
@@ -67,9 +75,7 @@ def generate_pod_spec_for_task():
         containers=[primary_container, secondary_container],
         volumes=[
             V1Volume(
-                name="shared-data", empty_dir=V1EmptyDirVolumeSource(medium="Memory"), config_map=V1ConfigMap(
-                data={"proxy.yaml": "foo"}
-            ),
+                name="shared-data", empty_dir=V1EmptyDirVolumeSource(medium="Memory")
             )
         ],
     )
@@ -84,23 +90,54 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
-    requests=Resources(cpu="0.1", mem="600Mi"), limits=Resources(cpu="0.2", mem="1200Mi"),
 )
-def my_pod_task(attempts: int) -> str:
+def my_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.
-    while not os.path.isfile(_SHARED_DATA_PATH) and attempts > 0:
-        attempts = attempts-1
+    while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(5)
-        logging.info(f"sleeping. {attempts} left")
 
     with open(_SHARED_DATA_PATH, "r") as shared_message_file:
         return shared_message_file.read()
 
 
 @workflow
-def PodWorkflow(a: int=5) -> str:
-    s = my_pod_task(attempts=a)
+def PodWorkflow() -> str:
+    s = my_pod_task()
     return s
+
+
+# %%
+# To use a pod task as part of a map task in your workflow, use the :py:func:`flytekit:flytekit.core.map_task` function
+# and pass in the pod task definition. This will run your pod task across a collection of inputs.
+
+from flytekit import map_task, TaskMetadata
+
+
+@task(
+    task_config=Pod(
+        pod_spec=V1PodSpec(
+            containers=[
+                V1Container(
+                    name="primary",
+                    resources=V1ResourceRequirements(
+                        requests={"cpu": ".5", "memory": "500Mi"},
+                        limits={"cpu": ".5", "memory": "500Mi"},
+                    ),
+                )
+            ],
+            init_containers=[
+                V1Container(
+                    name="init",
+                    command=["/bin/sh"],
+                    args=["-c", 'echo "I\'m a customizable init container"'],
+                )
+            ],
+        ),
+        primary_container_name="primary",
+    )
+)
+def my_pod_task(stringify: int) -> str:
+    return str(stringify)
 
 
 @task
@@ -109,13 +146,9 @@ def coalesce(b: List[str]) -> str:
     return coalesced
 
 
-# %%
-# To use a map task in your workflow, use the :py:func:`flytekit:flytekit.core.map_task` function and pass in an individual
-# task to be repeated across a collection of inputs. In this case the type of a, ``typing.List[int]`` is a list of the
-# input type defined for ``a_mappable_task`` which gets mapped over.
 @workflow
 def my_map_workflow(a: List[int]) -> str:
-    mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(attempts=a)
+    mapped_out = map_task(my_pod_task, metadata=TaskMetadata(retries=1))(stringify=a)
     coalesced = coalesce(b=mapped_out)
     return coalesced
 

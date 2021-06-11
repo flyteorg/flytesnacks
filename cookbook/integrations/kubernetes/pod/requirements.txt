@@ -20,7 +20,7 @@ croniter==1.0.13
     # via flytekit
 cycler==0.10.0
     # via matplotlib
-dataclasses-json==0.5.3
+dataclasses-json==0.5.4
     # via flytekit
 decorator==5.0.9
     # via retry
@@ -30,15 +30,15 @@ dirhash==0.2.1
     # via flytekit
 docker-image-py==0.1.10
     # via flytekit
-flyteidl==0.18.53
+flyteidl==0.19.2
     # via flytekit
 flytekit==0.19.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-pod
-flytekitplugins-pod==0.19.1
+flytekitplugins-pod==0.20.0b0
     # via -r requirements.in
-google-auth==1.30.1
+google-auth==1.31.0
     # via kubernetes
 grpcio==1.38.0
     # via flytekit
@@ -77,7 +77,7 @@ pathspec==0.8.1
     # via scantree
 pillow==8.2.0
     # via matplotlib
-protobuf==3.17.2
+protobuf==3.17.3
     # via
     #   flyteidl
     #   flytekit
@@ -145,7 +145,7 @@ stringcase==1.2.0
     # via dataclasses-json
 typing-extensions==3.10.0.0
     # via typing-inspect
-typing-inspect==0.6.0
+typing-inspect==0.7.1
     # via dataclasses-json
 urllib3==1.25.11
     # via
@@ -153,7 +153,7 @@ urllib3==1.25.11
     #   kubernetes
     #   requests
     #   responses
-websocket-client==1.0.1
+websocket-client==1.1.0
     # via kubernetes
 wheel==0.36.2
     # via
