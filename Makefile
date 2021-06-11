@@ -9,7 +9,7 @@ K8S_DASHBOARD_PROXY_PORT := 30082
 MINIO_PROXY_PORT := 30084
 FLYTE_SANDBOX_NAME := flyte-sandbox
 KUBE_CONFIG := ~/kubeconfig
-FLYTE_CONFIG := ~/.flyte/config.yaml
+FLYTE_CONFIG := ~/.flyte/config-sandbox.yaml
 
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core

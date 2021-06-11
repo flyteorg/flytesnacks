@@ -3,6 +3,7 @@
 # This is used by the image building script referenced below. Normally it just takes the directory name but in this
 # case we want it to be called something else.
 IMAGE_NAME=flytecookbook
+FLYTE_CONFIG := ~/.flyte/config-sandbox.yaml
 export VERSION ?= $(shell git rev-parse HEAD)
 
 define PIP_COMPILE
@@ -145,7 +146,7 @@ serialize: clean _pb_output docker_build
 register: clean _pb_output serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	flytectl register file ${CURDIR}/_pb_output/* -d ${DOMAIN} -p ${PROJECT} --continueOnError
+	flytectl register file ${CURDIR}/_pb_output/* -d ${DOMAIN} -p ${PROJECT} --continueOnError --config ${FLYTE_CONFIG}
 
 _pb_output:
 	mkdir -p _pb_output
