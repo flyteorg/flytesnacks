@@ -43,7 +43,7 @@ def string_to_enum(c: str) -> Color:
 
 
 @workflow
-def enum_wf(c: Color) -> (Color, str):
+def enum_wf(c: Color = Color.RED) -> (Color, str):
     v = enum_stringify(c=c)
     return string_to_enum(c=v), v
 
