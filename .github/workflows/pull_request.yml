@@ -1,4 +1,4 @@
-name: Test snacks 
+name: Serialize snacks
 
 on:
   pull_request:
@@ -15,18 +15,9 @@ jobs:
         with:
           path: /tmp/release-snacks-core/
           key: release-snacks-core
-      - uses: unionai/flytectl-setup-action@v0.0.1
-        with:
-          version: '0.1.10'
-      - name: setup sandbox
-        run: flytectl sandbox start
       - name: Generate Serialize proto
         run: |
           make -C cookbook/core serialize
-      - name: Register core example workflow
-        run : make -C cookbook/core register
-      - name: run pytest #TODO
-        run: echo "Hello" 
   integrations-build:
     name: Build Integrations example
     runs-on: ubuntu-latest
@@ -34,9 +25,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: unionai/flytectl-setup-action@v0.0.1
-        with:
-          version: '0.1.10'
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-integrations/
@@ -44,10 +32,6 @@ jobs:
       - name: Generate Serialize proto
         run: |
           make -C cookbook/integrations serialize
-      - name: Register integrations example workflow
-        run : make -C cookbook/integrations register
-      - name: run pytest #TODO
-        run: echo "Hello" 
   case_studies-build:
     name: Build Case studies example
     runs-on: ubuntu-latest
@@ -55,9 +39,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: unionai/flytectl-setup-action@v0.0.1
-        with:
-          version: '0.1.10'
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-case-studies/
@@ -65,7 +46,3 @@ jobs:
       - name: Generate Serialize proto
         run: |
           make -C cookbook/case_studies serialize
-      - name: Register case_studies example workflow
-        run : make -C cookbook/case_studies register
-      - name: run pytest #TODO
-        run: echo "Hello" 

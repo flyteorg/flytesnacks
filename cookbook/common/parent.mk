@@ -43,6 +43,14 @@ serialize: ## Builds and serializes all docker images, workflows and tasks in al
 		$(MAKE) -C $$dir serialize; \
 	done
 
+.PHONY: test
+test:
+	@for dir in $(SUBDIRS) ; do \
+		echo "processing ${PWD}/$$dir"; \
+		test -f $$dir/Makefile && \
+		$(MAKE) -C $$dir test; \
+	done
+
 .PHONY: docker_push
 docker_push: ## Builds and pushes all docker images.
 	@for dir in $(SUBDIRS) ; do \

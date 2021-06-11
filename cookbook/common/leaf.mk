@@ -158,6 +158,13 @@ register: clean _pb_output docker_push
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		${TAGGED_IMAGE} make register
 
+.PHONY: test
+test:
+	@echo ${VERSION}
+	@echo ${CURDIR}
+	cd test
+	coverage run -m pytest tests --proto-path=${CURDIR}/_pb_output/* -vv -s --trace-config
+
 _pb_output:
 	mkdir -p _pb_output
 

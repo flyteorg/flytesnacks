@@ -18,10 +18,17 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: unionai/flytectl-setup-action@v0.0.1
-        with:
-          version: '0.1.10'
+      - run: docker pull ghcr.io/flyteorg/flyte-sandbox:dind
       - name: setup sandbox
-        run: flytectl sandbox start
+        run: make setup
+      - name: wait for sandbox
+        run: |
+          n=0
+          until [ "$n" -ge 5 ]; do
+            echo "try $n"
+            make wait && break
+            n=$((n+1))
+            sleep 1
+          done
       - name: fast register
         run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
