@@ -11,7 +11,7 @@ FLYTE_SANDBOX_NAME := flyte-sandbox
 KUBE_CONFIG := ~/kubeconfig
 
 # Module of cookbook examples to register
-EXAMPLES_MODULE := integrations/kubernetes/pod
+EXAMPLES_MODULE := core
 
 define LOG
 echo "$(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)"
