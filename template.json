@@ -1,0 +1,10 @@
+[
+    {
+        "template": "containerization",
+        "language": "Python",
+        "source": "flyte",
+        "description": "workflow example of container",
+        "repo": "https://github.com/flyteorg/flytesnacks",
+        "official": "true"
+    }
+]
