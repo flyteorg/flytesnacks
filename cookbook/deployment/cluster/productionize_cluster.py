@@ -31,11 +31,11 @@ prerequisites and make sure that you have
 With that prepared, go to the opta subdirectory in the Flyte repo, and open up env.yaml in your editor. Please find and
 replace the following values with your desired ones:
 
-* {account_id}: your aws account id
-* {region}: your aws region
-* {domain}: your desired domain for your flyte deployment (should be a domain which you own or a subdomain thereof-- this environment will promptyly take ownership of the domain/subdomain so make sure you do not wish it for other usages)
-* {env_name}: a name to give to the new isolated cloud environment which is going to be created (e.g. flyte-prod)
-* {your_company}: your company's/org's name
+* <account_id>: your aws account id
+* <region>: your aws region
+* <domain>: your desired domain for your flyte deployment (should be a domain which you own or a subdomain thereof-- this environment will promptyly take ownership of the domain/subdomain so make sure you do not wish it for other usages)
+* <env_name>: a name to give to the new isolated cloud environment which is going to be created (e.g. flyte-prod)
+* <your_company>: your company's/org's name
 
 Once complete please run `opta apply -c env.yaml` and follow the prompts.
 
@@ -48,8 +48,8 @@ Once dns deployment delegation is complete we may deploy the flyte service and a
 subdirectory in the Flyte repo, and open up flyte.yaml in your editor. Please find and replace the following values with
 your desired ones:
 
-* {account_id}: your aws account id
-* {region}: your aws region
+* <account_id>: your aws account id
+* <region>: your aws region
 
 Once complete please run `opta apply -c flyte.yaml` and follow the prompts.
 
