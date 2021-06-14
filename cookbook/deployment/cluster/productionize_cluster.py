@@ -33,7 +33,7 @@ With that prepared, go to the opta subdirectory in the Flyte repo, and open up e
 replace the following values with your desired ones:
 
 * <account_id>: your aws account id
-* <region>: your aws region
+* <region>: your aws region (e.g. us-east-1)
 * <domain>: your desired domain for your flyte deployment (should be a domain which you own or a subdomain thereof-- this environment will promptyly take ownership of the domain/subdomain so make sure you do not wish it for other usages)
 * <env_name>: a name to give to the new isolated cloud environment which is going to be created (e.g. flyte-prod)
 * <your_company>: your company's/org's name
