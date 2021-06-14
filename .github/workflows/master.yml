@@ -34,7 +34,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-core/
-          key: release-snacks-core
+          key: release-snacks-core-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - name: Generate Serialize proto
         run: |
           make -C cookbook/core serialize
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-integrations/
-          key: release-snacks-plugins
+          key: release-snacks-plugins-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - name: Generate Serialize proto
         run: |
           make -C cookbook/integrations serialize
@@ -70,7 +70,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-case-studies/
-          key: release-snacks-case-studies
+          key: release-snacks-case-studies-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - name: Generate Serialize proto
         run: |
           make -C cookbook/case_studies serialize
@@ -88,15 +88,15 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-core/
-          key: release-snacks-core
+          key: release-snacks-core-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-case-studies/
-          key: release-snacks-case-studies
+          key: release-snacks-case-studies-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - uses: actions/cache@v1
         with:
           path: /tmp/release-snacks-integrations/
-          key: release-snacks-plugins
+          key: release-snacks-plugins-${{ runner.os }}-${{ hashFiles('**/flyte_tests_manifest.json') }}-${{ github.sha }}
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"

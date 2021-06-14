@@ -27,4 +27,8 @@ run-examples: ## Runs all examples
 
 .PHONY: archive
 archive: # archive directories (e.g. _pb_output/)
-	sh scripts/archive-all-example.sh
+	sh scripts/helper.sh RELEASE
+
+.PHONY: register_workflow_serialized_test
+register_workflow_serialized_test:
+	sh scripts/helper.sh REGISTER
