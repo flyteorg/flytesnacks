@@ -25,6 +25,7 @@ documentation specifies how to use and further configure them.
 Deploying Opta Environment and Service for Flyte
 ************************************************
 **The Environment**
+
 To begin using Opta, please first `download the latest version <https://docs.opta.dev/installation/>`_ and all the listed
 prerequisites and make sure that you have
 `admin/fullwrite AWS credentials setup on your terminal <https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html>`_.
