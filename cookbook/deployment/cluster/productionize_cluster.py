@@ -52,7 +52,7 @@ your desired ones:
 * <account_id>: your aws account id
 * <region>: your aws region
 
-Once complete please run `opta apply -c flyte.yaml` and follow the prompts.
+Once complete please run ``opta apply -c flyte.yaml`` and follow the prompts.
 
 Understanding the Opta Yamls
 ****************************
