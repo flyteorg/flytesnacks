@@ -46,7 +46,7 @@ traffic access. You may find instructions on `how to do so here <https://docs.op
 
 **The Flyte deployment**
 Once dns deployment delegation is complete we may deploy the flyte service and affiliated resources. Go to the Opta
-subdirectory in the Flyte repo, and open up flyte.yaml in your editor. Please find and replace the following values with
+subdirectory in the Flyte repo, and open up ``flyte.yaml`` in your editor. Please find and replace the following values with
 your desired ones:
 
 * <account_id>: your aws account id
