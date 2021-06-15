@@ -1,7 +1,12 @@
+######
+Athena
+######
+
 Executing Athena Queries
 =======================
-Flyte backend can be connected withathena. Once enabled it can allow you to query a athena service (e.g. Qubole) and retrieve typed schema (optionally).
-This section will provide how to use the athena Query Plugin using flytekit python
+Flyte backend can be connected with athena. Once enabled, it allows you to query AWS Athena service (Presto + ANSI SQL Support) and retrieve typed schema (optionally).
+
+This section provides a guide on how to use the AWS Athena Plugin using flytekit python.
 
 Installation
 ------------
@@ -12,12 +17,8 @@ To use the flytekit athena plugin simply run the following:
 
     pip install flytekitplugins-athena
 
-No Need of a dockerfile
+No Need for a dockerfile
 ------------------------
-This plugin is purely a spec and since SQL is completely portable has no need to build a container. Thus this plugin examples do not have any Dockerfile
+This plugin is purely a spec and since SQL is completely portable, it has no need to build a container. Thus this plugin examples do not have any Dockerfiles.
 
-Configuring the backend to get athena working
--------------------------------------------
-.. todo:
-
-This is coming soon.
+.. TODO: write a subsection for "Configuring the backend to get athena working"
