@@ -37,7 +37,7 @@ replace the following values with your desired ones:
 * <env_name>: a name for the new isolated cloud environment which is going to be created (e.g. flyte-prod)
 * <your_company>: your company or organization's name
 
-Once complete please run `opta apply -c env.yaml` and follow the prompts.
+Once complete please run ``opta apply -c env.yaml`` and follow the prompts.
 
 **DNS Delegation**
 Once Opta's apply for the environment is completed, you will need to complete dns delegation to fully setup public
@@ -100,13 +100,13 @@ Flyte has the power to send email notifications, which can be enabled in Opta vi
 delegation first):
 1. Simply go to env.yaml and uncomment out the last line ( `- type: aws-ses` ) 
 
-2. Run `opta apply -c env.yaml` again
+2. Run ``opta apply -c env.yaml`` again
 
 This will enable SES on your account and environment domain -- you may be prompted to fill in some user-specific input to take your account out of SES sandbox if not done already. 
 It may take a day for AWS to enable production SES on your account (you will be kept notified via the email addresses inputted on the user
 prompt) but that should not prevent you from moving forward. 
 
-3. Lastly, go ahead and uncomment out the 'Uncomment out for SES' line in the flyte.yaml and rerun `opta apply -c flyte.yaml`.
+3. Lastly, go ahead and uncomment out the 'Uncomment out for SES' line in the flyte.yaml and rerun ``opta apply -c flyte.yaml``.
 
 You will now be able to receive emails sent by Flyte as soon as AWS approves your account. You may also specify other
 non-default email senders via the helm chart values.
