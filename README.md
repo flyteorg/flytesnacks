@@ -40,6 +40,7 @@ Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the f
 Here are the setup instructions to start contributing to `flytesnacks` repo:
 - If the Python code has to be tested, run it locally
 - If the Python code has to be tested in a cluster:
+    * Install [flytectl](https://github.com/flyteorg/flytectl) by running `brew install flyteorg/homebrew-tap/flytectl`
     * Run the `make start` command in the root directory of the flytesnacks repo
     * Visit https://localhost:30081 to view the Flyte console consisting of the examples present in flytesnacks/cookbook/core directory
     * To fetch new dependencies and rebuild the image, run `make register`
