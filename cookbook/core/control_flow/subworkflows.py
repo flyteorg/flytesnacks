@@ -89,8 +89,8 @@ if __name__ == "__main__":
 # workflows in this module can exist independently and executed independently
 @workflow
 def nested_parent_wf(a: int) -> (int, str, str, str):
-    x, y = t1(a=a)
-    m, n, o = parent_wf(a=x)
+    x, y = my_subwf(a=a)
+    m, n, o = parent_wf(a=a)
     return m, n, o, y
 
 
