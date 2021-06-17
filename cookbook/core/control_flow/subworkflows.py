@@ -39,10 +39,14 @@ from flytekit import task, workflow
 
 
 # %%
-# The task here also uses named outputs
+# The task here also uses named outputs. Note that we always try and define NamedTuple as a separate type, as a best
+# practice (though it can be defined inline)
+op = typing.NamedTuple("OutputsBC", t1_int_output=int, c=str)
+
+
 @task
-def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
-    return a + 2, "world"
+def t1(a: int) -> op:
+    return op(a + 2, "world")
 
 
 # %%

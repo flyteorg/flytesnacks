@@ -21,11 +21,20 @@ from flytekit import task, workflow
 # .. note::
 #
 #  Note the name of the NamedTuple really does not matter. The name of the variable and the type matters. We used a
-#  a default name like `OP`
+#  a default name like `OP`. Also named tuples can be inline, but by convention we prefer to declare them, as pypy
+#   linter errors can be avoided this way
 #
+#  .. code-block::
+#
+#     def say_hello() -> typing.NamedTuple("OP", greet=str):
+#         pass
+#
+hello_output = typing.NamedTuple("OP", greet=str)
+
+
 @task
-def say_hello() -> typing.NamedTuple("OP", greet=str):
-    return "hello world"
+def say_hello() -> hello_output:
+    return hello_output("hello world")
 
 
 # %%
@@ -37,9 +46,14 @@ wf_outputs = typing.NamedTuple("OP2", greet1=str, greet2=str)
 # As shown in this example you can now refer to the declared namedtuple.
 # Also as you can see in the workflow, ``say_hello`` returns a tuple, but as with other tuples, you can simply unbox
 # it inline. Also the workflow itself returns a tuple. You can also construct the tuple as you return.
+#
+#  .. note::
+#
+#       Note that we are de-referencing the individual task execution outputs as for named-outputs uses named-tuples
+#       which are tuples, that need to be de-referenced. 
 @workflow
 def my_wf() -> wf_outputs:
-    return say_hello(), say_hello()
+    return wf_outputs(say_hello().greet, say_hello().greet)
 
 
 # %%
