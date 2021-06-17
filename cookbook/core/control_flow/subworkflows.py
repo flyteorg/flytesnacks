@@ -20,14 +20,15 @@ copied into workflow B at the point where it is called.
 
 When should I use SubWorkflows?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-So if you want to limit parallelism within a workflow and its launched subworkflows, Subworkflows provide a clean way
+If you want to limit parallelism within a workflow and its launched subworkflows, Subworkflows provide a clean way
 to do that. This is because they execute within the same context of the parent workflow. Thus all nodes of a subworkflow
-will be constrained to the total constrain of the parent workflow
+will be constrained to the total constraint on the parent workflow
 
-When you use LaunchPlans within a workflow to launch and execution of a previously defined workflow, they cause a completely
-external execution, with a separate execution ID and can be observed in FlyteConsole/Flytectl etc. Moreover, the context
-is not shared, hence they may have separate parallelism constraints. We refer to these externalized invocations of a workflow
-using Launchplans from a parent workflow as ``Child Workflows``.
+When you use LaunchPlans within a workflow to launch an execution of a previously defined workflow, a new
+external execution is launched, with a separate execution ID and can be observed as a distinct entity in
+FlyteConsole/Flytectl etc. Moreover, the context is not shared, hence they may have separate parallelism constraints.
+We refer to these externalized invocations of a workflow using Launchplans from a parent workflow as
+``Child Workflows``.
 
 If your deployment is using multi-cluster setup, then Child workflows, may also allow you to spread the workload of a workflow
 potentially to multiple clusters.
