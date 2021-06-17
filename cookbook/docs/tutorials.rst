@@ -17,6 +17,15 @@ feature engineering, model training, and batch predictions.
     Train machine learning models from using your framework of choice.
 
     ---
+
+    .. link-button:: feature_engineering
+       :type: ref
+       :text: 🛠 Feature Engineering
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Engineer the data features to improve your model accuracy.
+
+    ---
     :body: d-flex center-card-content
 
     *More tutorials coming soon...*
