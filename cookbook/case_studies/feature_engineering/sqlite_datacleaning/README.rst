@@ -5,9 +5,29 @@ It is the process of transforming raw data into features that better represent t
 
 This tutorial will implement data cleaning of SQLite3 data, which does both data imputation and univariate feature selection. These are so-called feature engineering techniques.
 
+Why SQLite3?
+============
+SQLite3 is written such that the task doesn't depend on the user's image. It basically:
+
+- Shifts the burden of writing the Dockerfile from the user using the task in workflows, to the author of the task type
+- Allows the author to optimize the image that the task runs
+- Works locally and remotely
+
+.. note::
+
+  SQLite3 container is special; the definition of the Python classes themselves is bundled in Flytekit, hence we just use the Flytekit image.
+
+.. tip::
+
+  SQLite3 is being used to showcase the example of using a ``TaskTemplate``. However, you're free to use Athena, BigQuery Plugins.
+
 Where does Flyte fit in?
 ========================
-Flyte provides a way to train models and perform feature engineering as a single pipeline.
+Flyte provides a way to train models and perform feature engineering as a single pipeline. 
+
+.. admonition:: What's so special about this example?
+
+  The pipeline doesn't build a container as such; it re-uses the pre-built task containers to construct the workflow!
 
 Dataset
 =======
@@ -55,9 +75,16 @@ Steps to Build the Pipeline
 
 Takeaways
 =========
-- Fetching the reference tasks
-- Defining an imperative workflow
-- Defining a shim task within an imperative workflow
+The example we're trying to demonstrate is a simple feature engineering job that you can seamlessly construct with Flyte. Here's what the nitty-gritties are:
+
+#. Source data is from SQL-like data sources
+#. Procreated feature transforms
+#. Ability to create a low-code platform 
+#. TaskTemplate within an imperative workflow
+
+.. tip:: 
+
+  If you're a data scientist, you needn't worry about the infrastructure overhead. Flyte provides an easy-to-use interface which looks just like a typical library.
 
 Code Walkthrough
 ================

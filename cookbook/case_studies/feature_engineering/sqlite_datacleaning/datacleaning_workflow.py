@@ -4,6 +4,10 @@ Data Cleaning Imperative Workflow
 
 This workflow makes use of the feature engineering tasks defined in the other file. 
 We'll build an SQLite3 data cleaning pipeline utilizing these tasks.
+
+.. tip::
+
+    You can simply import the tasks, but we use references because we are referring to the existing code.
 """
 
 # %%
@@ -99,11 +103,3 @@ if __name__ == "__main__":
             num_features=15,
         )
     )
-
-# %%
-# .. note::
-#
-#   This example demonstrates a simple feature engineering job that you can seamlessly construct with Flyte. Here's what the nitty-gritties are:
-#
-#   #. If you're a data scientist, you needn't worry about the infrastructure overhead. Flyte provides an easy-to-use interface which looks just like a typical library.
-#   #. Simple tips and tricks should help in simplifying the way you perceive Flyte. For example, an imperative workflow is a low-syntax alternative to the decorators.
