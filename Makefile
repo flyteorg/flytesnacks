@@ -48,7 +48,7 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --source=$(CURDIR)
+	flytectl sandbox start --flytesnacks=$(pwd)
 
 ## Start a local Flyte sandbox
 .PHONY: start
