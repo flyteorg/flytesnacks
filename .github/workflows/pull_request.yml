@@ -97,7 +97,7 @@ jobs:
           cp -r /tmp/release-snacks-case-studies/* cookbook/release-snacks/
           cp -r /tmp/release-snacks-integrations/* cookbook/release-snacks/
       - name: setup sandbox
-        run: make start
+        run: make setup
       - name: Register all examples
         run: make -C cookbook register_workflow_serialized_test
 

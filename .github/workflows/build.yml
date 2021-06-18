@@ -24,6 +24,6 @@ jobs:
       - name: "Setup env"
         run: mkdir ~/.flyte
       - name: setup sandbox
-        run: make start
+        run: make setup
       - name: fast register
-        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
+        run: REGISTRY=cr.flyte.org/flyteorg VERSION=latest make fast_register

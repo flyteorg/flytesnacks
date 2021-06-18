@@ -48,7 +48,8 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --flytesnacks=$(pwd)
+	flytectl sandbox start --flytesnacks=$(shell pwd)
+
 .PHONY: start
 start: setup
 	$(call LOG,Registering examples from commit: latest)
