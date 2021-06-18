@@ -13,7 +13,7 @@ We'll build an SQLite3 data cleaning pipeline utilizing these tasks.
 # %%
 # Let's import the libraries.
 import pandas as pd
-from flytekit import Workflow, kwtypes, reference_task
+from flytekit import CronSchedule, LaunchPlan, Workflow, kwtypes, reference_task
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.schema import FlyteSchema
 
@@ -94,6 +94,14 @@ wb.add_workflow_output(
     "output_from_t3", node_t3.outputs["o0"], python_type=pd.DataFrame
 )
 
+DEFAULT_INPUTS = {"limit": 100, "imputation_method": "mean", "num_features": 15}
+
+sqlite_dataclean_lp = LaunchPlan.get_or_create(
+    workflow=wb,
+    name="sqlite_datacleaning",
+    default_inputs=DEFAULT_INPUTS,
+    schedule=CronSchedule("0 10 * * ? *"),
+)
 
 if __name__ == "__main__":
     print(
