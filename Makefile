@@ -86,4 +86,4 @@ kubectl-config:
 	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
-	echo "export KUBECONFIG=~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
+	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
