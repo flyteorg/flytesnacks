@@ -42,6 +42,7 @@ class CustomSorter(FileNameSortKey):
 
     CUSTOM_FILE_SORT_ORDER = [
         # Flyte Basics
+        "hello_world.py",
         "task.py",
         "basic_workflow.py",
         "imperative_wf_style.py",
@@ -49,6 +50,7 @@ class CustomSorter(FileNameSortKey):
         "task_cache.py",
         "files.py",
         "folders.py",
+        "named_outputs.py"
         # Control Flow
         "run_conditions.py",
         "subworkflows.py",
@@ -56,6 +58,7 @@ class CustomSorter(FileNameSortKey):
         "map_task.py",
         "run_merge_sort.py",
         # Type System
+        "flyte_python_types.py",
         "schema.py",
         "typed_schema.py",
         "custom_objects.py",
@@ -69,15 +72,16 @@ class CustomSorter(FileNameSortKey):
         "workflow_labels_annotations.py",
         # Deployment
         ## Workflow
+        "deploying_workflows.py",
         "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "fast_registration.py",
         "multiple_k8s.py",
         ## Cluster
+        "config_flyte_deploy.py",
         "productionize_cluster.py",
         "auth_setup.py",
-        "config_flyte_deploy.py",
         "config_resource_mgr.py",
         "monitoring.py",
         "notifications.py",
@@ -229,16 +233,16 @@ examples_dirs = [
     "../core/containerization",
     "../deployment/workflow",
     "../deployment/cluster",
-    "../deployment/guides",
+    # "../deployment/guides",  # TODO: add content to this section
     # "../control_plane",  # TODO: add content to this section
-    "../integrations/flytekit_plugins/sqllite3",
+    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "../integrations/flytekit_plugins/papermilltasks",
-    "../integrations/flytekit_plugins/sqlalchemy",
+    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
-    "../integrations/kubernetes/kftensorflow",
+    # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "../integrations/kubernetes/kfpytorch",
     # "../integrations/aws/athena",  # TODO: add content to this section
     "../integrations/aws/sagemaker_training",
@@ -257,16 +261,16 @@ gallery_dirs = [
     "auto/core/containerization",
     "auto/deployment/workflow",
     "auto/deployment/cluster",
-    "auto/deployment/guides",
+    # "auto/deployment/guides",  # TODO: add content to this section
     # "auto/control_plane",  # TODO: add content to this section
-    "auto/integrations/flytekit_plugins/sqllite3",
+    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/papermilltasks",
-    "auto/integrations/flytekit_plugins/sqlalchemy",
+    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
-    "auto/integrations/kubernetes/kftensorflow",
+    # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "auto/integrations/kubernetes/kfpytorch",
     # "auto/integrations/aws/athena",  # TODO: add content to this section
     "auto/integrations/aws/sagemaker_training",
