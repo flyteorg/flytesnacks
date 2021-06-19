@@ -31,4 +31,4 @@ jobs:
             sleep 1
           done
       - name: fast register
-        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
+        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make run fast_register 

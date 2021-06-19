@@ -109,7 +109,7 @@
   },{
    "id": "case-studies-house-price-prediction",
    "official": true,
-   "type": "case-studies",
+   "type": "case_studies",
    "description": "",
    "name": "House price prediction training example",
    "priority": "P2",
@@ -121,7 +121,7 @@
  },{
    "id": "case-studies-pima-diabetes",
    "official": true,
-   "type": "case-studies",
+   "type": "case_studies",
    "description": "",
    "name": "Pima-diabetes training example",
    "priority": "P2",
