@@ -3,7 +3,7 @@
 set -e
 
 run() {
-  Query=$(cat flytesnacks_manifest.json | jq -c '.[]| .path')
+  Query=$(cat flytesnacks_manifest.json | jq -r '.[]| .path')
   if [ ! -z "$2" -a "$2" != " " ]; then
     Query=$(cat flytesnacks_manifest.json | jq -r --arg type $2 '.[]|select(.type | contains($type))| .path')
   fi
@@ -11,7 +11,7 @@ run() {
     Query=$(cat flytesnacks_manifest.json | jq -r --arg type $2 --arg id $3 '.[]|select(.type | contains($type))| select(.id | contains($id)) | .path')
   fi
   for row in $Query; do
-    make -C cookbook/${row} $1
+    echo "make -C cookbook/${row} $1"
   done
 }
 
