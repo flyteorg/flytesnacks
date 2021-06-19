@@ -113,3 +113,4 @@ run:
 .PHONY: serialize
 serialize: 
 	bash helper.sh serialize $(type)
+
