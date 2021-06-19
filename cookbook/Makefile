@@ -24,7 +24,3 @@ enter_sandbox: docker_build
 .PHONE: run-all-examples
 run-examples: ## Runs all examples
 	sh scripts/run-all-examples.sh
-
-.PHONY: archive
-archive: # archive directories (e.g. _pb_output/)
-	sh scripts/archive-all-example.sh

@@ -4,9 +4,10 @@ on:
   pull_request:
 
 jobs:
-  core-build:
-    name: Build Core example
+  core-releaser:
+    name: Release Core example
     runs-on: ubuntu-latest
+    needs: [bump-version]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -17,12 +18,13 @@ jobs:
           key: release-snacks-core
       - name: Generate Serialize proto
         env:
-          REGISTRY : "ghcr.io/flyteorg"
+          REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/core serialize
-  integrations-build:
-    name: Build Integrations example
+          make serialize type=core
+  integrations-releaser:
+    name: Release Integrations example
     runs-on: ubuntu-latest
+    needs: [bump-version]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,10 +37,11 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/integrations serialize
-  case_studies-build:
-    name: Build Case studies example
+          make serialize type=integrations
+  case_studies-releaser:
+    name: Release Case studies example
     runs-on: ubuntu-latest
+    needs: [bump-version]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,4 +54,4 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/case_studies serialize
+          make serialize type=case_studies

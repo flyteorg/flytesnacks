@@ -101,3 +101,15 @@ kubectl-config:
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
+
+.PHONY: archive
+archive: # archive directories (e.g. _pb_output/)
+	bash helper.sh release
+
+.PHONY: run
+run: 
+	bash helper.sh $(command) $(type)
+
+.PHONY: serialize
+serialize: 
+	bash helper.sh serialize $(type)

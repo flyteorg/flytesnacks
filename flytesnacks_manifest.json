@@ -1,5 +1,9 @@
  [{
-    "name": "core",
+    "id": "core-python",
+    "official": true,
+    "type": "core",
+    "name": "Python core example",
+    "description": "",
     "priority": "P0",
     "path": "core",
     "exitCondition": {
@@ -7,7 +11,11 @@
       "exit_message": ""
     }
   },{
-    "name": "integrations-hive",
+    "id": "integrations-hive",
+    "official": true,
+    "type": "integrations",
+    "name": "Hive integrations example",
+    "description": "",
     "priority": "P1",
     "path": "integrations/external_services/hive",
     "exitCondition": {
@@ -15,7 +23,11 @@
         "exit_message": ""
     }
   },{
-    "name": "integrations-k8s-spark",
+    "id": "integrations-k8s-spark",
+    "official": true,
+    "type": "integrations",
+    "name": "K8S Spark integrations example",
+    "description": "",
     "priority": "P1",
     "path": "integrations/kubernetes/k8s_spark",
     "exitCondition": {
@@ -23,7 +35,11 @@
         "exit_message": ""
     }
   },{
-    "name": "integrations-kfpytorch",
+    "id": "integrations-kfpytorch",
+    "official": true,
+    "type": "integrations",
+    "name": "kfpytorch integrations example",
+    "description": "",
     "priority": "P1",
     "path": "integrations/kubernetes/kfpytorch",
     "exitCondition": {
@@ -31,31 +47,47 @@
         "exit_message": ""
     }
   },{
-    "name": "integrations-pod",
+    "id": "integrations-pod",
+    "official": true,
+    "type": "integrations",
+    "name": "K8S pod integrations example",
     "priority": "P1",
     "path": "integrations/kubernetes/pod",
+    "description": "",
     "exitCondition": {
       "exit_success": true,
         "exit_message": ""
     }
   },{
-    "name": "integrations-pandera",
+    "id": "integrations-pandera",
+    "official": true,
+    "type": "integrations",
+    "name": "Pandera integrations example",
     "priority": "P1",
+    "description": "",
     "path": "integrations/flytekit_plugins/pandera",
     "exitCondition": {
       "exit_success": true,
         "exit_message": ""
     }
   },{
-    "name": "integrations-papermilltasks",
+    "id": "integrations-papermilltasks",
+    "official": true,
+    "type": "integrations",
+    "name": "Papermilltasks integrations example",
     "priority": "P1",
+    "description": "",
     "path": "integrations/flytekit_plugins/papermilltasks",
     "exitCondition": {
       "exit_success": true,
         "exit_message": ""
     }
   },{
-    "name": "integrations-sagemaker-pytorch",
+    "id": "integrations-sagemaker-pytorch",
+    "official": true,
+    "type": "integrations",
+    "description": "",
+    "name": "Sagemaker pytorch integrations example",
     "priority": "P1",
     "path": "integrations/aws/sagemaker_pytorch",
     "exitCondition": {
@@ -63,7 +95,11 @@
         "exit_message": ""
     }
   },{
-    "name": "integrations-sagemaker-training",
+    "id": "integrations-sagemaker-training",
+    "official": true,
+    "type": "integrations",
+    "description": "",
+    "name": "Sagemaker training integrations example",
     "priority": "P1",
     "path": "integrations/aws/sagemaker_training",
     "exitCondition": {
@@ -71,7 +107,11 @@
         "exit_message": ""
     }
   },{
-   "name": "case-studies-house-price-prediction",
+   "id": "case-studies-house-price-prediction",
+   "official": true,
+   "type": "case-studies",
+   "description": "",
+   "name": "House price prediction training example",
    "priority": "P2",
    "path": "case_studies/ml_training/house_price_prediction",
    "exitCondition": {
@@ -79,7 +119,11 @@
      "exit_message": ""
    }
  },{
-   "name": "case-studies-pima-diabetes",
+   "id": "case-studies-pima-diabetes",
+   "official": true,
+   "type": "case-studies",
+   "description": "",
+   "name": "Pima-diabetes training example",
    "priority": "P2",
    "path": "case_studies/ml_training/pima-diabetes",
    "exitCondition": {

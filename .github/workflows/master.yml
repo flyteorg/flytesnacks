@@ -39,10 +39,10 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/core serialize
-          mkdir -p cookbook/release-snacks /tmp/release-snacks-core/
-          make -C cookbook archive
-          cp -r cookbook/release-snacks/* /tmp/release-snacks-core/
+          make serialize type=core
+          mkdir -p release-snacks /tmp/release-snacks-core/
+          make release type=core 
+          cp -r release-snacks/* /tmp/release-snacks-core/
   integrations-releaser:
     name: Release Integrations example
     runs-on: ubuntu-latest
@@ -59,10 +59,10 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/integrations serialize
-          mkdir -p cookbook/release-snacks /tmp/release-snacks-integrations/
-          make -C cookbook archive
-          cp -r cookbook/release-snacks/* /tmp/release-snacks-integrations/
+          make serialize type=integrations
+          mkdir -p /tmp/release-snacks-integrations/
+          make release type=integrations
+          cp -r release-snacks/* /tmp/release-snacks-integrations/
   case_studies-releaser:
     name: Release Case studies example
     runs-on: ubuntu-latest
@@ -79,10 +79,10 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          make -C cookbook/case_studies serialize
-          mkdir -p cookbook/release-snacks /tmp/release-snacks-case-studies/
-          make -C cookbook archive
-          cp -r cookbook/release-snacks/* /tmp/release-snacks-case-studies/
+          make serialize type=case_studies
+          mkdir -p /tmp/release-snacks-case-studies/
+          make release type=case_studies
+          cp -r release-snacks/* /tmp/release-snacks-case-studies/
   goreleaser:
     name: Release Case studies example
     runs-on: ubuntu-latest
@@ -109,10 +109,10 @@ jobs:
           ref: ${{ steps.bump-version.outputs.tag }}
       - name: Copy artifacts
         run: |
-          mkdir -p cookbook/release-snacks
-          cp -r /tmp/release-snacks-core/* cookbook/release-snacks/
-          cp -r /tmp/release-snacks-case-studies/* cookbook/release-snacks/
-          cp -r /tmp/release-snacks-integrations/* cookbook/release-snacks/
+          mkdir -p release-snacks
+          cp -r /tmp/release-snacks-core/* release-snacks/
+          cp -r /tmp/release-snacks-case-studies/* release-snacks/
+          cp -r /tmp/release-snacks-integrations/* release-snacks/
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
