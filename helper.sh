@@ -11,7 +11,7 @@ run() {
     Query=$(cat flytesnacks_manifest.json | jq -r --arg type $2 --arg id $3 '.[]|select(.type | contains($type))| select(.id | contains($id)) | .path')
   fi
   for row in $Query; do
-    echo "make -C cookbook/${row} $1"
+    make -C cookbook/${row} $1
   done
 }
 
