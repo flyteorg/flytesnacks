@@ -1,7 +1,6 @@
 .SILENT:
 
 include common/Makefile
-include common/parent.mk
 
 dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.txt
 dev-requirements.txt: dev-requirements.in install-piptools

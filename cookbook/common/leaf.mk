@@ -72,7 +72,6 @@ fast_serialize: clean _pb_output
 	echo ${CURDIR}
 	docker run -it --rm \
 		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
 		-e INSECURE_FLAG=${INSECURE_FLAG} \
 		-e PROJECT=${PROJECT} \
@@ -95,7 +94,6 @@ fast_register: clean _pb_output ## Packages code and registers without building 
 	docker run -it --rm \
 		--network host \
 		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
 		-e INSECURE_FLAG=${INSECURE_FLAG} \
 		-e PROJECT=${PROJECT} \
@@ -122,7 +120,6 @@ serialize: clean _pb_output docker_build
 	@echo ${CURDIR}
 	docker run -i --rm \
 		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
 		-e INSECURE_FLAG=${INSECURE_FLAG} \
 		-e PROJECT=${PROJECT} \
@@ -144,7 +141,6 @@ register: clean _pb_output docker_push
 	docker run -i --rm \
 		--network host \
 		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
 		-e INSECURE_FLAG=${INSECURE_FLAG} \
 		-e PROJECT=${PROJECT} \
