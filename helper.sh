@@ -24,14 +24,14 @@ release() {
     Query=$(cat flytesnacks_manifest.json | jq -c --arg type $1 --arg id $2 '.[] | select(.type | contains($type)) | select(.id | contains($id)) | {path,id}')
   fi
   for row in $Query; do
-    if [ -d "./cookbook/$(echo ${row} | jq -r '.path')/_pb_output/" ]; then
+    if [[ -d "./cookbook/$(echo ${row} | jq -r '.path')/_pb_output/" ]]; then
       tar -cvzf "./release-snacks/flytesnacks-$(echo ${row} | jq -r '.id').tgz"  "./cookbook/$(echo ${row} | jq -r '.path')/_pb_output/"
     fi
   done
 }
 
 
-if [ $1 == "release" ]; then
+if [[ $1 == "release" ]]; then
   mkdir -p release-snacks 
   release $2 $3
 else

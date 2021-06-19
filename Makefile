@@ -65,7 +65,7 @@ wait:
 	$(call RUN_IN_SANDBOX, wait-for-flyte.sh)
 
 .PHONY: start
-start: setup wait ## Start a local Flyte sandbox
+start: setup wait flytectl-config ## Start a local Flyte sandbox
 	$(call LOG,Registering examples from commit: latest)
 	REGISTRY=cr.flyte.org/flyteorg VERSION=latest $(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
 
@@ -84,16 +84,6 @@ status: _requires-sandbox-up  ## Show status of Flyte deployment
 shell: _requires-sandbox-up  ## Drop into a development shell
 	$(call RUN_IN_SANDBOX,bash)
 
-.PHONY: register
-register: _requires-sandbox-up  ## Register Flyte cookbook workflows
-	$(call LOG,Registering example workflows in cookbook/$(EXAMPLES_MODULE))
-	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
-
-.PHONY: fast_register
-fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
-	$(call LOG,Fast registering example workflows in cookbook/$(EXAMPLES_MODULE))
-	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
-
 .PHONY: setup-kubectl
 kubectl-config: 
 	# In shell/bash, run: `eval $(make kubectl-config)`
@@ -102,15 +92,28 @@ kubectl-config:
 	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
 
+.PHONY: flytectl-config
+flytectl-config:
+	mkdir -p ~/.flyte
+	@curl https://raw.githubusercontent.com/flyteorg/flytectl/master/config.yaml -o $(FLYTE_CONFIG)
+	export FLYTECTL_CONFIG=$(FLYTE_CONFIG)
+
 .PHONY: archive
 archive: # archive directories (e.g. _pb_output/)
-	bash helper.sh release
+	sh helper.sh release $(type)
 
 .PHONY: run
-run: 
-	bash helper.sh $(command) $(type)
+run: _requires-sandbox-up
+	sh helper.sh $(command) $(type)
 
 .PHONY: serialize
-serialize: 
-	bash helper.sh serialize $(type)
+serialize: _requires-sandbox-up
+	sh helper.sh serialize $(type)
 
+.PHONY: register
+register: _requires-sandbox-up  ## Register Flyte cookbook workflows
+	sh helper.sh register $(type)
+	
+.PHONY: fast_register
+fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
+	sh helper.sh fast_register $(type)
