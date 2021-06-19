@@ -103,11 +103,11 @@ archive: # archive directories (e.g. _pb_output/)
 	sh helper.sh release $(type)
 
 .PHONY: run
-run: _requires-sandbox-up
+run: 
 	sh helper.sh $(command) $(type)
 
 .PHONY: serialize
-serialize: _requires-sandbox-up
+serialize: 
 	sh helper.sh serialize $(type)
 
 .PHONY: register
