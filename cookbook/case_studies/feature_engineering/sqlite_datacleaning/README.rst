@@ -19,7 +19,7 @@ SQLite3 is written such that the task doesn't depend on the user's image. It bas
 
 .. tip::
 
-  SQLite3 is being used to showcase the example of using a ``TaskTemplate``. However, you're free to use Athena, BigQuery Plugins.
+  SQLite3 is being used to showcase the example of using a ``TaskTemplate``. This is the same for SQLAlchemy. As for Athena, BigQuery, Hive plugins, a container is not required. The queries are registered with FlyteAdmin and sent directly to the respective engines.
 
 Where does Flyte fit in?
 ========================
