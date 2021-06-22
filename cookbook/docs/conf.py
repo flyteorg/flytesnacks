@@ -238,9 +238,8 @@ examples_dirs = [
     "../deployment/cluster",
     # "../deployment/guides",  # TODO: add content to this section
     # "../control_plane",  # TODO: add content to this section
-    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/papermilltasks",
-    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
@@ -267,9 +266,8 @@ gallery_dirs = [
     "auto/deployment/cluster",
     # "auto/deployment/guides",  # TODO: add content to this section
     # "auto/control_plane",  # TODO: add content to this section
-    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/papermilltasks",
-    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
