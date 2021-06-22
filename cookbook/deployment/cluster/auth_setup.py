@@ -342,6 +342,10 @@ If your organization does any automated registration, then you'll need to authen
                 # Only needed/used for `ClientSecret` flow.
                 clientSecretLocation: </some/path/to/key>
 
+                # If required, set the scopes needed here. Otherwise, flytectl will discover scopes required for OpenID
+                # Connect through Admin's Auth discovery endpoint.
+                # scopes: [ "scope1", "scope2" ]
+
         To read further about the available config options, please
         `visit here <https://github.com/flyteorg/flyteidl/blob/master/clients/go/admin/config.go#L37-L64>`_
 
@@ -354,27 +358,27 @@ If your organization does any automated registration, then you'll need to authen
         For instance, if your CI system is not capable of setting custom environment variables like
         ``FLYTE_CREDENTIALS_CLIENT_SECRET`` but does set the necessary settings under a different variable, you may use
         ``export FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_ENV_VAR=OTHER_ENV_VARIABLE`` to redirect the lookup. A
-        ``FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_FILE`` redirect is available as well, where the value should be the full path to
-        the file containing the value for the configuration setting, in this case, the client secret. We found this redirect
-        behavior necessary when setting up registration within our own CI pipelines.
+        ``FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_FILE`` redirect is available as well, where the value should be the full
+        path to the file containing the value for the configuration setting, in this case, the client secret. We found
+        this redirect behavior necessary when setting up registration within our own CI pipelines.
 
         The following is a listing of the Flytekit configuration values we set in CI, along with a brief explanation.
 
         * ``FLYTE_CREDENTIALS_CLIENT_ID`` and ``FLYTE_CREDENTIALS_CLIENT_SECRET``
           When using basic authentication, this is the username and password.
         * ``export FLYTE_CREDENTIALS_AUTH_MODE=basic``
-          This tells the SDK to use basic authentication. If not set, Flytekit will assume you want to use the standard OAuth
-          based three-legged flow.
+          This tells the SDK to use basic authentication. If not set, Flytekit will assume you want to use the standard
+          OAuth based three-legged flow.
         * ``export FLYTE_CREDENTIALS_AUTHORIZATION_METADATA_KEY=text``
           At Lyft, the value is set to conform to this
           `header config <https://github.com/flyteorg/flyteadmin/blob/eaca2fb0e6018a2e261e9e2da8998906477cadb5/pkg/auth/config/config.go#L53>`_
           on the Admin side.
         * ``export FLYTE_CREDENTIALS_SCOPE=text``
-          When using basic authentication, you'll need to specify a scope to the IDP (instead of ``openid``, which is only for
-          OAuth). Set that here.
+          When using basic authentication, you'll need to specify a scope to the IDP (instead of ``openid``, which is
+          only for OAuth). Set that here.
         * ``export FLYTE_PLATFORM_AUTH=True``
-          Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're rolling out
-          the requirement.
+          Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're
+          rolling out the requirement.
 
 .. _migrating-auth-config:
 
