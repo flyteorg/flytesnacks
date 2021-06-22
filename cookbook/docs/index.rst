@@ -72,6 +72,15 @@ If this is your first time using Flyte, check out the
 
    ---
 
+   .. link-button:: auto/remote_access/index
+      :type: ref
+      :text: 🎮 Remote Access
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^
+   Register, inspect, and monitor tasks and workflows on a Flyte backend.
+
+   ---
+
    .. link-button:: integrations
       :type: ref
       :text: 🔌  Integrations
@@ -115,6 +124,7 @@ If this is your first time using Flyte, check out the
    Testing <auto/testing/index>
    Containerization <auto/core/containerization/index>
    deployment
+   Remote Access <auto/remote_access/index>
    integrations
    Extending flyte <auto/core/extend_flyte/index>
 

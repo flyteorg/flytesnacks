@@ -237,7 +237,7 @@ examples_dirs = [
     "../deployment/workflow",
     "../deployment/cluster",
     # "../deployment/guides",  # TODO: add content to this section
-    # "../control_plane",  # TODO: add content to this section
+    "../remote_access",
     # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "../integrations/flytekit_plugins/papermilltasks",
     # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
@@ -266,7 +266,7 @@ gallery_dirs = [
     "auto/deployment/workflow",
     "auto/deployment/cluster",
     # "auto/deployment/guides",  # TODO: add content to this section
-    # "auto/control_plane",  # TODO: add content to this section
+    "auto/remote_access",
     # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/papermilltasks",
     # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
