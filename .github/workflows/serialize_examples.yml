@@ -1,4 +1,4 @@
-name: Serialize snacks
+name: Serialize Examples
 
 on:
   pull_request:
