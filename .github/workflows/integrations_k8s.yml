@@ -1,4 +1,4 @@
-name: Build & Push Integrations - K8s Docker Images
+name: Build & Push K8s Docker Images
 
 on:
   pull_request:
@@ -15,7 +15,14 @@ jobs:
         working-directory: cookbook
     strategy:
       matrix:
-        directory: [ "pod", "k8s_spark", "kfpytorch" ]
+        directory: [
+          - name: pod
+            path: integrations/kubernetes
+          - name: k8s_spark
+            path: integrations/kubernetes
+          - name: kfpytorch
+            path: integrations/kubernetes
+        ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -27,10 +34,10 @@ jobs:
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: ${{ matrix.direcdtory }}-latest,${{ matrix.direcdtory }}-${{ github.sha }},${{ matrix.direcdtory }}-${{ github.event.ref }}
+          image_tag: ${{ matrix.directory.name }}-latest,${{ matrix.directory.name }}-${{ github.sha }},${{ matrix.directory.name }}-${{ github.event.ref }}
           push_git_tag: ${{ github.event_name != 'pull_request' }}
           push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           registry: ghcr.io
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.direcdtory }}-${{ github.sha }}"
-          context: ./cookbook/integrations/kubernetes/
-          dockerfile: ${{ matrix.direcdtory }}/Dockerfile
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.directory.name }}-${{ github.sha }}"
+          context: ./cookbook/${{ matrix.directory.path }}
+          dockerfile: ${{ matrix.directory.name }}/Dockerfile
