@@ -15,14 +15,13 @@ jobs:
         working-directory: cookbook
     strategy:
       matrix:
-        directory: [
+        directory:
           - name: pod
             path: integrations/kubernetes
           - name: k8s_spark
             path: integrations/kubernetes
           - name: kfpytorch
             path: integrations/kubernetes
-        ]
     steps:
       - uses: actions/checkout@v2
         with:
