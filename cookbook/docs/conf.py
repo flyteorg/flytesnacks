@@ -10,16 +10,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import glob
 import logging
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
 
 from sphinx.errors import ConfigError
-import sphinx_fontawesome
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -162,6 +159,7 @@ extensions = [
     "sphinx_search.extension",
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
+    "sphinx_tabs.tabs",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -419,3 +417,5 @@ intersphinx_mapping = {
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
+
+sphinx_tabs_valid_builders = ['linkcheck']
