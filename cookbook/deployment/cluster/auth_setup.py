@@ -376,7 +376,6 @@ If your organization does any automated registration, then you'll need to authen
           Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're rolling out
           the requirement.
 
-
 .. _migrating-auth-config:
 
 ####################################
@@ -441,7 +440,7 @@ From the Flyte-cli side, these two settings were needed:
 grpc-gateway library). **flyte-cli** uses this setting to talk to **/.well-known/oauth-authorization-server** to retrieve information regarding the auth endpoints.  Previously this redirected to the
 Okta Authorization Server's metadata endpoint. With this change, Admin now hosts its own (even if still using the external Authorization Service).
 
-After version `0.13.0 <https://github.com/flyteorg/flyte/tree/v0.13.0>`__ of the platform, you can still use the IdP as the Authorization Server if you so choose. That configuration would now become:
+After version `0.13.0 <https://github.com/flyteorg/flyte/tree/v0.13.0>`__ of the platform, you can still use the IdP as the Authorization Server if you wish. That configuration would now become:
 
 .. code-block:: yaml
 
