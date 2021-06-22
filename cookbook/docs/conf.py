@@ -235,7 +235,7 @@ examples_dirs = [
     "../testing",
     "../core/containerization",
     "../deployment",
-    # "../control_plane",  # TODO: add content to this section
+    "../remote_access",
     "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/papermilltasks",
     "../integrations/flytekit_plugins/pandera",
@@ -261,8 +261,7 @@ gallery_dirs = [
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
-    # "auto/deployment/guides",  # TODO: add content to this section
-    # "auto/control_plane",  # TODO: add content to this section
+    "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/papermilltasks",
     "auto/integrations/flytekit_plugins/pandera",
