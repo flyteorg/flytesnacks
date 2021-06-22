@@ -1,8 +1,8 @@
 """
 .. _integrations_sql_sqlite3:
 
-Sqlite3 Tasks
-#############
+Sqlite3
+#######
 
 The following example shows how you can write SQLite3 queries using the SQLite3Task, which is bundled as part of the
 core flytekit. Since SQL Queries are portable across workflows and Flyte installations (as long as the data exists),
