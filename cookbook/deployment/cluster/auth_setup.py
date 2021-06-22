@@ -107,14 +107,9 @@ IdP Configuration
 *****************
 Flyte Admin requires that the application in your identity provider be configured as a web client (i.e. with a client secret). We recommend allowing the application to be issued a refresh token to avoid interrupting the user's flow by frequently redirecting to the IdP.
 
-*************************
-Flyte Admin Configuration
-*************************
-Please refer to the `inline documentation <https://github.com/flyteorg/flyteadmin/blob/eaca2fb0e6018a2e261e9e2da8998906477cadb5/pkg/auth/config/config.go>`_ on the ``Config`` object in the ``auth`` package for a discussion on the settings required.
-
-**********************
-Example Configurations
-**********************
+****************************
+Example Flyte Configurations
+****************************
 
 Below are some canonical examples of how to set up some of the common IdPs to secure your Fyte services. OpenID Connect enables users to authenticate, in the
 browser, with an existing IdP. Flyte also allows connecting to an external OAuth2 Authorization Server to allow centrally managed third party app access.
@@ -126,7 +121,7 @@ OpenID Connect allows users to authenticate to Flyte in their browser using a fa
 Flyte supports connecting with external OIdC providers. Here are some examples for how to set these up:
 
 Google OpenID Connect
-=====================
+^^^^^^^^^^^^^^^^^^^^^
 
 Follow `Google Docs <https://developers.google.com/identity/protocols/oauth2/openid-connect>`__ on how to configure the IdP for OpenIDConnect.
 
@@ -136,7 +131,7 @@ Follow `Google Docs <https://developers.google.com/identity/protocols/oauth2/ope
   steps.
 
 Okta OpenID Connect
-===================
+^^^^^^^^^^^^^^^^^^^^^
 
 Okta supports OpenID Connect protocol and the creation of custom OAuth2 Authorization Servers, allowing it to act as both the user and apps IdP.
 It offers more detailed control on access policies, user consent, and app management.
@@ -148,10 +143,13 @@ It offers more detailed control on access policies, user consent, and app manage
 5. Write down the Client ID and Client Secret
 
 KeyCloak OpenID Connect
-=======================
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 `KeyCloak <https://www.keycloak.org/>`__ is an open source solution for authentication, it supports both OpenID Connect and OAuth2 protocols (among others). 
 KeyCloak can be configured to be both the OpenID Connect and OAuth2 Authorization Server provider for Flyte.
+
+Apply Configuration
+^^^^^^^^^^^^^^^^^^^
 
 1. Store the `client_secret` in a k8s secret as follows:
 
@@ -164,7 +162,7 @@ Add a new key under `stringData`:
 .. code-block:: yaml
 
   stringData:
-    oidc_client_secret: <client_secret> from the previous step
+    oidc_client_secret: <client_secret from the previous step>
   data:
     ...
 
@@ -174,13 +172,7 @@ Save and close your editor.
 
 .. prompt:: bash
 
-  kubectl get deploy -n flyte flyteadmin -o yaml | grep "name: flyte-admin-config"
-
-This will output the name of the config map where the `client_id` needs to go.
-
-.. prompt:: bash
-
-  kubectl edit configmap -n flyte <the name of the config map from previous command>
+  kubectl edit configmap -n flyte flyte-admin-config
 
 Follow the inline comments to make the necessary changes:
 
@@ -214,9 +206,8 @@ Save and exit your editor.
 
   kubectl rollout restart deployment/flyteadmin -n flyte
 
-***************************
 OAuth2 Authorization Server
-***************************
+===========================
 
 An OAuth2 Authorization Server allows external clients to request to authenticate and act on behalf of users (or as their own identities). Having 
 an OAuth2 Authorization Server enables Flyte administrators control over which apps can be installed and what scopes they are allowed to request or be granted (i.e. what privileges can they assume).
@@ -228,7 +219,7 @@ and the corresponding section can be modified through configs.
 To set up an external OAuth2 Authorization Server, please follow the instructions below:
 
 Okta IdP
-========
+^^^^^^^^
 
 1. Under security -> API, click `Add Authorization Server`. Set the audience to the public URL of flyte admin (e.g. https://flyte.mycompany.io/).
 2. Under `Access Policies`, click `Add New Access Policy` and walk through the wizard to allow access to the authorization server.
@@ -238,15 +229,16 @@ Okta IdP
    FlytePropeller should be created as an `OAuth Service` and note the client ID and client Secrets provided.
 
 KeyCloak IdP
-============
+^^^^^^^^^^^^
 
 `KeyCloak <https://www.keycloak.org/>`__ is an open source solution for authentication, it supports both OpenID Connect and OAuth2 protocols (among others). 
 KeyCloak can be configured to be both the OpenID Connect and OAuth2 Authorization Server provider for flyte.
 
 Apply Configuration
-===================
+^^^^^^^^^^^^^^^^^^^
 
-1. It is possible to direct Flyte admin to use an external authorization server. To do so, edit the same config map once more and follow these changes:
+1. It is possible to direct Flyte admin to use an external authorization server. To do so, edit the same config map once
+   more and follow these changes:
 
 .. code-block:: yaml
 
@@ -300,13 +292,7 @@ Save and close your editor.
 
 .. prompt:: bash
 
-  kubectl get deploy -n flyte flytepropeller -o yaml | grep "name: flyte-propeller-config"
-
-This will output the name of the config map where the `client_id` needs to go.
-
-.. prompt:: bash
-
-  kubectl edit configmap -n flyte <the name of the config map from previous command>
+  kubectl edit configmap -n flyte flyte-propeller-config
 
 Follow the inline comments to make the necessary changes:
 
@@ -328,24 +314,67 @@ Close the editor
 Continuous Integration - CI
 ***************************
 
-If your organization does any automated registration, then you'll need to authenticate with the `basic authentication <https://tools.ietf.org/html/rfc2617>`_ flow (username and password effectively). After retrieving an access token from the IDP, you can send it along to Flyte Admin as usual.
+If your organization does any automated registration, then you'll need to authenticate with the `client credentials <https://datatracker.ietf.org/doc/html/rfc6749#section-4.4>`_ flow. After retrieving an access token from the IDP, you can send it along to Flyte Admin as usual.
 
-Flytekit configuration variables are automatically designed to look up values from relevant environment variables. However, to aid with continuous integration use-cases, Flytekit configuration can also reference other environment variables. 
+flytectl
+========
 
-For instance, if your CI system is not capable of setting custom environment variables like ``FLYTE_CREDENTIALS_CLIENT_SECRET`` but does set the necessary settings under a different variable, you may use ``export FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_ENV_VAR=OTHER_ENV_VARIABLE`` to redirect the lookup. A ``FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_FILE`` redirect is available as well, where the value should be the full path to the file containing the value for the configuration setting, in this case, the client secret. We found this redirect behavior necessary when setting up registration within our own CI pipelines.
+Flytectl's ``config.yaml`` can be configured to use either PKCE (`Proof key for code exchange <https://datatracker.ietf.org/doc/html/rfc7636>`_)
+or Client Credentials (`Client Credentials <https://datatracker.ietf.org/doc/html/rfc6749#section-4.4>`_) flows.
+
+Update ``config.yaml`` as follows:
+
+.. code-block:: yaml
+
+    admin:
+        # Update with the admin's endpoint. You must keep the 3 forward-slashe after dns:
+        endpoint:: dns:///<admin's url>
+
+        # Update auth type to `Pkce` or `ClientSecret`
+        authType: Pkce
+
+        # Set to the clientId (will be used for both Pkce and ClientSecret flows)
+        # Leave empty to use the value discovered through flyteadmins Auth discovery endpoint.
+        clientId: <Id>
+
+        # Set to the location where the client secret is mounted.
+        # Only needed/used for `ClientSecret` flow.
+        clientSecretLocation: </some/path/to/key>
+
+To read further about the available config options, please
+`visit here <https://github.com/flyteorg/flyteidl/blob/master/clients/go/admin/config.go#L37-L64>`_
+
+flytekit / flyte-cli
+=====================
+
+Flytekit configuration variables are automatically designed to look up values from relevant environment variables.
+However, to aid with continuous integration use-cases, Flytekit configuration can also reference other environment
+variables.
+
+For instance, if your CI system is not capable of setting custom environment variables like
+``FLYTE_CREDENTIALS_CLIENT_SECRET`` but does set the necessary settings under a different variable, you may use
+``export FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_ENV_VAR=OTHER_ENV_VARIABLE`` to redirect the lookup. A
+``FLYTE_CREDENTIALS_CLIENT_SECRET_FROM_FILE`` redirect is available as well, where the value should be the full path to
+the file containing the value for the configuration setting, in this case, the client secret. We found this redirect
+behavior necessary when setting up registration within our own CI pipelines.
 
 The following is a listing of the Flytekit configuration values we set in CI, along with a brief explanation.
 
 * ``FLYTE_CREDENTIALS_CLIENT_ID`` and ``FLYTE_CREDENTIALS_CLIENT_SECRET``
   When using basic authentication, this is the username and password.
 * ``export FLYTE_CREDENTIALS_AUTH_MODE=basic``
-  This tells the SDK to use basic authentication. If not set, Flytekit will assume you want to use the standard OAuth based three-legged flow.
+  This tells the SDK to use basic authentication. If not set, Flytekit will assume you want to use the standard OAuth
+  based three-legged flow.
 * ``export FLYTE_CREDENTIALS_AUTHORIZATION_METADATA_KEY=text``
-  At Lyft, the value is set to conform to this `header config <https://github.com/flyteorg/flyteadmin/blob/eaca2fb0e6018a2e261e9e2da8998906477cadb5/pkg/auth/config/config.go#L53>`_ on the Admin side.
+  At Lyft, the value is set to conform to this
+  `header config <https://github.com/flyteorg/flyteadmin/blob/eaca2fb0e6018a2e261e9e2da8998906477cadb5/pkg/auth/config/config.go#L53>`_
+  on the Admin side.
 * ``export FLYTE_CREDENTIALS_SCOPE=text``
-  When using basic authentication, you'll need to specify a scope to the IDP (instead of ``openid``, which is only for OAuth). Set that here.
+  When using basic authentication, you'll need to specify a scope to the IDP (instead of ``openid``, which is only for
+  OAuth). Set that here.
 * ``export FLYTE_PLATFORM_AUTH=True``
-  Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're rolling out the requirement.
+  Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're rolling out
+  the requirement.
 
 
 .. _migrating-auth-config:
