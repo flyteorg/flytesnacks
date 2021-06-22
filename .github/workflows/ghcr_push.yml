@@ -1,4 +1,4 @@
-name: Build & Push K8s Docker Images
+name: Build & Push Docker Images
 
 on:
   pull_request:
@@ -16,12 +16,28 @@ jobs:
     strategy:
       matrix:
         directory:
+          - name: core
+            path: .
           - name: pod
             path: integrations/kubernetes
           - name: k8s_spark
             path: integrations/kubernetes
           - name: kfpytorch
             path: integrations/kubernetes
+          - name: sqlite_datacleaning
+            path: case_studies/feature_engineering
+          - name: sagemaker_training
+            path: integrations/aws
+          - name: sagemaker_pytorch
+            path: integrations/aws
+          - name: pima_diabetes
+            path: case_studies/ml_training
+          - name: papermilltasks
+            path: integrations/flytekit_plugins
+          - name: pandera
+            path: integrations/flytekit_plugins
+          - name: house_price_prediction
+            path: case_studies/ml_training
     steps:
       - uses: actions/checkout@v2
         with:
