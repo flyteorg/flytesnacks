@@ -50,7 +50,7 @@ You can find the plugins maintained by the core flyte team `here <https://github
       :text: Dolt
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^
-   Validate pandas dataframes with ``pandera``.
+   Version your SQL database with ``dolt``.
 
 
 .. toctree::
