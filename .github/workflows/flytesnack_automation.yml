@@ -2,6 +2,9 @@ name: Serialize Examples
 
 on:
   pull_request:
+  create:
+    tags:
+      - v*
 
 jobs:
   serialize-example:
@@ -62,6 +65,7 @@ jobs:
         run: make -C cookbook register-workflow-ci
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
+        if: github.event_name != 'pull_request'
         with:
           version: latest
           args: release --rm-dist
