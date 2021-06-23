@@ -7,14 +7,14 @@ on:
       - v*
 
 jobs:
-  setup-flytesnacks-example-matrix:
-    name: Setup Matrix for flytesnack example
+  setup-directory:
+    name: Push to GHCR
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: cookbook
     outputs:
-      directory: ${{ matrix.directory }}
+      directory: ${{ steps.set-matrix.outputs.directory }}
     strategy:
       matrix:
         directory:
@@ -47,6 +47,21 @@ jobs:
       - id: set-matrix
         run: |
           echo "::set-output name=directory::${{ matrix.directory }}"
+
+  push_github:
+    name: Push to GHCR
+    runs-on: ubuntu-latest
+    needs: [ setup-directory ]
+    defaults:
+      run:
+        working-directory: cookbook
+    strategy:
+      matrix:
+        directory: ${{ needs.setup-directory.outputs.directory }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
       - name: Push Spark Plugin Docker Image to Github Registry
         uses: whoan/docker-build-with-cache-action@v5
         with:
@@ -65,13 +80,13 @@ jobs:
   serialize-example:
     name: Serialize Example
     runs-on: ubuntu-latest
-    needs: [ setup-flytesnacks-example-matrix ]
+    needs: [ setup-directory ]
     defaults:
       run:
         working-directory: cookbook
     strategy:
       matrix:
-        directory: ${{fromJson(needs.setup-flytesnacks-example-matrix.outputs.directory)}}
+        directory: ${{ needs.setup-directory.outputs.directory }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -94,11 +109,11 @@ jobs:
   release-example:
     name: Release Example
     runs-on: ubuntu-latest
-    needs: [ setup-flytesnacks-example-matrix ]
+    needs: [ setup-directory ]
     if: github.event_name != 'pull_request'
     strategy:
       matrix:
-        directory: ${{fromJson(needs.setup-flytesnacks-example-matrix.outputs.directory)}}
+        directory: ${{ needs.setup-directory.outputs.directory }}
     defaults:
       run:
         working-directory: cookbook
