@@ -2,14 +2,8 @@
 Authentication in Flyte
 -----------------------
 
-Flyte ships with a canonical implementation of OpenIDConnect client and OAuth2 Server, integrating seamlessly into an organization's existing identity provider.
-
-This section includes:
-
-- :ref:`Overview <auth-overview>`
-- :ref:`Authentication Setup <auth-setup>`
-- :ref:`Migrating Your Authentication Config <migrating-auth-config>`
-- :ref:`References <auth-references>`
+Flyte ships with a canonical implementation of OpenIDConnect client and OAuth2 Server, integrating seamlessly into an
+organization's existing identity provider.
 
 .. _auth-overview:
 
