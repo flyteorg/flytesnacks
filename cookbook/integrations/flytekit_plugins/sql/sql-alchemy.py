@@ -17,12 +17,12 @@ This example works locally only. Install the following packages before running t
 
 # %%
 # Let's first import the libraries.
+import typing
+
 import pandas
 import psycopg2
 from flytekit import kwtypes, task, workflow
-
 from flytekitplugins.sqlalchemy import SQLAlchemyConfig, SQLAlchemyTask
-import typing
 
 
 # %%
