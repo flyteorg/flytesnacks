@@ -161,6 +161,7 @@ extensions = [
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
     "sphinx_tabs.tabs",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -419,4 +420,9 @@ intersphinx_mapping = {
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
 
+# Sphinx-tabs config
 sphinx_tabs_valid_builders = ['linkcheck']
+
+# Sphinx-mermaid config
+mermaid_output_format = 'raw'
+mermaid_version = 'latest'
