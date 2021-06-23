@@ -29,6 +29,6 @@ run-examples: ## Runs all examples
 archive: # archive directories (e.g. _pb_output/)
 	bash scripts/ci_helper.sh RELEASE
 
-.PHONY: register_workflow_serialized_test
-register_workflow_serialized_test:
+.PHONY: register-workflow-ci
+register-workflow-ci:
 	bash scripts/ci_helper.sh REGISTER

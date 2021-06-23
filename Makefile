@@ -81,9 +81,9 @@ fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
 
 .PHONY: setup-kubectl
-kubectl-config: 
+kubectl-config:
 	# In shell/bash, run: `eval $(make kubectl-config)`
 	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
-	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
+	echo "deprecated: the setup/teardown targets automatically add/remove kubeconfig contexts"
