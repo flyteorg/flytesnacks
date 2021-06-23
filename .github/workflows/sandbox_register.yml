@@ -22,4 +22,4 @@ jobs:
       - name: setup sandbox
         run: flytectl sandbox start --flytesnacks=$GITHUB_WORKSPACE
       - name: fast register
-        run: REGISTRY=cr.flyte.org/flyteorg VERSION=latest make fast_register
+        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
