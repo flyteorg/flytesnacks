@@ -94,60 +94,60 @@ Flyte supports connecting with external OIdC providers. Here are some examples f
 Apply Configuration
 ^^^^^^^^^^^^^^^^^^^
 
-1. Store the `client_secret` in a k8s secret as follows:
+#. Store the `client_secret` in a k8s secret as follows:
 
-.. prompt:: bash
+   .. prompt:: bash
 
-  kubectl edit secret -n flyte flyte-admin-auth
+     kubectl edit secret -n flyte flyte-admin-auth
 
-Add a new key under `stringData`:
+   Add a new key under `stringData`:
 
-.. code-block:: yaml
+   .. code-block:: yaml
 
-  stringData:
-    oidc_client_secret: <client_secret from the previous step>
-  data:
-    ...
+     stringData:
+       oidc_client_secret: <client_secret from the previous step>
+     data:
+       ...
 
-Save and close your editor.
+   Save and close your editor.
 
-2. Edit FlyteAdmin config to add `client_id` and configure auth as follows:
+#. Edit FlyteAdmin config to add `client_id` and configure auth as follows:
 
-.. prompt:: bash
+   .. prompt:: bash
 
-  kubectl edit configmap -n flyte flyte-admin-config
+      kubectl edit configmap -n flyte flyte-admin-config
 
-Follow the inline comments to make the necessary changes:
+   Follow the inline comments to make the necessary changes:
 
-.. code-block:: yaml
+   .. code-block:: yaml
 
-  server:
-    ...
-    security:
-      secure: false
-      # 1. Enable Auth by turning useAuth to true
-      useAuth: true
-      ...
-  auth:
-    userAuth:
-      openId:
-        # 2. Put the URL of the OpenID Connect provider.
-        #    baseUrl: https://accounts.google.com # Uncomment for Google
-        baseUrl: https://dev-14186422.okta.com/oauth2/default # Okta with a custom Authorization Server
-        scopes:
-          - profile
-          - openid
-          # - offline_access # Uncomment if OIdC supports issuing refresh tokens.
-        # 3. Replace with the client ID created for Flyte.
-        clientId: 0oakkheteNjCMERst5d6
+      server:
+        ...
+        security:
+          secure: false
+          # 1. Enable Auth by turning useAuth to true
+          useAuth: true
+          ...
+      auth:
+        userAuth:
+          openId:
+            # 2. Put the URL of the OpenID Connect provider.
+            #    baseUrl: https://accounts.google.com # Uncomment for Google
+            baseUrl: https://dev-14186422.okta.com/oauth2/default # Okta with a custom Authorization Server
+            scopes:
+              - profile
+              - openid
+              # - offline_access # Uncomment if OIdC supports issuing refresh tokens.
+            # 3. Replace with the client ID created for Flyte.
+            clientId: 0oakkheteNjCMERst5d6
 
-Save and exit your editor.
+   Save and exit your editor.
 
-3. Restart `flyteadmin` for the changes to take effect:
+#. Restart `flyteadmin` for the changes to take effect:
 
-.. prompt:: bash
+   .. prompt:: bash
 
-  kubectl rollout restart deployment/flyteadmin -n flyte
+      kubectl rollout restart deployment/flyteadmin -n flyte
 
 OAuth2 Authorization Server
 ===========================
@@ -180,82 +180,81 @@ To set up an external OAuth2 Authorization Server, please follow the instruction
 Apply Configuration
 ^^^^^^^^^^^^^^^^^^^
 
-1. It is possible to direct Flyte admin to use an external authorization server. To do so, edit the same config map once
+#. It is possible to direct Flyte admin to use an external authorization server. To do so, edit the same config map once
    more and follow these changes:
 
-.. code-block:: yaml
+   .. code-block:: yaml
 
-    auth:
-        appAuth:
-            # 1. Choose External if you will use an external Authorization Server (e.g. a Custom Authorization server in Okta)
-            #    Choose Self (or omit the value) to use Flyte Admin's internal (albeit limited) Authorization Server.
-            authServerType: External
+        auth:
+            appAuth:
+                # 1. Choose External if you will use an external Authorization Server (e.g. a Custom Authorization server in Okta)
+                #    Choose Self (or omit the value) to use Flyte Admin's internal (albeit limited) Authorization Server.
+                authServerType: External
 
-            # 2. Optional: Set external auth server baseUrl if different from OpenId baseUrl.
-            externalAuthServer:
-                baseUrl: https://dev-14186422.okta.com/oauth2/auskngnn7uBViQq6b5d6
-        thirdPartyConfig:
-            flyteClient:
-                # 3. Replace with a new Native Client ID provisioned in the custom authorization server
-                clientId: flytectl
+                # 2. Optional: Set external auth server baseUrl if different from OpenId baseUrl.
+                externalAuthServer:
+                    baseUrl: https://dev-14186422.okta.com/oauth2/auskngnn7uBViQq6b5d6
+            thirdPartyConfig:
+                flyteClient:
+                    # 3. Replace with a new Native Client ID provisioned in the custom authorization server
+                    clientId: flytectl
 
-                redirectUri: https://localhost:53593/callback
-                
-                # 4. "all" is a required scope and must be configured in the custom authorization server
-                scopes:
-                - offline
-                - all
-        userAuth:
-            openId:
-                baseUrl: https://dev-14186422.okta.com/oauth2/auskngnn7uBViQq6b5d6 # Okta with a custom Authorization Server
-                scopes:
-                - profile
-                - openid
-                # - offline_access # Uncomment if OIdC supports issuing refresh tokens.
-                clientId: 0oakkheteNjCMERst5d6
+                    redirectUri: https://localhost:53593/callback
 
-1. Store flyte propeller's `client_secret` in a k8s secret as follows:
+                    # 4. "all" is a required scope and must be configured in the custom authorization server
+                    scopes:
+                    - offline
+                    - all
+            userAuth:
+                openId:
+                    baseUrl: https://dev-14186422.okta.com/oauth2/auskngnn7uBViQq6b5d6 # Okta with a custom Authorization Server
+                    scopes:
+                    - profile
+                    - openid
+                    # - offline_access # Uncomment if OIdC supports issuing refresh tokens.
+                    clientId: 0oakkheteNjCMERst5d6
 
-.. prompt:: bash
+#. Store flyte propeller's `client_secret` in a k8s secret as follows:
 
-  kubectl edit secret -n flyte flyte-propeller-auth
+   .. prompt:: bash
 
-Add a new key under `stringData`:
+      kubectl edit secret -n flyte flyte-propeller-auth
 
-.. code-block:: yaml
+   Add a new key under `stringData`:
 
-  stringData:
-    client_secret: <client_secret> from the previous step
-  data:
-    ...
+   .. code-block:: yaml
 
-Save and close your editor.
+      stringData:
+        client_secret: <client_secret> from the previous step
+      data:
+        ...
 
-2. Edit FlytePropeller config to add `client_id` and configure auth as follows:
+   Save and close your editor.
 
-.. prompt:: bash
+#. Edit FlytePropeller config to add `client_id` and configure auth as follows:
 
-  kubectl edit configmap -n flyte flyte-propeller-config
+   .. prompt:: bash
 
-Follow the inline comments to make the necessary changes:
+      kubectl edit configmap -n flyte flyte-propeller-config
 
-.. code-block:: yaml
+   Follow the inline comments to make the necessary changes:
 
-    admin:
-        # 1. Replace with the client_id provided by the OAuth2 Authorization Server above.
-        clientId: flytepropeller
+   .. code-block:: yaml
 
-Close the editor
+      admin:
+          # 1. Replace with the client_id provided by the OAuth2 Authorization Server above.
+          clientId: flytepropeller
 
-3. Restart `flytepropeller` for the changes to take effect:
+   Close the editor
 
-.. prompt:: bash
+#. Restart `flytepropeller` for the changes to take effect:
 
-  kubectl rollout restart deployment/flytepropeller -n flyte
+   .. prompt:: bash
 
-***************************
+      kubectl rollout restart deployment/flytepropeller -n flyte
+
 Continuous Integration - CI
-***************************
+===========================
 
 If your organization does any automated registration, then you'll need to authenticate with the `client credentials <https://datatracker.ietf.org/doc/html/rfc6749#section-4.4>`_ flow. After retrieving an access token from the IDP, you can send it along to Flyte Admin as usual.
 
