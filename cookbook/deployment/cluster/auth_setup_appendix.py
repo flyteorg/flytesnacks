@@ -54,7 +54,7 @@ be granted an access_token valid to be used with admin and other backend service
 
 .. tabs::
 
-    .. tab:: Using FlyteAdmin's builtin Authorization Server:
+    .. tab:: FlyteAdmin's builtin Authorization Server
 
         .. mermaid::
             :alt: Service Authentication Swimlane
@@ -64,7 +64,7 @@ be granted an access_token valid to be used with admin and other backend service
                 Admin->>-Propeller: access_token
                 Propeller->>+Admin: /list_projects?token=access_token
 
-    .. tab:: Using an External Authorization Server:
+    .. tab:: External Authorization Server
 
         .. mermaid::
             :alt: Service Authentication Swimlane
@@ -82,7 +82,7 @@ an access_token valid to communicate with the intended backend service on behalf
 
 .. tabs::
 
-    .. tab:: Using FlyteAdmin's builtin Authorization Server:
+    .. tab:: FlyteAdmin's builtin Authorization Server
 
         .. mermaid::
             :alt: CLI Authentication with Admin's own Authorization Server
@@ -106,7 +106,7 @@ an access_token valid to communicate with the intended backend service on behalf
                 Cli->>+Admin: /projects/ + access_token
                 Admin->>-Cli: project1, project2
 
-    .. tab:: Using an External Authorization Server:
+    .. tab:: External Authorization Server
 
         .. mermaid::
             :alt: CLI Authentication with an external Authorization Server
