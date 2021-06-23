@@ -17,81 +17,20 @@ This section includes:
 Overview
 ########
 
-Flyte system consists of multiple components. For the purposes of this document, let's categorize them into server-side and client-side components:
+The Flyte system consists of multiple components. Securing communication between each components is crucial to ensure
+the security of the overall system.
 
-- **Admin**: A server-side control plane component accessible from Console, cli and other backends.
-- **Catalog**: A server-side control plane component accessible from Console, cli and other backends.
-- **Console**: A client-side single page react app.
-- **flyte-cli**: A python-based client-side command line interface that interacts with Admin and Catalog.
-- **flytectl**: A go-based client-side command line interface that interacts with Admin and Catalog.
-- **Propeller**: A server-side data plane component that interacts with both Admin and Catalog services.
+In abstract, Flyte supports OAuth2 and OpenId Connect (built on top of OAuth2) to secure the various connections:
 
-**************
-OpenID Connect
-**************
-
-Flyte supports OpenID Connect. A defacto standard for user authentication. After configuring OpenID Connect, users accessing flyte console or flytectl 
-(or other 3rd party apps) will be prompted to authenticate using the configured provider.
-
-.. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0Jyb3dzZXI6IC9ob21lXG4gICAgQnJvd3Nlci0-PitDb25zb2xlOiAvaG9tZVxuICAgIENvbnNvbGUtPj4tQnJvd3NlcjogMzAyIC9sb2dpblxuICAgIEJyb3dzZXItPj4rQWRtaW46IC9sb2dpblxuICAgIEFkbWluLT4-LUJyb3dzZXI6IElkcC5jb20vb2lkY1xuICAgIEJyb3dzZXItPj4rSWRwOiBJZHAuY29tL29pZGNcbiAgICBJZHAtPj4tQnJvd3NlcjogMzAyIC9sb2dpblxuICAgIEJyb3dzZXItPj4tVXNlcjogRW50ZXIgdXNlci9wYXNzXG4gICAgVXNlci0-PitCcm93c2VyOiBsb2dpblxuICAgIEJyb3dzZXItPj4rSWRwOiBTdWJtaXQgdXNlcm5hbWUvcGFzc1xuICAgIElkcC0-Pi1Ccm93c2VyOiBhZG1pbi8_YXV0aENvZGU9PGFiYz5cbiAgICBCcm93c2VyLT4-K0FkbWluOiBhZG1pbi9hdXRoQ29kZT08YWJjPlxuICAgIEFkbWluLT4-K0lkcDogRXhjaGFuZ2UgVG9rZW5zXG4gICAgSWRwLT4-LUFkbWluOiBpZHQsIGF0LCBydFxuICAgIEFkbWluLT4-K0Jyb3dzZXI6IFdyaXRlIENvb2tpZXMgJiBSZWRpcmVjdCB0byAvY29uc29sZVxuICAgIEJyb3dzZXItPj4rQ29uc29sZTogL2hvbWVcbiAgICBCcm93c2VyLT4-LVVzZXI6IFJlbmRlciAvaG9tZVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6Im5ldXRyYWwifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0
-   :target: https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0Jyb3dzZXI6IC9ob21lXG4gICAgQnJvd3Nlci0-PitDb25zb2xlOiAvaG9tZVxuICAgIENvbnNvbGUtPj4tQnJvd3NlcjogMzAyIC9sb2dpblxuICAgIEJyb3dzZXItPj4rQWRtaW46IC9sb2dpblxuICAgIEFkbWluLT4-LUJyb3dzZXI6IElkcC5jb20vb2lkY1xuICAgIEJyb3dzZXItPj4rSWRwOiBJZHAuY29tL29pZGNcbiAgICBJZHAtPj4tQnJvd3NlcjogMzAyIC9sb2dpblxuICAgIEJyb3dzZXItPj4tVXNlcjogRW50ZXIgdXNlci9wYXNzXG4gICAgVXNlci0-PitCcm93c2VyOiBsb2dpblxuICAgIEJyb3dzZXItPj4rSWRwOiBTdWJtaXQgdXNlcm5hbWUvcGFzc1xuICAgIElkcC0-Pi1Ccm93c2VyOiBhZG1pbi8_YXV0aENvZGU9PGFiYz5cbiAgICBCcm93c2VyLT4-K0FkbWluOiBhZG1pbi9hdXRoQ29kZT08YWJjPlxuICAgIEFkbWluLT4-K0lkcDogRXhjaGFuZ2UgVG9rZW5zXG4gICAgSWRwLT4-LUFkbWluOiBpZHQsIGF0LCBydFxuICAgIEFkbWluLT4-K0Jyb3dzZXI6IFdyaXRlIENvb2tpZXMgJiBSZWRpcmVjdCB0byAvY29uc29sZVxuICAgIEJyb3dzZXItPj4rQ29uc29sZTogL2hvbWVcbiAgICBCcm93c2VyLT4-LVVzZXI6IFJlbmRlciAvaG9tZVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6Im5ldXRyYWwifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0
-   :width: 600
-   :alt: Flyte UI Swimlane
-
-******
-OAuth2
-******
-
-Flyte supports OAuth2 to control access to 3rd party and native apps. FlyteAdmin comes with a built in Authorization
-Server that can perform 3-legged and 2-legged OAuth2 flows. It also supports delegating these responsibilities to an
-external Authorization Server.
-
-Service Authentication using OAuth2
-===================================
-
-Propeller (and potentially other non-user facing services) can also authenticate using client_credentials to the Idp and
-be granted an access_token valid to be used with admin and other backend services.
-
-.. tabs::
-
-    .. tab:: Using FlyteAdmin's builtin Authorization Server:
-
-        .. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgUHJvcGVsbGVyLT4-K0FkbWluOiAvdG9rZW4_Y2xpZW50X2NyZWRzJnNjb3BlPWh0dHBzOi8vYWRtaW4vXG4gICAgQWRtaW4tPj4tUHJvcGVsbGVyOiBhY2Nlc3NfdG9rZW5cbiAgICBQcm9wZWxsZXItPj4rQWRtaW46IC9saXN0X3Byb2plY3RzP3Rva2VuPWFjY2Vzc190b2tlbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :target: https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgUHJvcGVsbGVyLT4-K0FkbWluOiAvdG9rZW4_Y2xpZW50X2NyZWRzJnNjb3BlPWh0dHBzOi8vYWRtaW4vXG4gICAgQWRtaW4tPj4tUHJvcGVsbGVyOiBhY2Nlc3NfdG9rZW5cbiAgICBQcm9wZWxsZXItPj4rQWRtaW46IC9saXN0X3Byb2plY3RzP3Rva2VuPWFjY2Vzc190b2tlbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :width: 600
-           :alt: Service Authentication Swimlane
-
-    .. tab:: Using an External Authorization Server:
-
-        .. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgUHJvcGVsbGVyLT4-K0V4dGVybmFsIEF1dGhvcml6YXRpb24gU2VydmVyOiAvdG9rZW4_Y2xpZW50X2NyZWRzJnNjb3BlPWh0dHBzOi8vYWRtaW4vXG4gICAgRXh0ZXJuYWwgQXV0aG9yaXphdGlvbiBTZXJ2ZXItPj4tUHJvcGVsbGVyOiBhY2Nlc3NfdG9rZW5cbiAgICBQcm9wZWxsZXItPj4rQWRtaW46IC9saXN0X3Byb2plY3RzP3Rva2VuPWFjY2Vzc190b2tlbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :target: https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgUHJvcGVsbGVyLT4-K0V4dGVybmFsIEF1dGhvcml6YXRpb24gU2VydmVyOiAvdG9rZW4_Y2xpZW50X2NyZWRzJnNjb3BlPWh0dHBzOi8vYWRtaW4vXG4gICAgRXh0ZXJuYWwgQXV0aG9yaXphdGlvbiBTZXJ2ZXItPj4tUHJvcGVsbGVyOiBhY2Nlc3NfdG9rZW5cbiAgICBQcm9wZWxsZXItPj4rQWRtaW46IC9saXN0X3Byb2plY3RzP3Rva2VuPWFjY2Vzc190b2tlbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :width: 600
-           :alt: Service Authentication Swimlane
-
-User Authentication in other clients (e.g. Cli) using OAuth2-Pkce
-==================================================================
-
-Users accessing backend services through Cli should be able to use OAuth2-Pkce flow to authenticate (in a browser) to the Idp and be issued
-an access_token valid to communicate with the intended backend service on behalf of the user.
-
-.. tabs::
-
-    .. tab:: Using FlyteAdmin's builtin Authorization Server:
-
-        .. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0NsaTogZmx5dGVjdGwgbGlzdC1wcm9qZWN0c1xuICAgIENsaS0-PitBZG1pbjogYWRtaW4vY2xpZW50LWNvbmZpZ1xuICAgIEFkbWluLT4-LUNsaTogQ2xpZW50X2lkPTxhYmM-LCAuLi5cbiAgICBDbGktPj4rQnJvd3NlcjogL29hdXRoMi9hdXRob3JpemU_cGtjZSZjb2RlX2NoYWxsZW5nZSxjbGllbnRfaWQsc2NvcGVcbiAgICBCcm93c2VyLT4-K0FkbWluOiAvb2F1dGgyL2F1dGhvcml6ZT9wa2NlLi4uXG4gICAgQWRtaW4tPj4tQnJvd3NlcjogMzAyIGlkcC5jb20vbG9naW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixBZG1pbjogVGhlIHByaW9yIE9wZW5JRCBDb25uZWN0IGZsb3dcbiAgICBCcm93c2VyLT4-K0FkbWluOiBhZG1pbi9sb2dnZWRfaW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixBZG1pbjogUG90ZW50aWFsbHkgc2hvdyBjdXN0b20gY29uc2VudCBzY3JlZW5cbiAgICBBZG1pbi0-Pi1Ccm93c2VyOiBsb2NhbGhvc3QvP2F1dGhDb2RlPTxhYmM-XG4gICAgQnJvd3Nlci0-PitDbGk6IGxvY2FsaG9zdC9hdXRoQ29kZT08YWJjPlxuICAgIENsaS0-PitBZG1pbjogL3Rva2VuP2NvZGUsY29kZV92ZXJpZmllclxuICAgIEFkbWluLT4-LUNsaTogYWNjZXNzX3Rva2VuXG4gICAgQ2xpLT4-K0FkbWluOiAvcHJvamVjdHMvICsgYWNjZXNzX3Rva2VuXG4gICAgQWRtaW4tPj4tQ2xpOiBwcm9qZWN0MSwgcHJvamVjdDJcbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :target: https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0NsaTogZmx5dGVjdGwgbGlzdC1wcm9qZWN0c1xuICAgIENsaS0-PitBZG1pbjogYWRtaW4vY2xpZW50LWNvbmZpZ1xuICAgIEFkbWluLT4-LUNsaTogQ2xpZW50X2lkPTxhYmM-LCAuLi5cbiAgICBDbGktPj4rQnJvd3NlcjogL29hdXRoMi9hdXRob3JpemU_cGtjZSZjb2RlX2NoYWxsZW5nZSxjbGllbnRfaWQsc2NvcGVcbiAgICBCcm93c2VyLT4-K0FkbWluOiAvb2F1dGgyL2F1dGhvcml6ZT9wa2NlLi4uXG4gICAgQWRtaW4tPj4tQnJvd3NlcjogMzAyIGlkcC5jb20vbG9naW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixBZG1pbjogVGhlIHByaW9yIE9wZW5JRCBDb25uZWN0IGZsb3dcbiAgICBCcm93c2VyLT4-K0FkbWluOiBhZG1pbi9sb2dnZWRfaW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixBZG1pbjogUG90ZW50aWFsbHkgc2hvdyBjdXN0b20gY29uc2VudCBzY3JlZW5cbiAgICBBZG1pbi0-Pi1Ccm93c2VyOiBsb2NhbGhvc3QvP2F1dGhDb2RlPTxhYmM-XG4gICAgQnJvd3Nlci0-PitDbGk6IGxvY2FsaG9zdC9hdXRoQ29kZT08YWJjPlxuICAgIENsaS0-PitBZG1pbjogL3Rva2VuP2NvZGUsY29kZV92ZXJpZmllclxuICAgIEFkbWluLT4-LUNsaTogYWNjZXNzX3Rva2VuXG4gICAgQ2xpLT4-K0FkbWluOiAvcHJvamVjdHMvICsgYWNjZXNzX3Rva2VuXG4gICAgQWRtaW4tPj4tQ2xpOiBwcm9qZWN0MSwgcHJvamVjdDJcbiIsIm1lcm1haWQiOnsidGhlbWUiOiJuZXV0cmFsIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9
-           :width: 600
-           :alt: CLI Authentication with Admin's own Authorization Server
-
-    .. tab:: Using an External Authorization Server:
-
-        .. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0NsaTogZmx5dGVjdGwgbGlzdC1wcm9qZWN0c1xuICAgIENsaS0-PitBZG1pbjogYWRtaW4vY2xpZW50LWNvbmZpZ1xuICAgIEFkbWluLT4-LUNsaTogQ2xpZW50X2lkPTxhYmM-LCAuLi5cbiAgICBDbGktPj4rQnJvd3NlcjogL29hdXRoMi9hdXRob3JpemU_cGtjZSZjb2RlX2NoYWxsZW5nZSxjbGllbnRfaWQsc2NvcGVcbiAgICBCcm93c2VyLT4-K0V4dGVybmFsSWRwOiAvb2F1dGgyL2F1dGhvcml6ZT9wa2NlLi4uXG4gICAgRXh0ZXJuYWxJZHAtPj4tQnJvd3NlcjogMzAyIGlkcC5jb20vbG9naW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixFeHRlcm5hbElkcDogVGhlIHByaW9yIE9wZW5JRCBDb25uZWN0IGZsb3dcbiAgICBCcm93c2VyLT4-K0V4dGVybmFsSWRwOiAvbG9nZ2VkX2luXG4gICAgTm90ZSBvdmVyIEJyb3dzZXIsRXh0ZXJuYWxJZHA6IFBvdGVudGlhbGx5IHNob3cgY3VzdG9tIGNvbnNlbnQgc2NyZWVuXG4gICAgRXh0ZXJuYWxJZHAtPj4tQnJvd3NlcjogbG9jYWxob3N0Lz9hdXRoQ29kZT08YWJjPlxuICAgIEJyb3dzZXItPj4rQ2xpOiBsb2NhbGhvc3QvYXV0aENvZGU9PGFiYz5cbiAgICBDbGktPj4rRXh0ZXJuYWxJZHA6IC90b2tlbj9jb2RlLGNvZGVfdmVyaWZpZXJcbiAgICBFeHRlcm5hbElkcC0-Pi1DbGk6IGFjY2Vzc190b2tlblxuICAgIENsaS0-PitBZG1pbjogL3Byb2plY3RzLyArIGFjY2Vzc190b2tlblxuICAgIEFkbWluLT4-LUNsaTogcHJvamVjdDEsIHByb2plY3QyXG4iLCJtZXJtYWlkIjp7InRoZW1lIjoibmV1dHJhbCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ
-           :target: https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4lJXtjb25maWc6IHsgJ2ZvbnRGYW1pbHknOiAnTWVubG8nLCAnZm9udFNpemUnOiAxMCwgJ2ZvbnRXZWlnaHQnOiAxMDB9IH0lJVxuICAgIGF1dG9udW1iZXJcbiAgICBVc2VyLT4-K0NsaTogZmx5dGVjdGwgbGlzdC1wcm9qZWN0c1xuICAgIENsaS0-PitBZG1pbjogYWRtaW4vY2xpZW50LWNvbmZpZ1xuICAgIEFkbWluLT4-LUNsaTogQ2xpZW50X2lkPTxhYmM-LCAuLi5cbiAgICBDbGktPj4rQnJvd3NlcjogL29hdXRoMi9hdXRob3JpemU_cGtjZSZjb2RlX2NoYWxsZW5nZSxjbGllbnRfaWQsc2NvcGVcbiAgICBCcm93c2VyLT4-K0V4dGVybmFsSWRwOiAvb2F1dGgyL2F1dGhvcml6ZT9wa2NlLi4uXG4gICAgRXh0ZXJuYWxJZHAtPj4tQnJvd3NlcjogMzAyIGlkcC5jb20vbG9naW5cbiAgICBOb3RlIG92ZXIgQnJvd3NlcixFeHRlcm5hbElkcDogVGhlIHByaW9yIE9wZW5JRCBDb25uZWN0IGZsb3dcbiAgICBCcm93c2VyLT4-K0V4dGVybmFsSWRwOiAvbG9nZ2VkX2luXG4gICAgTm90ZSBvdmVyIEJyb3dzZXIsRXh0ZXJuYWxJZHA6IFBvdGVudGlhbGx5IHNob3cgY3VzdG9tIGNvbnNlbnQgc2NyZWVuXG4gICAgRXh0ZXJuYWxJZHAtPj4tQnJvd3NlcjogbG9jYWxob3N0Lz9hdXRoQ29kZT08YWJjPlxuICAgIEJyb3dzZXItPj4rQ2xpOiBsb2NhbGhvc3QvYXV0aENvZGU9PGFiYz5cbiAgICBDbGktPj4rRXh0ZXJuYWxJZHA6IC90b2tlbj9jb2RlLGNvZGVfdmVyaWZpZXJcbiAgICBFeHRlcm5hbElkcC0-Pi1DbGk6IGFjY2Vzc190b2tlblxuICAgIENsaS0-PitBZG1pbjogL3Byb2plY3RzLyArIGFjY2Vzc190b2tlblxuICAgIEFkbWluLT4-LUNsaTogcHJvamVjdDEsIHByb2plY3QyXG4iLCJtZXJtYWlkIjp7InRoZW1lIjoibmV1dHJhbCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ
-           :width: 600
-           :alt: CLI Authentication with an external Authorization Server
+* :ref:`OpenId Connect <auth-openid-appendix>`: Used to secure user's authentication to flyteadmin service.
+* :ref:`OAuth2 <auth-oauth2-appendix>`: Used to secure communication between clients (i.e. flyte-cli, flytectl and
+  flytepropeller) and flyteadmin service.
 
 Identity Providers Support
 ==========================
+
+Support for these protocols varies per IdP, checkout the following table to understand the available support level for
+your IdP.
 
 +-----------------+--------+-------------+---------------------+----------+-------+----------+--------+
 | Feature         | Okta   | Google free | GC Identity Service | Azure AD | Auth0 | KeyCloak | Github |
@@ -378,166 +317,12 @@ If your organization does any automated registration, then you'll need to authen
           At Lyft, the value is set to conform to this
           `header config <https://github.com/flyteorg/flyteadmin/blob/eaca2fb0e6018a2e261e9e2da8998906477cadb5/pkg/auth/config/config.go#L53>`_
           on the Admin side.
-        * ``export FLYTE_CREDENTIALS_SCOPE=text``
+        * ``export FLYTE_CREDENTIALS_OAUTH_SCOPES=text``
           When using basic authentication, you'll need to specify a scope to the IDP (instead of ``openid``, which is
           only for OAuth). Set that here.
         * ``export FLYTE_PLATFORM_AUTH=True``
           Set this to force Flytekit to use authentication, even if not required by Admin. This is useful as you're
           rolling out the requirement.
-
-.. _migrating-auth-config:
-
-####################################
-Migrating Your Authentication Config
-####################################
-
-Using Okta as an example, you would have previously seen something like the following:
-
-On the Okta side:
-=================
-
-* An Application (OpenID Connect Web) for Flyte Admin itself (e.g. **0oal5rch46pVhCGF45d6**).
-* An Application (OpenID Native app) for Flyte-cli/flytectl (e.g. **0oal62nxuD6OSFSRq5d6**).
-  These two applications would be assigned to the relevant users.
-* An Application (Web) for Flyte Propeller (e.g. **0abc5rch46pVhCGF9876**).
-  This application would either use the default Authorization server, or you would create a new one.
-
-On the Admin side:
-==================
-
-.. code-block:: yaml
-
-    server:
-    # ... other settings
-    security:
-        secure: false
-        useAuth: true
-        allowCors: true
-        allowedOrigins:
-        - "*"
-        allowedHeaders:
-        - "Content-Type"
-        oauth:
-        baseUrl: https://dev-62129345.okta.com/oauth2/default/
-        scopes:
-            - profile
-            - openid
-            - email
-        claims:
-            iss: https://dev-62129345.okta.com/oauth2/default
-            aud: 0oal5rch46pVhCGF45d6
-        clientId: 0oal5rch46pVhCGF45d6
-        clientSecretFile: "/Users/ytong/etc/secrets/oauth/secret"
-        authorizeUrl: "https://dev-62129345.okta.com/oauth2/default/v1/authorize"
-        tokenUrl: "https://dev-62129345.okta.com/oauth2/default/v1/token"
-        callbackUrl: "http://localhost:8088/callback"
-        cookieHashKeyFile: "/Users/ytong/etc/secrets/hashkey/hashkey"
-        cookieBlockKeyFile: "/Users/ytong/etc/secrets/blockkey/blockkey"
-        redirectUrl: "/api/v1/projects"
-        thirdPartyConfig:
-            flyteClient:
-            clientId: 0oal62nxuD6OSFSRq5d6
-            redirectUri: http://localhost:12345/callback
-
-From the Flyte-cli side, these two settings were needed:
-
-.. code-block:: bash
-
-    FLYTE_PLATFORM_HTTP_URL=http://localhost:8088 FLYTE_CREDENTIALS_CLIENT_ID=0oal62nxuD6OSFSRq5d6 flyte-cli ...
-
-**FLYTE_PLATFORM_HTTP_URL** is used because **flyte-cli** uses only gRPC to communicate with Admin. It needs to know the HTTP port (which Admin hosts on a different port because of limitations of the 
-grpc-gateway library). **flyte-cli** uses this setting to talk to **/.well-known/oauth-authorization-server** to retrieve information regarding the auth endpoints.  Previously this redirected to the
-Okta Authorization Server's metadata endpoint. With this change, Admin now hosts its own (even if still using the external Authorization Service).
-
-After version `0.13.0 <https://github.com/flyteorg/flyte/tree/v0.13.0>`__ of the platform, you can still use the IdP as the Authorization Server if you wish. That configuration would now become:
-
-.. code-block:: yaml
-
-    server:
-    # ... other settings
-    security:
-        secure: false
-        useAuth: true
-        allowCors: true
-        allowedOrigins:
-        - "*"
-        allowedHeaders:
-        - "Content-Type"
-    auth:
-        authorizedUris:
-            # This should point at your public http Uri.
-            - https://flyte.mycompany.com
-            # This will be used by internal services in the same namespace as flyteadmin
-            - http://flyteadmin:80
-            # This will be used by internal services in the same cluster but different namespaces
-            - http://flyteadmin.flyte.svc.cluster.local:80
-        userAuth:
-            openId:
-                # Put the URL of the OpenID Connect provider.
-                baseUrl: https://dev-62129345.okta.com/oauth2/default # Okta with a custom Authorization Server
-                scopes:
-                    - profile
-                    - openid
-                    - offline_access # Uncomment if OIdC supports issuing refresh tokens.
-                # Replace with the client id created for Flyte.
-                clientId: 0oal5rch46pVhCGF45d6
-        appAuth:
-            # External delegates app auth responsibilities to an external authorization server, Internal means Flyte Admin does it itself
-            authServerType: External
-            thirdPartyConfig:
-                flyteClient:
-                    clientId: 0oal62nxuD6OSFSRq5d6
-                    redirectUri: http://localhost:12345/callback
-                    scopes:
-                    - all
-                    - offline
-
-Specifically,
-
-* The original **oauth** section has been moved two levels higher into its own section and renamed **auth** but enabling/disabling of authentication remains in the old location.
-* Secrets by default will now be looked up in **/etc/secrets**. Use the following command to generate them:
-
-.. code-block:: bash
-
-    flyteadmin secrets init -p /etc/secrets
-
-This will generate the new cookie hash/block keys, as well as other secrets Admin needs to run the Authorization server.
-
-* The **clientSecretFile** has been moved to **/etc/secrets/oidc_client_secret** so move that there.
-* **claims** has been removed, just delete that.
-* **authorizeUrl** and **tokenUrl** are no longer necessary.
-* The **baseUrl** for the external Authorization Server is now in the **appAuth** section.
-* The **thirdPartyConfig** has been moved to **appAuth** as well.
-* **redirectUrl** has been defaulted to **/console**. If that's the value you want, then you no longer need this setting.
-
-From Propeller side, you might have a configuration section that looks like this:
-
-.. code-block:: yaml
-
-    admin:
-      endpoint: dns:///mycompany.domain.com
-      useAuth: true
-      clientId: flytepropeller
-      clientSecretLocation: /etc/secrets/client_secret
-      tokenUrl: https://demo.nuclyde.io/oauth2/token
-      scopes:
-      - all
-
-This can now be simplified to:
-
-.. code-block:: yaml
-
-    admin:
-      endpoint: dns:///mycompany.domain.com
-      # If you are using the built-in authorization server, you can delete the following two lines:
-      clientId: flytepropeller
-      clientSecretLocation: /etc/secrets/client_secret
-
-Specifically,
-
-* **useAuth** is deprecated and will be removed in a future version. Auth requirement will be discovered through an anonymous admin discovery call.
-* **tokenUrl** and **scopes** will also be discovered through a metadata call.
-* **clientId** and **clientSecretLocation** have defaults that work out of the box with the built-in authorization server (e.g. if you setup Google OpenID Connect).
 
 .. _auth-references:
 
