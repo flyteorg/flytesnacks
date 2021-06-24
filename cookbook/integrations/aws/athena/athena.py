@@ -1,8 +1,7 @@
-from flytekit import kwtypes, task, workflow, dynamic
-
-from flytekitplugins.athena import AthenaTask, AthenaConfig
+from flytekit import dynamic, kwtypes, task, workflow
 from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
+from flytekitplugins.athena import AthenaConfig, AthenaTask
 
 # %%
 # This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
@@ -23,27 +22,63 @@ def no_io_wf():
     return athena_task_no_io()
 
 
-athena_task_w_out = AthenaTask(
+# %%
+# Of course, in real world applications we are usually more interested in using Athena to query a dataset.
+# In this case we assume that the vaccinations table exists and has been populated data according to this schema
+#     +----------------------------------------------+
+#     | country (string)                             |
+#     +----------------------------------------------+
+#     | iso_code (string)                            |
+#     +----------------------------------------------+
+#     | date (string)                                |
+#     +----------------------------------------------+
+#     | total_vaccinations (string)                  |
+#     +----------------------------------------------+
+#     | people_vaccinated (string)                   |
+#     +----------------------------------------------+
+#     | people_fully_vaccinated (string)             |
+#     +----------------------------------------------+
+#     | daily_vaccinations_raw (string)              |
+#     +----------------------------------------------+
+#     | daily_vaccinations (string)                  |
+#     +----------------------------------------------+
+#     | total_vaccinations_per_hundred (string)      |
+#     +----------------------------------------------+
+#     | people_vaccinated_per_hundred (string)       |
+#     +----------------------------------------------+
+#     | people_fully_vaccinated_per_hundred (string) |
+#     +----------------------------------------------+
+#     | daily_vaccinations_per_million (string)      |
+#     +----------------------------------------------+
+#     | vaccines (string)                            |
+#     +----------------------------------------------+
+#     | source_name (string)                         |
+#     +----------------------------------------------+
+#     | source_website (string)                      |
+#     +----------------------------------------------+
+#
+# Let's look out how we can parameterize our query to filter results for a specific country.
+# We'll produce a FlyteSchema that we can use in downstream flyte tasks for further analysis or manipulation.
+
+athena_task_templatized_query = AthenaTask(
     name="sql.athena.w_io",
     inputs=kwtypes(limit=int),
     task_config=AthenaConfig(database="vaccinations"),
     query_template="""
-    SELECT * FROM vaccinations limit {{ .inputs.limit }}
+    SELECT * FROM vaccinations where iso_code like  {{ .inputs.iso_code }}
     """,
     output_schema_type=FlyteSchema,
 )
 
-
+# %%
+# Now we (trivially) clean up and interact with the data produced from the above Athena query in a separate Flyte task.
 @task
-def print_athena_schema(s: FlyteSchema):
+def manipulate_athena_schema(s: FlyteSchema) -> FlyteSchema:
     df = s.open().all()
-    print(df.to_markdown())
+    return df[df.total_vaccinations.notnull()]
 
 
 @workflow
-def full_hive_demo_wf(limit: int) -> FlyteSchema:
-    demo_schema = athena_task_w_out(limit=limit)
-    print_athena_schema(s=demo_schema)
-    return demo_schema
-
-
+def full_hive_demo_wf(country_iso_code: str) -> FlyteSchema:
+    demo_schema = athena_task_templatized_query(iso_code=country_iso_code)
+    return manipulate_athena_schema(s=demo_schema)
