@@ -1,18 +1,18 @@
 """
-SQLAlchemy Example
-------------------
+SQLAlchemy
+----------
 
 SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
 
 That being said, Flyte provides an easy-to-use interface to utilize SQLAlchemy to connect to various SQL Databases.
 
-In this tutorial, we'll use a Postgres DB to understand how SQLAlchemy blends with Flyte.
+In this example, we'll use a Postgres DB to understand how you can use SQLAlchemy with Flyte.
 
 This example works locally only. Install the following packages before running this example:
 
 * `Postgres <https://www.postgresql.org/download/>`__
-* pip install flytekitplugins-sqlalchemy
-* pip install `psycopg2 <https://pypi.org/project/psycopg2/>`__
+* ``pip install flytekitplugins-sqlalchemy``
+* ``pip install psycopg2``
 """
 
 # %%
@@ -26,7 +26,7 @@ from flytekitplugins.sqlalchemy import SQLAlchemyConfig, SQLAlchemyTask
 
 
 # %%
-# Next, we define a ``create_db`` function to create a Postgres DB using ``psycopg2``.
+# Next, we define a ``create_db`` function to create a Postgres DB using `psycopg2 <https://pypi.org/project/psycopg2/>`__.
 def create_db(
     conn_info: typing.Dict[str, str],
 ) -> None:
@@ -81,17 +81,23 @@ def pg_server() -> str:
 
     # run queries
     table_sql = """
-        CREATE TABLE test (origin VARCHAR NOT NULL, destination VARCHAR NOT NULL, duration INTEGER NOT NULL);
+        CREATE TABLE test (
+            origin VARCHAR NOT NULL, 
+            destination VARCHAR NOT NULL, 
+            duration INTEGER NOT NULL
+        );
     """
     run_query(table_sql, connection, cursor)
 
     first_entry_sql = """
-        INSERT INTO test (origin, destination, duration) VALUES ('New York', 'London', 415);
+        INSERT INTO test (origin, destination, duration) 
+        VALUES ('New York', 'London', 415);
     """
     run_query(first_entry_sql, connection, cursor)
 
     second_entry_sql = """
-        INSERT INTO test (origin, destination, duration) VALUES ('Shanghai', 'Paris', 760);
+        INSERT INTO test (origin, destination, duration) 
+        VALUES ('Shanghai', 'Paris', 760);
     """
     run_query(second_entry_sql, connection, cursor)
 
@@ -106,7 +112,7 @@ def pg_server() -> str:
 #
 # .. note::
 #
-#   The output of SQLAlchemyTask is a FlyteSchema by default.
+#   The output of SQLAlchemyTask is a :py:class:`~flytekit.types.schema.FlyteSchema` by default.
 @task
 def my_task(df: pandas.DataFrame) -> int:
     return len(df)
@@ -114,7 +120,11 @@ def my_task(df: pandas.DataFrame) -> int:
 
 sql_task = SQLAlchemyTask(
     "fetch_flight_data",
-    query_template="select * from test where duration >= {{ .inputs.lower_duration_cap }} and duration <= {{ .inputs.upper_duration_cap }}",
+    query_template="""
+        select * from test 
+        where duration >= {{ .inputs.lower_duration_cap }} 
+        and duration <= {{ .inputs.upper_duration_cap }}
+    """,
     inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
     task_config=SQLAlchemyConfig(uri=pg_server()),
 )
