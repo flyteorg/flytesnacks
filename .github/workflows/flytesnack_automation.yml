@@ -1,4 +1,4 @@
-name: Serialize Examples
+name: Serialize & Release Examples
 
 on:
   pull_request:
@@ -35,7 +35,7 @@ jobs:
           mkdir -p cookbook/release-snacks /tmp/release-snacks-${{ matrix.directory }}/
           make -C cookbook archive
   releaser:
-    name: Release Case studies example
+    name: Release example
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     needs: [ serialize-example ]
