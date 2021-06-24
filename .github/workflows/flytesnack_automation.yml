@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: "0"
       - uses: actions/cache@v1
+        if: github.event_name != 'pull_request'
         with:
           path: /tmp/release-snacks-${{ matrix.directory }}/
           key: release-snacks-${{ matrix.directory }}
@@ -25,12 +26,18 @@ jobs:
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          mkdir -p cookbook/release-snacks /tmp/release-snacks-${{ matrix.directory }}/
           make -C cookbook/${{ matrix.directory }} serialize
+      - name: Cache Serialize proto
+        if: github.event_name != 'pull_request'
+        env:
+          REGISTRY: "ghcr.io/flyteorg"
+        run: |
+          mkdir -p cookbook/release-snacks /tmp/release-snacks-${{ matrix.directory }}/
           make -C cookbook archive
-  goreleaser:
+  releaser:
     name: Release Case studies example
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
     needs: [ serialize-example ]
     steps:
       - uses: actions/checkout@v2
@@ -58,14 +65,8 @@ jobs:
           cp -r /tmp/release-snacks-core/* cookbook/release-snacks/
           cp -r /tmp/release-snacks-case_studies/* cookbook/release-snacks/
           cp -r /tmp/release-snacks-integrations/* cookbook/release-snacks/
-      - uses: unionai/flytectl-setup-action@v0.0.1
-      - name: setup sandbox
-        run: flytectl sandbox start --flytesnacks=$GITHUB_WORKSPACE
-      - name: Register workflow
-        run: make -C cookbook register-workflow-ci
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
-        if: github.event_name != 'pull_request'
         with:
           version: latest
           args: release --rm-dist
