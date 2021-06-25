@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: "0"
       - uses: actions/cache@v1
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         with:
           path: /tmp/release-snacks-${{ matrix.directory }}/
           key: release-snacks-${{ matrix.directory }}-${{ github.sha }}
@@ -31,7 +31,7 @@ jobs:
         run: |
           REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
       - name: Cache Serialized protos
-        # if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |

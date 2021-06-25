@@ -89,7 +89,3 @@ kubectl-config:
 	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
 
-.PHONY: flytectl-config
-flytectl-config:
-	mkdir -p ~/.flyte
-	cp flytectl-config.yaml $(FLYTE_CONFIG)
