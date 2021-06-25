@@ -146,7 +146,7 @@ serialize: clean _pb_output docker_build
 register: clean _pb_output serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	flytectl register file ${CURDIR}/_pb_output/* -d ${DOMAIN} -p ${PROJECT} --continueOnError --config ${FLYTE_CONFIG} --version=${VERSION}
+	flytectl register file ${CURDIR}/_pb_output/* -d ${DOMAIN} -p ${PROJECT}  --config ${FLYTE_CONFIG} --version=${VERSION}
 
 _pb_output:
 	mkdir -p _pb_output

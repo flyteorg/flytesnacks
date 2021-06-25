@@ -77,7 +77,7 @@ shell: _requires-sandbox-up  ## Drop into a development shell
 .PHONY: register
 register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call LOG,Registering example workflows in cookbook/$(EXAMPLES_MODULE))
-	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
+	make -C cookbook/$(EXAMPLES_MODULE) register
 
 
 .PHONY: fast_register
