@@ -12,8 +12,8 @@ serialize: $(SERIALIZED_PB_OUTPUT_DIR)
 	pyflyte --config /root/sandbox.config serialize workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
 
 .PHONY: register
-register: serialize
-	flyte-cli register-files -h ${FLYTE_HOST} ${INSECURE_FLAG} -p ${PROJECT} -d development -v ${VERSION} --kubernetes-service-account ${SERVICE_ACCOUNT} --output-location-prefix ${OUTPUT_DATA_PREFIX} $(SERIALIZED_PB_OUTPUT_DIR)/*
+register: serialize 
+	flytectl register file $(SERIALIZED_PB_OUTPUT_DIR)/* -d development -p ${PROJECT} --continueOnError -v ${VERSION} --k8ServiceAccount=${SERVICE_ACCOUNT} --outputLocationPrefix=${OUTPUT_DATA_PREFIX}
 
 .PHONY: fast_serialize
 fast_serialize: $(SERIALIZED_PB_OUTPUT_DIR)

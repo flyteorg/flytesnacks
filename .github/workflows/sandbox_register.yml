@@ -22,7 +22,15 @@ jobs:
         with:
           fetch-depth: "0"
       - uses: unionai/flytectl-setup-action@v0.0.1
-      - name: setup sandbox
+      - name: Setup sandbox
         run: make setup
-      - name: fast register
+      - name: Setup flytectl config
+        run: eval $(make flytectl-config)
+      - name: Register
+        env:
+          FLYTECTL_CONFIG: ~/.flyte/config-sandbox.yaml
+        run: VERSION=latest make register
+      - name: Fast register
+        env:
+          FLYTECTL_CONFIG: ~/.flyte/config-sandbox.yaml      
         run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register

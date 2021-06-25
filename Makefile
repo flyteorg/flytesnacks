@@ -64,6 +64,10 @@ teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
 
 .PHONY: status
 status: _requires-sandbox-up  ## Show status of Flyte deployment
+	$(call LOG,Flytectl sandbox status \n)
+	flytectl sandbox status
+	$(call LOG,\n)
+	$(call LOG,Flyte kubernetes deployment status \n)
 	kubectl get pods -n flyte
 
 .PHONY: shell
@@ -87,5 +91,9 @@ kubectl-config:
 	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
-	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
+	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
 
+.PHONY: flytectl-config
+flytectl-config:
+	mkdir -p ~/.flyte
+	cp $(FLYTE_DIR)/config-sandbox.yaml $(FLYTE_DIR)/config.yaml
