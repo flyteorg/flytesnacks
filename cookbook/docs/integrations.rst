@@ -1,62 +1,72 @@
-###############
+############
 Integrations
-###############
+############
 
-Flyte is designed to be highly extensible. Flyte can be extended in multiple ways
+Flyte is designed to be highly extensible and can be customized in multiple ways:
 
-#. Flytekit only plugins: Plugins that are like executing a python function in a container
-#. Flyte backend global plugins: Plugins that are independent of the SDK and enable backend capabilities in Flyte and are global for the entire deployment
-#. Flyte custom container executions: Execute arbitrary containers - data is loaded into the container as files and read out of the containers. One can write c++ code, bash scripts and any containerized program
-#. Bring your own SDK: the community would love to help you with your own ideas of building a new SDK. Ideas include - ``golang``, ``javascript/nodejs`` etc
+.. panels::
+    :header: text-center
 
-Available SDKs:
+    .. link-button:: flytekit_plugins
+       :type: ref
+       :text: Flytekit Plugins
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    These are Flytekit (python) plugins that are like executing a python function in a container.
 
-#. `Flytekit <https://github.com/lyft/flytekit>`_ is the Python SDK for writing Flyte tasks and workflows and is optimized for Machine Learning pipelines and ETL workloads
-#. `Flytekit-Java <https://github.com/spotify/flytekit-java>`_ is the Java/SCALA SDK optimized for ETL and data processing workloads
+    ---
 
-What are Flytekit [python] only plugins?
-===========================================
-Flytekit plugins are simple plugins that can be implemented purely in python, unit tested locally and allow extending Flytekit functionality. These plugins can be anything and for comparison can be thought of like Airflow Operators.
-Data is automatically marshalled and unmarshalled into and out of the plugin and mostly users should implement :py:class:`flytekit.core.base_task.PythonTask` API, defined in flytekit.
-This tutorial will illustrate how a plugin can be implemented with the help of an example.
+    .. link-button:: native_backend_plugins
+       :type: ref
+       :text: Native Backend Plugins
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Plugins that enable backend capabilities in Flyte and are independent of external services.
 
-Flytekit Plugins are lazily loaded and can be released independently like libraries. We follow a convention to name the plugin like
-``flytekitplugins-*``, where * implies the capability. For example ``flytekitplugins-papermill`` enables users to author flytekit tasks using `Papermill <https://papermill.readthedocs.io/en/latest/>`_
+    ---
 
-Examples of flytekit only plugins:
+    .. link-button:: external_services
+       :type: ref
+       :text: External Services Backend Plugins
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Plugins that enable backend capabilities in Flyte and rely on external services like
+    AWS Sagemaker and Hive.
 
-#. Papermill implementation `flytekitplugins-papermill <https://github.com/lyft/flytekit/tree/master/plugins/papermill>`_
-#. SQLite3 implementation `SQLite3 Queries <https://github.com/lyft/flytekit/blob/master/flytekit/extras/sqlite3/task.py>`_
+    ---
 
-What are Backend Plugins?
-=========================
-Flyte backend plugins are more involved and implementation needs writing code in ``Golang`` that gets plugged into the Flyte backend engine. These plugins are statically loaded into the FlytePropeller. The contract for the plugin can be encoded in any serialization format - e.g. JSON, OpenAPI, protobuf. The community in general prefers using protobuf.
-Once the backend plugin is implemented, any language SDK can be implemented to provide a specialized interface for the user.
+    Custom Container Executions
+    ^^^^^^^^^^^^
+    Execute arbitrary containers: You can write c++ code, bash scripts and any containerized program.
+    See the :ref:`raw container <raw_container>` as an example.
 
-Examples
+    ---
 
-#. `Sagemaker <https://github.com/lyft/flytekit/tree/master/plugins/awssagemaker>`_
-#. `K8s Spark <https://github.com/lyft/flytekit/tree/master/plugins/spark>`_
+    Bring Your Own SDK
+    ^^^^^^^^^^^^
+    The community would love to help you with your own ideas of building a new SDK. Currently the available SDKs are:
 
-Native Backend Plugins
-^^^^^^^^^^^^^^^^^^^^^^^
-Native Backend Plugins are plugins that can be executed without any external service
-dependencies. The compute is orchestrated by Flyte itself, within its
-provisioned kubernetes clusters. Some examples of native plugins are
+    - `flytekit <https://github.com/flyteorg/flytekit>`_: Flyte Python SDK
+    - `flytekit-java <https://github.com/spotify/flytekit-java>`_: Flyte Java/SCALA SDK
 
-#. Python functions
-#. K8s Containerized Spark
-#. Array Tasks
-#. Pod Tasks
-#. K8s native distributed Pytorch training using Kubeflow Pytorch Operator
-#. K8s native distributed Tensorflow training using Kubeflow TF Operator
+Enabling Backend Plugins
+^^^^^^^^^^^^^^^^^^^^^^^^^
+To enable a backend plugin you have to add the ``ID`` of the plugin to the enabled plugins list. The ``enabled-plugins`` is available under the ``tasks > task-plugins`` section of FlytePropeller's configuration.
+The `plugin configuration structure is defined here <https://pkg.go.dev/github.com/flyteorg/flytepropeller@v0.6.1/pkg/controller/nodes/task/config#TaskPluginConfig>`_. An example of the config follows,
 
-External Service Backend Plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#. AWS Sagemaker Training
-#. AWS Batch
+.. rli:: https://raw.githubusercontent.com/flyteorg/flyte/master/kustomize/overlays/sandbox/flyte/config/propeller/enabled_plugins.yaml
+    :language: yaml
 
-#. Qubole Hive
+Finding the ``ID`` of the Backend Plugin
+""""""""""""""""""""""""""""""""""""""""
+This is a little tricky since you have to look at the source code of the plugin to figure out the ``ID``. In the case of Spark, for example, the value of ``ID`` is `used <https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L424>`_ here, defined as `spark <https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L41>`_.
+
+Enabling a Specific Backend Plugin in Your Own Kustomize Generator
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to `kustomize your own deployment <https://github.com/flyteorg/flyte/tree/master/kustomize>`_.
+
+.. TODO: write doct on Helm https://github.com/flyteorg/flyte/issues/299
+
 
 .. toctree::
     :maxdepth: -1
@@ -64,7 +74,5 @@ External Service Backend Plugins
     :hidden:
  
     flytekit_plugins
-    kubernetes
-    aws
-    gcp
+    native_backend_plugins
     external_services
