@@ -27,10 +27,6 @@ jobs:
       - name: Setup flytectl config
         run: eval $(make flytectl-config)
       - name: Register
-        env:
-          FLYTECTL_CONFIG: ~/.flyte/config-sandbox.yaml
         run: VERSION=latest make register
       - name: Fast register
-        env:
-          FLYTECTL_CONFIG: ~/.flyte/config-sandbox.yaml      
         run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register

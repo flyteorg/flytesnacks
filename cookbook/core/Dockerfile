@@ -13,9 +13,6 @@ RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg b
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
 
-# Install flytectl
-
-
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
