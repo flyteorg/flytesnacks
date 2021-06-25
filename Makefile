@@ -48,7 +48,7 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --flytesnacks=$(shell pwd)
+	flytectl sandbox start --sourcesPath:=$(shell pwd)
 
 .PHONY: start
 start: setup
@@ -86,4 +86,4 @@ kubectl-config:
 	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
-	echo "deprecated: the setup/teardown targets automatically add/remove kubeconfig contexts"
+	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"

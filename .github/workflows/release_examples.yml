@@ -25,12 +25,12 @@ jobs:
         with:
           path: /tmp/release-snacks-${{ matrix.directory }}/
           key: release-snacks-${{ matrix.directory }}-${{ github.sha }}
-      - name: Generate Serialize proto
+      - name: Serialize Examples
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
           REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
-      - name: Cache Serialize proto
+      - name: Cache Serialized protos
         if: github.event_name != 'pull_request'
         env:
           REGISTRY: "ghcr.io/flyteorg"
