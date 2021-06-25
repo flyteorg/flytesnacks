@@ -1,5 +1,6 @@
 Pytorch Operator
 =================
+
 This plugin uses the Kubeflow Pytorch Operator and provides an extremely simplified interface for executing distributed training using various pytorch backends.
 
 Installation
@@ -63,4 +64,3 @@ How to build your Dockerfile for Pytorch on K8s
     # when registering tasks, workflows, and launch plans
     ARG tag
     ENV FLYTE_INTERNAL_IMAGE $tag
-    

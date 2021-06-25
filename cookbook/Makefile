@@ -3,6 +3,10 @@
 include common/Makefile
 include common/parent.mk
 
+define PIP_COMPILE
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
+endef
+
 dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.txt
 dev-requirements.txt: dev-requirements.in install-piptools
 	$(call PIP_COMPILE,dev-requirements.in)
@@ -27,4 +31,8 @@ run-examples: ## Runs all examples
 
 .PHONY: archive
 archive: # archive directories (e.g. _pb_output/)
-	sh scripts/archive-all-example.sh
+	bash scripts/ci_helper.sh RELEASE
+
+.PHONY: register-workflow-ci
+register-workflow-ci:
+	bash scripts/ci_helper.sh REGISTER

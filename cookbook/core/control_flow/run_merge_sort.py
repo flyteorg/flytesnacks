@@ -1,11 +1,12 @@
 """
 .. _advanced_merge_sort:
 
-Merge Sort Example: Conditions & Recursion in Flyte
-----------------------------------------------------
 
-FlyteIdl (the fundamental building block of the Flyte Language) allows various programming language features;
-Conditionals, Recursion, Custom Typing and more.
+Implementing Merge Sort
+------------------------
+
+FlyteIdl (the fundamental building block of the Flyte Language) allows various programming language features:
+conditionals, recursion, custom typing, and more.
 
 This tutorial will walk you through writing a simple Distributed Merge Sort algorithm. It'll show usage of conditions
 as well as recursion using dynamically generated workflows. Flyte imposes limitation on the depth of the recursion to

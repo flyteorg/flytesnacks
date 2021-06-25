@@ -1,4 +1,5 @@
 """
+
 Typed Columns in a Schema
 --------------------------
 
