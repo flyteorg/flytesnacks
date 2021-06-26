@@ -1,4 +1,6 @@
 """
+.. _task_cache:
+
 Caching
 --------
 
