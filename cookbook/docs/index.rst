@@ -20,29 +20,28 @@ Workflows, please check out the `Getting Started <https://docs.flyte.org/en/late
 Prerequisites
 *************
 
-Make sure you have `docker <https://docs.docker.com/get-docker/>`_ and `git <https://git-scm.com/>`_ installed.
+* Make sure you have `docker <https://docs.docker.com/get-docker/>`_ and `git <https://git-scm.com/>`_ installed.
+* Install :doc:`flytectl <flytectl:index>`. ``flytectl`` is a commandline interface for flyte.
 
-Install :std:ref:`flyte:flytectl`. ``flytectl`` is a commandline interface for flyte.
+  .. tabs::
 
-.. tabs::
+      .. tab:: OSX
 
-    .. tab:: OSX
+          .. prompt:: bash
 
-        .. prompt:: bash
+              brew install flyteorg/homebrew-tap/flytectl
 
-            brew install flyteorg/homebrew-tap/flytectl
+          To upgrade you can
 
-        To upgrade you can
+          .. prompt:: bash
 
-        .. prompt:: bash
+              brew upgrade flytectl
 
-            brew upgrade flytectl
+      .. tab:: Most other platforms
 
-    .. tab:: Most other platforms
+          .. prompt:: bash
 
-        .. prompt:: bash
-
-            curl -s https://raw.githubusercontent.com/lyft/flytectl/master/install.sh | bash
+              curl -s https://raw.githubusercontent.com/lyft/flytectl/master/install.sh | bash
 
 *****
 Steps
@@ -66,10 +65,22 @@ Steps
 
       python cookbook/core/flyte_basics/hello_world.py
 
-   .. tip::
-      If everything goes well, you should see ``Running my_wf() hello world`` printed in the terminal!
+   .. raw:: html
 
-*Congratulations!* You have just run your first workflow. Now, let's run it on the sandbox cluster deployed earlier.
+       <details>
+       <summary><a>Expected Output</a></summary>
+
+   .. prompt::
+
+      Running my_wf() hello world
+
+   .. raw:: html
+
+       </details>
+
+.. admonition:: 🎉 **Congratulations!** 🎉
+
+   You have just run your first workflow. Now, let's run it on the `sandbox cluster deployed earlier <https://docs.flyte.org/en/latest/getting_started.html>`_.
 
 #. We've packaged all the required components to run a sandboxed flyte cluster into a single docker image. You can start
    one by running:
@@ -81,10 +92,24 @@ Steps
    .. tip::
       In case make start throws any error please refer to the troubleshooting guide here `Troubleshoot <https://docs.flyte.org/en/latest/community/troubleshoot.html>`_
 
+   Check status:
+
+   .. prompt:: bash
+
+      flytectl sandbox status
+
+   Teardown:
+
+   .. prompt:: bash
+
+      flytectl sandbox teardown
+
 #. Take a minute to explore Flyte Console through the provided URL.
 
-.. image:: https://github.com/flyteorg/flyte/raw/static-resources/img/first-run-console-2.gif
-    :alt: A quick visual tour for launching your first Workflow.
+   .. figure:: https://github.com/flyteorg/flyte/raw/static-resources/img/first-run-console-2.gif
+      :alt: A quick visual tour for launching your first Workflow.
+
+      A quick visual tour for launching your first Workflow.
 
 #. Register all examples from cookbook/core into the cluster. This step compiles your python code into the intermediate
    flyteIdl language and store them on the control plane running inside the cluster.
@@ -100,8 +125,10 @@ Steps
 
 #. Give it a minute and once it's done, check out "Inputs/Outputs" on the top right corner to see your greeting.
 
-.. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/tutorial/exercise.gif
-    :alt: A quick visual tour for launching a workflow and checking the outputs when they're done.
+   .. figure:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/tutorial/exercise.gif
+      :alt: A quick visual tour for launching a workflow and checking the outputs when they're done.
+
+      A quick visual tour for launching a workflow and checking the outputs when they're done.
 
 .. admonition:: Recap
 
@@ -111,7 +138,7 @@ Steps
   #. Run a flyte sandbox cluster,
   #. Run a flyte workflow on a cluster.
 
-  .. rubric:: 🎉 Congratulations, you just ran your first Flyte workflow 🎉
+  .. rubric:: 🎉 Congratulations, let's explore flyte features through examples below 🎉
 
 .. TODO: add control plane section to the panels
 
