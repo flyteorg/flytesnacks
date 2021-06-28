@@ -89,9 +89,9 @@ Examples
    ^^^^^^^^^^^^^^^
    Define custom plugins that aren't currently supported in the Flyte ecosystem.
 
-***************************
-Setting up your environment
-***************************
+************************************************
+Setting up your environment to run the examples
+************************************************
 
 `Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a highly customized environment to make running,
 documenting and contributing samples easy. If you are looking for a guide on how to setup your own repo to write Flyte
@@ -253,10 +253,10 @@ Steps
    Extending flyte <auto/core/extend_flyte/index>
 
 .. TODO: add the following sections when they are complete:
-   - data_processing
-   - ml_monitoring
-   - feature_engineering
-   - batch_prediction
+- data_processing
+- ml_monitoring
+- feature_engineering
+- batch_prediction
 
 .. toctree::
    :maxdepth: -1
