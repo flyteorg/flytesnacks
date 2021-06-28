@@ -12,6 +12,10 @@ Code for all of the examples in the user guide be found `here <https://github.co
 If this is your first time using Flyte, check out the
 `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`_ guide.
 
+********
+Examples
+********
+
 .. panels::
    :header: text-center
 
@@ -215,7 +219,7 @@ Steps
   #. Run a flyte sandbox cluster,
   #. Run a flyte workflow on a cluster.
 
-  .. rubric:: 🎉 Congratulations, let's explore flyte features through examples below 🎉
+  .. rubric:: 🎉 Congratulations, let's explore flyte features through :ref:`Examples` 🎉
 
 .. TODO: add control plane section to the panels
 
@@ -249,10 +253,10 @@ Steps
    Extending flyte <auto/core/extend_flyte/index>
 
 .. TODO: add the following sections when they are complete:
-- data_processing
-- ml_monitoring
-- feature_engineering
-- batch_prediction
+   - data_processing
+   - ml_monitoring
+   - feature_engineering
+   - batch_prediction
 
 .. toctree::
    :maxdepth: -1
