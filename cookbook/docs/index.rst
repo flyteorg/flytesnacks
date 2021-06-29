@@ -257,10 +257,10 @@ Steps
    Extending flyte <auto/core/extend_flyte/index>
 
 .. TODO: add the following sections when they are complete:
-- data_processing
-- ml_monitoring
-- feature_engineering
-- batch_prediction
+   - data_processing
+   - ml_monitoring
+   - feature_engineering
+   - batch_prediction
 
 .. toctree::
    :maxdepth: -1
