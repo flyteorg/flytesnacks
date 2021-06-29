@@ -225,8 +225,6 @@ Steps
 
   .. rubric:: 🎉 Congratulations, let's explore flyte features through :ref:`Examples` 🎉
 
-.. TODO: add control plane section to the panels
-
 .. toctree::
    :maxdepth: 1
    :hidden:
@@ -237,9 +235,6 @@ Steps
    |project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
    |book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
    |hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
-
-.. TODO: add control plane entry in the toctree once examples are written
-.. Control Plane <auto/control_plane/index>
 
 .. toctree::
    :maxdepth: -1
@@ -255,12 +250,6 @@ Steps
    deployment
    integrations
    Extending flyte <auto/core/extend_flyte/index>
-
-.. TODO: add the following sections when they are complete:
-   - data_processing
-   - ml_monitoring
-   - feature_engineering
-   - batch_prediction
 
 .. toctree::
    :maxdepth: -1
