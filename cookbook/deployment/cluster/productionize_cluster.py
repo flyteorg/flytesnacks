@@ -571,43 +571,14 @@ Search and replace the following
      - ARN of the self-signed (or official) certificate
      - ``arn:aws:acm:us-east-2:173113148371:certificate/763d12d5-490d-4e1e-a4cc-4b28d143c2b4``
 
-   Use the arn value from ClusterName-EKS-Cluster-Role_ page\ ``arn:aws:iam::<AWS_ACCOUNT_ID>:role/ClusterName-EKS-Cluster-Role`` and replace them in following places and also turn on ServiceAccount creation (``create: true``)
-
-  * `Flyteadmin Service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L13>`_
-  * `Datacatlog service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L51>`_
-  * `Flytepropeller service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L85>`_
-  * `Flytepropeller service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L85>`_
-  * `aab_default_service_account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L389>`_
-  * `ae_spark_service_account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L440>`_
-
-*
-  Update the RDS host name
-  * Get the :raw-html-m2r:`<RDS-HOST-NAME>` by clicking on the db instance and find the endpoint
-  * Update it `RDS-HOST-NAME <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L219>`_
-
-* Update Bucket name with :raw-html-m2r:`<ClusterName-Bucket>`
-
-  * `Bucket Name <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L210>`_ for flyte to use
-
-* Update Region name
-
-  * `Region <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L212>`_ for the flyte bucket
-
-*
-  Update certificate ARN with :raw-html-m2r:`<CERT-ARN>`
-
-
-  * `ARN Certificate <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L176>`_ copy this from the generated SSL cert using AWS certificate manager
-
-*
-  Update the helm deps
+#. Update the helm deps
 
 .. code-block:: bash
 
    helm dep update
 
 
-* Installing flyte
+#. Install Flyte
 
 .. code-block:: bash
 
@@ -615,7 +586,7 @@ Search and replace the following
    helm install -n flyte -f values-eks.yaml --create-namespace flyte .
 
 
-* Verify all the pods have come up correctly
+#. Verify all the pods have come up correctly
 
 .. code-block:: bash
 
@@ -635,27 +606,22 @@ Upgrading flyte
 
    helm upgrade -n flyte -f values-eks.yaml --create-namespace flyte .
 
-Connecting to flyte
+Connecting to Flyte
 ===================
 
-Flyte can be accessed using the UI console or CLI
+Flyte can be accessed using the UI console or your terminal
 
-
-* Before that find the endpoint to connect to flyte
+* First, find the Flyte endpoint created by the ALB ingress controller
 
 .. code-block:: bash
 
-   kubectl get service -n flyte
-
-Without using DNS use the ADDRESS column to get the ingress endpoint which will be used for accessing flyte
-
-.. code-block::
+   $ kubectl get service -n flyte
 
    NAME         CLASS    HOSTS   ADDRESS                                                       PORTS   AGE
    flyte        <none>   *       k8s-flyte-8699360f2e-1590325550.us-east-2.elb.amazonaws.com   80      3m50s
    flyte-grpc   <none>   *       k8s-flyte-8699360f2e-1590325550.us-east-2.elb.amazonaws.com   80      3m49s
 
-<FLYTE-ENDPOINT> = Value in ADDRESS column and both will be the same as the same port is used for both GRPC and HTTP
+<FLYTE-ENDPOINT> = Value in ADDRESS column and both will be the same as the same port is used for both GRPC and HTTP.
 
 
 * Connecting to flytectl CLI
@@ -669,14 +635,12 @@ Add :<FLYTE-ENDPOINT>  to ~/.flyte/config.yaml eg ;
      endpoint: dns:///<FLYTE-ENDPOINT>
      insecureSkipVerify: true # only required if using a self-signed cert. Caution: not to be used in production
      insecure: true
-     authType: Pkce
    logger:
      show-source: true
      level: 0
 
-Accessing flyte console
-=======================
-
+Accessing Flyte Console (web UI)
+================================
 
 * Use the https://<FLYTE-ENDPOINT>/console to get access to flyteconsole UI
 * Ignore the certificate error if using a self signed cert
