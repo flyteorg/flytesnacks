@@ -12,6 +12,10 @@ Code for all of the examples in the user guide be found `here <https://github.co
 If this is your first time using Flyte, check out the
 `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`_ guide.
 
+`Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a highly customized environment to make running,
+documenting and contributing samples easy. If this is your first time running these examples, follow the guide below
+(:ref:`Setting up your environment to run the examples`) to get started.
+
 ********
 Examples
 ********
