@@ -323,7 +323,8 @@ Next create a relational database. This database will be used by both the primar
 * Navigate to `RDS <https://us-east-2.console.aws.amazon.com/rds/home>`__ and create an Aurora engine with Postgres compatibility database
 * Leave the Template as Production.
 * Change the default cluster identifier to ``flyteadmin``.
-* Choose a master username / password which you'll later use in your Helm template.
+* Set the master username to ``flyteadmin``.
+* Choose a master password which you'll later use in your Helm template.
 
   * `Username <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L218>`_
   * `Password <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L196>`_
@@ -458,83 +459,119 @@ Sample o/p
 
 SSL Certificate
 ===============
+In order to use SSL (which we need to use gRPC clients), we next need to create an SSL certificate. We realize that
+you may need to work with your infrastructure team to acquire a legitmate certificate, so the first set of instructions
+help you get going with a self-signed certificate. These are of course not secure and will show up as a security warning
+to any users, so we recommend deploying a legitimate certificate as soon as possible.
 
-*
-  Dev/Testing env
-    Generate a self signed cert using open ssl and get the :raw-html-m2r:`<KEY>` and :raw-html-m2r:`<CRT>` file.
+Self-Signed Method (Insecure)
+-----------------------------
 
+Generate a self signed cert using open ssl and get the :raw-html-m2r:`<KEY>` and :raw-html-m2r:`<CRT>` file.
 
-  * Define req.conf file with the following contents.
-    .. code-block::
+#. Define req.conf file with the following contents.
+  .. code-block::
 
-         [req]
-         distinguished_name = req_distinguished_name
-         x509_extensions = v3_req
-         prompt = no
-         [req_distinguished_name]
-         C = US
-         ST = CA
-         L = San Francisco
-         O = Flyte
-         OU = IT
-         CN = flyte.example.org
-         emailAddress = dummyuser@flyte.org
-         [v3_req]
-         keyUsage = keyEncipherment, dataEncipherment
-         extendedKeyUsage = serverAuth
-         subjectAltName = @alt_names
-         [alt_names]
-         DNS.1 = flyte.example.org
+       [req]
+       distinguished_name = req_distinguished_name
+       x509_extensions = v3_req
+       prompt = no
+       [req_distinguished_name]
+       C = US
+       ST = WA
+       L = Seattle
+       O = Flyte
+       OU = IT
+       CN = flyte.example.org
+       emailAddress = dummyuser@flyte.org
+       [v3_req]
+       keyUsage = keyEncipherment, dataEncipherment
+       extendedKeyUsage = serverAuth
+       subjectAltName = @alt_names
+       [alt_names]
+       DNS.1 = flyte.example.org
 
-  *
-    Use openssl to generate the KEY and CRT files.
+#. Use openssl to generate the KEY and CRT files.
 
-    .. code-block::
+.. code-block::
 
-       openssl req -x509 -nodes -days 3649 -newkey rsa:2048 -keyout <KEY> -out <CRT> -config req.conf -extensions 'v3_req'
+   openssl req -x509 -nodes -days 3649 -newkey rsa:2048 -keyout key.out -out crt.out -config req.conf -extensions 'v3_req'
 
-  *
-    Create ARN for the cert.
+#. Create ARN for the cert.
 
-    .. code-block::
+.. code-block::
 
-         aws acm import-certificate --certificate fileb://<KEY> --private-key fileb://<CRT> --region us-east-2
+     aws acm import-certificate --certificate fileb://crt.out --private-key fileb://key.out --region us-east-2
 
-*
-  Production env
-    Generate a cert from the CA used by your org and get the :raw-html-m2r:`<KEY>` and :raw-html-m2r:`<CRT>`
-    Flyte doesn't manage the lifecycle of the cert and needs to managed by the team deploying this cert
-    AWS docs for importing the cert https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-prerequisites.html
-    Requesting a public cert issued by ACM Private CA https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html#request-public-console
+Production
+----------
 
-Note the generated ARN . Lets calls it :raw-html-m2r:`<CERT-ARN>` in this doc which we will use to replace in our values-eks.yaml
+Generate a cert from the CA used by your org and get the :raw-html-m2r:`<KEY>` and :raw-html-m2r:`<CRT>`
+Flyte doesn't manage the lifecycle of certificates so this will need to be managed by your security or infrastructure team.
+
+AWS docs for importing the cert https://docs.aws.amazon.com/acm/latest/userguide/import-certificate-prerequisites.html
+Requesting a public cert issued by ACM Private CA https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html#request-public-console
+
+Note the generated ARN. Let's calls it :raw-html-m2r:`<CERT-ARN>` in this doc which we will use to replace in our values-eks.yaml
 
 Use AWS Certificate manager for generating the SSL certificate to host your hosted flyte installation
 
 
-Create S3 bucket
+Create S3 Bucket
 ================
-
-
-* Create an s3 bucket with public access (can be restricted with specific policy based on your devops settings)
+* Create an S3 bucket without public access.
 * Choose a good name for it  :raw-html-m2r:`<ClusterName-Bucket>`
 * Use the same region as the EKS cluster
 
-Helm Flyte
-==========
 
+Create a Log Group
+==================
+Navigate to the `AWS Cloudwatch <https://us-east-2.console.aws.amazon.com/cloudwatch/home>`__ page and create a Log Group.
+Give it a reasonable name like ``flyteplatform``.
 
-* Clone flyte repo
+Installing Flyte
+================
+
+#. Clone flyte repo
 
 .. code-block:: bash
 
    git clone https://github.com/flyteorg/flyte
 
+#. Update values
 
-*
-  Update Chart with the values
-  Use the arn value from ClusterName-EKS-Cluster-Role_ page\ ``arn:aws:iam::<AWS_ACCOUNT_ID>:role/ClusterName-EKS-Cluster-Role`` and replace them in following places and also turn on the serviceAccount creation(create: true)
+Search and replace the following
 
+.. list-table:: Helm EKS Values
+   :widths: 25 25 75
+   :header-rows: 1
+
+   * - Placeholder
+     - Description
+     - Sample Value
+   * - ``<ACCOUNT_NUMBER>``
+     - The AWS Account ID
+     - ``173113148371``
+   * - ``<AWS_REGION>``
+     - The region your EKS cluster is in
+     - ``us-east-2``
+   * - ``<RDS_HOST_DNS>``
+     - DNS entry for your Aurora instance
+     - ``flyteadmin.cluster-cuvm8rpzqloo.us-east-2.rds.amazonaws.com``
+   * - ``<BUCKET_NAME>``
+     - Bucket used by Flyte
+     - ``my-sample-s3-bucket``
+   * - ``<DB_PASSWORD>``
+     - The password in plaintext for your RDS instance
+     - awesomesauce
+   * - ``<LOG_GROUP_NAME>``
+     - CloudWatch Log Group
+     - ``flyteplatform``
+   * - ``<CERTIFICATE_ARN>``
+     - ARN of the self-signed (or official) certificate
+     - ``arn:aws:acm:us-east-2:173113148371:certificate/763d12d5-490d-4e1e-a4cc-4b28d143c2b4``
+
+   Use the arn value from ClusterName-EKS-Cluster-Role_ page\ ``arn:aws:iam::<AWS_ACCOUNT_ID>:role/ClusterName-EKS-Cluster-Role`` and replace them in following places and also turn on ServiceAccount creation (``create: true``)
 
   * `Flyteadmin Service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L13>`_
   * `Datacatlog service Account <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L51>`_
@@ -545,8 +582,6 @@ Helm Flyte
 
 *
   Update the RDS host name
-
-
   * Get the :raw-html-m2r:`<RDS-HOST-NAME>` by clicking on the db instance and find the endpoint
   * Update it `RDS-HOST-NAME <https://github.com/flyteorg/flyte/blob/3600badd2ad49ec2cd1f62752780f201212de3f3/helm/values-eks.yaml#L219>`_
 
