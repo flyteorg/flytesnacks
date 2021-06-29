@@ -206,7 +206,7 @@ Steps
    .. note::
       If the images are to be re-built, run ``make register`` command.
 
-#. Let's launch our first execution from the UI. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.basic.hello_world.my_wf>`_, click launch.
+#. Let's launch our first execution from the UI. Visit `the console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/core.flyte_basics.hello_world.my_wf>`_, click launch.
 
 #. Give it a minute and once it's done, check out "Inputs/Outputs" on the top right corner to see your greeting.
 
