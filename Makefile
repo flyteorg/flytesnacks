@@ -10,6 +10,7 @@ MINIO_PROXY_PORT := 30084
 FLYTE_SANDBOX_NAME := flyte-sandbox
 FLYTE_DIR := ~/.flyte
 
+
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core
 
@@ -48,7 +49,7 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --sourcesPath:=$(shell pwd)
+	flytectl sandbox start --sourcesPath=$(shell pwd)
 
 .PHONY: start
 start: setup
@@ -86,4 +87,4 @@ kubectl-config:
 	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
 	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
 	# parent process.
-	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(KUBE_CONFIG)/k3s/k3s.yaml"
+	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
