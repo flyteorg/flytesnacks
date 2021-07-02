@@ -40,7 +40,6 @@ def square(n: int) -> int:
     """
     return n * n
 
-
 # %%
 # In the above example, calling `square(n=2)` twice (even if it's across different executions or different workflows) will only execute the multiplication operation once.
 # The next time, the output will be made available immediately -- (captured from the previous execution with the same inputs).

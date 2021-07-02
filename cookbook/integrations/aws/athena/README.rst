@@ -1,3 +1,5 @@
+:nosearch:
+
 ######
 Athena
 ######
@@ -22,3 +24,5 @@ No Need for a dockerfile
 This plugin is purely a spec and since SQL is completely portable, it has no need to build a container. Thus this plugin examples do not have any Dockerfiles.
 
 .. TODO: write a subsection for "Configuring the backend to get athena working"
+=======
+    Coming soon 🛠

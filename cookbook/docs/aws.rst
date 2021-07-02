@@ -9,15 +9,6 @@ Flyte integrates with various AWS services. The subsections below provide exampl
 .. panels::
     :header: text-center
 
-    .. link-button:: auto/integrations/aws/athena/index
-       :type: ref
-       :text: Athena
-       :classes: btn-block stretched-link
-    ^^^^^^^^^^^^
-    Connect Flyte with the AWS Athena query service.
-
-    ---
-
     .. link-button:: auto/integrations/aws/sagemaker_training/index
        :type: ref
        :text: Sagemaker
@@ -40,6 +31,5 @@ Flyte integrates with various AWS services. The subsections below provide exampl
     :caption: Contents
     :hidden:
 
-    auto/integrations/aws/athena/index
     auto/integrations/aws/sagemaker_training/index
     auto/integrations/aws/sagemaker_pytorch/index
