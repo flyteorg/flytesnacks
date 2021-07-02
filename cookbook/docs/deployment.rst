@@ -18,20 +18,12 @@ cluster to handle non-trivial workloads.
 
     ---
 
-    .. link-button:: auto/deployment/cluster/index
-       :type: ref
-       :text: Cluster Deployment
-       :classes: btn-block stretched-link
-    ^^^^^^^^^^^^
-    Productionize your Flyte cluster, handle authentication, configure and monitor your cluster, and more.
-
 .. toctree::
     :maxdepth: 1
     :caption: Deployment
     :hidden:
  
     Workflow Deployment <auto/deployment/workflow/index>
-    Cluster Deployment <auto/deployment/cluster/index>
 
 .. TODO: add deployment guides to toctree
 .. Deployment Guides <auto/deployment/guides/index>
