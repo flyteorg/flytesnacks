@@ -28,7 +28,7 @@ croniter==1.0.13
     # via flytekit
 cycler==0.10.0
     # via matplotlib
-dataclasses-json==0.5.3
+dataclasses-json==0.5.4
     # via flytekit
 decorator==5.0.9
     # via retry
@@ -50,7 +50,7 @@ flytekit==0.20.0
     # via -r docs-requirements.in
 git+git://github.com/flyteorg/furo@main
     # via -r docs-requirements.in
-grpcio==1.38.0
+grpcio==1.38.1
     # via flytekit
 idna==2.10
     # via requests
@@ -85,14 +85,14 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
     # via flytekit
-numpy==1.20.3
+numpy==1.21.0
     # via
     #   matplotlib
     #   pandas
     #   pyarrow
 packaging==20.9
     # via sphinx
-pandas==1.2.4
+pandas==1.2.5
     # via flytekit
 pathspec==0.8.1
     # via scantree
@@ -100,7 +100,7 @@ pillow==8.2.0
     # via
     #   -r docs-requirements.in
     #   matplotlib
-protobuf==3.17.2
+protobuf==3.17.3
     # via
     #   flyteidl
     #   flytekit
@@ -112,6 +112,7 @@ pygments==2.9.0
     # via
     #   sphinx
     #   sphinx-prompt
+    #   sphinx-tabs
 pyparsing==2.4.7
     # via
     #   matplotlib
@@ -183,7 +184,7 @@ sphinx-autoapi==1.8.1
     # via -r docs-requirements.in
 sphinx-code-include==1.1.1
     # via -r docs-requirements.in
-sphinx-copybutton==0.3.1
+sphinx-copybutton==0.3.3
     # via -r docs-requirements.in
 sphinx-fontawesome==0.0.6
     # via -r docs-requirements.in
@@ -203,6 +204,8 @@ sphinxcontrib-htmlhelp==2.0.0
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
+sphinxcontrib-mermaid==0.7
+    # via -r docs-requirements.in
 sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
@@ -215,7 +218,7 @@ stringcase==1.2.0
     # via dataclasses-json
 typing-extensions==3.10.0.0
     # via typing-inspect
-typing-inspect==0.6.0
+typing-inspect==0.7.1
     # via dataclasses-json
 unidecode==1.2.0
     # via sphinx-autoapi

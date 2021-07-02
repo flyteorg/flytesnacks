@@ -10,16 +10,13 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import glob
 import logging
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
 
 from sphinx.errors import ConfigError
-import sphinx_fontawesome
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
@@ -36,12 +33,9 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
 class CustomSorter(FileNameSortKey):
-    """
-    Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
-    """
-
     CUSTOM_FILE_SORT_ORDER = [
         # Flyte Basics
+        "hello_world.py",
         "task.py",
         "basic_workflow.py",
         "imperative_wf_style.py",
@@ -49,6 +43,7 @@ class CustomSorter(FileNameSortKey):
         "task_cache.py",
         "files.py",
         "folders.py",
+        "named_outputs.py"
         # Control Flow
         "run_conditions.py",
         "subworkflows.py",
@@ -56,6 +51,7 @@ class CustomSorter(FileNameSortKey):
         "map_task.py",
         "run_merge_sort.py",
         # Type System
+        "flyte_python_types.py",
         "schema.py",
         "typed_schema.py",
         "custom_objects.py",
@@ -69,20 +65,23 @@ class CustomSorter(FileNameSortKey):
         "workflow_labels_annotations.py",
         # Deployment
         ## Workflow
+        "deploying_workflows.py",
         "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "fast_registration.py",
         "multiple_k8s.py",
         ## Cluster
+        "config_flyte_deploy.py",
         "productionize_cluster.py",
         "auth_setup.py",
-        "config_flyte_deploy.py",
+        "auth_migration.py",
         "config_resource_mgr.py",
         "monitoring.py",
         "notifications.py",
         "optimize_perf.py",
         "access_cloud_resources.py",
+        "auth_setup_appendix.py",
         ## Guides
         "kubernetes.py",
         "aws.py",
@@ -121,7 +120,12 @@ class CustomSorter(FileNameSortKey):
         "diabetes.py",
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
+        "datacleaning_tasks.py",
+        "datacleaning_workflow.py",
     ]
+    """
+    Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
+    """
 
     def __call__(self, filename):
         src_file = os.path.normpath(os.path.join(self.src_dir, filename))
@@ -132,7 +136,7 @@ class CustomSorter(FileNameSortKey):
                 f"File {filename} not found in static ordering list, temporarily adding to the end"
             )
             self.CUSTOM_FILE_SORT_ORDER.append(src_file)
-            return f"{len(self.CUSTOM_FILE_SORT_ORDER)-1:03d}"
+            return f"{len(self.CUSTOM_FILE_SORT_ORDER) - 1:03d}"
 
 
 # -- General configuration ---------------------------------------------------
@@ -156,6 +160,8 @@ extensions = [
     "sphinx_search.extension",
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
+    "sphinx_tabs.tabs",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -225,15 +231,14 @@ examples_dirs = [
     "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
+    "../case_studies/feature_engineering/sqlite_datacleaning",
     "../testing",
     "../core/containerization",
-    "../deployment/workflow",
-    "../deployment/cluster",
-    "../deployment/guides",
+    "../deployment",
     # "../control_plane",  # TODO: add content to this section
-    "../integrations/flytekit_plugins/sqllite3",
+    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "../integrations/flytekit_plugins/papermilltasks",
-    "../integrations/flytekit_plugins/sqlalchemy",
+    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
@@ -253,15 +258,15 @@ gallery_dirs = [
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
+    "auto/case_studies/feature_engineering/sqlite_datacleaning",
     "auto/testing",
     "auto/core/containerization",
-    "auto/deployment/workflow",
-    "auto/deployment/cluster",
-    "auto/deployment/guides",
+    "auto/deployment",
+    # "auto/deployment/guides",  # TODO: add content to this section
     # "auto/control_plane",  # TODO: add content to this section
-    "auto/integrations/flytekit_plugins/sqllite3",
+    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/papermilltasks",
-    "auto/integrations/flytekit_plugins/sqlalchemy",
+    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
@@ -338,6 +343,7 @@ if len(examples_dirs) != len(gallery_dirs):
 # sure that the only rst files in the example directories are README.rst
 hide_download_page_ids = []
 
+
 def hide_example_page(file_handler):
     """Heuristic that determines whether example file contains python code."""
     example_content = file_handler.read().strip()
@@ -351,7 +357,13 @@ def hide_example_page(file_handler):
         if line.startswith("import"):
             no_imports = False
 
-    return example_content.startswith('"""') and example_content.endswith('"""') and no_percent_comments and no_imports
+    return (
+            example_content.startswith('"""')
+            and example_content.endswith('"""')
+            and no_percent_comments
+            and no_imports
+    )
+
 
 for source_dir in sphinx_gallery_conf["examples_dirs"]:
     for f in Path(source_dir).glob("*.rst"):
@@ -364,11 +376,16 @@ for source_dir in sphinx_gallery_conf["examples_dirs"]:
     for f in Path(source_dir).glob("*.py"):
         with f.open() as fh:
             if hide_example_page(fh):
-                page_id = str(f).replace("..", "auto").replace("/", "-").replace(".", "-").replace("_", "-")
+                page_id = (
+                    str(f)
+                        .replace("..", "auto")
+                        .replace("/", "-")
+                        .replace(".", "-")
+                        .replace("_", "-")
+                )
                 hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
 
-SPHX_GALLERY_CSS_TEMPLATE = \
-"""
+SPHX_GALLERY_CSS_TEMPLATE = """
 {hide_download_page_ids} {{
     height: 0px;
     visibility: hidden;
@@ -378,9 +395,7 @@ SPHX_GALLERY_CSS_TEMPLATE = \
 with Path("_static/sphx_gallery_autogen.css").open("w") as f:
     f.write(
         SPHX_GALLERY_CSS_TEMPLATE.format(
-            hide_download_page_ids=",\n".join(
-                f"#{x}" for x in hide_download_page_ids
-            )
+            hide_download_page_ids=",\n".join(f"#{x}" for x in hide_download_page_ids)
         )
     )
 
@@ -401,3 +416,11 @@ intersphinx_mapping = {
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
 }
+
+# Sphinx-tabs config
+sphinx_tabs_valid_builders = ['linkcheck']
+
+# Sphinx-mermaid config
+mermaid_output_format = 'raw'
+mermaid_version = 'latest'
+mermaid_init_js = "mermaid.initialize({startOnLoad:false});"

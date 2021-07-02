@@ -1,20 +1,26 @@
-.. _deployment_cluster:
-
-Cluster Deployment
--------------------
+"""
+Deploying Workflows
+--------------------
 
 Locally, Flytekit relies on the Python interpreter to execute both tasks and workflows.
 To leverage the full power of Flyte, we recommend using a deployed backend of Flyte. Flyte can be run
-on any Kubernetes cluster - a local cluster like `kind <https://kind.sigs.k8s.io/>`__, in a cloud environment or on-prem.
+on any Kubernetes cluster (e.g. a local cluster like `kind <https://kind.sigs.k8s.io/>`__), in a cloud environment,
+or on-prem.
+
+Using remote Flyte gives you the ability to:
+
+- Use caching to avoid calling the same task with the same inputs (for the same version)
+- Portability: You can reference pre-registered entities under any domain or project within your workflow code
+- Sharable executions: you can easily share links to your executions with your teammates
 
 Please refer to the :doc:`Getting Started <flyte:getting_started>` for details on getting started with the Flyte installation.
 
-1. First commit your changes. Some of the steps below default to referencing the git sha.
-2. Run `make serialize`. This will build the image tagged with just `flytecookbook:<sha>`, no registry will be prefixed. See the image building section below for additional information.
-
 Build your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
-The first step of this process is building a container image that holds your code.
+
+1. First commit your changes. Some of the steps below default to referencing the git sha.
+2. Run `make serialize`. This will build the image tagged with just ``flytecookbook:<sha>``, no registry will be prefixed. See the image building section below for additional information.
+3. Build a container image that holds your code.
 
 .. code-block:: docker
    :emphasize-lines: 1
@@ -83,13 +89,15 @@ The make target is a handy wrapper around the following:
 - :code:`--image` is the non-optional fully qualified name of the container image housing your code
 
 In-container serialization
-""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Notice that the commands above are run locally, _not_ inside the container. Strictly speaking, to be rigourous, serialization should be done within the container for the following reasons.
 
 1. It ensures that the versions of all libraries used at execution time on the Flyte platform, are the same that are used during serialization.
 2. Since serialization runs part of flytekit, it helps ensure that your container is set up correctly.
 
 Take a look at this make target to see how it's done.
+
 .. code-block::
 
    make serialize
@@ -155,17 +163,12 @@ If you are just iterating locally, there is no need to push your Docker image. F
 
 If you would like to later push your image to a registry (Dockerhub, ECR, etc.), you can run,
 
-```bash
-REGISTRY=docker.io/corp make all_docker_push
-```
+
+.. code-block::
+
+    REGISTRY=docker.io/corp make all_docker_push
+
 
 .. _working_hosted_service:
 
-Some concepts available remote only
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Using remote Flyte gives you the ability to:
-
-- Use caching to avoid calling the same task with the same inputs (for the same version)
-- Portability: You can reference pre-registered entities under any domain or project within your workflow code
-- Sharable executions: you can easily share links to your executions with your teammates
+"""

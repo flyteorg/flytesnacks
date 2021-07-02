@@ -1,7 +1,0 @@
-###
-GCP
-###
-
-.. NOTE::
-
-    Coming soon 🛠
