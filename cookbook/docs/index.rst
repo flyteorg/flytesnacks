@@ -97,7 +97,7 @@ If this is your first time using Flyte, check out the
    |book-reader| User Guide <index>
    |chalkboard| Tutorials <tutorials>
    |project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
-   |rocket| Deployment <https://docs.flyte.org/en/latest/concepts/deployment.html>
+   |rocket| Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
    |book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
    |hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
 
