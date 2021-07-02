@@ -1,13 +1,20 @@
 """
-Using custom objects
+Using Enum types
 -------------------------
 
-Flyte supports passing JSON's between tasks. But, to simplify the usage for the users and introduce type-safety,
-flytekit supports passing custom data objects between tasks. Currently only dataclasses that are decorated with
-@dataclasses_json are supported.
+Sometimes you may want to restrict the set of inputs / outputs to a finite set of acceptable values. This is commonly
+achieved using Enum types in programming languages.
 
-This example shows how users can serialize custom JSON'able dataclasses between successive tasks using the excellent
-`dataclasses_json <https://pypi.org/project/dataclasses-json/>` library
+Since version 0.15.0, Flyte supports Enum Types with string values. You can create a python Enum type and pass it to
+a task or return from a task. Flyte will automatically convert this to and limit the inputs etc to a finite set of
+values.
+
+UX: flytectl will allow only the finite set of values to be acceptable and (in progress) UI will provide a drop-down for
+the values.
+
+**Caveat:** Only string values are supported as valid enum values. The first value in the list is assumed as the default
+and the Enum types are not optional. So when defining enums, design them well to always make the first value as a
+valid default.
 """
 from flytekit import task, workflow
 import typing
