@@ -16,9 +16,9 @@ If this is your first time using Flyte, check out the
 documenting and contributing samples easy. If this is your first time running these examples, follow the guide below
 (:ref:`Setting up your environment to run the examples`) to get started.
 
-********
-Examples
-********
+******************
+Table of Contents
+******************
 
 .. panels::
    :header: text-center
@@ -223,7 +223,7 @@ Steps
   #. Run a flyte sandbox cluster,
   #. Run a flyte workflow on a cluster.
 
-  .. rubric:: 🎉 Congratulations, let's explore flyte features through :ref:`Examples` 🎉
+  .. rubric:: 🎉 Congratulations, now you can interactively explore Flyte's features outlined in the :ref:`Table of Contents` 🎉
 
 .. toctree::
    :maxdepth: 1
