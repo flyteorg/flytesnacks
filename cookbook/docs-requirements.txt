@@ -44,6 +44,7 @@ docutils==0.16
     #   sphinx
     #   sphinx-panels
     #   sphinx-rtd-theme
+    #   sphinx-tabs
 flyteidl==0.19.9
     # via flytekit
 flytekit==0.20.0
@@ -112,6 +113,7 @@ pygments==2.9.0
     # via
     #   sphinx
     #   sphinx-prompt
+    #   sphinx-tabs
 pyparsing==2.4.7
     # via
     #   matplotlib
@@ -178,6 +180,7 @@ sphinx==3.5.4
     #   sphinx-panels
     #   sphinx-prompt
     #   sphinx-rtd-theme
+    #   sphinx-tabs
     #   sphinxext-remoteliteralinclude
 sphinx-autoapi==1.8.1
     # via -r docs-requirements.in
@@ -194,6 +197,8 @@ sphinx-panels==0.6.0
 sphinx-prompt==1.4.0
     # via -r docs-requirements.in
 sphinx-rtd-theme==0.5.2
+    # via -r docs-requirements.in
+sphinx-tabs==3.1.0
     # via -r docs-requirements.in
 sphinxcontrib-applehelp==1.0.2
     # via sphinx
