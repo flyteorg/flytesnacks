@@ -63,7 +63,7 @@ If this is your first time using Flyte, check out the
 
    ---
 
-   .. link-button:: deployment
+   .. link-button:: auto/deployment/workflow/index
       :type: ref
       :text: 🚢  Deployment
       :classes: btn-block stretched-link
