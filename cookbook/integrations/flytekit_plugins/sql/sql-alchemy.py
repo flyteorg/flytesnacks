@@ -6,9 +6,11 @@ SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives app
 
 That being said, Flyte provides an easy-to-use interface to utilize SQLAlchemy to connect to various SQL Databases.
 
-In this example, we'll use a Postgres DB to understand how you can use SQLAlchemy with Flyte.
+In this example, we'll use a Postgres DB to understand how you can use SQLAlchemy with Flyte. 
+This task will run with a pre-built container, and thus users needn't build one.
+You can simply implement the task, then register and execute it immediately.
 
-This example works locally only. Install the following packages before running this example:
+This example works locally only because we're using a PostgresDB. Install the following packages before running this example:
 
 * `Postgres <https://www.postgresql.org/download/>`__
 * ``pip install flytekitplugins-sqlalchemy``
@@ -118,26 +120,22 @@ def my_task(df: pandas.DataFrame) -> int:
     return len(df)
 
 
-sql_task = SQLAlchemyTask(
-    "fetch_flight_data",
-    query_template="""
-        select * from test 
-        where duration >= {{ .inputs.lower_duration_cap }} 
-        and duration <= {{ .inputs.upper_duration_cap }}
-    """,
-    inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
-    task_config=SQLAlchemyConfig(uri=pg_server()),
-)
-
-
 @workflow
 def my_wf(lower_duration_cap: int, upper_duration_cap: int) -> int:
     return my_task(
-        df=sql_task(
-            lower_duration_cap=lower_duration_cap, upper_duration_cap=upper_duration_cap
-        )
+        df=SQLAlchemyTask(
+            "fetch_flight_data",
+            query_template="""
+                select * from test 
+                where duration >= {{ .inputs.lower_duration_cap }} 
+                and duration <= {{ .inputs.upper_duration_cap }}
+            """,
+            inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
+            task_config=SQLAlchemyConfig(uri=pg_server()),
+        )(lower_duration_cap=lower_duration_cap, upper_duration_cap=upper_duration_cap)
     )
 
 
 if __name__ == "__main__":
+    print(f"Running {__file__} main...")
     print(my_wf(lower_duration_cap=600, upper_duration_cap=800))
