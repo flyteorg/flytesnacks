@@ -2,7 +2,7 @@
 Debugging Workflow and Task Executions
 --------------------------------------
 
-The inspection of task and workflow executions would provide you log links to debug things further
+The inspection of task and workflow execution would provide you log links to debug things further
 
 #. Using --details flag would shows you node executions view with log links. ::
 
