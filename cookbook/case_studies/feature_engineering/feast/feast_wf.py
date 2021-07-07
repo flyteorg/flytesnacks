@@ -20,7 +20,7 @@ Here the step-by-step process:
 
     You can simply import the feature engineering tasks, but we use references because we are referring to the existing code.
 
-For Feast to work, make sure ``feature_store.yaml`` file is present.
+For Feast to work, make sure ``feature_store.yaml`` file is present in ``feast_repo_path`` workflow input.
 
 .. code-block:: yaml
     :linenos:
@@ -128,8 +128,7 @@ def df_to_parquet(df: pd.DataFrame, column_name: str) -> FlyteFile:
 #    * - ``get_historical_features()``
 #      - Enrich an entity dataframe with historical feature values for either training or batch scoring.
 @task
-def store_offline(parquet_file: FlyteFile) -> (str, str):
-    repo_path = "feast"
+def store_offline(parquet_file: FlyteFile, repo_path: str) -> (str, str):
     fs = FeatureStore(repo_path=repo_path)
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
@@ -282,6 +281,7 @@ def test_model(
 # We're using an ``imperative-style workflow`` to convert the step-by-step text into Flyte-compatible pipeline.
 wb = Workflow(name="feast.workflow.fe_wf")
 wb.add_workflow_input("imputation_method", str)
+wb.add_workflow_input("feast_repo_path", str)
 wf_in = wb.add_workflow_input("num_features_univariate", int)
 
 sql_task = SQLite3Task(
@@ -306,7 +306,11 @@ node_t3 = wb.add_entity(
     df_to_parquet, df=node_t2.outputs["o0"], column_name="timestamp"
 )
 
-node_t4 = wb.add_entity(store_offline, parquet_file=node_t3.outputs["o0"])
+node_t4 = wb.add_entity(
+    store_offline,
+    parquet_file=node_t3.outputs["o0"],
+    repo_path=wb.inputs["feast_repo_path"],
+)
 node_t5 = wb.add_entity(retrieve_offline, repo_path=node_t4.outputs["o0"])
 
 node_t6 = wb.add_entity(
@@ -341,10 +345,7 @@ wb.add_workflow_output(
 
 if __name__ == "__main__":
 
-    wb(
-        imputation_method="mean",
-        num_features_univariate=7,
-    )
+    wb(imputation_method="mean", num_features_univariate=7, feast_repo_path=".")
 
 # %%
 # You should see prediction against the test input as the workflow output.
