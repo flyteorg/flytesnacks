@@ -26,15 +26,15 @@ RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
-COPY feast/requirements.txt /root
+COPY feast_integration/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
-COPY feast/sandbox.config /root
+COPY feast_integration/sandbox.config /root
 
 # Copy the actual code
-COPY feast/ /root/feast/
+COPY feast_integration/ /root/feast_integration/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/

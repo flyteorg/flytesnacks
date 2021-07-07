@@ -6,14 +6,14 @@ This workflow makes use of the feature engineering tasks defined in the other fi
 
 Here the step-by-step process:
 
-* Fetch the SQLite3 data as a dataframe
+* Fetch the SQLite3 data as a data frame
 * Perform mean-median-imputation
 * Store the updated features in an offline store
 * Retrieve the features from an offline store
 * Perform univariate-feature-selection
 * Train a Naive Bayes model
 * Load features into an online store
-* Fetch feature vector for inference
+* Fetch one feature vector for inference
 * Generate prediction
 
 .. tip::
@@ -72,7 +72,7 @@ DATA_CLASS = "surgical lesion"
 @reference_task(
     project="flytesnacks",
     domain="development",
-    name="feast.feature_eng_tasks.mean_median_imputer",
+    name="feast_integration.feature_eng_tasks.mean_median_imputer",
     version="v1",
 )
 def mean_median_imputer(
@@ -85,7 +85,7 @@ def mean_median_imputer(
 @reference_task(
     project="flytesnacks",
     domain="development",
-    name="feast.feature_eng_tasks.univariate_selection",
+    name="feast_integration.feature_eng_tasks.univariate_selection",
     version="v1",
 )
 def univariate_selection(
@@ -106,7 +106,7 @@ def df_to_parquet(df: pd.DataFrame, column_name: str) -> FlyteFile:
     df[column_name] = pd.to_datetime(df[column_name])
     parquet_file = "horse_colic.parquet"
     df.to_parquet(parquet_file)
-    return parquet_file
+    return FlyteFile(parquet_file)
 
 
 # %%
@@ -279,7 +279,7 @@ def test_model(
 # %%
 # Finally we define the workflow that streamlines the whole pipeline building and feature serving process.
 # We're using an ``imperative-style workflow`` to convert the step-by-step text into Flyte-compatible pipeline.
-wb = Workflow(name="feast.workflow.fe_wf")
+wb = Workflow(name="feast_integration.workflow.fe_wf")
 wb.add_workflow_input("imputation_method", str)
 wb.add_workflow_input("feast_repo_path", str)
 wf_in = wb.add_workflow_input("num_features_univariate", int)

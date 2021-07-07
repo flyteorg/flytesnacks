@@ -7,7 +7,7 @@ Feature Engineering
 .. panels::
     :header: text-center
 
-    .. link-button:: auto/case_studies/feature_engineering/feast/index
+    .. link-button:: auto/case_studies/feature_engineering/feast_integration/index
        :type: ref
        :text: Feast Integration
        :classes: btn-block stretched-link
@@ -19,4 +19,4 @@ Feature Engineering
     :caption: Contents
     :hidden:
 
-    auto/case_studies/feature_engineering/feast/index
+    auto/case_studies/feature_engineering/feast_integration/index
