@@ -7,16 +7,16 @@ Feature Engineering
 .. panels::
     :header: text-center
 
-    .. link-button:: auto/case_studies/feature_engineering/sqlite_datacleaning/index
+    .. link-button:: auto/case_studies/feature_engineering/feast/index
        :type: ref
-       :text: Data Cleaning
+       :text: Feast Integration
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Perform data imputation and univariate feature selection on SQLite3 dataset
+    Flyte & Feast can help users take their models and features from prototyping all the way to production cost-effectively and efficiently.
 
 .. toctree::
     :maxdepth: -1
     :caption: Contents
     :hidden:
 
-    auto/case_studies/feature_engineering/sqlite_datacleaning/index
+    auto/case_studies/feature_engineering/feast/index

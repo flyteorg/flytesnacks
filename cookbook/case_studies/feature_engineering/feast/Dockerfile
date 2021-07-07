@@ -26,21 +26,19 @@ RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
-COPY sqlite_datacleaning/requirements.txt /root
+COPY feast/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
-COPY sqlite_datacleaning/sandbox.config /root
+COPY feast/sandbox.config /root
 
 # Copy the actual code
-COPY sqlite_datacleaning/ /root/sqlite_datacleaning/
+COPY feast/ /root/feast/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
-
-RUN pip install -U https://github.com/flyteorg/flytekit/archive/62391eaff894188bb723f382af3de29a977233ce.zip#egg=flytekit 
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
