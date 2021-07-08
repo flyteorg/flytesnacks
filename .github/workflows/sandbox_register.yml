@@ -23,4 +23,6 @@ jobs:
       - name: setup sandbox
         run: make setup
       - name: fast register
-        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
+        run: |
+          make setup-flytectl
+          make fast_register
