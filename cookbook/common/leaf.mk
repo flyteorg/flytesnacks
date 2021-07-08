@@ -45,14 +45,24 @@ endif
 # The Flyte project that we want to register under
 export PROJECT ?= flytesnacks
 
+PATH_TO_EXAMPLE = $(shell echo "${CURDIR}" | grep -o "cookbook.*")
+
 # If the REGISTRY environment variable has been set, that means the image name will not just be tagged as
 #   flytecookbook:<sha> but rather,
 #   ghcr.io/flyteorg/flytecookbook:<sha> or whatever your REGISTRY is.
 ifdef REGISTRY
 	FULL_IMAGE_NAME = ${REGISTRY}/${IMAGE_NAME}
+	EXAMPLE_OUTPUT_DIR = ${CURDIR}/_pb_output
+    COMMAND = docker
+    BUILD_CONTEXT = ${CURDIR}/..
+    DOCKER_FILE = Dockerfile
 endif
 ifndef REGISTRY
 	FULL_IMAGE_NAME = ${IMAGE_NAME}
+	EXAMPLE_OUTPUT_DIR = /root/${PATH_TO_EXAMPLE}/_pb_output
+	COMMAND = flytectl sandbox exec -- docker
+	BUILD_CONTEXT = /root/${PATH_TO_EXAMPLE}/..
+	DOCKER_FILE = /root/${PATH_TO_EXAMPLE}/Dockerfile
 endif
 
 # If you are using a different service account on your k8s cluster, add SERVICE_ACCOUNT=my_account before your make command
@@ -67,96 +77,40 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt
 
-.PHONY: fast_serialize
-fast_serialize: clean _pb_output
-	echo ${CURDIR}
-	docker run -it --rm \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
-		${TAGGED_IMAGE} make fast_serialize
-
-.PHONY: fast_register
-fast_register: clean _pb_output ## Packages code and registers without building docker images.
-	@echo "Tagged Image: "
-	@echo ${TAGGED_IMAGE}
-	@echo ${CURDIR}
-	docker run -it --rm \
-		--network host \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
-		${TAGGED_IMAGE} make fast_register
-
-.PHONY: docker_build
-docker_build:
-	echo "Tagged Image: "
-	echo ${TAGGED_IMAGE}
-	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
-
 .PHONY: serialize
 serialize: clean _pb_output docker_build
 	@echo ${VERSION}
-	@echo ${CURDIR}
-	docker run -i --rm \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make serialize
+	@eval ${COMMAND} run -i --rm -v ${EXAMPLE_OUTPUT_DIR}:/tmp/output ${TAGGED_IMAGE} make serialize
 
+.PHONY: fast_serialize
+fast_serialize: clean _pb_output
+	@eval ${COMMAND} run -i --rm -v ${EXAMPLE_OUTPUT_DIR}:/tmp/output ${TAGGED_IMAGE} make fast_serialize
+
+.PHONY: docker_build
+docker_build:
+	@eval ${COMMAND} build ${BUILD_CONTEXT} --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f ${DOCKER_FILE}
 
 .PHONY: register
 register: clean _pb_output docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	docker run -i --rm \
-		--network host \
-		-e REGISTRY=${REGISTRY} \
-		-e MAKEFLAGS=${MAKEFLAGS} \
-		-e FLYTE_HOST=${FLYTE_HOST} \
-		-e INSECURE_FLAG=${INSECURE_FLAG} \
-		-e PROJECT=${PROJECT} \
-		-e FLYTE_AWS_ENDPOINT=${FLYTE_AWS_ENDPOINT} \
-		-e FLYTE_AWS_ACCESS_KEY_ID=${FLYTE_AWS_ACCESS_KEY_ID} \
-		-e FLYTE_AWS_SECRET_ACCESS_KEY=${FLYTE_AWS_SECRET_ACCESS_KEY} \
-		-e OUTPUT_DATA_PREFIX=${OUTPUT_DATA_PREFIX} \
-		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
-		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
-		-e VERSION=${VERSION} \
-		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make register
+	flytectl register files \
+	    -p ${PROJECT} -d development \
+	     --version=${VERSION} \
+	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
+	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
+	     ${CURDIR}/_pb_output/*
+
+.PHONY: fast_register
+fast_register: clean _pb_output fast_serialize
+	@echo ${VERSION}
+	@echo ${CURDIR}
+	flytectl register files \
+	    -p ${PROJECT} -d development \
+	     --version=${VERSION} \
+	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
+	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
+	     ${CURDIR}/_pb_output/*
 
 _pb_output:
 	mkdir -p _pb_output
