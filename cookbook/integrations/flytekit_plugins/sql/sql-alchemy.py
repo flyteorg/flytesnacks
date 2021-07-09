@@ -10,7 +10,7 @@ In this example, we'll use a Postgres DB to understand how you can use SQLAlchem
 This task will run with a pre-built container, and thus users needn't build one.
 You can simply implement the task, then register and execute it immediately.
 
-This example works locally only because we're using a PostgresDB. Install the following packages before running this example:
+Install the following packages before running this example:
 
 * `Postgres <https://www.postgresql.org/download/>`__
 * ``pip install flytekitplugins-sqlalchemy``
@@ -116,23 +116,28 @@ def pg_server() -> str:
 #
 #   The output of SQLAlchemyTask is a :py:class:`~flytekit.types.schema.FlyteSchema` by default.
 @task
-def my_task(df: pandas.DataFrame) -> int:
+def get_length(df: pandas.DataFrame) -> int:
     return len(df)
+
+
+sql_task = SQLAlchemyTask(
+    "fetch_flight_data",
+    query_template="""
+            select * from test 
+            where duration >= {{ .inputs.lower_duration_cap }} 
+            and duration <= {{ .inputs.upper_duration_cap }}
+        """,
+    inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
+    task_config=SQLAlchemyConfig(uri=pg_server()),
+)
 
 
 @workflow
 def my_wf(lower_duration_cap: int, upper_duration_cap: int) -> int:
-    return my_task(
-        df=SQLAlchemyTask(
-            "fetch_flight_data",
-            query_template="""
-                select * from test 
-                where duration >= {{ .inputs.lower_duration_cap }} 
-                and duration <= {{ .inputs.upper_duration_cap }}
-            """,
-            inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
-            task_config=SQLAlchemyConfig(uri=pg_server()),
-        )(lower_duration_cap=lower_duration_cap, upper_duration_cap=upper_duration_cap)
+    return get_length(
+        df=sql_task(
+            lower_duration_cap=lower_duration_cap, upper_duration_cap=upper_duration_cap
+        )
     )
 
 
