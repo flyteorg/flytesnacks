@@ -100,7 +100,7 @@ def univariate_selection(
 #   The ``version`` varies depending on the version assigned during the task registration process.
 
 # %%
-# We define a task to convert data frame to a parquet file. A parquet file is essential for Feast.
+# We define a task to set the ``dtype`` of the ``timestamp`` column to ``datetime``. 
 @task
 def set_dtype(df: FlyteSchema, column_name: str) -> FlyteSchema:
     # convert string to datetime in the data frame
