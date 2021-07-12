@@ -10,6 +10,7 @@ We'll define the relevant feature engineering tasks to clean up the SQLite3 data
 import numpy as np
 import pandas as pd
 from flytekit import task
+from flytekit.types.schema import FlyteSchema
 from numpy.core.fromnumeric import sort
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.impute import SimpleImputer
@@ -31,7 +32,7 @@ NO_IMPUTATION_COLS = [
 def mean_median_imputer(
     dataframe: pd.DataFrame,
     imputation_method: str,
-) -> pd.DataFrame:
+) -> FlyteSchema:
 
     dataframe = dataframe.replace("?", np.nan)
     if imputation_method not in ["median", "mean"]:

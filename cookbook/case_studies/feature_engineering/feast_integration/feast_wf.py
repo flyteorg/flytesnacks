@@ -44,7 +44,7 @@ from feast import Entity, Feature, FeatureView, FileSource, ValueType
 from feast.feature_store import FeatureStore
 from flytekit import Workflow, reference_task, task
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
-from flytekit.types.file import FlyteFile, JoblibSerializedFile
+from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.schema import FlyteSchema
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -78,7 +78,7 @@ DATA_CLASS = "surgical lesion"
 def mean_median_imputer(
     dataframe: pd.DataFrame,
     imputation_method: str,
-) -> pd.DataFrame:
+) -> FlyteSchema:
     ...
 
 
@@ -102,11 +102,11 @@ def univariate_selection(
 # %%
 # We define a task to convert data frame to a parquet file. A parquet file is essential for Feast.
 @task
-def df_to_parquet(df: pd.DataFrame, column_name: str) -> FlyteFile:
+def set_dtype(df: FlyteSchema, column_name: str) -> FlyteSchema:
+    # convert string to datetime in the data frame
+    df = df.open().all()
     df[column_name] = pd.to_datetime(df[column_name])
-    parquet_file = "horse_colic.parquet"
-    df.to_parquet(parquet_file)
-    return FlyteFile(parquet_file)
+    return df
 
 
 # %%
@@ -128,7 +128,7 @@ def df_to_parquet(df: pd.DataFrame, column_name: str) -> FlyteFile:
 #    * - ``get_historical_features()``
 #      - Enrich an entity dataframe with historical feature values for either training or batch scoring.
 @task
-def store_offline(parquet_file: FlyteFile, repo_path: str) -> (str, str):
+def store_offline(dataframe: FlyteSchema, repo_path: str) -> (str, str):
     fs = FeatureStore(repo_path=repo_path)
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
@@ -147,7 +147,7 @@ def store_offline(parquet_file: FlyteFile, repo_path: str) -> (str, str):
             Feature(name="nasogastric reflux PH", dtype=ValueType.FLOAT),
         ],
         input=FileSource(
-            path=str(parquet_file),
+            path=str(dataframe.remote_path),
             event_timestamp_column="timestamp",
         ),
         ttl=timedelta(days=1),
@@ -302,13 +302,11 @@ node_t2 = wb.add_entity(
     imputation_method=wb.inputs["imputation_method"],
 )
 
-node_t3 = wb.add_entity(
-    df_to_parquet, df=node_t2.outputs["o0"], column_name="timestamp"
-)
+node_t3 = wb.add_entity(set_dtype, df=node_t2.outputs["o0"], column_name="timestamp")
 
 node_t4 = wb.add_entity(
     store_offline,
-    parquet_file=node_t3.outputs["o0"],
+    dataframe=node_t3.outputs["o0"],
     repo_path=wb.inputs["feast_repo_path"],
 )
 node_t5 = wb.add_entity(retrieve_offline, repo_path=node_t4.outputs["o0"])
