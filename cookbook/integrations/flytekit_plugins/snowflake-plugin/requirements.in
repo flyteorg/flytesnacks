@@ -1,0 +1,2 @@
+-r ../../../common/requirements-common.in
+git+https://github.com/flyteorg/flytekit.git@faaf320bdaa1695c3cdfae5d8f7c499cc6a30240#subdirectory=plugins/flytekit-snowflake
