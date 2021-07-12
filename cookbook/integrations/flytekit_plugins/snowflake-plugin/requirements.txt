@@ -16,9 +16,9 @@ azure-core==1.16.0
     # via azure-storage-blob
 azure-storage-blob==12.8.1
     # via snowflake-connector-python
-boto3==1.17.109
+boto3==1.17.110
     # via snowflake-connector-python
-botocore==1.20.109
+botocore==1.20.110
     # via
     #   boto3
     #   s3transfer
@@ -62,7 +62,7 @@ flytekit==0.20.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-snowflake
-git+https://github.com/flyteorg/flytekit.git@faaf320bdaa1695c3cdfae5d8f7c499cc6a30240#subdirectory=plugins/flytekit-snowflake
+git+https://github.com/flyteorg/flytekit.git@985c68d25fd26343faa21fc77b3af01670ad6d32#subdirectory=plugins/flytekit-snowflake
     # via -r requirements.in
 grpcio==1.38.1
     # via flytekit
