@@ -1,3 +1,2 @@
 -r ../../../common/requirements-common.in
 flytekitplugins-sqlalchemy
-snowflake-sqlalchemy

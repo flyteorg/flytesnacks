@@ -15,6 +15,7 @@ RUN pip3 install -r https://raw.githubusercontent.com/snowflakedb/snowflake-conn
 # Install Python dependencies
 COPY snowflake/requirements.txt /root/.
 RUN pip3 install -r /root/requirements.txt
+RUN pip3 install snowflake-sqlalchemy
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
