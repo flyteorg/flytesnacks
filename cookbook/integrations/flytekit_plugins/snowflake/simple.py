@@ -1,19 +1,19 @@
-from flytekit import workflow, Secret
+from flytekit import workflow
 from flytekit.types.schema import FlyteSchema
-from flytekitplugins.sqlalchemy import SqlAlchemyConfig, SqlAlchemyTask
+from flytekitplugins.sqlalchemy import SQLAlchemyConfig, SQLAlchemyTask
 
-tk = SqlAlchemyTask(
+tk = SQLAlchemyTask(
     "test_snowflake",
     query_template='select * from "DEMO_DB"."PUBLIC"."SAMPLE"',
-    task_config=SqlAlchemyConfig(
+    task_config=SQLAlchemyConfig(
         uri='snowflake://{user}:{password}@{account}/'.format(
             user='haytham',
             password='<your_password>',
             account='hoa61102',
         ),
-        secret_connect_args={
-            "password": Secret(group="snowflake", key="password"),
-        }
+        # secret_connect_args={
+        #     "password": Secret(group="snowflake", key="password"),
+        # }
         # username="haytham",
         # password=Secret(group="snowflake", key="password"),
         # db="DEMO_DB",
