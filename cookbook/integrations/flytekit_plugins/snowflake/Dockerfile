@@ -15,6 +15,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
+RUN pip install -r https://raw.githubusercontent.com/snowflakedb/snowflake-connector-python/v2.4.6/tested_requirements/requirements_38.reqs
 # Install Python dependencies
 COPY snowflake/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt

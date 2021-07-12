@@ -1,2 +1,3 @@
 -r ../../../common/requirements-common.in
-git+https://github.com/flyteorg/flytekit.git@53dfaf30dcf3d1f60a492ddf585b2037c0be789e#subdirectory=plugins/flytekit-snowflake
+flytekitplugins-sqlalchemy
+snowflake-sqlalchemy

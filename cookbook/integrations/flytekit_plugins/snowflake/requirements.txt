@@ -61,9 +61,11 @@ flyteidl==0.19.12
 flytekit==0.20.1
     # via
     #   -r ../../../common/requirements-common.in
-    #   flytekitplugins-snowflake
-git+https://github.com/flyteorg/flytekit.git@53dfaf30dcf3d1f60a492ddf585b2037c0be789e#subdirectory=plugins/flytekit-snowflake
+    #   flytekitplugins-sqlalchemy
+flytekitplugins-sqlalchemy==0.20.1
     # via -r requirements.in
+greenlet==1.1.0
+    # via sqlalchemy
 grpcio==1.38.1
     # via flytekit
 idna==2.10
@@ -108,10 +110,8 @@ oauthlib==3.1.1
     # via requests-oauthlib
 oscrypto==1.2.1
     # via snowflake-connector-python
-pandas==1.2.5
-    # via
-    #   flytekit
-    #   snowflake-connector-python
+pandas==1.3.0
+    # via flytekit
 pathspec==0.8.1
     # via scantree
 pillow==8.3.1
@@ -123,9 +123,7 @@ protobuf==3.17.3
 py==1.10.0
     # via retry
 pyarrow==3.0.0
-    # via
-    #   flytekit
-    #   snowflake-connector-python
+    # via flytekit
 pycparser==2.20
     # via cffi
 pycryptodomex==3.10.1
@@ -184,10 +182,16 @@ six==1.16.0
     #   python-dateutil
     #   responses
     #   scantree
-snowflake-connector-python[pandas]==2.4.6
-    # via flytekitplugins-snowflake
+snowflake-connector-python==2.4.6
+    # via snowflake-sqlalchemy
+snowflake-sqlalchemy==1.2.4
+    # via -r requirements.in
 sortedcontainers==2.4.0
     # via flytekit
+sqlalchemy==1.4.20
+    # via
+    #   flytekitplugins-sqlalchemy
+    #   snowflake-sqlalchemy
 statsd==3.3.0
     # via flytekit
 stringcase==1.2.0
