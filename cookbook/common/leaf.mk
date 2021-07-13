@@ -53,9 +53,9 @@ PATH_TO_EXAMPLE = $(shell echo "${CURDIR}" | grep -o "cookbook.*")
 ifdef REGISTRY
 	FULL_IMAGE_NAME = ${REGISTRY}/${IMAGE_NAME}
 	EXAMPLE_OUTPUT_DIR = ${CURDIR}/_pb_output
-    COMMAND = docker
-    BUILD_CONTEXT = ${CURDIR}/..
-    DOCKER_FILE = Dockerfile
+	COMMAND = docker
+	BUILD_CONTEXT = ${CURDIR}/..
+	DOCKER_FILE = Dockerfile
 endif
 ifndef REGISTRY
 	FULL_IMAGE_NAME = ${IMAGE_NAME}

@@ -79,7 +79,7 @@ register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 .PHONY: fast_register
 fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 	$(call LOG,Fast registering example workflows in cookbook/$(EXAMPLES_MODULE))
-	flytectl register examples  -d development  -p flytesnacks
+	make -C cookbook/$(EXAMPLES_MODULE) fast_register
 
 .PHONY: setup-kubectl
 kubectl-config:
@@ -91,8 +91,4 @@ kubectl-config:
 
 .PHONY: setup-flytectl
 setup-flytectl:
-	# In shell/bash, run: `eval $(make kubectl-config)`
-	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
-	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
-	# parent process.
 	cp $(FLYTE_DIR)/config-sandbox.yaml $(FLYTE_DIR)/config.yaml

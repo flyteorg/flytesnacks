@@ -25,4 +25,4 @@ jobs:
       - name: fast register
         run: |
           make setup-flytectl
-          make fast_register
+          REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
