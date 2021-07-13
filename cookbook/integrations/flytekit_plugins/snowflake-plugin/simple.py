@@ -1,5 +1,4 @@
-from flyteidl.core.security_pb2 import Secret
-from flytekit import workflow
+from flytekit import workflow, Secret
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 

@@ -1,9 +1,3 @@
-# FROM python:3.8-slim-buster
-  #RUN apt-get update && apt-get install -y curl less vim
-  #ENV TMPDIR /large_tmp_volume
-  #RUN pip install -r https://raw.githubusercontent.com/snowflakedb/snowflake-connector-python/v2.4.6/tested_requirements/requirements_38.reqs
-  #RUN pip install snowflake-connector-python[pandas]==2.4.6
-
 FROM python:3.8-buster
 
 WORKDIR /root

@@ -62,7 +62,7 @@ flytekit==0.20.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-snowflake
-git+https://github.com/flyteorg/flytekit.git@985c68d25fd26343faa21fc77b3af01670ad6d32#subdirectory=plugins/flytekit-snowflake
+git+https://github.com/flyteorg/flytekit.git@241ee1a7f4c8e18e9fe4c453d5ec3aa576a0ba6e#subdirectory=plugins/flytekit-snowflake
     # via -r requirements.in
 grpcio==1.38.1
     # via flytekit
