@@ -67,7 +67,41 @@ if __name__ == "__main__":
 # but "single task executions" can be used to iterate on task logic easily.
 #
 # You can launch a task on Flyte console by inputting an IAM role or a Kubernetes service account.
-#   
-# .. tip::
 #
-#   Follow :ref:`userguide` to set up your Flyte environment.
+# Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``core`` directory.
+#
+# Build a Docker image to package the task.
+#
+# .. prompt:: bash $
+#
+#   flytectl sandbox exec -- docker build . --tag "core:v1"
+#
+# Package the task.
+#
+# .. prompt:: bash $
+#
+#   pyflyte --pkgs flyte_basics package --image core:v1
+#
+# Register the task.
+#
+# .. prompt:: bash $
+#
+#   flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1
+#
+# Generate an execution spec file.
+#
+# .. prompt:: bash $
+#
+#   flytectl get task --domain development --project flytesnacks flyte_basics.task.square --version v1 --execFile exec_spec.yaml
+#
+# Create an execution using the exec spec file.
+#
+# .. prompt:: bash $
+#
+#   flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
+#
+# Monitor the execution by providing the execution name from the create execution command.
+#
+# .. prompt:: bash $
+#
+#   flytectl get execution --project flytesnacks --domain development <execname>
