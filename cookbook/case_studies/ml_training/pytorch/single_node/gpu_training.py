@@ -24,7 +24,7 @@ from dataclasses_json import dataclass_json
 from flytekit import Resources, task, workflow
 from flytekit.types.directory import TensorboardLogs
 from flytekit.types.file import PNGImageFile, PythonPickledFile
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 from torch import distributed as dist
 from torch import nn, optim
 from torchvision import datasets, transforms
