@@ -42,3 +42,4 @@ Flyte integrates with various AWS services. The subsections below provide exampl
 
     auto/integrations/aws/sagemaker_training/index
     auto/integrations/aws/sagemaker_pytorch/index
+    auto/integrations/aws/athena/index
