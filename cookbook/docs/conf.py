@@ -64,6 +64,13 @@ class CustomSorter(FileNameSortKey):
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Remote Access
+        "register_project.py",
+        "run_task.py",
+        "run_workflow.py",
+        "run_launchplan.py",
+        "inspecting_executions.py",
+        "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
         "deploying_workflows.py",
@@ -123,6 +130,10 @@ class CustomSorter(FileNameSortKey):
         "multiregion_house_price_predictor.py",
         "datacleaning_tasks.py",
         "datacleaning_workflow.py",
+        "single_node.py",
+        "notebook.py",
+        "notebook_and_task.py",
+        "notebook_as_tasks.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -231,21 +242,22 @@ examples_dirs = [
     "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
+    "../case_studies/ml_training/mnist_classifier",
     "../case_studies/feature_engineering/sqlite_datacleaning",
+    "../case_studies/feature_engineering/eda",
     "../testing",
     "../core/containerization",
     "../deployment",
-    # "../control_plane",  # TODO: add content to this section
-    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "../remote_access",
+    "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/papermilltasks",
-    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "../integrations/kubernetes/kfpytorch",
-    # "../integrations/aws/athena",  # TODO: add content to this section
+    "../integrations/aws/athena",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
     "../integrations/gcp",
@@ -258,22 +270,22 @@ gallery_dirs = [
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
+    "auto/case_studies/ml_training/mnist_classifier",
     "auto/case_studies/feature_engineering/sqlite_datacleaning",
+    "auto/case_studies/feature_engineering/eda",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
-    # "auto/deployment/guides",  # TODO: add content to this section
-    # "auto/control_plane",  # TODO: add content to this section
-    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "auto/remote_access",
+    "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/papermilltasks",
-    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
     # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "auto/integrations/kubernetes/kfpytorch",
-    # "auto/integrations/aws/athena",  # TODO: add content to this section
+    "auto/integrations/aws/athena",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
     "auto/integrations/gcp",
@@ -358,10 +370,10 @@ def hide_example_page(file_handler):
             no_imports = False
 
     return (
-            example_content.startswith('"""')
-            and example_content.endswith('"""')
-            and no_percent_comments
-            and no_imports
+        example_content.startswith('"""')
+        and example_content.endswith('"""')
+        and no_percent_comments
+        and no_imports
     )
 
 
@@ -378,10 +390,10 @@ for source_dir in sphinx_gallery_conf["examples_dirs"]:
             if hide_example_page(fh):
                 page_id = (
                     str(f)
-                        .replace("..", "auto")
-                        .replace("/", "-")
-                        .replace(".", "-")
-                        .replace("_", "-")
+                    .replace("..", "auto")
+                    .replace("/", "-")
+                    .replace(".", "-")
+                    .replace("_", "-")
                 )
                 hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
 
@@ -415,12 +427,13 @@ intersphinx_mapping = {
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
+    "pytorch": ("https://pytorch.org/docs/stable/", None),
 }
 
 # Sphinx-tabs config
-sphinx_tabs_valid_builders = ['linkcheck']
+sphinx_tabs_valid_builders = ["linkcheck"]
 
 # Sphinx-mermaid config
-mermaid_output_format = 'raw'
-mermaid_version = 'latest'
+mermaid_output_format = "raw"
+mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
