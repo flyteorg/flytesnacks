@@ -1,3 +1,3 @@
-PREFIX=single_node
-include ../../../../common/Makefile
-include ../../../../common/leaf.mk
+PREFIX=pytorch
+include ../../../common/Makefile
+include ../../../common/leaf.mk
