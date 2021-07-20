@@ -29,7 +29,7 @@ Flyte integrates with various AWS services. The subsections below provide exampl
 
     .. link-button:: auto/integrations/aws/athena/index
        :type: ref
-       :text: AWS Athena
+       :text: Athena
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Execute queries using AWS Athena
