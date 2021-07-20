@@ -1,5 +1,5 @@
 """
-Single Node GPU training
+Single GPU training
 -------------------------
 Training a model on a single node on one gpu is as trivial as writing any Flyte task and simply setting the GPU='1'.
 As long as the docker image is built correctly with the right version of the GPU drivers and your Flyte backend is
@@ -173,7 +173,7 @@ TrainingOutputs = typing.NamedTuple(
 
 @task(retries=2, cache=True, cache_version="1.0", requests=Resources(gpu="1"))
 def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
-    log_dir = "logs"
+    log_dir = "single_node/logs"
     writer = SummaryWriter(log_dir)
 
     torch.manual_seed(hp.seed)
@@ -239,7 +239,7 @@ def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
     # After training the model, we can simply save it to disk and return it from the Flyte task as a FlyteFile type
     # called the PythonPickledFile. PythonPickledFile is simply a decorator on the FlyteFile, that records the format
     # of the serialized model as ``pickled``
-    model_file = "mnist_cnn.pt"
+    model_file = "single_node/mnist_cnn.pt"
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(

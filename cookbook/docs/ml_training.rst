@@ -27,12 +27,12 @@ XGBoost, Scikit-learn etc
 
     ---
 
-    .. link-button:: pytorch_training
+    .. link-button:: auto/case_studies/ml_training/pytorch/index
        :type: ref
-       :text: Using Pytorch to train a model
+       :text: Pytorch
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Train a Pytorch model using Pytorch
+    Train a model using Pytorch
 
 
 
@@ -43,7 +43,7 @@ XGBoost, Scikit-learn etc
 
     auto/case_studies/ml_training/pima_diabetes/index
     auto/case_studies/ml_training/house_price_prediction/index
-    pytorch_training
+    auto/case_studies/ml_training/pytorch/index
 
 
 .. TODO: write tutorials for data parallel training, distributed training, and single node training
