@@ -158,7 +158,6 @@ extensions = [
     "sphinx_gallery.gen_gallery",
     "sphinx-prompt",
     "sphinx_copybutton",
-    "sphinx_search.extension",
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
     "sphinx_tabs.tabs",
@@ -187,7 +186,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 master_doc = "index"
 
 pygments_style = "tango"
-pygments_dark_style = "native"
+pygments_dark_style = "monokai"
 
 html_context = {
     "home_page": "https://docs.flyte.org",
@@ -237,9 +236,8 @@ examples_dirs = [
     "../core/containerization",
     "../deployment",
     # "../control_plane",  # TODO: add content to this section
-    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/papermilltasks",
-    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
@@ -265,9 +263,8 @@ gallery_dirs = [
     "auto/deployment",
     # "auto/deployment/guides",  # TODO: add content to this section
     # "auto/control_plane",  # TODO: add content to this section
-    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/papermilltasks",
-    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
