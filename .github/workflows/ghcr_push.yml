@@ -41,8 +41,6 @@ jobs:
             path: integrations/flytekit_plugins
           - name: greatexpectations
             path: integrations/flytekit_plugins
-          - name: dolt
-            path: integrations/flytekit_plugins
           - name: house_price_prediction
             path: case_studies/ml_training
     steps:
