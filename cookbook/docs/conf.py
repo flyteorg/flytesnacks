@@ -64,6 +64,13 @@ class CustomSorter(FileNameSortKey):
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Remote Access
+        "register_project.py",
+        "run_task.py",
+        "run_workflow.py",
+        "run_launchplan.py",
+        "inspecting_executions.py",
+        "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
         "deploying_workflows.py",

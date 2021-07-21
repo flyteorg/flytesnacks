@@ -3,7 +3,8 @@ Creating a New Project
 -------------------------
 
 Creates project to be used as a home for the flyte resources of tasks and workflows.
-Refer to the `following <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_project.html>`__ docs for more details.
+Refer to the `flytectl API reference <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_project.html>`__
+for more details.
 
 .. prompt:: bash
 
