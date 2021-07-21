@@ -95,8 +95,3 @@ Flytectl commands
 .. prompt:: bash $
 
   flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1
-
-
-
-
-

@@ -120,11 +120,12 @@ def schema_task(
 
 
 # %%
-# Finally, we define a workflow to call our task. 
+# Finally, we define a workflow to call our task.
 # We're using DataFrame returned by the ``file_task`` that we defined in the ``FlyteFile`` section.
 @workflow
 def schema_wf() -> int:
     return schema_task(dataframe=file_wf())
+
 
 # %%
 # This particular block of code helps us in running the code locally.

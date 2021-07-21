@@ -13,10 +13,10 @@ import typing
 
 import pandas as pd
 from flytekit import Resources, kwtypes, task, workflow
+from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.greatexpectations import BatchRequestConfig, GETask
-from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 
 # %%
 # .. note::
@@ -141,6 +141,7 @@ def schema_task(dataset: FlyteSchema) -> typing.List[str]:
 def schema_wf() -> typing.List[str]:
     df = sql_to_df()
     return schema_task(dataset=df)
+
 
 # %%
 # This particular block of code helps us in running the code locally.
