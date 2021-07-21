@@ -62,7 +62,7 @@ flytekit==0.20.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-greatexpectations
-git+https://github.com/flyteorg/flytekit.git@87ad91f13dc40d330dbc782d5970043aa385dd27#subdirectory=plugins/greatexpectations
+git+https://github.com/flyteorg/flytekit.git@1c480a42543721789a5b4d1f559cd032c36c48ed#subdirectory=plugins/greatexpectations
     # via -r requirements.in
 great-expectations==0.13.23
     # via flytekitplugins-greatexpectations
@@ -74,7 +74,7 @@ importlib-metadata==4.6.1
     # via
     #   great-expectations
     #   keyring
-ipykernel==6.0.2
+ipykernel==6.0.3
     # via
     #   ipywidgets
     #   notebook

@@ -1,41 +1,78 @@
-from dataclasses import dataclass
-from flytekit import task, workflow, kwtypes, Resources
-import pandas as pd
+"""
+Task Example
+------------
+
+``GETask`` can be used to define data validation within the task. 
+In this example, we'll implement a simple task, followed by Great Expectations data validation on ``FlyteFile``, and finally on ``FlyteSchema``.
+"""
+
+# %%
+# First, let's import the required libraries.
 import os
+import typing
+
+import pandas as pd
+from flytekit import Resources, kwtypes, task, workflow
 from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
-import sqlite3
-import typing
 from flytekitplugins.greatexpectations import BatchRequestConfig, GETask
+from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 
-"""
-Simple Task
-"""
+# %%
+# .. note::
+#   ``BatchRequestConfig`` is useful in giving additional batch request parameters to construct both Great Expectations' ``RuntimeBatchRequest`` and ``BatchRequest``.
+
+# %%
+# Next, we define variables that we use throughout the code.
+DATA_CONTEXT = "greatexpectations/great_expectations"
+DATASET_LOCAL = "yellow_tripdata_sample_2019-01.csv"
+DATASET_REMOTE = f"https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/{DATASET_LOCAL}"
+SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/867254085426085909/movies.sqlite"
+
+
+# %%
+# Simple Task
+# ===========
+#
+# We define a ``GETask`` that validates a CSV file. This does pandas data validation.
 simple_task_object = GETask(
     name="getask_simple",
     data_source="data",
     inputs=kwtypes(dataset=str),
     expectation_suite="test.demo",
     data_connector="data_example_data_connector",
-    data_context="greatexpectations/great_expectations",
+    data_context=DATA_CONTEXT,
 )
 
-
-@task(cache=True, cache_version="1.0", limits=Resources(mem="500Mi"))
+# %%
+# Next, we define a task that validates the data before returning the shape of the DataFrame.
+@task(limits=Resources(mem="500Mi"))
 def simple_task(csv_file: str) -> int:
-    simple_task_object(dataset=csv_file)
+
+    # ``GETask`` returns Great Expectations' checkpoint result.
+    # You can print the result to know more about the data within it.
+    result = simple_task_object(dataset=csv_file)
     df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df.shape[0]
 
 
+# %%
+# Finally, we define a workflow.
 @workflow
-def simple_wf(dataset: str = "yellow_tripdata_sample_2019-01.csv") -> int:
+def simple_wf(dataset: str = DATASET_LOCAL) -> int:
     return simple_task(csv_file=dataset)
 
 
-"""
-FlyteFile
-"""
+# %%
+# FlyteFile
+# =========
+#
+# We define a ``GETask`` that validates a ``FlyteFile``.
+# Here, we're using a different data connector owing to the different ``base_directory`` we're using within the Great Expectations config file.
+# The ``local_file_path`` argument helps in copying the remote file to the user-given path.
+#
+# .. note::
+#   ``local_file_path``'s directory and ``base_directory`` ought to be the same.
 file_task_object = GETask(
     name="getask_flytefile",
     data_source="data",
@@ -43,31 +80,34 @@ file_task_object = GETask(
     expectation_suite="test.demo",
     data_connector="data_flytetype_data_connector",
     local_file_path="/tmp",
-    data_context="greatexpectations/great_expectations",
+    data_context=DATA_CONTEXT,
 )
 
-
-@task(cache=True, cache_version="1.0", limits=Resources(mem="500Mi"))
+# %%
+# Next, we define a task that calls the validation logic.
+@task(limits=Resources(mem="500Mi"))
 def file_task(
     dataset: FlyteFile[typing.TypeVar("csv")],
 ) -> int:
-    file_task_object.execute(dataset=dataset)
+    file_task_object(dataset=dataset)
     return len(pd.read_csv(dataset))
 
 
+# %%
+# Finally, we define a workflow to run our task.
 @workflow
 def file_wf(
-    dataset: FlyteFile[
-        typing.TypeVar("csv")
-    ] = "https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/yellow_tripdata_sample_2019-01.csv",
+    dataset: FlyteFile[typing.TypeVar("csv")] = DATASET_REMOTE,
 ) -> int:
     return file_task(dataset=dataset)
 
 
-"""
-FlyteSchema
-"""
-
+# %%
+# FlyteSchema
+# ===========
+#
+# We define a ``GETask`` that validates FlyteSchema.
+# The ``local_file_path`` here refers to the parquet file in which we want to store our DataFrame.
 schema_task_object = GETask(
     name="getask_schema",
     data_source="data",
@@ -75,39 +115,40 @@ schema_task_object = GETask(
     expectation_suite="sqlite.movies",
     data_connector="data_flytetype_data_connector",
     local_file_path="/tmp/test.parquet",
-    data_context="greatexpectations/great_expectations",
+    data_context=DATA_CONTEXT,
 )
 
+# %%
+# Let's fetch the DataFrame from the SQL Database we've with us. To do so, we use the ``SQLite3Task`` available within Flyte.
+sql_to_df = SQLite3Task(
+    name="getask.sqlite3",
+    query_template="select * from movies",
+    output_schema_type=FlyteSchema,
+    task_config=SQLite3Config(uri=SQLITE_DATASET),
+)
 
-@task(cache=True, cache_version="1.0", limits=Resources(mem="500Mi"))
+# %%
+# Next, we define a task that validates the data and returns the columns in it.
+@task(limits=Resources(mem="500Mi"))
 def schema_task(dataset: FlyteSchema) -> typing.List[str]:
-    schema_task_object.execute(dataset=dataset)
+    schema_task_object(dataset=dataset)
     return list(dataset.open().all().columns)
 
 
-@task(cache=True, cache_version="1.0", limits=Resources(mem="500Mi"))
-def sql_to_df() -> FlyteSchema:
-    con = sqlite3.connect(os.path.join("greatexpectations", "data", "movies.sqlite"))
-    df = pd.read_sql_query("SELECT * FROM movies", con)
-    con.close()
-    return df
-
-
+# %%
+# Finally, we define a workflow to fetch the DataFrame and validate it.
 @workflow
 def schema_wf() -> typing.List[str]:
     df = sql_to_df()
     return schema_task(dataset=df)
 
-
+# %%
+# This particular block of code helps us in running the code locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print("Simple GE Task...")
     print(simple_wf())
     print("GE Task with FlyteFile...")
-    print(
-        file_wf(
-            dataset="https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/yellow_tripdata_sample_2019-01.csv"
-        )
-    )
+    print(file_wf())
     print("GE Task with FlyteSchema...")
-    schema_wf()
+    print(schema_wf())
