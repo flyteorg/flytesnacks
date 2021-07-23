@@ -2,10 +2,6 @@
 ML Training
 ################
 
-=============================
-XGBoost, Scikit-learn etc
-=============================
-
 .. panels::
     :header: text-center
 
