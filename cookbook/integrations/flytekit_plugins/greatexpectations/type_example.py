@@ -136,7 +136,7 @@ def schema_wf() -> int:
 
 
 # %%
-# Lastly, This particular block of code helps us in running the code locally.
+# Lastly, this particular block of code helps us in running the code locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print("Simple GreatExpectations Type...")
