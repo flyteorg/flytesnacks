@@ -18,10 +18,6 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY sql/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY sql/sandbox.config /root
-
 # Copy the actual code
 COPY sql/ /root/sql/
 

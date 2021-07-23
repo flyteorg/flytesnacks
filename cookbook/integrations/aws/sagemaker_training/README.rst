@@ -74,11 +74,7 @@ Creating a Dockerfile for Sagemaker Custom Training [Required]
     
     # Setup Sagemaker entrypoints
     ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
-    
-    # Copy the makefile targets to expose on the container. This makes it easier to register.
-    COPY in_container.mk /root/Makefile
-    COPY aws/sagemaker_training/sandbox.config /root
-    
+
     # Copy the actual code
     COPY aws/sagemaker_training/ /root/sagemaker_training
     

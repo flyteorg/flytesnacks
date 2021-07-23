@@ -75,11 +75,7 @@ For Spark, the image must contain Spark dependencies and the correct entry point
     ENV SPARK_VERSION 3.0.1
     ENV PYSPARK_PYTHON ${VENV}/bin/python3
     ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
-    
-    # Copy the makefile targets to expose on the container. This makes it easier to register.
-    COPY in_container.mk /root/Makefile
-    COPY kubernetes/k8s_spark/sandbox.config /root
-    
+
     # Copy the actual code
     COPY kubernetes/k8s_spark/ /root/k8s_spark
     

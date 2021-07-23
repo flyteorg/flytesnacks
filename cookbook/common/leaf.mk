@@ -82,7 +82,7 @@ requirements.txt: requirements.in install-piptools
 requirements: requirements.txt
 
 .PHONY: serialize
-serialize: requirements docker_push
+serialize: requirements.txt docker_build
 	@echo ${VERSION}
 	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz"
 
@@ -95,7 +95,7 @@ docker_build:
 	@eval ${COMMAND} build ${BUILD_CONTEXT} --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f ${DOCKER_FILE}
 
 .PHONY: register
-register: serialize
+register: serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	flytectl register files \

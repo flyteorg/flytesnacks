@@ -23,10 +23,6 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY dolt/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY dolt/sandbox.config /root
-
 # Copy the actual code
 COPY dolt/ /root/dolt/
 

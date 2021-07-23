@@ -20,12 +20,30 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - name: Serialize Examples
-        env:
-          REGISTRY: "ghcr.io/flyteorg"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: unionai/flytectl-setup-action@v0.0.1
+      - name: setup sandbox
+        run: make setup
+      - name: setup sandbox config
+        run: make setup-config
+      - name: Setup python requirments
         run: |
           mkdir release
-          OUTPUT_DIR=$(pwd)/release REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
+          pip install flytekit==0.20.0
+          make -C cookbook/${{ matrix.directory }} requirements
+      - name: Test ${{ matrix.directory }} example
+        if: github.event_name == 'pull_request'
+        run: |
+          OUTPUT_DIR=$(pwd)/release VERSION=latest make -C cookbook/${{ matrix.directory }} register
+      - name: Serialize ${{ matrix.directory }} example for release
+        if: github.event_name != 'pull_request'
+        env:
+          REGISTRY: "cr.flyte.org/flyteorg"
+        run: |
+          OUTPUT_DIR=$(pwd)/release VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
           git stash
       - name: Run GoReleaser
         if: github.event_name != 'pull_request'

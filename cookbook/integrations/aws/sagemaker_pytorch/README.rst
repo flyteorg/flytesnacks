@@ -57,10 +57,6 @@ The dockerfile for Sagemaker custom training is similar to any regular dockerfil
     # Setup Sagemaker entrypoints
     ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 
-    # Copy the makefile targets to expose on the container. This makes it easier to register.
-    COPY in_container.mk /root/Makefile
-    COPY sagemaker_pytorch/sandbox.config /root
-
     # Copy the actual code
     COPY sagemaker_pytorch/ /root/sagemaker_pytorch
 

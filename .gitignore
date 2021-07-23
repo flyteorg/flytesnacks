@@ -24,4 +24,6 @@ _build/
 *-out.ipynb
 .python-version
 release/
-.kube/
+.kube
+venv
+**/**/*.tgz

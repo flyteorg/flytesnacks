@@ -29,10 +29,6 @@ RUN ${VENV}/bin/pip install wheel
 COPY pima_diabetes/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY pima_diabetes/sandbox.config /root
-
 # Copy the actual code
 COPY pima_diabetes/ /root/pima_diabetes/
 
