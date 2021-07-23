@@ -64,6 +64,13 @@ class CustomSorter(FileNameSortKey):
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Remote Access
+        "register_project.py",
+        "run_task.py",
+        "run_workflow.py",
+        "run_launchplan.py",
+        "inspecting_executions.py",
+        "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
         "deploying_workflows.py",
@@ -186,7 +193,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 master_doc = "index"
 
 pygments_style = "tango"
-pygments_dark_style = "native"
+pygments_dark_style = "monokai"
 
 html_context = {
     "home_page": "https://docs.flyte.org",
@@ -235,17 +242,16 @@ examples_dirs = [
     "../testing",
     "../core/containerization",
     "../deployment",
-    # "../control_plane",  # TODO: add content to this section
-    # "../integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "../remote_access",
+    "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/papermilltasks",
-    # "../integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "../integrations/flytekit_plugins/pandera",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "../integrations/kubernetes/kfpytorch",
-    # "../integrations/aws/athena",  # TODO: add content to this section
+    "../integrations/aws/athena",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
     "../integrations/gcp",
@@ -262,18 +268,16 @@ gallery_dirs = [
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
-    # "auto/deployment/guides",  # TODO: add content to this section
-    # "auto/control_plane",  # TODO: add content to this section
-    # "auto/integrations/flytekit_plugins/sqllite3",  # TODO: add content to this section
+    "auto/remote_access",
+    "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/papermilltasks",
-    # "auto/integrations/flytekit_plugins/sqlalchemy",  # TODO: add content to this section
     "auto/integrations/flytekit_plugins/pandera",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
     # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "auto/integrations/kubernetes/kfpytorch",
-    # "auto/integrations/aws/athena",  # TODO: add content to this section
+    "auto/integrations/aws/athena",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
     "auto/integrations/gcp",
