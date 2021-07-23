@@ -33,3 +33,7 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
+
+RUN mkdir /opt/demo
+RUN touch /opt/demo/a
+RUN touch /opt/demo/b
