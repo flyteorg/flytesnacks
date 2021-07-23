@@ -2,7 +2,7 @@
 Task Example
 ------------
 
-``GETask`` can be used to define data validation within the task. 
+``GreatExpectationsTask`` can be used to define data validation within the task. 
 In this example, we'll implement a simple task, followed by Great Expectations data validation on ``FlyteFile``, and finally on ``FlyteSchema``.
 """
 
@@ -16,15 +16,16 @@ from flytekit import Resources, kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
-from flytekitplugins.greatexpectations import BatchRequestConfig, GETask
+from flytekitplugins.great_expectations import BatchRequestConfig, GreatExpectationsTask
 
 # %%
 # .. note::
-#   ``BatchRequestConfig`` is useful in giving additional batch request parameters to construct both Great Expectations' ``RuntimeBatchRequest`` and ``BatchRequest``.
+#   ``BatchRequestConfig`` is useful in giving additional batch request parameters to construct 
+# both Great Expectations' ``RuntimeBatchRequest`` and ``BatchRequest``.
 
 # %%
 # Next, we define variables that we use throughout the code.
-DATA_CONTEXT = "greatexpectations/great_expectations"
+CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 DATASET_LOCAL = "yellow_tripdata_sample_2019-01.csv"
 DATASET_REMOTE = f"https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/{DATASET_LOCAL}"
 SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/867254085426085909/movies.sqlite"
@@ -34,14 +35,14 @@ SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/8672
 # Simple Task
 # ===========
 #
-# We define a ``GETask`` that validates a CSV file. This does pandas data validation.
-simple_task_object = GETask(
+# We define a ``GreatExpectationsTask`` that validates a CSV file. This does pandas data validation.
+simple_task_object = GreatExpectationsTask(
     name="getask_simple",
     data_source="data",
     inputs=kwtypes(dataset=str),
     expectation_suite="test.demo",
     data_connector="data_example_data_connector",
-    data_context=DATA_CONTEXT,
+    context_root_dir=CONTEXT_ROOT_DIR,
 )
 
 # %%
@@ -49,7 +50,7 @@ simple_task_object = GETask(
 @task(limits=Resources(mem="500Mi"))
 def simple_task(csv_file: str) -> int:
 
-    # ``GETask`` returns Great Expectations' checkpoint result.
+    # ``GreatExpectationsTask`` returns Great Expectations' checkpoint result.
     # You can print the result to know more about the data within it.
     result = simple_task_object(dataset=csv_file)
     df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
@@ -67,20 +68,20 @@ def simple_wf(dataset: str = DATASET_LOCAL) -> int:
 # FlyteFile
 # =========
 #
-# We define a ``GETask`` that validates a ``FlyteFile``.
+# We define a ``GreatExpectationsTask`` that validates a ``FlyteFile``.
 # Here, we're using a different data connector owing to the different ``base_directory`` we're using within the Great Expectations config file.
 # The ``local_file_path`` argument helps in copying the remote file to the user-given path.
 #
 # .. note::
 #   ``local_file_path``'s directory and ``base_directory`` ought to be the same.
-file_task_object = GETask(
+file_task_object = GreatExpectationsTask(
     name="getask_flytefile",
     data_source="data",
     inputs=kwtypes(dataset=FlyteFile[typing.TypeVar("csv")]),
     expectation_suite="test.demo",
     data_connector="data_flytetype_data_connector",
     local_file_path="/tmp",
-    data_context=DATA_CONTEXT,
+    context_root_dir=CONTEXT_ROOT_DIR,
 )
 
 # %%
@@ -106,16 +107,16 @@ def file_wf(
 # FlyteSchema
 # ===========
 #
-# We define a ``GETask`` that validates FlyteSchema.
+# We define a ``GreatExpectationsTask`` that validates FlyteSchema.
 # The ``local_file_path`` here refers to the parquet file in which we want to store our DataFrame.
-schema_task_object = GETask(
+schema_task_object = GreatExpectationsTask(
     name="getask_schema",
     data_source="data",
     inputs=kwtypes(dataset=FlyteSchema),
     expectation_suite="sqlite.movies",
     data_connector="data_flytetype_data_connector",
     local_file_path="/tmp/test.parquet",
-    data_context=DATA_CONTEXT,
+    context_root_dir=CONTEXT_ROOT_DIR,
 )
 
 # %%
@@ -144,12 +145,12 @@ def schema_wf() -> typing.List[str]:
 
 
 # %%
-# This particular block of code helps us in running the code locally.
+# Lastly, this particular block of code helps us in running the code locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print("Simple GE Task...")
+    print("Simple GreatExpectations Task...")
     print(simple_wf())
-    print("GE Task with FlyteFile...")
+    print("GreatExpectations Task with FlyteFile...")
     print(file_wf())
-    print("GE Task with FlyteSchema...")
+    print("GreatExpectations Task with FlyteSchema...")
     print(schema_wf())
