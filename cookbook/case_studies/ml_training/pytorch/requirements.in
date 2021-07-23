@@ -1,4 +1,4 @@
--r ../../../../common/requirements-common.in
-tensorboard
+-r ../../../common/requirements-common.in
 torch
 torchvision
+wandb

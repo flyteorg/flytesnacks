@@ -364,10 +364,10 @@ def hide_example_page(file_handler):
             no_imports = False
 
     return (
-            example_content.startswith('"""')
-            and example_content.endswith('"""')
-            and no_percent_comments
-            and no_imports
+        example_content.startswith('"""')
+        and example_content.endswith('"""')
+        and no_percent_comments
+        and no_imports
     )
 
 
@@ -384,10 +384,10 @@ for source_dir in sphinx_gallery_conf["examples_dirs"]:
             if hide_example_page(fh):
                 page_id = (
                     str(f)
-                        .replace("..", "auto")
-                        .replace("/", "-")
-                        .replace(".", "-")
-                        .replace("_", "-")
+                    .replace("..", "auto")
+                    .replace("/", "-")
+                    .replace(".", "-")
+                    .replace("_", "-")
                 )
                 hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
 
@@ -421,12 +421,13 @@ intersphinx_mapping = {
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
+    "pytorch": ("https://pytorch.org/docs/stable/", None),
 }
 
 # Sphinx-tabs config
-sphinx_tabs_valid_builders = ['linkcheck']
+sphinx_tabs_valid_builders = ["linkcheck"]
 
 # Sphinx-mermaid config
-mermaid_output_format = 'raw'
-mermaid_version = 'latest'
+mermaid_output_format = "raw"
+mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"

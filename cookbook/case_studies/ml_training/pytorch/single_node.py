@@ -1,42 +1,67 @@
 """
-Single GPU training
--------------------------
-Training a model on a single node on one gpu is as trivial as writing any Flyte task and simply setting the GPU='1'.
-As long as the docker image is built correctly with the right version of the GPU drivers and your Flyte backend is
-provisioned to have GPU machines, Flyte will execute your task on a node that has GPU's.
+Single GPU Training
+-------------------
 
-Currently Flyte does not provide any specific task type for Pytorch (though it is entire possible to provide a task-type
-that supports pytorch-ignite or pytorch-lightening support, but this is not critical). You can request for a GPU, simply
-by setting the GPU="1" resource request and then at runtime you will receive a GPU.
+Training a model on a single node on one GPU is as trivial as writing any Flyte task and simply setting the GPU to ``1``.
+As long as the Docker image is built correctly with the right version of the GPU drivers and the Flyte backend is
+provisioned to have GPU machines, Flyte will execute the task on a node that has GPU(s).
 
-This example shows how you can create any Pytorch model and train it using Flyte and your specialized container. Flyte
-will handle the data passing and can export the model out of the training environment.
+Currently, Flyte does not provide any specific task type for PyTorch (though it is entirely possible to provide a task-type
+that supports *PyTorch-Ignite* or *PyTorch Lightening* support, but this is not critical). One can request for a GPU, simply
+by setting GPU="1" resource request and then at runtime, the GPU will be provisioned.
 
+In this example, we'll see how we can create any PyTorch model, train it using Flyte and a specialized container. 
 """
+
+# %%
+# First, let's import the libraries.
+import json
 import os
 import typing
 from dataclasses import dataclass
 
-import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
+import wandb
 from dataclasses_json import dataclass_json
 from flytekit import Resources, task, workflow
-from flytekit.types.directory import TensorboardLogs
-from flytekit.types.file import PNGImageFile, PythonPickledFile
-from torch.utils.tensorboard import SummaryWriter
+from flytekit.types.file import PythonPickledFile
 from torch import distributed as dist
 from torch import nn, optim
 from torchvision import datasets, transforms
 
-
+# %%
+# Let's define some variables to be used later.
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
+# %%
+# The following variables are specific to ``wandb``:
+#
+# - ``NUM_BATCHES_TO_LOG``: Number of batches to log from the test data for each test step
+# - ``LOG_IMAGES_PER_BATCH``: Number of images to log per test batch
+NUM_BATCHES_TO_LOG = 10
+LOG_IMAGES_PER_BATCH = 32
 
 # %%
-# Actual model
-# ============
-# this the Model class with all the layers
+# If running remotely, copy your ``wandb`` API key to the Dockerfile. Next, login to ``wandb``.
+# You can disable this if you're already logged in on your local machine.
+wandb.login()
+
+# %%
+# Next, we initialize the ``wandb`` project.
+#
+# .. admonition:: MUST DO!
+#
+#   Replace ``entity`` value with your username.
+wandb.init(project="pytorch-single-node", entity="your-user-name")
+
+# %%
+# Creating the Network
+# ====================
+#
+# We use a simple PyTorch model with :py:class:`pytorch:torch.nn.Conv2d` and :py:class:`pytorch:torch.nn.Linear` layers.
+# Let's also use :py:func:`pytorch:torch.nn.functional.relu`, :py:func:`pytorch:torch.nn.functional.max_pool2d`, and
+# :py:func:`pytorch:torch.nn.functional.relu` to define the forward pass.
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -57,18 +82,38 @@ class Net(nn.Module):
 
 
 # %%
-# Trainer
-# =======
-# This is the core training loop, which runs for 1 epoch. The loss values are written to the SummaryWriter
-def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
+# Training
+# ========
+#
+# We define a ``train`` function to enclose the training loop per epoch, i.e., this gets called for every successive epoch.
+# Additionally, we log the loss and epoch progression, which can later be visualized in a ``wandb`` dashboard.
+def train(model, device, train_loader, optimizer, epoch, log_interval):
     model.train()
+
+    # hooks into the model to collect gradients and the topology
+    wandb.watch(model)
+
+    # loop through the training batches
     for batch_idx, (data, target) in enumerate(train_loader):
+
+        # device conversion
         data, target = data.to(device), target.to(device)
+
+        # clear gradient
         optimizer.zero_grad()
+
+        # forward pass
         output = model(data)
+
+        # compute loss
         loss = F.nll_loss(output, target)
+
+        # propagate the loss backward
         loss.backward()
+
+        # update the model parameters
         optimizer.step()
+
         if batch_idx % log_interval == 0:
             print(
                 "Train Epoch: {} [{}/{} ({:.0f}%)]\tloss={:.4f}".format(
@@ -79,48 +124,119 @@ def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
                     loss.item(),
                 )
             )
-            niter = epoch * len(train_loader) + batch_idx
-            writer.add_scalar("loss", loss.item(), niter)
+
+            # log epoch and loss
+            wandb.log({"loss": loss, "epoch": epoch})
 
 
 # %%
-# Test the model
-# ==============
-# This method calculates the accuracy for the given model per epoch
-def test(model, device, test_loader, writer, epoch):
+# We define a test logger function which will be called when we run the model on test dataset.
+def log_test_predictions(images, labels, outputs, predicted, my_table, log_counter):
+    """
+    Convenience funtion to log predictions for a batch of test images
+    """
+
+    # obtain confidence scores for all classes
+    scores = F.softmax(outputs.data, dim=1)
+    log_scores = scores.cpu().numpy()
+    log_images = images.cpu().numpy()
+    log_labels = labels.cpu().numpy()
+    log_preds = predicted.cpu().numpy()
+
+    # assign ids based on the order of the images
+    _id = 0
+    for i, l, p, s in zip(log_images, log_labels, log_preds, log_scores):
+
+        # add required info to data table:
+        # id, image pixels, model's guess, true label, scores for all classes
+        img_id = str(_id) + "_" + str(log_counter)
+        my_table.add_data(img_id, wandb.Image(i), p, l, *s)
+        _id += 1
+        if _id == LOG_IMAGES_PER_BATCH:
+            break
+
+
+# %%
+# Evaluation
+# ==========
+#
+# We define a ``test`` function to test the model on the test dataset.
+#
+# We log ``accuracy``, ``test_loss``, and a ``wandb`` `table <https://docs.wandb.ai/guides/data-vis/log-tables>`__.
+# The ``wandb`` table can help in depicting the model's performance in a structured format.
+def test(model, device, test_loader):
+
+    # ``wandb`` tabular columns
+    columns = ["id", "image", "guess", "truth"]
+    for digit in range(10):
+        columns.append("score_" + str(digit))
+    my_table = wandb.Table(columns=columns)
+
     model.eval()
+
+    # hooks into the model to collect gradients and the topology
+    wandb.watch(model)
+
     test_loss = 0
     correct = 0
-    with torch.no_grad():
-        for data, target in test_loader:
-            data, target = data.to(device), target.to(device)
-            output = model(data)
-            test_loss += F.nll_loss(
-                output, target, reduction="sum"
-            ).item()  # sum up batch loss
-            pred = output.max(1, keepdim=True)[
-                1
-            ]  # get the index of the max log-probability
-            correct += pred.eq(target.view_as(pred)).sum().item()
+    log_counter = 0
 
+    # disable gradient
+    with torch.no_grad():
+
+        # loop through the test data loader
+        for images, targets in test_loader:
+
+            # device conversion
+            images, targets = images.to(device), targets.to(device)
+
+            # forward pass -- generate predictions
+            outputs = model(images)
+
+            # sum up batch loss
+            test_loss += F.nll_loss(outputs, targets, reduction="sum").item()
+
+            # get the index of the max log-probability
+            _, predicted = torch.max(outputs.data, 1)
+
+            # compare predictions to true label
+            correct += (predicted == targets).sum().item()
+
+            # log predictions to the ``wandb`` table
+            if log_counter < NUM_BATCHES_TO_LOG:
+                log_test_predictions(
+                    images, targets, outputs, predicted, my_table, log_counter
+                )
+                log_counter += 1
+
+    # compute the average loss
     test_loss /= len(test_loader.dataset)
+
     print("\naccuracy={:.4f}\n".format(float(correct) / len(test_loader.dataset)))
     accuracy = float(correct) / len(test_loader.dataset)
-    writer.add_scalar("accuracy", accuracy, epoch)
+
+    # log the average loss, accuracy, and table
+    wandb.log(
+        {"test_loss": test_loss, "accuracy": accuracy, "mnist_predictions": my_table}
+    )
+
     return accuracy
 
 
+# %%
+# Next, we define a function that runs for every epoch. It calls the ``train`` and ``test`` functions.
 def epoch_step(
-        model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval
+    model, device, train_loader, test_loader, optimizer, epoch, log_interval
 ):
-    train(model, device, train_loader, optimizer, epoch, writer, log_interval)
-    return test(model, device, test_loader, writer, epoch)
+    train(model, device, train_loader, optimizer, epoch, log_interval)
+    return test(model, device, test_loader)
 
 
 # %%
-# Training Hyperparameters
-# ========================
+# Hyperparameters
+# ===============
 #
+# We define a few hyperparameters for training our model.
 @dataclass_json
 @dataclass
 class Hyperparameters(object):
@@ -147,46 +263,44 @@ class Hyperparameters(object):
 
 
 # %%
-# Actual Training algorithm
-# =========================
-# The output model using `torch.save` saves the `state_dict` as described
-# `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
-# A common convention is to have the ``.pt`` extension for the file
+# Training and Evaluating
+# =======================
 #
-# Notice we are also generating an output variable called logs, these logs can be used to visualize the training in
-# Tensorboard and are the output of the `SummaryWriter` interface
-# Refer to section :ref:`pytorch_tensorboard` to visualize the outputs of this example.
+# The output model using :py:func:`pytorch:torch.save` saves the `state_dict` as described
+# `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
+# A common convention is to have the ``.pt`` extension for the model file.
 #
 # .. note::
-#
-#    Note the usage of requests=Resources(gpu="1"). This will force Flyte to allocate this task onto a machine with GPUs
-#    The task will be queued up until a machine with gpu's can be procured. Also for the GPU Training to work, the
-#    dockerfile needs to be built as explained in the :ref:`pytorch-training` section.
-#
+#    Note the usage of ``requests=Resources(gpu="1")``. This will force Flyte to allocate this task onto a machine with GPU(s).
+#    The task will be queued up until a machine with GPU(s) can be procured. Also, for the GPU Training to work, the
+#    Dockerfile needs to be built as explained in the :ref:`pytorch-dockerfile` section.
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs",
     epoch_accuracies=typing.List[float],
     model_state=PythonPickledFile,
-    logs=TensorboardLogs,
 )
 
 
 @task(retries=2, cache=True, cache_version="1.0", requests=Resources(gpu="1"))
 def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
-    log_dir = "single_node/logs"
-    writer = SummaryWriter(log_dir)
 
+    # store the hyperparameters' config in ``wandb``
+    cfg = wandb.config
+    cfg.update(json.loads(hp.to_json()))
+    print(wandb.config)
+
+    # set random seed
     torch.manual_seed(hp.seed)
 
-    # Ideally if GPU training is required, and if cuda is not available, we can raise an Exception, but as we want
-    # this algorithm to work locally as well (and most users dont have a GPU locally), we will fallback to using a CPU
+    # ideally, if GPU training is required, and if cuda is not available, we can raise an exception.
+    # However, as we want this algorithm to work locally as well (and most users don't have a GPU locally), we will fallback to using a CPU
     use_cuda = torch.cuda.is_available()
     print(f"Use cuda {use_cuda}")
     device = torch.device("cuda" if use_cuda else "cpu")
 
     print("Using device: {}, world size: {}".format(device, WORLD_SIZE))
 
-    # LOAD Data
+    # load Data
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     training_data_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
@@ -214,14 +328,14 @@ def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
         **kwargs,
     )
 
-    # Train the model
+    # train the model
     model = Net().to(device)
 
     optimizer = optim.SGD(
         model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum
     )
 
-    # Run multiple epochs and capture the accuracies for each epoch
+    # run multiple epochs and capture the accuracies for each epoch
     accuracies = [
         epoch_step(
             model,
@@ -230,64 +344,63 @@ def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
             test_loader=test_data_loader,
             optimizer=optimizer,
             epoch=epoch,
-            writer=writer,
             log_interval=hp.log_interval,
         )
         for epoch in range(1, hp.epochs + 1)
     ]
 
-    # After training the model, we can simply save it to disk and return it from the Flyte task as a FlyteFile type
-    # called the PythonPickledFile. PythonPickledFile is simply a decorator on the FlyteFile, that records the format
+    # after training the model, we can simply save it to disk and return it from the Flyte task as a :py:class:`flytekit.types.file.FlyteFile`
+    # type, which is the ``PythonPickledFile``. ``PythonPickledFile`` is simply a decorator on the ``FlyteFile`` that records the format
     # of the serialized model as ``pickled``
-    model_file = "single_node/mnist_cnn.pt"
+    model_file = "pytorch/mnist_cnn.pt"
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(
-        epoch_accuracies=accuracies,
-        model_state=PythonPickledFile(model_file),
-        logs=TensorboardLogs(log_dir),
+        epoch_accuracies=accuracies, model_state=PythonPickledFile(model_file)
     )
 
 
 # %%
-# Let us plot the accuracy
-# ========================
-# We will output the accuracy plot as a PNG image
-@task
-def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
-    # summarize history for accuracy
-    plt.plot(epoch_accuracies)
-    plt.title("Accuracy")
-    plt.ylabel("accuracy")
-    plt.xlabel("epoch")
-    accuracy_plot = "accuracy.png"
-    plt.savefig(accuracy_plot)
-
-    return PNGImageFile(accuracy_plot)
-
-
-# %%
-# Create a pipeline
-# =================
-# now the training and the plotting can be together put into a pipeline, in which case the training is performed first
-# followed by the plotting of the accuracy. Data is passed between them and the workflow itself outputs the image and
-# the serialize model
+# Finally, we define a workflow to run the training algorithm. We return the model and accuracies.
 @workflow
 def pytorch_training_wf(
-        hp: Hyperparameters,
-) -> (PythonPickledFile, PNGImageFile, TensorboardLogs):
-    accuracies, model, logs = train_mnist(hp=hp)
-    plot = plot_accuracy(epoch_accuracies=accuracies)
-    return model, plot, logs
+    hp: Hyperparameters,
+) -> (PythonPickledFile, typing.List[float]):
+    accuracies, model = train_mnist(hp=hp)
+    return model, accuracies
 
 
 # %%
-# Run the model locally
-# =====================
-# It is possible to run the model locally with almost no modifications (as long as the code takes care of the resolving
-# if distributed or not)
+# Running the Model Locally
+# =========================
+#
+# It is possible to run the model locally with almost no modifications (as long as the code takes care of resolving
+# if the code is distributed or not). This is how we can do it:
 if __name__ == "__main__":
-    model, plot, logs = pytorch_training_wf(
-        hp=Hyperparameters(epochs=2, batch_size=128)
+    model, accuracies = pytorch_training_wf(
+        hp=Hyperparameters(epochs=10, batch_size=128)
     )
-    print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
+    print(f"Model: {model}, Accuracies: {accuracies}")
+
+# %%
+# Weights & Biases Report
+# =======================
+#
+# Lastly, let's look at the reports that are generated by the model.
+#
+# .. figure:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/pytorch/single-node/wandb_graphs.png
+#   :alt: Wandb Graphs
+#   :class: with-shadow
+#
+#   Wandb Graphs
+#
+# .. figure:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/pytorch/single-node/wandb_table.png
+#   :alt: Wandb Table
+#   :class: with-shadow
+#
+#   Wandb Table
+#
+# You can refer to the complete ``wandb`` report `here <https://wandb.ai/samhita-alla/pytorch-single-node/reports/PyTorch-Single-Node-Training-Report--Vmlldzo4NzUwNjA>`__.
+#
+# .. tip::
+#   A lot more customizations can be done to the report according to your requirement!
