@@ -86,5 +86,13 @@
      "exit_success": true,
      "exit_message": ""
    }
- }]
+ },{
+  "name": "case-studies-pytorch",
+  "priority": "P2",
+  "path": "case_studies/ml_training/pytorch",
+  "exitCondition": {
+    "exit_success": true,
+    "exit_message": ""
+  }
+}]
 
