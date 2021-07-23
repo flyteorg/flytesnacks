@@ -10,4 +10,4 @@ release:
   name_template: "{{.ProjectName}} v{{.Version}}"
   disable: false
   extra_files:
-    - glob: ./cookbook/release-snacks/*
+    - glob: ./release/*

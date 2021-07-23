@@ -29,7 +29,4 @@ enter_sandbox: docker_build
 run-examples: ## Runs all examples
 	sh scripts/run-all-examples.sh
 
-.PHONY: archive
-archive: # archive directories (e.g. _pb_output/)
-	bash scripts/ci_helper.sh
 

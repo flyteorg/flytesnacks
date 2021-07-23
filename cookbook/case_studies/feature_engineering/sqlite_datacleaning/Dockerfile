@@ -29,10 +29,6 @@ RUN ${VENV}/bin/pip install wheel
 COPY sqlite_datacleaning/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY sqlite_datacleaning/sandbox.config /root
-
 # Copy the actual code
 COPY sqlite_datacleaning/ /root/sqlite_datacleaning/
 

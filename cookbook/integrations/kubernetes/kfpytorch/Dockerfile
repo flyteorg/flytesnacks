@@ -23,10 +23,6 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-# Install Python dependencies
-COPY kfpytorch/requirements.txt /root
-RUN pip install -r /root/requirements.txt
-
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
 COPY kfpytorch/sandbox.config /root

@@ -90,5 +90,5 @@ kubectl-config:
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
 
 .PHONY: setup-flytectl
-setup-flytectl:
-	cp $(FLYTE_DIR)/config-sandbox.yaml $(FLYTE_DIR)/config.yaml
+setup-config: kubectl-config
+	flytectl config init

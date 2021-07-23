@@ -22,10 +22,6 @@ RUN pip install -r /root/requirements.txt
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY sagemaker_training/sandbox.config /root
-
 # Copy the actual code
 COPY sagemaker_training/ /root/sagemaker_training
 

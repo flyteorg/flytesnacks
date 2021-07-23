@@ -37,6 +37,10 @@ ifndef INSECURE
 	export INSECURE_FLAG=-i
 endif
 
+# setup output directory
+ifndef OUTPUT_DIR
+	export OUTPUT_DIR=${CURDIR}
+endif
 # The docker registry that should be used to push images.
 # e.g.:
 # export REGISTRY ?= ghcr.io/flyteorg
@@ -78,20 +82,20 @@ requirements.txt: requirements.in install-piptools
 requirements: requirements.txt
 
 .PHONY: serialize
-serialize: clean _pb_output docker_build
+serialize: requirements docker_push
 	@echo ${VERSION}
-	@eval ${COMMAND} run -i --rm -v ${EXAMPLE_OUTPUT_DIR}:/tmp/output ${TAGGED_IMAGE} make serialize
+	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz"
 
 .PHONY: fast_serialize
-fast_serialize: clean _pb_output
-	@eval ${COMMAND} run -i --rm -v ${EXAMPLE_OUTPUT_DIR}:/tmp/output ${TAGGED_IMAGE} make fast_serialize
+fast_serialize:
+	pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz"
 
 .PHONY: docker_build
 docker_build:
 	@eval ${COMMAND} build ${BUILD_CONTEXT} --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f ${DOCKER_FILE}
 
 .PHONY: register
-register: clean _pb_output docker_push
+register: serialize
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	flytectl register files \
@@ -99,22 +103,5 @@ register: clean _pb_output docker_push
 	     --version=${VERSION} \
 	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
 	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
-	     ${CURDIR}/_pb_output/*
-
-.PHONY: fast_register
-fast_register: clean _pb_output fast_serialize
-	@echo ${VERSION}
-	@echo ${CURDIR}
-	flytectl register files \
-	    -p ${PROJECT} -d development \
-	     --version=${VERSION} \
-	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
-	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
-	     ${CURDIR}/_pb_output/*
-
-_pb_output:
-	mkdir -p _pb_output
-
-.PHONY: clean
-clean:
-	rm -rf _pb_output/*
+	     "${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz" \
+	     --archive
