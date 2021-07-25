@@ -111,3 +111,15 @@ register: serialize docker_push
 	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
 	     "${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz" \
 	     --archive
+
+.PHONY: fast_register
+fast_register:
+	@echo ${VERSION}
+	@echo ${CURDIR}
+	flytectl register files \
+	    -p ${PROJECT} -d development \
+	     --version=${VERSION} \
+	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
+	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
+	     "${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz" \
+	     --archive

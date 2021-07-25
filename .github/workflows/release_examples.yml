@@ -37,13 +37,15 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           OUTPUT_DIR=$(pwd)/release/ VERSION=latest make -C cookbook/${{ matrix.directory }} register
+          OUTPUT_DIR=$(pwd)/release/ VERSION=latest make -C cookbook/${{ matrix.directory }} fast_register
       - name: Serialize ${{ matrix.directory }} example for release
         if: github.event_name != 'pull_request'
         env:
           REGISTRY: "cr.flyte.org/flyteorg"
         run: |
           OUTPUT_DIR=$(pwd)/release/ VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
-          git stash
+      - name: Clean Git
+        run: git stash
       - name: Run GoReleaser
         if: github.event_name != 'pull_request'
         uses: goreleaser/goreleaser-action@v2

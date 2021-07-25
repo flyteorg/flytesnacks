@@ -63,7 +63,7 @@ $ VERSION=v1 make -C cookbook/core serialize
 $ VERSION=v1 make -C cookbook/core register
 # Make change in core example and run fast serialize 
 $ VERSION=v1 make -C cookbook/core fast_serialize
-$ VERSION=v1 make -C cookbook/core register 
+$ VERSION=v1 make -C cookbook/core fast_register 
 ```
 
 <html>
