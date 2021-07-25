@@ -39,7 +39,7 @@ endif
 
 # setup output directory
 ifndef OUTPUT_DIR
-	export OUTPUT_DIR=${CURDIR}
+	export OUTPUT_DIR=${CURDIR}/
 endif
 # The docker registry that should be used to push images.
 # e.g.:
@@ -81,14 +81,20 @@ requirements.txt: requirements.in install-piptools
 .PHONY: requirements
 requirements: requirements.txt
 
+.PHONY: install_requirements
+install_requirements: requirements
+	@echo ${CURDIR}
+	pip install -r requirements.txt
+
+
 .PHONY: serialize
-serialize: requirements.txt docker_build
+serialize: install_requirements docker_build
 	@echo ${VERSION}
-	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz"
+	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
 
 .PHONY: fast_serialize
 fast_serialize:
-	pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz"
+	pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
 
 .PHONY: docker_build
 docker_build:
@@ -103,5 +109,5 @@ register: serialize docker_push
 	     --version=${VERSION} \
 	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
 	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
-	     "${OUTPUT_DIR}/flytesnacks-${PREFIX}.tgz" \
+	     "${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz" \
 	     --archive

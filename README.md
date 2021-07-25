@@ -35,12 +35,10 @@
     </h2>
 </html>
 
-Setup [Flyte sandbox](https://docs.flyte.org/en/latest/deployment/sandbox.html#deployment-sandbox) environment with flytesnacks
+
 ```bash
 $ git clone https://github.com/flyteorg/flytesnacks.git
-$ flytectl sandbox start --source=./ 
-$ flytectl config init
-$ export KUBECONFIG=:~/.kube/config:~/.flyte/k3s/k3s.yaml
+$ cd flytesnacks
 ```
 
 Setup env for remote flyte cluster
@@ -50,7 +48,15 @@ $ flytectl config init --host=127.0.0.1:30081 --storage
 # Update your storage config at ~/.flyte/config. Storage config is required for registering fast serialize package
 ```
 
-Register core example for remote cluster
+Setup [Flyte sandbox](https://docs.flyte.org/en/latest/deployment/sandbox.html#deployment-sandbox) environment
+```bash
+$ unset REGISTRY
+$ flytectl sandbox start --source=$(pwd)
+$ flytectl config init
+$ export KUBECONFIG=:~/.kube/config:~/.flyte/k3s/k3s.yaml
+```
+
+Register core example
 ```bash
 $ cd flytesnacks
 $ VERSION=v1 make -C cookbook/core serialize

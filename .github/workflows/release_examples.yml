@@ -25,25 +25,24 @@ jobs:
         with:
           python-version: 3.8
       - uses: unionai/flytectl-setup-action@v0.0.1
-      - name: setup sandbox
+      - name: Start Flytectl sandbox
         run: make setup
-      - name: setup sandbox config
-        run: make setup-config
+      - name: Setup Flytectl config
+        run: flytectl config init
       - name: Setup python requirments
         run: |
           mkdir release
           pip install flytekit==0.20.0
-          make -C cookbook/${{ matrix.directory }} requirements
-      - name: Test ${{ matrix.directory }} example
+      - name: Test Serialize & Register ${{ matrix.directory }} example
         if: github.event_name == 'pull_request'
         run: |
-          OUTPUT_DIR=$(pwd)/release VERSION=latest make -C cookbook/${{ matrix.directory }} register
+          OUTPUT_DIR=$(pwd)/release/ VERSION=latest make -C cookbook/${{ matrix.directory }} register
       - name: Serialize ${{ matrix.directory }} example for release
         if: github.event_name != 'pull_request'
         env:
           REGISTRY: "cr.flyte.org/flyteorg"
         run: |
-          OUTPUT_DIR=$(pwd)/release VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
+          OUTPUT_DIR=$(pwd)/release/ VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
           git stash
       - name: Run GoReleaser
         if: github.event_name != 'pull_request'
