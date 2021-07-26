@@ -90,11 +90,11 @@ install_requirements: requirements
 .PHONY: serialize
 serialize: install_requirements docker_build
 	@echo ${VERSION}
-	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
+	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}flytesnacks_${PREFIX}.tgz"
 
 .PHONY: fast_serialize
 fast_serialize:
-	@echo pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
+	@echo pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}flytesnacks_${PREFIX}.tgz"
 
 .PHONY: docker_build
 docker_build:
@@ -109,7 +109,7 @@ register: serialize docker_push
 	     --version=${VERSION} \
 	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
 	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
-	     "${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz" \
+	     "${OUTPUT_DIR}flytesnacks_${PREFIX}.tgz" \
 	     --archive
 
 .PHONY: fast_register
@@ -121,5 +121,5 @@ fast_register: fast_serialize
 	     --version=${VERSION} \
 	     --k8ServiceAccount=$(SERVICE_ACCOUNT) \
 	     --outputLocationPrefix=${OUTPUT_DATA_PREFIX} \
-	     "${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz" \
+	     "${OUTPUT_DIR}flytesnacks_${PREFIX}.tgz" \
 	     --archive
