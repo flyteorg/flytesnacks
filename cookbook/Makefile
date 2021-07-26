@@ -11,8 +11,8 @@ dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.
 dev-requirements.txt: dev-requirements.in install-piptools
 	$(call PIP_COMPILE,dev-requirements.in)
 
-.PHONY: dev-requirements
 dev-requirements: dev-requirements.txt
+	pip install -r dev-requirements.txt
 
 docs-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) docs-requirements.txt
 docs-requirements.txt: docs-requirements.in install-piptools
@@ -20,10 +20,6 @@ docs-requirements.txt: docs-requirements.in install-piptools
 
 .PHONY: docs-requirements
 docs-requirements: docs-requirements.txt
-
-.PHONY: enter_sandbox
-enter_sandbox: docker_build
-	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
 
 .PHONE: run-all-examples
 run-examples: ## Runs all examples

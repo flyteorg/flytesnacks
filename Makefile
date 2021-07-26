@@ -10,23 +10,11 @@ MINIO_PROXY_PORT := 30084
 FLYTE_SANDBOX_NAME := flyte-sandbox
 FLYTE_DIR := ~/.flyte
 
-
 # Module of cookbook examples to register
 EXAMPLES_MODULE := core
 
 define LOG
 echo "$(shell tput bold)$(shell tput setaf 2)$(1)$(shell tput sgr0)"
-endef
-
-define RUN_IN_SANDBOX
-docker exec -it \
-	-e DOCKER_BUILDKIT=1 \
-	-e MAKEFLAGS \
-	-e REGISTRY \
-	-e VERSION \
-        -w /root \
-	$(FLYTE_SANDBOX_NAME) \
-	$(1)
 endef
 
 .PHONY: update_boilerplate
@@ -52,11 +40,11 @@ setup:
 	flytectl sandbox start --source=$(shell pwd)
 
 .PHONY: start
-start: setup
-	$(call LOG,Registering examples from commit: latest)
-	flytectl register examples  -d development  -p flytesnacks
+start: setup setup-config
 
-	echo "Flyte is ready! Flyte UI is available at http://localhost:$(FLYTE_PROXY_PORT)/console."
+	$(call LOG,Registering examples from commit: latest)
+
+	REGISTRY=cr.flyte.org/flyteorg VERSION=latest make -C cookbook/$(EXAMPLES_MODULE) fast_register
 
 .PHONY: teardown
 teardown: _requires-sandbox-up  ## Teardown Flyte sandbox
@@ -69,7 +57,7 @@ status: _requires-sandbox-up  ## Show status of Flyte deployment
 
 .PHONY: shell
 shell: _requires-sandbox-up  ## Drop into a development shell
-	$(call RUN_IN_SANDBOX,bash)
+	docker exec -it flyte-sandbox bash
 
 .PHONY: register
 register: _requires-sandbox-up  ## Register Flyte cookbook workflows
@@ -83,10 +71,6 @@ fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 
 .PHONY: setup-kubectl
 kubectl-config:
-	# In shell/bash, run: `eval $(make kubectl-config)`
-	# Makefiles run recipes in sub-processes. A sub-process cannot modify the parent process's environment.
-	# The best I (@EngHabu) can think of at the moment is to output this for the user to eval in the
-	# parent process.
 	echo "export KUBECONFIG=$(KUBECONFIG):~/.kube/config:$(FLYTE_DIR)/k3s/k3s.yaml"
 
 .PHONY: setup-flytectl

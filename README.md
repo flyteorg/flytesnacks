@@ -35,17 +35,13 @@
     </h2>
 </html>
 
-
+Setup and install Flytesnacks dependencies
 ```bash
 $ git clone https://github.com/flyteorg/flytesnacks.git
+$ python3 -m venv env 
+$ source env/bin/activate
 $ cd flytesnacks
-```
-
-Setup env for remote flyte cluster
-```bash
-$ export REGISTRY=cr.flyte.org/flyteorg
-$ flytectl config init --host=127.0.0.1:30081 --storage 
-# Update your storage config at ~/.flyte/config. Storage config is required for registering fast serialize package
+$ make -C cookbook dev-requirements
 ```
 
 Setup [Flyte sandbox](https://docs.flyte.org/en/latest/deployment/sandbox.html#deployment-sandbox) environment
@@ -54,6 +50,13 @@ $ unset REGISTRY
 $ flytectl sandbox start --source=$(pwd)
 $ flytectl config init
 $ export KUBECONFIG=:~/.kube/config:~/.flyte/k3s/k3s.yaml
+```
+
+Setup env for remote flyte cluster
+```bash
+$ export REGISTRY=cr.flyte.org/flyteorg
+$ flytectl config init --host=127.0.0.1:30081 --storage 
+# Update your storage config at ~/.flyte/config. Storage config is required for registering fast serialize package
 ```
 
 Register core example

@@ -57,14 +57,6 @@ requirements: ## Makes all requirement files in sub directories.
 		$(MAKE) -C $$dir requirements; \
 	done
 
-.PHONY: install_requirements
-install_requirements: ## Makes all requirement files in sub directories.
-	@for dir in $(SUBDIRS) ; do \
-		echo "processing ${PWD}/$$dir"; \
-		test -f $$dir/Makefile && \
-		$(MAKE) -C $$dir install_requirements; \
-	done
-
 .PHONY: k3d_load_image
 k3d_load_image:
 	@for dir in $(SUBDIRS) ; do \

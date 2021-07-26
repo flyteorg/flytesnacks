@@ -80,15 +80,11 @@ requirements.txt: requirements.in install-piptools
 
 .PHONY: requirements
 requirements: requirements.txt
-
-.PHONY: install_requirements
-install_requirements: requirements
 	@echo ${CURDIR}
 	pip install -r requirements.txt
 
-
 .PHONY: serialize
-serialize: install_requirements docker_build
+serialize: docker_build
 	@echo ${VERSION}
 	pyflyte --pkgs ${PREFIX}  package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --output="${OUTPUT_DIR}flytesnacks_${PREFIX}.tgz"
 
