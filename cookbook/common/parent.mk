@@ -9,15 +9,21 @@ PWD=$(CURDIR)
 help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  $(MAKE) \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+.PHONY: serialize
+serialize: ## Builds and serializes all docker images, workflows and tasks in all sub directories.
+	@for dir in $(SUBDIRS) ; do \
+		echo "processing ${PWD}/$$dir"; \
+		test -f $$dir/Makefile && \
+		$(MAKE) -C $$dir serialize; \
+	done
+
 .PHONY: fast_serialize
 fast_serialize:
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
-		trimmed=$${dir%/}; \
 		test -f $$dir/Makefile && \
-		PREFIX=$$trimmed $(MAKE) fast_serialize; \
+		$(MAKE) fast_serialize; \
 	done
-
 
 .PHONY: register
 register: ## Builds, pushes and registers all docker images, workflows and tasks in all sub directories.
@@ -27,12 +33,12 @@ register: ## Builds, pushes and registers all docker images, workflows and tasks
 		$(MAKE) -C $$dir register; \
 	done
 
-.PHONY: serialize
-serialize: ## Builds and serializes all docker images, workflows and tasks in all sub directories.
+.PHONY: fast_register
+fast_register:
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		test -f $$dir/Makefile && \
-		$(MAKE) -C $$dir serialize; \
+		$(MAKE) -C $$dir fast_register; \
 	done
 
 .PHONY: docker_push

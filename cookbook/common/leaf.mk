@@ -94,7 +94,7 @@ serialize: install_requirements docker_build
 
 .PHONY: fast_serialize
 fast_serialize:
-	pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
+	@echo pyflyte --pkgs ${PREFIX} package --image ${TAGGED_IMAGE} --source=${CURDIR}/..  --force --fast --output="${OUTPUT_DIR}flytesnacks-${PREFIX}.tgz"
 
 .PHONY: docker_build
 docker_build:
@@ -113,7 +113,7 @@ register: serialize docker_push
 	     --archive
 
 .PHONY: fast_register
-fast_register:
+fast_register: fast_serialize
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	flytectl register files \
