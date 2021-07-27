@@ -70,6 +70,10 @@ if __name__ == "__main__":
 #
 # Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``core`` directory.
 #
+# .. note::
+#   This example is building a Docker image and pushing it only for sandbox 
+#   (for non-sandbox, you will have to push the image to a Docker registry).
+#
 # Build a Docker image to package the task.
 #
 # .. prompt:: bash $
@@ -99,6 +103,10 @@ if __name__ == "__main__":
 # .. prompt:: bash $
 #
 #   flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
+#
+# .. note::
+#   For subsequent executions, you can simply run ``flytectl create execution ...`` and skip the previous commands.
+#   Alternatively, you can launch the task from the Flyte console.
 #
 # Monitor the execution by providing the execution name from the create execution command.
 #
