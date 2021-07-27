@@ -41,7 +41,7 @@ jobs:
             path: integrations/flytekit_plugins
           - name: house_price_prediction
             path: case_studies/ml_training
-          - name: pytorch
+          - name: mnist_classifier
             path: case_studies/ml_training
     steps:
       - uses: actions/checkout@v2

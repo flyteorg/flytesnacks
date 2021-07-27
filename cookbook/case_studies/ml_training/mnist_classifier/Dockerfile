@@ -26,7 +26,7 @@ RUN pip install -r /root/requirements.txt
 COPY sandbox.config /root
 
 # Copy the actual code
-COPY . /root/pytorch/
+COPY . /root/mnist_classifier/
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

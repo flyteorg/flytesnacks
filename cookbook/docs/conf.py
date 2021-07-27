@@ -130,6 +130,7 @@ class CustomSorter(FileNameSortKey):
         "multiregion_house_price_predictor.py",
         "datacleaning_tasks.py",
         "datacleaning_workflow.py",
+        "single_node.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -238,7 +239,7 @@ examples_dirs = [
     "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
-    "../case_studies/ml_training/pytorch",
+    "../case_studies/ml_training/mnist_classifier",
     "../case_studies/feature_engineering/sqlite_datacleaning",
     "../testing",
     "../core/containerization",
@@ -265,7 +266,7 @@ gallery_dirs = [
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
-    "auto/case_studies/ml_training/pytorch",
+    "auto/case_studies/ml_training/mnist_classifier",
     "auto/case_studies/feature_engineering/sqlite_datacleaning",
     "auto/testing",
     "auto/core/containerization",

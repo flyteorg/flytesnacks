@@ -53,7 +53,7 @@ wandb.login()
 # .. admonition:: MUST DO!
 #
 #   Replace ``entity`` value with your username.
-wandb.init(project="pytorch-single-node", entity="your-user-name")
+wandb.init(project="mnist-single-node", entity="your-user-name")
 
 # %%
 # Creating the Network
@@ -292,8 +292,8 @@ def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
     # set random seed
     torch.manual_seed(hp.seed)
 
-    # ideally, if GPU training is required, and if cuda is not available, we can raise an exception.
-    # However, as we want this algorithm to work locally as well (and most users don't have a GPU locally), we will fallback to using a CPU
+    # ideally, if GPU training is required, and if cuda is not available, we can raise an exception
+    # however, as we want this algorithm to work locally as well (and most users don't have a GPU locally), we will fallback to using a CPU
     use_cuda = torch.cuda.is_available()
     print(f"Use cuda {use_cuda}")
     device = torch.device("cuda" if use_cuda else "cpu")
@@ -352,7 +352,7 @@ def train_mnist(hp: Hyperparameters) -> TrainingOutputs:
     # after training the model, we can simply save it to disk and return it from the Flyte task as a :py:class:`flytekit.types.file.FlyteFile`
     # type, which is the ``PythonPickledFile``. ``PythonPickledFile`` is simply a decorator on the ``FlyteFile`` that records the format
     # of the serialized model as ``pickled``
-    model_file = "pytorch/mnist_cnn.pt"
+    model_file = "mnist_cnn.pt"
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(

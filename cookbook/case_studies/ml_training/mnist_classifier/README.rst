@@ -1,7 +1,10 @@
-.. _pytorch-training:
+.. _mnist-classifier-training:
 
-Train a Model Using PyTorch
----------------------------
+MNIST Classification With PyTorch and W&B
+-----------------------------------------
+
+PyTorch
+=======
 
 **PyTorch** is a machine learning framework that accelerates the path from research prototyping to production deployment.
 You can build *Tensors* and *Dynamic neural networks* in Python with strong GPU acceleration using PyTorch. 
@@ -44,8 +47,8 @@ Flyte also supports distributed training for PyTorch models, but this is not nat
 
 *Other distributed training plugins are coming soon -- MPIOperator, Google Vertex AI, etc. You can add your favorite services, too!*
 
-Weights & Biases Integration 😸
-===============================
+Weights & Biases Integration
+============================
 
 `Weights & Biases <https://wandb.ai/site>`__, or simply, ``wandb`` helps build better models faster with experiment tracking, dataset versioning, and model management. 
 
@@ -64,7 +67,7 @@ PyTorch Dockerfile for Deployment
 It is essential to build the Dockerfile with GPU support to use a GPU within PyTorch.
 The example in this section uses a simple ``nvidia-supplied GPU Docker image`` as the base, and the rest of the construction is similar to the other Dockerfiles.
 
-.. literalinclude:: ../../../../../case_studies/ml_training/pytorch/Dockerfile
+.. literalinclude:: ../../../../../case_studies/ml_training/mnist_classifier/Dockerfile
     :language: docker
 
 .. note::
