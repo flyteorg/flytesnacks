@@ -139,9 +139,9 @@ def schema_wf() -> int:
 # Lastly, this particular block of code helps us in running the code locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print("Simple GreatExpectations Type...")
+    print("Simple Great Expectations Type...")
     print(simple_wf())
-    print("GreatExpectations Type with FlyteFile...")
+    print("Great Expectations Type with FlyteFile...")
     print(file_wf())
-    print("GreatExpectations Type with FlyteSchema...")
+    print("Great Expectations Type with FlyteSchema...")
     print(schema_wf())
