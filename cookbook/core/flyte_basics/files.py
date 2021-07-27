@@ -6,7 +6,7 @@ Files are one of the most fundamental entities that users of Python work with, a
 In the IDL, they are known as `Blob <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/literals.proto#L33>`__ literals
 which are backed by the `blob type <https://github.com/lyft/flyteidl/blob/cee566b2e6e109120f1bb34c980b1cfaf006a473/protos/flyteidl/core/types.proto#L47>`__.
 
-Let's assume our mission here is pretty simple. We want to consider a couple of links, download the pictures, rotate them, and return the rotated images.
+Let's assume our mission here is pretty simple. We take in a couple of links, download the pictures, rotate them, and return the rotated images.
 """
 
 # %%
@@ -22,11 +22,13 @@ from flytekit.types.file import JPEGImageFile
 # ``JPEGImageFile`` is a pre-formatted FlyteFile type. It is equivalent to ``FlyteFile[typing.TypeVar("jpeg")]``.
 #
 # .. note::
-#   ``FlyteFile`` literal can be scoped with a string, which gets inserted into the format of the Blob type ("jpeg" is the string in ``FlyteFile[typing.TypeVar("jpeg")]``). The ``[]`` are entirely optional, and if you don't specify it, the format will just be an ``""``.
+#   The ``FlyteFile`` literal can be scoped with a string, which gets inserted into the format of the Blob type ("jpeg" is the string in 
+#   ``FlyteFile[typing.TypeVar("jpeg")]``). The format is entirely optional, and if not specified, defaults to ``""``.
 
 
 # %%
-# Next, we write a task that accepts a ``JPEGImageFile`` as an input and returns the rotated image as an output, which again is the ``JPEGImageFile``.
+# Next, we write a task that accepts a ``JPEGImageFile`` as an input and returns the rotated image as an output, 
+# which again is the ``JPEGImageFile``.
 # Files do not have a native object in Python, so we had to write one ourselves.
 # There does exist the ``os.PathLike`` protocol, but nothing implements it.
 @task
@@ -53,7 +55,8 @@ def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
 
 
 # %%
-# When the image URL is sent to the task, the Flytekit engine translates it into a ``FlyteFile`` object on the local drive (but not download it).
+# When the image URL is sent to the task, the Flytekit engine translates it into a ``FlyteFile`` object on the local drive 
+# (but doesn't download it).
 # The act of opening it should trigger the download, since FlyteFile does lazy downloading. Moreover, the file name is maintained on download.
 #
 # Next, we convert ``_SpecificFormatClass`` to string to enable OpenCV to read the file.
