@@ -32,7 +32,7 @@ You can find the plugins maintained by the core flyte team `here <https://github
       :text: Great Expectations
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^
-   Validate data with ``greatexpectations``.
+   Validate data with ``great_expectations``.
    
    ---
 

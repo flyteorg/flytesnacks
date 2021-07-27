@@ -11,22 +11,23 @@ ensure that everything's as you expected and that data isn't going to crash your
 How to Define Your Integration
 ------------------------------
 
-Great Expectations accepts datasets that can only be "strings" -- file names, table names, etc. 
-In Flyte, there are two task types that should suit Great Expectations' "string" hard-and-fast rule apart from the usual "string".
+Great Expectations supports native execution of expectations against various :ref:`Datasources <how_to_guides__configuring_datasources>`, 
+such as Pandas dataframes, Spark dataframes, and SQL databases via SQLAlchemy.
+
+We're supporting two Flyte types that should suit Great Expectations' ``Datasources``:
 
 - :py:class:`flytekit.types.file.FlyteFile`: FlyteFile supports remote (and, of course, local) datasets. If a remote URI is given, 
   the plugin downloads data to a user-given file which Great Expectations later validates.
 - :py:class:`flytekit.types.schema.FlyteSchema`: FlyteSchema supports tabular data, which the plugin will convert into a parquet file 
   and validate the data using Great Expectations.
 
-In a nutshell, Great Expectations comes in *three modes* in Flyte:
+The datasources can be well-integrated with the plugin using the following two modes:
 
-- **Simple String**
 - **Flyte Task**: A Flyte task defines the task prototype that one could use within a task or a workflow to validate data using 
   Great Expectations.
 - **Flyte Type**: A Flyte type helps attach the ``GreatExpectationsType`` to any dataset.
 
-You'll see all three implementations in the Python code files. 
+You can see some nice examples in the Python code files. 
 
 Plugin Parameters
 -----------------

@@ -37,7 +37,7 @@ SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/8672
 #
 # We define a ``GreatExpectationsTask`` that validates a CSV file. This does pandas data validation.
 simple_task_object = GreatExpectationsTask(
-    name="getask_simple",
+    name="great_expectations_task_simple",
     data_source="data",
     inputs=kwtypes(dataset=str),
     expectation_suite="test.demo",
@@ -75,7 +75,7 @@ def simple_wf(dataset: str = DATASET_LOCAL) -> int:
 # .. note::
 #   ``local_file_path``'s directory and ``base_directory`` ought to be the same.
 file_task_object = GreatExpectationsTask(
-    name="getask_flytefile",
+    name="great_expectations_task_flytefile",
     data_source="data",
     inputs=kwtypes(dataset=FlyteFile[typing.TypeVar("csv")]),
     expectation_suite="test.demo",
@@ -110,7 +110,7 @@ def file_wf(
 # We define a ``GreatExpectationsTask`` that validates FlyteSchema.
 # The ``local_file_path`` here refers to the parquet file in which we want to store our DataFrame.
 schema_task_object = GreatExpectationsTask(
-    name="getask_schema",
+    name="great_expectations_task_schema",
     data_source="data",
     inputs=kwtypes(dataset=FlyteSchema),
     expectation_suite="sqlite.movies",
@@ -122,7 +122,7 @@ schema_task_object = GreatExpectationsTask(
 # %%
 # Let's fetch the DataFrame from the SQL Database we've with us. To do so, we use the ``SQLite3Task`` available within Flyte.
 sql_to_df = SQLite3Task(
-    name="getask.sqlite3",
+    name="greatexpectations.task.sqlite3",
     query_template="select * from movies",
     output_schema_type=FlyteSchema,
     task_config=SQLite3Config(uri=SQLITE_DATASET),

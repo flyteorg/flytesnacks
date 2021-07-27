@@ -76,7 +76,7 @@ def simple_wf(directory: str = "my_assets") -> str:
 # =========
 #
 # First, we define ``GreatExpectationsFlyteConfig`` to initialize all our parameters. Here, we're validating a ``FlyteFile``.
-ge_config = GreatExpectationsFlyteConfig(
+great_expectations_config = GreatExpectationsFlyteConfig(
     data_source="data",
     expectation_suite="test.demo",
     data_connector="data_flytetype_data_connector",
@@ -87,13 +87,13 @@ ge_config = GreatExpectationsFlyteConfig(
 # %%
 # Next, we map ``dataset`` parameter to ``GreatExpectationsType``. 
 # Under the hood, ``GreatExpectationsType`` validates data in accordance with the ``GreatExpectationsFlyteConfig`` defined previously.
-# This ``GreatExpectationsFlyteConfig`` is being fetched under the name ``ge_config``.
+# This ``GreatExpectationsFlyteConfig`` is being fetched under the name ``great_expectations_config``.
 #
 # The first value that's being sent within ``GreatExpectationsType`` is ``FlyteFile``. 
 # This means that we want to validate the ``FlyteFile`` data.
 @task(limits=Resources(mem="500Mi"))
 def file_task(
-    dataset: GreatExpectationsType[FlyteFile[typing.TypeVar("csv")], ge_config]
+    dataset: GreatExpectationsType[FlyteFile[typing.TypeVar("csv")], great_expectations_config]
 ) -> pd.DataFrame:
     return pd.read_csv(dataset)
 
