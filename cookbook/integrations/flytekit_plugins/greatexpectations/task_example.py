@@ -148,7 +148,7 @@ def schema_wf() -> typing.List[str]:
 # Lastly, this particular block of code helps us in running the code locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print("Simple GreatExpectations Task...")
+    print("Simple Great Expectations Task...")
     print(simple_wf())
     print("Great Expectations Task with FlyteFile...")
     print(file_wf())
