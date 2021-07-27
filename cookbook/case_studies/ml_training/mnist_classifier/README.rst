@@ -6,8 +6,9 @@ MNIST Classification With PyTorch and W&B
 PyTorch
 =======
 
-**PyTorch** is a machine learning framework that accelerates the path from research prototyping to production deployment.
-You can build *Tensors* and *Dynamic neural networks* in Python with strong GPU acceleration using PyTorch. 
+`Pytorch <https://pytorch.org/>`__ is a machine learning framework that accelerates the path from research prototyping
+to production deployment. You can build *Tensors* and *Dynamic neural networks* in Python with strong GPU acceleration
+using PyTorch.
 
 In a nutshell, it is a Python package that provides two high-level features:
 
