@@ -68,7 +68,7 @@ if __name__ == "__main__":
 #
 # You can launch a task on Flyte console by inputting an IAM role or a Kubernetes service account.
 #
-# Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``core`` directory.
+# Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``cookbook`` directory.
 #
 # .. note::
 #   This example is building a Docker image and pushing it only for sandbox 
@@ -78,13 +78,13 @@ if __name__ == "__main__":
 #
 # .. prompt:: bash $
 #
-#   flytectl sandbox exec -- docker build . --tag "core:v1"
+#   flytectl sandbox exec -- docker build . --tag "flytebasics:v1" -f core/Dockerfile
 #
 # Package the task.
 #
 # .. prompt:: bash $
 #
-#   pyflyte --pkgs flyte_basics package --image core:v1
+#   pyflyte --pkgs core.flyte_basics package --image flytebasics:v1
 #
 # Register the task.
 #
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 #
 # .. prompt:: bash $
 #
-#   flytectl get task --domain development --project flytesnacks flyte_basics.task.square --version v1 --execFile exec_spec.yaml
+#   flytectl get task --domain development --project flytesnacks core.flyte_basics.task.square --version v1 --execFile exec_spec.yaml
 #
 # Create an execution using the exec spec file.
 #
