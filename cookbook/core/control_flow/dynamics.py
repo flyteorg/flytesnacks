@@ -12,9 +12,13 @@ strings.
 
 # %%
 # Let's first import all the required libraries.
+import os
 import typing
 
-from flytekit import dynamic, task, workflow
+from flytekit import dynamic, task, workflow, current_context, LaunchPlan
+from flytekit.types.file import FlyteFile
+from csv import DictReader
+
 
 # %%
 # Next, we write a task that returns the index of a character (A-Z/a-z is equivalent to 0 to 25).
@@ -83,14 +87,12 @@ def count_characters(s1: str, s2: str) -> int:
 
     # looping through the string s1
     for i in range(len(s1)):
-
         # index and freq1 are not accesible as they are promises
         index = return_index(character=s1[i])
         freq1 = update_list(freq_list=freq1, list_index=index)
 
     # looping through the string s2
     for i in range(len(s2)):
-
         # index and freq2 are not accesible as they are promises
         index = return_index(character=s2[i])
         freq2 = update_list(freq_list=freq2, list_index=index)
@@ -118,5 +120,39 @@ def wf(s1: str, s2: str) -> int:
     return count_characters(s1=s1, s2=s2)
 
 
+@task
+def count_length(a: typing.Dict[str, str]) -> FlyteFile:
+    ctx = current_context()
+    working_dir = ctx.working_directory
+    fname = os.path.join(working_dir, a["name"])
+    ctx.logging.warning(f"Working dir is: {working_dir} Filename is: {fname}")
+    with open(fname, 'w') as fh:
+        fh.write(f"{len(a['role'])}\n")
+
+    return fname
+
+
+@workflow
+def wf(wf_in1: typing.Dict[str, str]) -> FlyteFile:
+    return count_length(a=wf_in1)
+
+
+# Get the default launch plan
+wf_default = LaunchPlan.get_or_create(wf)
+
+
+@dynamic
+def launch_workflows_from_data(data_file: FlyteFile) -> typing.List[FlyteFile]:
+    result_files: typing.List[FlyteFile] = []
+    with open(data_file) as f:
+        reader = DictReader(f, delimiter=",")
+        for row in reader:
+            result_file = wf_default(wf_in1=row)
+            result_files.append(result_file)
+    return result_files
+
+
 if __name__ == "__main__":
-    print(wf(s1="Pear", s2="Earth"))
+    # print(wf(s1="Pear", s2="Earth"))
+    out = launch_workflows_from_data(data_file="../data.csv")
+    print(out)
