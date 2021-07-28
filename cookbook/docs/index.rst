@@ -77,6 +77,15 @@ Table of Contents
 
    ---
 
+   .. link-button:: auto/remote_access/index
+      :type: ref
+      :text: 🎮 Remote Access
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^
+   Register, inspect, and monitor tasks and workflows on a Flyte backend.
+
+   ---
+
    .. link-button:: integrations
       :type: ref
       :text: 🔌  Integrations
@@ -172,7 +181,7 @@ Steps
 
    .. prompt:: bash
 
-      flytectl sandbox start --sourcesPath ${PWD}
+      flytectl sandbox start --source ${PWD}
 
    .. tip::
       In case make start throws any error please refer to the troubleshooting guide here `Troubleshoot <https://docs.flyte.org/en/latest/community/troubleshoot.html>`_
@@ -248,6 +257,7 @@ Steps
    Type System <auto/core/type_system/index>
    Testing <auto/testing/index>
    Containerization <auto/core/containerization/index>
+   Remote Access <auto/remote_access/index>
    Configuring Production Features <auto/deployment/index>
    integrations
    Extending flyte <auto/core/extend_flyte/index>

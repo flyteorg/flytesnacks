@@ -64,6 +64,13 @@ class CustomSorter(FileNameSortKey):
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Remote Access
+        "register_project.py",
+        "run_task.py",
+        "run_workflow.py",
+        "run_launchplan.py",
+        "inspecting_executions.py",
+        "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
         "deploying_workflows.py",
@@ -125,6 +132,7 @@ class CustomSorter(FileNameSortKey):
         "multiregion_house_price_predictor.py",
         "datacleaning_tasks.py",
         "datacleaning_workflow.py",
+        "single_node.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -233,11 +241,12 @@ examples_dirs = [
     "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
+    "../case_studies/ml_training/mnist_classifier",
     "../case_studies/feature_engineering/sqlite_datacleaning",
     "../testing",
     "../core/containerization",
     "../deployment",
-    # "../control_plane",  # TODO: add content to this section
+    "../remote_access",
     "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/greatexpectations",
     "../integrations/flytekit_plugins/papermilltasks",
@@ -260,12 +269,12 @@ gallery_dirs = [
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
+    "auto/case_studies/ml_training/mnist_classifier",
     "auto/case_studies/feature_engineering/sqlite_datacleaning",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
-    # "auto/deployment/guides",  # TODO: add content to this section
-    # "auto/control_plane",  # TODO: add content to this section
+    "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/greatexpectations",
     "auto/integrations/flytekit_plugins/papermilltasks",
@@ -417,6 +426,7 @@ intersphinx_mapping = {
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
+    "pytorch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://docs.greatexpectations.io/en/stable", None),
 }
 
