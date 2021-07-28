@@ -1,0 +1,4 @@
+name,role
+alice,sender
+bob,receiver
+eve,eavesdropper

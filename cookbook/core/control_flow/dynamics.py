@@ -154,5 +154,5 @@ def launch_workflows_from_data(data_file: FlyteFile) -> typing.List[FlyteFile]:
 
 if __name__ == "__main__":
     # print(wf(s1="Pear", s2="Earth"))
-    out = launch_workflows_from_data(data_file="../data.csv")
+    out = launch_workflows_from_data(data_file="../sample_data_dot_csv")
     print(out)
