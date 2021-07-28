@@ -133,12 +133,12 @@ def count_length(a: typing.Dict[str, str]) -> FlyteFile:
 
 
 @workflow
-def wf(wf_in1: typing.Dict[str, str]) -> FlyteFile:
+def wf_demo(wf_in1: typing.Dict[str, str]) -> FlyteFile:
     return count_length(a=wf_in1)
 
 
 # Get the default launch plan
-wf_default = LaunchPlan.get_or_create(wf)
+wf_default = LaunchPlan.get_or_create(wf_demo)
 
 
 @dynamic
