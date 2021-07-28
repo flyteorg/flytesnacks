@@ -38,10 +38,10 @@ SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/8672
 # We define a ``GreatExpectationsTask`` that validates a CSV file. This does pandas data validation.
 simple_task_object = GreatExpectationsTask(
     name="great_expectations_task_simple",
-    data_source="data",
+    datasource_name="data",
     inputs=kwtypes(dataset=str),
-    expectation_suite="test.demo",
-    data_connector="data_example_data_connector",
+    expectation_suite_name="test.demo",
+    data_connector_name="data_example_data_connector",
     context_root_dir=CONTEXT_ROOT_DIR,
 )
 
@@ -76,10 +76,10 @@ def simple_wf(dataset: str = DATASET_LOCAL) -> int:
 #   ``local_file_path``'s directory and ``base_directory`` ought to be the same.
 file_task_object = GreatExpectationsTask(
     name="great_expectations_task_flytefile",
-    data_source="data",
+    datasource_name="data",
     inputs=kwtypes(dataset=FlyteFile[typing.TypeVar("csv")]),
-    expectation_suite="test.demo",
-    data_connector="data_flytetype_data_connector",
+    expectation_suite_name="test.demo",
+    data_connector_name="data_flytetype_data_connector",
     local_file_path="/tmp",
     context_root_dir=CONTEXT_ROOT_DIR,
 )
@@ -111,10 +111,10 @@ def file_wf(
 # The ``local_file_path`` here refers to the parquet file in which we want to store our DataFrame.
 schema_task_object = GreatExpectationsTask(
     name="great_expectations_task_schema",
-    data_source="data",
+    datasource_name="data",
     inputs=kwtypes(dataset=FlyteSchema),
-    expectation_suite="sqlite.movies",
-    data_connector="data_flytetype_data_connector",
+    expectation_suite_name="sqlite.movies",
+    data_connector_name="data_flytetype_data_connector",
     local_file_path="/tmp/test.parquet",
     context_root_dir=CONTEXT_ROOT_DIR,
 )
