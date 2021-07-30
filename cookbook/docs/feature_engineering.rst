@@ -29,4 +29,4 @@ Feature Engineering
     :hidden:
 
     auto/case_studies/feature_engineering/sqlite_datacleaning/index
-    auto/case_studies/feature_engineering/eda/indexg
+    auto/case_studies/feature_engineering/eda/index
