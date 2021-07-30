@@ -130,6 +130,9 @@ class CustomSorter(FileNameSortKey):
         "multiregion_house_price_predictor.py",
         "datacleaning_tasks.py",
         "datacleaning_workflow.py",
+        "notebook.py",
+        "notebook_and_task.py",
+        "notebook_as_tasks.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -239,6 +242,7 @@ examples_dirs = [
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/feature_engineering/sqlite_datacleaning",
+    "../case_studies/feature_engineering/eda",
     "../testing",
     "../core/containerization",
     "../deployment",
@@ -265,6 +269,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/feature_engineering/sqlite_datacleaning",
+    "auto/case_studies/feature_engineering/eda",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
@@ -362,10 +367,10 @@ def hide_example_page(file_handler):
             no_imports = False
 
     return (
-            example_content.startswith('"""')
-            and example_content.endswith('"""')
-            and no_percent_comments
-            and no_imports
+        example_content.startswith('"""')
+        and example_content.endswith('"""')
+        and no_percent_comments
+        and no_imports
     )
 
 
@@ -382,10 +387,10 @@ for source_dir in sphinx_gallery_conf["examples_dirs"]:
             if hide_example_page(fh):
                 page_id = (
                     str(f)
-                        .replace("..", "auto")
-                        .replace("/", "-")
-                        .replace(".", "-")
-                        .replace("_", "-")
+                    .replace("..", "auto")
+                    .replace("/", "-")
+                    .replace(".", "-")
+                    .replace("_", "-")
                 )
                 hide_download_page_ids.append(f"sphx-glr-download-{page_id}")
 
@@ -422,9 +427,9 @@ intersphinx_mapping = {
 }
 
 # Sphinx-tabs config
-sphinx_tabs_valid_builders = ['linkcheck']
+sphinx_tabs_valid_builders = ["linkcheck"]
 
 # Sphinx-mermaid config
-mermaid_output_format = 'raw'
-mermaid_version = 'latest'
+mermaid_output_format = "raw"
+mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
