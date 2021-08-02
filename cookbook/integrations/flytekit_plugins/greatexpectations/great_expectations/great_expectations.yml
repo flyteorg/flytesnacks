@@ -51,7 +51,17 @@ datasources:
               - year
               - month
         glob_directive: '*.csv'
-
+  my_pandas_datasource:
+    execution_engine:
+      module_name: great_expectations.execution_engine
+      class_name: PandasExecutionEngine
+    module_name: great_expectations.datasource
+    class_name: Datasource
+    data_connectors:
+      my_runtime_data_connector:
+        class_name: RuntimeDataConnector
+        batch_identifiers:
+          - pipeline_stage
 # This config file supports variable substitution which enables: 1) keeping
 # secrets out of source control & 2) environment-based configuration changes
 # such as staging vs prod.

@@ -21,6 +21,15 @@ We're supporting two Flyte types that should suit Great Expectations' ``Datasour
 - :py:class:`flytekit.types.schema.FlyteSchema`: FlyteSchema supports tabular data, which the plugin will convert into a parquet file 
   and validate the data using Great Expectations.
 
+.. note::
+  Flyte types are added because, in Great Expectations, we have the privilege to give a non-string (Pandas/Spark DataFrame) when using a 
+  :py:class:`RuntimeDataConnector <greatexpectations:great_expectations.datasource.data_connector.runtime_data_connector.RuntimeDataConnector>` 
+  but not when using an 
+  :py:class:`InferredAssetFilesystemDataConnector <great_expectations.datasource.data_connector.inferred_asset_filesystem_data_connector.InferredAssetFilesystemDataConnector>` 
+  or a 
+  :py:class:`ConfiguredAssetFilesystemDataConnector <great_expectations.datasource.data_connector.configured_asset_filesystem_data_connector.ConfiguredAssetFilesystemDataConnector>`. 
+  For the latter case, with the integration of Flyte types, we can give a Pandas/Spark DataFrame or a remote URI as the dataset.
+
 The datasources can be well-integrated with the plugin using the following two modes:
 
 - **Flyte Task**: A Flyte task defines the task prototype that one could use within a task or a workflow to validate data using 
@@ -29,10 +38,38 @@ The datasources can be well-integrated with the plugin using the following two m
 
 You can see some nice examples in the Python code files. 
 
+Data Validation Failure
+^^^^^^^^^^^^^^^^^^^^^^^
+
+If the data validation fails, the plugin will raise a Great Expectations' 
+:py:obj:`ValidationError <great_expectations.exceptions.ValidationError>`.
+
+For example, this is how the error message looks like:
+
+.. code-block:: bash
+
+  Traceback (most recent call last):
+  ...
+  great_expectations.marshmallow__shade.exceptions.ValidationError: Validation failed!
+  COLUMN          FAILED EXPECTATION
+  passenger_count -> expect_column_min_to_be_between
+  passenger_count -> expect_column_mean_to_be_between
+  passenger_count -> expect_column_quantile_values_to_be_between
+  passenger_count -> expect_column_values_to_be_in_set
+  passenger_count -> expect_column_proportion_of_unique_values_to_be_between
+  trip_distance -> expect_column_max_to_be_between
+  trip_distance -> expect_column_mean_to_be_between
+  trip_distance -> expect_column_median_to_be_between
+  trip_distance -> expect_column_quantile_values_to_be_between
+  trip_distance -> expect_column_proportion_of_unique_values_to_be_between
+  rate_code_id -> expect_column_max_to_be_between
+  rate_code_id -> expect_column_mean_to_be_between
+  rate_code_id -> expect_column_proportion_of_unique_values_to_be_between
+
 Plugin Parameters
 -----------------
 
-- **data_source**: Data source, in general, is the "name" we use in the config Great Expectations' YAML file. 
+- **data_source**: Data source, in general, is the "name" we use in the Great Expectations' config file. 
   When combined with the data to be validated, this data source helps Great Expectations ascertain the type of data. 
   Moreover, data source also assists in building batches out of data (for validation). 
 - **expectation_suite**: Defines the data validation.
