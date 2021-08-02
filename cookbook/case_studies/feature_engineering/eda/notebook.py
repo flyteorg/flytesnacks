@@ -15,7 +15,7 @@ from flytekit import Resources, kwtypes, workflow
 from flytekitplugins.papermill import NotebookTask
 
 # %%
-# We define a ``NotebookTask`` to run the Jupyter notebook. 
+# We define a ``NotebookTask`` to run the Jupyter notebook.
 #
 # .. list-table:: ``NotebookTask`` Parameters
 #    :widths: 25 25
@@ -65,15 +65,8 @@ def notebook_wf(
     )
     return output.mae_score
 
+
 # %%
 # We can now run the notebook locally.
 if __name__ == "__main__":
-    print(
-        notebook_wf(
-            n_estimators=150,
-            max_depth=3,
-            max_features="sqrt",
-            min_samples_split=4,
-            random_state=2,
-        )
-    )
+    print(notebook_wf())

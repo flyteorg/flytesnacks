@@ -11,21 +11,37 @@ In this example, we will implement a simple pipeline that takes hyperparameters,
 # First, let's import the libraries we will use in this example.
 import os
 import pathlib
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
+from dataclasses_json import dataclass_json
 from flytekit import Resources, kwtypes, task, workflow
 from flytekitplugins.papermill import NotebookTask
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.preprocessing import RobustScaler
 
+
 # %%
-# We define a ``NotebookTask`` to run the Jupyter notebook. 
-# This notebook returns ``dummified_data`` and ``dataset`` as the outputs. 
+# We define a ``dataclass`` to store the hyperparameters of the Gradient Boosting Regressor.
+@dataclass_json
+@dataclass
+class Hyperparameters(object):
+    n_estimators: int = 150
+    max_depth: int = 3
+    max_features: str = "sqrt"
+    min_samples_split: int = 4
+    random_state: int = 2
+    nfolds: int = 10
+
+
+# %%
+# We define a ``NotebookTask`` to run the Jupyter notebook.
+# This notebook returns ``dummified_data`` and ``dataset`` as the outputs.
 #
 # .. note::
-#   ``dummified_data`` is used in this example, and ``dataset`` is used in the upcoming example. 
+#   ``dummified_data`` is used in this example, and ``dataset`` is used in the upcoming example.
 nb = NotebookTask(
     name="eda-feature-eng-nb",
     notebook_path=os.path.join(
@@ -36,7 +52,7 @@ nb = NotebookTask(
 )
 
 # %%
-# Next, we define a ``cross_validate`` function and a ``modeling`` task to compute the MAE score of the data against 
+# Next, we define a ``cross_validate`` function and a ``modeling`` task to compute the MAE score of the data against
 # the Gradient Boosting Regressor.
 def cross_validate(model, nfolds, feats, targets):
     score = -1 * (
@@ -50,12 +66,7 @@ def cross_validate(model, nfolds, feats, targets):
 @task
 def modeling(
     dataset: pd.DataFrame,
-    n_estimators: int,
-    max_depth: int,
-    max_features: str,
-    min_samples_split: int,
-    random_state: int,
-    nfolds: int,
+    hyperparams: Hyperparameters,
 ) -> float:
     y_target = dataset["Product_Supermarket_Sales"].tolist()
     dataset.drop(["Product_Supermarket_Sales"], axis=1, inplace=True)
@@ -70,37 +81,24 @@ def modeling(
     X_test = scaler.transform(X_test)
 
     gb_model = GradientBoostingRegressor(
-        n_estimators=n_estimators,
-        max_depth=max_depth,
-        max_features=max_features,
-        min_samples_split=min_samples_split,
-        random_state=random_state,
+        n_estimators=hyperparams.n_estimators,
+        max_depth=hyperparams.max_depth,
+        max_features=hyperparams.max_features,
+        min_samples_split=hyperparams.min_samples_split,
+        random_state=hyperparams.random_state,
     )
 
-    return cross_validate(gb_model, nfolds, X_train, y_train)
+    return cross_validate(gb_model, hyperparams.nfolds, X_train, y_train)
+
 
 # %%
 # We define a ``workflow`` to run the notebook and the ``modeling`` task.
 @workflow
-def notebook_wf(
-    n_estimators: int = 150,
-    max_depth: int = 3,
-    max_features: str = "sqrt",
-    min_samples_split: int = 4,
-    random_state: int = 2,
-    nfolds: int = 10,
-) -> float:
+def notebook_wf(hyperparams: Hyperparameters = Hyperparameters()) -> float:
     output = nb()
-    mae_score = modeling(
-        dataset=output.dummified_data,
-        n_estimators=n_estimators,
-        max_depth=max_depth,
-        max_features=max_features,
-        min_samples_split=min_samples_split,
-        random_state=random_state,
-        nfolds=nfolds,
-    )
+    mae_score = modeling(dataset=output.dummified_data, hyperparams=hyperparams)
     return mae_score
+
 
 # %%
 # We can now run the notebook and the modeling task locally.

@@ -17,12 +17,12 @@ from flytekit import Resources, kwtypes, workflow
 from flytekitplugins.papermill import NotebookTask
 
 # %%
-# We define a ``NotebookTask`` to run a Jupyter notebook (EDA). 
-# This notebook returns ``dummified_data`` and ``dataset`` as the outputs. 
+# We define a ``NotebookTask`` to run a Jupyter notebook (EDA).
+# This notebook returns ``dummified_data`` and ``dataset`` as the outputs.
 #
 # .. note::
-#   ``dataset`` is used in this example, and ``dummified_data`` is used in the previous example. 
-#   ``dataset`` lets us send the DataFrame as a JSON string to the subsequent notebook because DataFrame input cannot be sent 
+#   ``dataset`` is used in this example, and ``dummified_data`` is used in the previous example.
+#   ``dataset`` lets us send the DataFrame as a JSON string to the subsequent notebook because DataFrame input cannot be sent
 #   directly to the notebook as per Papermill.
 nb_1 = NotebookTask(
     name="eda-featureeng-nb",
@@ -34,7 +34,7 @@ nb_1 = NotebookTask(
 )
 
 # %%
-# We define a ``NotebookTask`` to run the Jupyter notebook (Modeling).  
+# We define a ``NotebookTask`` to run the Jupyter notebook (Modeling).
 #
 # This notebook returns ``mae_score`` as the output.
 nb_2 = NotebookTask(
