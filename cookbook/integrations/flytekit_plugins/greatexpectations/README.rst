@@ -1,3 +1,5 @@
+.. great_expectations::
+
 Great Expectations
 ==================
 
@@ -37,6 +39,8 @@ The datasources can be well-integrated with the plugin using the following two m
 - **Flyte Type**: A Flyte type helps attach the ``GreatExpectationsType`` to any dataset.
 
 You can see some nice examples in the Python code files. 
+
+.. validation_failure::
 
 Data Validation Failure
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -86,6 +90,7 @@ Optional Parameters
   - runtime_parameters: Parameters to be sent at run-time
   - batch_identifiers: Batch identifiers
   - batch_spec_passthrough: Reader method if your file doesn’t have an extension
+- **is_runtime**: if you want to create data batches at runtime, set this to ``True``.
 - **local_file_path**: Helpful to download the given dataset to the user-given path.
 
 .. note::

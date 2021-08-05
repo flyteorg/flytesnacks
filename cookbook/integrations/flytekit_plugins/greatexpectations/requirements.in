@@ -1,2 +1,2 @@
 -r ../../../common/requirements-common.in
-git+https://github.com/flyteorg/flytekit.git@3afaa3a4afc15b726d19656ebb0e183e52f6e479#subdirectory=plugins/flytekit-greatexpectations
+git+https://github.com/flyteorg/flytekit.git@5f41e772cbf843eaf5b270a691bfeead69fabfb7#subdirectory=plugins/flytekit-greatexpectations

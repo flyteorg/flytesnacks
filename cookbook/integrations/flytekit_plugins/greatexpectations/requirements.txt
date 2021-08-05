@@ -20,7 +20,7 @@ attrs==21.2.0
     #   scantree
 backcall==0.2.0
     # via ipython
-bleach==3.3.1
+bleach==4.0.0
     # via nbconvert
 certifi==2021.5.30
     # via requests
@@ -52,17 +52,19 @@ dirhash==0.2.1
     # via flytekit
 docker-image-py==0.1.12
     # via flytekit
+docstring-parser==0.10
+    # via flytekit
 entrypoints==0.3
     # via
     #   altair
     #   nbconvert
-flyteidl==0.19.17
+flyteidl==0.19.18
     # via flytekit
-flytekit==0.20.1
+flytekit==0.21.0
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-great-expectations
-git+https://github.com/flyteorg/flytekit.git@3afaa3a4afc15b726d19656ebb0e183e52f6e479#subdirectory=plugins/flytekit-greatexpectations
+git+https://github.com/flyteorg/flytekit.git@5f41e772cbf843eaf5b270a691bfeead69fabfb7#subdirectory=plugins/flytekit-greatexpectations
     # via -r requirements.in
 great-expectations==0.13.25
     # via flytekitplugins-great-expectations
@@ -239,11 +241,11 @@ pytz==2018.4
     #   great-expectations
     #   pandas
     #   tzlocal
-pyzmq==22.1.0
+pyzmq==22.2.1
     # via
     #   jupyter-client
     #   notebook
-regex==2021.7.6
+regex==2021.8.3
     # via docker-image-py
 requests==2.26.0
     # via

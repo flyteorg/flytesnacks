@@ -22,7 +22,7 @@ from flytekitplugins.great_expectations import BatchRequestConfig, GreatExpectat
 # %%
 # .. note::
 #   ``BatchRequestConfig`` is useful in giving additional batch request parameters to construct
-# both Great Expectations' ``RuntimeBatchRequest`` and ``BatchRequest``.
+#   both Great Expectations' ``RuntimeBatchRequest`` and ``BatchRequest``.
 
 # %%
 # Next, we define variables that we use throughout the code.
@@ -50,10 +50,6 @@ simple_task_object = GreatExpectationsTask(
 # Next, we define a task that validates the data before returning the shape of the DataFrame.
 @task(limits=Resources(mem="500Mi"))
 def simple_task(csv_file: str) -> int:
-
-    # ``GreatExpectationsTask`` returns Great Expectations' checkpoint result.
-    # You can print the result to know more about the data within it.
-    result = simple_task_object(dataset=csv_file)
     df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df.shape[0]
 
@@ -62,6 +58,11 @@ def simple_task(csv_file: str) -> int:
 # Finally, we define a workflow.
 @workflow
 def simple_wf(dataset: str = DATASET_LOCAL) -> int:
+
+    # GreatExpectationsTask returns Great Expectations' checkpoint result.
+    # You can print the result to know more about the data within it.
+    # If the data validation fails, this will return a ValidationError.
+    result = simple_task_object(dataset=dataset)
     return simple_task(csv_file=dataset)
 
 
@@ -91,7 +92,6 @@ file_task_object = GreatExpectationsTask(
 def file_task(
     dataset: FlyteFile[typing.TypeVar("csv")],
 ) -> int:
-    file_task_object(dataset=dataset)
     return len(pd.read_csv(dataset))
 
 
@@ -101,6 +101,7 @@ def file_task(
 def file_wf(
     dataset: FlyteFile[typing.TypeVar("csv")] = DATASET_REMOTE,
 ) -> int:
+    file_task_object(dataset=dataset)
     return file_task(dataset=dataset)
 
 
@@ -133,7 +134,6 @@ sql_to_df = SQLite3Task(
 # Next, we define a task that validates the data and returns the columns in it.
 @task(limits=Resources(mem="500Mi"))
 def schema_task(dataset: pd.DataFrame) -> typing.List[str]:
-    schema_task_object(dataset=dataset)
     return list(dataset.columns)
 
 
@@ -142,6 +142,7 @@ def schema_task(dataset: pd.DataFrame) -> typing.List[str]:
 @workflow
 def schema_wf() -> typing.List[str]:
     df = sql_to_df()
+    schema_task_object(dataset=df)
     return schema_task(dataset=df)
 
 
@@ -150,32 +151,32 @@ def schema_wf() -> typing.List[str]:
 # ===================
 #
 # The :py:class:`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>` can wrap either an in-memory DataFrame,
-# filepath, or SQL query, and must include batch identifiers that uniquely identify the data. 
-# 
+# filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
+#
 # Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it.
-# We define a ``runtime_task`` that validates the Pandas DataFrame using the ``GreatExpectationsTask``.
-# Here, ``batch_data`` argument is used to pass the DataFrame object.
-@task
-def runtime_task(dataframe: pd.DataFrame) -> int:
-    GreatExpectationsTask(
-        name="greatexpectations.task.runtime",
-        datasource_name="my_pandas_datasource",
-        inputs=kwtypes(dataset=str),
-        expectation_suite_name="test.demo",
-        data_connector_name="my_runtime_data_connector",
-        task_config=BatchRequestConfig(
-            runtime_parameters={"batch_data": dataframe},
-            batch_identifiers={
-                "pipeline_stage": "validation",
-            },
-        ),
-        context_root_dir=CONTEXT_ROOT_DIR,
-    )(dataset="random_string")
-    return len(dataframe)
+# We set ``is_runtime`` to ``True`` to indicate that this is a :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
+# The typical Great Expectations' ``batch_data`` (or) ``query`` is automatically populated with the dataset.
+#
+# .. note::
+#   If you want to load a database table as a batch, your dataset has to be a SQL query. 
+runtime_task_obj = GreatExpectationsTask(
+    name="greatexpectations.task.runtime",
+    datasource_name="my_pandas_datasource",
+    inputs=kwtypes(dataframe=FlyteSchema),
+    expectation_suite_name="test.demo",
+    data_connector_name="my_runtime_data_connector",
+    is_runtime=True,
+    task_config=BatchRequestConfig(
+        batch_identifiers={
+            "pipeline_stage": "validation",
+        },
+    ),
+    context_root_dir=CONTEXT_ROOT_DIR,
+)
 
 
 # %%
-# We define a task to genearate DataFrame from the CSV file.
+# We define a task to generate DataFrame from the CSV file.
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
     df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
@@ -183,11 +184,11 @@ def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
 
 
 # %%
-# Finally, we define a workflow to run our tasks.
+# Finally, we define a workflow to run our task.
 @workflow
-def runtime_wf(dataset: str = DATASET_LOCAL) -> int:
+def runtime_wf(dataset: str = DATASET_LOCAL) -> None:
     dataframe = runtime_to_df_task(csv_file=dataset)
-    return runtime_task(dataframe=dataframe)
+    runtime_task_obj(dataframe=dataframe)
 
 
 # %%
