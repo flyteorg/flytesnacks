@@ -58,15 +58,15 @@ entrypoints==0.3
     # via
     #   altair
     #   nbconvert
-flyteidl==0.19.18
+flyteidl==0.19.19
     # via flytekit
-flytekit==0.21.0
+flytekit==0.21.2
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-great-expectations
-git+https://github.com/flyteorg/flytekit.git@5f41e772cbf843eaf5b270a691bfeead69fabfb7#subdirectory=plugins/flytekit-greatexpectations
+git+https://github.com/flyteorg/flytekit.git@46adb100525bff59ab51ecf0ccf49bdc34723c7e#subdirectory=plugins/flytekit-greatexpectations
     # via -r requirements.in
-great-expectations==0.13.25
+great-expectations==0.13.26
     # via flytekitplugins-great-expectations
 grpcio==1.39.0
     # via flytekit
@@ -164,7 +164,7 @@ nbformat==5.1.3
     #   notebook
 nest-asyncio==1.5.1
     # via nbclient
-notebook==6.4.0
+notebook==6.4.2
     # via widgetsnbextension
 numpy==1.21.1
     # via
@@ -252,7 +252,7 @@ requests==2.26.0
     #   flytekit
     #   great-expectations
     #   responses
-responses==0.13.3
+responses==0.13.4
     # via flytekit
 retry==0.9.2
     # via flytekit
@@ -264,7 +264,7 @@ scantree==0.0.1
     # via dirhash
 scipy==1.7.1
     # via great-expectations
-send2trash==1.7.1
+send2trash==1.8.0
     # via notebook
 six==1.16.0
     # via
@@ -327,7 +327,7 @@ wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
     # via bleach
-wheel==0.36.2
+wheel==0.37.0
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekit

@@ -148,7 +148,11 @@ def schema_wf() -> int:
 # filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
 #
 # Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it.
-# We set ``is_runtime`` to ``True`` to indicate that this is a :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
+#
+# .. note::
+#   The plugin determines the type of request as ``RuntimeBatchRequest`` by analyzing the user-given data connector.
+#
+# We instantiate ``data_asset_name`` to associate it with the :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
 # The typical Great Expectations' batch_data (or) query is automatically populated with the dataset.
 #
 # .. note::
@@ -157,7 +161,7 @@ runtime_ge_config = GreatExpectationsFlyteConfig(
     datasource_name="my_pandas_datasource",
     expectation_suite_name="test.demo",
     data_connector_name="my_runtime_data_connector",
-    is_runtime=True,
+    data_asset_name="validate_pandas_data",
     batch_request_config=BatchRequestConfig(
         batch_identifiers={
             "pipeline_stage": "validation",

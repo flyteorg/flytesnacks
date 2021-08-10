@@ -153,8 +153,12 @@ def schema_wf() -> typing.List[str]:
 # The :py:class:`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>` can wrap either an in-memory DataFrame,
 # filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
 #
-# Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it.
-# We set ``is_runtime`` to ``True`` to indicate that this is a :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
+# Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it. 
+# 
+# .. note::
+#   The plugin determines the type of request as ``RuntimeBatchRequest`` by analyzing the user-given data connector.
+#
+# We give ``data_asset_name`` to associate it with the :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
 # The typical Great Expectations' ``batch_data`` (or) ``query`` is automatically populated with the dataset.
 #
 # .. note::
@@ -165,7 +169,7 @@ runtime_task_obj = GreatExpectationsTask(
     inputs=kwtypes(dataframe=FlyteSchema),
     expectation_suite_name="test.demo",
     data_connector_name="my_runtime_data_connector",
-    is_runtime=True,
+    data_asset_name="validate_pandas_data",
     task_config=BatchRequestConfig(
         batch_identifiers={
             "pipeline_stage": "validation",

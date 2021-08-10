@@ -90,8 +90,8 @@ Optional Parameters
   - runtime_parameters: Parameters to be sent at run-time
   - batch_identifiers: Batch identifiers
   - batch_spec_passthrough: Reader method if your file doesn’t have an extension
-- **is_runtime**: if you want to create data batches at runtime, set this to ``True``.
-- **local_file_path**: Helpful to download the given dataset to the user-given path.
+- **data_asset_name**: name of the data asset (to be used for ``RuntimeBatchRequest``)
+- **local_file_path**: Helpful to download the given dataset to the user-given path
 
 .. note::
   You may want to mention the **context_root_dir** parameter as providing a path means no harm! 
