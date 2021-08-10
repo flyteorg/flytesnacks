@@ -23,9 +23,10 @@
   },
   "environment": {
     "hideintro": true,
-    "uilayout": "terminal-terminal",
+    "uilayout": "editor-terminal",
     "showdashboard": true,
-    "dashboards": [{"name": "Flyte Get Started", "href": "https://flyte.org"},{"name": "Flyte Console", "href": "https://[[HOST_SUBDOMAIN]]-30081-[[KATACODA_HOST]].environments.katacoda.com"}]
+    "uisettings": "python",
+    "dashboards": [{"name": "Flyte Get Started", "href": "https://flyte.org"},{"name": "Flyte Console", "href": "https://[[HOST_SUBDOMAIN]]-30081-[[KATACODA_HOST]].environments.katacoda.com/console"}]
   },
   "backend": {
     "imageid": "ubuntu:2004"
