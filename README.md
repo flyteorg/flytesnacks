@@ -35,7 +35,6 @@
     </h2>
 </html>
 
-Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit JAVA will be out.
 
 Here are the setup instructions to start contributing to `flytesnacks` repo:
 
