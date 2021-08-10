@@ -27,7 +27,7 @@ You can find the plugins maintained by the core flyte team `here <https://github
 
    ---
 
-   .. link-button:: auto/integrations/flytekit_plugins/greatexpectations/index
+   .. link-button:: auto/integrations/flytekit_plugins/great_expectations/index
       :type: ref
       :text: Great Expectations
       :classes: btn-block stretched-link
@@ -68,7 +68,7 @@ You can find the plugins maintained by the core flyte team `here <https://github
    :hidden:
 
    auto/integrations/flytekit_plugins/sql/index
-   auto/integrations/flytekit_plugins/greatexpectations/index
+   auto/integrations/flytekit_plugins/great_expectations/index
    auto/integrations/flytekit_plugins/papermilltasks/index
    auto/integrations/flytekit_plugins/pandera/index
    auto/integrations/flytekit_plugins/dolt/index
