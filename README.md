@@ -1,4 +1,7 @@
 <html>
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
     <p align="center"> 
         <img src="https://github.com/flyteorg/flyte/blob/master/rsts/images/flyte_circle_gradient_1_4x4.png" alt="Flyte Logo" width="100">
     </p>
@@ -89,3 +92,23 @@ Here are the setup instructions to start contributing to `flytesnacks` repo:
 </html>
 
 Refer to the [issues](https://docs.flyte.org/en/latest/community/contribute.html#issues) section in the contribution guide if you'd like to file an issue relating to `flytesnacks` code or documentation.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://allasamhita.io"><img src="https://avatars.githubusercontent.com/u/27777173?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Samhita Alla</b></sub></a><br /><a href="#blog-samhita-alla" title="Blogposts">📝</a> <a href="https://github.com/flyteorg/flytesnacks/commits?author=samhita-alla" title="Documentation">📖</a> <a href="#tutorial-samhita-alla" title="Tutorials">✅</a> <a href="https://github.com/flyteorg/flytesnacks/commits?author=samhita-alla" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
