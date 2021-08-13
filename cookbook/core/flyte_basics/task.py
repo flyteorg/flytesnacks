@@ -60,6 +60,7 @@ if __name__ == "__main__":
 # %%
 # Single Task Execution
 # =====================
+#
 # Tasks are the atomic units of execution in Flyte. 
 # Although workflows are traditionally composed of multiple tasks with dependencies defined by shared inputs and outputs, 
 # it can be helpful to execute a single task during the process of iterating on its definition. 
