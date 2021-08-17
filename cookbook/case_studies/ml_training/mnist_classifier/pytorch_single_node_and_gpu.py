@@ -81,7 +81,7 @@ class Net(nn.Module):
 def mnist_dataloader(batch_size, train=True, **kwargs):
     return torch.utils.data.DataLoader(
         datasets.MNIST(
-            "../data",
+            "./data",
             train=train,
             download=True,
             transform=transforms.Compose(
