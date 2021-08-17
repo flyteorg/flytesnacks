@@ -1,3 +1,3 @@
-PREFIX=great_expectations
+PREFIX=greatexpectations
 include ../../../common/Makefile
 include ../../../common/leaf.mk

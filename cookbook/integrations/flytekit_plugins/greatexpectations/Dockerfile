@@ -15,11 +15,11 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY great_expectations/requirements.txt /root/.
+COPY greatexpectations/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
-COPY great_expectations/ /root/great_expectations/
+COPY greatexpectations/ /root/greatexpectations/
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

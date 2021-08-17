@@ -39,7 +39,7 @@ jobs:
             path: integrations/flytekit_plugins
           - name: pandera
             path: integrations/flytekit_plugins
-          - name: great_expectations
+          - name: greatexpectations
             path: integrations/flytekit_plugins
           - name: house_price_prediction
             path: case_studies/ml_training

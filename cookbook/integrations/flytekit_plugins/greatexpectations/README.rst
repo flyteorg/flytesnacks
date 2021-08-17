@@ -8,7 +8,7 @@ It helps to maintain data quality and improve communication about data between t
 
 The goodness of data validation in Great Expectations can be integrated with Flyte to validate the data moving in and out of 
 the pipeline entities you may have defined in Flyte. This helps establish stricter boundaries around your data to 
-ensure that everything's as you expected and that data isn't going to crash your pipelines anymore unexpectedly!
+ensure that everything's as you expected and data will not crash your pipelines anymore unexpectedly!
 
 How to Define Your Integration
 ------------------------------
@@ -73,9 +73,9 @@ For example, this is how the error message looks like:
 Plugin Parameters
 -----------------
 
-- **data_source**: Data source, in general, is the "name" we use in the Great Expectations' config file. 
-  When combined with the data to be validated, this data source helps Great Expectations ascertain the type of data. 
-  Moreover, data source also assists in building batches out of data (for validation). 
+- **data_source**: Data source, in general, is the "name" we use in the Great Expectations config file. 
+  When combined with the data to be validated, the data source helps Great Expectations ascertain the type of data. 
+  Moreover, data source assists in building batches out of data (for validation). 
 - **expectation_suite**: Defines the data validation.
 - **data_connector**: Tells how the data batches have to be identified.
 
@@ -94,7 +94,7 @@ Optional Parameters
 - **local_file_path**: Helpful to download the given dataset to the user-given path
 
 .. note::
-  You may want to mention the **context_root_dir** parameter as providing a path means no harm! 
+  You may always want to mention the **context_root_dir** parameter, as providing a path means no harm! 
   Moreover, **local_file_path** is essential when using ``FlyteFile`` and ``FlyteSchema``.
 
 Plugin Installation

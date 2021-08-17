@@ -33,7 +33,7 @@ from flytekitplugins.great_expectations import (
 # Next, we define variables that we use throughout the code.
 DATASET_LOCAL = "yellow_tripdata_sample_2019-01.csv"
 DATASET_REMOTE = "https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/yellow_tripdata_sample_2019-01.csv"
-CONTEXT_ROOT_DIR = "great_expectations/great_expectations"
+CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 
 # %%
 # Simple Type
@@ -175,7 +175,7 @@ runtime_ge_config = GreatExpectationsFlyteConfig(
 # We define a task to generate DataFrame from the CSV file.
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("great_expectations", "data", csv_file))
+    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df
 
 

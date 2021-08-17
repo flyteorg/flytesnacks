@@ -26,7 +26,7 @@ from flytekitplugins.great_expectations import BatchRequestConfig, GreatExpectat
 
 # %%
 # Next, we define variables that we use throughout the code.
-CONTEXT_ROOT_DIR = "great_expectations/great_expectations"
+CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 DATASET_LOCAL = "yellow_tripdata_sample_2019-01.csv"
 DATASET_REMOTE = f"https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/{DATASET_LOCAL}"
 SQLITE_DATASET = "https://cdn.discordapp.com/attachments/545481172399030272/867254085426085909/movies.sqlite"
@@ -50,7 +50,7 @@ simple_task_object = GreatExpectationsTask(
 # Next, we define a task that validates the data before returning the shape of the DataFrame.
 @task(limits=Resources(mem="500Mi"))
 def simple_task(csv_file: str) -> int:
-    df = pd.read_csv(os.path.join("great_expectations", "data", csv_file))
+    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df.shape[0]
 
 
@@ -124,7 +124,7 @@ schema_task_object = GreatExpectationsTask(
 # %%
 # Let's fetch the DataFrame from the SQL Database we've with us. To do so, we use the ``SQLite3Task`` available within Flyte.
 sql_to_df = SQLite3Task(
-    name="great_expectations.task.sqlite3",
+    name="greatexpectations.task.sqlite3",
     query_template="select * from movies",
     output_schema_type=FlyteSchema,
     task_config=SQLite3Config(uri=SQLITE_DATASET),
@@ -153,8 +153,8 @@ def schema_wf() -> typing.List[str]:
 # The :py:class:`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>` can wrap either an in-memory DataFrame,
 # filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
 #
-# Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it. 
-# 
+# Let's instantiate a ``RuntimeBatchRequest`` that accepts a DataFrame and thereby validates it.
+#
 # .. note::
 #   The plugin determines the type of request as ``RuntimeBatchRequest`` by analyzing the user-given data connector.
 #
@@ -162,9 +162,9 @@ def schema_wf() -> typing.List[str]:
 # The typical Great Expectations' ``batch_data`` (or) ``query`` is automatically populated with the dataset.
 #
 # .. note::
-#   If you want to load a database table as a batch, your dataset has to be a SQL query. 
+#   If you want to load a database table as a batch, your dataset has to be a SQL query.
 runtime_task_obj = GreatExpectationsTask(
-    name="great_expectations.task.runtime",
+    name="greatexpectations.task.runtime",
     datasource_name="my_pandas_datasource",
     inputs=kwtypes(dataframe=FlyteSchema),
     expectation_suite_name="test.demo",
@@ -183,7 +183,7 @@ runtime_task_obj = GreatExpectationsTask(
 # We define a task to generate DataFrame from the CSV file.
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("great_expectations", "data", csv_file))
+    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df
 
 
