@@ -13,7 +13,8 @@ ensure that everything's as you expected and data will not crash your pipelines 
 How to Define Your Integration
 ------------------------------
 
-Great Expectations supports native execution of expectations against various :ref:`Datasources <how_to_guides__configuring_datasources>`, 
+Great Expectations supports native execution of expectations against various :ref:`Datasources 
+<https://docs.greatexpectations.io/docs/reference/datasources>`, 
 such as Pandas dataframes, Spark dataframes, and SQL databases via SQLAlchemy.
 
 We're supporting two Flyte types that should suit Great Expectations' ``Datasources``:
