@@ -10,6 +10,8 @@ Task caching is useful when a user knows that many executions with the same inpu
 - Running the code multiple times when debugging workflows
 - Running the commonly shared tasks amongst different workflows, which receive the same inputs
 
+As of <next flytekit release>, caching works similarly in both remote and local executions.
+
 Let's see how task caching can be enabled.
 """
 
@@ -56,11 +58,14 @@ def square(n: int) -> int:
 #   If the user changes the task interface in any way (such as adding, removing, or editing inputs/outputs), Flyte will treat that as a task functionality change. In the subsequent execution, Flyte will run the task and store the outputs as new cached values.
 #
 # .. tip::
-#   Invalidating the cache can be done in two ways -- modify the ``cache_version`` or update the task signature.
+#   Invalidating the cache can be done in three ways:
+#   1. modify the ``cache_version``
+#   2. update the task signature
+#   3. (only applies to local caching) run ``pyflyte local-cache clear``
 #
-# How the Caching Works
+# How Caching Works
 # #####################
-# A task execution is cached based on the **Project**, **Domain**, **Cache Version**, **Task Signature**, and **Inputs** associated with the execution of the task.
+# Caching is implemented differently depending on the mode the user is running, i.e. whether they are running locally or using remote Flyte. In case of a remote task execution, the cache keys are composed of the **Project**, **Domain**, **Cache Version**, **Task Signature**, and **Inputs** associated with the execution of the task. As for local executions, **Project** and **Domain** are not taken into consideration, i.e. only **Cache Version**, **Task Signature**, and **Inputs** are part of the local cache key.
 #
 # - **Project:** A task run under one project cannot use the cached task execution from another project which would cause inadvertent results between project teams that could result in data corruption.
 # - **Domain:** To separate test, staging, and production data, task executions are not shared across these environments.
