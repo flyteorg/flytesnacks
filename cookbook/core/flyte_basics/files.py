@@ -55,15 +55,44 @@ def rotate(image_location: str) -> FlyteFile:
     return FlyteFile["jpg"](path=out_path)
 
 
+@task
+def rotate2(image_file: FlyteFile) -> FlyteFile:
+    """
+    Download the given image, rotate it by 180 degrees
+    """
+    with open(image_file) as fh:
+        ...
+    working_dir = flytekit.current_context().working_directory
+    img = cv2.imread(image_file.path, 0)
+    if img is None:
+        raise Exception("Failed to read image")
+    (h, w) = img.shape[:2]
+    center = (w / 2, h / 2)
+    mat = cv2.getRotationMatrix2D(center, 180, 1)
+    res = cv2.warpAffine(img, mat, (w, h))
+    out_path = os.path.join(working_dir, "rotated.jpg")
+    cv2.imwrite(out_path, res)
+    return FlyteFile["jpg"](path=out_path)
+
+
 @workflow
 def rotate_one_workflow(in_image: str) -> FlyteFile:
     return rotate(image_location=in_image)
+
+
+@workflow
+def rotate_one_workflow_file(in_image: FlyteFile) -> FlyteFile:
+    return rotate2(image_file=in_image)
 
 
 # %%
 # Execute it
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
+    # print(
+    #     f"Running rotate_one_workflow(in_image=default_images[0]) {rotate_one_workflow(in_image=default_images[0])}"
+    # )
     print(
-        f"Running rotate_one_workflow(in_image=default_images[0]) {rotate_one_workflow(in_image=default_images[0])}"
+        f"Running rotate_one_workflow_file(in_image=default_images[0]) "
+        f"{rotate_one_workflow_file(in_image=FlyteFile(default_images[0]))}"
     )
