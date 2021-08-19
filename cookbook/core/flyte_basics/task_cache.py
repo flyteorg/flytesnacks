@@ -10,8 +10,6 @@ Task caching is useful when a user knows that many executions with the same inpu
 - Running the code multiple times when debugging workflows
 - Running the commonly shared tasks amongst different workflows, which receive the same inputs
 
-As of <next flytekit release>, caching works similarly in both remote and local executions.
-
 Let's see how task caching can be enabled.
 """
 
@@ -57,15 +55,15 @@ def square(n: int) -> int:
 # .. note::
 #   If the user changes the task interface in any way (such as adding, removing, or editing inputs/outputs), Flyte will treat that as a task functionality change. In the subsequent execution, Flyte will run the task and store the outputs as new cached values.
 #
-# .. tip::
-#   Invalidating the cache can be done in three ways:
-#   1. modify the ``cache_version``
-#   2. update the task signature
-#   3. (only applies to local caching) run ``pyflyte local-cache clear``
-#
 # How Caching Works
-# #####################
-# Caching is implemented differently depending on the mode the user is running, i.e. whether they are running locally or using remote Flyte. In case of a remote task execution, the cache keys are composed of the **Project**, **Domain**, **Cache Version**, **Task Signature**, and **Inputs** associated with the execution of the task. As for local executions, **Project** and **Domain** are not taken into consideration, i.e. only **Cache Version**, **Task Signature**, and **Inputs** are part of the local cache key.
+# #################
+#
+# Caching is implemented differently depending on the mode the user is running, i.e. whether they are running locally or using remote Flyte.
+#
+# How remote caching works
+# ************************
+#
+# The cache keys for remote task execution are composed of **Project**, **Domain**, **Cache Version**, **Task Signature**, and **Inputs** associated with the execution of the task, as per the following definitions:
 #
 # - **Project:** A task run under one project cannot use the cached task execution from another project which would cause inadvertent results between project teams that could result in data corruption.
 # - **Domain:** To separate test, staging, and production data, task executions are not shared across these environments.
@@ -73,5 +71,17 @@ def square(n: int) -> int:
 # - **Task Signature:** The cache is specific to the task signature associated with the execution. The signature constitutes the task name, input parameter names/types, and the output parameter name/type.
 # - **Task Input Values:** A well-formed Flyte task always produces deterministic outputs. This means, given a set of input values, every execution should have identical outputs. When task execution is cached, the input values are part of the cache key.
 #
+# The remote cache for a particular task can be invalidated in two ways:
+#
+# 1. modifying the ``cache_version``
+# 2. updating the task signature
+#
+# How local caching works
+# ***********************
+#
+# The flytekit package uses the `joblib <https://joblib.readthedocs.io/en/latest/>`_ package, more specifically `joblib.Memory <https://joblib.readthedocs.io/en/latest/memory.html#memory>`_, to aid in the memoization of task executions. The results of local task executions are stored under ``~/.flyte/local-cache/`` and cache keys are composed of **Cache Version**, **Task Signature**, and **Task Input Values**.
+#
+# Similarly to the remote case, a local cache entry for a task will be invalidated if either the ``cache_version`` changes or the task signature is modified. In addition, the local cache can also be emptied by running the following command: ``pyflyte local-cache clear``, which essentially obliterates the contents of the ``~/.flyte/local-cache/`` directory.
+#
 # .. note::
-#   Task executions can be cached across different versions of the task because a change in SHA does not necessarily mean that it correlates to a change in task functionality.
+#   The format used by the store is opaque and not meant to be inspectable.
