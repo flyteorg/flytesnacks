@@ -1,25 +1,16 @@
-flyte Components
+# Run the Workflow Locally
 
-<img src="https://raw.githubusercontent.com/lyft/flyte/assets/img/flyte_wf_execution_overview.svg?sanitize=true" >
+Let's use Flytekit Python SDK to run the workflow. This library helps in authoring, deploying, and testing the workflows.
 
-# Component Repos 
-Repo | Language | Purpose | Status
---- | --- | --- | ---
-[flytepropeller](https://github.com/lyft/flytepropeller) | Go | execution engine | Production-grade
-[flyteadmin](https://github.com/lyft/flyteadmin) | Go | control plane | Production-grade
-[flyteconsole](https://github.com/lyft/flyteconsole) | Typescript | admin console | Production-grade
+First, install the flytekit library. To do so, run the command:
+`pip install flytekit --upgrade`{{execute HOST1}}
 
-### flytepropeller
+The example that you would be working on must have been already cloned in the workspace, so just `cd` to the `ml_training/pima_diabetes` directory and install all the requirements.
+`cd ml_training/pima_diabetes/`{{execute HOST1}}
+`pip install -r requirements.txt`{{execute HOST1}}
+`cd ..`{{execute HOST1}}
 
-Kubernetes operator to executes Flyte graphs natively on kubernetes
+**Note**: You can find the Flyte entities -- `@task` and `@workflow` in the `diabetes.py` file. `@task` is a Flyte task. It is the building block of Flyte that encapsulates the users' code. `@workflow` is a declarative entity that constructs a DAG of tasks using the data flow between tasks. To know more about Flyte's entities, refer to the [concepts guide](https://docs.flyte.org/en/latest/concepts/basics.html).
 
-### flyteadmin
-Flyteadmin is the control plane for Flyte responsible for managing entities (task, workflows, launch plans) and
-administering workflow executions. Flyteadmin implements the
-`AdminService <https://github.com/lyft/flyteidl/blob/master/protos/flyteidl/service/admin.proto>`_ which
-defines a stateless REST/gRPC service for interacting with registered Flyte entities and executions.
-Flyteadmin uses a relational style Metadata Store abstracted by `GORM <http://gorm.io/>`_ ORM library.
-
-### flyteconsole
-
-This is the web UI for the Flyte platform.
+Now, the workflow can be run locally, simply by running it as a Python script.
+`python pima_diabetes/diabetes.py`{{execute HOST1}}
