@@ -76,10 +76,13 @@ def square(n: int) -> int:
 # 1. modifying the ``cache_version``
 # 2. updating the task signature
 #
+# .. note::
+#   Task executions can be cached across different versions of the task because a change in SHA does not necessarily mean that it correlates to a change in task functionality.
+#
 # How local caching works
 # ***********************
 #
-# The flytekit package uses the `joblib <https://joblib.readthedocs.io/en/latest/>`_ package, more specifically `joblib.Memory <https://joblib.readthedocs.io/en/latest/memory.html#memory>`_, to aid in the memoization of task executions. The results of local task executions are stored under ``~/.flyte/local-cache/`` and cache keys are composed of **Cache Version**, **Task Signature**, and **Task Input Values**.
+# The flytekit package uses the `diskcache <https://github.com/grantjenks/python-diskcache>`_ package, more specifically `diskcache.Cache <http://www.grantjenks.com/docs/diskcache/tutorial.html#cache>`_, to aid in the memoization of task executions. The results of local task executions are stored under ``~/.flyte/local-cache/`` and cache keys are composed of **Cache Version**, **Task Signature**, and **Task Input Values**.
 #
 # Similarly to the remote case, a local cache entry for a task will be invalidated if either the ``cache_version`` changes or the task signature is modified. In addition, the local cache can also be emptied by running the following command: ``pyflyte local-cache clear``, which essentially obliterates the contents of the ``~/.flyte/local-cache/`` directory.
 #
