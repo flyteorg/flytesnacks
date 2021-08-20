@@ -427,7 +427,7 @@ intersphinx_mapping = {
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "pytorch": ("https://pytorch.org/docs/stable/", None),
-    "greatexpectations": ("https://docs.greatexpectations.io/en/stable", None),
+    "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
 }
 
 # Sphinx-tabs config

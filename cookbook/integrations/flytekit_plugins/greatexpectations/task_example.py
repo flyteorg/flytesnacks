@@ -4,7 +4,7 @@ Task Example
 
 ``GreatExpectationsTask`` can be used to define data validation within the task. 
 In this example, we'll implement a simple task, followed by Great Expectations data validation on ``FlyteFile``, ``FlyteSchema``, and finally, 
-the ``RuntimeBatchRequest``.
+the :py:class:`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>`.
 """
 
 # %%
@@ -15,7 +15,7 @@ import typing
 import pandas as pd
 from flytekit import Resources, kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
-from flytekit.types.file import FlyteFile
+from flytekit.types.file import CSVFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.great_expectations import BatchRequestConfig, GreatExpectationsTask
 
@@ -79,7 +79,7 @@ def simple_wf(dataset: str = DATASET_LOCAL) -> int:
 file_task_object = GreatExpectationsTask(
     name="great_expectations_task_flytefile",
     datasource_name="data",
-    inputs=kwtypes(dataset=FlyteFile[typing.TypeVar("csv")]),
+    inputs=kwtypes(dataset=CSVFile),
     expectation_suite_name="test.demo",
     data_connector_name="data_flytetype_data_connector",
     local_file_path="/tmp",
@@ -90,7 +90,7 @@ file_task_object = GreatExpectationsTask(
 # Next, we define a task that calls the validation logic.
 @task(limits=Resources(mem="500Mi"))
 def file_task(
-    dataset: FlyteFile[typing.TypeVar("csv")],
+    dataset: CSVFile,
 ) -> int:
     return len(pd.read_csv(dataset))
 
@@ -99,7 +99,7 @@ def file_task(
 # Finally, we define a workflow to run our task.
 @workflow
 def file_wf(
-    dataset: FlyteFile[typing.TypeVar("csv")] = DATASET_REMOTE,
+    dataset: CSVFile = DATASET_REMOTE,
 ) -> int:
     file_task_object(dataset=dataset)
     return file_task(dataset=dataset)
@@ -158,7 +158,7 @@ def schema_wf() -> typing.List[str]:
 # .. note::
 #   The plugin determines the type of request as ``RuntimeBatchRequest`` by analyzing the user-given data connector.
 #
-# We give ``data_asset_name`` to associate it with the :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
+# We give ``data_asset_name`` to associate it with the ``RuntimeBatchRequest``.
 # The typical Great Expectations' ``batch_data`` (or) ``query`` is automatically populated with the dataset.
 #
 # .. note::

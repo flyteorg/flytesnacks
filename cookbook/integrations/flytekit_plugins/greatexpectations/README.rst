@@ -8,19 +8,19 @@ It helps to maintain data quality and improve communication about data between t
 
 The goodness of data validation in Great Expectations can be integrated with Flyte to validate the data moving in and out of 
 the pipeline entities you may have defined in Flyte. This helps establish stricter boundaries around your data to 
-ensure that everything's as you expected and data will not crash your pipelines anymore unexpectedly!
+ensure that everything is as you expected and data will not crash your pipelines anymore unexpectedly!
 
 How to Define Your Integration
 ------------------------------
 
-Great Expectations supports native execution of expectations against various :ref:`Datasources 
-<https://docs.greatexpectations.io/docs/reference/datasources>`, 
+Great Expectations supports native execution of expectations against various `Datasources 
+<https://docs.greatexpectations.io/docs/reference/datasources>`__, 
 such as Pandas dataframes, Spark dataframes, and SQL databases via SQLAlchemy.
 
 We're supporting two Flyte types that should suit Great Expectations' ``Datasources``:
 
-- :py:class:`flytekit.types.file.FlyteFile`: FlyteFile supports remote (and, of course, local) datasets. If a remote URI is given, 
-  the plugin downloads data to a user-given file which Great Expectations later validates.
+- :py:class:`flytekit.types.file.FlyteFile`: FlyteFile represents an automatic persistence object in Flyte. 
+  It can represent files in remote storage and Flyte will transparently materialize them in every task execution.
 - :py:class:`flytekit.types.schema.FlyteSchema`: FlyteSchema supports tabular data, which the plugin will convert into a parquet file 
   and validate the data using Great Expectations.
 
@@ -37,7 +37,9 @@ The datasources can be well-integrated with the plugin using the following two m
 
 - **Flyte Task**: A Flyte task defines the task prototype that one could use within a task or a workflow to validate data using 
   Great Expectations.
-- **Flyte Type**: A Flyte type helps attach the ``GreatExpectationsType`` to any dataset.
+- **Flyte Type**: A Flyte type helps attach the ``GreatExpectationsType`` to any dataset. 
+  Under the hood, ``GreatExpectationsType`` can be assumed as a combination of Great Expectations and Flyte types where every bit of 
+  data is validated against the expectations, much like the OpenAPI Spec or the gRPC validator.
 
 You can see some nice examples in the Python code files. 
 

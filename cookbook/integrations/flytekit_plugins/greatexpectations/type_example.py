@@ -5,7 +5,7 @@ Type Example
 ``GreatExpectationsType`` when accompanied with data can be used for data validation. 
 It essentially is the type we attach to the data we want to validate.
 In this example, we'll implement a simple task, followed by Great Expectations data validation on ``FlyteFile``, ``FlyteSchema``, and finally, 
-the ``RuntimeBatchRequest``.
+the :py:class:`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>`.
 """
 
 # %%
@@ -15,7 +15,7 @@ import typing
 
 import pandas as pd
 from flytekit import Resources, task, workflow
-from flytekit.types.file import FlyteFile
+from flytekit.types.file import CSVFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.great_expectations import (
     BatchRequestConfig,
@@ -92,13 +92,11 @@ great_expectations_config = GreatExpectationsFlyteConfig(
 # Under the hood, ``GreatExpectationsType`` validates data in accordance with the ``GreatExpectationsFlyteConfig`` defined previously.
 # This ``GreatExpectationsFlyteConfig`` is being fetched under the name ``great_expectations_config``.
 #
-# The first value that's being sent within ``GreatExpectationsType`` is ``FlyteFile``.
+# The first value that's being sent within ``GreatExpectationsType`` is ``CSVFile`` (this is a pre-formatted FlyteFile type).
 # This means that we want to validate the ``FlyteFile`` data.
 @task(limits=Resources(mem="500Mi"))
 def file_task(
-    dataset: GreatExpectationsType[
-        FlyteFile[typing.TypeVar("csv")], great_expectations_config
-    ]
+    dataset: GreatExpectationsType[CSVFile, great_expectations_config]
 ) -> pd.DataFrame:
     return pd.read_csv(dataset)
 
@@ -152,7 +150,7 @@ def schema_wf() -> int:
 # .. note::
 #   The plugin determines the type of request as ``RuntimeBatchRequest`` by analyzing the user-given data connector.
 #
-# We instantiate ``data_asset_name`` to associate it with the :py:class:`great_expectations.core.batch.RuntimeBatchRequest`.
+# We instantiate ``data_asset_name`` to associate it with the ``RuntimeBatchRequest``.
 # The typical Great Expectations' batch_data (or) query is automatically populated with the dataset.
 #
 # .. note::
