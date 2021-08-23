@@ -2,7 +2,7 @@
 
 Let's now understand how to register workflows when code changes are made.
 
-For illustration purposes, do a trivial code change in the code. Remove `test_split_ratio` as the workflow parameter and send it as a hard-coded argument.
+For illustration purposes, do a trivial code change in the code. Open `ml_training/pima_diabetes/diabetes.py`{{open}} and remove `test_split_ratio` as the workflow parameter and send it as a hard-coded argument.
 
 ```
 @workflow
@@ -44,12 +44,3 @@ Visualize the registered workflow.
 `flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml`{{execute HOST1}}
 
 3. Visit the Flyte console at https://[[HOST_SUBDOMAIN]]-30081-[[KATACODA_HOST]].environments.katacoda.com/console to view and monitor the workflow
-
-🎉 Congratulations! You have now:
-
-- Run a Flyte workflow locally,
-- Started a Flyte sandbox cluster,
-- Run a Flyte workflow on a cluster,
-- Iterated on a Flyte workflow.
-
-To experience the full capabilities of Flyte, take a look at the [User Guide](https://docs.flyte.org/projects/cookbook/en/latest/user_guide.html).
