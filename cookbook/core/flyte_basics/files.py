@@ -10,24 +10,25 @@ Let's assume our mission here is pretty simple. We take in a couple of links, do
 """
 
 # %%
-# Let's first import the libraries.
+# First, let's import the libraries.
 import os
 
 import cv2
 import flytekit
 from flytekit import task, workflow
 from flytekit.types.file import JPEGImageFile
+from flytekit import FlyteContext
 
 # %%
 # ``JPEGImageFile`` is a pre-formatted FlyteFile type. It is equivalent to ``FlyteFile[typing.TypeVar("jpeg")]``.
 #
 # .. note::
-#   The ``FlyteFile`` literal can be scoped with a string, which gets inserted into the format of the Blob type ("jpeg" is the string in 
+#   The ``FlyteFile`` literal can be scoped with a string, which gets inserted into the format of the Blob type ("jpeg" is the string in
 #   ``FlyteFile[typing.TypeVar("jpeg")]``). The format is entirely optional, and if not specified, defaults to ``""``.
 
 
 # %%
-# Next, we write a task that accepts a ``JPEGImageFile`` as an input and returns the rotated image as an output, 
+# Next, we write a task that accepts ``JPEGImageFile`` as an input and returns the rotated image as an output,
 # which again is the ``JPEGImageFile``.
 # Files do not have a native object in Python, so we had to write one ourselves.
 # There does exist the ``os.PathLike`` protocol, but nothing implements it.
@@ -37,9 +38,9 @@ def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
     Download the given image, rotate it by 180 degrees
     """
     working_dir = flytekit.current_context().working_directory
-    with open(image_location, "rb"):
-        ...
-    img = cv2.imread(str(image_location), 0)
+    image_location.download()
+    print(image_location.path)
+    img = cv2.imread(image_location.path, 0)
     if img is None:
         raise Exception("Failed to read image")
     (h, w) = img.shape[:2]
@@ -55,13 +56,12 @@ def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
 
 
 # %%
-# When the image URL is sent to the task, the Flytekit engine translates it into a ``FlyteFile`` object on the local drive 
+# When image URL is sent to the task, the Flytekit engine translates it into a ``FlyteFile`` object on the local drive
 # (but doesn't download it).
-# The act of opening it should trigger the download, since FlyteFile does lazy downloading. Moreover, the file name is maintained on download.
+# The act of calling ``download`` method should trigger the download. 
+# ``_SpecificFormatClass``'s path enables OpenCV to read the file.
 #
-# Next, we convert ``_SpecificFormatClass`` to string to enable OpenCV to read the file.
-#
-# When this task finishes, the Flytekit engine returns the ``FlyteFile`` instance, finds a location
+# When this task finishes, Flytekit engine returns the ``FlyteFile`` instance, finds a location
 # in Flyte's object store (usually S3), uploads the file to that location and creates a Blob literal pointing to it.
 #
 # .. tip::
@@ -69,7 +69,7 @@ def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
 #   The ``rotate`` task works with ``FlyteFile``, too. However, ``JPEGImageFile`` helps attach the content information.
 
 # %%
-# We now define the workflow to call the task.
+# We now define the workflow.
 @workflow
 def rotate_one_workflow(in_image: JPEGImageFile) -> JPEGImageFile:
     return rotate(image_location=in_image)
@@ -79,8 +79,8 @@ def rotate_one_workflow(in_image: JPEGImageFile) -> JPEGImageFile:
 # Finally, let's execute it!
 if __name__ == "__main__":
     default_images = [
-        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Fractal_pyramid.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Julian_fractal.jpg/256px-Julian_fractal.jpg",
+        "https://media.sketchfab.com/models/e13940161fb64746a4f6753f76abe886/thumbnails/b7e1ba951ffb46a4ad584ba8ae400d17/e9de09ac9c7941f1924bd384e74a5e2e.jpeg",
+        "https://upload.wikimedia.org/wikipedia/en/7/7e/Julia_0.4_0.6.png",
     ]
     print(f"Running {__file__} main...")
     for index, each_image in enumerate(default_images):
