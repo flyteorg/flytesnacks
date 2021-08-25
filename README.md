@@ -42,39 +42,33 @@ Here are the setup instructions to start contributing to `flytesnacks` repo:
 ### 💻 Contribute to examples
 
 1. Determine where to put your new code:
-  * [Core](https://github.com/flyteorg/blob/master/cookbook/core)
-    
-    Contains examples that demonstrates functionality available within core flytekit. These examples should be runnable
-    locally.
-    
-  * [Integrations](https://github.com/flyteorg/blob/master/cookbook/integrations)
-
-    Contains examples that leverage one or more of the available plugins.
-
-  * [Case Studies](https://github.com/flyteorg/blob/master/cookbook/case_studies)
-
-    Contains examples that demonstrates usage of Flyte to solve real world problems. These are more generally more complex
-    examples that may require extra setup or that can only run on larger clusters..
-
+   * [Core](https://github.com/flyteorg/blob/master/cookbook/core)
+       
+       Contains examples that demonstrates functionality available within core flytekit. These examples should be runnable
+       locally.
+       
+   * [Integrations](https://github.com/flyteorg/blob/master/cookbook/integrations)
+       
+       Contains examples that leverage one or more of the available plugins.
+       
+   * [Case Studies](https://github.com/flyteorg/blob/master/cookbook/case_studies)
+       
+       Contains examples that demonstrates usage of Flyte to solve real world problems. These are more generally more complex
+       examples that may require extra setup or that can only run on larger clusters.
+       
 2. Create a directory
-   
    After determining where to put your example, create a directory under the appropriate parent directory. Each example
    directory should contain:
-   
    * Dockerfile
    * Makefile
    * README.rst
    * __init__.py
    * requirements.in
    * sandbox.config
-    
    It might be easier to copy one of the existing examples and modify it to your needs.
-
 3. Add it to CI
-
    Examples are references in [this github workflow](https://github.com/flyteorg/flytesnacks/blob/master/.github/workflows/ghcr_push.yml)
    Add a new entry under ``strategy -> matrix -> directory`` with the name of your directory as well as its relative path.
-   
 4. Test your code!
     * If the Python code can be run locally, just use `python <my file>` to run it.
     * If the Python code has to be tested in a cluster:
@@ -82,7 +76,7 @@ Here are the setup instructions to start contributing to `flytesnacks` repo:
         * Run the `make start` command in the root directory of the flytesnacks repo
         * Visit https://localhost:30081 to view the Flyte console consisting of the examples present in flytesnacks/cookbook/core directory
         * To fetch new dependencies and rebuild the image, run `make register`
-        * If examples from a different directory (other than `core`) have to registered, run the command `SANDBOX=1 make -C <directory> register` in the `flytesnacks` repo.
+        * If examples from a different directory (other than `core`) have to registered, enter the sandbox first: `make shell` and then run `make -C <directory> register`.
 
 ### 📝 Contribute to documentation
 
