@@ -18,11 +18,8 @@ Flyte uses Docker containers to package the workflows and tasks and sends them t
 Next, package the workflow using the pyflyte cli bundled with Flytekit and upload it to the Flyte backend. Note that the image is the same as the one built in the previous step.
 `pyflyte --pkgs pima_diabetes package --image myapp:v1 --force --output=flyte.tgz `{{execute HOST1}}
 
-Upload this package to the Flyte backend. We call this "registration".
+Finally, upload this package to the Flyte backend. We call this "registration".
 `flytectl register files --archive -p flytesnacks -d development flyte.tgz --version=v1`{{execute HOST1}}
-
-Finally, visualize the registered workflow.
-`flytectl get workflow pima_diabetes.diabetes.diabetes_xgboost_model -p flytesnacks -d development --latest -o doturl`{{execute HOST1}}
 
 ## Execute on Flyte Cluster
 
@@ -31,7 +28,7 @@ Launch the workflow from CLI using Flytectl.
 1. Generate an execution spec file
 `flytectl get launchplan --project flytesnacks --domain development pima_diabetes.diabetes.diabetes_xgboost_model --latest --execFile exec_spec.yaml`{{execute HOST1}}
 
-2. Open `ml_training/exec_spec.yaml`{{open}} and change the value of input
+2. Open `ml_training/exec_spec.yaml`{{open}} and change the value of any input
 
 3. Create an execution using the exec spec file
 `flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml`{{execute HOST1}}
@@ -39,4 +36,4 @@ Launch the workflow from CLI using Flytectl.
 4. Visit the Flyte console at https://[[HOST_SUBDOMAIN]]-30081-[[KATACODA_HOST]].environments.katacoda.com/console to view and monitor the workflow
 
 
-You have successfully packaged your workflow and tasks and pushed them to Flyte cluster. Next, let's dive into iteration.
+You have successfully packaged your workflow and tasks and pushed them to Flyte cluster. Next, let's dive into the iteration phase.

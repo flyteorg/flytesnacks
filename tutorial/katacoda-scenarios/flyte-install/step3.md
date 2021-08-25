@@ -32,9 +32,6 @@ Note: `--fast` flag will take the code from your local machine and provide it fo
 Now, fast-register the example:
 `flytectl register files --archive -p flytesnacks -d development flyte.tgz --version=v1-fast`{{execute HOST1}}
 
-Visualize the registered workflow.
-`flytectl get workflow pima_diabetes.diabetes.diabetes_xgboost_model -p flytesnacks -d development  --latest -o doturl`{{execute HOST1}}
-
 ## Execute on Flyte Cluster
 
 1. Generate an execution spec file
