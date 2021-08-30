@@ -22,7 +22,7 @@
     }
   },
   "environment": {
-    "hideintro": true,
+    "hideintro": false,
     "uilayout": "editor-terminal",
     "showdashboard": true,
     "uisettings": "python",
