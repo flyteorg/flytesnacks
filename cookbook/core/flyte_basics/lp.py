@@ -95,3 +95,8 @@ for n in range(7):
     else:
         # We're extra enthusiastic on weekends
         print(morning_greeting(number=3, day_of_week=weekday))
+
+
+@workflow
+def parent_example(day_of_week: str) -> str:
+    return morning_greeting(day_of_week=day_of_week)
