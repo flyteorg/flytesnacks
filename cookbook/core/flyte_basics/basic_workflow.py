@@ -18,7 +18,7 @@ behind workflows for additional information.
 """
 import typing
 
-from flytekit import task, workflow
+from flytekit import task, workflow, LaunchPlan
 
 
 @task
@@ -39,6 +39,16 @@ def my_wf(a: int, b: str) -> (int, str):
     x, y = t1(a=a)
     d = t2(a=y, b=b)
     return x, d
+
+
+my_wf_lp = LaunchPlan.create(
+    "my_wf_lp",
+    my_wf,
+)
+
+@workflow
+def parent_example(a: int, b: str) -> (int, str):
+    return my_wf_lp(a=a, b=b)
 
 
 # %%
