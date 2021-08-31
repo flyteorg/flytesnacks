@@ -5,7 +5,9 @@ Spark on Kubernetes
 
 Flyte can execute Spark jobs natively on a Kubernetes Cluster, which manages the lifecycle, spin-up, and tear down
 of a virtual cluster. It leverages the open-sourced `Spark On K8s Operator <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator>`_
-and can be enabled without signing up for any service. 
+and can be enabled without signing up for any service. This is like running an ``transient cluster`` which are better for production workloads, but have an extra cost of setup and teardown.
+In Flyte/K8s, the cost is ammortized by the fact that pods are faster to create than a machine, but the penalty of downloading docker images may affect the performance. Also remember - starting a pod is not as fast as running a process.
+
 
 Flytekit makes it possible to write pyspark code natively as a task and the
 Spark cluster will be automatically configured using the decorated ``SparkConf``. The examples in this section provide a
