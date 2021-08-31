@@ -57,30 +57,30 @@ For a more complete example refer to the :std:ref:`User Guide <cookbook:sphx_glr
 
     .. code-block:: python
 
-        @task(
-            task_config=Spark(
-                # this configuration is applied to the spark cluster
-                spark_conf={
-                    "spark.driver.memory": "1000M",
-                    "spark.executor.instances": "2",
-                    "spark.driver.cores": "1",
-                }
-            ),
-            cache_version="1",
-            cache=True,
-        )
-        def hello_spark(partitions: int) -> float:
-            ...
-            sess = flytekit.current_context().spark_session
-            # Regular Pypsark code
-            ...
+       @task(
+           task_config=Spark(
+               # this configuration is applied to the spark cluster
+               spark_conf={
+                   "spark.driver.memory": "1000M",
+                   "spark.executor.instances": "2",
+                   "spark.driver.cores": "1",
+               }
+           ),
+           cache_version="1",
+           cache=True,
+       )
+       def hello_spark(partitions: int) -> float:
+           ...
+           sess = flytekit.current_context().spark_session
+           # Regular Pypsark code
+           ...
 
 
 #. Run it locally
 
     .. code-block:: python
 
-        hello_spark(partitions=10)
+       hello_spark(partitions=10)
 
 #. Use it in a workflow (check cookbook)
 #. Run it on a remote cluster - To do this, you have to build the correct dockerfile, as explained here :std:ref:`spark-docker-image`. You can also you the `Standard Dockerfile recommended by Spark <https://github.com/apache/spark/blob/master/resource-managers/kubernetes/docker/src/main/dockerfiles/spark/Dockerfile#L22>`_.
