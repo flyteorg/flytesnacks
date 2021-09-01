@@ -31,27 +31,29 @@ jobs:
       - name: setup sandbox
         run: flytectl config init
       - name: Serialize Examples
-        env:
-          REGISTRY: "ghcr.io/flyteorg"
         run: |
           REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
       - name: Archive Serialized protos
-        env:
-          REGISTRY: "ghcr.io/flyteorg"
         run: |
-          mkdir -p cookbook/release-snacks
+          mkdir -p cookbook/release-snacks temp
           make -C cookbook archive
+          cp -r cookbook/release-snacks/* temp/*
       - name: Register ${{ matrix.directory }} example
         run: |
-          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/*
+          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/* --version=v1
       - name: Fast Serialize Examples
-        env:
-          REGISTRY: "ghcr.io/flyteorg"
         run: |
           REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} fast_serialize
-      - name: Register ${{ matrix.directory }} example
+      - name: Archive Fast Serialized protos
         run: |
-          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/*
+          make -C cookbook archive
+      - name: Fast Register ${{ matrix.directory }} example
+        run: |
+          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/* --version=v2
+      - name: Prepare Release
+        run: |
+          rm -rf cookbook/release-snacks && mkdir -p cookbook/release-snacks
+          cp -r temp/* cookbook/release-snacks/
       - name: Run GoReleaser
         if: github.event_name != 'pull_request'
         uses: goreleaser/goreleaser-action@v2
