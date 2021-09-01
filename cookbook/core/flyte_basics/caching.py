@@ -15,7 +15,7 @@ def my_dynamic_task(seed: int) -> typing.List[int]:
     for x in range(1, 10):
         o = my_maybe_cached_task(seed=seed, index=x)
 
-    return typing.List[int]([1, 2, 3])
+    return [1, 2, 3]
 
 
 @workflow
