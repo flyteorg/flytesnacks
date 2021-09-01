@@ -54,6 +54,7 @@ jobs:
         run: |
           rm -rf cookbook/release-snacks && mkdir -p cookbook/release-snacks
           cp -r temp/* cookbook/release-snacks/
+          rm -rf temp & git stash
       - name: Run GoReleaser
         if: github.event_name != 'pull_request'
         uses: goreleaser/goreleaser-action@v2
