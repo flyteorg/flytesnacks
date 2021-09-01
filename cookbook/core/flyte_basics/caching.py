@@ -2,10 +2,10 @@ from __future__ import absolute_import, division, print_function
 
 import typing
 
-from flytekit import task, workflow, dynamic
+from flytekit import task, workflow, dynamic, Resources
 
 
-@task(cache_version="1.0", cache=True)
+@task(cache_version="1.0", cache=True, requests=Resources(cpu="200m", mem="400Mi"))
 def my_maybe_cached_task(seed: int, index: int) -> int:
     return seed + index
 
