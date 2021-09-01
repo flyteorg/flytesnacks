@@ -11,8 +11,8 @@ ENV TERM linux
 # Install basics
 RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
 
-RUN echo 'deb http://security.ubuntu.com/ubuntu bionic-security main' >> /etc/apt/sources.list \
-    && apt-get update && apt-get install -y libssl1.0.0
+#RUN echo 'deb http://security.ubuntu.com/ubuntu bionic-security main' >> /etc/apt/sources.list \
+#    && apt-get update && apt-get install -y libssl1.0.0
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
