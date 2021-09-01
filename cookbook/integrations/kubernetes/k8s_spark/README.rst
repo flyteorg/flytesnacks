@@ -5,7 +5,8 @@ Spark on Kubernetes
 
 Flyte can execute Spark jobs natively on a Kubernetes Cluster, which manages the lifecycle, spin-up, and tear down
 of a virtual cluster. It leverages the open-sourced `Spark On K8s Operator <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator>`_
-and can be enabled without signing up for any service. This is like running an ``transient cluster`` which are better for production workloads, but have an extra cost of setup and teardown.
+and can be enabled without signing up for any service. This is like running an ``transient spark cluster``, a type of cluster that is spun up for a specific spark job and torn down after it is complete.
+These clusters are better for production workloads, but have an extra cost of setup and teardown.
 In Flyte/K8s, the cost is ammortized by the fact that pods are faster to create than a machine, but the penalty of downloading docker images may affect the performance. Also remember - starting a pod is not as fast as running a process.
 
 
@@ -16,8 +17,9 @@ hands-on tutorial for writing pyspark tasks.
 .. NOTE::
 
    This has been tested at scale and more than 100k Spark Jobs run through Flyte at Lyft. This still needs a large capacity on Kubernetes and careful configuration.
-   We recommend using Multi-cluster mode - :ref:`howto-multi-cluster`, and enabling :ref:`howto-resource-quota` for large and extremely frequent Spark Jobs.
-   For extremely short running jobs, this is still not a recommended approach, and it might be better to use a pre-spawned cluster.
+   We recommend using Multi-cluster mode - :std:ref:`deployment/cluster_config/performance:multi-cluster mode` , and enabling :std:ref:`Resource Quotas <deployment/cluster_config/general:configurable resource types>` for large and extremely frequent Spark Jobs.
+   For extremely short running jobs, this is still not a recommended approach, and it might be better to use a pre-spawned cluster. A job can be considered to be ``short`` if the runtime is less than ``2-3`` minutes.
+   In this scenario, the cost of pod bring-up out-weighs the cost of execution.
 
 Why Use K8s Spark?
 ===================
