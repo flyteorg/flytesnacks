@@ -18,6 +18,7 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY greatexpectations/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
+COPY in_container.mk /root/Makefile
 # Copy the actual code
 COPY greatexpectations/ /root/greatexpectations/
 

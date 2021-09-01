@@ -31,8 +31,8 @@ jobs:
             path: case_studies/feature_engineering
           - name: sagemaker_training
             path: integrations/aws
-          - name: sagemaker_pytorch
-            path: integrations/aws
+          #          - name: sagemaker_pytorch
+          #            path: integrations/aws
           - name: pima_diabetes
             path: case_studies/ml_training
           - name: papermilltasks
