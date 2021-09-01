@@ -7,6 +7,8 @@ WORKDIR /root
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM linux
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
