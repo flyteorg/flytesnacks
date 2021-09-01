@@ -13,7 +13,7 @@ import pyspark.sql.types as T
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from dataclasses_json import dataclass_json
-from flytekit import task, workflow
+from flytekit import Resources, task, workflow
 from flytekit.types.file import CSVFile, FlyteFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.kfmpi import MPIJob
@@ -223,6 +223,15 @@ def lookup_columns(df, vocab):
     return df
 
 
+############
+# GET DATA #
+############
+def download_data():
+    if not os.path.exists("./data"):
+        os.makedirs("./data")
+        subprocess.check_output(["tar", "zxvf", "rossmann.tgz", "-C", "./data"])
+
+
 DataPrepOutputs = typing.NamedTuple(
     "DataPrepOutputs",
     continuous_cols=typing.List[str],
@@ -251,6 +260,8 @@ DataPrepOutputs = typing.NamedTuple(
     cache_version="0.1",
 )
 def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
+    download_data()
+
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
@@ -545,6 +556,10 @@ def test_model(hp: Hyperparameters, test_df, keras_model):
     return hp.local_submission_csv
 
 
+###########################
+# HOROVOD TASK            #
+# TODO: Change cpu to gpu #
+###########################
 @task(
     task_config=MPIJob(
         num_workers=2,
@@ -554,14 +569,16 @@ def test_model(hp: Hyperparameters, test_df, keras_model):
     retries=5,
     cache=True,
     cache_version="1.0",
+    per_replica_requests=Resources(
+        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
+    ),
+    per_replica_limits=Resources(
+        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
+    ),
 )
 def horovod_train_task(
     hp: Hyperparameters, continuous_cols, categorical_cols, train_df, test_df, len_vocab
 ) -> (FlyteFile, CSVFile):
-    if not os.path.exists("./data"):
-        os.makedirs("./data")
-        subprocess.check_output(["tar", "zxvf", "rossmann.tgz", "-C", "./data"])
-
     keras_model, local_checkpoint_file = train_model(
         len_vocab=len_vocab,
         categorical_cols=categorical_cols,
