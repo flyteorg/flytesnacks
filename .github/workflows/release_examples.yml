@@ -9,6 +9,11 @@ on:
     tags:
       - v*
 
+defaults:
+  run:
+    # https://github.com/actions/runner/issues/241#issuecomment-577360161
+    shell: 'script -q -e -c "bash {0}"'
+
 jobs:
   release-serialized-example:
     name: Serialize
@@ -20,6 +25,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - uses: unionai/flytectl-setup-action@v0.0.1
+      - name: setup sandbox
+        run: make setup
+      - name: setup sandbox
+        run: flytectl config init
       - name: Serialize Examples
         env:
           REGISTRY: "ghcr.io/flyteorg"
@@ -31,30 +41,19 @@ jobs:
         run: |
           mkdir -p cookbook/release-snacks
           make -C cookbook archive
-      - name: Run GoReleaser
-        if: github.event_name != 'pull_request'
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          version: latest
-          args: release --rm-dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.FLYTE_BOT_PAT }}
-
-  release-manifest:
-    name: Release Manifest
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: "0"
-      - name: Serialize Examples
+      - name: Register ${{ matrix.directory }} example
+        run: |
+          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/*
+      - name: Fast Serialize Examples
         env:
           REGISTRY: "ghcr.io/flyteorg"
         run: |
-          mkdir -p cookbook/release-snacks
-          cp cookbook/flyte_tests_manifest.json cookbook/release-snacks/flyte_tests_manifest.json
-      - name: Release test manifest
+          REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} fast_serialize
+      - name: Register ${{ matrix.directory }} example
+        run: |
+          flytectl register files -p flytesnacks -d development --archive cookbook/release-snacks/*
+      - name: Run GoReleaser
+        if: github.event_name != 'pull_request'
         uses: goreleaser/goreleaser-action@v2
         with:
           version: latest
