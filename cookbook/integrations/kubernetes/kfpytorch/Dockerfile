@@ -7,7 +7,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
 # Install basics
-RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
+RUN apt-get update && apt-get install -y make build-essential libssl-dev curl libssl1.0.0
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
