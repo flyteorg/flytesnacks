@@ -173,7 +173,7 @@ To get a link for the in-progress spark drivers, spark application UI, you need 
 Setup Spark Driver and Executor Logs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-this can be configured by configuring the ``logs`` configuration for the Spark plugin.
+This can be configured by configuring the ``logs`` configuration for the Spark plugin. Spark Plugin uses the same default Log Configuration as explained in :ref:`configure-logging`.
 
 SparkPlugin supports separating User (spark user code) vs System (spark core logs), to enhance visibility into Spark. This is only available if you can route the spark user logs separately from the core logs. **Flyte does not automatically separate the logs.**
 Checkout the configuration structure `here <https://github.com/flyteorg/flyteplugins/blob/2e8a22b1b5569d6f24373495fdfec68c5e7d344f/go/tasks/plugins/k8s/spark/config.go#L31>`_
@@ -183,18 +183,25 @@ Checkout the configuration structure `here <https://github.com/flyteorg/flyteplu
 - *System*: Logs from executors - usually will not return unique links per executors, but more like a prefix, where all executors logs can be fgound.
 - *AllUser*: Logs all user logs across, spark-submit, driver and executor.
 
-.. tabs::
+**Log config example**
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
-        plugins:
-            spark:
-                logs:
-                    mixed:
-                        kubernetes-enabled: true
-                        kubernetes-template-uri: ...
-                    user:
-                        ....
+    plugins:
+        spark:
+          logs:
+            user:
+              kubernetes-enabled: true
+              kubernetes-url: <the existing k8s url you have in the main logs section>
+            mixed:
+              cloudwatch-enabled: true
+              cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
+            system:
+              cloudwatch-enabled: true
+              cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=system_log.var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
+            all-user:
+              cloudwatch-enabled: true
+              cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
 
 
 More configuration
