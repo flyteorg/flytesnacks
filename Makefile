@@ -50,6 +50,7 @@ endif
 setup:
 	$(call LOG,Starting Flyte sandbox)
 	flytectl sandbox start --source=$(shell pwd)
+	flytectl config init
 
 .PHONY: start
 start: setup
@@ -79,7 +80,8 @@ register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 .PHONY: fast_register
 fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 	$(call LOG,Fast registering example workflows in cookbook/$(EXAMPLES_MODULE))
-	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_register)
+	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_serialize)
+	flytectl register files -p flytesnacks -d development cookbook/$(EXAMPLES_MODULE)/_pb_output/* --version=latest
 
 .PHONY: setup-kubectl
 kubectl-config:
