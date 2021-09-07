@@ -92,6 +92,8 @@ ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the actual code
 COPY horovod/ /root/horovod
+COPY in_container.mk /root/Makefile
+COPY horovod/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
@@ -101,8 +103,3 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
-
-# For spark we want to use the default entrypoint which is part of the
-# distribution, also enable the virtualenv for this image. 
-# Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
