@@ -9,7 +9,22 @@ ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Python3 and other basics
-RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-essential libssl-dev python3-pip curl cmake g++-4.9
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && apt-get install -y \
+    build-essential \
+    cmake \
+    g++-7 \
+    curl \
+    git \
+    wget \
+    python3.8 \
+    python3.8-venv \
+    python3.8-dev \
+    make \
+    libssl-dev \
+    python3-pip
 
 # Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
 # in future versions to make it completely portable
@@ -74,10 +89,6 @@ ENV SPARK_HOME /opt/spark
 ENV SPARK_VERSION 3.0.1
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
-
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY horovod/sandbox.config /root
 
 # Copy the actual code
 COPY horovod/ /root/horovod
