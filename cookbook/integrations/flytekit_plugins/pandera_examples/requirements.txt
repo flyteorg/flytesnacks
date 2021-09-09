@@ -10,6 +10,8 @@ attrs==21.2.0
     #   scantree
 certifi==2021.5.30
     # via requests
+cffi==1.14.6
+    # via cryptography
 chardet==4.0.0
     # via frictionless
 charset-normalizer==2.0.4
@@ -23,6 +25,8 @@ colorama==0.4.4
     # via typer
 croniter==1.0.15
     # via flytekit
+cryptography==3.4.8
+    # via secretstorage
 cycler==0.10.0
     # via matplotlib
 dataclasses-json==0.5.4
@@ -57,6 +61,10 @@ importlib-metadata==4.6.4
     # via keyring
 isodate==0.6.0
     # via frictionless
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
 joblib==1.0.1
     # via flytekit
 jsonschema==3.2.0
@@ -100,7 +108,7 @@ pathspec==0.9.0
     # via scantree
 petl==1.7.4
     # via frictionless
-pillow==8.3.1
+pillow==8.3.2
     # via matplotlib
 protobuf==3.17.3
     # via
@@ -112,6 +120,8 @@ pyarrow==3.0.0
     # via
     #   flytekit
     #   pandera
+pycparser==2.20
+    # via cffi
 pyparsing==2.4.7
     # via
     #   matplotlib
@@ -152,6 +162,8 @@ rfc3986==1.5.0
     # via frictionless
 scantree==0.0.1
     # via dirhash
+secretstorage==3.3.1
+    # via keyring
 shellingham==1.4.0
     # via typer
 simpleeval==0.9.10
