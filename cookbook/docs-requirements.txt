@@ -48,11 +48,12 @@ docutils==0.16
     #   sphinx
     #   sphinx-panels
     #   sphinx-rtd-theme
-    #   sphinx-tabs
 flyteidl==0.20.2
     # via flytekit
 flytekit==0.22.1
-    # via -r ./common/requirements-common.in
+    # via
+    #   -r ./common/requirements-common.in
+    #   -r docs-requirements.in
 git+git://github.com/flyteorg/furo@main
     # via -r docs-requirements.in
 grpcio==1.40.0
@@ -85,7 +86,9 @@ marshmallow-enum==1.5.1
 marshmallow-jsonschema==0.12.0
     # via flytekit
 matplotlib==3.4.3
-    # via -r ./common/requirements-common.in
+    # via
+    #   -r ./common/requirements-common.in
+    #   -r docs-requirements.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
@@ -117,7 +120,6 @@ pygments==2.10.0
     # via
     #   sphinx
     #   sphinx-prompt
-    #   sphinx-tabs
 pyparsing==2.4.7
     # via
     #   matplotlib
@@ -181,7 +183,6 @@ sphinx==4.1.2
     #   sphinx-panels
     #   sphinx-prompt
     #   sphinx-rtd-theme
-    #   sphinx-tabs
     #   sphinxcontrib-yt
     #   sphinxext-remoteliteralinclude
 sphinx-autoapi==1.8.4
@@ -199,8 +200,6 @@ sphinx-panels==0.6.0
 sphinx-prompt==1.5.0
     # via -r docs-requirements.in
 sphinx-rtd-theme==0.5.2
-    # via -r docs-requirements.in
-sphinx-tabs==3.2.0
     # via -r docs-requirements.in
 sphinxcontrib-applehelp==1.0.2
     # via sphinx
@@ -236,6 +235,7 @@ urllib3==1.26.6
 wheel==0.37.0
     # via
     #   -r ./common/requirements-common.in
+    #   -r docs-requirements.in
     #   flytekit
 wrapt==1.12.1
     # via
