@@ -14,7 +14,6 @@ RUN apt-get update \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
     && apt-get install -y \
     build-essential \
-    gcc \
     cmake \
     g++-7 \
     curl \
@@ -42,6 +41,10 @@ RUN pip3 install wheel
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
+
+# Horovod-related installations
+RUN pip install tensorflow==2.4.0
+RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark]==0.22.1
 
 # Setup HOROVOD entrypoint
 # TODO: Set the entrypoint
@@ -104,3 +107,5 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
+
+ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]

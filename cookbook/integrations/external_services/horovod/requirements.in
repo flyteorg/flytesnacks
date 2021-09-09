@@ -1,4 +1,2 @@
-tensorflow==2.4.0
-horovod[spark]==0.22.1
 git+https://github.com/flyteorg/flytekit.git@ac3c84b170cfc658ad78e87e1b2d0da0cfe2f6f7#subdirectory=plugins/flytekit-kf-mpi
 flytekitplugins-spark>=0.16.0
