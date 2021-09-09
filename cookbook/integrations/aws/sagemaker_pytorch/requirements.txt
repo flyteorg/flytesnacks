@@ -30,7 +30,9 @@ click==7.1.2
 croniter==1.0.15
     # via flytekit
 cryptography==3.4.7
-    # via paramiko
+    # via
+    #   paramiko
+    #   secretstorage
 cycler==0.10.0
     # via matplotlib
 dataclasses-json==0.5.4
@@ -41,11 +43,15 @@ deprecated==1.2.12
     # via flytekit
 dirhash==0.2.1
     # via flytekit
+diskcache==5.2.1
+    # via flytekit
 docker-image-py==0.1.10
     # via flytekit
-flyteidl==0.19.9
+docstring-parser==0.10
     # via flytekit
-flytekit==0.20.0
+flyteidl==0.20.2
+    # via flytekit
+flytekit==0.22.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-awssagemaker
@@ -63,6 +69,10 @@ importlib-metadata==4.6.0
     # via keyring
 inotify_simple==1.2.1
     # via sagemaker-training
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
 jmespath==0.10.0
     # via
     #   boto3
@@ -100,7 +110,7 @@ paramiko==2.7.2
     # via sagemaker-training
 pathspec==0.8.1
     # via scantree
-pillow==8.3.0
+pillow==8.3.2
     # via matplotlib
 protobuf==3.17.3
     # via
@@ -155,6 +165,8 @@ scantree==0.0.1
     # via dirhash
 scipy==1.7.0
     # via sagemaker-training
+secretstorage==3.3.1
+    # via keyring
 six==1.16.0
     # via
     #   bcrypt
