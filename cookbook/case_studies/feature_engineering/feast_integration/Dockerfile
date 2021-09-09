@@ -16,14 +16,17 @@ RUN ${VENV}/bin/pip install wheel
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY feast/requirements.txt /root/.
+COPY feast_integration/requirements.txt /root/.
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-COPY feast/sandbox.config /root/
+COPY feast_integration/sandbox.config /root/
 COPY in_container.mk /root/Makefile
 
-# Copy the actual code
-COPY feast/ /root/feast_integration/
+# Copy the actual co
+COPY feast_integration/ /root/feast_integration/
+
+# Copy minio credentials to known place
+COPY feast_integration/aws.config /root/.aws/config
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

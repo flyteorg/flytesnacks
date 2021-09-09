@@ -54,10 +54,10 @@ def store_offline(dataframe: FlyteSchema) -> (str, str):
     return repo_path, horse_colic_feature_view.name
 
 @workflow
-def load_data_into_offline_store(feast_repo_path: str):
+def load_data_into_offline_store():
     # Load parquet file from sqlite task
     df = sql_task()
     a, b = store_offline(dataframe=df)
 
 if __name__ == '__main__':
-    print(f"{load_data_into_offline_store(feast_repo_path='some-path')}")
+    print(f"{load_data_into_offline_store()}")
