@@ -35,7 +35,7 @@ cycler==0.10.0
     # via matplotlib
 dataclasses-json==0.5.5
     # via flytekit
-debugpy==1.4.1
+debugpy==1.4.2.post1
     # via ipykernel
 decorator==5.0.9
     # via
@@ -72,7 +72,7 @@ idna==3.2
     # via requests
 importlib-metadata==4.8.1
     # via keyring
-ipykernel==6.3.1
+ipykernel==6.4.0
     # via flytekitplugins-papermill
 ipython==7.27.0
     # via ipykernel
