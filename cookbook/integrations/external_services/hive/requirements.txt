@@ -76,7 +76,7 @@ pandas==1.2.5
     # via flytekit
 pathspec==0.8.1
     # via scantree
-pillow==8.3.0
+pillow==8.3.2
     # via matplotlib
 protobuf==3.17.3
     # via
