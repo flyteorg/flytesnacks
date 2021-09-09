@@ -40,7 +40,9 @@ click==7.1.2
 croniter==1.0.15
     # via flytekit
 cryptography==3.4.7
-    # via paramiko
+    # via
+    #   paramiko
+    #   secretstorage
 cycler==0.10.0
     # via matplotlib
 dataclasses-json==0.5.4
@@ -53,13 +55,17 @@ dill==0.3.4
     # via tensorflow-datasets
 dirhash==0.2.1
     # via flytekit
+diskcache==5.2.1
+    # via flytekit
 docker-image-py==0.1.10
+    # via flytekit
+docstring-parser==0.10
     # via flytekit
 flatbuffers==1.12
     # via tensorflow
-flyteidl==0.19.9
+flyteidl==0.20.2
     # via flytekit
-flytekit==0.20.0
+flytekit==0.22.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-awssagemaker
@@ -94,10 +100,12 @@ idna==2.10
     # via requests
 importlib-metadata==4.6.0
     # via keyring
-importlib-resources==5.2.0
-    # via tensorflow-datasets
 inotify_simple==1.2.1
     # via sagemaker-training
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
 jmespath==0.10.0
     # via
     #   boto3
@@ -224,6 +232,8 @@ scantree==0.0.1
     # via dirhash
 scipy==1.7.0
     # via sagemaker-training
+secretstorage==3.3.1
+    # via keyring
 six==1.15.0
     # via
     #   absl-py
@@ -277,7 +287,7 @@ typing-extensions==3.7.4.3
     #   typing-inspect
 typing-inspect==0.7.1
     # via dataclasses-json
-urllib3==1.25.11
+urllib3==1.26.5
     # via
     #   botocore
     #   flytekit
@@ -300,9 +310,7 @@ wrapt==1.12.1
     #   flytekit
     #   tensorflow
 zipp==3.4.1
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
 zope.event==4.5.0
     # via gevent
 zope.interface==5.4.0
