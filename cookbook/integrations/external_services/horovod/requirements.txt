@@ -48,13 +48,13 @@ flatbuffers==1.12
     # via tensorflow
 flyteidl==0.20.2
     # via flytekit
-flytekit==0.22.0
+flytekit==0.22.1
     # via
     #   flytekitplugins-kfmpi
     #   flytekitplugins-spark
 git+https://github.com/flyteorg/flytekit.git@ac3c84b170cfc658ad78e87e1b2d0da0cfe2f6f7#subdirectory=plugins/flytekit-kf-mpi
     # via -r requirements.in
-flytekitplugins-spark==0.22.0
+flytekitplugins-spark==0.22.1
     # via -r requirements.in
 fsspec==2021.8.1
     # via
@@ -81,14 +81,12 @@ h5py==2.10.0
     # via
     #   horovod
     #   tensorflow
-horovod[keras,spark,tensorflow]==0.22.1
+horovod[spark]==0.22.1
     # via -r requirements.in
 idna==3.2
     # via requests
 importlib-metadata==4.8.1
     # via keyring
-keras==2.6.0
-    # via horovod
 keras-preprocessing==1.1.2
     # via tensorflow
 keyring==23.1.0
@@ -229,9 +227,7 @@ tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.0
     # via tensorboard
 tensorflow==2.4.0
-    # via
-    #   -r requirements.in
-    #   horovod
+    # via -r requirements.in
 tensorflow-estimator==2.4.0
     # via tensorflow
 termcolor==1.1.0

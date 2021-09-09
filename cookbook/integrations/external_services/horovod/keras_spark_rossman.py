@@ -565,19 +565,24 @@ def test_model(hp: Hyperparameters, test_df, keras_model):
         num_workers=2,
         num_launcher_replicas=1,
         slots=1,
+        per_replica_requests=Resources(
+            cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
+        ),
+        per_replica_limits=Resources(
+            cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
+        ),
     ),
     retries=5,
     cache=True,
     cache_version="1.0",
-    per_replica_requests=Resources(
-        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
-    ),
-    per_replica_limits=Resources(
-        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
-    ),
 )
 def horovod_train_task(
-    hp: Hyperparameters, continuous_cols, categorical_cols, train_df, test_df, len_vocab
+    hp: Hyperparameters,
+    continuous_cols: typing.List[str],
+    categorical_cols: typing.List[str],
+    train_df: FlyteSchema,
+    test_df: FlyteSchema,
+    len_vocab: typing.Dict[str, int],
 ) -> (FlyteFile, CSVFile):
     keras_model, local_checkpoint_file = train_model(
         len_vocab=len_vocab,

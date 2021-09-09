@@ -14,6 +14,7 @@ RUN apt-get update \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
     && apt-get install -y \
     build-essential \
+    gcc \
     cmake \
     g++-7 \
     curl \
@@ -24,20 +25,20 @@ RUN apt-get update \
     python3.8-dev \
     make \
     libssl-dev \
-    python3-pip
+    python3-pip \
+    python3-wheel
+
+ENV VENV /opt/venv
+# Virtual environment
+RUN python3.8 -m venv ${VENV}
+ENV PATH="${VENV}/bin:$PATH"
 
 # Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
 # in future versions to make it completely portable
 RUN pip3 install awscli
 
-ENV VENV /opt/venv
-# Virtual environment
-RUN python3 -m venv ${VENV}
-ENV PATH="${VENV}/bin:$PATH"
-
-# HOROVOD
-# To ensure that Horovod is built with TensorFlow support enabled
-ENV HOROVOD_WITH_TENSORFLOW 1
+# Install wheel after venv is activated
+RUN pip3 install wheel
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
