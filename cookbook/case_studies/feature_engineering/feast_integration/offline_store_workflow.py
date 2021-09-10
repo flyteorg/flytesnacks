@@ -44,7 +44,7 @@ sql_task = SQLite3Task(
 )
 
 @task
-def all_together(dataframe: FlyteSchema):
+def store_offline(registry: FlyteFile, dataframe: FlyteSchema):
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     print(f"dataframe.remote_path={dataframe.remote_path}")
@@ -70,74 +70,7 @@ def all_together(dataframe: FlyteSchema):
         ttl=timedelta(days=1),
     )
 
-    fs = _build_feature_store()
-
-    # Ingest the data into feast
-    fs.apply([horse_colic_entity, horse_colic_feature_view])
-
-    entity_df = pd.DataFrame.from_dict(
-        {
-            "Hospital Number": [
-                "530101",
-                "5290409",
-                "5291329",
-                "530051",
-                "529518",
-                "530101",
-                "529340",
-                "5290409",
-                "530034",
-            ],
-            "event_timestamp": [
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 7, 5, 11, 36, 1),
-                datetime(2021, 6, 25, 16, 36, 27),
-                datetime(2021, 7, 5, 11, 50, 40),
-                datetime(2021, 6, 25, 16, 36, 27),
-            ],
-        }
-    )
-
-    fs = _build_feature_store()
-    retrieval_job = fs.get_historical_features(
-        entity_df=entity_df,
-        features=FEAST_FEATURES,
-    )
-    df = retrieval_job.to_df()
-
-
-@task
-def store_offline(dataframe: FlyteSchema):
-    horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
-
-    print(f"dataframe.remote_path={dataframe.remote_path}")
-
-    horse_colic_feature_view = FeatureView(
-        name="horse_colic_stats",
-        entities=["Hospital Number"],
-        features=[
-            Feature(name="rectal temperature", dtype=ValueType.FLOAT),
-            Feature(name="total protein", dtype=ValueType.FLOAT),
-            Feature(name="peripheral pulse", dtype=ValueType.FLOAT),
-            Feature(name="surgical lesion", dtype=ValueType.STRING),
-            Feature(name="abdominal distension", dtype=ValueType.FLOAT),
-            Feature(name="nasogastric tube", dtype=ValueType.STRING),
-            Feature(name="outcome", dtype=ValueType.STRING),
-            Feature(name="packed cell volume", dtype=ValueType.FLOAT),
-            Feature(name="nasogastric reflux PH", dtype=ValueType.FLOAT),
-        ],
-        batch_source=FileSource(
-            path=str(dataframe.remote_path),
-            event_timestamp_column="timestamp",
-        ),
-        ttl=timedelta(days=1),
-    )
-
-    fs = _build_feature_store()
+    fs = _build_feature_store(registry=registry)
 
     # Ingest the data into feast
     fs.apply([horse_colic_entity, horse_colic_feature_view])
@@ -194,9 +127,6 @@ def load_data_into_offline_store():
     # Need to convert timestamp column in the underlying dataframe, otherwise its type is written as
     # string. There is probably a better way of doing this conversion.
     converted_df = convert_timestamp_column(dataframe=df, timestamp_column="timestamp")
-
-    # TODO: remove. Used only for debugging.
-    # all_together(dataframe=converted_df)
 
     store_offline(dataframe=converted_df)
 
