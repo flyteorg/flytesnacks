@@ -52,7 +52,7 @@ RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark,tensorflo
 # ENV HOROVOD_PROGRAM /opt/venv/bin/flytekit_mpi_runner.py
 
 # Install Python dependencies
-COPY horovod/requirements.txt /root
+COPY spark_horovod/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # MPI
@@ -96,9 +96,9 @@ ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the actual code
-COPY horovod/ /root/horovod
+COPY spark_horovod/ /root/spark_horovod
 COPY in_container.mk /root/Makefile
-COPY horovod/sandbox.config /root
+COPY spark_horovod/sandbox.config /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
