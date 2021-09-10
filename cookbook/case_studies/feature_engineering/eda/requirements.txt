@@ -61,10 +61,8 @@ entrypoints==0.3
 flyteidl==0.20.2
     # via flytekit
 flytekit==0.22.1
-    # via
-    #   -r ../../../common/requirements-common.in
-    #   flytekitplugins-papermill
-flytekitplugins-papermill==0.22.1
+    # via flytekitplugins-papermill
+https://github.com/flyteorg/flytekit/archive/e3a61d194f3fd71628d993f44f8b753aae4b3954.tar.gz#subdirectory=plugins/flytekit-papermill&egg=flytekitplugins-papermill
     # via -r requirements.in
 grpcio==1.40.0
     # via flytekit
@@ -116,7 +114,6 @@ marshmallow-jsonschema==0.12.0
     # via flytekit
 matplotlib==3.4.3
     # via
-    #   -r ../../../common/requirements-common.in
     #   -r requirements.in
     #   seaborn
 matplotlib-inline==0.1.3
@@ -302,9 +299,7 @@ wcwidth==0.2.5
 webencodings==0.5.1
     # via bleach
 wheel==0.37.0
-    # via
-    #   -r ../../../common/requirements-common.in
-    #   flytekit
+    # via flytekit
 wrapt==1.12.1
     # via
     #   deprecated
