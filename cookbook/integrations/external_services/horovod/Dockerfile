@@ -25,7 +25,8 @@ RUN apt-get update \
     make \
     libssl-dev \
     python3-pip \
-    python3-wheel
+    python3-wheel \
+    libuv1
 
 ENV VENV /opt/venv
 # Virtual environment
@@ -44,7 +45,7 @@ RUN pip3 install wheel
 
 # Horovod-related installations
 RUN pip install tensorflow==2.4.0
-RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark]==0.22.1
+RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark,tensorflow]==0.22.1
 
 # Setup HOROVOD entrypoint
 # TODO: Set the entrypoint
