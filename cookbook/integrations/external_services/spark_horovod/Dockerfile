@@ -44,7 +44,7 @@ RUN pip3 install wheel
 # ENV HOROVOD_GPU_OPERATIONS NCCL
 
 # Horovod-related installations
-RUN pip install tensorflow==2.4.0
+RUN pip install tensorflow==2.6.0
 RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark,tensorflow]==0.22.1
 
 # Setup HOROVOD entrypoint
