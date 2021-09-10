@@ -85,7 +85,7 @@ importlib-metadata==4.8.1
     # via
     #   great-expectations
     #   keyring
-ipykernel==6.4.0
+ipykernel==6.4.1
     # via
     #   ipywidgets
     #   notebook
@@ -264,7 +264,7 @@ requests==2.26.0
     #   flytekit
     #   great-expectations
     #   responses
-responses==0.13.4
+responses==0.14.0
     # via flytekit
 retry==0.9.2
     # via flytekit
