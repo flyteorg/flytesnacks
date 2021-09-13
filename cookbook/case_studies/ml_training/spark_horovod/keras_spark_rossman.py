@@ -276,6 +276,8 @@ DataPrepOutputs = typing.NamedTuple(
     ),
     cache=True,
     cache_version="0.1",
+    requests=Resources(mem="1Gi"),
+    limits=Resources(mem="2Gi"),
 )
 def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
     download_data()
