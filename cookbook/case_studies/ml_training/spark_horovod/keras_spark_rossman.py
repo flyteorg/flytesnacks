@@ -272,6 +272,7 @@ DataPrepOutputs = typing.NamedTuple(
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
             "spark.sql.shuffle.partitions": "16",
+            "spark.worker.timeout": "120",
         }
     ),
     cache=True,
