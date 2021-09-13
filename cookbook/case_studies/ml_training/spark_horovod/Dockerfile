@@ -42,8 +42,6 @@ RUN pip3 install wheel
 
 # Horovod-related installations
 RUN pip install tensorflow==2.6.0
-# Pre-requisite for horovod spark
-RUN apt install cmake
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
 RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark]==0.22.1
