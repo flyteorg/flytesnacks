@@ -5,11 +5,13 @@ ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
+ENV FEAST_S3_ENDPOINT_URL http://localhost:30084/
+ENV AWS_ACCESS_KEY_ID minio
+ENV AWS_SECRET_ACCESS_KEY miniostorage
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
 
-ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel

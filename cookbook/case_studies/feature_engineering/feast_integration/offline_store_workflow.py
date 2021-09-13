@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime
 from feast import FeatureStore, Entity, FeatureView, FileSource, ValueType, Feature, RepoConfig
 from feast.infra.online_stores.sqlite import SqliteOnlineStoreConfig
+from feast.infra.offline_stores.file import FileOfflineStoreConfig
 from flytekit import task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file.file import FlyteFile
@@ -22,13 +23,17 @@ FEAST_FEATURES = [
 ]
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 
-def _build_feature_store() -> FeatureStore:
+def _build_feature_store(registry: FlyteFile) -> FeatureStore:
+    # TODO: comment why we need this
+    # if not registry.downloaded:
+    #     registry.download()
     config = RepoConfig(
-        # Notice the use of an s3 uri to store the registry
-        registry="s3://feast-integration/registry.db",
+        registry=registry.remote_source,
         project=f"horsecolic",
-        provider="local",
-        # online_store=SqliteOnlineStoreConfig(),
+        # Notice the use of a custom provider.
+        provider="custom_provider.provider.MyCustomProvider",
+        offline_store=FileOfflineStoreConfig(),
+        online_store=SqliteOnlineStoreConfig(),
     )
     return FeatureStore(config=config)
 
@@ -44,7 +49,7 @@ sql_task = SQLite3Task(
 )
 
 @task
-def store_offline(registry: FlyteFile, dataframe: FlyteSchema):
+def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     print(f"dataframe.remote_path={dataframe.remote_path}")
@@ -75,8 +80,10 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema):
     # Ingest the data into feast
     fs.apply([horse_colic_entity, horse_colic_feature_view])
 
+    return registry
+
 @task
-def load_historical_features() -> FlyteSchema:
+def load_historical_features(registry: FlyteFile) -> FlyteSchema:
     entity_df = pd.DataFrame.from_dict(
         {
             "Hospital Number": [
@@ -104,7 +111,7 @@ def load_historical_features() -> FlyteSchema:
         }
     )
 
-    fs = _build_feature_store()
+    fs = _build_feature_store(registry=registry)
     retrieval_job = fs.get_historical_features(
         entity_df=entity_df,
         features=FEAST_FEATURES,
@@ -118,19 +125,27 @@ def convert_timestamp_column(dataframe: FlyteSchema, timestamp_column: str) -> F
     df[timestamp_column] = pd.to_datetime(df[timestamp_column])
     return df
 
+@task
+def build_registry_flyte_file(registry_uri: str) -> FlyteFile:
+    # TODO: how to ensure file exists in s3?
+    return FlyteFile(registry_uri)
+
 
 @workflow
-def load_data_into_offline_store():
+def load_data_into_offline_store(registry_uri: str):
     # Load parquet file from sqlite task
     df = sql_task()
+
+    registry = build_registry_flyte_file(registry_uri=registry_uri)
 
     # Need to convert timestamp column in the underlying dataframe, otherwise its type is written as
     # string. There is probably a better way of doing this conversion.
     converted_df = convert_timestamp_column(dataframe=df, timestamp_column="timestamp")
 
-    store_offline(dataframe=converted_df)
+    registry1 = store_offline(registry=registry, dataframe=converted_df)
 
-    feature_data = load_historical_features()
+    feature_data = load_historical_features(registry=registry1)
 
 if __name__ == '__main__':
-    print(f"{load_data_into_offline_store()}")
+    print(f"{load_data_into_offline_store(registry_uri='s3://feast-integration/registry.db')}")
+    # print(f"{load_data_into_offline_store(registry_uri='/tmp/registry.db')}")
