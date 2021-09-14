@@ -145,9 +145,9 @@ def load_data_into_offline_store(registry: FlyteFile):
     # string. There is probably a better way of doing this conversion.
     converted_df = convert_timestamp_column(dataframe=df, timestamp_column="timestamp")
 
-    store_offline(registry=registry, dataframe=converted_df)
+    registry_to_historical_features_task = store_offline(registry=registry, dataframe=converted_df)
 
-    feature_data = load_historical_features(registry=registry)
+    feature_data = load_historical_features(registry=registry_to_historical_features_task)
 
 if __name__ == '__main__':
     print(f"{load_data_into_offline_store(registry='s3://feast-integration/registry-2.db')}")
