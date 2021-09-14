@@ -106,13 +106,16 @@ class MyCustomProvider(LocalProvider):
             if isinstance(fv.batch_source, FileSource):
                 # Copy parquet file to a local file
                 file_source: FileSource = fv.batch_source
+                random_local_path = FlyteContext.current_context().file_access.get_random_local_path(file_source.path)
                 FlyteContext.current_context().file_access.get_data(
                     file_source.path,
-                    f"/tmp/{idx}.file",
+                    random_local_path,
+                    # f"/tmp/{idx}.file",
                     is_multipart=True,
                 )
                 fv.batch_source=FileSource(
-                    path=f"/tmp/{idx}.file",
+                    # path=f"/tmp/{idx}.file",
+                    path=random_local_path,
                     event_timestamp_column=file_source.event_timestamp_column,
                 )
         return super().get_historical_features(
