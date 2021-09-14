@@ -4,7 +4,7 @@ WORKDIR /root
 ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-ENV PYTHONPATH "$PYTHONPATH:/root/feast_integration/custom_provider"
+ENV PYTHONPATH "$PYTHONPATH:/root/feast_integration"
 ENV FEAST_S3_ENDPOINT_URL http://minio.flyte:9000/
 
 # Install the AWS cli separately to prevent issues with boto being written over
