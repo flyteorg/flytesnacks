@@ -40,20 +40,6 @@ RUN pip3 install awscli
 # Install wheel after venv is activated
 RUN pip3 install wheel
 
-# Horovod-related installations
-RUN pip install tensorflow==2.6.0
-# Enable GPU
-# ENV HOROVOD_GPU_OPERATIONS NCCL
-RUN HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark]==0.22.1
-
-# Setup HOROVOD entrypoint
-# TODO: Set the entrypoint
-# ENV HOROVOD_PROGRAM /opt/venv/bin/flytekit_mpi_runner.py
-
-# Install Python dependencies
-COPY spark_horovod/requirements.txt /root
-RUN pip install -r /root/requirements.txt
-
 # MPI
 # Install Open MPI
 RUN mkdir /tmp/openmpi && \
@@ -79,6 +65,20 @@ RUN apt-get install -y --no-install-recommends openssh-client openssh-server && 
 RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config && \
     echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config && \
     sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
+
+# Horovod-related installations
+RUN pip install tensorflow==2.6.0
+# Enable GPU
+# ENV HOROVOD_GPU_OPERATIONS NCCL
+RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark]==0.22.1
+
+# Setup HOROVOD entrypoint
+# TODO: Set the entrypoint
+# ENV HOROVOD_PROGRAM /opt/venv/bin/flytekit_mpi_runner.py
+
+# Install Python dependencies
+COPY spark_horovod/requirements.txt /root
+RUN pip install -r /root/requirements.txt
 
 # SPARK
 RUN flytekit_install_spark3.sh

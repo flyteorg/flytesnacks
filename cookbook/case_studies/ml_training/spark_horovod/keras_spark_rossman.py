@@ -8,6 +8,7 @@ from distutils.version import LooseVersion
 
 import flytekit
 import horovod.spark.keras as hvd
+import pyspark
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
 import tensorflow as tf
@@ -21,16 +22,7 @@ from horovod.spark.common.backend import SparkBackend
 from horovod.spark.common.store import Store
 from horovod.tensorflow.keras.callbacks import BestModelCheckpoint
 from pyspark import Row
-from tensorflow.keras.layers import (
-    BatchNormalization,
-    Concatenate,
-    Dense,
-    Dropout,
-    Embedding,
-    Flatten,
-    Input,
-    Reshape,
-)
+from tensorflow.keras.layers import BatchNormalization, Concatenate, Dense, Dropout, Embedding, Flatten, Input, Reshape
 
 
 @dataclass_json
@@ -41,7 +33,7 @@ class Hyperparameters:
     learning_rate: float = 0.0001
     num_proc: int = 2
     epochs: int = 100
-    local_checkpoint_file: str = "checkpoint"
+    local_checkpoint_file: str = "checkpoint.h5"
     local_submission_csv: str = "submission.csv"
 
 
@@ -237,16 +229,22 @@ def lookup_columns(df, vocab):
 def download_data():
     if not os.path.exists("./data"):
         os.makedirs("./data")
-        subprocess.check_output(
+        ps = subprocess.run(
             [
                 "curl",
                 "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
-                "|",
+            ],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            [
                 "tar",
                 "-xz",
                 "-C",
                 "data",
-            ]
+            ],
+            input=ps.stdout,
         )
 
 
@@ -257,6 +255,7 @@ DataPrepOutputs = typing.NamedTuple(
     train_df=FlyteSchema,
     test_df=FlyteSchema,
     len_vocab=typing.Dict[str, int],
+    max_sales=float,
 )
 
 #################
@@ -282,6 +281,10 @@ DataPrepOutputs = typing.NamedTuple(
 )
 def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
     download_data()
+
+    print("================")
+    print("Data preparation")
+    print("================")
 
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
@@ -410,14 +413,11 @@ def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
     # Test set is in 2015, use the same period in 2014 from the training set as a validation set.
     test_min_date = test_df.agg(F.min(test_df.Date)).collect()[0][0]
     test_max_date = test_df.agg(F.max(test_df.Date)).collect()[0][0]
-    a_year = datetime.timedelta(365)
-    val_df = train_df.filter(
-        (test_min_date - a_year <= train_df.Date)
-        & (train_df.Date < test_max_date - a_year)
-    )
-    train_df = train_df.filter(
-        (train_df.Date < test_min_date - a_year)
-        | (train_df.Date >= test_max_date - a_year)
+    one_year = datetime.timedelta(365)
+    train_df = train_df.withColumn(
+        "Validation",
+        (train_df.Date > test_min_date - one_year)
+        & (train_df.Date <= test_max_date - one_year),
     )
 
     # Determine max Sales number.
@@ -448,6 +448,7 @@ def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
         train_df=train_df,
         test_df=test_df,
         len_vocab={col: len(list_values) for col, list_values in vocab.items()},
+        max_sales=max_sales,
     )
 
 
@@ -463,23 +464,24 @@ def exp_rmspe(y_true, y_pred):
     return tf.sqrt(x / y)
 
 
-def act_sigmoid_scaled(x, max_sales):
-    """Sigmoid scaled to logarithm of maximum sales scaled by 20%."""
-    return tf.nn.sigmoid(x) * tf.log(max_sales) * 1.2
+def closure(max_sales):
+    def act_sigmoid_scaled(x):
+        """Sigmoid scaled to logarithm of maximum sales scaled by 20%."""
+        return tf.nn.sigmoid(x) * tf.math.log(max_sales) * 1.2
+
+    return act_sigmoid_scaled
 
 
-def train_model(
-    categorical_cols,
-    continuous_cols,
-    hp,
-    train_df,
-    len_vocab,
-):
+def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_sales):
     """Train a deep learning model."""
+
+    print("==============")
+    print("Model training")
+    print("==============")
 
     all_cols = categorical_cols + continuous_cols
 
-    CUSTOM_OBJECTS = {"exp_rmspe": exp_rmspe, "act_sigmoid_scaled": act_sigmoid_scaled}
+    CUSTOM_OBJECTS = {"exp_rmspe": exp_rmspe, "act_sigmoid_scaled": closure(max_sales)}
 
     # Disable GPUs when building the model to prevent memory leaks
     if LooseVersion(tf.__version__) >= LooseVersion("2.0.0"):
@@ -513,7 +515,7 @@ def train_model(
         500, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
     )(x)
     x = Dropout(0.5)(x)
-    output = Dense(1, activation=act_sigmoid_scaled)(x)
+    output = Dense(1, activation=closure(max_sales))(x)
     model = tf.keras.Model([inputs[f] for f in all_cols], output)
     model.summary()
 
@@ -549,7 +551,9 @@ def train_model(
         checkpoint_callback=ckpt_callback,
     )
 
-    keras_model = keras_estimator.fit(train_df).setOutputCols(["Sales_output"])
+    keras_model = keras_estimator.fit(
+        train_df.open(pyspark.sql.DataFrame).all()
+    ).setOutputCols(["Sales_output"])
 
     history = keras_model.getHistory()
     best_val_rmspe = min(history["val_exp_rmspe"])
@@ -565,7 +569,11 @@ def train_model(
 def test_model(hp: Hyperparameters, test_df, keras_model):
     """Test a deep learning model."""
 
-    pred_df = keras_model.transform(test_df)
+    print("================")
+    print("Final prediction")
+    print("================")
+
+    pred_df = keras_model.transform(test_df.open(pyspark.sql.DataFrame).all())
     pred_df.printSchema()
     pred_df.show(5)
 
@@ -593,6 +601,7 @@ def horovod_train_task(
     train_df: FlyteSchema,
     test_df: FlyteSchema,
     len_vocab: typing.Dict[str, int],
+    max_sales: float,
 ) -> (FlyteFile, CSVFile):
     keras_model, local_checkpoint_file = train_model(
         len_vocab=len_vocab,
@@ -600,6 +609,7 @@ def horovod_train_task(
         continuous_cols=continuous_cols,
         hp=hp,
         train_df=train_df,
+        max_sales=max_sales,
     )
 
     # return checkpoint (model) and prediction files
@@ -613,9 +623,14 @@ def horovod_train_task(
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
 ) -> (FlyteFile, CSVFile):
-    continuous_cols, categorical_cols, train_df, test_df, len_vocab = data_preparation(
-        data_dir="./data", hp=hp
-    )
+    (
+        continuous_cols,
+        categorical_cols,
+        train_df,
+        test_df,
+        len_vocab,
+        max_sales,
+    ) = data_preparation(data_dir="./data", hp=hp)
     return horovod_train_task(
         hp=hp,
         continuous_cols=continuous_cols,
@@ -623,6 +638,7 @@ def horovod_training_wf(
         train_df=train_df,
         test_df=test_df,
         len_vocab=len_vocab,
+        max_sales=max_sales,
     )
 
 

@@ -14,7 +14,7 @@ click==7.1.2
     # via flytekit
 croniter==1.0.15
     # via flytekit
-dataclasses-json==0.5.5
+dataclasses-json==0.5.6
     # via flytekit
 decorator==5.1.0
     # via retry
@@ -73,8 +73,10 @@ py4j==0.10.9
     # via pyspark
 pyarrow==3.0.0
     # via flytekit
-pyspark==3.1.2
-    # via flytekitplugins-spark
+pyspark==3.0.1
+    # via
+    #   -r requirements.in
+    #   flytekitplugins-spark
 python-dateutil==2.8.1
     # via
     #   croniter
