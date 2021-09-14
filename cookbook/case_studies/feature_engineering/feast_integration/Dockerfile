@@ -24,9 +24,6 @@ COPY in_container.mk /root/Makefile
 # Copy the actual co
 COPY feast_integration/ /root/feast_integration/
 
-# Copy minio credentials to known place
-COPY feast_integration/aws.config /root/.aws/config
-
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
 ARG tag
