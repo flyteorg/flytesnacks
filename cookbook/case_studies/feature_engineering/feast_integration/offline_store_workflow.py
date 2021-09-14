@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from datetime import datetime
 from feast import FeatureStore, Entity, FeatureView, FileSource, ValueType, Feature, RepoConfig
@@ -50,6 +51,7 @@ sql_task = SQLite3Task(
 @task
 def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
     print(f"store_offline remote_source={registry.remote_source}")
+    print(f"env vars={os.environ}")
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
