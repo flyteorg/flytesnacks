@@ -9,19 +9,19 @@ from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
 from datetime import timedelta
-# from flyte_file_source import FlyteFileSource
+
 
 # TODO: find a better way to define these features.
 FEAST_FEATURES = [
     "horse_colic_stats:rectal temperature",
     "horse_colic_stats:total protein",
-    # "horse_colic_stats:peripheral pulse",
-    # "horse_colic_stats:surgical lesion",
-    # "horse_colic_stats:abdominal distension",
-    # "horse_colic_stats:nasogastric tube",
-    # "horse_colic_stats:outcome",
-    # "horse_colic_stats:packed cell volume",
-    # "horse_colic_stats:nasogastric reflux PH",
+    "horse_colic_stats:peripheral pulse",
+    "horse_colic_stats:surgical lesion",
+    "horse_colic_stats:abdominal distension",
+    "horse_colic_stats:nasogastric tube",
+    "horse_colic_stats:outcome",
+    "horse_colic_stats:packed cell volume",
+    "horse_colic_stats:nasogastric reflux PH",
 ]
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 
@@ -64,20 +64,14 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
         features=[
             Feature(name="rectal temperature", dtype=ValueType.FLOAT),
             Feature(name="total protein", dtype=ValueType.FLOAT),
-            # Feature(name="peripheral pulse", dtype=ValueType.FLOAT),
-            # Feature(name="surgical lesion", dtype=ValueType.STRING),
-            # Feature(name="abdominal distension", dtype=ValueType.FLOAT),
-            # Feature(name="nasogastric tube", dtype=ValueType.STRING),
-            # Feature(name="outcome", dtype=ValueType.STRING),
-            # Feature(name="packed cell volume", dtype=ValueType.FLOAT),
-            # Feature(name="nasogastric reflux PH", dtype=ValueType.FLOAT),
+            Feature(name="peripheral pulse", dtype=ValueType.FLOAT),
+            Feature(name="surgical lesion", dtype=ValueType.STRING),
+            Feature(name="abdominal distension", dtype=ValueType.FLOAT),
+            Feature(name="nasogastric tube", dtype=ValueType.STRING),
+            Feature(name="outcome", dtype=ValueType.STRING),
+            Feature(name="packed cell volume", dtype=ValueType.FLOAT),
+            Feature(name="nasogastric reflux PH", dtype=ValueType.FLOAT),
         ],
-        # Using FlyteFileSource
-        # batch_source=FlyteFileSource(
-        #     flyte_file=dataframe,
-        #     event_timestamp_column="timestamp",
-        # ),
-        # Using FileSource
         batch_source=FileSource(
             path=str(dataframe.remote_path),
             event_timestamp_column="timestamp",
@@ -94,7 +88,6 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
 
 @task
 def load_historical_features(registry: FlyteFile) -> FlyteSchema:
-    print(f"load_historical_features remote_source={registry.remote_source}")
     entity_df = pd.DataFrame.from_dict(
         {
             "Hospital Number": [
@@ -150,5 +143,4 @@ def load_data_into_offline_store(registry: FlyteFile):
     feature_data = load_historical_features(registry=registry_to_historical_features_task)
 
 if __name__ == '__main__':
-    print(f"{load_data_into_offline_store(registry='s3://feast-integration/registry-2.db')}")
-    # print(f"{load_data_into_offline_store(registry_uri='./registry.db')}")
+    print(f"{load_data_into_offline_store(registry='s3://feast-integration/registry.db')}")
