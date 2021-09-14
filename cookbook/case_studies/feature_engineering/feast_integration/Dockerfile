@@ -6,9 +6,6 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH "$PYTHONPATH:/root/feast_integration"
 
-# Replace s3 endpoint used by Feast with the one used by flytekit
-ENV FEAST_S3_ENDPOINT_URL "$FLYTE_AWS_ENDPOINT"
-
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
 

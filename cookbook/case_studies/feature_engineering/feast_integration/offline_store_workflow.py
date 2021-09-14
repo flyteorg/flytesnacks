@@ -26,6 +26,9 @@ FEAST_FEATURES = [
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 
 def _build_feature_store(registry: FlyteFile) -> FeatureStore:
+    # TODO: comment this
+    os.environ["FEAST_S3_ENDPOINT_URL"] = os.environ["FLYTE_AWS_ENDPOINT"]
+
     config = RepoConfig(
         registry=registry.remote_source,
         project=f"horsecolic",
