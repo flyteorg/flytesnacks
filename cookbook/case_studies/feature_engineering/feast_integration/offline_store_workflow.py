@@ -34,7 +34,6 @@ def _build_feature_store(registry: FlyteFile) -> FeatureStore:
     config = RepoConfig(
         registry=registry.remote_source,
         project=f"horsecolic",
-        # provider="local",
         # Notice the use of a custom provider.
         provider="custom_provider.provider.MyCustomProvider",
         offline_store=FileOfflineStoreConfig(),
