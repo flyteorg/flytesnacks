@@ -1,5 +1,7 @@
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from feast.infra.offline_stores.file_source import FileSource
+from flytekit.core.context_manager import FlyteContext
 
 import pandas
 from feast.entity import Entity
@@ -100,6 +102,19 @@ class MyCustomProvider(LocalProvider):
         full_feature_names: bool,
     ) -> RetrievalJob:
         # get_historical_features returns a training dataframe from the offline store
+        for idx, fv in enumerate(feature_views):
+            if isinstance(fv.batch_source, FileSource):
+                # Copy parquet file to a local file
+                file_source: FileSource = fv.batch_source
+                FlyteContext.current_context().file_access.get_data(
+                    file_source.path,
+                    f"/tmp/{idx}.file",
+                    is_multipart=True,
+                )
+                fv.batch_source=FileSource(
+                    path=f"/tmp/{idx}.file",
+                    event_timestamp_column=file_source.event_timestamp_column,
+                )
         return super().get_historical_features(
             config,
             feature_views,
