@@ -28,6 +28,8 @@ DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575
 def _build_feature_store(registry: FlyteFile) -> FeatureStore:
     # TODO: comment this
     os.environ["FEAST_S3_ENDPOINT_URL"] = os.environ["FLYTE_AWS_ENDPOINT"]
+    os.environ["AWS_ACCESS_KEY_ID"] = os.environ["FLYTE_AWS_ACCESS_KEY_ID"]
+    os.environ["AWS_SECRET_ACCESS_KEY"] = os.environ["FLYTE_AWS_SECRET_ACCESS_KEY"]
 
     config = RepoConfig(
         registry=registry.remote_source,
