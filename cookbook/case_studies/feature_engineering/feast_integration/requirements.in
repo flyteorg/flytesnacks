@@ -1,2 +1,4 @@
 flytekit
+scikit-learn
+numpy
 feast[aws]

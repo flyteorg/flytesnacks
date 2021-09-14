@@ -1,4 +1,6 @@
+import joblib
 import os
+import numpy as np
 import pandas as pd
 from datetime import datetime
 from feast import FeatureStore, Entity, FeatureView, FileSource, ValueType, Feature, RepoConfig
@@ -8,7 +10,11 @@ from flytekit import task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
+from flytekit.types.file import JoblibSerializedFile
 from datetime import timedelta
+from feature_eng_tasks import mean_median_imputer, univariate_selection
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
 
 
 # TODO: find a better way to define these features.
@@ -24,6 +30,8 @@ FEAST_FEATURES = [
     "horse_colic_stats:nasogastric reflux PH",
 ]
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
+DATA_CLASS = "surgical lesion"
+
 
 def _build_feature_store(registry: FlyteFile) -> FeatureStore:
     # TODO: comment this
@@ -53,9 +61,7 @@ sql_task = SQLite3Task(
 )
 
 @task
-def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
-    print(f"store_offline remote_source={registry.remote_source}")
-    print(f"env vars={os.environ}")
+def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> (FlyteFile, str):
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
@@ -84,7 +90,7 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
     # Ingest the data into feast
     fs.apply([horse_colic_entity, horse_colic_feature_view])
 
-    return FlyteFile(registry.remote_source)
+    return FlyteFile(registry.remote_source), horse_colic_feature_view.name
 
 @task
 def load_historical_features(registry: FlyteFile) -> FlyteSchema:
@@ -122,6 +128,26 @@ def load_historical_features(registry: FlyteFile) -> FlyteSchema:
     )
     return retrieval_job.to_df()
 
+# %%
+# Next, we train the Naive Bayes model using the data that's been fetched from the feature store.
+@task
+def train_model(
+    dataset: pd.DataFrame, data_class: str, feature_view_name: str
+) -> JoblibSerializedFile:
+    X_train, _, y_train, _ = train_test_split(
+        dataset,
+        # dataset[feature_view_name + "__" + data_class],
+        dataset[data_class],
+        test_size=0.33,
+        random_state=42,
+    )
+    model = GaussianNB()
+    model.fit(X_train, y_train)
+    model.feature_names = list(X_train.columns.values)
+    fname = "model.joblib.dat"
+    joblib.dump(model, fname)
+    return fname
+
 
 @task
 def convert_timestamp_column(dataframe: FlyteSchema, timestamp_column: str) -> FlyteSchema:
@@ -131,16 +157,23 @@ def convert_timestamp_column(dataframe: FlyteSchema, timestamp_column: str) -> F
 
 
 @workflow
-def load_data_into_offline_store(registry: FlyteFile):
+def load_data_into_offline_store(imputation_method: str, num_features_univariate: int, registry: FlyteFile):
     # Load parquet file from sqlite task
     df = sql_task()
+
+    dataframe = mean_median_imputer(dataframe=df, imputation_method=imputation_method)
+
     # Need to convert timestamp column in the underlying dataframe, otherwise its type is written as
     # string. There is probably a better way of doing this conversion.
-    converted_df = convert_timestamp_column(dataframe=df, timestamp_column="timestamp")
+    converted_df = convert_timestamp_column(dataframe=dataframe, timestamp_column="timestamp")
 
-    registry_to_historical_features_task = store_offline(registry=registry, dataframe=converted_df)
+    registry_to_historical_features_task, feature_view_name = store_offline(registry=registry, dataframe=converted_df)
 
     feature_data = load_historical_features(registry=registry_to_historical_features_task)
 
+    selected_features = univariate_selection(dataframe=feature_data, num_features=num_features_univariate, data_class=DATA_CLASS, feature_view_name=feature_view_name)
+
+    trained_model = train_model(dataset=selected_features, data_class=DATA_CLASS, feature_view_name=feature_view_name)
+
 if __name__ == '__main__':
-    print(f"{load_data_into_offline_store(registry='s3://feast-integration/registry.db')}")
+    print(f"{load_data_into_offline_store(imputation_method='mean', num_features_univariate=7, registry='s3://feast-integration/registry.db')}")
