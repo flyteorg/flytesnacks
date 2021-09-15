@@ -1,7 +1,7 @@
 import typing
 from flytekit import dynamic, task, workflow
 
-from cookbook.core.flyte_basics.lp import default_lp, my_lp
+from core.flyte_basics.lp import default_lp, my_lp
 
 
 @dynamic
