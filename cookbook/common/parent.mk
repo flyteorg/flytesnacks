@@ -49,8 +49,8 @@ serialize: ## Builds and serializes all docker images, workflows and tasks in al
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		echo "$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
-	        if [[ "$$dir" != 'docs/' ]]; then \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
 	            $(MAKE) -C $$dir serialize || exit; \
 	        fi; \
 		fi; \

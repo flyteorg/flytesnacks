@@ -15,6 +15,9 @@ jobs:
   build:
     name: Sandbox Register
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [ "core", "integrations", "case_studies" ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -22,5 +25,16 @@ jobs:
       - uses: unionai/flytectl-setup-action@v0.0.1
       - name: setup sandbox
         run: make setup
-      - name: fast register
-        run: REGISTRY=ghcr.io/flyteorg VERSION=latest make fast_register
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+      - name: Serialize Examples
+        env:
+          REGISTRY: "ghcr.io/flyteorg"
+        run: |
+          SANDBOX=1 make -C cookbook/${{ matrix.directory }} register
+      - name: Serialize Examples
+        env:
+          REGISTRY: "ghcr.io/flyteorg"
+        run: |
+          SANDBOX=1 make -C cookbook/${{ matrix.directory }} fast_register
