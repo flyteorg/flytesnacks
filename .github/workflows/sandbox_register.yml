@@ -42,5 +42,5 @@ jobs:
         env:
           SANDBOX: "1"
         run: |
-          make -C cookbook/${{ matrix.directory }} serialize
-          make -C cookbook/${{ matrix.directory }} ${{ matrix.command }}
+          make -C ${{ matrix.directory }} serialize
+          make -C ${{ matrix.directory }} ${{ matrix.command }}
