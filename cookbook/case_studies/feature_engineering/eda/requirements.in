@@ -1,5 +1,5 @@
-# -r ../../../common/requirements-common.in
-https://github.com/flyteorg/flytekit/archive/e3a61d194f3fd71628d993f44f8b753aae4b3954.tar.gz#subdirectory=plugins/flytekit-papermill&egg=flytekitplugins-papermill
+-r ../../../common/requirements-common.in
+flytekitplugins-papermill
 matplotlib
 seaborn
 scikit-learn
