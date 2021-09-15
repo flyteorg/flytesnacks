@@ -157,7 +157,7 @@ def convert_timestamp_column(dataframe: FlyteSchema, timestamp_column: str) -> F
 
 
 @workflow
-def load_data_into_offline_store(imputation_method: str, num_features_univariate: int, registry: FlyteFile):
+def feast_workflow(imputation_method: str, num_features_univariate: int, registry: FlyteFile):
     # Load parquet file from sqlite task
     df = sql_task()
 
@@ -176,4 +176,4 @@ def load_data_into_offline_store(imputation_method: str, num_features_univariate
     trained_model = train_model(dataset=selected_features, data_class=DATA_CLASS, feature_view_name=feature_view_name)
 
 if __name__ == '__main__':
-    print(f"{load_data_into_offline_store(imputation_method='mean', num_features_univariate=7, registry='s3://feast-integration/registry.db')}")
+    print(f"{feast_workflow(imputation_method='mean', num_features_univariate=7, registry='s3://feast-integration/registry.db')}")
