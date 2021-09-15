@@ -16,10 +16,9 @@ from feast.repo_config import RepoConfig
 from tqdm import tqdm
 
 
-class MyCustomProvider(LocalProvider):
+class FlyteCustomProvider(LocalProvider):
     def __init__(self, config: RepoConfig, repo_path):
         super().__init__(config)
-        # Add your custom init code here. This code runs on every feast operation.
 
     def update_infra(
         self,
@@ -102,7 +101,9 @@ class MyCustomProvider(LocalProvider):
         full_feature_names: bool,
     ) -> RetrievalJob:
         # get_historical_features returns a training dataframe from the offline store
-        for idx, fv in enumerate(feature_views):
+
+        # We substitute the remote s3 file with a reference to a local file in each feature view being requested
+        for fv in feature_views:
             if isinstance(fv.batch_source, FileSource):
                 # Copy parquet file to a local file
                 file_source: FileSource = fv.batch_source
@@ -110,11 +111,9 @@ class MyCustomProvider(LocalProvider):
                 FlyteContext.current_context().file_access.get_data(
                     file_source.path,
                     random_local_path,
-                    # f"/tmp/{idx}.file",
                     is_multipart=True,
                 )
                 fv.batch_source=FileSource(
-                    # path=f"/tmp/{idx}.file",
                     path=random_local_path,
                     event_timestamp_column=file_source.event_timestamp_column,
                 )

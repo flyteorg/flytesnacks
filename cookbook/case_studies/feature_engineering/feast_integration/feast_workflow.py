@@ -43,7 +43,7 @@ def _build_feature_store(registry: FlyteFile) -> FeatureStore:
         registry=registry.remote_source,
         project=f"horsecolic",
         # Notice the use of a custom provider.
-        provider="custom_provider.provider.MyCustomProvider",
+        provider="custom_provider.provider.FlyteCustomProvider",
         offline_store=FileOfflineStoreConfig(),
         online_store=SqliteOnlineStoreConfig(),
     )
