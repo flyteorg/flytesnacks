@@ -232,4 +232,5 @@ def feast_workflow(
 
 
 if __name__ == "__main__":
+    # TODO: it does not work locally anymore.
     print(f"{feast_workflow()}")
