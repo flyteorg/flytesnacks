@@ -119,15 +119,9 @@ docker_build:
 	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: serialize
-serialize: docker_build
+serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
-	rm -rf _pb_output2/*
-	mkdir -p _pb_output2
-	mkdir -p _pb_output
-	cp _pb_output/* _pb_output2/
-	rm -rf _pb_output
-	mkdir -p _pb_output
 	docker run -i --rm \
 	    -e SANDBOX=${SANDBOX} \
 		-e REGISTRY=${REGISTRY} \
@@ -170,9 +164,6 @@ register:
 
 _pb_output:
 	mkdir -p _pb_output
-
-_pb_output2:
-	mkdir -p _pb_output2
 
 .PHONY: clean
 clean:

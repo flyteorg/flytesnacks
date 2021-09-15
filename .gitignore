@@ -26,4 +26,3 @@ _build/
 cookbook/release-snacks
 .kube/
 .docker/
-_pb_output2/
