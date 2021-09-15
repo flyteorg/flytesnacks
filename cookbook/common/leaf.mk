@@ -100,7 +100,7 @@ fast_register: ## Packages code and registers without building docker images.
 		--outputLocationPrefix ${OUTPUT_DATA_PREFIX} \
 		--sourceUploadPath ${ADDL_DISTRIBUTION_DIR} \
 		--k8sServiceAccount $(SERVICE_ACCOUNT) \
-		--version ${VERSION}
+		--version fast${VERSION}
 
 .PHONY: docker_build
 docker_build:
