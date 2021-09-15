@@ -1,7 +1,7 @@
 import typing
 from flytekit import dynamic, task, workflow
 
-from core.flyte_basics.lp import default_lp, my_lp
+from core.flyte_basics.lp import default_lp, my_lp, my_wf
 
 
 @dynamic
@@ -14,3 +14,15 @@ def run_lps() -> typing.Tuple[int, int]:
 @workflow
 def run_lps_wf() -> typing.Tuple[int, int]:
     return run_lps()
+
+
+@dynamic
+def run_subwfs() -> typing.Tuple[int, int]:
+    x = my_wf(val=5)
+    y = my_wf(val=7)
+    return x, y
+
+
+@workflow
+def run_subwfs_wf() -> typing.Tuple[int, int]:
+    return run_subwfs()
