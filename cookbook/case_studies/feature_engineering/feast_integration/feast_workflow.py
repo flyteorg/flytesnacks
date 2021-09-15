@@ -22,34 +22,7 @@ from flytekit.types.schema import FlyteSchema
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from flytekit.configuration import aws
-
-
-# %%
-# We define the reference tasks. A :py:func:`flytekit.reference_task` references the Flyte tasks that have already been defined, serialized, and registered.
-# The primary advantage of using a reference task is to reduce the redundancy; we needn't define the task(s) again if we have multiple datasets that need to be feature-engineered.
-@reference_task(
-    project="flytesnacks",
-    domain="development",
-    name="feast_integration.feature_eng_tasks.mean_median_imputer",
-    version="{{ registration.version }}",
-)
-def mean_median_imputer(
-    dataframe: pd.DataFrame,
-    imputation_method: str,
-) -> FlyteSchema:
-    ...
-
-
-@reference_task(
-    project="flytesnacks",
-    domain="development",
-    name="feast_integration.feature_eng_tasks.univariate_selection",
-    version="{{ registration.version }}",
-)
-def univariate_selection(
-    dataframe: pd.DataFrame, num_features: int, data_class: str
-) -> pd.DataFrame:
-    ...
+from feature_eng_tasks import mean_median_imputer, univariate_selection
 
 
 # TODO: find a better way to define these features.
