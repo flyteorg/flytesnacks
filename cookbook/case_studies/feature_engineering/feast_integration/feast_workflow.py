@@ -157,6 +157,18 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     joblib.dump(model, fname)
     return fname
 
+@task
+def store_online(registry: FlyteFile):
+    fs = _build_feature_store(registry=registry)
+    fs.materialize(
+        start_date=datetime.utcnow() - timedelta(days=150),
+        end_date=datetime.utcnow() - timedelta(minutes=10),
+    )
+
+    # TODO check the value of `online.db`. We'll possibly need to upload it to the s3 bucket manually
+    with open('data/online.db', 'rb') as f:
+        print(f.read())
+
 
 @task
 def convert_timestamp_column(
@@ -202,6 +214,8 @@ def feast_workflow(
         dataset=selected_features,
         data_class=DATA_CLASS,
     )
+
+    store_online(registry=registry_to_historical_features_task)
 
 
 if __name__ == "__main__":
