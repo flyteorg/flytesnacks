@@ -1,10 +1,10 @@
 name: Serialize & Release Examples
 
 on:
-  pull_request:
-    paths-ignore:
-      - 'cookbook/docs/**'
-      - 'cookbook/deployment/**'
+  #  pull_request:
+  #    paths-ignore:
+  #      - 'cookbook/docs/**'
+  #      - 'cookbook/deployment/**'
   create:
     tags:
       - v*

@@ -24,7 +24,7 @@ jobs:
       packages: "${{ steps.create-list.outputs.packages }}"
 
   build:
-    name: Sandbox Register
+    name: Sandbox
     runs-on: ubuntu-latest
     needs: [ "list" ]
     strategy:
