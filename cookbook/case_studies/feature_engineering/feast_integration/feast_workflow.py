@@ -100,6 +100,10 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
     # Ingest the data into feast
     fs.apply([horse_colic_entity, horse_colic_feature_view])
 
+    # TODO: figure out a way to return the online store.
+    with open("data/online.db", "rb") as f:
+        print(f"online.db={f.read()}")
+
     return FlyteFile(registry.remote_source)
 
 
@@ -137,6 +141,7 @@ def load_historical_features(registry: FlyteFile) -> FlyteSchema:
         entity_df=entity_df,
         features=FEAST_FEATURES,
     )
+    print(f"lhf - registry.remote_source={registry.remote_source}")
     return retrieval_job.to_df()
 
 
@@ -159,6 +164,7 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 
 @task
 def store_online(registry: FlyteFile):
+    print(f"so - registry.remote_source={registry.remote_source}")
     fs = _build_feature_store(registry=registry)
     fs.materialize(
         start_date=datetime.utcnow() - timedelta(days=150),
@@ -215,9 +221,10 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
+    # This does not work because the local file `data/online.db` does not exist.
     store_online(registry=registry_to_historical_features_task)
 
 
 if __name__ == "__main__":
     # TODO: it does not work locally anymore.
-    print(f"{feast_workflow()}")
+    print(f"{feast_workflow(registry='registry.db')}")
