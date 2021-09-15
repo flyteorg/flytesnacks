@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         directory: [ "core", "integrations", "case_studies" ]
+        command: [ "register", "fast_register" ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -25,16 +26,8 @@ jobs:
       - uses: unionai/flytectl-setup-action@v0.0.1
       - name: setup sandbox
         run: make setup
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: "0"
       - name: Serialize Examples
         env:
-          REGISTRY: "ghcr.io/flyteorg"
+          SANDBOX: "1"
         run: |
-          SANDBOX=1 make -C cookbook/${{ matrix.directory }} register
-      - name: Serialize Examples
-        env:
-          REGISTRY: "ghcr.io/flyteorg"
-        run: |
-          SANDBOX=1 make -C cookbook/${{ matrix.directory }} fast_register
+          make -C cookbook/${{ matrix.directory }} ${{ matrix.command }}
