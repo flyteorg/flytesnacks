@@ -25,6 +25,7 @@ NO_IMPUTATION_COLS = [
     "timestamp",
 ]
 
+
 # %%
 # Next, we define a ``mean_median_imputer`` task to fill in the missing values of the dataset, for which we use `SimpleImputer <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`__ class from the ``scikit-learn`` library.
 @task
@@ -54,7 +55,7 @@ def mean_median_imputer(
 # The `SelectKBest <https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest>`__ method removes all but the highest scoring features (data frame columns).
 @task
 def univariate_selection(
-    dataframe: pd.DataFrame, num_features: int, data_class: str, feature_view_name: str
+    dataframe: pd.DataFrame, num_features: int, data_class: str
 ) -> pd.DataFrame:
     # Remove ``timestamp`` and ``Hospital Number`` columns as they ought to be present in the dataset
     dataframe = dataframe.drop(["event_timestamp", "Hospital Number"], axis=1)
@@ -69,9 +70,10 @@ def univariate_selection(
     test = SelectKBest(score_func=f_classif, k=num_features)
     fit = test.fit(X, y)
     indices = sort((-fit.scores_).argsort()[:num_features])
-    column_names = map(dataframe.columns.__getitem__, indices)
+    column_names = list(map(X.columns.__getitem__, indices))
+    column_names.extend([data_class])
     features = fit.transform(X)
-    return pd.DataFrame(features, columns=column_names)
+    return pd.DataFrame(np.c_[features, y.to_numpy()], columns=column_names)
 
 
 # %%

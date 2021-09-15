@@ -1,18 +1,18 @@
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
-from feast.infra.offline_stores.file_source import FileSource
-from flytekit.core.context_manager import FlyteContext
 
 import pandas
 from feast.entity import Entity
 from feast.feature_table import FeatureTable
 from feast.feature_view import FeatureView
 from feast.infra.local import LocalProvider
+from feast.infra.offline_stores.file_source import FileSource
 from feast.infra.offline_stores.offline_store import RetrievalJob
 from feast.protos.feast.types.EntityKey_pb2 import EntityKey as EntityKeyProto
 from feast.protos.feast.types.Value_pb2 import Value as ValueProto
 from feast.registry import Registry
 from feast.repo_config import RepoConfig
+from flytekit.core.context_manager import FlyteContext
 from tqdm import tqdm
 
 
