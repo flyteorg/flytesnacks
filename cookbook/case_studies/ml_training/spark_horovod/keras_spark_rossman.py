@@ -14,7 +14,8 @@ import pyspark.sql.types as T
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from dataclasses_json import dataclass_json
-from flytekit import Resources, task, workflow
+from flytekit import Resources, task, workflow, LaunchPlan
+from flytekit.models.common import AuthRole
 from flytekit.types.file import CSVFile, FlyteFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.spark import Spark
@@ -641,6 +642,10 @@ def horovod_training_wf(
         max_sales=max_sales,
     )
 
+
+horovod_training_lp_sa = LaunchPlan.get_or_create(horovod_training_wf,
+                                                  name="horovod_training_lp_sa",
+                                                  auth_role=AuthRole(kubernetes_service_account="spark"))
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
