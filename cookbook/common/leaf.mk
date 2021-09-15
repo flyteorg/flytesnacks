@@ -71,7 +71,7 @@ requirements: requirements.txt
 fast_serialize: clean _pb_output
 	echo ${CURDIR}
 	docker run -it --rm \
-	    -e SANDBOX=${SANDBOX} \
+		-e SANDBOX=${SANDBOX} \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
 		-e FLYTE_HOST=${FLYTE_HOST} \
