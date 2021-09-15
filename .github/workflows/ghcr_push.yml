@@ -1,10 +1,6 @@
 name: Build & Push Docker Images
 
 on:
-  pull_request:
-    paths-ignore:
-      - 'cookbook/docs/**'
-      - 'cookbook/deployment/**'
   create:
     tags:
       - v*
@@ -59,8 +55,6 @@ jobs:
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
           image_tag: ${{ matrix.directory.name }}-latest,${{ matrix.directory.name }}-${{ github.sha }},${{ matrix.directory.name }}-${{ github.event.ref }}
-          push_git_tag: ${{ github.event_name != 'pull_request' }}
-          push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           registry: ghcr.io
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.directory.name }}-${{ github.sha }}"
           context: ./cookbook/${{ matrix.directory.path }}
