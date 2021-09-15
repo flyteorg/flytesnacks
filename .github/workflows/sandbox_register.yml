@@ -12,12 +12,23 @@ defaults:
     shell: 'script -q -e -c "bash {0}"'
 
 jobs:
+  list:
+    runs-on: ubuntu-latest
+    name: "Create a list of packages"
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Provide the list"
+        id: create-list
+        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq  --raw-input . | jq --slurp . | jq -c .)"
+    outputs:
+      packages: "${{ steps.create-list.outputs.packages }}"
+
   build:
     name: Sandbox Register
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory: [ "core", "integrations", "case_studies" ]
+        directory: "${{ fromJson(needs.list.outputs.packages) }}"
         command: [ "register", "fast_register" ]
     steps:
       - uses: actions/checkout@v2

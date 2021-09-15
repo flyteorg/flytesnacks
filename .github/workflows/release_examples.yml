@@ -23,11 +23,13 @@ jobs:
       - name: Serialize Examples
         env:
           REGISTRY: "ghcr.io/flyteorg"
+          VERSION: "latest"
         run: |
-          REGISTRY=ghcr.io/flyteorg VERSION=latest make -C cookbook/${{ matrix.directory }} serialize
+          make -C cookbook/${{ matrix.directory }} serialize
       - name: Archive Serialized protos
         env:
           REGISTRY: "ghcr.io/flyteorg"
+          VERSION: "latest"
         run: |
           mkdir -p cookbook/release-snacks
           make -C cookbook archive
