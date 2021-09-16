@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-list
-        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq  --raw-input . | jq --slurp . | jq -c .)"
+        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)"
     outputs:
       packages: "${{ steps.create-list.outputs.packages }}"
 
@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: $(sed "s_/_-_" ${{ matrix.directory }})
+          name: "$(sed -i '' 's_/_-_' ${{ matrix.directory }})"
           path: ${{ matrix.directory }}/_pb_output/*
   register:
     name: Sandbox
