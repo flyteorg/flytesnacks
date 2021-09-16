@@ -237,7 +237,7 @@ def feast_workflow(
     imputation_method: str = "mean",
     num_features_univariate: int = 7,
     registry: FlyteFile = "s3://feast-integration/registry.db",
-):
+) -> typing.List[str]:
     # Load parquet file from sqlite task
     df = sql_task()
 
@@ -277,8 +277,9 @@ def feast_workflow(
         inference_point=inference_point,
     )
 
+    return prediction
+
 
 
 if __name__ == "__main__":
-    # TODO: it does not work locally anymore.
     print(f"{feast_workflow(registry='registry.db')}")
