@@ -292,6 +292,8 @@ def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepO
     print("Data preparation")
     print("================")
 
+    data_dir.download()
+
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
