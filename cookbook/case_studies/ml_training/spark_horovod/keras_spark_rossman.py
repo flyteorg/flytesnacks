@@ -261,7 +261,7 @@ def download_data() -> FlyteDirectory:
         ],
         input=download_subp.stdout,
     )
-    return FlyteDirectory(path=data_dir.name)
+    return FlyteDirectory(path=str(data_dir))
 
 
 DataPrepOutputs = typing.NamedTuple(
@@ -300,8 +300,6 @@ def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepO
     print("================")
     print("Data preparation")
     print("================")
-
-    data_dir.download()
 
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
