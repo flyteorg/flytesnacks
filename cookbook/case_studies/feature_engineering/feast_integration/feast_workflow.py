@@ -205,9 +205,7 @@ def feast_workflow(
 ) -> typing.List[str]:
     # Load parquet file from sqlite task
     df = sql_task()
-
     dataframe = mean_median_imputer(dataframe=df, imputation_method=imputation_method)
-
     # Need to convert timestamp column in the underlying dataframe, otherwise its type is written as
     # string. There is probably a better way of doing this conversion.
     converted_df = convert_timestamp_column(
@@ -216,37 +214,39 @@ def feast_workflow(
 
     feature_store = build_feature_store(s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
 
+    # Ingest data into offline store
     store_offline_node = create_node(store_offline, feature_store=feature_store, dataframe=converted_df)
 
+    # Demonstrate how to load features from offline store
     load_historical_features_node = create_node(load_historical_features, feature_store=feature_store)
 
+    # Ingest data into online store
     store_online_node = create_node(store_online, feature_store=feature_store)
 
+    # Retrieve feature data from online store
+    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=converted_df)
+
+    # Enforce order in which tasks that interact with the feast SDK have to run
     store_offline_node >> load_historical_features_node
     load_historical_features_node >> store_online_node
+    store_online_node >> retrieve_online_node
 
+    # Use a feature retrieved from the online store for inference on a trained model
     selected_features = univariate_selection(
         dataframe=load_historical_features_node.o0,
         num_features=num_features_univariate,
         data_class=DATA_CLASS,
     )
-
     trained_model = train_model(
         dataset=selected_features,
         data_class=DATA_CLASS,
     )
-
-    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=converted_df)
-
-    store_online_node >> retrieve_online_node
-
     prediction = test_model(
         model_ser=trained_model,
         inference_point=retrieve_online_node.o0,
     )
 
     return prediction
-
 
 
 if __name__ == "__main__":
