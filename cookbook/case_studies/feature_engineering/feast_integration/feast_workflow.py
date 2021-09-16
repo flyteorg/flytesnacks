@@ -79,7 +79,7 @@ sql_task = SQLite3Task(
 
 
 @task
-def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
+def store_offline(registry: FlyteFile, dataframe: FlyteSchema, feature_store: _FeatureStore) -> FlyteFile:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
@@ -103,17 +103,8 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
         ttl=timedelta(days=1),
     )
 
-    # This is the first mention of the online store. This file is written initially as part of setting up the custom provider
-    # (which is based on the local provider)
-    online_store_local_path = FlyteContext.current_context().file_access.get_random_local_path("online.db")
-    fs = _build_feature_store(registry=registry, online_store_local_path=online_store_local_path)
-
     # Ingest the data into feast
-    fs.apply([horse_colic_entity, horse_colic_feature_view])
-
-    # Write initial sqlite table definition to s3
-    # TODO: take `online.db` as a parameter
-    FlyteContext.current_context().file_access.upload(online_store_local_path, "s3://feast-integration/online.db")
+    feature_store.apply([horse_colic_entity, horse_colic_feature_view])
 
     return FlyteFile(registry.remote_source)
 
@@ -249,8 +240,11 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
+    feature_store_config = FeatureStoreConfig(registry_path="s3://feast-integration/registry.db", project="horsecolic", online_store_remote_path="s3://feast-integration/online.db")
+    feature_store = _FeatureStore(config=feature_store_config)
+
     registry_to_historical_features_task = store_offline(
-        registry=registry, dataframe=converted_df
+        registry=registry, dataframe=converted_df, feature_store=feature_store
     )
 
     feature_data = load_historical_features(
