@@ -236,7 +236,7 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
-    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=dataframe)
+    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=converted_df)
 
     store_online_node >> retrieve_online_node
 
