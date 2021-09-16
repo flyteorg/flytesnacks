@@ -169,7 +169,7 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     model = GaussianNB()
     model.fit(X_train, y_train)
     model.feature_names = list(X_train.columns.values)
-    fname = "model.joblib.dat"
+    fname = "/tmp/model.joblib.dat"
     joblib.dump(model, fname)
     return fname
 
