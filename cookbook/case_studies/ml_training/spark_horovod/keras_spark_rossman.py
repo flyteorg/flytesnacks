@@ -25,7 +25,16 @@ from horovod.spark.common.backend import SparkBackend
 from horovod.spark.common.store import Store
 from horovod.tensorflow.keras.callbacks import BestModelCheckpoint
 from pyspark import Row
-from tensorflow.keras.layers import BatchNormalization, Concatenate, Dense, Dropout, Embedding, Flatten, Input, Reshape
+from tensorflow.keras.layers import (
+    BatchNormalization,
+    Concatenate,
+    Dense,
+    Dropout,
+    Embedding,
+    Flatten,
+    Input,
+    Reshape,
+)
 
 
 @dataclass_json
@@ -252,7 +261,7 @@ def download_data() -> FlyteDirectory:
         ],
         input=download_subp.stdout,
     )
-    return FlyteDirectory(path=str(data_dir))
+    return FlyteDirectory(path=data_dir.name)
 
 
 DataPrepOutputs = typing.NamedTuple(
