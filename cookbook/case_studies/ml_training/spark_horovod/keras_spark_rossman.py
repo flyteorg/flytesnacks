@@ -261,7 +261,7 @@ def download_data() -> FlyteDirectory:
         ],
         input=download_subp.stdout,
     )
-    return FlyteDirectory(path=str(data_dir))
+    return FlyteDirectory(path=str(data_dir.absolute()))
 
 
 DataPrepOutputs = typing.NamedTuple(
