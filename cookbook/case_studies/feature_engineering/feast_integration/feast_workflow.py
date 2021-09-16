@@ -200,6 +200,7 @@ def retrieve_online(
 
     online_response = fs.get_online_features(feature_refs, entity_rows)
     online_response_dict = online_response.to_dict()
+    logger.info(f'online_response_dict={online_response_dict}')
     return online_response_dict
 
 
