@@ -48,7 +48,6 @@ class FeatureStore:
             # Notice the use of a custom provider.
             provider="custom_provider.provider.FlyteCustomProvider",
             offline_store=FileOfflineStoreConfig(),
-            # TODO: comment this assumption
             online_store=SqliteOnlineStoreConfig(path=self.config.online_store_path),
         )
         return FeastFeatureStore(config=config)
