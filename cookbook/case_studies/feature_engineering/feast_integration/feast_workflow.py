@@ -194,7 +194,9 @@ def convert_timestamp_column(
 def feast_workflow(
     imputation_method: str = "mean",
     num_features_univariate: int = 7,
-    registry: FlyteFile = "s3://feast-integration/registry.db",
+    s3_bucket: str = "feast-integration",
+    registry_path: str = "registry.db",
+    online_store_path: str = "online.db",
 ) -> typing.List[str]:
     # Load parquet file from sqlite task
     df = sql_task()
@@ -207,7 +209,7 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
-    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket='feast-integration', registry_path="registry.db", online_store_path="online.db2")
+    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
     feature_store = _FeatureStore(config=feature_store_config)
 
     store_offline_node = create_node(store_offline, feature_store=feature_store, dataframe=converted_df)
