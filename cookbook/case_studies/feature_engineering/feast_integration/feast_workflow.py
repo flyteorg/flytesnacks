@@ -226,7 +226,7 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
-    feature_store_config = FeatureStoreConfig(s3_bucket='feast-integration', registry_path="registry.db", project="horsecolic", online_store_path="online.db")
+    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket='feast-integration', registry_path="registry.db", online_store_path="online.db")
     feature_store = _FeatureStore(config=feature_store_config)
 
     registry_to_historical_features_task = store_offline(
