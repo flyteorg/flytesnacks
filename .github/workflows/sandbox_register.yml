@@ -48,10 +48,10 @@ jobs:
     name: Sandbox
     runs-on: ubuntu-latest
     needs: [ "list", "serialize" ]
-    strategy:
-      matrix:
-        directory: "${{ fromJson(needs.list.outputs.packages) }}"
-        command: [ "register", "fast_register" ]
+    #    strategy:
+    #      matrix:
+    #        directory: "${{ fromJson(needs.list.outputs.packages) }}"
+    #        command: [ "register", "fast_register" ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -61,8 +61,6 @@ jobs:
         run: make setup
       - name: Download artifacts
         uses: actions/download-artifact@v2
-        with:
-          name: homework
       - name: Serialize Examples
         env:
           SANDBOX: "1"
