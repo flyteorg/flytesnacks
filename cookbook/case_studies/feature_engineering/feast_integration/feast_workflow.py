@@ -110,7 +110,7 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema, feature_store: _F
 
 
 @task
-def load_historical_features(registry: FlyteFile) -> FlyteSchema:
+def load_historical_features(registry: FlyteFile, feature_store: _FeatureStore) -> FlyteSchema:
     entity_df = pd.DataFrame.from_dict(
         {
             "Hospital Number": [
@@ -138,13 +138,10 @@ def load_historical_features(registry: FlyteFile) -> FlyteSchema:
         }
     )
 
-    fs = _build_feature_store(registry=registry)
-    retrieval_job = fs.get_historical_features(
+    return feature_store.get_historical_features(
         entity_df=entity_df,
         features=FEAST_FEATURES,
     )
-    print(f"lhf - registry.remote_source={registry.remote_source}")
-    return retrieval_job.to_df()
 
 
 # %%
@@ -165,34 +162,23 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     return fname
 
 @task
-def store_online(registry: FlyteFile, online_store: FlyteFile) -> (FlyteFile, FlyteFile):
-    online_store.download()
-    fs = _build_feature_store(registry=registry, online_store_local_path=online_store.path)
-    fs.materialize(
+def store_online(registry: FlyteFile, online_store: FlyteFile, feature_store: _FeatureStore) -> (FlyteFile, FlyteFile):
+    feature_store.materialize(
         start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
     )
-    # TODO: take `online.db` as a parameter
-    FlyteContext.current_context().file_access.upload(online_store.path, "s3://feast-integration/online.db")
+
     return registry, online_store
 
 @task
 def retrieve_online(
-    registry: FlyteFile, online_store: FlyteFile, dataset: pd.DataFrame
+        registry: FlyteFile, online_store: FlyteFile, dataset: pd.DataFrame, feature_store: _FeatureStore
 ) -> dict:
-    online_store.download()
-    fs = _build_feature_store(registry=registry, online_store_local_path=online_store.path)
-    feature_refs = FEAST_FEATURES
-
     inference_data = random.choice(dataset["Hospital Number"])
     logger.info(f"Hospital Number chosen for inference is: {inference_data}")
-
     entity_rows = [{"Hospital Number": inference_data}]
 
-    online_response = fs.get_online_features(feature_refs, entity_rows)
-    online_response_dict = online_response.to_dict()
-    logger.info(f'online_response_dict={online_response_dict}')
-    return online_response_dict
+    return feature_store.get_online_features(FEAST_FEATURES, entity_rows)
 
 
 # %%
@@ -240,19 +226,17 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
-    feature_store_config = FeatureStoreConfig(registry_path="s3://feast-integration/registry.db", project="horsecolic", online_store_remote_path="s3://feast-integration/online.db")
+    feature_store_config = FeatureStoreConfig(s3_bucket='feast-integration', registry_path="registry.db", project="horsecolic", online_store_path="online.db")
     feature_store = _FeatureStore(config=feature_store_config)
 
     registry_to_historical_features_task = store_offline(
         registry=registry, dataframe=converted_df, feature_store=feature_store
     )
 
-    feature_data = load_historical_features(
-        registry=registry_to_historical_features_task
-    )
+    load_historical_features_node = create_node(load_historical_features, registry=registry_to_historical_features_task, feature_store=feature_store)
 
     selected_features = univariate_selection(
-        dataframe=feature_data,
+        dataframe=load_historical_features_node.o0,
         num_features=num_features_univariate,
         data_class=DATA_CLASS,
     )
@@ -262,9 +246,9 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
-    r1, os1 = store_online(registry=registry_to_historical_features_task, online_store="s3://feast-integration/online.db")
+    r1, os1 = store_online(registry=registry_to_historical_features_task, online_store="s3://feast-integration/online.db", feature_store=feature_store)
 
-    inference_point = retrieve_online(registry=r1, online_store=os1, dataset=dataframe)
+    inference_point = retrieve_online(registry=r1, online_store=os1, dataset=dataframe, feature_store=feature_store)
 
     prediction = test_model(
         model_ser=trained_model,
