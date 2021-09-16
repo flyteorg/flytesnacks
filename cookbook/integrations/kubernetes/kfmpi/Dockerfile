@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.6-slim-buster
 
 ENV HOROVOD_VERSION=0.19.0
 
@@ -52,7 +52,7 @@ COPY kfmpi/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # Install Horovod
-RUN HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=1  pip install --no-cache-dir horovod
+RUN HOROVOD_WITH_TENSORFLOW=1 pip install  horovod
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
