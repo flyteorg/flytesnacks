@@ -56,6 +56,7 @@ class CustomSorter(FileNameSortKey):
         "typed_schema.py",
         "custom_objects.py",
         "enums.py",
+        "lp_schedules.py",
         # Testing
         "mocking.py",
         # Containerization
@@ -74,7 +75,6 @@ class CustomSorter(FileNameSortKey):
         # Deployment
         ## Workflow
         "deploying_workflows.py",
-        "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "fast_registration.py",
