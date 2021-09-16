@@ -83,21 +83,6 @@ class FlyteCustomProvider(LocalProvider):
         # store into the online store.
         # This method can be overridden to also launch custom batch ingestion jobs that loads the latest batch feature
         # values into the online store.
-        #
-
-        if isinstance(feature_view.batch_source, FileSource):
-            # Copy parquet file to a local file
-            file_source: FileSource = feature_view.batch_source
-            random_local_path = FlyteContext.current_context().file_access.get_random_local_path(file_source.path)
-            FlyteContext.current_context().file_access.get_data(
-                file_source.path,
-                random_local_path,
-                is_multipart=True,
-            )
-            feature_view.batch_source=FileSource(
-                path=random_local_path,
-                event_timestamp_column=file_source.event_timestamp_column,
-            )
 
         # Replace the line below with your custom logic in order to launch your own batch ingestion job
         super().materialize_single_feature_view(

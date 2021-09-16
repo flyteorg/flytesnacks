@@ -1,7 +1,12 @@
 import os
 from datetime import datetime, timedelta
 
+from flytekit.core.context_manager import FlyteContext
+
+import random
 import joblib
+import logging
+import typing
 import pandas as pd
 from feast import (
     Entity,
@@ -11,10 +16,12 @@ from feast import (
     FileSource,
     RepoConfig,
     ValueType,
+    online_response,
+    registry,
 )
 from feast.infra.offline_stores.file import FileOfflineStoreConfig
 from feast.infra.online_stores.sqlite import SqliteOnlineStoreConfig
-from flytekit import reference_task, task, workflow
+from flytekit import reference_task, task, workflow, Workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.file.file import FlyteFile
@@ -25,6 +32,7 @@ from flytekit.configuration import aws
 from feature_eng_tasks import mean_median_imputer, univariate_selection
 
 
+logger = logging.getLogger(__file__)
 # TODO: find a better way to define these features.
 FEAST_FEATURES = [
     "horse_colic_stats:rectal temperature",
@@ -41,7 +49,7 @@ DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575
 DATA_CLASS = "surgical lesion"
 
 
-def _build_feature_store(registry: FlyteFile) -> FeatureStore:
+def _build_feature_store(registry: FlyteFile, online_store_local_path: str = "") -> FeatureStore:
     # TODO: comment this
     if registry.remote_source.startswith("s3://"):
         os.environ["FEAST_S3_ENDPOINT_URL"] = aws.S3_ENDPOINT.get()
@@ -54,7 +62,7 @@ def _build_feature_store(registry: FlyteFile) -> FeatureStore:
         # Notice the use of a custom provider.
         provider="custom_provider.provider.FlyteCustomProvider",
         offline_store=FileOfflineStoreConfig(),
-        online_store=SqliteOnlineStoreConfig(),
+        online_store=SqliteOnlineStoreConfig(path=online_store_local_path),
     )
     return FeatureStore(config=config)
 
@@ -95,14 +103,17 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema) -> FlyteFile:
         ttl=timedelta(days=1),
     )
 
-    fs = _build_feature_store(registry=registry)
+    # This is the first mention of the online store. This file is written initially as part of setting up the custom provider
+    # (which is based on the local provider)
+    online_store_local_path = FlyteContext.current_context().file_access.get_random_local_path("online.db")
+    fs = _build_feature_store(registry=registry, online_store_local_path=online_store_local_path)
 
     # Ingest the data into feast
     fs.apply([horse_colic_entity, horse_colic_feature_view])
 
-    # TODO: figure out a way to return the online store.
-    with open("data/online.db", "rb") as f:
-        print(f"online.db={f.read()}")
+    # Write initial sqlite table definition to s3
+    # TODO: take `online.db` as a parameter
+    FlyteContext.current_context().file_access.upload(online_store_local_path, "s3://feast-integration/online.db")
 
     return FlyteFile(registry.remote_source)
 
@@ -163,17 +174,52 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     return fname
 
 @task
-def store_online(registry: FlyteFile):
-    print(f"so - registry.remote_source={registry.remote_source}")
-    fs = _build_feature_store(registry=registry)
+def store_online(registry: FlyteFile, online_store: FlyteFile) -> (FlyteFile, FlyteFile):
+    online_store.download()
+    fs = _build_feature_store(registry=registry, online_store_local_path=online_store.path)
     fs.materialize(
-        start_date=datetime.utcnow() - timedelta(days=150),
+        start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
     )
+    # TODO: take `online.db` as a parameter
+    FlyteContext.current_context().file_access.upload(online_store.path, "s3://feast-integration/online.db")
+    return registry, online_store
 
-    # TODO check the value of `online.db`. We'll possibly need to upload it to the s3 bucket manually
-    with open('data/online.db', 'rb') as f:
-        print(f.read())
+@task
+def retrieve_online(
+    registry: FlyteFile, online_store: FlyteFile, dataset: pd.DataFrame
+) -> typing.Dict[str, typing.List[str]]:
+    online_store.download()
+    fs = _build_feature_store(registry=registry, online_store_local_path=online_store.path)
+    feature_refs = FEAST_FEATURES
+
+    inference_data = random.choice(dataset["Hospital Number"])
+    logger.info(f"Hospital Number chosen for inference is: {inference_data}")
+
+    entity_rows = [{"Hospital Number": inference_data}]
+
+    online_response = fs.get_online_features(feature_refs, entity_rows)
+    online_response_dict = online_response.to_dict()
+    return online_response_dict
+
+
+# %%
+# We define a task to test the model using the inference point fetched earlier.
+@task
+def test_model(
+    model_ser: JoblibSerializedFile,
+    inference_point: typing.Dict[str, typing.List[str]],
+) -> typing.List[str]:
+
+    # Load model
+    model = joblib.load(model_ser)
+    f_names = model.feature_names
+
+    test_list = []
+    for each_name in f_names:
+        test_list.append(inference_point[each_name][0])
+    prediction = model.predict([test_list])
+    return prediction
 
 
 @task
@@ -221,8 +267,15 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
-    # This does not work because the local file `data/online.db` does not exist.
-    store_online(registry=registry_to_historical_features_task)
+    r1, os1 = store_online(registry=registry_to_historical_features_task, online_store="s3://feast-integration/online.db")
+
+    inference_point = retrieve_online(registry=r1, online_store=os1, dataset=dataframe)
+
+    prediction = test_model(
+        model_ser=trained_model,
+        inference_point=inference_point,
+    )
+
 
 
 if __name__ == "__main__":
