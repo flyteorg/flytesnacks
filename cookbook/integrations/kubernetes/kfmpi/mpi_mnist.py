@@ -1,7 +1,11 @@
 import tensorflow as tf
 import horovod.tensorflow as hvd
 import numpy as np
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json
+from flytekit import Resources, task, workflow
 from tensorflow import keras
+from flytekit.types.file import  FlyteFile
 from flytekit.core.base_task import IgnoreOutputs
 from flytekitplugins.kfmpi import MPIJob
 
@@ -86,7 +90,7 @@ def train_input_generator(x_train, y_train, batch_size=64):
 )
 def horovod_train_task(
     hp: Hyperparameters
-) -> (FlyteFile):
+) -> FlyteFile:
     # Horovod: initialize Horovod.
     hvd.init()
 
@@ -163,7 +167,7 @@ def horovod_train_task(
 @workflow
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
-) -> (FlyteFile):
+) -> FlyteFile:
     return horovod_train_task(
         hp=hp
     )
