@@ -2,6 +2,7 @@ import tensorflow as tf
 import horovod.tensorflow as hvd
 import numpy as np
 from tensorflow import keras
+from flytekit.core.base_task import IgnoreOutputs
 from flytekitplugins.kfmpi import MPIJob
 
 layers = tf.layers
@@ -15,7 +16,6 @@ class Hyperparameters:
     learning_rate: float = 0.0001
     epochs: int = 100
     local_checkpoint_file: str = "checkpoint"
-    local_submission_csv: str = "submission.csv"
 
 
 def conv_model(feature, target, mode):
@@ -86,7 +86,7 @@ def train_input_generator(x_train, y_train, batch_size=64):
 )
 def horovod_train_task(
     hp: Hyperparameters
-) -> ():
+) -> (FlyteFile):
     # Horovod: initialize Horovod.
     hvd.init()
 
@@ -139,7 +139,8 @@ def horovod_train_task(
 
     # Horovod: save checkpoints only on worker 0 to prevent other workers from
     # corrupting them.
-    checkpoint_dir = './checkpoints' if hvd.rank() == 0 else None
+    checkpoint_dir = hp.local_checkpoint_file if hvd.rank() == 0 else None
+
     training_batch_generator = train_input_generator(x_train,
                                                      y_train, batch_size=hp.batch_size)
     # The MonitoredTrainingSession takes care of session initialization,
@@ -153,10 +154,16 @@ def horovod_train_task(
             image_, label_ = next(training_batch_generator)
             mon_sess.run(train_op, feed_dict={image: image_, label: label_})
 
+    if hvd.rank() != 0:
+        raise IgnoreOutputs("I am not rank 0")
+    else:
+        return checkpoint_dir
+
+
 @workflow
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
-) -> ():
-    horovod_train_task(
+) -> (FlyteFile):
+    return horovod_train_task(
         hp=hp
     )
