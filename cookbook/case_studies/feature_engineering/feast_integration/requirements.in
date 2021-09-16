@@ -1,4 +1,5 @@
 flytekit
 scikit-learn
 numpy
+fsspec
 feast[aws]
