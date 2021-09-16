@@ -1,5 +1,6 @@
 import datetime
 import os
+import pathlib
 import subprocess
 import sys
 import typing
@@ -16,6 +17,7 @@ import tensorflow.keras.backend as K
 from dataclasses_json import dataclass_json
 from flytekit import Resources, task, workflow, LaunchPlan
 from flytekit.models.common import AuthRole
+from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import CSVFile, FlyteFile
 from flytekit.types.schema import FlyteSchema
 from flytekitplugins.spark import Spark
@@ -227,26 +229,30 @@ def lookup_columns(df, vocab):
 ############
 # GET DATA #
 ############
-def download_data():
-    if not os.path.exists("./data"):
-        os.makedirs("./data")
-        ps = subprocess.run(
-            [
-                "curl",
-                "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
-            ],
-            check=True,
-            capture_output=True,
-        )
-        subprocess.run(
-            [
-                "tar",
-                "-xz",
-                "-C",
-                "data",
-            ],
-            input=ps.stdout,
-        )
+@task
+def download_data() -> FlyteDirectory:
+    working_dir = flytekit.current_context().working_directory
+    data_dir = pathlib.Path(os.path.join(working_dir, "data"))
+    data_dir.mkdir(exist_ok=True)
+
+    download_subp = subprocess.run(
+        [
+            "curl",
+            "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
+        ],
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        [
+            "tar",
+            "-xz",
+            "-C",
+            data_dir,
+        ],
+        input=download_subp.stdout,
+    )
+    return FlyteDirectory(path=data_dir.name)
 
 
 DataPrepOutputs = typing.NamedTuple(
@@ -280,8 +286,7 @@ DataPrepOutputs = typing.NamedTuple(
     requests=Resources(mem="1Gi"),
     limits=Resources(mem="2Gi"),
 )
-def data_preparation(data_dir: str, hp: Hyperparameters) -> DataPrepOutputs:
-    download_data()
+def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepOutputs:
 
     print("================")
     print("Data preparation")
@@ -624,6 +629,7 @@ def horovod_train_task(
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
 ) -> (FlyteFile, CSVFile):
+    data_dir = download_data()
     (
         continuous_cols,
         categorical_cols,
@@ -631,7 +637,7 @@ def horovod_training_wf(
         test_df,
         len_vocab,
         max_sales,
-    ) = data_preparation(data_dir="./data", hp=hp)
+    ) = data_preparation(data_dir=data_dir, hp=hp)
     return horovod_train_task(
         hp=hp,
         continuous_cols=continuous_cols,
@@ -649,4 +655,5 @@ horovod_training_lp_sa = LaunchPlan.get_or_create(horovod_training_wf,
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(horovod_training_wf())
+    # print(horovod_training_wf())
+    data_dir = download_data()
