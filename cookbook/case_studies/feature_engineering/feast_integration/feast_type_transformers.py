@@ -144,21 +144,4 @@ class FeatureStoreTransformer(TypeTransformer[FeatureStore]):
         feature_store_config = FeatureStoreConfig(**conf_dict)
         return FeatureStore(config=feature_store_config)
 
-        # # TODO: guard these assignments behind a check
-        # os.environ["FEAST_S3_ENDPOINT_URL"] = os.environ["FLYTE_AWS_ENDPOINT"]
-        # os.environ["AWS_ACCESS_KEY_ID"] = os.environ["FLYTE_AWS_ACCESS_KEY_ID"]
-        # os.environ["AWS_SECRET_ACCESS_KEY"] = os.environ["FLYTE_AWS_SECRET_ACCESS_KEY"]
-
-        # config = RepoConfig(
-        #     registry=feature_store_config.registry_path,
-        #     project=feature_store_config.project,
-        #     # Notice the use of a custom provider.
-        #     provider="custom_provider.provider.FlyteCustomProvider",
-        #     offline_store=FileOfflineStoreConfig(),
-        #     # TODO: comment this assumption
-        #     online_store=SqliteOnlineStoreConfig(path='online.db'),
-        # )
-
-        # return Fea
-
 TypeEngine.register(FeatureStoreTransformer())
