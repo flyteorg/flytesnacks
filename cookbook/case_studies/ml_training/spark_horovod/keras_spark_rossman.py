@@ -15,7 +15,7 @@ import pyspark.sql.types as T
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from dataclasses_json import dataclass_json
-from flytekit import Resources, task, workflow, LaunchPlan
+from flytekit import LaunchPlan, Resources, task, workflow
 from flytekit.models.common import AuthRole
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import CSVFile, FlyteFile
@@ -252,7 +252,7 @@ def download_data() -> FlyteDirectory:
         ],
         input=download_subp.stdout,
     )
-    return FlyteDirectory(path=data_dir.name)
+    return FlyteDirectory(path=str(data_dir))
 
 
 DataPrepOutputs = typing.NamedTuple(
@@ -284,7 +284,7 @@ DataPrepOutputs = typing.NamedTuple(
     cache=True,
     cache_version="0.1",
     requests=Resources(mem="1Gi"),
-    limits=Resources(mem="2Gi"),
+    limits=Resources(mem="1Gi"),
 )
 def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepOutputs:
 
@@ -649,11 +649,12 @@ def horovod_training_wf(
     )
 
 
-horovod_training_lp_sa = LaunchPlan.get_or_create(horovod_training_wf,
-                                                  name="horovod_training_lp_sa",
-                                                  auth_role=AuthRole(kubernetes_service_account="spark"))
+horovod_training_lp_sa = LaunchPlan.get_or_create(
+    horovod_training_wf,
+    name="horovod_training_lp_sa",
+    auth_role=AuthRole(kubernetes_service_account="spark"),
+)
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    # print(horovod_training_wf())
-    data_dir = download_data()
+    print(horovod_training_wf())
