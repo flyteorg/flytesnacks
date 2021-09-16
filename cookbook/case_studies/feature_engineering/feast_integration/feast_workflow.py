@@ -189,6 +189,11 @@ def convert_timestamp_column(
     df[timestamp_column] = pd.to_datetime(df[timestamp_column])
     return df
 
+@task
+def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> _FeatureStore:
+    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
+    return _FeatureStore(config=feature_store_config)
+
 
 @workflow
 def feast_workflow(
@@ -209,8 +214,7 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
-    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
-    feature_store = _FeatureStore(config=feature_store_config)
+    feature_store = build_feature_store(s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
 
     store_offline_node = create_node(store_offline, feature_store=feature_store, dataframe=converted_df)
 
