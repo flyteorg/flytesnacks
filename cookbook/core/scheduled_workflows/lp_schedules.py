@@ -1,13 +1,3 @@
-"""
-Scheduling Workflows
---------------------
-
-For background on launch plans, refer to :any:`launch_plans`.
-
-Launch plans can be set to run automatically on a schedule if the Flyte platform is properly configured.
-For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow. 
-"""
-
 # %%
 # Consider the following example workflow:
 from datetime import datetime
@@ -32,8 +22,8 @@ def date_formatter_wf(kickoff_time: datetime):
 # Cron Schedules
 # ##############
 #
-# Cron expression strings use the `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`_.
-# These are validated at launch plan registration time.
+# Cron expression strings use the following `syntax <https://pkg.go.dev/github.com/robfig/cron#hdr-CRON_Expression_Format>`_.
+# An incorrect cron schedule expression would lead to failure in triggering the schedule
 from flytekit import CronSchedule, LaunchPlan
 
 # creates a launch plan that runs at 10am UTC every day.
@@ -42,7 +32,9 @@ cron_lp = LaunchPlan.get_or_create(
     workflow=date_formatter_wf,
     schedule=CronSchedule(
         # Note that kickoff_time_input_arg matches the workflow input we defined above: kickoff_time
-        cron_expression="0 10 * * ? *",
+        # Native scheduler doesn't support `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`_.
+        # But in case you are using the AWS scheme of schedules and not using the native scheduler then switch over the schedule parameter with cron_expression
+        schedule="*/1 * * * *", # Following schedule runs every min 
         kickoff_time_input_arg="kickoff_time",
     ),
 )
