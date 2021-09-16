@@ -31,8 +31,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from flytekit.configuration import aws
 from feature_eng_tasks import mean_median_imputer, univariate_selection
-from feast_type_transformers import FeatureStore as _FeatureStore
-from feast_type_transformers import FeatureStoreConfig
+from feast_dataobjects import FeatureStore, FeatureStoreConfig
 
 
 logger = logging.getLogger(__file__)
@@ -64,7 +63,7 @@ sql_task = SQLite3Task(
 
 
 @task
-def store_offline(feature_store: _FeatureStore, dataframe: FlyteSchema):
+def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema):
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
@@ -93,7 +92,7 @@ def store_offline(feature_store: _FeatureStore, dataframe: FlyteSchema):
 
 
 @task
-def load_historical_features(feature_store: _FeatureStore) -> FlyteSchema:
+def load_historical_features(feature_store: FeatureStore) -> FlyteSchema:
     entity_df = pd.DataFrame.from_dict(
         {
             "Hospital Number": [
@@ -145,7 +144,7 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     return fname
 
 @task
-def store_online(feature_store: _FeatureStore):
+def store_online(feature_store: FeatureStore):
     feature_store.materialize(
         start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
@@ -153,7 +152,7 @@ def store_online(feature_store: _FeatureStore):
 
 @task
 def retrieve_online(
-    feature_store: _FeatureStore, dataset: pd.DataFrame
+    feature_store: FeatureStore, dataset: pd.DataFrame
 ) -> dict:
     inference_data = random.choice(dataset["Hospital Number"])
     logger.info(f"Hospital Number chosen for inference is: {inference_data}")
@@ -190,9 +189,9 @@ def convert_timestamp_column(
     return df
 
 @task
-def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> _FeatureStore:
+def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> FeatureStore:
     feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
-    return _FeatureStore(config=feature_store_config)
+    return FeatureStore(config=feature_store_config)
 
 
 @workflow
