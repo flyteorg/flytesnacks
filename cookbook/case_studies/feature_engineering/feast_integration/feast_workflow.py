@@ -250,4 +250,4 @@ def feast_workflow(
 
 
 if __name__ == "__main__":
-    print(f"{feast_workflow(registry='registry.db')}")
+    print(f"{feast_workflow()}")
