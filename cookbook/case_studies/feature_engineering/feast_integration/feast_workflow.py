@@ -19,6 +19,7 @@ from feast import (
     online_response,
     registry,
 )
+from flytekit.core.node_creation import create_node
 from feast.infra.offline_stores.file import FileOfflineStoreConfig
 from feast.infra.online_stores.sqlite import SqliteOnlineStoreConfig
 from flytekit import reference_task, task, workflow, Workflow
@@ -30,6 +31,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from flytekit.configuration import aws
 from feature_eng_tasks import mean_median_imputer, univariate_selection
+from feast_type_transformers import FeatureStore as _FeatureStore
+from feast_type_transformers import FeatureStoreConfig
 
 
 logger = logging.getLogger(__file__)
@@ -47,7 +50,6 @@ FEAST_FEATURES = [
 ]
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 DATA_CLASS = "surgical lesion"
-
 
 def _build_feature_store(registry: FlyteFile, online_store_local_path: str = "") -> FeatureStore:
     # TODO: comment this
@@ -79,7 +81,7 @@ sql_task = SQLite3Task(
 
 
 @task
-def store_offline(registry: FlyteFile, dataframe: FlyteSchema, feature_store: _FeatureStore) -> FlyteFile:
+def store_offline(feature_store: _FeatureStore, dataframe: FlyteSchema):
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
@@ -106,11 +108,9 @@ def store_offline(registry: FlyteFile, dataframe: FlyteSchema, feature_store: _F
     # Ingest the data into feast
     feature_store.apply([horse_colic_entity, horse_colic_feature_view])
 
-    return FlyteFile(registry.remote_source)
-
 
 @task
-def load_historical_features(registry: FlyteFile, feature_store: _FeatureStore) -> FlyteSchema:
+def load_historical_features(feature_store: _FeatureStore) -> FlyteSchema:
     entity_df = pd.DataFrame.from_dict(
         {
             "Hospital Number": [
@@ -162,17 +162,15 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     return fname
 
 @task
-def store_online(registry: FlyteFile, online_store: FlyteFile, feature_store: _FeatureStore) -> (FlyteFile, FlyteFile):
+def store_online(feature_store: _FeatureStore):
     feature_store.materialize(
         start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
     )
 
-    return registry, online_store
-
 @task
 def retrieve_online(
-        registry: FlyteFile, online_store: FlyteFile, dataset: pd.DataFrame, feature_store: _FeatureStore
+    feature_store: _FeatureStore, dataset: pd.DataFrame
 ) -> dict:
     inference_data = random.choice(dataset["Hospital Number"])
     logger.info(f"Hospital Number chosen for inference is: {inference_data}")
@@ -226,14 +224,17 @@ def feast_workflow(
         dataframe=dataframe, timestamp_column="timestamp"
     )
 
-    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket='feast-integration', registry_path="registry.db", online_store_path="online.db")
+    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket='feast-integration', registry_path="registry.db", online_store_path="online.db2")
     feature_store = _FeatureStore(config=feature_store_config)
 
-    registry_to_historical_features_task = store_offline(
-        registry=registry, dataframe=converted_df, feature_store=feature_store
-    )
+    store_offline_node = create_node(store_offline, feature_store=feature_store, dataframe=converted_df)
 
-    load_historical_features_node = create_node(load_historical_features, registry=registry_to_historical_features_task, feature_store=feature_store)
+    load_historical_features_node = create_node(load_historical_features, feature_store=feature_store)
+
+    store_online_node = create_node(store_online, feature_store=feature_store)
+
+    store_offline_node >> load_historical_features_node
+    load_historical_features_node >> store_online_node
 
     selected_features = univariate_selection(
         dataframe=load_historical_features_node.o0,
@@ -246,13 +247,13 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
-    r1, os1 = store_online(registry=registry_to_historical_features_task, online_store="s3://feast-integration/online.db", feature_store=feature_store)
+    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=dataframe)
 
-    inference_point = retrieve_online(registry=r1, online_store=os1, dataset=dataframe, feature_store=feature_store)
+    store_online_node >> retrieve_online_node
 
     prediction = test_model(
         model_ser=trained_model,
-        inference_point=inference_point,
+        inference_point=retrieve_online_node.o0,
     )
 
     return prediction
