@@ -51,23 +51,6 @@ FEAST_FEATURES = [
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 DATA_CLASS = "surgical lesion"
 
-def _build_feature_store(registry: FlyteFile, online_store_local_path: str = "") -> FeatureStore:
-    # TODO: comment this
-    if registry.remote_source.startswith("s3://"):
-        os.environ["FEAST_S3_ENDPOINT_URL"] = aws.S3_ENDPOINT.get()
-        os.environ["AWS_ACCESS_KEY_ID"] = aws.S3_ACCESS_KEY_ID.get()
-        os.environ["AWS_SECRET_ACCESS_KEY"] = aws.S3_SECRET_ACCESS_KEY.get()
-
-    config = RepoConfig(
-        registry=registry.remote_source,
-        project=f"horsecolic",
-        # Notice the use of a custom provider.
-        provider="custom_provider.provider.FlyteCustomProvider",
-        offline_store=FileOfflineStoreConfig(),
-        online_store=SqliteOnlineStoreConfig(path=online_store_local_path),
-    )
-    return FeatureStore(config=config)
-
 
 sql_task = SQLite3Task(
     name="sqlite3.horse_colic",
