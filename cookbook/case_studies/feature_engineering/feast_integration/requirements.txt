@@ -52,9 +52,9 @@ fastavro==1.4.4
     #   pandavro
 feast[aws]==0.12.1
     # via -r requirements.in
-flyteidl==0.20.2
+flyteidl==0.21.1
     # via flytekit
-flytekit==0.22.2
+flytekit==0.23.0b1
     # via -r requirements.in
 google-api-core==2.0.1
     # via feast

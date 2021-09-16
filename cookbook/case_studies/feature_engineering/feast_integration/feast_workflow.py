@@ -188,7 +188,7 @@ def store_online(registry: FlyteFile, online_store: FlyteFile) -> (FlyteFile, Fl
 @task
 def retrieve_online(
     registry: FlyteFile, online_store: FlyteFile, dataset: pd.DataFrame
-) -> typing.Dict[str, typing.List[str]]:
+) -> dict:
     online_store.download()
     fs = _build_feature_store(registry=registry, online_store_local_path=online_store.path)
     feature_refs = FEAST_FEATURES
@@ -209,7 +209,7 @@ def retrieve_online(
 @task
 def test_model(
     model_ser: JoblibSerializedFile,
-    inference_point: typing.Dict[str, typing.List[str]],
+    inference_point: dict,
 ) -> typing.List[str]:
 
     # Load model
