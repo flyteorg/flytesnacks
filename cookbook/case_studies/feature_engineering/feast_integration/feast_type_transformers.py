@@ -1,3 +1,4 @@
+from flytekit.configuration import aws
 from datetime import datetime
 import pandas as pd
 import os
@@ -37,10 +38,10 @@ class FeatureStore:
     config: FeatureStoreConfig
 
     def _build_feast_feature_store(self):
-        # TODO: guard these assignments behind a check
-        os.environ["FEAST_S3_ENDPOINT_URL"] = os.environ["FLYTE_AWS_ENDPOINT"]
-        os.environ["AWS_ACCESS_KEY_ID"] = os.environ["FLYTE_AWS_ACCESS_KEY_ID"]
-        os.environ["AWS_SECRET_ACCESS_KEY"] = os.environ["FLYTE_AWS_SECRET_ACCESS_KEY"]
+        if self.config.registry_path.startswith("s3://"):
+            os.environ["FEAST_S3_ENDPOINT_URL"] = aws.S3_ENDPOINT.get()
+            os.environ["AWS_ACCESS_KEY_ID"] = aws.S3_ACCESS_KEY_ID.get()
+            os.environ["AWS_SECRET_ACCESS_KEY"] = aws.S3_SECRET_ACCESS_KEY.get()
 
         config = RepoConfig(
             registry=f"s3://{self.config.s3_bucket}/{self.config.registry_path}",
