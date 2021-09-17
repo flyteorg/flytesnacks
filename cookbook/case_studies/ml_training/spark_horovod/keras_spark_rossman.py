@@ -306,7 +306,7 @@ def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepO
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
-    train_csv = spark.read.csv("%s/train.csv" % data_dir, header=True)
+    # train_csv = spark.read.csv("%s/train.csv" % data_dir, header=True)
     test_csv = spark.read.csv("%s/test.csv" % data_dir, header=True)
 
     store_csv = spark.read.csv("%s/store.csv" % data_dir, header=True)
