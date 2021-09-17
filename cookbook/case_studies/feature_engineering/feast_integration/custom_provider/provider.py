@@ -30,19 +30,14 @@ class FlyteCustomProvider(LocalProvider):
         project: str,
         tqdm_builder: Callable[[int], tqdm],
     ) -> None:
-        # materialize_single_feature_view loads the latest feature values for a specific feature value from the offline
-        # store into the online store.
-        # This method can be overridden to also launch custom batch ingestion jobs that loads the latest batch feature
-        # values into the online store.
-        #
-
+        """
+        Loads the latest feature values for a specific feature value from the offline store into the online store.
+        """
         self._localize_feature_view(feature_view)
 
-        # Replace the line below with your custom logic in order to launch your own batch ingestion job
         super().materialize_single_feature_view(
             config, feature_view, start_date, end_date, registry, project, tqdm_builder
         )
-        print("Launching custom batch jobs is pretty easy...")
 
     def get_historical_features(
         self,
@@ -54,8 +49,9 @@ class FlyteCustomProvider(LocalProvider):
         project: str,
         full_feature_names: bool,
     ) -> RetrievalJob:
-        # get_historical_features returns a training dataframe from the offline store
-
+        """
+        Returns a training dataframe from the offline store
+        """
         # We substitute the remote s3 file with a reference to a local file in each feature view being requested
         for fv in feature_views:
             self._localize_feature_view(fv)
