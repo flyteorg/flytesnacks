@@ -40,6 +40,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - name: 'Set example id'
+        id: example_id
+        # add a step output `steps.build_id.outputs.id` as the unique id
+        run: echo "::set-output name=id::$(sed -i '' 's_/_-_' ${{ matrix.directory }})"
       - name: Serialize Examples
         env:
           SANDBOX: "1"
@@ -49,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           # TODO (Yuvraj): The name here isn't working... we need a unique name..
-          name: "$(sed -i '' 's_/_-_' ${{ matrix.directory }})"
+          name: ${{ steps.example_id.outputs.id }}
           path: ${{ matrix.directory }}/_pb_output/*
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.

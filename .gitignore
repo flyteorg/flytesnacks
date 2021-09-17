@@ -26,4 +26,4 @@ _build/
 cookbook/release-snacks
 .kube/
 .docker/
-.cache
+.cache/
