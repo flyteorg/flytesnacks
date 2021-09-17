@@ -281,8 +281,8 @@ DataPrepOutputs = typing.NamedTuple(
     task_config=Spark(
         # this configuration is applied to the spark cluster
         spark_conf={
-            "spark.driver.memory": "1000M",
-            "spark.executor.memory": "1000M",
+            "spark.driver.memory": "2000M",
+            "spark.executor.memory": "2000M",
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
@@ -292,8 +292,8 @@ DataPrepOutputs = typing.NamedTuple(
     ),
     cache=True,
     cache_version="0.1",
-    requests=Resources(mem="1Gi"),
-    limits=Resources(mem="1Gi"),
+    requests=Resources(mem="2Gi"),
+    limits=Resources(mem="2Gi"),
 )
 def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepOutputs:
 
