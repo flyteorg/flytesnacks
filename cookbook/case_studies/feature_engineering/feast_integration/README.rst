@@ -4,7 +4,7 @@ Feast Integration
 **Feature Engineering** off-late has become one of the most prominent topics in Machine Learning.
 It is the process of transforming raw data into features that better represent the underlying problem to the predictive models, resulting in improved model accuracy on unseen data.
 
-** [Feast](https://feast.dev/) is an operational data system for managing and serving machine learning features to models in production.**
+** `Feast<https://feast.dev/>`_ is an operational data system for managing and serving machine learning features to models in production.**
 
 Flyte provides a way to train models and perform feature engineering as a single pipeline.
 But, it provides no way to serve these features to production when the model matures and is ready to be served in production.
