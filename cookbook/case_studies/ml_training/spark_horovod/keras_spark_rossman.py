@@ -238,30 +238,30 @@ def lookup_columns(df, vocab):
 ############
 # GET DATA #
 ############
-@task
-def download_data() -> FlyteDirectory:
-    working_dir = flytekit.current_context().working_directory
-    data_dir = pathlib.Path(os.path.join(working_dir, "data"))
-    data_dir.mkdir(exist_ok=True)
+# @task
+# def download_data() -> FlyteDirectory:
+#     working_dir = flytekit.current_context().working_directory
+#     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
+#     data_dir.mkdir(exist_ok=True)
 
-    download_subp = subprocess.run(
-        [
-            "curl",
-            "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "tar",
-            "-xz",
-            "-C",
-            data_dir,
-        ],
-        input=download_subp.stdout,
-    )
-    return FlyteDirectory(path=str(data_dir))
+#     download_subp = subprocess.run(
+#         [
+#             "curl",
+#             "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
+#         ],
+#         check=True,
+#         capture_output=True,
+#     )
+#     subprocess.run(
+#         [
+#             "tar",
+#             "-xz",
+#             "-C",
+#             data_dir,
+#         ],
+#         input=download_subp.stdout,
+#     )
+#     return FlyteDirectory(path=str(data_dir))
 
 
 DataPrepOutputs = typing.NamedTuple(
@@ -295,25 +295,32 @@ DataPrepOutputs = typing.NamedTuple(
     requests=Resources(mem="2Gi"),
     limits=Resources(mem="2Gi"),
 )
-def data_preparation(data_dir: FlyteDirectory, hp: Hyperparameters) -> DataPrepOutputs:
+def data_preparation(hp: Hyperparameters) -> DataPrepOutputs:
 
     print("================")
     print("Data preparation")
     print("================")
 
-    data_dir.download()
-
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
-    # train_csv = spark.read.csv("%s/train.csv" % data_dir, header=True)
-    test_csv = spark.read.csv("%s/test.csv" % data_dir, header=True)
+    train_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/train.csv", header=True)
+    test_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/test.csv", header=True)
 
-    store_csv = spark.read.csv("%s/store.csv" % data_dir, header=True)
-    store_states_csv = spark.read.csv("%s/store_states.csv" % data_dir, header=True)
-    state_names_csv = spark.read.csv("%s/state_names.csv" % data_dir, header=True)
-    google_trend_csv = spark.read.csv("%s/googletrend.csv" % data_dir, header=True)
-    weather_csv = spark.read.csv("%s/weather.csv" % data_dir, header=True)
+    store_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/store.csv", header=True)
+    store_states_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/store_states.csv", header=True)
+    state_names_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/state_names.csv", header=True)
+    google_trend_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/googletrend.csv", header=True)
+    weather_csv = spark.read.csv("s3a://horovod-spark-rossmann/rossmann/weather.csv", header=True)
+
+    # train_csv = spark.read.csv("%s/train.csv" % data_dir, header=True)
+    # test_csv = spark.read.csv("%s/test.csv" % data_dir, header=True)
+
+    # store_csv = spark.read.csv("%s/store.csv" % data_dir, header=True)
+    # store_states_csv = spark.read.csv("%s/store_states.csv" % data_dir, header=True)
+    # state_names_csv = spark.read.csv("%s/state_names.csv" % data_dir, header=True)
+    # google_trend_csv = spark.read.csv("%s/googletrend.csv" % data_dir, header=True)
+    # weather_csv = spark.read.csv("%s/weather.csv" % data_dir, header=True)
 
     if hp.sample_rate:
         train_csv = train_csv.sample(withReplacement=False, fraction=hp.sample_rate)
@@ -640,7 +647,7 @@ def horovod_train_task(
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
 ) -> (FlyteFile, CSVFile):
-    data_dir = download_data()
+    # data_dir = download_data()
     (
         continuous_cols,
         categorical_cols,
@@ -648,7 +655,7 @@ def horovod_training_wf(
         test_df,
         len_vocab,
         max_sales,
-    ) = data_preparation(data_dir=data_dir, hp=hp)
+    ) = data_preparation(hp=hp)
     return horovod_train_task(
         hp=hp,
         continuous_cols=continuous_cols,
