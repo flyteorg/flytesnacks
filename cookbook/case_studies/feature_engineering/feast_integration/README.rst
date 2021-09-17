@@ -4,12 +4,12 @@ Feast Integration
 **Feature Engineering** off-late has become one of the most prominent topics in Machine Learning.
 It is the process of transforming raw data into features that better represent the underlying problem to the predictive models, resulting in improved model accuracy on unseen data.
 
-**Feast (Feature Store) is an operational data system for managing and serving machine learning features to models in production.**
+** [Feast](https://feast.dev/) is an operational data system for managing and serving machine learning features to models in production.**
 
 Flyte provides a way to train models and perform feature engineering as a single pipeline.
 But, it provides no way to serve these features to production when the model matures and is ready to be served in production.
 
-This is where the integration between Flyte and Feast can help users take their models and features from prototyping all the way to production cost-effectively and efficiently. 🚀
+Flyte adds the capability of engineering the features and Feast provides the feature registry and online serving system. One thing that Flyte makes possible is incremental development of features and only turning on the sync to online stores when you are confident about the features
 
 In this tutorial, we'll walk through how Feast can be used to store and retrieve features to train and test the model curated using the Flyte pipeline.
 
@@ -48,23 +48,7 @@ The dataset will have the following columns:
       - surgical lesion
       - timestamp
 
-The horse colic dataset will be a compressed zip file consisting of the SQLite DB.
-
-Why SQLite3?
-^^^^^^^^^^^^
-SQLite3 is written such that the task doesn't depend on the user's image. It basically:
-
-- Shifts the burden of writing the Dockerfile from the user using the task in workflows, to the author of the task type
-- Allows the author to optimize the image that the task runs
-- Works locally and remotely
-
-.. note::
-
-  SQLite3 container is special; the definition of the Python classes themselves is bundled in Flytekit, hence we just use the Flytekit image.
-
-.. tip::
-
-  SQLite3 is being used to showcase the example of using a ``TaskTemplate``. This is the same for SQLAlchemy. As for Athena, BigQuery, Hive plugins, a container is not required. The queries are registered with FlyteAdmin and sent directly to the respective engines.
+The horse colic dataset will be a compressed zip file consisting of the SQLite DB. For this example we just wanted a dataset that was available online, but this could be easily plugged into another dataset / data management system like Snowflake, Athena, Hive, BigQuery or Spark, all of those are supported by Flyte.
 
 Takeaways
 =========
