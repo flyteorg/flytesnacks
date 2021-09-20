@@ -454,6 +454,8 @@ def data_preparation(hp: Hyperparameters) -> DataPrepOutputs:
     print("Data frame with transformed columns")
     print("===================================")
     train_df.show()
+    print(f"train_df type {type(train_df)}")
+    print(f"train_df methods {dir(train_df)}")
 
     print("================")
     print("Data frame sizes")
