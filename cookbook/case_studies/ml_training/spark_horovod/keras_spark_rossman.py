@@ -290,8 +290,8 @@ DataPrepOutputs = typing.NamedTuple(
             "spark.worker.timeout": "120",
         }
     ),
-    cache=True,
-    cache_version="0.1",
+    # cache=True,
+    # cache_version="0.1",
     requests=Resources(mem="2Gi"),
     limits=Resources(mem="2Gi"),
 )
