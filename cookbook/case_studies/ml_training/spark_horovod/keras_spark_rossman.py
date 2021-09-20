@@ -580,6 +580,9 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # ).setOutputCols(["Sales_output"])
     opened_train_df = train_df.open().all()
     print(f"**** opened_train_df {opened_train_df}")
+    print(f"{opened_train_df.__hash__()}")
+    print(f"store.get_train_data_path() {store.get_train_data_path()}")
+    print(f"store.get_val_data_path() {store.get_val_data_path()}")
     print(f"**** keras_estimator.fit(opened_train_df) {keras_estimator.fit(opened_train_df)}")
     keras_model = keras_estimator.fit(opened_train_df).setOutputCols(['Sales_output'])
 
