@@ -617,7 +617,24 @@ def test_model(hp: Hyperparameters, test_df, keras_model):
 # HOROVOD TASK     #
 # TODO: ENABLE GPU #
 ####################
-@task(requests=Resources(mem="1Gi", storage="1Gi"))
+@task(
+    task_config=Spark(
+        # this configuration is applied to the spark cluster
+        spark_conf={
+            "spark.driver.memory": "2000M",
+            "spark.executor.memory": "2000M",
+            "spark.executor.cores": "1",
+            "spark.executor.instances": "2",
+            "spark.driver.cores": "1",
+            "spark.sql.shuffle.partitions": "16",
+            "spark.worker.timeout": "120",
+        }
+    ),
+    cache=True,
+    cache_version="0.1",
+    requests=Resources(mem="2Gi"),
+    limits=Resources(mem="2Gi"),
+)
 def horovod_train_task(
     hp: Hyperparameters,
     continuous_cols: typing.List[str],
