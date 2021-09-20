@@ -575,6 +575,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
         checkpoint_callback=ckpt_callback,
     )
 
+    print(f"df {pyspark.sql.DataFrame}")
     keras_model = keras_estimator.fit(
         train_df.open(pyspark.sql.DataFrame).all()
     ).setOutputCols(["Sales_output"])
