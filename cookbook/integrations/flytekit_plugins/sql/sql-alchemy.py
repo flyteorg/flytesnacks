@@ -127,11 +127,7 @@ sql_task = SQLAlchemyTask(
             and duration <= {{ .inputs.upper_duration_cap }}
         """,
     inputs=kwtypes(lower_duration_cap=int, upper_duration_cap=int),
-<<<<<<< HEAD
     task_config=SQLAlchemyConfig(uri="postgresql://localhost/flights"),
-=======
-    task_config=SQLAlchemyConfig(uri=local_pg_server),
->>>>>>> origin/master
 )
 
 
