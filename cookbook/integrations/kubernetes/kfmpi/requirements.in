@@ -1,6 +1,1 @@
--r ../../../common/requirements-common.in
-tensorflow==2.4.3
-future==0.18.2
-typing==3.7.4.3
-numpy
 git+https://github.com/flyteorg/flytekit.git@2b974216ac6497f0064c3c14b3a8a0009757b57d#subdirectory=plugins/flytekit-kf-mpi

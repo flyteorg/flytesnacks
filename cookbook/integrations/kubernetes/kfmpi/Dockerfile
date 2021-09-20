@@ -1,31 +1,46 @@
-FROM python:3.6-slim-buster
+FROM ubuntu:focal
+LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
-ENV HOROVOD_VERSION=0.19.0
+WORKDIR /root
+ENV VENV /opt/venv
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+ENV PYTHONPATH /root
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python3 and other basics
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && apt-get install -y \
+    build-essential \
+    cmake \
+    g++-7 \
+    curl \
+    git \
+    wget \
+    python3.8 \
+    python3.8-venv \
+    python3.8-dev \
+    make \
+    libssl-dev \
+    python3-pip \
+    python3-wheel \
+    libuv1
 
 ENV VENV /opt/venv
-
-RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
-        build-essential \
-        cmake \
-        g++ \
-        git \
-        curl \
-        vim \
-        wget \
-        ca-certificates \
-        libjpeg-dev \
-        libpng-dev \
-        librdmacm1 \
-        libibverbs1 \
-        ibverbs-providers
-
 # Virtual environment
-RUN python3 -m venv ${VENV}
+RUN python3.8 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-# Install the AWS cli separately to prevent issues with boto being written over
-RUN pip install awscli
+# Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
+# in future versions to make it completely portable
+RUN pip3 install awscli
 
+# Install wheel after venv is activated
+RUN pip3 install wheel
+
+# MPI
 # Install Open MPI
 RUN mkdir /tmp/openmpi && \
     cd /tmp/openmpi && \
@@ -42,17 +57,27 @@ RUN mkdir /tmp/openmpi && \
 RUN apt-get install -y --no-install-recommends openssh-client openssh-server && \
     mkdir -p /var/run/sshd
 
+# Allow OpenSSH to talk to containers without asking for confirmation
+# by disabling StrictHostKeyChecking.
+# mpi-operator mounts the .ssh folder from a Secret. For that to work, we need
+# to disable UserKnownHostsFile to avoid write permissions.
+# Disabling StrictModes avoids directory and files read permission checks.
 RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config && \
     echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config && \
     sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
+
+# Horovod-related installations
+RUN pip install tensorflow==2.6.0
+# Enable GPU
+# ENV HOROVOD_GPU_OPERATIONS NCCL
+RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.22.1
 
 # Install Python dependencies
 COPY kfmpi/requirements.txt /root
 
 RUN pip install -r /root/requirements.txt
 
-# Install Horovod
-RUN HOROVOD_WITH_TENSORFLOW=1 pip install  horovod
+RUN pip install git+https://github.com/flyteorg/flytekit/archive/2b974216ac6497f0064c3c14b3a8a0009757b57d.zip\#egg\=flytekit
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
