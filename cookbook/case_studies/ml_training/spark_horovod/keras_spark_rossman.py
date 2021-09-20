@@ -578,7 +578,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # keras_model = keras_estimator.fit(
     #     train_df.open(pyspark.sql.DataFrame).all()
     # ).setOutputCols(["Sales_output"])
-    keras_model = keras_estimator.fit(train_df.open()).setOutputCols(['Sales_output'])
+    keras_model = keras_estimator.fit(train_df.open().all()).setOutputCols(['Sales_output'])
 
     history = keras_model.getHistory()
     best_val_rmspe = min(history["val_exp_rmspe"])
