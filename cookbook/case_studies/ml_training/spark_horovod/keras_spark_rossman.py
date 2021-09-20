@@ -580,7 +580,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # keras_model = keras_estimator.fit(
     #     train_df.open(pyspark.sql.DataFrame).all()
     # ).setOutputCols(["Sales_output"])
-    opened_train_df = train_df.open().all(pyspark.sql.DataFrame)
+    opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
     print(f"**** opened_train_df {opened_train_df}")
 
     opened_train_df.show()
