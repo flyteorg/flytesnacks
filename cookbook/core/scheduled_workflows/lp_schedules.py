@@ -2,11 +2,13 @@
 Scheduling Workflows
 --------------------
 For background on launch plans, refer to :any:`launch_plans`.
-Launch plans can be set to run automatically on a schedule if the Flyte platform is properly configured.
+Launch plans can be set to run automatically on a schedule using the flyte native scheduler.
 For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow. 
 
-.. note:
+.. note::
+
   Native scheduler doesn't support `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`_.
+
 """
 
 # %%
@@ -57,7 +59,7 @@ cron_lp = LaunchPlan.get_or_create(
 # ####################
 #     
 # If you prefer to use an interval rather than a cron scheduler to schedule your workflows, you can use the fixed-rate scheduler. 
-# A fixed-rate scheduler runs at the specified interval and is currently supported for Flyte deployments hosted on AWS.
+# A fixed-rate scheduler runs at the specified interval.
 #
 # Here's an example:
 
