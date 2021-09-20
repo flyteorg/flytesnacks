@@ -578,7 +578,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # keras_model = keras_estimator.fit(
     #     train_df.open(pyspark.sql.DataFrame).all()
     # ).setOutputCols(["Sales_output"])
-    keras_model = keras_estimator.fit(train_df).setOutputCols(['Sales_output'])
+    keras_model = keras_estimator.fit(train_df.open()).setOutputCols(['Sales_output'])
 
     history = keras_model.getHistory()
     best_val_rmspe = min(history["val_exp_rmspe"])
@@ -645,6 +645,7 @@ def horovod_train_task(
     len_vocab: typing.Dict[str, int],
     max_sales: float,
 ) -> (FlyteFile, CSVFile):
+    print(f"**** {test_df.open().all()}")
     keras_model, local_checkpoint_file = train_model(
         len_vocab=len_vocab,
         categorical_cols=categorical_cols,
