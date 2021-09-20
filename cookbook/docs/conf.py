@@ -271,7 +271,7 @@ examples_dirs = [
 gallery_dirs = [
     "auto/core/flyte_basics",
     "auto/core/control_flow",
-    "auto/core/scheduled_worflows",
+    "auto/core/scheduled_workflows",
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
