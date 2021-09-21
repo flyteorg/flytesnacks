@@ -93,7 +93,7 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     #     print("file contents")
     #     print(fh.read())
     # print(f"file contents {os.read(train_file_path)}")
-    train_csv = spark.read.csv('%s/train.csv' % data_dir_path, header=True)
+    train_csv = spark.read.csv(train_file_path, header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
     store_csv = spark.read.csv('%s/store.csv' % data_dir_path, header=True)
