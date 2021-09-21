@@ -290,8 +290,8 @@ DataPrepOutputs = typing.NamedTuple(
             "spark.worker.timeout": "120",
         }
     ),
-    # cache=True,
-    # cache_version="0.1",
+    cache=True,
+    cache_version="0.1",
     requests=Resources(mem="2Gi"),
     limits=Resources(mem="2Gi"),
 )
@@ -558,7 +558,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     data_dir.mkdir(exist_ok=True)
 
-
+    train_df._downloader(train_df.remote_path, train_df.local_path)
     opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
     print(f" local_path {train_df.local_path}")
     print(f" contents of local path {os.listdir(train_df.local_path)}")
