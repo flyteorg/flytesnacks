@@ -108,4 +108,8 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
+# TODO move to requirements
+RUN pip install s3fs
+
 ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
+
