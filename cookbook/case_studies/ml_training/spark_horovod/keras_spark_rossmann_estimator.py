@@ -76,24 +76,25 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     
     ctx = FlyteContextManager.current_context()
     
-    working_dir = flytekit.current_context().working_directory
-    data_dir = pathlib.Path(os.path.join(working_dir, "data"))
-    data_dir.mkdir(exist_ok=True)
-    data_dir_path = str(data_dir)
-
-    ctx.file_access.download_directory("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
-    print(f" contents of local path {os.listdir(data_dir_path)}")
-
-    # Create Spark session for data preparation.
+    # working_dir = flytekit.current_context().working_directory
+    # data_dir = pathlib.Path(os.path.join(working_dir, "data"))
+    # data_dir.mkdir(exist_ok=True)
+    # data_dir_path = str(data_dir)
+    #
+    # ctx.file_access.download_directory("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
+    # print(f" contents of local path {os.listdir(data_dir_path)}")
+    #
+    # # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
-
-    train_file_path = 'file://%s/train.csv' % data_dir_path
-    print(f"is file {os.path.isfile(train_file_path)}, path {train_file_path}")
-    # with open(train_file_path) as fh:
-    #     print("file contents")
-    #     print(fh.read())
-    # print(f"file contents {os.read(train_file_path)}")
-    train_csv = spark.read.csv(train_file_path, header=True)
+    #
+    # train_file_path = 'file://%s/train.csv' % data_dir_path
+    # print(f"is file {os.path.isfile(train_file_path)}, path {train_file_path}")
+    # # with open(train_file_path) as fh:
+    # #     print("file contents")
+    # #     print(fh.read())
+    # # print(f"file contents {os.read(train_file_path)}")
+    data_dir_path = "s3://horovod-spark-rossmann/rossmann/"
+    train_csv = spark.read.csv('%s/train.csv', header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
     store_csv = spark.read.csv('%s/store.csv' % data_dir_path, header=True)
