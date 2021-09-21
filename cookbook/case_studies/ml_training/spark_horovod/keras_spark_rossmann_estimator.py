@@ -382,7 +382,7 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     ckpt_callback = BestModelCheckpoint(monitor='val_loss', mode='auto', save_freq='epoch')
 
     # Horovod: run training.
-    store = Store.create("/tmp")
+    store = Store.create("s3://flyte-demo/horovod-tmp/")
     backend = SparkBackend(num_proc=hp.num_proc,
                            stdout=sys.stdout, stderr=sys.stderr,
                            prefix_output_with_timestamp=True)
