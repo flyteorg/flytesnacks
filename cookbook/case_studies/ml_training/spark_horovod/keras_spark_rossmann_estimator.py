@@ -36,6 +36,34 @@ from tensorflow.keras.layers import (
     Reshape,
 )
 
+############
+# GET DATA #
+############
+@task(cache=True, cache_version="0.1",)
+def download_data() -> FlyteDirectory:
+    working_dir = flytekit.current_context().working_directory
+    data_dir = pathlib.Path(os.path.join(working_dir, "data"))
+    data_dir.mkdir(exist_ok=True)
+
+    download_subp = subprocess.run(
+        [
+            "curl",
+            "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
+        ],
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        [
+            "tar",
+            "-xz",
+            "-C",
+            data_dir,
+        ],
+        input=download_subp.stdout,
+    )
+    return FlyteDirectory(path=str(data_dir))
+
 @dataclass_json
 @dataclass
 class Hyperparameters:
@@ -65,7 +93,7 @@ class Hyperparameters:
     requests=Resources(mem="2Gi"),
     limits=Resources(mem="2Gi"),
 )
-def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
+def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFile):
     # ================ #
     # DATA PREPARATION #
     # ================ #
@@ -73,9 +101,9 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     print('================')
     print('Data preparation')
     print('================')
-    
+
     ctx = FlyteContextManager.current_context()
-    
+
     # working_dir = flytekit.current_context().working_directory
     # data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     # data_dir.mkdir(exist_ok=True)
@@ -93,7 +121,8 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     # #     print("file contents")
     # #     print(fh.read())
     # # print(f"file contents {os.read(train_file_path)}")
-    data_dir_path = "s3://horovod-spark-rossmann/rossmann"
+    data_dir_path = data_dir.remote_source
+    print(f"Using data dir path {data_dir_path}")
     train_csv = spark.read.csv('%s/train.csv' % data_dir_path, header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
@@ -437,4 +466,6 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
 ) -> (FlyteFile, CSVFile):
-    return estimate(hp=hp)
+    data_dir = download_data()
+
+    return estimate(data_dir=data_dir, hp=hp)
