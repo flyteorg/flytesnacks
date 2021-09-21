@@ -66,18 +66,21 @@ RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config &&
     echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config && \
     sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
 
+# Install Python dependencies
+COPY kfmpi/requirements.txt /root
+
+RUN pip install -r /root/requirements.txt
+
 # Horovod-related installations
 RUN pip install tensorflow==2.6.0
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
 RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.22.1
 
-# Install Python dependencies
-COPY kfmpi/requirements.txt /root
+RUN pip install git+https://github.com/flyteorg/flytekit.git@20ac3b99ff61963a1895e25948b77aa3dacf136a#subdirectory=plugins/flytekit-kf-mpi
+RUN pip install git+https://github.com/flyteorg/flytekit.git@20ac3b99ff61963a1895e25948b77aa3dacf136a#setup.py
+RUN pip install -U git+https://github.com/evalsocket/flyteidl.git@cac84be808818990d02fdb6727a5a6703d449270#setup.py
 
-RUN pip install -r /root/requirements.txt
-
-RUN pip install git+https://github.com/flyteorg/flytekit/archive/2b974216ac6497f0064c3c14b3a8a0009757b57d.zip\#egg\=flytekit
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile

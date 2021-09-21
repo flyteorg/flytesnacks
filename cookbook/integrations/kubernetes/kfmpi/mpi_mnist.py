@@ -9,9 +9,7 @@ from flytekit.types.file import  FlyteFile
 from flytekit.core.base_task import IgnoreOutputs
 from flytekitplugins.kfmpi import MPIJob
 
-layers = tf.layers
-
-tf.logging.set_verbosity(tf.logging.INFO)
+layers = tf.keras.layers
 
 @dataclass_json
 @dataclass
@@ -81,12 +79,6 @@ def train_input_generator(x_train, y_train, batch_size=64):
     retries=5,
     cache=True,
     cache_version="1.0",
-    per_replica_requests=Resources(
-        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
-    ),
-    per_replica_limits=Resources(
-        cpu="1", mem="30Gi", storage="20Gi", ephemeral_storage="500Mi"
-    ),
 )
 def horovod_train_task(
     hp: Hyperparameters

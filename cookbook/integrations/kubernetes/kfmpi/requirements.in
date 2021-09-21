@@ -1,1 +1,2 @@
-git+https://github.com/flyteorg/flytekit.git@2b974216ac6497f0064c3c14b3a8a0009757b57d#subdirectory=plugins/flytekit-kf-mpi
+git+https://github.com/flyteorg/flytekit.git@412a2e83cfb42ef3f5efe3683a19198e7e975392#subdirectory=plugins/flytekit-kf-mpi
+
