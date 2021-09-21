@@ -558,8 +558,9 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     data_dir.mkdir(exist_ok=True)
 
-    train_df._downloader(train_df.remote_path, train_df.local_path)
+    # train_df._downloader(train_df.remote_path, train_df.local_path)
     opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
+    opened_train_df.cache()
     print(f" local_path {train_df.local_path}")
     print(f" contents of local path {os.listdir(train_df.local_path)}")
     store = Store.create(train_df.local_path)
