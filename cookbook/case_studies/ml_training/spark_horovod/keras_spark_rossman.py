@@ -558,7 +558,10 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     data_dir.mkdir(exist_ok=True)
 
-    store = Store.create(".")
+
+    opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
+    print(f" local_path {train_df.local_path}")
+    store = Store.create(train_df.local_path)
     # store = Store.create(str(data_dir))
     backend = SparkBackend(
         num_proc=hp.num_proc,
@@ -586,8 +589,6 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # keras_model = keras_estimator.fit(
     #     train_df.open(pyspark.sql.DataFrame).all()
     # ).setOutputCols(["Sales_output"])
-    opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
-    print(f" local_path {train_df.local_path}")
 
     print(f"**** opened_train_df {opened_train_df}")
 
