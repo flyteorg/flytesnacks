@@ -561,12 +561,11 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     train_df._downloader(train_df.remote_path, train_df.local_path)
     opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
 
-    opened_train_df.cache()
-    num_rows = opened_train_df.count()
-    print(f"num rows {num_rows}")
+    # opened_train_df.cache()
+    # num_rows = opened_train_df.count()
     print(f" local_path {train_df.local_path}")
     print(f" contents of local path {os.listdir(train_df.local_path)}")
-    store = Store.create(train_df.local_path)
+    store = Store.create(train_df.remote_path)
     # store = Store.create(str(data_dir))
     backend = SparkBackend(
         num_proc=hp.num_proc,
@@ -604,8 +603,8 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # print(f"opened_train_df.__hash__ {opened_train_df.__hash__}")
     #
     # print(f"{opened_train_df.__hash__()}")
-    # print(f"store.get_train_data_path() {store.get_train_data_path()}")
-    # print(f"store.get_val_data_path() {store.get_val_data_path()}")
+    print(f"store.get_train_data_path() {store.get_train_data_path()}")
+    print(f"store.get_val_data_path() {store.get_val_data_path()}")
     # print(f"**** keras_estimator.fit(opened_train_df) {keras_estimator.fit(opened_train_df)}")
     keras_model = keras_estimator.fit(opened_train_df).setOutputCols(['Sales_output'])
 

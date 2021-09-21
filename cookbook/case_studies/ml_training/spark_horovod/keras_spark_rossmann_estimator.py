@@ -412,6 +412,7 @@ def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFi
 
     # Horovod: run training.
     store = Store.create("s3://flyte-demo/horovod-tmp/")
+    print(f"get_full_path: {store.get_full_path()}")
     backend = SparkBackend(num_proc=hp.num_proc,
                            stdout=sys.stdout, stderr=sys.stderr,
                            prefix_output_with_timestamp=True)
