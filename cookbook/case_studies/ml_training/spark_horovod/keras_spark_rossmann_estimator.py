@@ -87,7 +87,12 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
-    print(f"is file {os.path.isfile('%s/train.csv' % data_dir_path)}")
+    train_file_path = '%s/train.csv' % data_dir_path
+    print(f"is file {os.path.isfile(train_file_path)}, path {train_file_path}")
+    with open(train_file_path) as fh:
+        print("file contents")
+        print(fh.read())
+    # print(f"file contents {os.read(train_file_path)}")
     train_csv = spark.read.csv('%s/train.csv' % data_dir_path, header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
