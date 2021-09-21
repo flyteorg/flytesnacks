@@ -561,6 +561,7 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
 
     opened_train_df = train_df.open(pyspark.sql.DataFrame).all()
     print(f" local_path {train_df.local_path}")
+    print(f" contents of local path {os.listdir(train_df.local_path)}")
     store = Store.create(train_df.local_path)
     # store = Store.create(str(data_dir))
     backend = SparkBackend(
@@ -589,19 +590,19 @@ def train_model(categorical_cols, continuous_cols, hp, train_df, len_vocab, max_
     # keras_model = keras_estimator.fit(
     #     train_df.open(pyspark.sql.DataFrame).all()
     # ).setOutputCols(["Sales_output"])
-
-    print(f"**** opened_train_df {opened_train_df}")
-
-    opened_train_df.show()
-    print(f"train_df type {type(opened_train_df)}")
-    print(f"train_df methods {dir(opened_train_df)}")
-
-    print(f"opened_train_df.__hash__ {opened_train_df.__hash__}")
-
-    print(f"{opened_train_df.__hash__()}")
-    print(f"store.get_train_data_path() {store.get_train_data_path()}")
-    print(f"store.get_val_data_path() {store.get_val_data_path()}")
-    print(f"**** keras_estimator.fit(opened_train_df) {keras_estimator.fit(opened_train_df)}")
+    #
+    # print(f"**** opened_train_df {opened_train_df}")
+    #
+    # opened_train_df.show()
+    # print(f"train_df type {type(opened_train_df)}")
+    # print(f"train_df methods {dir(opened_train_df)}")
+    #
+    # print(f"opened_train_df.__hash__ {opened_train_df.__hash__}")
+    #
+    # print(f"{opened_train_df.__hash__()}")
+    # print(f"store.get_train_data_path() {store.get_train_data_path()}")
+    # print(f"store.get_val_data_path() {store.get_val_data_path()}")
+    # print(f"**** keras_estimator.fit(opened_train_df) {keras_estimator.fit(opened_train_df)}")
     keras_model = keras_estimator.fit(opened_train_df).setOutputCols(['Sales_output'])
 
     history = keras_model.getHistory()
