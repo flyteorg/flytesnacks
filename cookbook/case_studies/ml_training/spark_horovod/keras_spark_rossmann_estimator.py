@@ -429,4 +429,4 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
 ) -> (FlyteFile, CSVFile):
-    return estimate(hp)
+    return estimate(hp=hp)
