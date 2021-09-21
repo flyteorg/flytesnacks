@@ -80,13 +80,14 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     data_dir.mkdir(exist_ok=True)
     data_dir_path = str(data_dir)
-    
+
     ctx.file_access.download_directory("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
     print(f" contents of local path {os.listdir(data_dir_path)}")
 
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
 
+    print(f"is file {os.path.isfile('%s/train.csv' % data_dir_path)}")
     train_csv = spark.read.csv('%s/train.csv' % data_dir_path, header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
