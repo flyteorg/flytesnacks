@@ -81,7 +81,7 @@ def estimate(hp: Hyperparameters) -> (FlyteFile, CSVFile):
     data_dir.mkdir(exist_ok=True)
     data_dir_path = str(data_dir)
     
-    ctx.file_access.download("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
+    ctx.file_access.download_directory("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
 
     # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
