@@ -18,12 +18,14 @@ Here is the step-by-step process:
 """
 
 import logging
+import os
 import random
 import typing
 
 # %%
 # Let's import the libraries.
 from datetime import datetime, timedelta
+from minio import Minio
 
 import joblib
 import pandas as pd
@@ -58,6 +60,22 @@ FEAST_FEATURES = [
 ]
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 DATA_CLASS = "surgical lesion"
+
+
+@task
+def create_bucket(bucket_name: str):
+    client = Minio(
+        "localhost:30084",
+        access_key=os.environ["FLYTE_AWS_ACCESS_KEY_ID"],
+        secret_key=os.environ["FLYTE_AWS_SECRET_ACCESS_KEY"],
+        secure=False,
+    )
+
+    found = client.bucket_exists(bucket_name)
+    if not found:
+        client.make_bucket(bucket_name)
+    else:
+        print(f"Bucket {bucket_name} already exists.")
 
 
 sql_task = SQLite3Task(
@@ -248,6 +266,8 @@ def feast_workflow(
     registry_path: str = "registry.db",
     online_store_path: str = "online.db",
 ) -> typing.List[str]:
+    # Create bucket if it does not already exist
+    create_bucket(bucket_name=s3_bucket)
 
     # Load parquet file from sqlite task
     df = sql_task()

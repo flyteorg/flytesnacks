@@ -99,6 +99,7 @@ marshmallow-enum==1.5.1
     # via dataclasses-json
 marshmallow-jsonschema==0.12.0
     # via flytekit
+minio==7.1.0
 mmh3==3.0.0
     # via feast
 mypy-extensions==0.4.3
