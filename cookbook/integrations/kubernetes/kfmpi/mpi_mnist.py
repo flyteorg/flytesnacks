@@ -1,6 +1,6 @@
 import tensorflow as tf
 import horovod.tensorflow as hvd
-from flytekit import task, workflow
+from flytekit import task, workflow, Resources
 from flytekit.types.directory import FlyteDirectory
 from flytekit.core.base_task import IgnoreOutputs
 from flytekitplugins.kfmpi import MPIJob
@@ -39,6 +39,8 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     retries=5,
     cache=True,
     cache_version="1.0",
+    requests=Resources(mem="5000Mi"),
+    limits=Resources(mem="10000Mi"),
 )
 def horovod_train_task() -> FlyteDirectory:
     hvd.init()
