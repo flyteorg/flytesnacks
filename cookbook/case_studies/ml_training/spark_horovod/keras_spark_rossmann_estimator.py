@@ -74,6 +74,8 @@ class Hyperparameters:
     epochs: int = 100
     local_checkpoint_file: str = "checkpoint.h5"
     local_submission_csv: str = "submission.csv"
+    # temporary working directory to write intermediate files (prefix with hdfs:// to use HDFS)
+    work_dir: FlyteFile = "s3://flyte-demo/horovod-tmp/"
 
 @task(
     task_config=Spark(
@@ -93,7 +95,7 @@ class Hyperparameters:
     requests=Resources(mem="2Gi"),
     limits=Resources(mem="2Gi"),
 )
-def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFile):
+def estimate(data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory) -> (FlyteFile, CSVFile):
     # ================ #
     # DATA PREPARATION #
     # ================ #
@@ -102,27 +104,8 @@ def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFi
     print('Data preparation')
     print('================')
 
-    ctx = FlyteContextManager.current_context()
-
-    # working_dir = flytekit.current_context().working_directory
-    # data_dir = pathlib.Path(os.path.join(working_dir, "data"))
-    # data_dir.mkdir(exist_ok=True)
-    # data_dir_path = str(data_dir)
-    #
-    # ctx.file_access.download_directory("s3://horovod-spark-rossmann/rossmann/", data_dir_path)
-    # print(f" contents of local path {os.listdir(data_dir_path)}")
-    #
-    # # Create Spark session for data preparation.
     spark = flytekit.current_context().spark_session
-    #
-    # train_file_path = 'file://%s/train.csv' % data_dir_path
-    # print(f"is file {os.path.isfile(train_file_path)}, path {train_file_path}")
-    # # with open(train_file_path) as fh:
-    # #     print("file contents")
-    # #     print(fh.read())
-    # # print(f"file contents {os.read(train_file_path)}")
     data_dir_path = data_dir.remote_source
-    print(f"Using data dir path {data_dir_path}")
     train_csv = spark.read.csv('%s/train.csv' % data_dir_path, header=True)
     test_csv = spark.read.csv('%s/test.csv' % data_dir_path, header=True)
 
@@ -411,7 +394,7 @@ def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFi
     ckpt_callback = BestModelCheckpoint(monitor='val_loss', mode='auto', save_freq='epoch')
 
     # Horovod: run training.
-    store = Store.create("s3://flyte-demo/horovod-tmp/")
+    store = Store.create(work_dir.remote_source)
     backend = SparkBackend(num_proc=hp.num_proc,
                            stdout=sys.stdout, stderr=sys.stderr,
                            prefix_output_with_timestamp=True)
@@ -465,7 +448,8 @@ def estimate(data_dir: FlyteDirectory, hp: Hyperparameters) -> (FlyteFile, CSVFi
 @workflow
 def horovod_training_wf(
     hp: Hyperparameters = Hyperparameters(),
+    work_dir: FlyteDirectory = "s3://flyte-demo/horovod-tmp/",
 ) -> (FlyteFile, CSVFile):
     data_dir = download_data()
 
-    return estimate(data_dir=data_dir, hp=hp)
+    return estimate(data_dir=data_dir, hp=hp, work_dir=work_dir)
