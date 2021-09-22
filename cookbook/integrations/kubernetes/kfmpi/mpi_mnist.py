@@ -39,8 +39,8 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     retries=5,
     cache=True,
     cache_version="1.0",
-    requests=Resources(mem="1000Mi"),
-    limits=Resources(mem="2000Mi"),
+    requests=Resources(mem="2000Mi", cpu="1"),
+    limits=Resources(mem="3000Mi", cpu="1"),
 )
 def horovod_train_task() -> FlyteDirectory:
     hvd.init()
