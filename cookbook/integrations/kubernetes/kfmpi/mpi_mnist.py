@@ -35,12 +35,12 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
         num_workers=2,
         num_launcher_replicas=1,
         slots=1,
+        per_replica_requests=Resources(mem="2000Mi", cpu="1"),
+        per_replica_limits=Resources(mem="2000Mi", cpu="1"),
     ),
     retries=5,
     cache=True,
     cache_version="1.0",
-    requests=Resources(mem="2000Mi", cpu="1"),
-    limits=Resources(mem="3000Mi", cpu="1"),
 )
 def horovod_train_task() -> FlyteDirectory:
     hvd.init()
@@ -73,6 +73,7 @@ def horovod_train_task() -> FlyteDirectory:
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
 
     # Horovod: adjust number of steps based on number of GPUs.
+    # TODO make 10000 an input/configurable
     for batch, (images, labels) in enumerate(dataset.take(10000 // hvd.size())):
         loss_value = training_step(images, labels, batch == 0, mnist_model,loss, opt)
 
