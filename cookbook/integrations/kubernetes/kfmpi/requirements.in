@@ -1,4 +1,4 @@
-git+https://github.com/flyteorg/flytekit.git@c807a4a99c2f0c3882f316ecfbb12c98fa67cd95#subdirectory=plugins/flytekit-kf-mpi
-git+https://github.com/flyteorg/flytekit.git@c807a4a99c2f0c3882f316ecfbb12c98fa67cd95#setup.py
+git+https://github.com/flyteorg/flytekit.git@3ce3a39db13cfe9f9a2a6870cbfa594383e5bede#subdirectory=plugins/flytekit-kf-mpi
+git+https://github.com/flyteorg/flytekit.git@3ce3a39db13cfe9f9a2a6870cbfa594383e5bede#setup.py
 git+https://github.com/evalsocket/flyteidl.git@cac84be808818990d02fdb6727a5a6703d449270#setup.py
 tensorflow==2.6.0
