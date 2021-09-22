@@ -86,6 +86,12 @@ RUN flytekit_install_spark3.sh
 RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
     cp tini /sbin/tini && cp tini /usr/bin/tini && \
     chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
+    
+# TODO move to requirements
+RUN pip install s3fs
+
+RUN git clone  --recursive https://github.com/horovod/horovod.git
+RUN cd horovod && HOROVOD_WITH_MPI=1  HOROVOD_WITH_TENSORFLOW=1 pip install -v -e . && cd ..
 
 # Setup Spark environment
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
@@ -93,6 +99,7 @@ ENV SPARK_HOME /opt/spark
 ENV SPARK_VERSION 3.0.1
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
+
 
 # Copy the actual code
 COPY spark_horovod/ /root/spark_horovod
@@ -107,12 +114,6 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
-
-# TODO move to requirements
-RUN pip install s3fs
-
-RUN git clone  --recursive https://github.com/horovod/horovod.git
-RUN cd horovod && HOROVOD_WITH_MPI=1  HOROVOD_WITH_TENSORFLOW=1 pip install -v -e . && cd ..
 
 ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
