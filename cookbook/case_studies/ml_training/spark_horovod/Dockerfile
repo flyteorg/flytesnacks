@@ -111,5 +111,7 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 # TODO move to requirements
 RUN pip install s3fs
 
+RUN pip install -U https://github.com/horovod/horovod/archive/fc8d7cc612ffc24f8ddec9e778cbd09772f11d3f.zip#egg=horovod[spark,tensorflow]
+
 ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
