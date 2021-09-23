@@ -17,6 +17,7 @@ Here is the step-by-step process:
 * Generate prediction
 """
 
+import boto3
 import logging
 import os
 import random
@@ -25,7 +26,6 @@ import typing
 # %%
 # Let's import the libraries.
 from datetime import datetime, timedelta
-from minio import Minio
 
 import joblib
 import pandas as pd
@@ -33,6 +33,7 @@ from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueT
 from feast_dataobjects import FeatureStore, FeatureStoreConfig
 from feature_eng_tasks import mean_median_imputer, univariate_selection
 from flytekit import task, workflow
+from flytekit.configuration import aws
 from flytekit.core.node_creation import create_node
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import JoblibSerializedFile
@@ -64,18 +65,19 @@ DATA_CLASS = "surgical lesion"
 
 @task
 def create_bucket(bucket_name: str):
-    client = Minio(
-        "localhost:30084",
-        access_key=os.environ["FLYTE_AWS_ACCESS_KEY_ID"],
-        secret_key=os.environ["FLYTE_AWS_SECRET_ACCESS_KEY"],
-        secure=False,
+    client = boto3.client(
+        's3',
+        aws_access_key_id=aws.S3_ACCESS_KEY_ID.get(),
+        aws_secret_access_key=aws.S3_SECRET_ACCESS_KEY.get(),
+        use_ssl=False,
+        endpoint_url="http://localhost:30084"
     )
 
-    found = client.bucket_exists(bucket_name)
-    if not found:
-        client.make_bucket(bucket_name)
-    else:
-        print(f"Bucket {bucket_name} already exists.")
+    try:
+        client.create_bucket(Bucket=bucket_name)
+    except client.exceptions.BucketAlreadyOwnedByYou:
+        print(f"Bucket {bucket_name} has already been created by you.")
+        pass
 
 
 sql_task = SQLite3Task(
