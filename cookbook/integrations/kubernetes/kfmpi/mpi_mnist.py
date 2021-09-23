@@ -1,3 +1,7 @@
+import os
+import pathlib
+
+import flytekit
 import tensorflow as tf
 import horovod.tensorflow as hvd
 from flytekit import task, workflow, Resources
@@ -40,7 +44,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     ),
     retries=5,
     cache=True,
-    cache_version="1.0",
+    cache_version="0.1",
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
     """
@@ -75,7 +79,10 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     # Horovod: adjust learning rate based on number of GPUs.
     opt = tf.optimizers.Adam(0.001 * hvd.size())
 
-    checkpoint_dir = './checkpoints'
+    working_dir = flytekit.current_context().working_directory
+    checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
+    checkpoint_dir.mkdir(exist_ok=True)
+
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
 
     # Horovod: adjust number of steps based on number of GPUs.
@@ -88,8 +95,8 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     if hvd.rank() != 0:
         raise IgnoreOutputs("I am not rank 0")
     else:
-        checkpoint.save(checkpoint_dir)
-        return FlyteDirectory(checkpoint_dir)
+        checkpoint.save(str(checkpoint_dir))
+        return FlyteDirectory(path=str(checkpoint_dir))
 
 
 @workflow
