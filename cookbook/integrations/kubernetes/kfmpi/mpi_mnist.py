@@ -89,7 +89,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
         raise IgnoreOutputs("I am not rank 0")
     else:
         checkpoint.save(checkpoint_dir)
-        return checkpoint_dir
+        return FlyteDirectory(checkpoint_dir)
 
 
 @workflow
