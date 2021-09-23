@@ -79,9 +79,10 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     # Horovod: adjust learning rate based on number of GPUs.
     opt = tf.optimizers.Adam(0.001 * hvd.size())
 
-    working_dir = flytekit.current_context().working_directory
-    checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
-    checkpoint_dir.mkdir(exist_ok=True)
+    # working_dir = flytekit.current_context().working_directory
+    # checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
+    # checkpoint_dir.mkdir(exist_ok=True)
+    checkpoint_dir = "checkpoint"
 
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
 
