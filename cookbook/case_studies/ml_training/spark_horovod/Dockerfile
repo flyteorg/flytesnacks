@@ -86,9 +86,6 @@ RUN flytekit_install_spark3.sh
 RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
     cp tini /sbin/tini && cp tini /usr/bin/tini && \
     chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
-    
-# TODO move to requirements
-RUN pip install s3fs
 
 RUN git clone  --recursive https://github.com/horovod/horovod.git
 RUN cd horovod && HOROVOD_WITH_MPI=1  HOROVOD_WITH_TENSORFLOW=1 pip install -v -e . && cd ..
