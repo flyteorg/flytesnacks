@@ -51,7 +51,6 @@ jobs:
           SANDBOX: "1"
         run: |
           make -C ${{ matrix.directory }} serialize
-          ls -al ${{ matrix.directory }}/_pb_output
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -83,10 +82,11 @@ jobs:
           name: snacks-${{ steps.example_id.outputs.id }}
           path: ${{ matrix.directory }}/_pb_output/
       - name: setup sandbox
-        run: make setup
+        run: |
+          make setup
+          flytectl config init
       - name: Register Examples
         run: |
-          ls -al ${{ matrix.directory }}/_pb_output/
           flytectl register files -p flytesnacks -d development ${{ matrix.directory }}/_pb_output/*
 
   # Download artifacts again and push them to the release only if this is not a pull request
