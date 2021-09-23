@@ -59,7 +59,10 @@ FEAST_FEATURES = [
 DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575373783040030/horse_colic.db.zip"
 DATA_CLASS = "surgical lesion"
 
-
+# %%
+# This is the first task and represents the data source. This can be any task, that fetches data, generates, modifies
+# data ready for Feature ingestion. These can be arbitrary feature engineering tasks like data imputation, univariate
+# selection etc as well.
 sql_task = SQLite3Task(
     name="sqlite3.horse_colic",
     query_template="select * from data",
@@ -70,10 +73,11 @@ sql_task = SQLite3Task(
     ),
 )
 
+
 # %%
 # We define two tasks, namely ``store_offline`` and ``load_historical_features`` to store and retrieve the historial features.
 #
-# .. list-table:: Decoding the ``Feast`` Jargon
+# .. list-table:: Decoding the ``Feast`` Nomenclature
 #    :widths: 25 25
 #
 #    * - ``FeatureStore``
@@ -81,7 +85,7 @@ sql_task = SQLite3Task(
 #    * - ``Entity``
 #      - Represents a collection of entities and associated metadata. It's usually the primary key of your data.
 #    * - ``FeatureView``
-#      - A FeatureView defines a logical grouping of serveable features.
+#      - A FeatureView defines a logical grouping of serve-able features.
 #    * - ``FileSource``
 #      - File data sources allow for the retrieval of historical feature values from files on disk for building training datasets, as well as for materializing features into an online store.
 #    * - ``apply()``
@@ -169,10 +173,11 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     joblib.dump(model, fname)
     return fname
 
+
 # %%
 # To perform inferencing, we define two tasks: ``store_online`` and ``retrieve_online``.
 #
-# .. list-table:: Decoding the ``Feast`` Jargon
+# .. list-table:: Decoding the ``Feast`` Nomenclature
 #    :widths: 25 25
 #
 #    * - ``materialize()``
@@ -191,6 +196,7 @@ def store_online(feature_store: FeatureStore):
         start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
     )
+
 
 @task
 def retrieve_online(
@@ -221,6 +227,7 @@ def test_model(
     prediction = model.predict([test_list])
     return prediction
 
+
 # %%
 # Next, we need to convert timestamp column in the underlying dataframe, otherwise its type is written as string.
 @task
@@ -231,12 +238,14 @@ def convert_timestamp_column(
     df[timestamp_column] = pd.to_datetime(df[timestamp_column])
     return df
 
+
 # %%
 # The ``build_feature_store`` task is a medium to access Feast methods by building a feature store.
 @task
 def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> FeatureStore:
     feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
     return FeatureStore(config=feature_store_config)
+
 
 # %%
 # Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
@@ -300,6 +309,7 @@ def feast_workflow(
     )
 
     return prediction
+
 
 if __name__ == "__main__":
     print(f"{feast_workflow()}")
