@@ -81,7 +81,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.id }}
-          path: ${{ matrix.directory }}/_pb_output/*
+          path: ${{ matrix.directory }}/_pb_output/
       - name: setup sandbox
         run: make setup
       - name: Register Examples
