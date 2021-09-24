@@ -97,11 +97,10 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
 
     working_dir = flytekit.current_context().working_directory
     checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
-    checkpoint_dir.mkdir(exist_ok=True)
     print(f"checkpoint dir {checkpoint_dir}")
 
     checkpoint_result = checkpoint.save(checkpoint_dir)
-    print(f"wrote result to {os.listdir(checkpoint_result)}")
+    print(f"wrote result to {os.listdir(working_dir)}")
 
     # print(f"checkpoint dir {os.listdir(checkpoint_file)}")
     # subprocess.run(
@@ -113,7 +112,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     #     ],
     # )
 
-    return FlyteDirectory(path=str(checkpoint_dir))
+    return FlyteDirectory(path=str(working_dir))
 
 
 @workflow
