@@ -82,7 +82,8 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     # working_dir = flytekit.current_context().working_directory
     # checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
     # checkpoint_dir.mkdir(exist_ok=True)
-    checkpoint_dir = "checkpoint"
+    checkpoint_dir = "/tmp/checkpoint"
+    pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)
 
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
 
