@@ -96,22 +96,8 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
         raise IgnoreOutputs("I am not rank 0")
 
     working_dir = flytekit.current_context().working_directory
-    checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
-    print(f"checkpoint dir {checkpoint_dir}")
-
-    checkpoint_result = checkpoint.save(checkpoint_dir)
-    print(f"wrote result to {os.listdir(working_dir)}")
-
-    # print(f"checkpoint dir {os.listdir(checkpoint_file)}")
-    # subprocess.run(
-    #     [
-    #         "cp",
-    #         "-R",
-    #         checkpoint_file,
-    #         str(checkpoint_dir)
-    #     ],
-    # )
-
+    checkpoint_prefix = pathlib.Path(os.path.join(working_dir, "checkpoint"))
+    checkpoint.save(checkpoint_prefix)
     return FlyteDirectory(path=str(working_dir))
 
 
