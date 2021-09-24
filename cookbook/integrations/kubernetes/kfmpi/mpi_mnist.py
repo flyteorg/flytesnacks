@@ -45,7 +45,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     ),
     retries=5,
     cache=True,
-    cache_version="0.2",
+    cache_version="0.3",
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
     """
@@ -101,7 +101,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     working_dir = flytekit.current_context().working_directory
     checkpoint_result_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
     checkpoint_result_dir.mkdir(exist_ok=True)
-    print(f"checkpoint dir {os.listdir(checkpoint_dir)}")
+    print(f"checkpoint dir {os.listdir(checkpoint_file)}")
     subprocess.run(
         [
             "cp",
