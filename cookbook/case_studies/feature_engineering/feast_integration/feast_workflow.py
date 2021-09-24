@@ -70,13 +70,13 @@ def create_bucket(bucket_name: str):
         aws_access_key_id=aws.S3_ACCESS_KEY_ID.get(),
         aws_secret_access_key=aws.S3_SECRET_ACCESS_KEY.get(),
         use_ssl=False,
-        endpoint_url="http://localhost:30084"
+        endpoint_url=aws.S3_ENDPOINT.get(),
     )
 
     try:
         client.create_bucket(Bucket=bucket_name)
     except client.exceptions.BucketAlreadyOwnedByYou:
-        print(f"Bucket {bucket_name} has already been created by you.")
+        logger.info(f"Bucket {bucket_name} has already been created by you.")
         pass
 
 
