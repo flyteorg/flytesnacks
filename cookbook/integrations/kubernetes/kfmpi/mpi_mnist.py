@@ -44,8 +44,8 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
         per_replica_limits=Resources(mem="2000Mi", cpu="1"),
     ),
     retries=5,
-    cache=True,
-    cache_version="0.3",
+    # cache=True,
+    # cache_version="0.3",
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
     """
@@ -95,22 +95,25 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     if hvd.rank() != 0:
         raise IgnoreOutputs("I am not rank 0")
 
-    checkpoint_file = checkpoint.save(checkpoint_dir)
-    print(f"saved checkpoint_file to {checkpoint_file}")
-
     working_dir = flytekit.current_context().working_directory
-    checkpoint_result_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
-    checkpoint_result_dir.mkdir(exist_ok=True)
-    print(f"checkpoint dir {os.listdir(checkpoint_file)}")
-    subprocess.run(
-        [
-            "cp",
-            checkpoint_file,
-            str(checkpoint_result_dir)
-        ],
-    )
+    checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
+    checkpoint_dir.mkdir(exist_ok=True)
+    print(f"checkpoint dir {checkpoint_dir}")
 
-    return FlyteDirectory(path=str(checkpoint_result_dir))
+    checkpoint_result = checkpoint.save(checkpoint_dir)
+    print(f"wrote result to {os.listdir(checkpoint_result)}")
+
+    # print(f"checkpoint dir {os.listdir(checkpoint_file)}")
+    # subprocess.run(
+    #     [
+    #         "cp",
+    #         "-R",
+    #         checkpoint_file,
+    #         str(checkpoint_dir)
+    #     ],
+    # )
+
+    return FlyteDirectory(path=str(checkpoint_dir))
 
 
 @workflow
