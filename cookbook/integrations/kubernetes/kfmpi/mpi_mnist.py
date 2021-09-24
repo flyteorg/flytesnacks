@@ -1,6 +1,5 @@
 import os
 import pathlib
-import subprocess
 
 import flytekit
 import tensorflow as tf
@@ -44,8 +43,8 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
         per_replica_limits=Resources(mem="2000Mi", cpu="1"),
     ),
     retries=5,
-    # cache=True,
-    # cache_version="0.3",
+    cache=True,
+    cache_version="0.4",
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
     """
