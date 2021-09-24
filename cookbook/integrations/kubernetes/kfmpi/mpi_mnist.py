@@ -95,8 +95,8 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     if hvd.rank() != 0:
         raise IgnoreOutputs("I am not rank 0")
 
-    checkpoint.save(checkpoint_dir)
-
+    checkpoint_file = checkpoint.save(checkpoint_dir)
+    print(f"saved checkpoint_file to {checkpoint_file}")
 
     working_dir = flytekit.current_context().working_directory
     checkpoint_result_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
