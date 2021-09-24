@@ -86,7 +86,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
 
     # Horovod: adjust number of steps based on number of GPUs.
     for batch, (images, labels) in enumerate(dataset.take(dataset_size // hvd.size())):
-        loss_value = training_step(images, labels, batch == 0, mnist_model,loss, opt)
+        loss_value = training_step(images, labels, batch == 0, mnist_model, loss, opt)
 
         if batch % 10 == 0 and hvd.local_rank() == 0:
             print('Step #%d\tLoss: %.6f' % (batch, loss_value))
