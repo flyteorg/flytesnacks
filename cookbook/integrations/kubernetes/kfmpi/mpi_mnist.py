@@ -105,13 +105,12 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     subprocess.run(
         [
             "cp",
-            "-R",
-            checkpoint_dir,
+            checkpoint_file,
             str(checkpoint_result_dir)
         ],
     )
 
-    FlyteDirectory(path=str(checkpoint_result_dir))
+    return FlyteDirectory(path=str(checkpoint_result_dir))
 
 
 @workflow
