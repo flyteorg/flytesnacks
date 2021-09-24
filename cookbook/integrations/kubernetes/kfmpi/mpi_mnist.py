@@ -1,5 +1,6 @@
 import os
 import pathlib
+import subprocess
 
 import flytekit
 import tensorflow as tf
@@ -79,10 +80,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     # Horovod: adjust learning rate based on number of GPUs.
     opt = tf.optimizers.Adam(0.001 * hvd.size())
 
-    # working_dir = flytekit.current_context().working_directory
-    # checkpoint_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
-    # checkpoint_dir.mkdir(exist_ok=True)
-    checkpoint_dir = "/tmp/checkpoint"
+    checkpoint_dir = ".checkpoint"
     pathlib.Path(checkpoint_dir).mkdir(exist_ok=True)
 
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
@@ -96,9 +94,24 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
 
     if hvd.rank() != 0:
         raise IgnoreOutputs("I am not rank 0")
-    else:
-        checkpoint.save(str(checkpoint_dir))
-        return FlyteDirectory(path=str(checkpoint_dir))
+
+    checkpoint.save(checkpoint_dir)
+
+
+    working_dir = flytekit.current_context().working_directory
+    checkpoint_result_dir = pathlib.Path(os.path.join(working_dir, "checkpoint"))
+    checkpoint_result_dir.mkdir(exist_ok=True)
+    print(f"checkpoint dir {os.listdir(checkpoint_dir)}")
+    subprocess.run(
+        [
+            "cp",
+            "-R",
+            checkpoint_dir,
+            str(checkpoint_result_dir)
+        ],
+    )
+
+    FlyteDirectory(path=str(checkpoint_result_dir))
 
 
 @workflow
