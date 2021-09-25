@@ -42,7 +42,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
         per_replica_requests=Resources(mem="3000Mi", cpu="1"),
         per_replica_limits=Resources(mem="3000Mi", cpu="1"),
     ),
-    retries=5,
+    retries=3,
     # cache=True,
     # cache_version="0.4",
 )
@@ -99,9 +99,12 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     checkpoint.save(checkpoint_prefix)
 
     tf.keras.models.save_model(
-        mnist_model, os.path.join(working_dir, "mnist_model"), overwrite=True, include_optimizer=True, save_format=None,
+        mnist_model, os.path.join(str(working_dir), "mnist_model"), overwrite=True, include_optimizer=True, save_format=None,
         signatures=None, options=None, save_traces=True
     )
+    print(f"Writing model to {os.path.join(str(working_dir), 'mnist_model')}")
+    print(f"Contents {os.listdir(str(working_dir))}")
+    print(f"Is file? {os.path.isfile(os.path.join(str(working_dir), 'mnist_model'))}")
     return FlyteDirectory(path=str(working_dir))
 
 
