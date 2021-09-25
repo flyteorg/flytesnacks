@@ -97,6 +97,11 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     working_dir = flytekit.current_context().working_directory
     checkpoint_prefix = pathlib.Path(os.path.join(working_dir, "checkpoint"))
     checkpoint.save(checkpoint_prefix)
+
+    tf.keras.models.save_model(
+        model, os.path.join(working_dir, "mnist_model"), overwrite=True, include_optimizer=True, save_format=None,
+        signatures=None, options=None, save_traces=True
+    )
     return FlyteDirectory(path=str(working_dir))
 
 
