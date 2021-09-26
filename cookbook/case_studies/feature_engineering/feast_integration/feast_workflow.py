@@ -28,9 +28,8 @@ import boto3
 import joblib
 import pandas as pd
 from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueType
-from flytekit import task, workflow
+from flytekit import task, workflow, TaskMetadata
 from flytekit.configuration import aws
-from flytekit.core.node_creation import create_node
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.schema import FlyteSchema
@@ -94,8 +93,10 @@ load_horse_colic_sql = SQLite3Task(
         uri=DATABASE_URI,
         compressed=True,
     ),
-    cache=True,
-    cache_version="1.0",
+    metadata=TaskMetadata(
+        cache=True,
+        cache_version="1.0",
+    ),
 )
 
 
