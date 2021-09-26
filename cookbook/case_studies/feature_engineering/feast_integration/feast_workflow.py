@@ -43,7 +43,6 @@ from sklearn.naive_bayes import GaussianNB
 
 logger = logging.getLogger(__file__)
 
-
 # %%
 # We define the necessary data holders.
 
@@ -63,11 +62,11 @@ DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575
 DATA_CLASS = "surgical lesion"
 
 
-#%%
+# %%
 # This task exists just for the sandbox case, as feast needs an explicit S3 bucket and path.
 # We will create it using an S3 client. Sadly this makes the workflow not as portable.
 @task(cache=True, cache_version="1.0")
-def create_bucket(bucket_name: str):
+def create_bucket(bucket_name: str) -> str:
     client = boto3.client(
         's3',
         aws_access_key_id=aws.S3_ACCESS_KEY_ID.get(),
@@ -81,14 +80,15 @@ def create_bucket(bucket_name: str):
     except client.exceptions.BucketAlreadyOwnedByYou:
         logger.info(f"Bucket {bucket_name} has already been created by you.")
         pass
+    return bucket_name
 
 
 # %%
 # This is the first task and represents the data source. This can be any task, that fetches data, generates, modifies
 # data ready for Feature ingestion. These can be arbitrary feature engineering tasks like data imputation, univariate
 # selection etc as well.
-sql_task = SQLite3Task(
-    name="sqlite3.horse_colic",
+load_horse_colic_sql = SQLite3Task(
+    name="sqlite3.load_horse_colic",
     query_template="select * from data",
     output_schema_type=FlyteSchema,
     task_config=SQLite3Config(
@@ -224,7 +224,7 @@ def store_online(feature_store: FeatureStore):
 
 @task
 def retrieve_online(
-    feature_store: FeatureStore, dataset: pd.DataFrame
+        feature_store: FeatureStore, dataset: pd.DataFrame
 ) -> dict:
     inference_data = random.choice(dataset["Hospital Number"])
     logger.info(f"Hospital Number chosen for inference is: {inference_data}")
@@ -237,10 +237,9 @@ def retrieve_online(
 # We define a task to test our model using the inference point fetched earlier.
 @task
 def test_model(
-    model_ser: JoblibSerializedFile,
-    inference_point: dict,
+        model_ser: JoblibSerializedFile,
+        inference_point: dict,
 ) -> typing.List[str]:
-
     # Load model
     model = joblib.load(model_ser)
     f_names = model.feature_names
@@ -256,7 +255,7 @@ def test_model(
 # Next, we need to convert timestamp column in the underlying dataframe, otherwise its type is written as string.
 @task
 def convert_timestamp_column(
-    dataframe: FlyteSchema, timestamp_column: str
+        dataframe: FlyteSchema, timestamp_column: str
 ) -> FlyteSchema:
     df = dataframe.open().all()
     df[timestamp_column] = pd.to_datetime(df[timestamp_column])
@@ -267,57 +266,34 @@ def convert_timestamp_column(
 # The ``build_feature_store`` task is a medium to access Feast methods by building a feature store.
 @task
 def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> FeatureStore:
-    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
+    feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path,
+                                              online_store_path=online_store_path)
     return FeatureStore(config=feature_store_config)
 
 
-# %%
-# Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
 @workflow
-def feast_workflow(
-    imputation_method: str = "mean",
-    num_features_univariate: int = 7,
-    s3_bucket: str = "feast-integration",
-    registry_path: str = "registry.db",
-    online_store_path: str = "online.db",
-) -> typing.List[str]:
-    # Create bucket if it does not already exist
-    create_bucket(bucket_name=s3_bucket)
-
+def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> FlyteSchema:
     # Load parquet file from sqlite task
-    df = sql_task()
+    df = load_horse_colic_sql()
 
     # Perfrom mean median imputation
-    dataframe = mean_median_imputer(dataframe=df, imputation_method=imputation_method)
+    df = mean_median_imputer(dataframe=df, imputation_method=imputation_method)
 
     # Convert timestamp column from string to datetime.
     converted_df = convert_timestamp_column(
-        dataframe=dataframe, timestamp_column="timestamp"
+        dataframe=df, timestamp_column="timestamp"
     )
 
-    # Build feature store
-    feature_store = build_feature_store(s3_bucket=s3_bucket, registry_path=registry_path, online_store_path=online_store_path)
+    store_offline(feature_store=feature_store, dataframe=converted_df)
 
-    # Ingest data into offline store
-    store_offline_node = create_node(store_offline, feature_store=feature_store, dataframe=converted_df)
+    return df
 
-    # Demonstrate how to load features from offline store
-    load_historical_features_node = create_node(load_historical_features, feature_store=feature_store)
 
-    # Ingest data into online store
-    store_online_node = create_node(store_online, feature_store=feature_store)
-
-    # Retrieve feature data from online store
-    retrieve_online_node = create_node(retrieve_online, feature_store=feature_store, dataset=converted_df)
-
-    # Enforce order in which tasks that interact with the feast SDK have to run
-    store_offline_node >> load_historical_features_node
-    load_historical_features_node >> store_online_node
-    store_online_node >> retrieve_online_node
-
+@workflow
+def trainer(df: FlyteSchema, num_features_univariate: int = 7) -> JoblibSerializedFile:
     # Perform univariate feature selection
     selected_features = univariate_selection(
-        dataframe=load_historical_features_node.o0,
+        dataframe=df,
         num_features=num_features_univariate,
         data_class=DATA_CLASS,
     )
@@ -328,13 +304,45 @@ def feast_workflow(
         data_class=DATA_CLASS,
     )
 
-    # Use a feature retrieved from the online store for inference
-    prediction = test_model(
-        model_ser=trained_model,
-        inference_point=retrieve_online_node.o0,
-    )
+    return trained_model
 
-    return prediction
+
+# %%
+# Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
+@workflow
+def feast_workflow(
+        imputation_method: str = "mean",
+        num_features_univariate: int = 7,
+        s3_bucket: str = "feast-integration",
+        registry_path: str = "registry.db",
+        online_store_path: str = "online.db",
+) -> (JoblibSerializedFile, typing.List[str]):
+    # Create bucket if it does not already exist
+    # & Build feature store
+    feature_store = build_feature_store(s3_bucket=create_bucket(bucket_name=s3_bucket), registry_path=registry_path,
+                                        online_store_path=online_store_path)
+
+    # Feature engineering
+    featurizer = create_node(featurize, feature_store=feature_store, imputation_method=imputation_method)
+
+    # Demonstrate how to load features from offline store
+    feature_loader = create_node(load_historical_features, feature_store=feature_store)
+
+    featurizer >> feature_loader
+
+    model = trainer(df=feature_loader.o0, num_features_univariate=num_features_univariate)
+
+    # Ingest data into online store
+    materialize_online = create_node(store_online, feature_store=feature_store)
+
+    feature_loader >> materialize_online
+
+    features = retrieve_online(feature_store=feature_store, dataset=featurizer.o0)
+
+    # Use a feature retrieved from the online store for inference
+    predictions = test_model(model_ser=model, inference_point=features)
+
+    return model, predictions
 
 
 if __name__ == "__main__":
