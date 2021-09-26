@@ -191,7 +191,7 @@ def load_historical_features(feature_store: FeatureStore) -> FlyteSchema:
 
 # %%
 # Next, we train a naive bayes model using the data from the feature store.
-@task
+@task(cache=True, cache_version="1.0")
 def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     X_train, _, y_train, _ = train_test_split(
         dataset[dataset.columns[~dataset.columns.isin([data_class])]],
@@ -263,7 +263,7 @@ def predict(
 
 # %%
 # Next, we need to convert timestamp column in the underlying dataframe, otherwise its type is written as string.
-@task
+@task(cache=True, cache_version="1.0")
 def convert_timestamp_column(
         dataframe: FlyteSchema, timestamp_column: str
 ) -> FlyteSchema:
@@ -337,7 +337,7 @@ def feast_workflow(
 
     model = trainer(df=historical_features, num_features_univariate=num_features_univariate)
 
-    features = retrieve_online(feature_store=store_online(feature_store=feature_store), dataset=df)
+    features = retrieve_online(feature_store=store_online(feature_store=loaded_feature_store), dataset=df)
 
     # Use a feature retrieved from the online store for inference
     predictions = predict(model_ser=model, inference_point=features)
