@@ -17,21 +17,17 @@ Here is the step-by-step process:
 * Generate prediction
 """
 
-import boto3
 import logging
-import os
 import random
 import typing
-
 # %%
 # Let's import the libraries.
 from datetime import datetime, timedelta
 
+import boto3
 import joblib
 import pandas as pd
 from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueType
-from feast_dataobjects import FeatureStore, FeatureStoreConfig
-from feature_eng_tasks import mean_median_imputer, univariate_selection
 from flytekit import task, workflow
 from flytekit.configuration import aws
 from flytekit.core.node_creation import create_node
@@ -40,6 +36,9 @@ from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.schema import FlyteSchema
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
+
+from feast_dataobjects import FeatureStore, FeatureStoreConfig
+from feature_eng_tasks import mean_median_imputer, univariate_selection
 
 logger = logging.getLogger(__file__)
 
@@ -95,6 +94,8 @@ load_horse_colic_sql = SQLite3Task(
         uri=DATABASE_URI,
         compressed=True,
     ),
+    cache=True,
+    cache_version="1.0",
 )
 
 
@@ -116,8 +117,14 @@ load_horse_colic_sql = SQLite3Task(
 #      - Register objects to metadata store and update related infrastructure.
 #    * - ``get_historical_features()``
 #      - Enrich an entity dataframe with historical feature values for either training or batch scoring.
+#
+#  .. note::
+#
+#     The returned feature store is the same mutated feature store! So be careful, this is not really immutable and hence
+#     serialization of the feature store is required. this is because FEAST registries are single files and Flyte workflows
+#     can be highly concurrent
 @task
-def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema):
+def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema) -> FeatureStore:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
     horse_colic_feature_view = FeatureView(
@@ -143,6 +150,8 @@ def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema):
 
     # Ingest the data into feast
     feature_store.apply([horse_colic_entity, horse_colic_feature_view])
+
+    return feature_store
 
 
 @task
@@ -215,11 +224,12 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 #   Our dataset has two such entries with the same ``Hospital Number`` but different time stamps. 
 #   Only data point with the latest timestamp will be stored in the online store.
 @task
-def store_online(feature_store: FeatureStore):
+def store_online(feature_store: FeatureStore) -> FeatureStore:
     feature_store.materialize(
         start_date=datetime.utcnow() - timedelta(days=250),
         end_date=datetime.utcnow() - timedelta(minutes=10),
     )
+    return feature_store
 
 
 @task
@@ -236,7 +246,7 @@ def retrieve_online(
 # %%
 # We define a task to test our model using the inference point fetched earlier.
 @task
-def test_model(
+def predict(
         model_ser: JoblibSerializedFile,
         inference_point: dict,
 ) -> typing.List[str]:
@@ -272,7 +282,7 @@ def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: s
 
 
 @workflow
-def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> FlyteSchema:
+def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> (FlyteSchema, FeatureStore):
     # Load parquet file from sqlite task
     df = load_horse_colic_sql()
 
@@ -284,9 +294,7 @@ def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> F
         dataframe=df, timestamp_column="timestamp"
     )
 
-    store_offline(feature_store=feature_store, dataframe=converted_df)
-
-    return df
+    return df, store_offline(feature_store=feature_store, dataframe=converted_df)
 
 
 @workflow
@@ -321,26 +329,18 @@ def feast_workflow(
     # & Build feature store
     feature_store = build_feature_store(s3_bucket=create_bucket(bucket_name=s3_bucket), registry_path=registry_path,
                                         online_store_path=online_store_path)
-
     # Feature engineering
-    featurizer = create_node(featurize, feature_store=feature_store, imputation_method=imputation_method)
+    df, loaded_feature_store = featurize(feature_store=feature_store, imputation_method=imputation_method)
 
     # Demonstrate how to load features from offline store
-    feature_loader = create_node(load_historical_features, feature_store=feature_store)
+    historical_features = load_historical_features(feature_store=loaded_feature_store)
 
-    featurizer >> feature_loader
+    model = trainer(df=historical_features, num_features_univariate=num_features_univariate)
 
-    model = trainer(df=feature_loader.o0, num_features_univariate=num_features_univariate)
-
-    # Ingest data into online store
-    materialize_online = create_node(store_online, feature_store=feature_store)
-
-    feature_loader >> materialize_online
-
-    features = retrieve_online(feature_store=feature_store, dataset=featurizer.o0)
+    features = retrieve_online(feature_store=store_online(feature_store=feature_store), dataset=df)
 
     # Use a feature retrieved from the online store for inference
-    predictions = test_model(model_ser=model, inference_point=features)
+    predictions = predict(model_ser=model, inference_point=features)
 
     return model, predictions
 
