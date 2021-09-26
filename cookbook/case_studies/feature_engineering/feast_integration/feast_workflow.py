@@ -66,7 +66,7 @@ DATA_CLASS = "surgical lesion"
 #%%
 # This task exists just for the sandbox case, as feast needs an explicit S3 bucket and path.
 # We will create it using an S3 client. Sadly this makes the workflow not as portable.
-@task
+@task(cache=True, cache_version="1.0")
 def create_bucket(bucket_name: str):
     client = boto3.client(
         's3',
