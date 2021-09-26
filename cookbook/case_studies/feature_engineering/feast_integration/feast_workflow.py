@@ -123,7 +123,7 @@ load_horse_colic_sql = SQLite3Task(
 #     The returned feature store is the same mutated feature store! So be careful, this is not really immutable and hence
 #     serialization of the feature store is required. this is because FEAST registries are single files and Flyte workflows
 #     can be highly concurrent
-@task
+@task(cache=True, cache_version="1.0")
 def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema) -> FeatureStore:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
 
@@ -154,7 +154,7 @@ def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema) -> Featur
     return feature_store
 
 
-@task
+@task(cache=True, cache_version="1.0")
 def load_historical_features(feature_store: FeatureStore) -> FlyteSchema:
     entity_df = pd.DataFrame.from_dict(
         {
@@ -223,7 +223,7 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 #   online store, unlike an offline store where all feature values are stored.
 #   Our dataset has two such entries with the same ``Hospital Number`` but different time stamps. 
 #   Only data point with the latest timestamp will be stored in the online store.
-@task
+@task(cache=True, cache_version="1.0")
 def store_online(feature_store: FeatureStore) -> FeatureStore:
     feature_store.materialize(
         start_date=datetime.utcnow() - timedelta(days=250),
@@ -232,7 +232,7 @@ def store_online(feature_store: FeatureStore) -> FeatureStore:
     return feature_store
 
 
-@task
+@task(cache=True, cache_version="1.0")
 def retrieve_online(
         feature_store: FeatureStore, dataset: pd.DataFrame
 ) -> dict:
@@ -245,7 +245,7 @@ def retrieve_online(
 
 # %%
 # We define a task to test our model using the inference point fetched earlier.
-@task
+@task(cache=True, cache_version="1.0")
 def predict(
         model_ser: JoblibSerializedFile,
         inference_point: dict,
@@ -274,7 +274,7 @@ def convert_timestamp_column(
 
 # %%
 # The ``build_feature_store`` task is a medium to access Feast methods by building a feature store.
-@task
+@task(cache=True, cache_version="1.0")
 def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: str) -> FeatureStore:
     feature_store_config = FeatureStoreConfig(project="horsecolic", s3_bucket=s3_bucket, registry_path=registry_path,
                                               online_store_path=online_store_path)
