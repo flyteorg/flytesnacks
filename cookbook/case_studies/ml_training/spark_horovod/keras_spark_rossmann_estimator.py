@@ -79,8 +79,6 @@ class Hyperparameters:
     epochs: int = 100
     local_checkpoint_file: str = "checkpoint.h5"
     local_submission_csv: str = "submission.csv"
-    # temporary working directory to write intermediate files (prefix with hdfs:// to use HDFS)
-    work_dir: FlyteFile = "s3://flyte-demo/horovod-tmp/"
 
 @task(
     task_config=Spark(
