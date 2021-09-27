@@ -325,7 +325,7 @@ def feast_workflow(
         s3_bucket: str = "feast-integration",
         registry_path: str = "registry.db",
         online_store_path: str = "online.db",
-) -> (JoblibSerializedFile, typing.List[str]):
+) -> (FeatureStore, JoblibSerializedFile, typing.List[str]):
     # Create bucket if it does not already exist
     # & Build feature store
     feature_store = build_feature_store(s3_bucket=create_bucket(bucket_name=s3_bucket), registry_path=registry_path,
@@ -343,7 +343,7 @@ def feast_workflow(
     # Use a feature retrieved from the online store for inference
     predictions = predict(model_ser=model, inference_point=features)
 
-    return model, predictions
+    return feature_store, model, predictions
 
 
 if __name__ == "__main__":
