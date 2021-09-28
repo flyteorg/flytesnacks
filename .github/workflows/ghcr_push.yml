@@ -6,43 +6,21 @@ on:
       - v*
 
 jobs:
+  # Lists all directories that have Dockerfile in them...
+  list:
+    runs-on: ubuntu-latest
+    name: "Create a list of packages"
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Provide the list"
+        id: create-list
+        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)"
+    outputs:
+      packages: "${{ steps.create-list.outputs.packages }}"
+
   push-github:
     name: Push to GHCR
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: cookbook
-    strategy:
-      matrix:
-        directory:
-          - name: core
-            path: .
-          - name: pod
-            path: integrations/kubernetes
-          - name: k8s_spark
-            path: integrations/kubernetes
-          - name: kfpytorch
-            path: integrations/kubernetes
-          - name: sqlite_datacleaning
-            path: case_studies/feature_engineering
-          - name: sagemaker_training
-            path: integrations/aws
-          - name: sagemaker_pytorch
-            path: integrations/aws
-          - name: pima_diabetes
-            path: case_studies/ml_training
-          - name: papermilltasks
-            path: integrations/flytekit_plugins
-          - name: pandera_examples
-            path: integrations/flytekit_plugins
-          - name: greatexpectations
-            path: integrations/flytekit_plugins
-          - name: house_price_prediction
-            path: case_studies/ml_training
-          - name: mnist_classifier
-            path: case_studies/ml_training
-          - name: eda
-            path: case_studies/feature_engineering
     steps:
       - uses: actions/checkout@v2
         with:
@@ -54,8 +32,8 @@ jobs:
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: ${{ matrix.directory.name }}-latest,${{ matrix.directory.name }}-${{ github.sha }},${{ matrix.directory.name }}-${{ github.event.ref }}
+          image_tag: $(basename -- ${{ matrix.directory }})-latest,$(basename -- ${{ matrix.directory }})-${{ github.sha }},$(basename -- ${{ matrix.directory }})-${{ github.event.ref }}
           registry: ghcr.io
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.directory.name }}-${{ github.sha }}"
-          context: ./cookbook/${{ matrix.directory.path }}
-          dockerfile: ${{ matrix.directory.name }}/Dockerfile
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:$(basename -- ${{ matrix.directory }})-${{ github.sha }}"
+          context: ./cookbook/${{ matrix.directory }}
+          dockerfile: ${{ matrix.directory }}/Dockerfile
