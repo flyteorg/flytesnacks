@@ -356,7 +356,7 @@ def feast_workflow(
     # Use a feature retrieved from the online store for inference
     predictions = predict(model_ser=model, features=retrieve_online(feature_store=online_feature_store, dataset=df))  # noqa
 
-    return feature_store, model, predictions
+    return online_feature_store, model, predictions
 
 
 if __name__ == "__main__":
