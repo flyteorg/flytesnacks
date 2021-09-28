@@ -2,8 +2,8 @@
 Flyte Pipeline with Feast
 -------------------------
 
-This workflow makes use of the feature engineering tasks defined in the other file. We'll build an end-to-end Flyte pipeline utilizing "Feast". 
-Here is the step-by-step process:
+This workflow makes use of the feature engineering tasks defined in the other file. We'll build an end-to-end Flyte
+pipeline utilizing "Feast". Here is the step-by-step process:
 
 * Fetch the SQLite3 data as a Pandas DataFrame
 * Perform mean-median-imputation
@@ -18,11 +18,11 @@ Here is the step-by-step process:
 """
 
 import logging
-import random
 import typing
 # %%
 # Let's import the libraries.
 from datetime import datetime, timedelta
+import random
 
 import boto3
 import joblib
@@ -101,7 +101,8 @@ load_horse_colic_sql = SQLite3Task(
 
 
 # %%
-# We define two tasks, namely ``store_offline`` and ``load_historical_features`` to store and retrieve the historial features.
+# We define two tasks, namely ``store_offline`` and ``load_historical_features`` to store and retrieve the historial
+# features.
 #
 # .. list-table:: Decoding the ``Feast`` Nomenclature
 #    :widths: 25 25
@@ -113,7 +114,8 @@ load_horse_colic_sql = SQLite3Task(
 #    * - ``FeatureView``
 #      - A FeatureView defines a logical grouping of serve-able features.
 #    * - ``FileSource``
-#      - File data sources allow for the retrieval of historical feature values from files on disk for building training datasets, as well as for materializing features into an online store.
+#      - File data sources allow for the retrieval of historical feature values from files on disk for building training
+#        datasets, as well as for materializing features into an online store.
 #    * - ``apply()``
 #      - Register objects to metadata store and update related infrastructure.
 #    * - ``get_historical_features()``
@@ -121,9 +123,10 @@ load_horse_colic_sql = SQLite3Task(
 #
 #  .. note::
 #
-#     The returned feature store is the same mutated feature store! So be careful, this is not really immutable and hence
-#     serialization of the feature store is required. this is because FEAST registries are single files and Flyte workflows
-#     can be highly concurrent
+#     The returned feature store is the same mutated feature store! So be careful, this is not really immutable and
+#     hence serialization of the feature store is required. this is because FEAST registries are single files and
+#     Flyte workflows can be highly concurrent
+#
 @task(cache=True, cache_version="1.0")
 def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema) -> FeatureStore:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
@@ -184,25 +187,22 @@ def load_historical_features(feature_store: FeatureStore) -> FlyteSchema:
         }
     )
 
-    return feature_store.get_historical_features(
-        entity_df=entity_df,
-        features=FEAST_FEATURES,
-    )
+    return feature_store.get_historical_features(entity_df=entity_df, features=FEAST_FEATURES)  # noqa
 
 
 # %%
 # Next, we train a naive bayes model using the data from the feature store.
 @task(cache=True, cache_version="1.0")
 def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
-    X_train, _, y_train, _ = train_test_split(
+    x_train, _, y_train, _ = train_test_split(
         dataset[dataset.columns[~dataset.columns.isin([data_class])]],
         dataset[data_class],
         test_size=0.33,
         random_state=42,
     )
     model = GaussianNB()
-    model.fit(X_train, y_train)
-    model.feature_names = list(X_train.columns.values)
+    model.fit(x_train, y_train)
+    model.feature_names = list(x_train.columns.values)
     fname = "/tmp/model.joblib.dat"
     joblib.dump(model, fname)
     return fname
@@ -220,10 +220,12 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 #      - Retrieves the latest online feature data.
 #
 # .. note::
-#   One key difference between an online and offline store is that only the latest feature values are stored per entity key in an 
-#   online store, unlike an offline store where all feature values are stored.
+#
+#   One key difference between an online and offline store is that only the latest feature values are stored per entity
+#   key in an online store, unlike an offline store where all feature values are stored.
 #   Our dataset has two such entries with the same ``Hospital Number`` but different time stamps. 
 #   Only data point with the latest timestamp will be stored in the online store.
+#
 @task(cache=True, cache_version="1.0")
 def store_online(feature_store: FeatureStore) -> FeatureStore:
     feature_store.materialize(
@@ -233,31 +235,17 @@ def store_online(feature_store: FeatureStore) -> FeatureStore:
     return feature_store
 
 
-@task(cache=True, cache_version="1.0")
-def retrieve_online(
-        feature_store: FeatureStore, dataset: pd.DataFrame
-) -> dict:
-    inference_data = random.choice(dataset["Hospital Number"])
-    logger.info(f"Hospital Number chosen for inference is: {inference_data}")
-    entity_rows = [{"Hospital Number": inference_data}]
-
-    return feature_store.get_online_features(FEAST_FEATURES, entity_rows)
-
-
 # %%
 # We define a task to test our model using the inference point fetched earlier.
 @task(cache=True, cache_version="1.0")
-def predict(
-        model_ser: JoblibSerializedFile,
-        inference_point: dict,
-) -> typing.List[str]:
+def predict(model_ser: JoblibSerializedFile, features: dict) -> typing.List[str]:
     # Load model
     model = joblib.load(model_ser)
     f_names = model.feature_names
 
     test_list = []
     for each_name in f_names:
-        test_list.append(inference_point[each_name][0])
+        test_list.append(features[each_name][0])
     prediction = model.predict([test_list])
     return prediction
 
@@ -282,12 +270,32 @@ def build_feature_store(s3_bucket: str, registry_path: str, online_store_path: s
     return FeatureStore(config=feature_store_config)
 
 
+# %%
+# A sample method that randomly selects one datapoint from the input dataset to run predictions on
+#
+# .. note::
+#
+#    Note this is not ideal and can be just embedded in the predict method. But, for introspection and demo, we are
+#    splitting it up
+#
+@task
+def retrieve_online(feature_store: FeatureStore, dataset: pd.DataFrame) -> dict:
+    inference_data = random.choice(dataset["Hospital Number"])
+    logger.info(f"Hospital Number chosen for inference is: {inference_data}")
+    entity_rows = [{"Hospital Number": inference_data}]
+
+    return feature_store.get_online_features(FEAST_FEATURES, entity_rows)
+
+
+# %%
+# the following workflow is a separate workflow that can be run indepedently to create features and store them offline
+# This can be run periodically or triggered independently
 @workflow
 def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> (FlyteSchema, FeatureStore):
     # Load parquet file from sqlite task
     df = load_horse_colic_sql()
 
-    # Perfrom mean median imputation
+    # Perform mean median imputation
     df = mean_median_imputer(dataframe=df, imputation_method=imputation_method)
 
     # Convert timestamp column from string to datetime.
@@ -298,11 +306,14 @@ def featurize(feature_store: FeatureStore, imputation_method: str = "mean") -> (
     return df, store_offline(feature_store=feature_store, dataframe=converted_df)
 
 
+# %%
+# The following workflow can be run independently to train a model, given the Dataframe, either from Feature store
+# or locally
 @workflow
 def trainer(df: FlyteSchema, num_features_univariate: int = 7) -> JoblibSerializedFile:
     # Perform univariate feature selection
     selected_features = univariate_selection(
-        dataframe=df,
+        dataframe=df,  # noqa
         num_features=num_features_univariate,
         data_class=DATA_CLASS,
     )
@@ -318,6 +329,8 @@ def trainer(df: FlyteSchema, num_features_univariate: int = 7) -> JoblibSerializ
 
 # %%
 # Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
+# To show how to compose and end to end workflow that includes featurization, training and example predictions,
+# we construct the following workflow, composing other workflows
 @workflow
 def feast_workflow(
         imputation_method: str = "mean",
@@ -338,10 +351,10 @@ def feast_workflow(
 
     model = trainer(df=historical_features, num_features_univariate=num_features_univariate)
 
-    features = retrieve_online(feature_store=store_online(feature_store=loaded_feature_store), dataset=df)
+    online_feature_store = store_online(feature_store=loaded_feature_store)
 
     # Use a feature retrieved from the online store for inference
-    predictions = predict(model_ser=model, inference_point=features)
+    predictions = predict(model_ser=model, features=retrieve_online(feature_store=online_feature_store, dataset=df))  # noqa
 
     return feature_store, model, predictions
 
