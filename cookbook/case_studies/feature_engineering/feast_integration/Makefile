@@ -1,3 +1,3 @@
-PREFIX=sqlite_datacleaning
+PREFIX=feast_integration
 include ../../../common/common.mk
 include ../../../common/leaf.mk
