@@ -84,7 +84,7 @@ Below you’ll find instructions that will hopefully guide you through how to co
 
    .. tip::
       For implicit targets, run ``make -C docs html``.
-   4. Open HTML pages in the ``docs/_build`` directory in the browser
+   4. Open HTML pages present in the ``docs/_build`` directory in the browser
    
 5. After creating the pull request, check if the docs are rendered correctly by clicking on the documentation check 
    
