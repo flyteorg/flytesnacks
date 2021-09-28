@@ -13,7 +13,7 @@
         <span> · </span>
         <a href="https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html">Tutorials</a>
         <span> · </span>
-        <a href="cookbook/docs/contribute.rst">Contribution Guide</a>
+        <a href="https://docs.flyte.org/projects/cookbook/en/latest/contribute.html">Contribution Guide</a>
     </h3>
 </html>
 
