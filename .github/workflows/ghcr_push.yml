@@ -1,6 +1,7 @@
 name: Build & Push Docker Images
 
 on:
+  pull_request:
   create:
     tags:
       - v*
@@ -34,6 +35,8 @@ jobs:
           image_name: ${{ github.repository_owner }}/flytecookbook
           image_tag: $(basename -- ${{ matrix.directory }})-latest,$(basename -- ${{ matrix.directory }})-${{ github.sha }},$(basename -- ${{ matrix.directory }})-${{ github.event.ref }}
           registry: ghcr.io
+          push_git_tag: ${{ github.event_name != 'pull_request' }}
+          push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:$(basename -- ${{ matrix.directory }})-${{ github.sha }}"
           context: ./cookbook/${{ matrix.directory }}
           dockerfile: ${{ matrix.directory }}/Dockerfile
