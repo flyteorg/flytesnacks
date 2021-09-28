@@ -40,3 +40,6 @@ jobs:
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:$(basename -- ${{ matrix.directory }})-${{ github.sha }}"
           context: ./cookbook/${{ matrix.directory }}
           dockerfile: ${{ matrix.directory }}/Dockerfile
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.directory.name }}-${{ github.sha }}"
+          context: ./cookbook/${{ matrix.directory.path }}
+          dockerfile: ${{ matrix.directory.name }}/Dockerfile
