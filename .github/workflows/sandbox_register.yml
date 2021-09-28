@@ -69,24 +69,21 @@ jobs:
         with:
           fetch-depth: "0"
       - uses: unionai/flytectl-setup-action@v0.0.1
-      - name: 'Set example id'
-        id: example_id
-        # add a step output `steps.build_id.outputs.id` as the unique id
-        run: echo "::set-output name=id::$(echo ${{ matrix.directory }} | sed 's_/_-_g')"
       - name: setup download artifact dir
         run: |
-          make download-artifact
+          mkdir download-artifact
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
+          ls -R
           make setup
           flytectl config init
       - name: Register Examples
         run: |
-          flytectl register files -p flytesnacks -d development ./download-artifact/*
+          flytectl register files -p flytesnacks -d development ./download-artifact/**/*
 
   # Download artifacts again and push them to the release only if this is not a pull request
   # TODO(Yuvraj) Compeltely untested... never reached here...
@@ -108,7 +105,7 @@ jobs:
         run: echo "::set-output name=id::$(echo ${{ matrix.directory }} | sed 's_/_-_g')"
       - name: setup download artifact dir
         run: |
-          make download-artifact
+          mkdir download-artifact
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:

@@ -22,10 +22,21 @@ jobs:
   push-github:
     name: Push to GHCR
     runs-on: ubuntu-latest
+    needs: ["list"]
+    strategy:
+      matrix:
+        directory: "${{ fromJson(needs.list.outputs.packages) }}"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - name: 'Set example name'
+        id: example_id
+        # add a step output `steps.build_id.outputs.id` as the unique id
+        run: |
+          echo "::set-output name=id::$(basename -- ${{ matrix.directory }})"
+          temp=${{ matrix.directory }}
+          echo "::set-output name=path::$(echo "./${temp%/*}")"
       - name: Build & Push Docker Image to Github Registry
         uses: whoan/docker-build-with-cache-action@v5
         with:
@@ -33,13 +44,10 @@ jobs:
           username: "${{ secrets.FLYTE_BOT_USERNAME }}"
           password: "${{ secrets.FLYTE_BOT_PAT }}"
           image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: $(basename -- ${{ matrix.directory }})-latest,$(basename -- ${{ matrix.directory }})-${{ github.sha }},$(basename -- ${{ matrix.directory }})-${{ github.event.ref }}
+          image_tag: ${{ steps.example_id.outputs.id }}-latest,${{ steps.example_id.outputs.id }}-${{ github.sha }},${{ steps.example_id.outputs.id }}-${{ github.event.ref }}
           registry: ghcr.io
           push_git_tag: ${{ github.event_name != 'pull_request' }}
           push_image_and_stages: ${{ github.event_name != 'pull_request' }}
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:$(basename -- ${{ matrix.directory }})-${{ github.sha }}"
-          context: ./cookbook/${{ matrix.directory }}
-          dockerfile: ${{ matrix.directory }}/Dockerfile
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ matrix.directory.name }}-${{ github.sha }}"
-          context: ./cookbook/${{ matrix.directory.path }}
-          dockerfile: ${{ matrix.directory.name }}/Dockerfile
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
+          context: ${{ steps.example_id.outputs.path }}
+          dockerfile: ${{ steps.example_id.outputs.id }}/Dockerfile
