@@ -93,7 +93,7 @@ fast_serialize: clean _pb_output
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
-fast_register: ## Packages code and registers without building docker images.
+fast_register: fast_serialize ## Packages code and registers without building docker images.
 	@echo "Tagged Image: "
 	@echo ${TAGGED_IMAGE}
 	@echo ${CURDIR}
@@ -134,7 +134,7 @@ serialize: clean _pb_output docker_build
 
 
 .PHONY: register
-register: docker_push
+register: serialize docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	flytectl register files ${CURDIR}/_pb_output/* \
