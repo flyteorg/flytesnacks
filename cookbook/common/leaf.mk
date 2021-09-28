@@ -24,12 +24,6 @@ export FLYTE_AWS_ACCESS_KEY_ID ?= minio
 # Used to authenticate to s3. For a production AWS S3, it's discouraged to use keys and key ids.
 export FLYTE_AWS_SECRET_ACCESS_KEY ?= miniostorage
 
-# Used to publish artifacts for fast registration
-export ADDL_DISTRIBUTION_DIR ?= s3://my-s3-bucket/fast/
-
-# The base of where Blobs, Schemas and other offloaded types are, by default, serialized.
-export OUTPUT_DATA_PREFIX ?= s3://my-s3-bucket/raw-data
-
 # Instructs flyte-cli commands to use insecure channel when communicating with Flyte's control plane.
 # If you're port-forwarding your service or running the sandbox Flyte deployment, specify INSECURE=1 before your make command.
 # If your Flyte Admin is behind SSL, don't specify anything.
@@ -62,6 +56,14 @@ ifndef SERVICE_ACCOUNT
 	SERVICE_ACCOUNT=default
 endif
 
+ifndef ADDL_DISTRIBUTION_DIR
+	ADDL_DISTRIBUTION_DIR=s3://my-s3-bucket/fast/
+endif
+
+ifndef OUTPUT_DATA_PREFIX
+	OUTPUT_DATA_PREFIX=s3://my-s3-bucket/raw-data
+endif
+
 requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) requirements.txt
 requirements.txt: requirements.in install-piptools
 	$(call PIP_COMPILE,requirements.in)
@@ -91,7 +93,7 @@ fast_serialize: clean _pb_output
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
-fast_register: fast_serialize ## Packages code and registers without building docker images.
+fast_register: ## Packages code and registers without building docker images.
 	@echo "Tagged Image: "
 	@echo ${TAGGED_IMAGE}
 	@echo ${CURDIR}
@@ -99,9 +101,9 @@ fast_register: fast_serialize ## Packages code and registers without building do
 		-p ${PROJECT} \
 		-d ${DOMAIN} \
 		--outputLocationPrefix ${OUTPUT_DATA_PREFIX} \
-		--sourceUploadPath ${ADDL_DISTRIBUTION_DIR} \
 		--k8sServiceAccount $(SERVICE_ACCOUNT) \
-		--version fast${VERSION}
+		--version fast${VERSION} \
+		--sourceUploadPath ${ADDL_DISTRIBUTION_DIR}
 
 .PHONY: docker_build
 docker_build:
@@ -132,14 +134,13 @@ serialize: clean _pb_output docker_build
 
 
 .PHONY: register
-register: serialize docker_push
+register: docker_push
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	flytectl register files ${CURDIR}/_pb_output/* \
 		-p ${PROJECT} \
 		-d ${DOMAIN} \
 		--outputLocationPrefix ${OUTPUT_DATA_PREFIX} \
-		--sourceUploadPath ${ADDL_DISTRIBUTION_DIR} \
 		--k8sServiceAccount $(SERVICE_ACCOUNT) \
 		--version ${VERSION}
 
