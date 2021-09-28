@@ -76,10 +76,16 @@ Below you’ll find instructions that will hopefully guide you through how to co
    
       * Add a new panel
       * Update the toctree
-4. Verify if the code and documentation look as expected 
+4. Verify if the code and documentation look as expected
    
+   1. Learn about the documentation tools `here <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__
+   2. Install the requirements by running ``pip install -r docs-requirements.txt`` in the ``cookbook`` folder
+   3. Run ``make html`` in the ``docs`` folder
+
    .. tip::
-        Refer to the `documentation contribution guide <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__ to test the docs.
+      For implicit targets, run ``make -C docs html``.
+   4. Open HTML pages in the ``docs/_build`` directory in the browser
+   
 5. After creating the pull request, check if the docs are rendered correctly by clicking on the documentation check 
    
    .. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/contribution-guide/test_docs_link.png
