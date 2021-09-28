@@ -80,7 +80,7 @@ register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 .PHONY: fast_register
 fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
 	$(call LOG,Fast registering example workflows from latest release of flytesnacks)
-	flytectl register examples -p flytesnacks -d development
+	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) register)
 
 .PHONY: setup-kubectl
 kubectl-config:
