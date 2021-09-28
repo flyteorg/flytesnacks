@@ -13,7 +13,7 @@
         <span> · </span>
         <a href="https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html">Tutorials</a>
         <span> · </span>
-        <a href="#contribution-guide">Contribution Guide</a>
+        <a href="cookbook/docs/contribute.rst">Contribution Guide</a>
     </h3>
 </html>
 
@@ -29,18 +29,15 @@
 
 [Tutorials](https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
 
+*NOTE* Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit JAVA will be out.
+
 <html>
     <h2 id="contribution-guide"> 
-        📖 Contribution Guide
+        📖 How to Contribute to Flytesnacks
     </h2>
 </html>
 
-Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit JAVA will be out.
-
-Here are the setup instructions to start contributing to `flytesnacks` repo:
-
-### How to Contribute to Flytesnacks
-You can find the detailed contribution guide [here](cookbook/docs/contributing.rst).
+You can find the detailed contribution guide [here](cookbook/docs/contribute.rst). 
 
 <html>
     <h2 id="file-an-issue"> 
