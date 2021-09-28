@@ -29,7 +29,7 @@
 
 [Tutorials](https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
 
-*NOTE* Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit JAVA will be out.
+> Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit JAVA will be out.
 
 <html>
     <h2 id="contribution-guide"> 
