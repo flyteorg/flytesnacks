@@ -78,7 +78,6 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          ls -R
           make setup
           flytectl config init
       - name: Register Examples
@@ -92,17 +91,10 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: [ "list", "serialize", "register"]
-    strategy:
-      matrix:
-        directory: "${{ fromJson(needs.list.outputs.packages) }}"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - name: 'Set example id'
-        id: example_id
-        # add a step output `steps.build_id.outputs.id` as the unique id
-        run: echo "::set-output name=id::$(echo ${{ matrix.directory }} | sed 's_/_-_g')"
       - name: setup download artifact dir
         run: |
           mkdir download-artifact
@@ -112,9 +104,9 @@ jobs:
           path: ./download-artifact/
       - name: Package Examples
         run: |
-          ls -al ./download-artifact
           mkdir -p cookbook/release-snacks
-          make -C cookbook archive
+          for dir in download-artifact/*; do tar -czvf "./cookbook/release-snacks/${dir%/}".tar.gz "$dir"; done
+          cp cookbook/flyte_tests_manifest.json ./cookbook/release-snacks/flyte_tests_manifest.json
       - name: Release test manifest
         uses: goreleaser/goreleaser-action@v2
         with:
