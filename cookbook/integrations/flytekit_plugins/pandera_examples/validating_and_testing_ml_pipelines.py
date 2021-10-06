@@ -104,8 +104,8 @@ import flytekitplugins.pandera
 # A useful resource for this is the `Kaggle <https://www.kaggle.com/ronitf/heart-disease-uci>`__ version of this dataset,
 # which has been slightly preprocessed to be model-ready.
 # 
-# .. note::
-#    we'll be using the data provided by the UCI data repository since we want to work with a dataset that
+# .. Note::
+#    We'll be using the data provided by the UCI data repository since we want to work with a dataset that
 #    requires some preprocessing to be model-ready.
 #
 # Once we've gotten a rough sense of the statistical properties of the data, we can encode that domain knowledge into
@@ -163,7 +163,7 @@ class RawData(pa.SchemaModel):
 # Fetching the Raw Data
 # ^^^^^^^^^^^^^^^^^^^^^
 #
-# Now we're ready to write our first flyte task:
+# Now we're ready to write our first Flyte task:
 
 @task
 def fetch_raw_data() -> DataFrame[RawData]:
@@ -181,7 +181,7 @@ def fetch_raw_data() -> DataFrame[RawData]:
 # with null values, and casting the ``ca`` and ``thal`` columns into floats since those columns serialize the number
 # values in the float format, e.g. ``3.0``, so we cast them into floats before pandera coerces them into integer values.
 #
-# .. note::
+# .. Note::
 #   We're using the generic type ``pandera.typing.DataFrame``` and supplying the ``RawData`` schema model to
 #   specify the expected fields of the dataframe. This is pandera's syntax for adding type annotations to dataframes.
 #
@@ -257,7 +257,7 @@ def train_model(training_set: DataFrame[ParsedData], random_state: int) -> Jobli
 
 # %%
 # This task serializes the model with joblib and returns a ``JoblibSerializedFile`` type, which is understood and
-# automatically handled by flyte so that the pointer to the actual serialized file can be passed onto the last
+# automatically handled by Flyte so that the pointer to the actual serialized file can be passed onto the last
 # step of the pipeline.
 #
 # Model Evaluation
@@ -274,7 +274,7 @@ def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData])
     return accuracy_score(y, preds)
 
 # %%
-# Finally, we put all of the pieces together in a flyte workflow:
+# Finally, we put all of the pieces together in a Flyte workflow:
 
 @workflow
 def pipeline(data_random_state: int, model_random_state: int) -> float:
