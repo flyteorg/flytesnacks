@@ -6,6 +6,31 @@ In this example we'll show you how to use :ref:`pandera.SchemaModel <pandera:sch
 to annotate dataframe inputs and outputs in an `sklearn <https://scikit-learn.org/stable/>`__
 model-training pipeline.
 
+At a high-level, the pipeline architecture involves fetching, parsing, and splitting data, then training
+a model on the training set and evaluating the trained model on the test set to produce metrics:
+
+.. mermaid::
+
+    flowchart LR
+        fetch(fetch raw data) --> raw[(raw data)]
+        raw --> parse(parse data)
+        parse --> parsed_data[(parsed data)]
+        parsed_data --> split(split data)
+        split --> train[(training set)]
+        split --> test[(test set)]
+        train --> train_model(train model)
+        train_model --> model[(model)]
+        test --> evaluate(evaluate model)
+        model --> evaluate
+        evaluate --> metrics
+
+        style fetch fill:#fff2b2,stroke:#333
+        style parse fill:#fff2b2,stroke:#333
+        style split fill:#fff2b2,stroke:#333
+        style train_model fill:#fff2b2,stroke:#333
+        style evaluate fill:#fff2b2,stroke:#333
+
+
 First, let's import all the necessary dependencies including ``pandas``, ``pandera``, ``sklearn``,
 and ``hypothesis``.
 
@@ -24,7 +49,7 @@ from sklearn.metrics import accuracy_score
 
 
 # %%
-# We also need to import the `pandera` flytekit plugin to enable dataframe runtime type-checking:
+# We also need to import the ``pandera`` flytekit plugin to enable dataframe runtime type-checking:
 
 import flytekitplugins.pandera
 
@@ -40,23 +65,43 @@ import flytekitplugins.pandera
 # row contains data pertaining to a patient. There are 14 variables where 13 of them are features and one of them
 # is a binary target variable indicating the presence or absence of heart disease.
 #
-# 1. `age`:
-# 2. `sex`:
-# 3. `cp`: chest pain type (4 values)
-# 4. `trestbps`: resting blood pressure
-# 5. `chol`: serum cholestoral in mg/dl
-# 6. `fbs`: fasting blood sugar > 120 mg/dl
-# 7. `restecg`: resting electrocardiographic results (values 0,1,2)
-# 8. `thalach`: maximum heart rate achieved
-# 9. `exang`: exercise induced angina
-# 10. `oldpeak`: ST (stress test) depression induced by exercise relative to rest
-# 11. `slope`: the slope of the peak exercise ST segment
-# 12. `ca`: number of major vessels (0-3) colored by flourosopy
-# 13. `thal`: 3 = normal; 6 = fixed defect; 7 = reversable defect
-# 14. `num`: (the predicted attribute)
+# .. list-table:: UCI Dataset Variables
+#    :widths: 25 25
+#    :header-rows: 1
+#
+#    * - variable
+#      - description
+#    * - ``age``
+#      - age in years
+#    * - ``sex``
+#      - 1 = male; 0 = female
+#    * - ``cp``
+#      - chest pain type (4 values)
+#    * - ``trestbps``
+#      - resting blood pressure
+#    * - ``chol``
+#      - serum cholestoral in mg/dl
+#    * - ``fbs``
+#      - fasting blood sugar > 120 mg/dl
+#    * - ``restecg``
+#      - resting electrocardiographic results (values 0,1,2)
+#    * - ``thalach``
+#      - maximum heart rate achieved
+#    * - ``exang``
+#      - exercise induced angina
+#    * - ``oldpeak``
+#      - ST (stress test) depression induced by exercise relative to rest
+#    * - ``slope``
+#      - the slope of the peak exercise ST segment
+#    * - ``ca``
+#      - number of major vessels (0-3) colored by flourosopy
+#    * - ``thal``
+#      - 3 = normal; 6 = fixed defect; 7 = reversable defect
+#    * - ``target``
+#      - the predicted attribute
 #
 # In practice, we'd want to do a little data exploration to first to get a sense of the distribution of variables.
-# A useful resource for this is the `Kaggle <https://www.kaggle.com/ronitf/heart-disease-uci`__ version of this dataset,
+# A useful resource for this is the `Kaggle <https://www.kaggle.com/ronitf/heart-disease-uci>`__ version of this dataset,
 # which has been slightly preprocessed to be model-ready.
 # 
 # .. note::
@@ -251,7 +296,7 @@ def pipeline(data_random_state: int, model_random_state: int) -> float:
 # data under the constraints of our ``SchemaModel`` so that we can make sure the code implementation is correct.
 #
 # Typically we'd want to define these tests under the conventions of a testing framework like `pytest <https://docs.pytest.org/en/6.2.x/>`__,
-# but in this example we'll just define it under a ``if __name__ == "__main__"` block:
+# but in this example we'll just define it under a ``if __name__ == "__main__"`` block:
 
 if __name__ == "__main__":
     import hypothesis
@@ -303,7 +348,7 @@ if __name__ == "__main__":
 # test function body. In this case, all we're doing is checking the following properties of the ``train_model``
 # task:
 #
-# - With some sample of data, it can output a ``model``
+# - With some sample of data, it can output a trained ``model``
 # - That model can be used to generate predictions in the set ``{0, 1}``
 #
 # Conclusion
@@ -311,7 +356,7 @@ if __name__ == "__main__":
 #
 # In this example we've learned how to:
 #
-# 1. Define pandera ``SchemaModel``s to document and enforce the properties of dataframes as they pass through our
+# 1. Define pandera ``SchemaModel`` s to document and enforce the properties of dataframes as they pass through our
 #    model-training pipeline.
 # 2. Type-annotate ``flytekit`` tasks to automatically type-check dataframes at runtime using the ``flytekitplugins.pandera`` plugin.
-# 3. Use pandera ``SchemaModel``s in unit tests to make sure that our code is working as expected under certain operating assumptions.
+# 3. Use pandera ``SchemaModel`` s in unit tests to make sure that our code is working as expected under certain operating assumptions.
