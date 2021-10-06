@@ -56,6 +56,7 @@ class CustomSorter(FileNameSortKey):
         "typed_schema.py",
         "custom_objects.py",
         "enums.py",
+        "lp_schedules.py",
         # Testing
         "mocking.py",
         # Containerization
@@ -74,7 +75,6 @@ class CustomSorter(FileNameSortKey):
         # Deployment
         ## Workflow
         "deploying_workflows.py",
-        "lp_schedules.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "fast_registration.py",
@@ -130,12 +130,16 @@ class CustomSorter(FileNameSortKey):
         "diabetes.py",
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
-        "datacleaning_tasks.py",
-        "datacleaning_workflow.py",
-        "single_node.py",
+        "keras_spark_rossmann_estimator.py",
+        ## Feature Engineering
+        "pytorch_single_node_and_gpu.py",
+        "pytorch_single_node_multi_gpu.py",
         "notebook.py",
         "notebook_and_task.py",
         "notebook_as_tasks.py",
+        "feature_eng_tasks.py",
+        "feast_dataobjects.py",
+        "feast_workflow.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -173,7 +177,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
-    "sphinx_tabs.tabs",
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
 ]
@@ -241,12 +244,14 @@ html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 examples_dirs = [
     "../core/flyte_basics",
     "../core/control_flow",
+    "../core/scheduled_workflows",
     "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
-    "../case_studies/feature_engineering/sqlite_datacleaning",
+    "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
+    "../case_studies/feature_engineering/feast_integration",
     "../testing",
     "../core/containerization",
     "../deployment",
@@ -270,12 +275,14 @@ examples_dirs = [
 gallery_dirs = [
     "auto/core/flyte_basics",
     "auto/core/control_flow",
+    "auto/core/scheduled_workflows",
     "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
-    "auto/case_studies/feature_engineering/sqlite_datacleaning",
+    "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
+    "auto/case_studies/feature_engineering/feast_integration",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
@@ -436,7 +443,7 @@ intersphinx_mapping = {
 }
 
 # Sphinx-tabs config
-sphinx_tabs_valid_builders = ["linkcheck"]
+# sphinx_tabs_valid_builders = ["linkcheck"]
 
 # Sphinx-mermaid config
 mermaid_output_format = "raw"

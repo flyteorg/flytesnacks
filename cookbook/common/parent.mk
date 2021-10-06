@@ -14,8 +14,10 @@ fast_serialize:
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		trimmed=$${dir%/}; \
-	    if [[ -f $$dir/Makefile ]]; then \
-    		PREFIX=$$trimmed $(MAKE) fast_serialize || exit; \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
+        		PREFIX=$$trimmed $(MAKE) fast_serialize || exit; \
+	        fi; \
 		fi; \
 	done
 
@@ -24,8 +26,10 @@ fast_register: ## Registers new code changes using the last built image (assumes
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		trimmed=$${dir%/}; \
-	    if [[ -f $$dir/Makefile ]]; then \
-    		PREFIX=$$trimmed $(MAKE) fast_register || exit; \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
+        		PREFIX=$$trimmed $(MAKE) fast_register || exit; \
+	        fi; \
 		fi; \
 	done
 
@@ -33,8 +37,10 @@ fast_register: ## Registers new code changes using the last built image (assumes
 register: ## Builds, pushes and registers all docker images, workflows and tasks in all sub directories.
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
-    		$(MAKE) -C $$dir register || exit; \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
+        		$(MAKE) -C $$dir register || exit; \
+	        fi; \
 		fi; \
 	done
 
@@ -43,8 +49,8 @@ serialize: ## Builds and serializes all docker images, workflows and tasks in al
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		echo "$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
-	        if [[ "$$dir" != 'docs/' ]]; then \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
 	            $(MAKE) -C $$dir serialize || exit; \
 	        fi; \
 		fi; \
@@ -55,7 +61,7 @@ docker_push: ## Builds and pushes all docker images.
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
 		test -f $$dir/Dockerfile && \
-	    if [[ -f $$dir/Makefile ]]; then \
+	    if [ -f $$dir/Makefile ]; then \
     		$(MAKE) -C $$dir docker_push || exit; \
 		fi; \
 	done
@@ -64,8 +70,10 @@ docker_push: ## Builds and pushes all docker images.
 requirements: ## Makes all requirement files in sub directories.
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
-    		$(MAKE) -C $$dir requirements || exit; \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
+        		$(MAKE) -C $$dir requirements || exit; \
+	        fi; \
 		fi; \
 	done
 
@@ -73,8 +81,10 @@ requirements: ## Makes all requirement files in sub directories.
 k3d_load_image:
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
-    		$(MAKE) -C $$dir k3d_load_image || exit; \
+	    if [ -f $$dir/Makefile ]; then \
+	        if [ "$$dir" != 'docs/' ]; then \
+        		$(MAKE) -C $$dir k3d_load_image || exit; \
+	        fi; \
 		fi; \
 	done
 
@@ -82,7 +92,7 @@ k3d_load_image:
 clean: ## Deletes build directories (e.g. _pb_output/)
 	@for dir in $(SUBDIRS) ; do \
 		echo "processing ${PWD}/$$dir"; \
-	    if [[ -f $$dir/Makefile ]]; then \
+	    if [ -f $$dir/Makefile ]; then \
     		$(MAKE) -C $$dir clean || exit; \
 		fi; \
 	done

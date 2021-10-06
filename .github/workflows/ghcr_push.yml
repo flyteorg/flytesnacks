@@ -27,8 +27,6 @@ jobs:
             path: integrations/kubernetes
           - name: kfpytorch
             path: integrations/kubernetes
-          - name: sqlite_datacleaning
-            path: case_studies/feature_engineering
           - name: sagemaker_training
             path: integrations/aws
           - name: sagemaker_pytorch
@@ -46,6 +44,8 @@ jobs:
           - name: mnist_classifier
             path: case_studies/ml_training
           - name: eda
+            path: case_studies/feature_engineering
+          - name: feast_integration
             path: case_studies/feature_engineering
     steps:
       - uses: actions/checkout@v2

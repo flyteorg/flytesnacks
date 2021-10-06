@@ -50,6 +50,15 @@ Table of Contents
 
    ---
 
+   .. link-button:: auto/core/scheduled_workflows/index
+      :type: ref
+      :text: ⏱ Scheduled Workflows
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Learn about scheduled workflows.
+
+   ---
+
    .. link-button:: auto/testing/index
       :type: ref
       :text: ⚗️ Testing
@@ -259,6 +268,7 @@ Steps
    Configuring Production Features <auto/deployment/index>
    integrations
    Extending flyte <auto/core/extend_flyte/index>
+   contribute
 
 .. toctree::
    :maxdepth: -1
