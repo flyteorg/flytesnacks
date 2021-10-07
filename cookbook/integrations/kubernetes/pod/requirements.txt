@@ -42,7 +42,7 @@ flytekit==0.22.2
     #   flytekitplugins-pod
 flytekitplugins-pod==0.22.3
     # via -r requirements.in
-google-auth==2.2.1
+google-auth==2.3.0
     # via kubernetes
 grpcio==1.41.0
     # via flytekit

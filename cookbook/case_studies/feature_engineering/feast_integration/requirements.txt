@@ -4,6 +4,8 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make requirements.txt
 #
+anyio==3.3.2
+    # via starlette
 asgiref==3.4.1
     # via uvicorn
 attrs==21.2.0
@@ -47,7 +49,7 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.11
     # via flytekit
-fastapi==0.68.2
+fastapi==0.70.0
     # via feast
 fastavro==1.4.5
     # via
@@ -57,11 +59,11 @@ feast[aws]==0.13.0
     # via -r requirements.in
 flyteidl==0.21.4
     # via flytekit
-flytekit==0.23.0b4
+flytekit==0.23.0b6
     # via -r requirements.in
 google-api-core==2.1.0
     # via feast
-google-auth==2.2.1
+google-auth==2.3.0
     # via google-api-core
 googleapis-common-protos==1.52.0
     # via
@@ -76,7 +78,9 @@ h11==0.12.0
 httptools==0.2.0
     # via uvicorn
 idna==3.2
-    # via requests
+    # via
+    #   anyio
+    #   requests
 importlib-metadata==4.8.1
     # via keyring
 jinja2==3.0.2
@@ -85,7 +89,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-joblib==1.0.1
+joblib==1.1.0
     # via scikit-learn
 jsonschema==4.0.1
     # via feast
@@ -199,9 +203,11 @@ six==1.16.0
     #   python-dateutil
     #   responses
     #   scantree
+sniffio==1.2.0
+    # via anyio
 sortedcontainers==2.4.0
     # via flytekit
-starlette==0.14.2
+starlette==0.16.0
     # via fastapi
 statsd==3.3.0
     # via flytekit

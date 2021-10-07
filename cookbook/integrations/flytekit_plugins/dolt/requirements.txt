@@ -75,7 +75,7 @@ flytekit==0.22.2
     #   flytekitplugins.dolt
 flytekitplugins.dolt==0.22.3
     # via -r requirements.in
-great-expectations==0.13.36
+great-expectations==0.13.37
     # via -r requirements.in
 grpcio==1.41.0
     # via flytekit

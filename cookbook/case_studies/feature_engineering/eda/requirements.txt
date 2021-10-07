@@ -84,7 +84,7 @@ jedi==0.18.0
     # via ipython
 jinja2==3.0.2
     # via nbconvert
-joblib==1.0.1
+joblib==1.1.0
     # via scikit-learn
 jsonschema==4.0.1
     # via nbformat
