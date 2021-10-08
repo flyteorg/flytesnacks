@@ -4,3 +4,4 @@ hypothesis
 joblib
 pandas
 pandera>=0.7.0
+sklearn
