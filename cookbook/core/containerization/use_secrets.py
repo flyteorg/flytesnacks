@@ -45,7 +45,7 @@ the [core config](https://github.com/flyteorg/flyte/blob/master/kustomize/base/s
 Making secrets discoverable
 ---------------------------
 // Paths and names
-Global secrets need to be made availabel to the Pod Webhook pod either by mounting them as volumes or as environment variables. This is a good way to make secrets discoverable by tasks in all projects and domains, but as names of the secrets need 
+Global secrets need to be made available to the Pod Webhook pod either by mounting them as volumes or as environment variables. This is a good way to make secrets discoverable by tasks in all projects and domains, but as names of the secrets need 
 to be unique it can get a convoluted if you many many secrets. Note that global secrets can only be injected into the task pod as environemnt variables (see examples below). Volumes should be mounted into the path `/etc/secrets/<secret group>/<secret name>`. 
 Environment variables should be named `FLYTE_SECRET_<secret group>_<secret_name>`.  
 
