@@ -46,7 +46,7 @@ Making secrets discoverable
 ---------------------------
 // Paths and names
 Global secrets need to be made available to the Pod Webhook pod either by mounting them as volumes or as environment variables. This is a good way to make secrets discoverable by tasks in all projects and domains, but as names of the secrets need 
-to be unique it can get a convoluted if you many many secrets. Note that global secrets can only be injected into the task pod as environemnt variables (see examples below). Volumes should be mounted into the path `/etc/secrets/<secret group>/<secret name>`. 
+to be unique it can get a convoluted if you have a large number of secrets. Note that global secrets can only be injected into the task pod as environemnt variables (see examples below). Volumes should be mounted into the path `/etc/secrets/<secret group>/<secret name>`. 
 Environment variables should be named `FLYTE_SECRET_<secret group>_<secret_name>`.  
 
 When using the K8s secret manager plugin (enabled by default), the secrets need to be available in the same namespace as the task (for example `flytesnacks-development`). K8s secrets can be mounted as both files and injected as environment variables into the task pod, so if you need to make larger files available to the task, then this might be the better option. Furthermore, this method also allows you to have separate credentials for different domains but still using the same name for the secret. The `group` of the secret request corresponds to the K8s secret name, while the `name` of the request corresponds to the key of the specific entry in the secret.    
