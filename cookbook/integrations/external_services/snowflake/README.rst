@@ -1,8 +1,8 @@
 Snowflake
 ====
 
-Flyte backend can be connected with snowflake service. Once enabled it can allow you to query a snowflake service and retrieve typed schema (optionally).
-This section will provide how to use the Snowflake Query Plugin using flytekit python
+Flyte backend can be connected with snowflake service. Once enabled it can allow you to query a snowflake service.
+This section will provide how to use the Snowflake Query Plugin using flytekit python.
 
 Installation
 ------------
