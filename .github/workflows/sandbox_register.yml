@@ -54,12 +54,10 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          # TODO (Yuvraj): The name here isn't working... we need a unique name..
           name: snacks-${{ steps.example_id.outputs.id }}
           path: ${{ matrix.directory }}/_pb_output/*
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
-  # TODO(Yuvraj) Compeltely untested... never reached here...
   register:
     name: Register example to sandbox
     runs-on: ubuntu-latest
@@ -85,7 +83,6 @@ jobs:
           flytectl register files -p flytesnacks -d development ./download-artifact/**/*
 
   # Download artifacts again and push them to the release only if this is not a pull request
-  # TODO(Yuvraj) Compeltely untested... never reached here...
   release:
     name: Release Example
     if: github.event_name != 'pull_request'
