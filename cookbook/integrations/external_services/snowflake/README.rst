@@ -24,4 +24,21 @@ Configuring the backend to get snowflake working
 
 2. Add snowflake JWT token to Flytepropeller. `here <https://docs.snowflake.com/en/developer-guide/sql-api/guide.html#using-key-pair-authentication>`_ to see more detail to setup snowflake JWT token.
 
-    ``kubectl set env deployment/flytepropeller FLYTE_SECRET_FLYTE_SNOWFLAKE_CLIENT_TOKEN=<jwt_token> -n flyte``
+.. code-block:: bash
+
+    kubectl edit secret -n flyte flyte-propeller-auth
+
+Configuration will be like below
+
+.. code-block:: bash
+
+    apiVersion: v1
+    data:
+      FLYTE_SNOWFLAKE_CLIENT_TOKEN: <JWT_TOKEN>
+      client_secret: Zm9vYmFy
+    kind: Secret
+    metadata:
+      annotations:
+        meta.helm.sh/release-name: flyte
+        meta.helm.sh/release-namespace: flyte
+    ...
