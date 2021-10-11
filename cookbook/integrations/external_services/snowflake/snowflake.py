@@ -29,7 +29,7 @@ def no_io_wf():
 # %%
 # Of course, in real world applications we are usually more interested in using Snowflake to query a dataset.
 # In this case we use SNOWFLAKE_SAMPLE_DATA which is default dataset in snowflake service.
-# `here <https://docs.snowflake.com/en/user-guide/sample-data.html>`__.
+# `here <https://docs.snowflake.com/en/user-guide/sample-data.html>`__
 # The data is formatted according to this schema:
 #
 # +----------------------------------------------+
@@ -43,7 +43,7 @@ def no_io_wf():
 # +----------------------------------------------+
 # | C_PHONE (string)                             |
 # +----------------------------------------------+
-# | C_ACCTBAL (float)                             |
+# | C_ACCTBAL (float)                            |
 # +----------------------------------------------+
 # | C_MKTSEGMENT (string)                        |
 # +----------------------------------------------+
@@ -68,5 +68,6 @@ def full_snowflake_wf(nation_key: int):
     return snowflake_task_templatized_query(nation_key=nation_key)
 
 # %%
-# Check query result on https://<account>.snowflakecomputing.com/console#/monitoring/queries/detail
+# Check query result on snowflake console: ``https://<account>.snowflakecomputing.com/console#/monitoring/queries/detail``
+#
 # For example, https://ha63105.us-central1.gcp.snowflakecomputing.com/console#/monitoring/queries/detail
