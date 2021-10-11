@@ -18,6 +18,7 @@ below to get started.
 .. _setup_flytesnacks_env:
 
 .. dropdown:: :fa:`info-circle` Setting up your environment to run the examples
+   :animate: fade-in-slide-down
 
    **Prerequisites**
 

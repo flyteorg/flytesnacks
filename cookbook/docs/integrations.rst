@@ -61,6 +61,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins
+   :animate: fade-in-slide-down
 
    Data is automatically marshalled and unmarshalled into and out of the plugin and mostly users should implement the
    :py:class:`~flytekit.core.base_task.PythonTask` API, defined in flytekit.
@@ -157,6 +158,7 @@ the Flyte task that use the respective plugin.
 .. _enable-backend-plugins:
 
 .. dropdown:: :fa:`info-circle` Enabling Backend Plugins
+   :animate: fade-in-slide-down
 
    To enable a backend plugin you have to add the ``ID`` of the plugin to the enabled plugins list. The ``enabled-plugins`` is available under the ``tasks > task-plugins`` section of FlytePropeller's configuration.
    The `plugin configuration structure is defined here <https://pkg.go.dev/github.com/flyteorg/flytepropeller@v0.6.1/pkg/controller/nodes/task/config#TaskPluginConfig>`_. An example of the config follows,
