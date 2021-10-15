@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabete
 
 ## Important things to note:
 - Usage of Schema Type. Schema type allows passing a type safe row vector from one task to task. The row vector is also directly loaded into a pandas dataframe
-  We could use an unstructured Schema (By simply omiting the column types). this will allow any data to be accepted by the train algorithm.
+  We could use an unstructured Schema (By simply omitting the column types). this will allow any data to be accepted by the train algorithm.
 
 - We pass the file as a CSV input. The file is auto-loaded.
 
