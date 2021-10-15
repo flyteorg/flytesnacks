@@ -32,7 +32,7 @@ docstring-parser==0.11
     # via flytekit
 flyteidl==0.21.5
     # via flytekit
-flytekit @ git+https://github.com/flyteorg/flytekit.git@6494803514eacd18748eab33f5c6a6f32fa49603
+flytekit @ https://github.com/flyteorg/flytekit/archive/c777360efdec43f80eca531a75578bfb79886288.zip
     # via -r ../common/requirements-common.in
 grpcio==1.41.0
     # via flytekit
