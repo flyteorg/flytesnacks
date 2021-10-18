@@ -6,6 +6,9 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
+RUN apt-get update && \
+    apt-get -y install sudo
+
 # Install dolt
 RUN sudo bash -c 'curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | sudo bash' &&\
     dolt config --global --add user.email bojack@horseman.com &&\
@@ -31,7 +34,7 @@ COPY dolt/sandbox.config /root
 COPY dolt/ /root/dolt/
 
 RUN mkdir -p /root/foo &&\
-    cd /root/dolt/foo &&\
+    cd /root/foo &&\
     dolt init
 
 # This tag is supplied by the build script and will be used to determine the version

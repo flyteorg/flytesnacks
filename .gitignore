@@ -26,3 +26,8 @@ _build/
 cookbook/release-snacks
 .kube/
 .docker/
+.cache/
+download-artifact/
+typescript
+.bash_history
+
