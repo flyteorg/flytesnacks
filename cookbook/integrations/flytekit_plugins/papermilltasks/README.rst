@@ -5,9 +5,6 @@ It is possible to run a Jupyter notebook as a Flyte task using `papermill <https
 Papermill executes the notebook as a whole, so before using this plugin, it is essential to construct your notebook as
 recommended by papermill. When using this plugin, there are a few important things to keep in mind:
 
-Salient points
---------------
-
 1. This plugin can be used for any task - type.
     - It can be python code, which can be a tensorflow model, a data transformation, etc - but things that run in a container
       and you would typically write in a ``@task``.
