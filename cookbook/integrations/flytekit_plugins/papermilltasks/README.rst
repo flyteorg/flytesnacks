@@ -9,8 +9,7 @@ Salient points
 --------------
 
 #. This plugin can be used for any task - type.
-   - It can be python code, which can be a tensorflow model, a data transformation, etc - but things that run in a
-     container and you would typically write in a ``@task``.
+   - It can be python code, which can be a tensorflow model, a data transformation, etc - but things that run in a container and you would typically write in a ``@task``.
    - It can be a :py:func:`~flytekit.dynamic` workflow.
    - It can be a any other plugin like ``spark``, ``sagemaker`` etc, **ensure that the plugin is installed as well**
 #. Flytekit will execute the notebook and capture the output notebook as an *.ipynb* file and an HTML rendered notebook as well
