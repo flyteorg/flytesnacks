@@ -1,3 +1,12 @@
+"""
+MPIJob Example
+--------------
+
+This example showcases how to perform distributed convolutional neural network training on MNIST data.
+"""
+
+# %%
+# First, let's import the necessary dependencies.
 import os
 import pathlib
 
@@ -9,13 +18,18 @@ from flytekit.types.directory import FlyteDirectory
 from flytekit.core.base_task import IgnoreOutputs
 from flytekitplugins.kfmpi import MPIJob
 
+# %%
+# We define a training step that will be called from the training loop.
+# This step captures the training loss and updates the model weights through gradients.
+# The all reduce algorithm comes into the picture in this function.
 @tf.function
 def training_step(images, labels, first_batch, mnist_model, loss, opt):
     with tf.GradientTape() as tape:
         probs = mnist_model(images, training=True)
         loss_value = loss(labels, probs)
 
-    # Horovod: add Horovod Distributed GradientTape.
+    # Horovod: add Horovod Distributed GradientTape — a tape that wraps another tf.GradientTape,
+    # using an allreduce to combine gradient values before applying gradients to model weights.
     tape = hvd.DistributedGradientTape(tape)
 
     grads = tape.gradient(loss_value, mnist_model.trainable_variables)
@@ -33,7 +47,16 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
 
     return loss_value
 
-
+# %%
+# We define an MPIJob-enabled task. The configuration given in the MPIJob constructor will be used to set up the distributed training environment.
+#
+# In general, this task executes the following operations:
+#
+# #. Loads the MNIST data
+# #. Prepares the data for training
+# #. Initializes a convnet model
+# #. Calls the `training_step()` function to train the model
+# #. Saves the model and checkpoint history and returns the result
 @task(
     task_config=MPIJob(
         num_workers=2,
@@ -42,7 +65,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     ),
     retries=3,
     cache=True,
-    cache_version="0.5",
+    cache_version="0.1",
     requests=Resources(cpu='1', mem="3000Mi"),
     limits=Resources(cpu='2', mem="6000Mi"),
 )
@@ -104,7 +127,8 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     )
     return FlyteDirectory(path=str(working_dir))
 
-
+# %%
+# Lastly, we can call the workflow and run the example.
 @workflow
 def horovod_training_wf(batch_size: int = 128, buffer_size: int = 10000, dataset_size: int = 10000) -> FlyteDirectory:
     """

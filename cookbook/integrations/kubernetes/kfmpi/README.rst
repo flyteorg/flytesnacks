@@ -1,54 +1,66 @@
 .. _kf-mpi-op:
 
 MPI Operator
-=================
+============
 
-This plugin uses the Kubeflow MPI Operator and provides an extremely simplified interface for executing distributed training using MPI.
+The upcoming example shows how to use MPI in Horovod.
+
+Horovod
+-------
+`Horovod <http://horovod.ai/>`__ is a distributed deep learning training framework for TensorFlow, Keras, PyTorch, and Apache MXNet.
+Its goal is to make distributed Deep Learning fast and easy to use via ring-allreduce and requires only a few lines of modification to user code.
+
+MPI
+---
+The MPI operator plugin within Flyte uses the `Kubeflow MPI Operator <https://github.com/kubeflow/mpi-operator>`__, which makes it easy to run an all reduce-style distributed training on Kubernetes.
+It provides an extremely simplified interface for executing distributed training using MPI.
+
+MPI and Horovod together can be leveraged to simplify the process of distributed training. The MPI Operator provides a convenient wrapper to run the Horovod scripts.
 
 Installation
 ------------
 
-To use the flytekit distributed mpi plugin simply run the following:
+To use the Flytekit MPI Operator plugin, run the following command:
 
 .. prompt:: bash
 
    pip install flytekitplugins-kfmpi
 
-Define Flyte Task
-------------
+Example of an MPI-enabled Flyte Task
+------------------------------------
+
+In this code block, you can see the three parameters that an MPIJob can accept.
 
 .. code-block:: python
-    :emphasize-lines: 1
-    :linenos:
 
     @task(
-    task_config=MPIJob(
-        # number of worker spawned in the cluster for this job
-        num_workers=2,
-        # number of launcher replicas spawned in the cluster for this job
-        # The launcher pod invokes mpirun and communicates with worker pods through MPI.
-        num_launcher_replicas=1,
-        # number of slots per worker used in hostfile.
-        # The available slots (GPUs) in each pod.
-        slots=1,
-    ),
-    requests=Resources(cpu='1', mem="3000Mi"),
-    limits=Resources(cpu='2', mem="6000Mi"),
-    retries=3,
-    cache=True,
-    cache_version="0.5",
+        task_config=MPIJob(
+            # number of worker to be spawned in the cluster for this job
+            num_workers=2,
+            # number of launcher replicas to be spawned in the cluster for this job
+            # the launcher pod invokes mpirun and communicates with worker pods through MPI
+            num_launcher_replicas=1,
+            # number of slots per worker used in the hostfile
+            # the available slots (GPUs) in each pod
+            slots=1,
+        ),
+        requests=Resources(cpu='1', mem="3000Mi"),
+        limits=Resources(cpu='2', mem="6000Mi"),
+        retries=3,
+        cache=True,
+        cache_version="0.5",
     )
+    def mpi_task(...):
+        # do some work
+        pass
 
-How to build your Dockerfile for MPI on K8s
------------------------------------------------
+Dockerfile for MPI on K8s
+-------------------------
 
-.. prompt:: bash
-
-   make -C integrations/kubernetes/kfmpi requirements
-
+The Dockerfile has to have the installation commands for MPI and Horovod, amongst others.
 
 .. code-block:: docker
-    :emphasize-lines: 1
+    :emphasize-lines: 43-67,76
     :linenos:
 
     FROM ubuntu:focal
@@ -140,3 +152,4 @@ How to build your Dockerfile for MPI on K8s
     ARG tag
     ENV FLYTE_INTERNAL_IMAGE $tag
 
+*Backend installation documentation coming soon!*
