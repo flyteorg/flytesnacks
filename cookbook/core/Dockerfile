@@ -33,3 +33,5 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
+
+RUN pip install -U flytekit==0.24.0b0
