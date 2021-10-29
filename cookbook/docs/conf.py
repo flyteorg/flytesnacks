@@ -39,13 +39,16 @@ class CustomSorter(FileNameSortKey):
         "task.py",
         "basic_workflow.py",
         "imperative_wf_style.py",
+        "documented_workflow.py",
         "lp.py",
         "task_cache.py",
+        "reference_task.py",
         "files.py",
         "folders.py",
-        "named_outputs.py"
+        "named_outputs.py",
         # Control Flow
         "run_conditions.py",
+        "chain_tasks.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -266,6 +269,7 @@ examples_dirs = [
     "../integrations/kubernetes/k8s_spark",
     # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "../integrations/kubernetes/kfpytorch",
+    "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
@@ -298,6 +302,7 @@ gallery_dirs = [
     "auto/integrations/kubernetes/k8s_spark",
     # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
     "auto/integrations/kubernetes/kfpytorch",
+    "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
