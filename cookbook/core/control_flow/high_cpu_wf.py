@@ -4,16 +4,16 @@ import uuid
 from typing import Optional, List
 
 from flytekit import map_task, workflow, task, Resources
-from flytekit.interfaces.data.data_proxy import FileAccessProvider
+from flytekit.core.data_persistence import FileAccessProvider
 from flytekit.loggers import logger
 from flytekit.remote import FlyteRemote
 
 logger.setLevel(logging.INFO)
 
-FLYTE_HOST = "<FILL IN>"
+FLYTE_HOST = "development.uniondemo.run"
 DOMAIN = "development"
-WORKFLOW_ID_TO_RUN = "<FILL IN>.single_integer_map_task"
-WORKFLOW_VERSION_TO_RUN = "<FILL IN>"
+WORKFLOW_ID_TO_RUN = "core.control_flow.high_cpu_wf.single_integer_map_task"
+WORKFLOW_VERSION_TO_RUN = "v4"
 
 
 # Number of processes used to start workflows with
@@ -39,11 +39,9 @@ def single_integer_map_task(number_of_inputs: int) -> None:
 
 
 def start_workflow(random_id: str, input_integers_queue: mp.Queue) -> None:  # type: ignore
-    remote = FlyteRemote(
-        flyte_admin_url=FLYTE_HOST,
-        default_domain=DOMAIN,
-        file_access=FileAccessProvider(local_sandbox_dir="/tmp/flyte_local_sandbox_dir"),
-    )
+    remote = FlyteRemote.from_config(default_project="flytesnacks",
+    default_domain="development",
+    config_file_path="/Users/ketanumare/.flyte/config")
     flyte_workflow = remote.fetch_workflow(
         name=WORKFLOW_ID_TO_RUN,
         version=WORKFLOW_VERSION_TO_RUN,
