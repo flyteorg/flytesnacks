@@ -5,6 +5,22 @@ Dynamic Workflows
 A workflow is typically static where the directed acyclic graph's (DAG) structure is known at compile-time. However,
 scenarios exist where a run-time parameter (e.g. the output of an earlier task) determines the full DAG structure.
 
+Dynamic workflows are similar to a :py:func:`flytekit.workflow`, as in, they represent a python-esque DSL, to
+declare task interactions or new workflows. One major difference between a workflow and dynamic (workflow), is that
+``@dyanmic`` workflows are evaluated at runtime, i.e., the inputs are first materialized and sent to the actual function,
+as if it were a task. But the return value from a dynamic workflow, instead of an actual Return value, is a promise
+for the return value, which can be fulfilled by evaluating the various tasks that were invoked in the dynamic workflow.
+
+Within a ``@dynamic`` context (function), every invocation of a :py:func:`flytekit.task` or a derivative of
+:std:ref:`generated/flytekit.core.base_task.Task` class, will result in deferred evaluation using a promise, instead
+of the actual value being materialized. You can also nest other ``@dynamic`` and ``@workflow`` constructs within this
+task. But, it is not possible to interact with the outputs of a ``task/workflow`` as they are lazily evaluated.
+
+If you want to interact with the outputs, break up the logic into dynamic and create a new task to read the outputs
+and resolve.
+
+Refer to :py:func:`flytekit.dynamic` for more documentation.
+
 Dynamic workflows can be used in such cases. Here's a code example that counts the common characters between any two
 strings.
 
@@ -62,7 +78,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 # Therefore, ``@dynamic`` decorator has to be used.
 #
 # Dynamic workflow is effectively both a task and a workflow. The key thing to note is that the _body of tasks is run at run time and the
-# body of workflows is run at compile (aka registration) time_. Essentially, this is what a dynamic workflow leverages -- it’s a workflow that is compiled at run time (the best of both worlds)!
+# body of workflows is run at compile (aka registration) time. Essentially, this is what a dynamic workflow leverages -- it’s a workflow that is compiled at run time (the best of both worlds)!
 #
 # At execution (run) time, Flytekit runs the compilation step, and produces
 # a ``WorkflowTemplate`` (from the dynamic workflow), which Flytekit then passes back to Flyte Propeller for further running, exactly how sub-workflows are handled.
