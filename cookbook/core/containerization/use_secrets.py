@@ -63,7 +63,7 @@ You can configure the additional secret manager by defining `secretManagerType` 
 the `core config <https://github.com/flyteorg/flyte/blob/master/kustomize/base/single_cluster/headless/config/propeller/core.yaml#L34>` of the Flytepropeller.
 
 When using the K8s secret manager plugin (enabled by default), the secrets need to be available in the same namespace as the task execution
-(for example `flytesnacks-development`). K8s secrets can be mounted as both files and injected as environment variables into the task pod, 
+(for example `flytesnacks-development`). K8s secrets can be mounted as either files or injected as environment variables into the task pod, 
 so if you need to make larger files available to the task, then this might be the better option. 
 Furthermore, this method also allows you to have separate credentials for different domains but still using the same name for the secret. 
 The `group` of the secret request corresponds to the K8s secret name, while the `name` of the request corresponds to the key of the specific entry in the secret.    
