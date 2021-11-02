@@ -70,7 +70,7 @@ The `group` of the secret request corresponds to the K8s secret name, while the 
 
 When using the Vault secret manager, make sure you have Vault Agent deployed on your cluster (`step-by-step tutorial <https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar>`_).
 Vault secrets can only be mounted as files and will become available under "/etc/flyte/secrets/SECRET_GROUP/SECRET_NAME". Vault comes with `two versions <https://www.vaultproject.io/docs/secrets/kv>`_ of the key-value secret store. 
-By default the Vault secret manager will try to retrieve Version 2 secrets. You can specify the KV version by setting webhook.vaultSecretManager.kvVersion in the configmap. Note that the version nr. needs to be an explicit string (e.g. "1").
+By default the Vault secret manager will try to retrieve Version 2 secrets. You can specify the KV version by setting webhook.vaultSecretManager.kvVersion in the configmap. Note that the version number needs to be an explicit string (e.g. "1").
 You can also configure the Vault role under which Flyte will try to read the secret by setting webhook.vaultSecretManager.role (default: "flyte").
 
 
