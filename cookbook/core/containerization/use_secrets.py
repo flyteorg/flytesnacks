@@ -55,7 +55,7 @@ When a task requests a secret Flytepropeller will try to retrieve secrets in the
 Note that the global secrets take precedence over any secret discoverable by the secret manager plugins. 
 
 The following additional secret managers are available at the time of writing: 
-- `K8s secrets <https://kubernetes.io/docs/concepts/configuration/secret/>`_ (default) - Flytepropeller will try to look for a K8s secret named after the secret Group and retrieve the value for the secret Key.
+- `K8s secrets <https://kubernetes.io/docs/concepts/configuration/secret/>`_ (default) - flyte-pod-webhook will try to look for a K8s secret named after the secret Group and retrieve the value for the secret Key.
 - AWS Secret Manager - Flytepropeller will add the AWS Secret Manager sidecar container to a task Pod which will mount the secret.
 - `Vault Agent Injector <https://www.vaultproject.io/docs/platform/k8s/injector>`_ - Flytepropeller will annotate the task Pod with the respective Vault annotations that trigger an existing Vault Agent Injector to retrieve the specified secret Key from a vault path defined as secret Group.
 
