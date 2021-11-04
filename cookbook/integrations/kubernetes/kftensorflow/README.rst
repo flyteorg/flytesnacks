@@ -15,7 +15,7 @@ Kubernetes. It leverages `TF Job <https://github.com/kubeflow/tf-operator>`_ Plu
 
     from flytekit import PythonFunctionTask, Resources
     from flytekit.extend import SerializationSettings, TaskPlugins
-    from flytekit.models.task import TensorFlowJob
+    from flytekitplugins.kftensorflow.models import TensorFlowJob
 
 
     @dataclass
