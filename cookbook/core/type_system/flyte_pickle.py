@@ -13,6 +13,11 @@ investment figuring out all the types of their data structures before experienci
 Flyte supports FlytePickle transformer which will convert any unrecognized type in type hint to
 FlytePickle, and serialize / deserialize the python value to / from a pickle file.
 
+Caveats
+=======
+Pickle can only be used to send objects between the exact same version of Python,
+and we strongly recommend to use python type that flyte support or register a custom transformer
+
 This example shows how users can custom object without register a transformer.
 """
 from flytekit import task, workflow
@@ -24,9 +29,9 @@ from flytekit import task, workflow
 #
 # .. Note::
 #
-#   Pickle can only be used to send objects between the exact same version of Python,
-#   and we strongly recommend to use python type that flyte support
-#
+#   Here we can also turn this object to dataclass to have better performance.
+#   We use simple object here for demo purpose.
+#   You may have some object that can't turn into a dataclass, e.g. NumPy, Tensor.
 class People:
     def __init__(self, name):
         self.name = name
