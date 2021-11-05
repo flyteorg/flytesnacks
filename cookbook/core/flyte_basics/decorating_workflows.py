@@ -50,7 +50,7 @@ def teardown():
 # %%
 # As you can see, you can even use Flytekit's current context to access the ``execution_id`` of the current workflow
 # if you need to link Flyte with the external service so that you reference the same unique identifier in both the
-# external service or Flyte.
+# external service and Flyte.
 #
 # Workflow Decorator
 # ^^^^^^^^^^^^^^^^^^
@@ -77,7 +77,7 @@ def setup_teardown(fn=None, *, before, after):
         # ctx.compilation_state.nodes == [before_node, *nodes_created_by_fn, after_node]
 
         # compile the workflow correctly by making sure `before_node`
-        # runs before the first workflow node and that `after_node`
+        # runs before the first workflow node and `after_node`
         # runs after the last workflow node.
         if ctx.compilation_state is not None:
             # ctx.compilation_state.nodes is a list of nodes defined in the
@@ -98,7 +98,7 @@ def setup_teardown(fn=None, *, before, after):
 #
 # 1. It takes a ``before`` and ``after`` argument, both of which need to be ``@task``-decorated functions. These
 #    tasks will run before and after the main workflow function body.
-# 2. The :py:func:`~flytekit.core.node_creation.create_node` function to creates nodes associated with the ``before``
+# 2. The :py:func:`~flytekit.core.node_creation.create_node` function to create nodes associated with the ``before``
 #    and ``after`` tasks.
 # 3. When ``fn`` is called, under the hood Flytekit creates all the nodes associated with the workflow function body
 # 4. The code within the ``if ctx.compilation_state is not None:`` conditional is executed at compile time, which

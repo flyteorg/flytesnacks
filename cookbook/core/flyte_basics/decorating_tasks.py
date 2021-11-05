@@ -59,7 +59,7 @@ def t1(x: int) -> int:
 # returning it, raising a ``ValueError`` if it violates this assumption.
 #
 # .. note::
-#    The ``validate_output`` output uses :py:func:`~functools.partial` to implement parametrized decorators.
+#    The ``validate_output`` output uses :py:func:`~functools.partial` to implement parameterized decorators.
 
 def validate_output(fn=None, *, floor=0):
     @wraps(fn)
