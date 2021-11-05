@@ -29,7 +29,7 @@ from flytekit import task, workflow
 #
 # .. Note::
 #
-#   Here we can also turn this object to dataclass to have better performance.
+#   Here we can also `turn this object to dataclass <custom_objects.html>`_ to have better performance.
 #   We use simple object here for demo purpose.
 #   You may have some object that can't turn into a dataclass, e.g. NumPy, Tensor.
 class People:
