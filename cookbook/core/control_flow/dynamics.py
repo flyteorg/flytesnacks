@@ -2,24 +2,22 @@
 Dynamic Workflows
 ------------------
 
-A workflow is typically static where the directed acyclic graph's (DAG) structure is known at compile-time. However,
-scenarios exist where a run-time parameter (e.g. the output of an earlier task) determines the full DAG structure.
+A workflow is typically static where the directed acyclic graph's (DAG) structure is known at compile-time.
+However, in cases where a run-time parameter (e.g. the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
 
-Dynamic workflows can be used in such cases.
-
-A dynamic workflow is similar to the :py:func:`flytekit.workflow`, as in, it represents a python-esque DSL to
-declare task interactions or new workflows. One significant difference between workflow and dynamic (workflow) is that
-``@dynamic`` workflows are evaluated at runtime, i.e., the inputs are first materialized and sent to the actual function,
-as if it were a task; however, the return value from a dynamic workflow is a promise rather than an actual value,
+A dynamic workflow is similar to the :py:func:`~flytekit.workflow`, in that it represents a python-esque DSL to
+declare task interactions or new workflows. One significant difference between a regular workflow and dynamic (workflow) is that
+the latter is evaluated at runtime. This means that the inputs are first materialized and sent to the actual function,
+as if it were a task. However, the return value from a dynamic workflow is a promise rather than an actual value,
 which can be fulfilled by evaluating the various tasks that were invoked in the dynamic workflow.
 
-Within the ``@dynamic`` context (function), every invocation of a :py:func:`flytekit.task` or a derivative of
-:py:class:`flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
+Within the ``@dynamic`` context (function), every invocation of a :py:func:`~flytekit.task` or a derivative of
+:py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
 of the actual value being materialized. You can also nest other ``@dynamic`` and ``@workflow`` constructs within this
 task, but it is not possible to interact with the outputs of a ``task/workflow`` as they are lazily evaluated.
 If you want to interact with the outputs, break up the logic in dynamic and create a new task to read and resolve the outputs.
 
-Refer to :py:func:`flytekit.dynamic` for more documentation.
+Refer to :py:func:`~flytekit.dynamic` for more documentation.
 
 Here's a code example that counts the common characters between any two strings.
 """

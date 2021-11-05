@@ -2,7 +2,7 @@
 Workflows
 ----------
 
-Once you've had a handle on tasks, we can dive into Flyte workflows. Workflow is the other fundamental building block of Flyte apart from a Flyte task.
+Once you have a handle on tasks, we can dive into Flyte workflows. Together, Flyte tasks and workflows make up the fundamental building blocks of Flyte.
 
 Workflows string together two or more tasks. They are also written as Python functions, but it is essential to make a
 critical distinction between tasks and workflows.
@@ -10,8 +10,8 @@ critical distinction between tasks and workflows.
 The body of a task's function runs at "run time", i.e., on a K8s cluster (using the task's container), in a Query
 Engine like BigQuery, or some other hosted service like AWS Batch, Sagemaker, etc. The body of a
 workflow is not used for computation; it is only used to structure tasks.
-As such, the body of a workflow runs at "registration" time, i.e., the workflow unwraps during registration.
-Registration refers to uploading the packaged (serialized) code to the Flyte backend, in order to be able to trigger the workflow.
+The body of a workflow runs at "registration" time, i.e., the workflow unwraps during registration.
+Registration refers to uploading the packaged (serialized) code to the Flyte backend so that the workflow can be triggered.
 Please refer to the :std:ref:`registration docs <flyte:divedeep-registration>` to understand registration in Flyte.
 
 Now, let's get started with a simple workflow.
@@ -53,8 +53,8 @@ def my_wf(a: int, b: str) -> Tuple[int, str]:
 #
 # A workflow can be executed locally where the evaluation will happen immediately, or using the CLI, UI, etc., which will trigger an evaluation.
 # Although Flyte workflows decorated with ``@workflow`` look like Python functions, they are actually python-esque, Domain Specific Language (DSL) entities 
-# that recognize the ``@task`` decorators. When a workflow encounters a ``@task`` decorator, it creates a
-# :py:class:`flytekit.core.promise.Promise` object, fulfillment of which will be deferred until the actual execution time.
+# that recognize the ``@task`` decorators. When a workflow encounters a ``@task``-decorated Python function, it creates a
+# :py:class:`flytekit.core.promise.Promise` object. This promise doesn't contain the actual output of the task, and is only fulfilled at execution time.
 #
 # .. note::
 #   Refer to :py:func:`flytekit.dynamic` to create Flyte workflows dynamically. In a dynamic workflow, unlike a simple workflow,
@@ -67,7 +67,7 @@ def my_wf(a: int, b: str) -> Tuple[int, str]:
 #
 # .. note::
 #
-#   Currently we only support ``Keyword arguments``. So
+#   Currently we only support ``keyword arguments``, so
 #   every argument should be passed in the form of ``arg=value``. Failure to do so
 #   will result in an error.
 if __name__ == "__main__":
