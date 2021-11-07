@@ -50,7 +50,7 @@ endif
 setup:
 	$(call LOG,Starting Flyte sandbox)
 	flytectl sandbox start --source=$(shell pwd)
-	flytectl config init
+	# flytectl config init
 
 .PHONY: start
 start: setup fast_register
