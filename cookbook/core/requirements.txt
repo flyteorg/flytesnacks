@@ -117,7 +117,7 @@ pytz==2018.4
     # via
     #   flytekit
     #   pandas
-regex==2021.11.9
+regex==2021.11.10
     # via docker-image-py
 requests==2.26.0
     # via
