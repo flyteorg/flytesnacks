@@ -127,8 +127,41 @@ A backend plugin essentially makes it possible for users to write extensions for
 How do I decide which path to take?
 ===============================================
 
-.. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/core/extend_flyte_flowchart.png
-    :alt: Ok you want to add a plugin, but which type? Follow the flowchart and then select the right next steps.
+.. mermaid::
+
+    flowchart LR
+        U{Use Case}
+        F([Python Flytekit Plugin])
+        B([Golang Backend Plugin])
+        T([Flytekit Type Transformer])
+        M([Meta DSL on Flytekit])
+        UCP([User Container Plugin])
+        PCP([Pre-built Container Plugin])
+        K8S([K8s Plugin])
+        WP([WebAPI Plugin])
+        CP([Complex Plugin])
+        FSA([Flyte Service API])
+        NLS([New Language SDK])
+
+        U -- Light-weight Extensions --> F
+        U -- Performant, Multi-language Extensions --> B
+        U -- Specialized Domain-specific Types --> T
+        U -- Customized Interface, No-code Solutions --> FSA
+        U -- SDK Support in Another Language? --> NLS
+        U -- Write New Experiences for your Users --> M
+        F -- Require user-defined container --> UCP
+        F -- Provide prebuilt container --> PCP
+        B --> K8S
+        B --> WP
+        B --> CP
+
+        style U fill:#fff2b2,stroke:#333
+        style B fill:#EAD1DC,stroke:#333
+        style K8S fill:#EAD1DC,stroke:#333
+        style WP fill:#EAD1DC,stroke:#333
+        style CP fill:#EAD1DC,stroke:#333
+        style FSA fill:#bfdaf2,stroke:#333
+        style NLS fill:#bfdaf2,stroke:#333
 
 
 Use the conclusion of the flow-chart to point you to one of the examples below:
