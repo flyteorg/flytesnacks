@@ -1,0 +1,2 @@
+-r ../../../common/requirements-common.in
+git+https://github.com/flyteorg/flytekit.git@3d1f5877ceed720da94a2fc505df1e3ae0781eeb#subdirectory=plugins/flytekit-xgboost
