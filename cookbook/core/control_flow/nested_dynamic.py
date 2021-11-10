@@ -16,6 +16,13 @@ def run_lps_wf() -> typing.Tuple[int, int]:
     return run_lps()
 
 
+@workflow
+def static_run_lps_wf() -> typing.Tuple[int, int]:
+    x = my_lp(val=5)
+    y = default_lp(val=7)
+    return x, y
+
+
 @dynamic
 def run_subwfs() -> typing.Tuple[int, int]:
     x = my_wf(val=5)
