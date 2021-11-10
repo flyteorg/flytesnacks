@@ -143,8 +143,7 @@ Summary
     flowchart LR
         U{Use Case}
         F([Python Flytekit Plugin])
-        B([Golang Backend Plugin])
-        T([Flytekit Type Transformer])
+        B([Golang<br>Backend Plugin])
 
         subgraph WFTP[Writing Flytekit Task Plugins]
         UCP([User Container Plugin])
@@ -158,14 +157,14 @@ Summary
         end
 
         subgraph WCFT[Writing Custom Flyte Types]
-        T([Flytekit Type Transformer])
+        T([Flytekit<br>Type Transformer])
         end
 
-        U -- Light-weight Extensions --> F
-        U -- Performant, Multi-language Extensions --> B
-        U -- Specialized Domain-specific Types --> T
-        F -- Require user-defined container --> UCP
-        F -- Provide prebuilt container --> PCP
+        U -- Light-weight<br>Extensions --> F
+        U -- Performant<br>Multi-language<br>Extensions --> B
+        U -- Specialized<br>Domain-specific Types --> T
+        F -- Require<br>user-defined<br>container --> UCP
+        F -- Provide<br>prebuilt<br>container --> PCP
         B --> K8S
         B --> WP
         B --> CP
