@@ -1,4 +1,4 @@
 -r ../common/requirements-common.in
 # Some examples need openCV
 opencv-python
-git+https://github.com/flyteorg/flytekit.git@6ae9446ddd804a96e14ab9eb9b9398d92989ca58#setup.py
+git+https://github.com/flyteorg/flytekit.git@6beda393ac6b11edcae84c1f612773c8d062a36f

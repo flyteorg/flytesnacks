@@ -42,7 +42,7 @@ docstring-parser==0.12
     # via flytekit
 flyteidl==0.21.8
     # via flytekit
-flytekit @ git+https://github.com/flyteorg/flytekit.git@6ae9446ddd804a96e14ab9eb9b9398d92989ca58
+flytekit @ git+https://github.com/flyteorg/flytekit.git@6beda393ac6b11edcae84c1f612773c8d062a36f
     # via -r requirements.in
 grpcio==1.41.1
     # via flytekit
@@ -99,7 +99,7 @@ py==1.11.0
     # via retry
 pyarrow==6.0.0
     # via flytekit
-pyparsing==3.0.5
+pyparsing==3.0.6
     # via matplotlib
 python-dateutil==2.8.1
     # via

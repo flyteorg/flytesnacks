@@ -13,10 +13,12 @@ from flytekit.extras.tasks.shell import OutputLocation, ShellTask
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 
+
 t1 = ShellTask(
     name="task_1",
     debug=True,
     script="""
+    set -ex
     echo "Hey there! Let's run some bash scripts using Flyte's ShellTask."
     echo "Showcasing Flyte's Shell Task." >> {{ .inputs.x }}
     if grep -Fxq "Flyte" {{ .inputs.x }}
@@ -32,10 +34,12 @@ t1 = ShellTask(
     ],
 )
 
+
 t2 = ShellTask(
     name="task_2",
     debug=True,
     script="""
+    set -ex
     cp {{ .inputs.x }} {{ .inputs.y }}
     tar -zcvf {{ .outputs.y }} {{ .inputs.y }}
     """,
@@ -45,20 +49,24 @@ t2 = ShellTask(
     ],
 )
 
+
 t3 = ShellTask(
     name="task_3",
     debug=True,
     script="""
-    unzip {{ .inputs.z }}
-    cat /{{ .inputs.y }}/{{ .inputs.x }} | wc -m >> {{ .outputs.z }}
+    set -ex
+    tar -zxvf {{ .inputs.z }}
+    cat {{ .inputs.x }} | wc -m > {{ .outputs.z }}
     """,
-    inputs=kwtypes(x=FlyteFile, y=FlyteDirectory, z=FlyteFile),
+    inputs=kwtypes(x=FlyteFile, z=FlyteFile),
     output_locs=[OutputLocation(var="z", var_type=FlyteFile, location="output.txt")],
 )
 
+
 # %%
 # * The ``inputs`` parameter is useful for specifying the types of inputs that the task will accept
-# * The ``output_locs`` parameter is helpful to specify the output locations, which could be a ``FlyteFile`` or ``FlyteDirectory``
+# * The ``output_locs`` parameter is helpful to specify the output locations, which could be a ``FlyteFile`` or
+#   ``FlyteDirectory``
 # * The ``script`` parameter is the actual bash script that will be executed
 # * The ``debug`` parameter is useful for debugging
 #
@@ -80,7 +88,7 @@ def wf() -> FlyteFile:
     x, y = create_entities()
     t1_out = t1(x=x)
     t2_out = t2(x=t1_out, y=y)
-    t3_out = t3(x=x, y=y, z=t2_out)
+    t3_out = t3(x=x, z=t2_out)
     return t3_out
 
 
