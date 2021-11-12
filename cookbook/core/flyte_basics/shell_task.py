@@ -4,13 +4,14 @@ Run Bash Scripts Using ShellTask
 
 To run bash scripts from within Flyte, ShellTask can be used. In this example, let's define three ShellTasks to run some simple bash commands.
 """
+import os
+from typing import Tuple
+
 import flytekit
-from flytekit import kwtypes, workflow, task
-from flytekit.extras.tasks.shell import ShellTask, OutputLocation
+from flytekit import kwtypes, task, workflow
+from flytekit.extras.tasks.shell import OutputLocation, ShellTask
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
-from typing import Tuple
-import os
 
 t1 = ShellTask(
     name="task_1",
@@ -35,7 +36,6 @@ t2 = ShellTask(
     name="task_2",
     debug=True,
     script="""
-    echo ""
     cp {{ .inputs.x }} {{ .inputs.y }}
     tar -zcvf {{ .outputs.y }} {{ .inputs.y }}
     """,
