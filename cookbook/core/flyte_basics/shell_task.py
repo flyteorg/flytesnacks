@@ -21,7 +21,7 @@ t1 = ShellTask(
     set -ex
     echo "Hey there! Let's run some bash scripts using Flyte's ShellTask."
     echo "Showcasing Flyte's Shell Task." >> {{ .inputs.x }}
-    if grep -Fxq "Flyte" {{ .inputs.x }}
+    if grep "Flyte" {{ .inputs.x }}
     then
         echo "Found it!" >> {{ .inputs.x }}
     else
@@ -56,9 +56,9 @@ t3 = ShellTask(
     script="""
     set -ex
     tar -zxvf {{ .inputs.z }}
-    cat {{ .inputs.x }} | wc -m > {{ .outputs.z }}
+    cat {{ .inputs.y }}/$(basename {{ .inputs.x }}) | wc -m > {{ .outputs.z }}
     """,
-    inputs=kwtypes(x=FlyteFile, z=FlyteFile),
+    inputs=kwtypes(x=FlyteFile, y=FlyteDirectory, z=FlyteFile),
     output_locs=[OutputLocation(var="z", var_type=FlyteFile, location="output.txt")],
 )
 
@@ -88,7 +88,7 @@ def wf() -> FlyteFile:
     x, y = create_entities()
     t1_out = t1(x=x)
     t2_out = t2(x=t1_out, y=y)
-    t3_out = t3(x=x, z=t2_out)
+    t3_out = t3(x=x, y=y, z=t2_out)
     return t3_out
 
 
