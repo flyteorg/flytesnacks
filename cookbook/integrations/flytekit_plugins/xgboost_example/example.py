@@ -1,28 +1,30 @@
-from dataclasses import asdict, dataclass
 from typing import Dict, List, NamedTuple
 
 import xgboost
-from dataclasses_json import dataclass_json
-from flytekitplugins.xgboost import TrainParameters, XGBoostTask
+from flytekitplugins.xgboost import (
+    HyperParameters,
+    ModelParameters,
+    XGBoostParameters,
+    XGBoostTrainerTask,
+)
 
 from flytekit import kwtypes, task, workflow
 from flytekit.types.file import FlyteFile, JoblibSerializedFile
 
 
-@dataclass_json
-@dataclass
-class Hyperparameters:
-    max_depth: int = 2
-    eta: int = 1
-    objective: str = "binary:logistic"
-    verbosity: int = 2
-
-
-xgboost_trainer = XGBoostTask(
+xgboost_trainer = XGBoostTrainerTask(
     name="xgboost_trainer",
-    hyperparameters=asdict(Hyperparameters()),
-    task_config=TrainParameters(num_boost_round=2),
-    inputs=kwtypes(train=FlyteFile, test=FlyteFile, validation=FlyteFile),
+    config=XGBoostParameters(
+        hyper_parameters=HyperParameters(
+            max_depth=2, eta=1, objective="binary:logistic", verbosity=2
+        ),
+    ),
+    inputs=kwtypes(
+        train=FlyteFile,
+        test=FlyteFile,
+        validation=FlyteFile,
+        model_parameters=ModelParameters,
+    ),
 )
 
 
@@ -55,11 +57,17 @@ def full_pipeline(
     validation: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
 ) -> wf_output:
     model, predictions, evaluation_result = xgboost_trainer(
-        train=train, test=test, validation=validation
+        train=train,
+        test=test,
+        validation=validation,
+        model_parameters=ModelParameters(num_boost_round=2),
     )
     return (
         model,
-        estimate_accuracy(predictions=predictions, test=test),
+        estimate_accuracy(
+            predictions=predictions,
+            test=test,
+        ),
         evaluation_result,
     )
 

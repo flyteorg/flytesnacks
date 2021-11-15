@@ -46,7 +46,7 @@ flytekit==0.25.0b0
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-xgboost
-flytekitplugins-xgboost @ git+https://github.com/flyteorg/flytekit.git@2f8a442c68c27e3e8e36a9c6b11ebab9e6f40f0d#subdirectory=plugins/flytekit-xgboost
+flytekitplugins-xgboost @ git+https://github.com/flyteorg/flytekit.git@3efe4a37e3e30c63fc9256530dba914fd4c7243a#subdirectory=plugins/flytekit-xgboost
     # via -r requirements.in
 grpcio==1.41.1
     # via flytekit
