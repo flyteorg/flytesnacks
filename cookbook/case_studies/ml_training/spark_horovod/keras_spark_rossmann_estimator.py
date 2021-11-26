@@ -95,7 +95,7 @@ class Hyperparameters:
 
 @task(
     cache=True,
-    cache_version="0.1",
+    cache_version="0.2",
 )
 def download_data() -> FlyteDirectory:
     # create a 'data' directory
