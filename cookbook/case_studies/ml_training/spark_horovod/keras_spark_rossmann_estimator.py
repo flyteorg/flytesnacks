@@ -332,7 +332,7 @@ def data_preparation(
     print("================")
 
     spark = flytekit.current_context().spark_session
-    data_dir_path = data_dir.download()
+    data_dir_path = data_dir.remote_source
     train_csv = spark.read.csv("%s/train.csv" % data_dir_path, header=True)
     test_csv = spark.read.csv("%s/test.csv" % data_dir_path, header=True)
 
