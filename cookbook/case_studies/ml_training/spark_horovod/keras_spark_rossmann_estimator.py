@@ -10,11 +10,11 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from distutils.version import LooseVersion
+from typing import Any, Dict, List, Tuple
 
 import flytekit
-from typing import List, Dict, Any, Tuple
-import pyspark
 import horovod.spark.keras as hvd
+import pyspark
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
 import tensorflow as tf
@@ -95,10 +95,10 @@ class Hyperparameters:
 
 @task(
     cache=True,
-    cache_version="0.2",
+    cache_version="0.1",
 )
 def download_data() -> FlyteDirectory:
-    # create a 'data' directory
+    # create a directory named 'data'
     print("==============")
     print("Downloading data")
     print("==============")
@@ -107,7 +107,7 @@ def download_data() -> FlyteDirectory:
     data_dir = pathlib.Path(os.path.join(working_dir, "data"))
     data_dir.mkdir(exist_ok=True)
 
-    # download the data
+    # download
     download_subprocess = subprocess.run(
         [
             "curl",
@@ -561,7 +561,12 @@ def train(
     return keras_model
 
 
-def test(keras_model, working_dir, test_df, hp) -> FlyteDirectory:
+def test(
+    keras_model,
+    working_dir: FlyteDirectory,
+    test_df: pyspark.sql.DataFrame,
+    hp: Hyperparameters,
+) -> FlyteDirectory:
 
     print("================")
     print("Final prediction")
@@ -609,7 +614,7 @@ def horovod_spark_task(
 
     max_sales, vocab, train_df, test_df = data_preparation(data_dir, hp)
 
-    # working directory will have the model and predcitions as separate files
+    # working directory will have the model and predictions as separate files
     working_dir = flytekit.current_context().working_directory
 
     keras_model = train(
