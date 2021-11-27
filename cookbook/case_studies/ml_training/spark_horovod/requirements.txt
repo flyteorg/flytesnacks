@@ -6,7 +6,7 @@
 #
 aiobotocore==1.4.2
     # via s3fs
-aiohttp==3.7.4.post0
+aiohttp==3.8.0.post0
     # via aiobotocore
 aioitertools==0.8.0
     # via aiobotocore
