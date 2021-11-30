@@ -205,9 +205,9 @@ if os.getenv("SANDBOX") != "":
 else:
     cpu_request = "500m"
     mem_request = "4Gi"
-    gpu_request = "1"
+    gpu_request = "2"
     mem_limit = "8Gi"
-    gpu_limit = "1"
+    gpu_limit = "2"
 
 
 @task(
