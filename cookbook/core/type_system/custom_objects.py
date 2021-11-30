@@ -29,6 +29,8 @@ from flytekit import task, workflow, kwtypes
 # .. note::
 #
 #   All variables in DataClasses should be **annotated with their type**. Failure to do should will result in an error
+from flytekit.types.directory import FlyteDirectory
+from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
 
 
@@ -49,9 +51,9 @@ class Datum(object):
 @dataclass_json
 @dataclass
 class Result:
-    # TODO: Add flytefile and flyte directory
     schema: FlyteSchema
-
+    file: FlyteFile
+    directory: FlyteDirectory
 
 # %%
 # Once declared, dataclasses can be returned as outputs or accepted as inputs
@@ -78,7 +80,7 @@ def create_result() -> Result:
     schema = FlyteSchema[kwtypes(col1=str)]()
     df = pd.DataFrame(data={"col1": ["a", "b", "c"]})
     schema.open().write(df)
-    return Result(schema=schema)
+    return Result(schema=schema, file=FlyteFile("s3://my-s3-bucket/key"), directory=FlyteDirectory("s3://my-s3-bucket"))
 
 
 # %%
