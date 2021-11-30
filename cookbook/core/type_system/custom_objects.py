@@ -12,9 +12,9 @@ excellent `dataclasses_json <https://pypi.org/project/dataclasses-json/>`__ libr
 import typing
 from dataclasses import dataclass
 
+import pandas as pd
 from dataclasses_json import dataclass_json
-from flytekit import task, workflow
-
+from flytekit import task, workflow, kwtypes
 
 # %%
 # This Datum is a user defined complex type, which can be used to pass complex data between tasks.
@@ -29,6 +29,9 @@ from flytekit import task, workflow
 # .. note::
 #
 #   All variables in DataClasses should be **annotated with their type**. Failure to do should will result in an error
+from flytekit.types.schema import FlyteSchema
+
+
 @dataclass_json
 @dataclass
 class Datum(object):
@@ -39,6 +42,15 @@ class Datum(object):
     x: int
     y: str
     z: typing.Dict[int, str]
+
+
+# %%
+# We can also use any Flyte type in dataclass
+@dataclass_json
+@dataclass
+class Result:
+    # TODO: Add flytefile and flyte directory
+    schema: FlyteSchema
 
 
 # %%
@@ -61,14 +73,22 @@ def add(x: Datum, y: Datum) -> Datum:
     return Datum(x=x.x + y.x, y=x.y + y.y, z=x.z)
 
 
+@task
+def create_result() -> Result:
+    schema = FlyteSchema[kwtypes(col1=str)]()
+    df = pd.DataFrame(data={"col1": ["a", "b", "c"]})
+    schema.open().write(df)
+    return Result(schema=schema)
+
+
 # %%
 # Workflow creation remains identical
 @workflow
-def wf(x: int, y: int) -> Datum:
+def wf(x: int, y: int) -> (Datum, Result):
     """
     Dataclasses (JSON) can be returned from a workflow as well.
     """
-    return add(x=stringify(x=x), y=stringify(x=y))
+    return add(x=stringify(x=x), y=stringify(x=y)), create_result()
 
 
 if __name__ == "__main__":
