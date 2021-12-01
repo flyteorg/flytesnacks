@@ -138,14 +138,14 @@ def wf(a: float, b: float):
 
 # %%
 #
-# .. literalinclude:: ./raw-containers-supporting-files/per-language/shell/calcullate-ellipse-area.sh
+# .. literalinclude:: ./raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 #       :language: shell
 #
 # .. panels::
-#   .. literalinclude:: ./raw-containers-supporting-files/per-language/shell/calcullate-ellipse-area.sh
+#   .. literalinclude:: ./raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 #       :language: shell
 #
 #   ---
 #
-#   .. literalinclude:: ./raw-containers-supporting-files/per-language/julia/calcullate-ellipse-area.jl
+#   .. literalinclude:: ./raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
 #       :language: julia
