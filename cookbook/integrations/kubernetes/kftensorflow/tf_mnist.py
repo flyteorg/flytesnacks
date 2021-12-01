@@ -203,7 +203,7 @@ if os.getenv("SANDBOX") != "":
     mem_limit = "1000Mi"
     gpu_limit = "0"
 else:
-    cpu_request = "500m"
+    cpu_request = "1000m"
     mem_request = "4Gi"
     gpu_request = "2"
     mem_limit = "8Gi"
