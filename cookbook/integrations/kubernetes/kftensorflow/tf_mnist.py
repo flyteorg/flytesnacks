@@ -199,12 +199,16 @@ if os.getenv("SANDBOX") != "":
     gpu_request = "0"
     mem_limit = "1000Mi"
     gpu_limit = "0"
+    ephemeral_storage = "500Mi"
+    storage = "500Mi"
 else:
-    cpu_request = "10000m"
-    mem_request = "8Gi"
+    cpu_request = "1000m"
+    mem_request = "30Gi"
     gpu_request = "2"
-    mem_limit = "8Gi"
+    mem_limit = "30Gi"
     gpu_limit = "2"
+    ephemeral_storage = "500Mi"
+    storage = "20Gi"
 
 
 @task(
@@ -212,8 +216,19 @@ else:
     retries=2,
     cache=True,
     cache_version="1.0",
-    requests=Resources(cpu=cpu_request, mem=mem_request, gpu=gpu_request),
-    limits=Resources(mem=mem_limit, gpu=gpu_limit),
+    requests=Resources(
+        cpu=cpu_request,
+        mem=mem_request,
+        gpu=gpu_request,
+        ephemeral_storage=ephemeral_storage,
+        storage=storage,
+    ),
+    limits=Resources(
+        mem=mem_limit,
+        gpu=gpu_limit,
+        storage=storage,
+        ephemeral_storage=ephemeral_storage,
+    ),
 )
 def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
     train_dataset, eval_dataset, strategy = load_data(hyperparameters=hyperparameters)
