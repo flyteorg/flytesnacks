@@ -64,10 +64,7 @@ def load_data(
 
     # fetch train and evaluation datasets
     train_dataset = (
-        mnist_train.map(scale)
-        .cache()
-        .shuffle(hyperparameters.buffer_size)
-        .batch(BATCH_SIZE)
+        mnist_train.map(scale).shuffle(hyperparameters.buffer_size).batch(BATCH_SIZE)
     )
     eval_dataset = mnist_test.map(scale).batch(BATCH_SIZE)
 
