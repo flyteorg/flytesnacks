@@ -194,21 +194,15 @@ training_outputs = NamedTuple(
 )
 
 if os.getenv("SANDBOX") != "":
-    cpu_request = "1000m"
-    mem_request = "1000Mi"
-    gpu_request = "0"
-    mem_limit = "1000Mi"
-    gpu_limit = "0"
+    mem = "1000Mi"
+    gpu = "0"
     ephemeral_storage = "500Mi"
     storage = "500Mi"
 else:
-    cpu_request = "1000m"
-    mem_request = "30Gi"
-    gpu_request = "2"
-    mem_limit = "30Gi"
-    gpu_limit = "2"
-    ephemeral_storage = "500Mi"
-    storage = "30Gi"
+    mem = "30Gi"
+    gpu = "2"
+    ephemeral_storage = "1000Mi"
+    storage = "20Gi"
 
 
 @task(
@@ -217,15 +211,14 @@ else:
     cache=True,
     cache_version="1.0",
     requests=Resources(
-        cpu=cpu_request,
-        mem=mem_request,
-        gpu=gpu_request,
+        mem=mem,
+        gpu=gpu,
         ephemeral_storage=ephemeral_storage,
         storage=storage,
     ),
     limits=Resources(
-        mem=mem_limit,
-        gpu=gpu_limit,
+        mem=mem,
+        gpu=gpu,
         storage=storage,
         ephemeral_storage=ephemeral_storage,
     ),
