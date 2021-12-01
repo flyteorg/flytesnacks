@@ -199,10 +199,10 @@ if os.getenv("SANDBOX") != "":
     ephemeral_storage = "500Mi"
     storage = "500Mi"
 else:
-    mem = "30Gi"
+    mem = "60Gi"
     gpu = "2"
     ephemeral_storage = "1000Mi"
-    storage = "20Gi"
+    storage = "40Gi"
 
 
 @task(
