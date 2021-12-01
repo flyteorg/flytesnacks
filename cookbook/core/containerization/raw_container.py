@@ -135,3 +135,13 @@ def wf(a: float, b: float):
         area_haskell=area_haskell, metadata_haskell=metadata_haskell,
         area_julia=area_julia, metadata_julia=metadata_julia,
     )
+
+# %%
+# .. panels::
+#   .. literalinclude:: ./raw-containers-supporting-files/shell/calcullate-ellipse-area.sh
+#       :language: shell
+#
+#   ---
+#
+#   .. literalinclude:: ./raw-containers-supporting-files/julia/calcullate-ellipse-area.jl
+#       :language: julia
