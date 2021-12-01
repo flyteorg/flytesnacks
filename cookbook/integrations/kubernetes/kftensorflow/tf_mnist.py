@@ -208,7 +208,7 @@ else:
     mem_limit = "30Gi"
     gpu_limit = "2"
     ephemeral_storage = "500Mi"
-    storage = "20Gi"
+    storage = "30Gi"
 
 
 @task(
