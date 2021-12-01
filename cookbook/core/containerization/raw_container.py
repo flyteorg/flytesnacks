@@ -138,14 +138,49 @@ def wf(a: float, b: float):
 
 # %%
 #
-# .. literalinclude::  ../../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
+# Caveats
+# =======
+#
+# Raw containers cannot be run locally at the moment.
+#
+# Appendix
+# ========
+#
+# The contents of each script mentioned above:
+#
+# .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 #       :language: shell
 #
 # .. panels::
-#   .. literalinclude:: ./raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
+#   calculate-ellipse-area.sh
+#
+#   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 #       :language: shell
 #
 #   ---
 #
-#   .. literalinclude:: ./raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
+#   calculate-ellipse-area.py
+#
+#   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
+#       :language: python
+#
+#   ---
+#
+#   calculate-ellipse-area.R
+#
+#   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
+#       :language: r
+#
+#   ---
+#
+#   calculate-ellipse-area.hs
+#
+#   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
+#       :language: haskell
+#
+#   ---
+#
+#   calculate-ellipse-area.jl
+#
+#   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
 #       :language: julia
