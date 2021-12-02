@@ -199,28 +199,28 @@ if os.getenv("SANDBOX") != "":
     ephemeral_storage = "500Mi"
     storage = "500Mi"
 else:
-    mem = "60Gi"
+    mem = "30Gi"
     gpu = "2"
-    ephemeral_storage = "1000Mi"
-    storage = "40Gi"
+    ephemeral_storage = "500Mi"
+    storage = "20Gi"
 
 
 @task(
     task_config=TfJob(num_workers=2, num_ps_replicas=1, num_chief_replicas=1),
     retries=2,
     cache=True,
-    cache_version="1.0",
+    cache_version="2.0",
     requests=Resources(
-        mem=mem,
         gpu=gpu,
-        ephemeral_storage=ephemeral_storage,
+        mem=mem,
         storage=storage,
+        ephemeral_storage=ephemeral_storage,
     ),
     limits=Resources(
-        mem=mem,
         gpu=gpu,
-        storage=storage,
+        mem=mem,
         ephemeral_storage=ephemeral_storage,
+        storage=storage,
     ),
 )
 def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
