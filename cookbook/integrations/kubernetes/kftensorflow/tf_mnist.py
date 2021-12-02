@@ -206,7 +206,7 @@ else:
 
 
 @task(
-    task_config=TfJob(num_workers=2, num_ps_replicas=1, num_chief_replicas=1),
+    # task_config=TfJob(num_workers=2, num_ps_replicas=1, num_chief_replicas=1),
     retries=2,
     cache=True,
     cache_version="2.0",
