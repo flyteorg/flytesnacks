@@ -199,10 +199,10 @@ if os.getenv("SANDBOX") != "":
     ephemeral_storage = "500Mi"
     storage = "500Mi"
 else:
-    mem = "30Gi"
+    mem = "10Gi"
     gpu = "2"
     ephemeral_storage = "500Mi"
-    storage = "20Gi"
+    storage = "10Gi"
 
 
 @task(
@@ -244,7 +244,7 @@ def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
 # Finally we define a workflow to call the ``mnist_tensorflow_job`` task.
 @workflow
 def mnist_tensorflow_workflow(
-    hyperparameters: Hyperparameters = Hyperparameters(epochs=10),
+    hyperparameters: Hyperparameters = Hyperparameters(),
 ) -> training_outputs:
     return mnist_tensorflow_job(hyperparameters=hyperparameters)
 
