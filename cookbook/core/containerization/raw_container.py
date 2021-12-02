@@ -148,9 +148,6 @@ def wf(a: float, b: float):
 #
 # The contents of each script mentioned above:
 #
-# .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
-#       :language: shell
-#
 # .. panels::
 #   calculate-ellipse-area.sh
 #
