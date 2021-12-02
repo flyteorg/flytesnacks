@@ -209,7 +209,7 @@ else:
     task_config=TfJob(num_workers=2, num_ps_replicas=1, num_chief_replicas=1),
     retries=2,
     cache=True,
-    cache_version="2.0",
+    cache_version="1.0",
     requests=Resources(
         gpu=gpu,
         mem=mem,
@@ -244,7 +244,7 @@ def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
 # Finally we define a workflow to call the ``mnist_tensorflow_job`` task.
 @workflow
 def mnist_tensorflow_workflow(
-    hyperparameters: Hyperparameters = Hyperparameters(epochs=2),
+    hyperparameters: Hyperparameters = Hyperparameters(epochs=10),
 ) -> training_outputs:
     return mnist_tensorflow_job(hyperparameters=hyperparameters)
 
