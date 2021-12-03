@@ -80,7 +80,7 @@ jobs:
           flytectl config init
       - name: Register Examples
         run: |
-          flytectl register files -p flytesnacks -d development ./download-artifact/**/*
+          flytectl register files -p flytesnacks -d development ./download-artifact/**/* --version latest
 
   # Download artifacts again and push them to the release only if this is not a pull request
   release:
