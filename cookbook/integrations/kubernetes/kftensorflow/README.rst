@@ -17,7 +17,7 @@ To enable the plugin, follow the instructions outlined in the :std:ref:`flyte:de
 GPU Support
 -----------
 
-GPU support has already been enabled.
+GPU support has been enabled in the code.
 
 * TensorFlow-GPU support is enabled by default in the Dockerfile. If you would like to use a CPU-only environment, you can disable GPU support by replacing ``FROM tensorflow/tensorflow:latest-gpu`` with ``FROM tensorflow/tensorflow:latest``.
 * In a non-sandbox environment, if GPU support has to be disabled, modify the ``gpu_request`` and ``gpu_limit`` variables.
