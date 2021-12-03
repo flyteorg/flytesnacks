@@ -19,6 +19,9 @@ from flytekit import ContainerTask, kwtypes, workflow
 logger = logging.getLogger(__file__)
 
 # %%
+# Container Tasks
+# ===============
+#
 # A :py:class:`flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
 # is ``calculate_ellipse_area_shell``. This name has to be unique in the entire project. Users can specify:
 #
@@ -138,46 +141,35 @@ def wf(a: float, b: float):
 
 # %%
 #
-# Caveats
+# .. note::
+#   Raw containers cannot be run locally at the moment.
+#
+# Scripts
 # =======
-#
-# Raw containers cannot be run locally at the moment.
-#
-# Appendix
-# ========
 #
 # The contents of each script mentioned above:
 #
-# .. panels::
-#   calculate-ellipse-area.sh
-#
+# calculate-ellipse-area.sh
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 #   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 #       :language: shell
 #
-#   ---
-#
-#   calculate-ellipse-area.py
-#
+# calculate-ellipse-area.py
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 #   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
 #       :language: python
 #
-#   ---
-#
-#   calculate-ellipse-area.R
-#
+# calculate-ellipse-area.R
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 #   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
 #       :language: r
 #
-#   ---
-#
-#   calculate-ellipse-area.hs
-#
+# calculate-ellipse-area.hs
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 #   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
 #       :language: haskell
 #
-#   ---
-#
-#   calculate-ellipse-area.jl
-#
+# calculate-ellipse-area.jl
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 #   .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
 #       :language: julia
