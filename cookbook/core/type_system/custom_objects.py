@@ -9,6 +9,8 @@ flytekit supports passing custom data objects between tasks. Currently only data
 This example shows how users can serialize custom JSON-compatible dataclasses between successive tasks using the
 excellent `dataclasses_json <https://pypi.org/project/dataclasses-json/>`__ library
 """
+import os
+import tempfile
 import typing
 from dataclasses import dataclass
 
@@ -76,11 +78,31 @@ def add(x: Datum, y: Datum) -> Datum:
 
 
 @task
-def create_result() -> Result:
-    schema = FlyteSchema[kwtypes(col1=str)]()
-    df = pd.DataFrame(data={"col1": ["a", "b", "c"]})
-    schema.open().write(df)
-    return Result(schema=schema, file=FlyteFile("s3://my-s3-bucket/key"), directory=FlyteDirectory("s3://my-s3-bucket"))
+def upload_result() -> Result:
+    """
+    Flytekit will upload the FlyteFile, FlyteDirectory, FlyteSchema to blob store (GCP, S3)
+    """
+    df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
+    temp_dir = tempfile.mkdtemp(prefix="flyte-")
+
+    schema_path = temp_dir + "/schema.parquet"
+    df.to_parquet(schema_path)
+
+    file_path = tempfile.NamedTemporaryFile(delete=False)
+    file_path.write(b'Hello world!')
+    fs = Result(schema=FlyteSchema(temp_dir), file=FlyteFile(file_path.name), directory=FlyteDirectory(temp_dir))
+    return fs
+
+
+@task
+def download_result(res: Result):
+    """
+    Flytekit will lazily load the FlyteSchema. We download the schema only when users invoke open().
+    """
+    assert pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]}).equals(res.schema.open().all())
+    f = open(res.file, "r")
+    assert f.read() == 'Hello world!'
+    assert os.listdir(res.directory) == ['schema.parquet']
 
 
 # %%
@@ -90,7 +112,9 @@ def wf(x: int, y: int) -> (Datum, Result):
     """
     Dataclasses (JSON) can be returned from a workflow as well.
     """
-    return add(x=stringify(x=x), y=stringify(x=y)), create_result()
+    res = upload_result()
+    download_result(res=res)
+    return add(x=stringify(x=x), y=stringify(x=y)), res
 
 
 if __name__ == "__main__":
