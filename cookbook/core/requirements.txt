@@ -12,7 +12,7 @@ certifi==2021.10.8
     # via requests
 chardet==4.0.0
     # via binaryornot
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via requests
 checksumdir==1.2.0
     # via flytekit
@@ -24,7 +24,7 @@ cloudpickle==2.0.0
     # via flytekit
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.0.15
+croniter==1.1.0
     # via flytekit
 cycler==0.11.0
     # via matplotlib
@@ -40,11 +40,11 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.13
     # via flytekit
-flyteidl==0.21.11
+flyteidl==0.21.12
     # via flytekit
-flytekit @ git+git://github.com/flyteorg/flytekit@flytefile_in_dataclass
+flytekit==0.24.0
     # via -r ../common/requirements-common.in
-fonttools==4.28.2
+fonttools==4.28.3
     # via matplotlib
 grpcio==1.42.0
     # via flytekit

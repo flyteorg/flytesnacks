@@ -77,6 +77,10 @@ def add(x: Datum, y: Datum) -> Datum:
     return Datum(x=x.x + y.x, y=x.y + y.y, z=x.z)
 
 
+# %%
+# Not only primitive type we also support FlyteFile, FlyteDirectory, and FlyteSchema in dataclass.
+# We use a simple task here for demo purpose, and it shows you how to use Flyte type in dataclass.
+# You may want to wrap all the input in dataclass when using a map task which only can accept one input and produce one output.
 @task
 def upload_result() -> Result:
     """

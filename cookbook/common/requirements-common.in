@@ -1,4 +1,3 @@
-# flytekit>=0.24.0b1
+flytekit>=0.24.0b3
 wheel
 matplotlib
-git+git://github.com/flyteorg/flytekit@flytefile_in_dataclass
