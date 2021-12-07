@@ -22,7 +22,7 @@ logger = logging.getLogger(__file__)
 # %%
 #
 # Using a Single Decorator
-# ^^^^^^^^^^^^^^^^^^^^^^^^
+# ^^^^^^^^^^^^^^^^^^^^^^^^z
 #
 # Here we define decorator that logs the input and output information of a decorated task.
 

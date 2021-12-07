@@ -18,7 +18,7 @@ from flytekit import TaskMetadata, map_task, task, workflow
 # %%
 # Note that this is the single task that we'll use in our map task. It can only accept one input and produce one output
 # although this may expand in the future.
-@task
+@task(cache_version="1", cache=True)
 def a_mappable_task(a: int) -> str:
     inc = a + 2
     stringified = str(inc)
