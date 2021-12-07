@@ -8,6 +8,7 @@ In order to make sure that your decorated function contains all the type annotat
 information that Flyte needs, you'll need to use the built-in :py:func:`~functools.wraps` decorator.
 
 """
+from __future__ import annotations
 
 import logging
 from functools import partial, wraps
