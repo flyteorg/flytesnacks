@@ -97,7 +97,7 @@ class Hyperparameters:
     cache=True,
     cache_version="0.1",
 )
-def download_data() -> FlyteDirectory:
+def download_data(dataset: str) -> FlyteDirectory:
     # create a directory named 'data'
     print("==============")
     print("Downloading data")
@@ -111,7 +111,7 @@ def download_data() -> FlyteDirectory:
     download_subprocess = subprocess.run(
         [
             "curl",
-            "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
+            dataset,
         ],
         check=True,
         capture_output=True,
@@ -462,7 +462,7 @@ def train(
     print("==============")
 
     def exp_rmspe(y_true, y_pred):
-        """Competition evaluation metric, expects logarithic inputs."""
+        """Competition evaluation metric, expects logarmithic inputs."""
         pct = tf.square((tf.exp(y_true) - tf.exp(y_pred)) / tf.exp(y_true))
 
         # compute mean excluding stores with zero denominator
@@ -475,6 +475,10 @@ def train(
     def act_sigmoid_scaled(x):
         """Sigmoid scaled to logarithm of maximum sales scaled by 20%."""
         return tf.nn.sigmoid(x) * tf.math.log(max_sales) * 1.2
+
+    # NOTE: exp_rmse and act_sigmoid_scaled functions are not placed at the module level.
+    # This is because we cannot explicitly send max_sales as an argument to act_sigmoid_scaled since it is an activation function.
+    # The two of them are custom objects, and placing one at the module level and the other within the function doesn't really add up.
 
     all_cols = CATEGORICAL_COLS + CONTINUOUS_COLS
     CUSTOM_OBJECTS = {"exp_rmspe": exp_rmspe, "act_sigmoid_scaled": act_sigmoid_scaled}
@@ -631,10 +635,11 @@ def horovod_spark_task(
 
 @workflow
 def horovod_spark_wf(
+    dataset: str = "https://cdn.discordapp.com/attachments/545481172399030272/886952942903627786/rossmann.tgz",
     hp: Hyperparameters = Hyperparameters(),
     work_dir: FlyteDirectory = "s3://flyte-demo/horovod-tmp/",
 ) -> FlyteDirectory:
-    data_dir = download_data()
+    data_dir = download_data(dataset=dataset)
 
     # work_dir corresponds to the Horovod-Spark store
     return horovod_spark_task(data_dir=data_dir, hp=hp, work_dir=work_dir)
