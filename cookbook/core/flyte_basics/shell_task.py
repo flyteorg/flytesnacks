@@ -64,9 +64,8 @@ t3 = ShellTask(
 
 
 # %%
-# * The ``inputs`` parameter is useful for specifying the types of inputs that the task will accept
-# * The ``output_locs`` parameter is helpful to specify the output locations, which could be a ``FlyteFile`` or
-#   ``FlyteDirectory``
+# * The ``inputs`` parameter is useful to specify the types of inputs that the task will accept
+# * The ``output_locs`` parameter is helpful to specify the output locations, could be a ``FlyteFile`` or ``FlyteDirectory``
 # * The ``script`` parameter is the actual bash script that will be executed
 # * The ``debug`` parameter is useful for debugging
 #
