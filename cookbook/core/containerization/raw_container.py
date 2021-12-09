@@ -38,9 +38,9 @@ calculate_ellipse_area_shell = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image="rawcontainers-shell:v1",
     command=[
-        './calculate-ellipse-area.sh',
-        '/var/inputs',
-        '/var/outputs',
+        "./calculate-ellipse-area.sh",
+        "/var/inputs",
+        "/var/outputs",
     ],
 )
 
@@ -52,10 +52,10 @@ calculate_ellipse_area_python = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image="rawcontainers-python:v1",
     command=[
-        'python',
-        'calculate-ellipse-area.py',
-        '/var/inputs',
-        '/var/outputs',
+        "python",
+        "calculate-ellipse-area.py",
+        "/var/inputs",
+        "/var/outputs",
     ],
 )
 
@@ -67,11 +67,11 @@ calculate_ellipse_area_r = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image="rawcontainers-r:v1",
     command=[
-        'Rscript',
-        '--vanilla',
-        'calculate-ellipse-area.R',
-        '/var/inputs',
-        '/var/outputs',
+        "Rscript",
+        "--vanilla",
+        "calculate-ellipse-area.R",
+        "/var/inputs",
+        "/var/outputs",
     ],
 )
 
@@ -83,9 +83,9 @@ calculate_ellipse_area_haskell = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image="rawcontainers-haskell:v1",
     command=[
-        './calculate-ellipse-area',
-        '/var/inputs',
-        '/var/outputs',
+        "./calculate-ellipse-area",
+        "/var/inputs",
+        "/var/outputs",
     ],
 )
 
@@ -97,26 +97,33 @@ calculate_ellipse_area_julia = ContainerTask(
     outputs=kwtypes(area=float, metadata=str),
     image="rawcontainers-julia:v1",
     command=[
-        'julia',
-        'calculate-ellipse-area.jl',
-        '/var/inputs',
-        '/var/outputs',
+        "julia",
+        "calculate-ellipse-area.jl",
+        "/var/inputs",
+        "/var/outputs",
     ],
 )
 
+
 @task
 def report_all_calculated_areas(
-        area_shell: float, metadata_shell: str,
-        area_python: float, metadata_python: str,
-        area_r: float, metadata_r: str,
-        area_haskell: float, metadata_haskell: str,
-        area_julia: float, metadata_julia: str,
+    area_shell: float,
+    metadata_shell: str,
+    area_python: float,
+    metadata_python: str,
+    area_r: float,
+    metadata_r: str,
+    area_haskell: float,
+    metadata_haskell: str,
+    area_julia: float,
+    metadata_julia: str,
 ):
-    logger.info(f'shell: area={area_shell}, metadata={metadata_shell}')
-    logger.info(f'python: area={area_python}, metadata={metadata_python}')
-    logger.info(f'r: area={area_r}, metadata={metadata_r}')
-    logger.info(f'haskell: area={area_haskell}, metadata={metadata_haskell}')
-    logger.info(f'julia: area={area_julia}, metadata={metadata_julia}')
+    logger.info(f"shell: area={area_shell}, metadata={metadata_shell}")
+    logger.info(f"python: area={area_python}, metadata={metadata_python}")
+    logger.info(f"r: area={area_r}, metadata={metadata_r}")
+    logger.info(f"haskell: area={area_haskell}, metadata={metadata_haskell}")
+    logger.info(f"julia: area={area_julia}, metadata={metadata_julia}")
+
 
 # %%
 # As can be seen in this example, ContainerTasks can be interacted with like normal python functions, whose inputs
@@ -132,12 +139,18 @@ def wf(a: float, b: float):
 
     # Report on all results in a single task to simplify comparison
     report_all_calculated_areas(
-        area_shell=area_shell, metadata_shell=metadata_shell,
-        area_python=area_python, metadata_python=metadata_python,
-        area_r=area_r, metadata_r=metadata_r,
-        area_haskell=area_haskell, metadata_haskell=metadata_haskell,
-        area_julia=area_julia, metadata_julia=metadata_julia,
+        area_shell=area_shell,
+        metadata_shell=metadata_shell,
+        area_python=area_python,
+        metadata_python=metadata_python,
+        area_r=area_r,
+        metadata_r=metadata_r,
+        area_haskell=area_haskell,
+        metadata_haskell=metadata_haskell,
+        area_julia=area_julia,
+        metadata_julia=metadata_julia,
     )
+
 
 # %%
 #
