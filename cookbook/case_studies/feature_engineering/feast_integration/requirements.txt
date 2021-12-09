@@ -4,7 +4,9 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make requirements.txt
 #
-anyio==3.3.4
+absl-py==0.12.0
+    # via tensorflow-metadata
+anyio==3.4.0
     # via starlette
 arrow==1.2.1
     # via jinja2-time
@@ -26,7 +28,7 @@ certifi==2021.10.8
     # via requests
 chardet==4.0.0
     # via binaryornot
-charset-normalizer==2.0.7
+charset-normalizer==2.0.9
     # via requests
 checksumdir==1.2.0
     # via flytekit
@@ -42,8 +44,10 @@ colorama==0.4.4
     # via feast
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.0.15
+croniter==1.1.0
     # via flytekit
+cycler==0.11.0
+    # via matplotlib
 dataclasses-json==0.5.6
     # via flytekit
 decorator==5.1.0
@@ -52,13 +56,13 @@ deprecated==1.2.13
     # via flytekit
 dill==0.3.4
     # via feast
-diskcache==5.2.1
+diskcache==5.3.0
     # via flytekit
 docker==5.0.3
     # via feast
 docker-image-py==0.1.12
     # via flytekit
-docstring-parser==0.12
+docstring-parser==0.13
     # via flytekit
 fastapi==0.70.0
     # via feast
@@ -66,13 +70,15 @@ fastavro==1.4.7
     # via
     #   feast
     #   pandavro
-feast[aws]==0.15.0
+feast[aws]==0.16.0
     # via -r requirements.in
-flyteidl==0.21.8
+flyteidl==0.21.12
     # via flytekit
-flytekit==0.24.0
-    # via -r requirements.in
-google-api-core==2.2.2
+flytekit==0.25.0b3
+    # via -r ../../../common/requirements-common.in
+fonttools==4.28.3
+    # via matplotlib
+google-api-core==2.3.0
     # via feast
 google-auth==2.3.3
     # via google-api-core
@@ -80,16 +86,17 @@ googleapis-common-protos==1.52.0
     # via
     #   feast
     #   google-api-core
-grpcio==1.41.1
+    #   tensorflow-metadata
+grpcio==1.42.0
     # via
     #   feast
     #   flytekit
     #   grpcio-reflection
-grpcio-reflection==1.41.1
+grpcio-reflection==1.42.0
     # via feast
 h11==0.12.0
     # via uvicorn
-httptools==0.2.0
+httptools==0.3.0
     # via uvicorn
 idna==3.3
     # via
@@ -102,6 +109,7 @@ importlib-resources==5.4.0
 jinja2==3.0.3
     # via
     #   cookiecutter
+    #   feast
     #   jinja2-time
 jinja2-time==0.2.0
     # via cookiecutter
@@ -113,11 +121,13 @@ joblib==1.1.0
     # via scikit-learn
 jsonschema==4.2.1
     # via feast
-keyring==23.2.1
+keyring==23.4.0
     # via flytekit
+kiwisolver==1.3.2
+    # via matplotlib
 markupsafe==2.0.1
     # via jinja2
-marshmallow==3.14.0
+marshmallow==3.14.1
     # via
     #   dataclasses-json
     #   marshmallow-enum
@@ -126,6 +136,8 @@ marshmallow-enum==1.5.1
     # via dataclasses-json
 marshmallow-jsonschema==0.13.0
     # via flytekit
+matplotlib==3.5.0
+    # via -r ../../../common/requirements-common.in
 mmh3==3.0.0
     # via feast
 mypy-extensions==0.4.3
@@ -135,11 +147,16 @@ natsort==8.0.0
 numpy==1.21.4
     # via
     #   -r requirements.in
+    #   matplotlib
     #   pandas
     #   pandavro
     #   pyarrow
     #   scikit-learn
     #   scipy
+packaging==21.3
+    # via
+    #   matplotlib
+    #   setuptools-scm
 pandas==1.3.4
     # via
     #   feast
@@ -147,10 +164,14 @@ pandas==1.3.4
     #   pandavro
 pandavro==1.5.2
     # via feast
+pillow==8.4.0
+    # via matplotlib
 poyo==0.5.0
     # via cookiecutter
-proto-plus==1.19.8
-    # via -r requirements.in
+proto-plus==1.19.6
+    # via
+    #   -r requirements.in
+    #   feast
 protobuf==3.19.1
     # via
     #   feast
@@ -160,9 +181,10 @@ protobuf==3.19.1
     #   googleapis-common-protos
     #   grpcio-reflection
     #   proto-plus
+    #   tensorflow-metadata
 py==1.11.0
     # via retry
-pyarrow==6.0.0
+pyarrow==6.0.1
     # via
     #   feast
     #   flytekit
@@ -176,6 +198,10 @@ pydantic==1.8.2
     # via
     #   fastapi
     #   feast
+pyparsing==3.0.6
+    # via
+    #   matplotlib
+    #   packaging
 pyrsistent==0.18.0
     # via jsonschema
 python-dateutil==2.8.1
@@ -184,8 +210,9 @@ python-dateutil==2.8.1
     #   botocore
     #   croniter
     #   flytekit
+    #   matplotlib
     #   pandas
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via uvicorn
 python-json-logger==2.0.2
     # via flytekit
@@ -210,20 +237,23 @@ requests==2.26.0
     #   flytekit
     #   google-api-core
     #   responses
-responses==0.15.0
+responses==0.16.0
     # via flytekit
 retry==0.9.2
     # via flytekit
-rsa==4.7.2
+rsa==4.8
     # via google-auth
 s3transfer==0.4.2
     # via boto3
 scikit-learn==1.0.1
     # via -r requirements.in
-scipy==1.7.2
+scipy==1.7.3
     # via scikit-learn
+setuptools-scm==6.3.2
+    # via matplotlib
 six==1.16.0
     # via
+    #   absl-py
     #   cookiecutter
     #   flytekit
     #   google-auth
@@ -243,15 +273,19 @@ tabulate==0.8.9
     # via feast
 tenacity==8.0.1
     # via feast
+tensorflow-metadata==1.5.0
+    # via feast
 text-unidecode==1.3
     # via python-slugify
 threadpoolctl==3.0.0
     # via scikit-learn
 toml==0.10.2
     # via feast
+tomli==1.2.2
+    # via setuptools-scm
 tqdm==4.62.3
     # via feast
-typing-extensions==3.10.0.2
+typing-extensions==4.0.1
     # via
     #   pydantic
     #   typing-inspect
@@ -263,18 +297,20 @@ urllib3==1.26.7
     #   flytekit
     #   requests
     #   responses
-uvicorn[standard]==0.15.0
+uvicorn[standard]==0.16.0
     # via feast
 uvloop==0.16.0
     # via uvicorn
 watchgod==0.7
     # via uvicorn
-websocket-client==1.2.1
+websocket-client==1.2.3
     # via docker
-websockets==10.0
+websockets==10.1
     # via uvicorn
 wheel==0.37.0
-    # via flytekit
+    # via
+    #   -r ../../../common/requirements-common.in
+    #   flytekit
 wrapt==1.13.3
     # via
     #   deprecated
