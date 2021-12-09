@@ -40,3 +40,6 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
+
+RUN pip install flytekitplugins-data-fsspec
+RUN pip install fsspec[s3]
