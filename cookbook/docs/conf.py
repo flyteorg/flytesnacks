@@ -63,6 +63,7 @@ class CustomSorter(FileNameSortKey):
         "custom_objects.py",
         "enums.py",
         "lp_schedules.py",
+        "annotation.py",
         # Testing
         "mocking.py",
         # Containerization
@@ -79,13 +80,13 @@ class CustomSorter(FileNameSortKey):
         "inspecting_executions.py",
         "debugging_workflows_tasks.py",
         # Deployment
-        ## Workflow
+        # Workflow
         "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "fast_registration.py",
         "multiple_k8s.py",
-        ## Cluster
+        # Cluster
         "config_flyte_deploy.py",
         "productionize_cluster.py",
         "auth_setup.py",
@@ -96,7 +97,7 @@ class CustomSorter(FileNameSortKey):
         "optimize_perf.py",
         "access_cloud_resources.py",
         "auth_setup_appendix.py",
-        ## Guides
+        # Guides
         "kubernetes.py",
         "aws.py",
         "gcp.py",
@@ -105,7 +106,7 @@ class CustomSorter(FileNameSortKey):
         "run_task.py",
         "run_workflow.py",
         # Integrations
-        ## Flytekit Plugins
+        # Flytekit Plugins
         "simple.py",
         "basic_schema_example.py",
         "branch_example.py",
@@ -114,31 +115,30 @@ class CustomSorter(FileNameSortKey):
         "dolt_branch_example.py",
         "task_example.py",
         "type_example.py",
-        ## Kubernetes
+        # Kubernetes
         "pod.py",
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
-        ## AWS
+        # AWS
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
         "sagemaker_pytorch_distributed_training.py",
-        ## GCP
+        # GCP
         # TODO
-        ## External Services
-        "hive.py"
-        "snowflake.py"
+        # External Services
+        "hive.py" "snowflake.py"
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "run_custom_types.py",
         "custom_task_plugin.py",
         # Tutorials
-        ## ML Training
+        # ML Training
         "diabetes.py",
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
         "keras_spark_rossmann_estimator.py",
-        ## Feature Engineering
+        # Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
         "notebook.py",
