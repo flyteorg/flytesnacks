@@ -34,8 +34,8 @@ def t1(a: typing.Annotated[int, FlyteAnnotation({"foo": {"bar": 1}})], b: str) -
 
 
 @workflow
-def wf() -> int:
-    return t1(1, "fizz")
+def wf() -> str:
+    return t1(a=1, b="fizz")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,3 @@
-flytekit @ git+https://github.com/kennyworkman/flytekit.git@master
+flytekit @ git+https://github.com/kennyworkman/flytekit.git@kenny/type-annotation
 wheel
 matplotlib
