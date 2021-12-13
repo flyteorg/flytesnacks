@@ -47,4 +47,4 @@ RUN pip install fsspec[s3]
 ENV FLYTE_SDK_LOGGING_LEVEL 10
 ENV FLYTE_SDK_LOGGING_LEVEL_ROOT 30
 ENV FLYTE_SDK_LOGGING_LEVEL_ENTRYPOINT 10
-RUN pip install -U https://github.com/flyteorg/flytekit/archive/be2b1bb4f5d7287d74b48f9e661880772f9a6c32.zip#egg=flytekit
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/5ac720a3ab8c5c9d32a1488c4ffb13608a369ed8.zip#egg=flytekit
