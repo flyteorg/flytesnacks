@@ -43,3 +43,5 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 
 RUN pip install flytekitplugins-data-fsspec
 RUN pip install fsspec[s3]
+
+RUN pip install -U https://github.com/flyteorg/flytekit/archive/60d5dd42a8dce60ad1a7b7bf5dc9386ee8b558a8.zip#egg=flytekit
