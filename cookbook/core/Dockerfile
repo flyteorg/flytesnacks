@@ -48,3 +48,5 @@ ENV FLYTE_SDK_LOGGING_LEVEL 10
 ENV FLYTE_SDK_LOGGING_LEVEL_ROOT 30
 ENV FLYTE_SDK_LOGGING_LEVEL_ENTRYPOINT 10
 RUN pip install -U https://github.com/flyteorg/flytekit/archive/5ac720a3ab8c5c9d32a1488c4ffb13608a369ed8.zip#egg=flytekit
+
+USER 999
