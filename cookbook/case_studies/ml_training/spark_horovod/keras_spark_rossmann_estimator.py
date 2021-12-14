@@ -2,7 +2,7 @@
 Distributed training using Horovod on Spark
 -------------------------------------------
 """
-
+# Required packages are imported into the environment
 import datetime
 import os
 import pathlib
@@ -37,7 +37,7 @@ from tensorflow.keras.layers import (
     Input,
     Reshape,
 )
-
+# Column names of categorical variables are defined
 CATEGORICAL_COLS = [
     "Store",
     "State",
@@ -59,6 +59,7 @@ CATEGORICAL_COLS = [
     "SchoolHoliday",
 ]
 
+# Column names of continuous variables are defined
 CONTINUOUS_COLS = [
     "CompetitionDistance",
     "Max_TemperatureC",
@@ -97,6 +98,7 @@ class Hyperparameters:
     cache=True,
     cache_version="0.1",
 )
+# Data is downloaded to a Flyte directory
 def download_data(dataset: str) -> FlyteDirectory:
     # create a directory named 'data'
     print("==============")
@@ -130,7 +132,6 @@ def download_data(dataset: str) -> FlyteDirectory:
 
     # return the directory populated with rossmann data files
     return FlyteDirectory(path=str(data_dir))
-
 
 def prepare_google_trend(
     google_trend_csv: pyspark.sql.DataFrame,
@@ -189,7 +190,7 @@ def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataF
         df = rdd.toDF()
     return df
 
-
+# Data is stored as a Spark dataframe
 def prepare_df(
     df: pyspark.sql.DataFrame,
     store_csv: pyspark.sql.DataFrame,
@@ -289,7 +290,7 @@ def prepare_df(
     )
     df = df.withColumn("Promo2Weeks", (df.Promo2Days / 7).cast(T.IntegerType()))
 
-    # dheck that we did not lose any rows through inner joins
+    # check that we did not lose any rows through inner joins
     assert num_rows == df.count(), "lost rows in joins"
     return df
 
@@ -448,7 +449,8 @@ def data_preparation(
 
     return max_sales, vocab, train_df, test_df
 
-
+# Keras estimator in Horovod is used to train a model on existing Spark dataframe
+# This uses Horovod's scalability without requiring any specialized code
 def train(
     max_sales: float,
     vocab: Dict[str, List[Any]],
@@ -562,9 +564,9 @@ def train(
     print(
         "Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file)
     )
-    return keras_model
+    return keras_model # A Transformer representation of the trained model is returned by Estimator
 
-
+# This model transformer can be used (like any Spark ML Transformer) to make predictions on input dataframe.
 def test(
     keras_model,
     working_dir: FlyteDirectory,
@@ -593,10 +595,9 @@ def test(
 
     return working_dir
 
-
 @task(
     task_config=Spark(
-        # this configuration is applied to the spark cluster
+        # this configuration is applied to the Spark cluster
         spark_conf={
             "spark.driver.memory": "2000M",
             "spark.executor.memory": "2000M",
@@ -612,6 +613,8 @@ def test(
     requests=Resources(mem="1Gi"),
     limits=Resources(mem="1Gi"),
 )
+# The above Spark cluster configuration is applied on a Flyte task 'horovod_spark_task'
+# This activates the Flyte-Spark plugin
 def horovod_spark_task(
     data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
 ) -> FlyteDirectory:

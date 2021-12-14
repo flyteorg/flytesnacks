@@ -1,6 +1,6 @@
 .. _spark_horovod:
 
-Forecast Sales Using Rossmann Store Sales Data Using Horovod and Spark
+Forecast Sales Using Rossmann Store Sales Data With Horovod and Spark
 ----------------------------------------------------------------------
 
 The problem statement we will be looking at is forecasting sales using `rossmann store sales <https://www.kaggle.com/c/rossmann-store-sales>`__ data.
