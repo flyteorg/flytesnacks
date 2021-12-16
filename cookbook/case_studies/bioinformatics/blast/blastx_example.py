@@ -67,7 +67,7 @@ blastx_on_shell = ShellTask(
 # If the command works, then there should be no output or error.
 
 # %%
-# We can now define a task to load the BLASTX output. The task returns a pandas DataFrame and a plot.
+# Next, we define a task to load the BLASTX output. The task returns a pandas DataFrame and a plot.
 # ``blastout`` contains the path to the BLAST output file.
 
 BLASTXOutput = NamedTuple("blastx_output", result=pd.DataFrame, plot=PNGImageFile)
@@ -105,7 +105,9 @@ def blastx_output(blastout: str) -> BLASTXOutput:
 
     return BLASTXOutput(result=result.head(), plot=plot)
 
-
+# %%
+# To ascertain whether the BLASTX standard error and output is empty, we write a task.
+# If empty, then the BLASTX run was successful, else, the run failed.
 @task
 def is_batchx_success(stdout: FlyteFile) -> bool:
     if open(stdout).read():
