@@ -46,6 +46,9 @@ ENV PATH=".:/ncbi-blast-2.12.0+/bin:${PATH}"
 # Check if BLAST is installed
 RUN echo $(blastx)
 
+# Set the working directory
+WORKDIR /root
+
 # Install Python dependencies
 COPY blast/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
@@ -56,9 +59,6 @@ COPY blast/sandbox.config /root
 
 # Copy the actual code
 COPY blast/ /root/blast/
-
-# Set the working directory
-WORKDIR /root/blast
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
