@@ -271,3 +271,4 @@ Table of Contents
    Introduction <tutorials>
    ml_training
    feature_engineering
+   bioinformatics

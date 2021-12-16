@@ -30,3 +30,12 @@ documenting and contributing samples easy. If this is your first time running th
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Engineer the data features to improve your model accuracy.
+
+    ---
+
+    .. link-button:: bioinformatics
+       :type: ref
+       :text: 🧪 Bioinformatics
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    How computational biology intertwines with Flyte.
