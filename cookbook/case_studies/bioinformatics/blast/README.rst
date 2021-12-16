@@ -44,7 +44,7 @@ Data
 The database comprises predicted gene products from five Kitasatospora genomes.
 The query is a single nucleotide sequence of a predicted penicillin-binding protein from Kitasatospora sp. CB01950.
 
-To run the example, download the directory from `Flytesnacks' GitHub <>`__.
+To run the example, download the database from `Flytesnacks' datasets <https://github.com/flyteorg/flytesnacks/tree/datasets/blast/kitasatospora>`__.
 
 .. note::
     To run the example locally, download BLAST first.

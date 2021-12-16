@@ -8,7 +8,7 @@ In this example, we will use BLASTX to search for a nucleotide sequence against 
 # %%
 # First, we need to import some libraries.
 import os
-from typing import Tuple
+from typing import Tuple, NamedTuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -69,10 +69,14 @@ blastx_on_shell = ShellTask(
 # %%
 # We can now define a task to load the BLASTX output. The task returns a pandas DataFrame and a plot.
 # ``blastout`` contains the path to the BLAST output file.
+
+BLASTXOutput = NamedTuple("blastx_output", result=pd.DataFrame, plot=PNGImageFile)
+
+
 @task
-def blastx_output(blastout: str) -> Tuple[pd.DataFrame, PNGImageFile]:
+def blastx_output(blastout: str) -> BLASTXOutput:
     # Read BLASTX output
-    results = pd.read_csv(blastout, sep="\t", header=None)
+    result = pd.read_csv(blastout, sep="\t", header=None)
 
     # Define column headers
     headers = [
@@ -91,15 +95,15 @@ def blastx_output(blastout: str) -> Tuple[pd.DataFrame, PNGImageFile]:
     ]
 
     # Assign headers
-    results.columns = headers
+    result.columns = headers
 
     # Create a scatterplot
-    results.plot.scatter("pc_identity", "e_value")
+    result.plot.scatter("pc_identity", "e_value")
     plt.title("E value vs %identity")
     plot = "plot.png"
     plt.savefig(plot)
 
-    return results.head(), plot
+    return BLASTXOutput(result=result.head(), plot=plot)
 
 
 @task
@@ -109,30 +113,32 @@ def is_batchx_success(stdout: FlyteFile) -> bool:
     else:
         return True
 
+
 # %%
 # Next, we define a workflow to call the aforementioned tasks.
 # We use :ref:`conditional <sphx_glr_auto_core_control_flow_run_conditions.py>` to check if the BLASTX command succeeded.
 @workflow
 def blast_wf(
-    datadir: str = "blast/data/kitasatospora",
-    outdir: str = "blast/output",
+    datadir: str = "data/kitasatospora",
+    outdir: str = "output",
     query: str = "k_sp_CB01950_penicillin.fasta",
     db: str = "kitasatospora_proteins.faa",
     blast_output: str = "AMK19_00175_blastx_kitasatospora.tab",
-) -> (pd.DataFrame, PNGImageFile):
+) -> BLASTXOutput:
     cmd, blastout = generate_blastx_command(
         datadir=datadir, outdir=outdir, query=query, db=db, blast_output=blast_output
     )
     stdout = blastx_on_shell(x=cmd)
     result = is_batchx_success(stdout=stdout)
-    results, plot = (
+    result, plot = (
         conditional("blastx_output")
         .if_(result.is_true())
         .then(blastx_output(blastout=blastout))
         .else_()
         .fail("BLASTX failed")
     )
-    return results, plot
+    return BLASTXOutput(result=result, plot=plot)
+
 
 # %%
 # Finally, we can run the workflow locally.
