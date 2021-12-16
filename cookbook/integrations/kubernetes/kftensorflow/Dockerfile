@@ -1,4 +1,7 @@
 FROM tensorflow/tensorflow:latest-gpu
+# You can disable GPU support by replacing the above line with:
+# FROM tensorflow/tensorflow:latest
+
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root

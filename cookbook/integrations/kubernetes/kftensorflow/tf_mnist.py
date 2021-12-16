@@ -3,10 +3,10 @@ Distributed TensorFlow Training
 -------------------------------
 
 When you need to scale up model training using TensorFlow, you can use :py:class:`~tensorflow:tf.distribute.Strategy` to distribute your training across multiple devices.
-There are various strategies available under this API and you can use any of them. In this example, we will use :py:class:`~tensorflow:tf.distribute.MirroredStrategy` to train an MNIST model using a convolution network.
+There are various strategies available under this API and you can use any of them. In this example, we will use :py:class:`~tensorflow:tf.distribute.MirroredStrategy` to train an MNIST model using a convolutional network.
 
 :py:class:`~tensorflow:tf.distribute.MirroredStrategy` supports synchronous distributed training on multiple GPUs on one machine.
-To know more about distributed training with TensorFlow, refer to the `Distributed training with TensorFlow <https://www.tensorflow.org/guide/distributed_training>`__ in the TensorFlow documentation.
+To learn more about distributed training with TensorFlow, refer to the `Distributed training with TensorFlow <https://www.tensorflow.org/guide/distributed_training>`__ in the TensorFlow documentation.
 
 Let's get started with an example!
 """
@@ -194,15 +194,13 @@ training_outputs = NamedTuple(
 )
 
 if os.getenv("SANDBOX") != "":
-    mem = "1000Mi"
-    gpu = "0"
-    ephemeral_storage = "500Mi"
-    storage = "500Mi"
+    resources = Resources(
+        gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi"
+    )
 else:
-    mem = "10Gi"
-    gpu = "2"
-    ephemeral_storage = "500Mi"
-    storage = "10Gi"
+    resources = Resources(
+        gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi"
+    )
 
 
 @task(
@@ -210,18 +208,8 @@ else:
     retries=2,
     cache=True,
     cache_version="1.0",
-    requests=Resources(
-        gpu=gpu,
-        mem=mem,
-        storage=storage,
-        ephemeral_storage=ephemeral_storage,
-    ),
-    limits=Resources(
-        gpu=gpu,
-        mem=mem,
-        ephemeral_storage=ephemeral_storage,
-        storage=storage,
-    ),
+    requests=resources,
+    limits=resources,
 )
 def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
     train_dataset, eval_dataset, strategy = load_data(hyperparameters=hyperparameters)
