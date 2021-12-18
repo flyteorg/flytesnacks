@@ -29,12 +29,17 @@ ENV PATH="${VENV}/bin:$PATH"
 COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
+# Create non-root user for entrypoint into container
+RUN useradd -m nonroot
+WORKDIR /home/nonroot
+USER nonroot
+
 # Copy the makefile targets to expose on the container. This makes it easier to register
-COPY in_container.mk /root/Makefile
-COPY core/sandbox.config /root
+COPY in_container.mk /home/nonroot/Makefile
+COPY core/sandbox.config /home/nonroot
 
 # Copy the actual code
-COPY core /root/core
+COPY core /home/nonroot/core
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

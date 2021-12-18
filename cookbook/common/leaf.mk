@@ -88,6 +88,7 @@ fast_serialize: clean _pb_output
 		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
+		-u root \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
 		${TAGGED_IMAGE} make fast_serialize
@@ -129,6 +130,7 @@ serialize: clean _pb_output docker_build
 		-e ADDL_DISTRIBUTION_DIR=${ADDL_DISTRIBUTION_DIR} \
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
+		-u root \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		${TAGGED_IMAGE} make serialize
 
