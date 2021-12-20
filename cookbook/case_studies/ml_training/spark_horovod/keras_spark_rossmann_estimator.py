@@ -2,7 +2,10 @@
 Distributed training using Horovod on Spark
 -------------------------------------------
 """
-# Required packages are imported into the environment
+# %%
+# Importing the Libraries
+# ========================
+# The required packages are imported into the environment.
 import datetime
 import os
 import pathlib
@@ -37,7 +40,9 @@ from tensorflow.keras.layers import (
     Input,
     Reshape,
 )
-# Column names of categorical variables are defined
+
+# %%
+# Column names of categorical variables are defined.
 CATEGORICAL_COLS = [
     "Store",
     "State",
@@ -59,7 +64,8 @@ CATEGORICAL_COLS = [
     "SchoolHoliday",
 ]
 
-# Column names of continuous variables are defined
+# %%
+# Column names of continuous variables are defined.
 CONTINUOUS_COLS = [
     "CompetitionDistance",
     "Max_TemperatureC",
@@ -81,7 +87,8 @@ CONTINUOUS_COLS = [
     "AfterSchoolHoliday",
 ]
 
-
+# %%
+# Hyperparameters are defined to be used with the model(such as epochs, learning_rate, batch_size).
 @dataclass_json
 @dataclass
 class Hyperparameters:
@@ -93,12 +100,14 @@ class Hyperparameters:
     local_checkpoint_file: str = "checkpoint.h5"
     local_submission_csv: str = "submission.csv"
 
-
+# %%
+# Task : Download the data and store it in a Flyte directory.
+# This function returns the path to the directory where the data has been downloaded.
 @task(
     cache=True,
     cache_version="0.1",
 )
-# Data is downloaded to a Flyte directory
+
 def download_data(dataset: str) -> FlyteDirectory:
     # create a directory named 'data'
     print("==============")
@@ -133,6 +142,10 @@ def download_data(dataset: str) -> FlyteDirectory:
     # return the directory populated with rossmann data files
     return FlyteDirectory(path=str(data_dir))
 
+# %%
+# A Spark DataFrame is used to store the extracted Rossmann data.
+# This function merges google trend information into a DataFrame.
+# It returns a function that uses this DataFrame as argument.
 def prepare_google_trend(
     google_trend_csv: pyspark.sql.DataFrame,
 ) -> pyspark.sql.DataFrame:
@@ -154,7 +167,8 @@ def prepare_google_trend(
     # expand dates
     return expand_date(google_trend_all)
 
-
+# %%
+# A method to expand the dates, i.e extract the year, month, week and day from a date.
 def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     df = df.withColumn("Date", df.Date.cast(T.DateType()))
     return (
@@ -164,7 +178,9 @@ def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
         .withColumn("Day", F.dayofmonth(df.Date))
     )
 
-
+# %%
+# A function that adds the elapsed times from holidays & promos, the data spanning training & test datasets.
+# This data is returned in a DataFrame.
 def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     def add_elapsed_column(col, asc):
         def fn(rows):
@@ -190,7 +206,9 @@ def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataF
         df = rdd.toDF()
     return df
 
-# Data is stored as a Spark dataframe
+# %%
+# The function creates multiple Spark DataFrames from the CSV files, to store data.
+# Information from all sources are merged into a single Spark DataFrame.
 def prepare_df(
     df: pyspark.sql.DataFrame,
     store_csv: pyspark.sql.DataFrame,
@@ -294,7 +312,8 @@ def prepare_df(
     assert num_rows == df.count(), "lost rows in joins"
     return df
 
-
+# %%
+# A dictionary of sorted categorical variables is built, and returned.
 def build_vocabulary(df: pyspark.sql.DataFrame) -> Dict[str, List[Any]]:
     vocab = {}
     for col in CATEGORICAL_COLS:
@@ -304,13 +323,15 @@ def build_vocabulary(df: pyspark.sql.DataFrame) -> Dict[str, List[Any]]:
         vocab[col] = sorted(values, key=lambda x: x or default_value)
     return vocab
 
-
+# %%
+# This function casts continuous columns to float and returns it as a DataFrame.
 def cast_columns(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     for col in cols:
         df = df.withColumn(col, F.coalesce(df[col].cast(T.FloatType()), F.lit(0.0)))
     return df
 
-
+# %%
+# This function lookups for categorical columns and returns it as a DataFrame.
 def lookup_columns(
     df: pyspark.sql.DataFrame, vocab: Dict[str, List[Any]]
 ) -> pyspark.sql.DataFrame:
@@ -324,7 +345,8 @@ def lookup_columns(
         df = df.withColumn(col, lookup(mapping)(df[col]))
     return df
 
-
+# %%
+# This function reads the train and test data (in CSV files), and stores them in Spark DataFrames. 
 def data_preparation(
     data_dir: FlyteDirectory, hp: Hyperparameters
 ) -> Tuple[float, Dict[str, List[Any]], pyspark.sql.DataFrame, pyspark.sql.DataFrame]:
@@ -332,6 +354,7 @@ def data_preparation(
     print("Data preparation")
     print("================")
 
+    # 'current_context' gives the handle of specific parameters in the flyte task.
     spark = flytekit.current_context().spark_session
     data_dir_path = data_dir.remote_source
     train_csv = spark.read.csv("%s/train.csv" % data_dir_path, header=True)
@@ -449,8 +472,11 @@ def data_preparation(
 
     return max_sales, vocab, train_df, test_df
 
-# Keras estimator in Horovod is used to train a model on existing Spark dataframe
-# This uses Horovod's scalability without requiring any specialized code
+# %%
+# Keras estimator in Horovod is used to train a model on existing Spark DataFrame.
+# Horovod Spark Estimators are recommended while using Keras and while training using Spark DataFrame from pyspark.
+# The Estimators leverage Horovod's ability to scale across multiple workers.  
+# It doesn't require any specialized code to perform distributed training.
 def train(
     max_sales: float,
     vocab: Dict[str, List[Any]],
@@ -529,6 +555,9 @@ def train(
     )
 
     # Horovod: run training
+    # 'SparkBackend' uses `horovod.spark.run` to execute the distributed training function.
+    # Horovod on Spark uses cloudpickle to send training function to workers for execution.
+    # Hence, local variables from the training function are captured (this is similar to using user-defined functions in pyspark).
     store = Store.create(work_dir.remote_source)
     backend = SparkBackend(
         num_proc=hp.num_proc,
@@ -536,6 +565,7 @@ def train(
         stderr=sys.stderr,
         prefix_output_with_timestamp=True,
     )
+    #  Spark Estimator that fits Keras models to a DataFrame.
     keras_estimator = hvd.KerasEstimator(
         backend=backend,
         store=store,
@@ -553,6 +583,12 @@ def train(
         checkpoint_callback=ckpt_callback,
     )
 
+# %%
+# The Estimator hides the following details:
+# 1. Binding Spark DataFrames to a deep learning training script.
+# 2. Reading data into a format that can be interpreted by the training framework.
+# 3. Distributing this training using Horovod. 
+# The user just needs to provide a Keras model, and the Estimator will fit the data to the DataFrame.
     keras_model = keras_estimator.fit(train_df).setOutputCols(["Sales_output"])
 
     history = keras_model.getHistory()
@@ -564,9 +600,11 @@ def train(
     print(
         "Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file)
     )
-    return keras_model # A Transformer representation of the trained model is returned by Estimator
+    return keras_model # A Transformer representation of the trained model is returned by Estimator once training is complete.
 
-# This model transformer can be used (like any Spark ML Transformer) to make predictions on input dataframe.
+# %%
+# This model transformer can be used (like any Spark ML Transformer) to make predictions on input DataFrame.
+# The new predictions are written as new columns in the output DataFrame.
 def test(
     keras_model,
     working_dir: FlyteDirectory,
@@ -591,10 +629,13 @@ def test(
     submission_df.sort_values(by=["Id"]).to_csv(
         os.path.join(working_dir, hp.local_submission_csv), index=False
     )
+    # Predictions are saved to a CSV file.
     print("Saved predictions to %s" % hp.local_submission_csv)
 
     return working_dir
 
+# %%
+# Spark configuration defined as a task.
 @task(
     task_config=Spark(
         # this configuration is applied to the Spark cluster
@@ -613,8 +654,9 @@ def test(
     requests=Resources(mem="1Gi"),
     limits=Resources(mem="1Gi"),
 )
-# The above Spark cluster configuration is applied on a Flyte task 'horovod_spark_task'
-# This activates the Flyte-Spark plugin
+# %%
+# The above Spark cluster configuration is applied to a Flyte task 'horovod_spark_task'.
+# This activates the Flyte-Spark plugin.
 def horovod_spark_task(
     data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
 ) -> FlyteDirectory:
