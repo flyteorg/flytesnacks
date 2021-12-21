@@ -1,11 +1,11 @@
 .. _blast:
 
-Query a Nucleotide Sequence Against a Local Protein Database Using BLAST
-------------------------------------------------------------------------
+Nucleotide Sequence Querying with BLASTX and Biopython
+------------------------------------------------------
 
 This tutorial shows how computational biology intermixes with Flyte. The problem statement we will be looking at is
 querying a nucleotide sequence against a local protein database, to identify potential homologues.
-Here's how the code is streamlined:
+This guide will show you how to:
 
 - Load the data
 - Create BLASTX command line
@@ -26,9 +26,9 @@ You can read more about BLAST in the `BLAST Homepage <https://blast.ncbi.nlm.nih
 BLASTX
 ^^^^^^
 
-BLASTx is a powerful gene‐finding or gene‐predicting tool.
-It is recommended for identifying the protein‐coding genes in genomic DNA/cDNA.
-It is also used to detect whether a novel nucleotide sequence is a protein‐coding gene or not, and it can be used to identify proteins encoded by transcripts or transcript variants.
+BLASTx is a powerful tool to search for genes and predict their functions or relationships
+with other gene sequences, and is typically used for identifying the protein‐coding genes in genomic DNA/cDNA.
+It is also used to detect whether a novel nucleotide sequence is a protein‐coding gene or identify proteins encoded by transcripts or transcript variants.
 
 In this tutorial, we will run a BLASTX search.
 

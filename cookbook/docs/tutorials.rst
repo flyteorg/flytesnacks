@@ -38,4 +38,4 @@ documenting and contributing samples easy. If this is your first time running th
        :text: 🧪 Bioinformatics
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    How computational biology intertwines with Flyte.
+    Do computational biology with Flyte.
