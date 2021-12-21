@@ -133,7 +133,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
     # via flytekit
-numpy==1.19.5
+numpy==1.22.0rc1
     # via
     #   h5py
     #   keras-preprocessing
