@@ -5,7 +5,6 @@ WORKDIR /root
 ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
-ENV PYTHONPATH /root
 
 # This is necessary for opencv to work
 RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg build-essential
@@ -19,7 +18,6 @@ RUN apt-get install curl --assume-yes
 RUN curl -sSL https://sdk.cloud.google.com | bash
 ENV PATH $PATH:/root/google-cloud-sdk/bin
 
-
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
@@ -31,8 +29,9 @@ RUN pip install -r /root/requirements.txt
 
 # Create non-root user for entrypoint into container
 RUN useradd -m nonroot
-WORKDIR /home/nonroot
 USER nonroot
+WORKDIR /home/nonroot
+ENV PYTHONPATH /home/nonroot
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /home/nonroot/Makefile
