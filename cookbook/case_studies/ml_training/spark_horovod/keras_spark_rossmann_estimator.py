@@ -737,6 +737,9 @@ def horovod_spark_wf(
     return horovod_spark_task(data_dir=data_dir, hp=hp, work_dir=work_dir)
 
 # %%
+# Running the model locally
+# =============
+#
 # We can run the code locally too!
 if __name__ == "__main__":
     metrics_directory = horovod_spark_wf()
