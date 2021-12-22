@@ -29,16 +29,17 @@ RUN pip install -r /root/requirements.txt
 
 # Create non-root user for entrypoint into container
 RUN useradd -m nonroot
+
+# Copy the makefile targets to expose on the container. This makes it easier to register
+COPY --chown=nonroot:nonroot in_container.mk /home/nonroot/Makefile
+COPY --chown=nonroot:nonroot core/sandbox.config /home/nonroot
+
+# Copy the actual code
+COPY --chown=nonroot:nonroot core /home/nonroot/core
+
 USER nonroot
 WORKDIR /home/nonroot
 ENV PYTHONPATH /home/nonroot
-
-# Copy the makefile targets to expose on the container. This makes it easier to register
-COPY in_container.mk /home/nonroot/Makefile
-COPY core/sandbox.config /home/nonroot
-
-# Copy the actual code
-COPY core /home/nonroot/core
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

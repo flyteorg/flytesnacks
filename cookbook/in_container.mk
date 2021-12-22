@@ -11,7 +11,6 @@ $(SERIALIZED_PB_OUTPUT_DIR): clean
 serialize: $(SERIALIZED_PB_OUTPUT_DIR)
 	pyflyte --config /home/nonroot/sandbox.config serialize workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
 
-
 .PHONY: fast_serialize
 fast_serialize: $(SERIALIZED_PB_OUTPUT_DIR)
 	pyflyte --config /home/nonroot/sandbox.config serialize fast workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
