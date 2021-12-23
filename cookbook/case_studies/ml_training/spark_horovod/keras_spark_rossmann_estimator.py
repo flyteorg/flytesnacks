@@ -1,15 +1,14 @@
 """
 Data-Parallel Distributed Training Using Horovod on Spark
 ---------------------------------------------------------
-In this tutorial, we will understand how data parallel distributed training works.
-When you need to train deep learning workloads efficiently, data parallel distributed training can be used. 
-This means data is parallelized, i.e., weights are shared between batches of data.
-Time and compute intensive deep learning workloads are run using distributed training, i.e., multiple workers share the machine learning workload, thereby utilizing the resources efficiently. 
-We will use the Rossmann store sales data as our input. This tabular data is processed using Spark, which is a data processing engine that helps in data preparation (extraction, processing and partitioning).
-To improve speed and ease of distributed training, we use Horovod, which is a deep learning training framework compatible with Keras.
-We build a Keras model and perform distributed training using Horovod on Spark (Horovod implicitly supports Spark).
-The leverage we achieve is that Horovod Estimator API can be scaled without any specialized code.
-The user would just provide a Keras model, and the Estimator will fit the data and store in a Spark DataFrame. 
+
+When you need to train time- and compute-intensive deep learning workloads efficiently, data-parallel distributed training comes to the rescue. It parallelizes the data and requires sharing of weights between different worker nodes involved in the distributed training after every epoch. This helps speed up your execution time.
+
+In this tutorial, we will understand how data-parallel distributed training works with Flyte, Horovod, and Spark.
+
+We will use Rossmann store sales data as the input, which we will process using Spark, a data processing engine.
+To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
+Further, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
 Let's get started with an example!
 
