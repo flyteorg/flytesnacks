@@ -1,0 +1,4 @@
+-r ../../../common/requirements-common.in
+
+flytekitplugins-bigquery>=0.22.3
+google-cloud-bigquery
