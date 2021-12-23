@@ -187,8 +187,8 @@ def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     )
 
 # %%
-# We define a function that adds the elapsed times from holidays & promos, the data spanning training & test datasets.
-# This data is returned in a DataFrame.
+# Now, we define a function that will remove outliers from the data.
+# It helps count the number of days before or after a special event (holiday, sale)
 def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     def add_elapsed_column(col, asc):
         def fn(rows):
