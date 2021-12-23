@@ -33,11 +33,11 @@ def rotate(img: JPEGImageFile) -> JPEGImageFile:
 @workflow
 def wf(
     images: List[JPEGImageFile] = [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fa/Heraldic_tincture.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/2/2a/Hummingbird.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/1/17/%22Grecia._Le_radici_della_Civilt%C3%A0_Europea%22_photobook_by_Pino_Musi.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/D%C3%BClmen%2C_Wildpark_--_2020_--_3427.jpg/640px-D%C3%BClmen%2C_Wildpark_--_2020_--_3427.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/All_Gizah_Pyramids.jpg/640px-All_Gizah_Pyramids.jpg",
+        "https://cdn.discordapp.com/attachments/545481172399030272/923516487573065778/Heraldic_tincture.jpg",
+        "https://cdn.discordapp.com/attachments/545481172399030272/923516487296233472/Hummingbird.jpg",
+        "https://cdn.discordapp.com/attachments/545481172399030272/923516487094894622/Grecia._Le_radici_della_Civilta_Europea_photobook_by_Pino_Musi.jpg",
+        "https://cdn.discordapp.com/attachments/545481172399030272/923516486797107210/640px-Dulmen_Wildpark_--_2020_--_3427.jpg",
+        "https://cdn.discordapp.com/attachments/545481172399030272/923516486545461267/640px-All_Gizah_Pyramids.jpg",
     ],
 ) -> List[JPEGImageFile]:
     return map_task(rotate)(img=images)

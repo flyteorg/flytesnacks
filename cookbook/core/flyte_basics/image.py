@@ -31,7 +31,7 @@ def rotate(img: JPEGImageFile) -> JPEGImageFile:
 
 @workflow
 def wf(
-    img: JPEGImageFile = "https://upload.wikimedia.org/wikipedia/commons/f/fa/Heraldic_tincture.jpg",
+    img: JPEGImageFile = "https://cdn.discordapp.com/attachments/545481172399030272/923516487573065778/Heraldic_tincture.jpg",
 ) -> JPEGImageFile:
     return rotate(img=img)
 
