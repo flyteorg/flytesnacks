@@ -188,7 +188,7 @@ def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
 
 # %%
 # Now, we define a function that will remove outliers from the data.
-# It helps count the number of days before or after a special event (holiday, sale)
+# It helps count the number of days before or after a special event (such as a promo or a holiday)
 def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     def add_elapsed_column(col, asc):
         def fn(rows):
