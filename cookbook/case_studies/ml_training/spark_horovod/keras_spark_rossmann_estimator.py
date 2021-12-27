@@ -689,7 +689,7 @@ def test(
     limits=Resources(mem="1Gi"),
 )
 
-# Now, we define a function that conslidates the ``data_preparation``, ``train`` and ``test`` methods, and returns the sales predictions.
+# Now, we define a function that consolidates the ``data_preparation``, ``train`` and ``test`` methods, and returns the sales predictions.
 def horovod_spark_task(
     data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
 ) -> FlyteDirectory:
