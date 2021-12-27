@@ -2,11 +2,14 @@
 Data-Parallel Distributed Training Using Horovod on Spark
 ---------------------------------------------------------
 
-When you need to train time- and compute-intensive deep learning workloads efficiently, data-parallel distributed training comes to the rescue. It parallelizes the data and requires sharing of weights between different worker nodes involved in the distributed training after every epoch. This helps speed up your execution time.
+When time- and compute-intensive deep learning workloads need to be trained efficiently, data-parallel distributed training comes to the rescue. 
+This technique parallelizes the data and requires sharing of weights between different worker nodes involved in the distributed training after every epoch, which ensures that all worker nodes train a consistent model. 
+Overall, data-parallel distributed training can help speed up the execution time.
 
 In this tutorial, we will understand how data-parallel distributed training works with Flyte, Horovod, and Spark.
+The interesting fact is that Spark integrates with both Horovod and Flyte.
 
-We will use Rossmann store sales data as the input, which we will process using Spark, a data processing engine.
+We will use Rossmann store sales data as the input where we try to predict the sales, and process it using Spark, a data processing engine.
 To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
 Further, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
@@ -51,7 +54,7 @@ from tensorflow.keras.layers import (
 )
 
 # %%
-# We define some variables to represent categorical and continuous columns in the dataset.
+# We define certain variables to represent categorical and continuous columns in the dataset.
 CATEGORICAL_COLS = [
     "Store",
     "State",
@@ -95,7 +98,7 @@ CONTINUOUS_COLS = [
 ]
 
 # %%
-# Next, we initialize a data class to store the hyperparameters to be used with the model (such as ``epochs``, ``learning_rate``, ``batch_size``, etc.).
+# Now, let's initialize a data class to store the hyperparameters that will used with the model (such as ``epochs``, ``learning_rate``, ``batch_size``, etc.).
 @dataclass_json
 @dataclass
 class Hyperparameters:
@@ -154,11 +157,11 @@ def download_data(dataset: str) -> FlyteDirectory:
 # Data Preprocessing
 # =====================
 #
-# Here, we clean and prepare the Google trend data.
+# 1. We clean and prepare the Google trend data. We create new 'Date' and 'State' columns by chaining the transformation function 'withColumn'. 
+# These columns, in addition to other features, will contribute to the prediction of sales.  
 def prepare_google_trend(
     google_trend_csv: pyspark.sql.DataFrame,
 ) -> pyspark.sql.DataFrame:
-    # extract week start date and state
     google_trend_all = google_trend_csv.withColumn(
         "Date", F.regexp_extract(google_trend_csv.week, "(.*?) -", 1)
     ).withColumn(
@@ -176,7 +179,8 @@ def prepare_google_trend(
     # expand dates
     return expand_date(google_trend_all)
 
-# Next, we set a few date-specific values in the DataFrame.
+# %%
+# 2. Next, we set a few date-specific values in the DataFrame. This DataFrame would help analyze the seasonal effects on sales.
 def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     df = df.withColumn("Date", df.Date.cast(T.DateType()))
     return (
@@ -187,8 +191,7 @@ def expand_date(df: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     )
 
 # %%
-# Now, we define a function that will remove outliers from the data.
-# It helps count the number of days before or after a special event (such as a promo or a holiday)
+# 3. Now, we get a count the number of days before or after a special event (such as a promo or a holiday). This DataFrame would help analyze how the sales may vary before/after a special event.
 def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     def add_elapsed_column(col, asc):
         def fn(rows):
@@ -205,9 +208,9 @@ def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataF
 
         return fn
 
-    # rearrange the rows in the DataFrame based on the partitioning expression.
-    # sort every partition in the DataFrame based on specific columns.
-    # apply the 'add_elapsed_column' method to each partition in the dataset, and convert it to a DataFrame.
+    # repartition: rearrange the rows in the DataFrame based on the partitioning expression
+    # sortWithinPartitions: sort every partition in the DataFrame based on specific columns
+    # mapPartitions: apply the 'add_elapsed_column' method to each partition in the dataset, and convert the partitions into a DataFrame
     df = df.repartition(df.Store)
     for asc in [False, True]:
         sort_col = df.Date.asc() if asc else df.Date.desc()
@@ -218,8 +221,8 @@ def add_elapsed(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataF
     return df
 
 # %%
-# We define a function to create Spark DataFrames from the CSV files.
-# Information from all sources is merged into a single Spark DataFrame.
+# 4. Now, we define a function to create Spark DataFrames from the CSV files, and merge information from all sources into a single Spark DataFrame.
+# This DataFrame would help create the training data, and test data.
 def prepare_df(
     df: pyspark.sql.DataFrame,
     store_csv: pyspark.sql.DataFrame,
@@ -233,6 +236,7 @@ def prepare_df(
     # expand dates 
     df = expand_date(df)
 
+    # create new columns in the DataFrame by eliminating special events(promo, holiday).
     df = (
         df.withColumn("Open", df.Open != "0")
         .withColumn("Promo", df.Promo != "0")
@@ -278,7 +282,7 @@ def prepare_df(
         .withColumn("Promo2SinceWeek", F.coalesce(df.Promo2SinceWeek, F.lit(1)))
     )
 
-    # days & months since the competition was open, cap it to 2 years
+    # days and months since the competition was open, cap it to 2 years
     df = df.withColumn(
         "CompetitionOpenSince",
         F.to_date(
@@ -301,7 +305,7 @@ def prepare_df(
         "CompetitionMonthsOpen", (df.CompetitionDaysOpen / 30).cast(T.IntegerType())
     )
 
-    # days & weeks of promotion, cap it to 25 weeks
+    # days and weeks of promotion, cap it to 25 weeks
     df = df.withColumn(
         "Promo2Since",
         F.expr(
@@ -324,7 +328,7 @@ def prepare_df(
     return df
 
 # %%
-# We build a dictionary of sorted, distinct categorical variables.
+# 5. Build a dictionary of sorted, distinct categorical variables. This dictionary helps in the creation of an Embedding layer that extracts relevant insights from data to predict sales. 
 def build_vocabulary(df: pyspark.sql.DataFrame) -> Dict[str, List[Any]]:
     vocab = {}
     for col in CATEGORICAL_COLS:
@@ -335,14 +339,14 @@ def build_vocabulary(df: pyspark.sql.DataFrame) -> Dict[str, List[Any]]:
     return vocab
 
 # %%
-# We define a function that casts continuous columns to float and returns it as a DataFrame.
+# 6. Now, define a function that casts continuous columns to float and returns it as a DataFrame. This is done to simplify the features that contribute to sales prediction.
 def cast_columns(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.DataFrame:
     for col in cols:
         df = df.withColumn(col, F.coalesce(df[col].cast(T.FloatType()), F.lit(0.0)))
     return df
 
 # %%
-# Next, we define a function that checks a column against two different key-value pairs, adds a column or replaces the existing column that has same name.
+# 7. Next, define a function that checks a column against two different key-value pairs, adds a column or replaces the existing column that has same name.
 def lookup_columns(
     df: pyspark.sql.DataFrame, vocab: Dict[str, List[Any]]
 ) -> pyspark.sql.DataFrame:
@@ -357,9 +361,6 @@ def lookup_columns(
     return df
 
 # %%
-# Data Preparation
-# ================
-#
 # The ``data_preparation`` function consolidates all the aforementioned data processing functions.
 def data_preparation(
     data_dir: FlyteDirectory, hp: Hyperparameters
@@ -368,7 +369,7 @@ def data_preparation(
     print("Data preparation")
     print("================")
 
-    # 'current_context' gives the handle of specific parameters in ``data_preparation`` task.
+    # 'current_context' gives the handle of specific parameters in ``data_preparation`` task
     spark = flytekit.current_context().spark_session
     data_dir_path = data_dir.remote_source
     # read the CSV data into Spark DataFrame
@@ -383,12 +384,12 @@ def data_preparation(
     google_trend_csv = spark.read.csv("%s/googletrend.csv" % data_dir_path, header=True)
     weather_csv = spark.read.csv("%s/weather.csv" % data_dir_path, header=True)
 
-    # a sampled subset of the train and test data is retrieved
+    # retrieve a sampled subset of the train and test data
     if hp.sample_rate:
         train_csv = train_csv.sample(withReplacement=False, fraction=hp.sample_rate)
         test_csv = test_csv.sample(withReplacement=False, fraction=hp.sample_rate)
 
-    # prepare the DataFrames from the CSV files.
+    # prepare the DataFrames from the CSV files
     train_df = prepare_df(
         train_csv,
         store_csv,
@@ -406,7 +407,7 @@ def data_preparation(
         weather_csv,
     ).cache()
 
-    # add elapsed times from the data spanning training & test datasets.
+    # add elapsed times from the data spanning training & test datasets
     elapsed_cols = ["Promo", "StateHoliday", "SchoolHoliday"]
     elapsed = add_elapsed(
         train_df.select("Date", "Store", *elapsed_cols).unionAll(
@@ -415,7 +416,7 @@ def data_preparation(
         elapsed_cols,
     )
 
-    # join with the elapsed times.
+    # join with the elapsed times
     train_df = train_df.join(elapsed, ["Date", "Store"]).select(
         train_df["*"],
         *[prefix + col for prefix in ["Before", "After"] for col in elapsed_cols],
@@ -425,7 +426,7 @@ def data_preparation(
         *[prefix + col for prefix in ["Before", "After"] for col in elapsed_cols],
     )
 
-    # filter out zero sales.
+    # filter out zero sales
     train_df = train_df.filter(train_df.Sales > 0)
 
     print("===================")
@@ -439,21 +440,22 @@ def data_preparation(
     train_df = train_df.select(*(all_cols + ["Sales", "Date"])).cache()
     test_df = test_df.select(*(all_cols + ["Id", "Date"])).cache()
 
-    # build a vocabulary of categorical columns.
+    # build a vocabulary of categorical columns
     vocab = build_vocabulary(
         train_df.select(*CATEGORICAL_COLS)
         .unionAll(test_df.select(*CATEGORICAL_COLS))
         .cache(),
     )
 
-    # cast continuous columns to float & lookup categorical columns.
+    # cast continuous columns to float 
     train_df = cast_columns(train_df, CONTINUOUS_COLS + ["Sales"])
+    # check a column against two different key-value pairs, and add/replace the existing column that has same name.
     train_df = lookup_columns(train_df, vocab)
     test_df = cast_columns(test_df, CONTINUOUS_COLS)
     test_df = lookup_columns(test_df, vocab)
 
-    # split into training & validation.
-    # test set is in 2015, use the same period in 2014 from the training set as a validation set.
+    # split into training & validation
+    # test set is in 2015, use the same period in 2014 from the training set as a validation set
     test_min_date = test_df.agg(F.min(test_df.Date)).collect()[0][0]
     test_max_date = test_df.agg(F.max(test_df.Date)).collect()[0][0]
     one_year = datetime.timedelta(365)
@@ -463,7 +465,7 @@ def data_preparation(
         & (train_df.Date <= test_max_date - one_year),
     )
 
-    # determine max Sales number.
+    # determine max Sales number
     max_sales = train_df.agg(F.max(train_df.Sales)).collect()[0][0]
 
     # convert Sales to log domain
@@ -508,7 +510,7 @@ def train(
     print("Model training")
     print("==============")
 
-    # We define a method to determine root mean square percentage error of exponential of predictions
+    # a method to determine root mean square percentage error of exponential of predictions
     def exp_rmspe(y_true, y_pred):
         """Competition evaluation metric, expects logarmithic inputs."""
         pct = tf.square((tf.exp(y_true) - tf.exp(y_pred)) / tf.exp(y_true))
@@ -524,9 +526,9 @@ def train(
         """Sigmoid scaled to logarithm of maximum sales scaled by 20%."""
         return tf.nn.sigmoid(x) * tf.math.log(max_sales) * 1.2
 
-    # NOTE: exp_rmse and act_sigmoid_scaled functions are not placed at the module level.
-    # this is because we cannot explicitly send max_sales as an argument to act_sigmoid_scaled since it is an activation function.
-    # two of them are custom objects, and placing one at the module level and the other within the function doesn't really add up.
+    # NOTE: exp_rmse and act_sigmoid_scaled functions are not placed at the module level
+    # this is because we cannot explicitly send max_sales as an argument to act_sigmoid_scaled since it is an activation function
+    # two of them are custom objects, and placing one at the module level and the other within the function doesn't really add up
 
     all_cols = CATEGORICAL_COLS + CONTINUOUS_COLS
     CUSTOM_OBJECTS = {"exp_rmspe": exp_rmspe, "act_sigmoid_scaled": act_sigmoid_scaled}
@@ -539,10 +541,11 @@ def train(
         K.set_session(tf.Session(config=tf.ConfigProto(device_count={"GPU": 0})))
 
     # build the Keras model with:
-    # a layer to concatenate the list of inputs
-    # a layer to normalize the inputs of our model
-    # flattened input, without affecting the batch size of data
-    # a densely connected neural network
+    # 1. a layer to concatenate the list of inputs
+    # 2. a layer to normalize the inputs of our model
+    # 3. flattened input, without affecting the batch size of data
+    # 4. a densely connected neural network
+    # 5. apply Dropout to the input
     inputs = {col: Input(shape=(1,), name=col) for col in all_cols}
     embeddings = [
         Embedding(len(vocab[col]), 10, input_length=1, name="emb_" + col)(inputs[col])
@@ -566,9 +569,8 @@ def train(
     x = Dense(
         500, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
     )(x)
-    # apply Dropout to the input
     x = Dropout(0.5)(x)
-    # element-wise activation funtion is specified
+    # specify element-wise activation
     output = Dense(1, activation=act_sigmoid_scaled)(x)
     model = tf.keras.Model([inputs[f] for f in all_cols], output)
     # display the details of the Keras model
@@ -581,11 +583,10 @@ def train(
         monitor="val_loss", mode="auto", save_freq="epoch"
     )
 
-    # Horovod: run training
-    # Horovod on Spark uses cloudpickle to send training function to workers for execution.
-    # We create an object of Store class
+    # Horovod on Spark uses cloudpickle to send training function to workers for execution
+    # create an object of Store class
     store = Store.create(work_dir.remote_source)
-    # 'SparkBackend' uses `horovod.spark.run` to execute the distributed training function.
+    # 'SparkBackend' uses `horovod.spark.run` to execute the distributed training function
     # it returns a list of results by running 'train' on every worker in the cluster    
     backend = SparkBackend(
         num_proc=hp.num_proc,
@@ -593,9 +594,7 @@ def train(
         stderr=sys.stderr,
         prefix_output_with_timestamp=True,
     )
-    # We define a Spark Estimator that fits Keras models to a DataFrame.
-    # With ``KerasEstimator``, the leverage we achieve is that Horovod Estimator API can be scaled without any specialized code. 
-    # The user would just provide a Keras model, and the Estimator will fit the data and store it in a Spark DataFrame. 
+    # define a Spark Estimator that fits Keras models to a DataFrame
     keras_estimator = hvd.KerasEstimator(
         backend=backend,
         store=store,
@@ -615,22 +614,22 @@ def train(
 
     # %%
     # the Estimator hides the following details:
-    # 1. binding Spark DataFrames to a deep learning training script.
-    # 2. reading data into a format that can be interpreted by the training framework.
-    # 3. distributed training using Horovod. 
-    # the user just needs to provide a Keras model, and the Estimator will fit the data to the DataFrame.
+    # 1. binding Spark DataFrames to a deep learning training script
+    # 2. reading data into a format that can be interpreted by the training framework
+    # 3. distributed training using Horovod
+    # the user would just provide a Keras model, and the `KerasEstimator`` will fit the data and store it in a Spark DataFrame
     keras_model = keras_estimator.fit(train_df).setOutputCols(["Sales_output"])
-    # the model training history can be retrieved 
+    # retrieve the model training history 
     history = keras_model.getHistory()
     best_val_rmspe = min(history["val_exp_rmspe"])
     print("Best RMSPE: %f" % best_val_rmspe)
 
-    # save the trained model.
+    # save the trained model
     keras_model.save(os.path.join(working_dir, hp.local_checkpoint_file))
     print(
         "Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file)
     )
-    # the Estimator returns a Transformer representation of the trained model once training is complete.
+    # the Estimator returns a Transformer representation of the trained model once training is complete
     return keras_model 
 
 # %%
@@ -690,6 +689,7 @@ def test(
     limits=Resources(mem="1Gi"),
 )
 
+# This function conslidates the ``data_preparation``, ``train`` and ``test`` methods, and returns the sales predictions.
 def horovod_spark_task(
     data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
 ) -> FlyteDirectory:
@@ -708,7 +708,7 @@ def horovod_spark_task(
         working_dir,
     )
 
-    # generate predictions.
+    # generate predictions
     return test(keras_model, working_dir, test_df, hp)
 
 # %%
