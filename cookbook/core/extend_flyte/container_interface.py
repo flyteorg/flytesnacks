@@ -3,17 +3,20 @@
 
 Container Interface
 -------------------
-The Flyte typically interacts with containers in the course of its task execution (since most tasks are container
-tasks). If you are extending Flyte with a new container task type, it's worth it to understand how the platform
-interacts with containers. This interaction is encoded in two places.
+Flyte typically interacts with containers in the course of its task execution (since most tasks are container
+tasks). This is what that process looks like.
 
-#. At compilation time for a container task, the arguments to that container are set. This is done by flytekit
-   for instance for your run of the mill ``@task``.
-#. At runtime, Flyte will execute your task via a plugin. The default container plugin (and most other plugins but
-   not all) will do the following:
+#. At compilation time for a container task, the arguments to that container (and the container image itself) are set.
+  This is done by flytekit for instance for your run of the mill ``@task``. This step is **crucial** - the task
+  needs to specify the correct image, and the image it specifies needs to be built correctly. If the image is wrong
+#. At runtime, Flyte will execute your task via a plugin. The default container plugin will do the following:
   #. Set a series of environment variables.
-  #. Before running the container, the plugin will search/replace values in the container arguments. The
+  #. Before running the container, search/replace values in the container arguments. The
      command templating section below details how this happens.
+
+  This templating process *should* be done by **all** plugins, even plugins that don't run a container but need
+  some information from the execution side. For example, a query task that submits a query to an engine that
+  writes the output to the raw output location. Or a query that uses the unique retry key as a temp table name, etc.
 
 Command Templating
 ^^^^^^^^^^^^^^^^^^
