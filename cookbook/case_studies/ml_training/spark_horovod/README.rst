@@ -67,7 +67,7 @@ To install the Spark plugin on Flyte, we use the following command:
     :alt: Flyte-Spark plugin
 
     Flyte-Spark plugin
-To set-up the plugin during Flyte deployment, refer to `this. <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/docs/integrations.rst>` __
+The plugin needs some configuration to be done in the Flyte backend as well. Refer to :ref:`Kubernetes Spark Jobs <plugins-spark-k8s>` for the installation instructions.
 In a nutshell, here’s how Horovod-Spark-Flyte can be beneficial:
 Horovod provides the distributed framework, Spark enables extracting, preprocessing, and partitioning data,
 Flyte can stitch the former two pieces together, e.g., by connecting the data output of a Spark transform to a training system using Horovod while ensuring high utilization of GPUs!
