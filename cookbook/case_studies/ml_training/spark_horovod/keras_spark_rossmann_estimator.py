@@ -279,7 +279,7 @@ def prepare_df(
     )
 
     # days and months since the competition has been open, cap it to 2 years
-     df = df.withColumn(
+    df = df.withColumn(
         "CompetitionOpenSince",
         F.to_date(
             F.format_string(
