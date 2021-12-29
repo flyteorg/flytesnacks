@@ -7,7 +7,7 @@ Writing Custom Flyte Types
 Flyte is a strongly-typed framework for authoring tasks and workflows. But there are situations when the existing set
 of types do not directly work. In fact, this is true with any programming language!
 
-Just like how a programming language supports higher-level concepts to describe user-specific objects - like classes in Python/Java/C++, struct in C/Golang, etc.,
+Just like a programming language enabling higher-level concepts to describe user-specific objects - like classes in Python/Java/C++, struct in C/Golang, etc.,
 Flytekit allows modeling user classes. The idea is to make an interface that is more productive for the
 use case, but write a transformer that transforms the user-defined type to one of the generic constructs in Flyte's type system.
 
