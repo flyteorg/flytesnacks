@@ -660,6 +660,7 @@ def test(
 # =====================
 #
 # Flyte provides an easy-to-use interface to specify Spark-related attributes.
+# Refer to :ref:`Kubernetes Spark Jobs <plugins-spark-k8s>` for the installation instructions.
 # They need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
 #
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
