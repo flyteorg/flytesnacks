@@ -119,6 +119,7 @@ class CustomSorter(FileNameSortKey):
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
+        "tf_mnist.py",
         ## AWS
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
@@ -273,7 +274,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
-    # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
@@ -307,7 +308,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
-    # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
@@ -455,6 +456,10 @@ intersphinx_mapping = {
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "pytorch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
+    "tensorflow": (
+        "https://www.tensorflow.org/api_docs/python",
+        "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
+    ),
 }
 
 # Sphinx-tabs config
