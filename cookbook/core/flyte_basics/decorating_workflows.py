@@ -98,7 +98,7 @@ def setup_teardown(fn=None, *, before, after):
 #
 # 1. It takes a ``before`` and ``after`` argument, both of which need to be ``@task``-decorated functions. These
 #    tasks will run before and after the main workflow function body.
-# 2. The :py:func:`~flytekit.core.node_creation.create_node` function to create nodes associated with the ``before``
+# 2. The ``create_node`` function to create nodes associated with the ``before``
 #    and ``after`` tasks.
 # 3. When ``fn`` is called, under the hood Flytekit creates all the nodes associated with the workflow function body
 # 4. The code within the ``if ctx.compilation_state is not None:`` conditional is executed at compile time, which
