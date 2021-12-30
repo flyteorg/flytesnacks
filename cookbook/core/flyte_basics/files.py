@@ -33,7 +33,7 @@ from flytekit import FlyteContext
 # Files do not have a native object in Python, so we had to write one ourselves.
 # There does exist the ``os.PathLike`` protocol, but nothing implements it.
 @task
-def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
+def rotate(image_location: JPEGImageFile, location: str) -> JPEGImageFile:
     """
     Download the given image, rotate it by 180 degrees
     """
@@ -52,7 +52,10 @@ def rotate(image_location: JPEGImageFile) -> JPEGImageFile:
         f"rotated-{os.path.basename(image_location.path).rsplit('.')[0]}.jpg",
     )
     cv2.imwrite(out_path, res)
-    return JPEGImageFile(path=out_path)
+    if location:
+        return JPEGImageFile(path=out_path, remote_path=location)
+    else:
+        return JPEGImageFile(path=out_path)
 
 
 # %%
