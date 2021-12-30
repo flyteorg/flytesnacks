@@ -27,7 +27,7 @@ GPU to CPU
 **GPU support has been enabled in the code by default**. If you want to test your code on a CPU, incorporate the following changes:
 
 * Replace ``FROM tensorflow/tensorflow:latest-gpu`` with ``FROM tensorflow/tensorflow:latest`` in the Dockerfile
-* Nullify ``gpu`` parameter in the code
+* Remove the ``gpu`` parameter from the ``Resources`` definition in the example
 
 Dockerfile
 ^^^^^^^^^^

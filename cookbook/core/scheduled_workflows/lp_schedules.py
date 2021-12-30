@@ -2,19 +2,16 @@
 Scheduling Workflows Example
 ----------------------------
 
-.. note::
-    For background on launch plans, refer to :ref:`flyte:divedeep-launchplans`.
-
-Launch plans can be set to run automatically on a schedule using the Flyte native scheduler.
+:ref:`flyte:divedeep-launchplans` can be set to run automatically on a schedule using the Flyte Native Scheduler.
 For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow.
-
-.. note::
-
-  Native scheduler doesn't support `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`_.
 
 Check out a demo of how Native Scheduler works:
 
 .. youtube:: sQoCp2qSQK4
+
+.. note::
+
+  Native scheduler doesn't support `AWS syntax <http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions>`__.
 
 """
 
@@ -46,7 +43,7 @@ def date_formatter_wf(kickoff_time: datetime):
 # An incorrect cron schedule expression would lead to failure in triggering the schedule
 from flytekit import CronSchedule, LaunchPlan
 
-# creates a launch plan that runs at 10am UTC every day.
+# creates a launch plan that runs every minute.
 cron_lp = LaunchPlan.get_or_create(
     name="my_cron_scheduled_lp",
     workflow=date_formatter_wf,
@@ -59,7 +56,8 @@ cron_lp = LaunchPlan.get_or_create(
 )
 
 # %%
-# The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``. This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs at 10 AM UTC every day.
+# The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``.
+# This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs every minute.
 
 # %%
 # Fixed Rate Intervals
