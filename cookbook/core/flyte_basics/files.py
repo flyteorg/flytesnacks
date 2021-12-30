@@ -74,8 +74,8 @@ def rotate(image_location: JPEGImageFile, location: str) -> JPEGImageFile:
 # %%
 # We now define the workflow.
 @workflow
-def rotate_one_workflow(in_image: JPEGImageFile) -> JPEGImageFile:
-    return rotate(image_location=in_image)
+def rotate_one_workflow(in_image: JPEGImageFile, output_location: str = "") -> JPEGImageFile:
+    return rotate(image_location=in_image, location=output_location)
 
 
 # %%
