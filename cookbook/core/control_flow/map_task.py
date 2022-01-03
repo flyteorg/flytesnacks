@@ -18,8 +18,7 @@ Let's look at an example now!
 # First, we import the libraries.
 import typing
 
-from flytekit import map_task, task, workflow
-from flytekit.core.resources import Resources
+from flytekit import Resources, map_task, task, workflow
 
 
 # %%
