@@ -8,7 +8,7 @@ Overall, data-parallel distributed training can help speed up the execution time
 
 In this tutorial, we will understand how data-parallel distributed training works with Flyte, Horovod, and Spark.
 
-We will use Rossmann store sales data as the dataset with which we forecast the sales, and further, process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
+We will forecast sales using the Rossmann store sales dataset, and as the data preparation step, we will process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
 Lastly, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
 Let's get started with the example!
@@ -660,7 +660,7 @@ def test(
 # =====================
 #
 # Flyte provides an easy-to-use interface to specify Spark-related attributes.
-# Refer to :ref:`Kubernetes Spark Jobs <plugins-spark-k8s>` for the installation instructions.
+# Refer to `this <https://docs.flyte.org/projects/cookbook/en/latest/auto/case_studies/ml_training/spark_horovod/index.html#flyte-and-spark>`__ for the installation instructions.
 # They need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
 #
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
