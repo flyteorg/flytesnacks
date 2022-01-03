@@ -39,8 +39,8 @@ def date_formatter_wf(kickoff_time: datetime):
 # Cron Schedules
 # ##############
 #
-# Cron expression strings use the following `syntax <https://pkg.go.dev/github.com/robfig/cron#hdr-CRON_Expression_Format>`_.
-# An incorrect cron schedule expression would lead to failure in triggering the schedule
+# `Cron <https://en.wikipedia.org/wiki/Cron>`_ expression strings use `this syntax <https://docs.flyte.org/en/latest/concepts/schedules.html>`_.
+# An incorrect cron schedule expression would lead to failure in triggering the schedule.
 from flytekit import CronSchedule, LaunchPlan
 
 # creates a launch plan that runs at 10am UTC every day.
