@@ -32,6 +32,8 @@ from flytekit import FlyteContext
 # which again is the ``JPEGImageFile``.
 # Files do not have a native object in Python, so we had to write one ourselves.
 # There does exist the ``os.PathLike`` protocol, but nothing implements it.
+# If the ``location`` argument is specified, it will be passed to the ``remote_path`` argument of ``FlyteFile``,
+# which will use that path as the storage location instead of using a random location.
 @task
 def rotate(image_location: JPEGImageFile, location: str) -> JPEGImageFile:
     """
@@ -72,7 +74,9 @@ def rotate(image_location: JPEGImageFile, location: str) -> JPEGImageFile:
 #   The ``rotate`` task works with ``FlyteFile``, too. However, ``JPEGImageFile`` helps attach the content information.
 
 # %%
-# We now define the workflow.
+# We now define the workflow. Note that there is an ``output_location`` argument to the workflow as well. This is
+# passed to the ``location`` input of the task. If present, that is if it's not an empty string, the task will
+# attempt to upload its file to that location.
 @workflow
 def rotate_one_workflow(in_image: JPEGImageFile, output_location: str = "") -> JPEGImageFile:
     return rotate(image_location=in_image, location=output_location)
