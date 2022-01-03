@@ -63,7 +63,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
     # via flytekit
-numpy==1.21.2
+numpy==1.22.0
     # via
     #   matplotlib
     #   pandas
