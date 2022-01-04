@@ -602,12 +602,12 @@ def train(
         checkpoint_callback=ckpt_callback,
     )
 
-    # %%
     # The Estimator hides the following details:
     # 1. Binding Spark DataFrames to a deep learning training script
     # 2. Reading data into a format that can be interpreted by the training framework
     # 3. Distributed training using Horovod
-    # the user would just provide a Keras model, and the `KerasEstimator`` will fit the data and store it in a Spark DataFrame
+    # the user would provide a Keras model to the `KerasEstimator``
+    # this `KerasEstimator`` will fit the data and store it in a Spark DataFrame
     keras_model = keras_estimator.fit(train_df).setOutputCols(["Sales_output"])
     # retrieve the model training history 
     history = keras_model.getHistory()
@@ -660,8 +660,8 @@ def test(
 # =====================
 #
 # Flyte provides an easy-to-use interface to specify Spark-related attributes.
-# Refer to `this <https://docs.flyte.org/projects/cookbook/en/latest/auto/case_studies/ml_training/spark_horovod/index.html#flyte-and-spark>`__ for the installation instructions.
-# They need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
+# Note: To set up Spark, refer to :ref:flyte-and-spark.
+# The Spark attributes need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
 #
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
 @task(

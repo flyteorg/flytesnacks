@@ -50,6 +50,9 @@ Since we use the Keras deep learning library, here’s how we install the releva
 
 The installation includes enabling MPI and TensorFlow environments.
 
+
+.. _flyte-and-spark:
+
 Flyte and Spark
 ^^^^^^^^^^^^^^^
 
