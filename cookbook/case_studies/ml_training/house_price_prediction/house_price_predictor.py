@@ -4,7 +4,7 @@ Predicting House Price in a Region with XGBoost
 """
 
 # %%
-# Install the following libraries before running the model (locally):
+# Install the following three libraries before running the model (locally):
 #
 # .. code-block:: python
 #
@@ -15,7 +15,7 @@ Predicting House Price in a Region with XGBoost
 # %%
 # Importing the Libraries
 # ========================
-# First, let's import the required packages into the environment.
+# First, import all the required libraries.
 import typing
 
 import os
@@ -30,7 +30,9 @@ from flytekit.types.file import JoblibSerializedFile
 from typing import Tuple
 
 # %%
-    # Initialize the variables that represent columns in the dataset. We will use these variable to build the model as well.
+# Initializing the Variables
+# ===========================
+# Initialize the variables to be used while building the model.
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
@@ -42,13 +44,12 @@ COLUMNS = [
     "GARAGE_SPACES",
 ]
 MAX_YEAR = 2021
-# Divide train, validation, and test datasets in specific ratio.
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
 # %%
-# Data Generation
+# Defining the Data Generation Functions
 # =======================================
-# We define a function that generates the price of a house based on multiple factors (such as `number of bedrooms`, `number of bathrooms`, `area`, `garage space` and `year built`).
+# Define a function to generate the price of a house.
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
     _price = int(
@@ -63,7 +64,7 @@ def gen_price(house) -> int:
 
 
 # %%
-# Now, let's generate a DataFrame object that constitutes all the houses' details.
+# Define a function that returns a DataFrame object constituting all the houses' details.
 def gen_houses(num_houses) -> pd.DataFrame:
     _house_list = []
     for _ in range(num_houses):
@@ -76,7 +77,6 @@ def gen_houses(num_houses) -> pd.DataFrame:
             "YEAR_BUILT": min(MAX_YEAR, int(np.random.normal(1995, 10))),
         }
         _price = gen_price(_house)
-        # column names/features 
         _house_list.append(
             [
                 _price,
@@ -88,7 +88,6 @@ def gen_houses(num_houses) -> pd.DataFrame:
                 _house["GARAGE_SPACES"],
             ]
         )
-    # convert the list to a DataFrame    
     _df = pd.DataFrame(
         _house_list,
         columns=COLUMNS,
@@ -97,7 +96,7 @@ def gen_houses(num_houses) -> pd.DataFrame:
 
 
 # %%
-# We split the data into train, validation, and test datasets.
+# Split the data into train, val, and test datasets.
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -107,12 +106,12 @@ def split_data(
     test_size = split[2]
 
     num_samples = df.shape[0]
-    # retain the features, skip the target column
-    x1 = df.values[:num_samples, 1:]  
-    # retain the target column
-    y1 = df.values[:num_samples, :1]  
+    x1 = df.values[
+        :num_samples, 1:
+    ]  # keep only the features, skip the target, all rows
+    y1 = df.values[:num_samples, :1]  # keep only the target, all rows
 
-    # divide the input into train and test set
+    # Use split ratios to divide up into train & test
     x_train, x_test, y_train, y_test = train_test_split(
         x1, y1, test_size=test_size, random_state=seed
     )
@@ -222,7 +221,7 @@ def house_price_predictor_trainer(
     seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
 ) -> typing.List[float]:
 
-    # generate and split the data
+    # Generate and split the data
     split_data_vals = generate_and_split_data(
         number_of_houses=number_of_houses, seed=seed
     )
@@ -232,7 +231,7 @@ def house_price_predictor_trainer(
         loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data
     )
 
-    # generate predictions
+    # Generate predictions
     predictions = predict(model_ser=model, test=split_data_vals.test_data)
 
     return predictions
