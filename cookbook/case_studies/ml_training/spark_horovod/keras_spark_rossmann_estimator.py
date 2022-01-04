@@ -8,7 +8,7 @@ Overall, data-parallel distributed training can help speed up the execution time
 
 In this tutorial, we will understand how data-parallel distributed training works with Flyte, Horovod, and Spark.
 
-We will forecast sales using the Rossmann store sales dataset, and as the data preparation step, we will process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
+We will forecast sales using the Rossmann store sales dataset. As the data preparation step, we will process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
 Lastly, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
 Let's get started with the example!
@@ -342,7 +342,7 @@ def cast_columns(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.Data
     return df
 
 # %%
-# 7. Next, define a function that returns a list of values based on a key.
+# 7. Lastly, define a function that returns a list of values based on a key.
 def lookup_columns(
     df: pyspark.sql.DataFrame, vocab: Dict[str, List[Any]]
 ) -> pyspark.sql.DataFrame:
@@ -490,7 +490,7 @@ def data_preparation(
 
 # %%
 # Training
-# =======
+# ===========
 #
 # We use ``KerasEstimator`` in Horovod to train our Keras model on an existing pre-processed Spark DataFrame.
 # The Estimator leverages Horovod's ability to scale across multiple workers, thereby eliminating any specialized code to perform distributed training.
@@ -657,16 +657,20 @@ def test(
 
 # %%
 # Defining the Spark Task
-# =====================
+# ========================
 #
 # Flyte provides an easy-to-use interface to specify Spark-related attributes.
-# Note: To set up Spark, refer to :ref:flyte-and-spark.
 # The Spark attributes need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
-#
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
+#
+#  .. note::
+#      
+#     To set up Spark, refer to :ref:`flyte-and-spark`.
+#
+
 @task(
     task_config=Spark(
-        # this configuration is applied to the Spark cluster
+        # the below configuration is applied to the Spark cluster
         spark_conf={
             "spark.driver.memory": "2000M",
             "spark.executor.memory": "2000M",
@@ -719,9 +723,9 @@ def horovod_spark_wf(
 
 # %%
 # Running the Model Locally
-# =============
+# ==========================
 #
-# We can run the code locally too, given Spark is enabled and the plugin is set up in the environment.
+# We can run the code locally too, provided Spark is enabled and the plugin is set up in the environment.
 if __name__ == "__main__":
     metrics_directory = horovod_spark_wf()
     print(f"Find the model and predictions at {metrics_directory}")
