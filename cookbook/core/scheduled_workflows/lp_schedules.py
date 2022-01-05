@@ -1,7 +1,7 @@
 """
 Scheduling Workflows
 --------------------
-For background on launch plans, refer to :any:`launch_plans`.
+For background on launch plans, refer to :ref:`launchplans <flyte:divedeep-launchplans>`.
 Launch plans can be set to run automatically on a schedule using the flyte native scheduler.
 For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow. 
 
@@ -39,7 +39,7 @@ def date_formatter_wf(kickoff_time: datetime):
 # Cron Schedules
 # ##############
 #
-# `Cron <https://en.wikipedia.org/wiki/Cron>`_ expression strings use `this syntax <https://docs.flyte.org/en/latest/concepts/schedules.html>`_.
+# `Cron <https://en.wikipedia.org/wiki/Cron>`_ expression strings use this :ref:`syntax <concepts-schedules>`.
 # An incorrect cron schedule expression would lead to failure in triggering the schedule.
 from flytekit import CronSchedule, LaunchPlan
 
