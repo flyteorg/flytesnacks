@@ -112,7 +112,7 @@ packaging==21.2
     # via sphinx
 pandas==1.3.4
     # via flytekit
-pillow==8.4.0
+pillow==9.0.0
     # via
     #   -r ./docs-requirements.in
     #   matplotlib
