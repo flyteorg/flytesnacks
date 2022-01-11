@@ -25,6 +25,8 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
+RUN apt-get update && apt-get install -y git
+
 # Install Python dependencies
 COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
