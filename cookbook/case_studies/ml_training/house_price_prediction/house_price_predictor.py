@@ -2,7 +2,7 @@
 .. _single_region_house_prediction:
 
 Predicting House Price in a Region Using XGBoost
-------------------------------------------------
+--------------------------------------------------
 
 `XGBoost <https://xgboost.readthedocs.io/en/latest/>`__ is an optimized distributed gradient boosting library designed to be efficient, flexible, and portable. 
 It uses `gradient boosting <https://en.wikipedia.org/wiki/Gradient_boosting>`__ technique to implement Machine Learning algorithms.
