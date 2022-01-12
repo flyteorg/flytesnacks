@@ -59,7 +59,7 @@ COLUMNS = [
     "GARAGE_SPACES",
 ]
 MAX_YEAR = 2021
-# divide the train data into train, validation, and test datasets in specific ratio.
+# divide the data into train, validation, and test datasets in specific ratio.
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
 # %%
