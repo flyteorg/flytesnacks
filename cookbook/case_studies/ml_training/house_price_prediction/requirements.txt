@@ -42,7 +42,7 @@ docstring-parser==0.13
     # via flytekit
 flyteidl==0.21.19
     # via flytekit
-flytekit @ git+git://github.com/flyteorg/flytekit.git@legacy-removal
+flytekit @ git+https://github.com/flyteorg/flytekit.git@legacy-removal
     # via -r ../../../common/requirements-common.in
 fonttools==4.28.5
     # via matplotlib

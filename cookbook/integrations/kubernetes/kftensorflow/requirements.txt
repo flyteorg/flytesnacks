@@ -26,7 +26,7 @@ dill==0.3.4
     # via tensorflow-datasets
 flatbuffers==2.0
     # via tensorflow
-flytekit @ git+git://github.com/flyteorg/flytekit.git@legacy-removal
+flytekit @ git+https://github.com/flyteorg/flytekit.git@legacy-removal
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-kftensorflow

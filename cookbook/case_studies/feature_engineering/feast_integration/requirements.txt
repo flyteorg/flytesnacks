@@ -74,11 +74,11 @@ feast[aws]==0.17.0
     # via -r requirements.in
 flyteidl==0.21.19
     # via flytekit
-flytekit @ git+git://github.com/flyteorg/flytekit.git@legacy-removal
+flytekit @ git+https://github.com/flyteorg/flytekit.git@legacy-removal
     # via -r ../../../common/requirements-common.in
 fonttools==4.28.5
     # via matplotlib
-google-api-core==2.3.2
+google-api-core==2.4.0
     # via feast
 google-auth==2.3.3
     # via google-api-core

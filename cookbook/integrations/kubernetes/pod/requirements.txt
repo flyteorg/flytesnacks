@@ -14,7 +14,7 @@ charset-normalizer==2.0.10
     # via requests
 cycler==0.11.0
     # via matplotlib
-flytekit @ git+git://github.com/flyteorg/flytekit.git@legacy-removal
+flytekit @ git+https://github.com/flyteorg/flytekit.git@legacy-removal
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-pod

@@ -45,7 +45,7 @@ entrypoints==0.3
     #   altair
     #   jupyter-client
     #   nbconvert
-flytekit @ git+git://github.com/flyteorg/flytekit.git@legacy-removal
+flytekit @ git+https://github.com/flyteorg/flytekit.git@legacy-removal
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-great-expectations
