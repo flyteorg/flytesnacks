@@ -1,35 +1,19 @@
 """
-Predicting House Price in Multiple Regions Using XGBoost and Dynamic Workflows
--------------------------------------------------------------------------------
-`XGBoost <https://xgboost.readthedocs.io/en/latest/>`__ is an optimized distributed gradient boosting library designed to be efficient, flexible, and portable. 
-It uses `gradient boosting <https://en.wikipedia.org/wiki/Gradient_boosting>`__ technique to implement Machine Learning algorithms.
+Predicting House Price in Multiple Regions with XGBoost and Dynamic Workflows
+------------------------------------------------------------------------------
 
-In this tutorial, we will understand how to predict house prices in multiple regions using XGBoost, and dynamic workflows in Flyte.
-
-A dynamic workflow is a typical workflow where the users can perform any arbitrary computation by consuming the inputs and producing the outputs. In the backend, it is designed as a task. During execution, the function body can be run to produce a workflow.
-
-We will split the generated dataset into train, test and validation set. 
-
-Next, we will create two dynamic workflows in Flyte, that will:
-
-1. Generate and split the data for multiple regions.
-
-2. Train the model using XGBoost and generate predictions.
-
-We can use two separate methods to fit the model and generate predictions, but incorporating a workflow will perform both the tasks in parallel, which is efficient and powerful.
-
-Let's get started with the example!
+In this example, you'll use the house price prediction model for one region to expand it to multiple regions. 
 """
 
 # %%
-# First, let's import the required packages into the environment.
+# Importing the Libraries
+# ========================
+# First, import all the required libraries.
 import typing
 
 import pandas as pd
 from flytekit import Resources, dynamic, workflow
 
-# %%
-# We define a ``try-catch`` block to import data preprocessing functions from the :ref:`single_region_house_prediction`.
 try:
     from .house_price_predictor import (
         generate_and_split_data,
@@ -44,7 +28,9 @@ except ImportError:
     )
 
 # %%
-# We initialize variables that represent columns in the dataset. We use these variables to build the model, since they affect the house prices.
+# Initializing the Variables
+# ===========================
+# Initialize the variables to be used while building the model.
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
@@ -55,7 +41,6 @@ COLUMNS = [
     "LOT_ACRES",
     "GARAGE_SPACES",
 ]
-# initialize location names to predict house prices in these regions.
 LOCATIONS = [
     "NewYork_NY",
     "LosAngeles_CA",
@@ -70,11 +55,10 @@ LOCATIONS = [
 ]
 
 # %%
-# Data Generation and Preprocessing 
-# ===================================
-# We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` to generate and split the data. We return the result as DataFrames.
-#
-# Now, let's create a ``NamedTuple`` that maps variable names to their respective data type.
+# Task: Generating & Splitting the Data for Multiple Regions
+# ============================================================
+# Call the previously defined helper functions to generate and split the data. Finally, return the DataFrame objects.
+
 dataset = typing.NamedTuple(
     "GenerateSplitDataOutputs",
     train_data=typing.List[pd.DataFrame],
@@ -82,15 +66,14 @@ dataset = typing.NamedTuple(
     test_data=typing.List[pd.DataFrame],
 )
 
-# %%
-# Next, we create a :py:func:`~flytekit:flytekit.dynamic` workflow to generate and split the data for multiple regions.
+
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
     number_of_houses_per_location: int,
     seed: int,
 ) -> dataset:
-    train_sets = [] # create empty lists for train, validation, and test subsets
+    train_sets = []
     val_sets = []
     test_sets = []
     for _ in locations:
@@ -106,16 +89,16 @@ def generate_and_split_data_multiloc(
         test_sets.append(
             _test,
         )
-    # split the dataset into train, validation, and test subsets   
     return train_sets, val_sets, test_sets
 
 
 # %%
-# Training and Generating Predictions
-# =====================================
+# Dynamic Workflow: Training the XGBoost Model & Generating the Predictions for Multiple Regions
+# ===============================================================================================
 #
-# We create another :py:func:`~flytekit:flytekit.dynamic` workflow to train the model and generate predictions.
-# Training and generating predictions ensue in parallel as a single task.
+# Fit the model to the data and generate predictions (two functionalities in a single task to make it more powerful!)
+#
+# Note: You can also use two separate methods to fit the model and generate predictions but this basically means parallelizing an entire set of tasks.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit_predict(
     multi_train: typing.List[pd.DataFrame],
@@ -123,8 +106,7 @@ def parallel_fit_predict(
     multi_test: typing.List[pd.DataFrame],
 ) -> typing.List[typing.List[float]]:
     preds = []
-    
-    # generate predictions for multiple regions
+
     for loc, train, val, test in zip(LOCATIONS, multi_train, multi_val, multi_test):
         model = fit(loc=loc, train=train, val=val)
         preds.append(predict(test=test, model_ser=model))
@@ -133,21 +115,26 @@ def parallel_fit_predict(
 
 
 # %%
-# Lastly, we define a workflow to run the pipeline.
+# Defining the Workflow
+# ======================
+# Include the following three steps in the workflow:
+#
+# #. Generate and split the data (Step 3)
+# #. Parallelly fit the XGBoost model and generate predictions for multiple regions (Step 4)
 @workflow
 def multi_region_house_price_prediction_model_trainer(
     seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
 ) -> typing.List[typing.List[float]]:
 
-    # generate and split the data
+    # Generate and split the data
     split_data_vals = generate_and_split_data_multiloc(
         locations=LOCATIONS,
         number_of_houses_per_location=number_of_houses,
         seed=seed,
     )
 
-    # fit the XGBoost model for multiple regions in parallel
-    # generate predictions for multiple regions
+    # Parallelly fit the XGBoost model for multiple regions
+    # Generate predictions for multiple regions
     predictions = parallel_fit_predict(
         multi_train=split_data_vals.train_data,
         multi_val=split_data_vals.val_data,
@@ -158,6 +145,10 @@ def multi_region_house_price_prediction_model_trainer(
 
 
 # %%
-# We can run the workflow locally provided the required libraries are installed. The output would be a list of lists of house prices based on region, generated using the XGBoost model.
+# Trigger the workflow locally by calling the workflow function.
 if __name__ == "__main__":
     print(multi_region_house_price_prediction_model_trainer())
+
+
+# %%
+# The output will be a list of lists (one list per region) of house price predictions.
