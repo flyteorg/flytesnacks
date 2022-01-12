@@ -72,8 +72,8 @@ LOCATIONS = [
 # %%
 # Data Generation and Preprocessing 
 # ====================================
-# We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` to generate and split the data. We return the result as DataFrames.
 #
+# We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` to generate and split the data. We return the result as DataFrames.
 # Now, let's create a ``NamedTuple`` that maps variable names to their respective data type.
 dataset = typing.NamedTuple(
     "GenerateSplitDataOutputs",
@@ -158,6 +158,9 @@ def multi_region_house_price_prediction_model_trainer(
 
 
 # %%
+# Running the Model Locally
+# ==========================
+#
 # We can run the workflow locally provided the required libraries are installed. The output would be a list of lists of house prices based on region, generated using the XGBoost model.
 if __name__ == "__main__":
     print(multi_region_house_price_prediction_model_trainer())

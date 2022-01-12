@@ -63,8 +63,8 @@ MAX_YEAR = 2021
 SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
 # %%
-# Data Generation
-# =====================
+# Data Generation 
+# ==================
 #
 # We define a function to compute the price of a house based on multiple factors (such as ``number of bedrooms``, ``number of bathrooms``, ``area``, ``garage space`` and ``year built``).
 def gen_price(house) -> int:
@@ -119,7 +119,7 @@ def gen_houses(num_houses) -> pd.DataFrame:
 #
 # We create two columns from the dataset- `feature` and `target`. 
 #
-#Next, we split these columns into train and test subsets. We also split the input DataFrame into train, validation, and test datasets.
+# Next, we split these columns into train and test subsets. We also split the input DataFrame into train, validation, and test datasets.
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -258,6 +258,9 @@ def house_price_predictor_trainer(
 
 
 # %%
+# Running the Model Locally
+# ==========================
+#
 # We can run the workflow locally provided the required libraries are installed. The output would be a list of house prices, generated using the XGBoost model.
 if __name__ == "__main__":
     print(house_price_predictor_trainer())
