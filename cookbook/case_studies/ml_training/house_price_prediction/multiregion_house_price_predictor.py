@@ -71,7 +71,7 @@ LOCATIONS = [
 
 # %%
 # Data Generation and Preprocessing 
-# ====================================
+# ===================================
 # We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` to generate and split the data. We return the result as DataFrames.
 #
 # Now, let's create a ``NamedTuple`` that maps variable names to their respective data type.
