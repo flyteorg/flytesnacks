@@ -38,6 +38,7 @@ their fault-tolerance.
 """
 
 from flytekit import task, workflow, current_context
+from flytekit.common.exceptions.user import FlyteRecoverableException
 
 
 # %%
@@ -60,7 +61,7 @@ def t1(a: int) -> int:
         if a - v > 3:
             return v + 1
     cp.write(bytes(v + 1))
-    raise RuntimeError(f"V value {v + 1}")
+    raise FlyteRecoverableException(f"V value {v + 1}")
 
 
 # %%
