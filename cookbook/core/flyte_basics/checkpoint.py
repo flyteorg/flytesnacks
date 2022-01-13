@@ -50,6 +50,8 @@ from flytekit import task, workflow, current_context
 @task(retries=4)
 def t1(a: int) -> int:
     cp = current_context().checkpoint
+    if not cp:
+        raise NotImplementedError(f"Checkpoint is not available! {current_context()}")
     prev = cp.read()
     v = a
     if prev:
