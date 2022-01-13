@@ -133,7 +133,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
     # via flytekit
-numpy==1.19.5
+numpy==1.22.0
     # via
     #   h5py
     #   keras-preprocessing
@@ -156,7 +156,7 @@ paramiko==2.7.2
     # via sagemaker-training
 pathspec==0.9.0
     # via scantree
-pillow==8.3.2
+pillow==9.0.0
     # via matplotlib
 promise==2.3
     # via tensorflow-datasets
