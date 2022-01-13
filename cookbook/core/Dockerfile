@@ -43,4 +43,4 @@ COPY core /root/core
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
 
-RUN pip install -U --force https://github.com/flyteorg/flytekit/archive/cf93b6390b9b996dd45921e8553754b0a68433ff.zip#egg=flytekit
+RUN pip install -U --force https://github.com/flyteorg/flytekit/archive/890aac1e624daf1a29af7c32857c173892966c24.zip#egg=flytekit
