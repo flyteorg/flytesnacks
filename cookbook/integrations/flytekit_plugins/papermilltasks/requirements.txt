@@ -141,7 +141,7 @@ nest-asyncio==1.5.1
     # via
     #   jupyter-client
     #   nbclient
-numpy==1.21.2
+numpy==1.22.0
     # via
     #   matplotlib
     #   pandas
@@ -164,7 +164,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==8.3.2
+pillow==9.0.0
     # via matplotlib
 platformdirs==2.4.0
     # via black
