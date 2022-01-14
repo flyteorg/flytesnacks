@@ -46,7 +46,7 @@ bigquery_task_templatized_query = BigQueryTask(
 
 # %%
 # StructuredDataset transformer can convert query result to pandas dataframe here.
-# We can also change "pandas.dataframe" to "pyarrow.Table" to convert result to Arrow table.
+# We can also change "pandas.dataframe" to "pyarrow.Table", and convert result to Arrow table.
 @task
 def convert_bq_table_to_pandas_dataframe(sd: DogeCoinDataset) -> pd.DataFrame:
     return sd.open(pd.DataFrame).all()
