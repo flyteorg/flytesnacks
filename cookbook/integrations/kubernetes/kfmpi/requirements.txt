@@ -54,7 +54,7 @@ docstring-parser==0.13
     # via flytekit
 flatbuffers==1.12
     # via tensorflow
-flyteidl==0.21.22
+flyteidl==0.21.23
     # via
     #   -r requirements.in
     #   flytekit

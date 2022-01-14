@@ -73,7 +73,7 @@ entrypoints==0.3
     #   papermill
 executing==0.8.2
     # via stack-data
-flyteidl==0.21.22
+flyteidl==0.21.23
     # via flytekit
 flytekit==0.26.0
     # via
