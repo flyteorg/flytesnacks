@@ -51,8 +51,6 @@ from flytekit.common.exceptions.user import FlyteRecoverableException
 @task(retries=3)
 def use_checkpoint(a: int) -> int:
     cp = current_context().checkpoint
-    if not cp:
-        raise NotImplementedError(f"Checkpoint is not available! {current_context()}")
     prev = cp.read()
     v = a
     if prev:
