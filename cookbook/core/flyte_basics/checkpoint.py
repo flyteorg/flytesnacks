@@ -49,7 +49,7 @@ from flytekit.common.exceptions.user import FlyteRecoverableException
 # The goal of this method is to actually return `a+4` It does this in 3 retries of the task, by recovering from previous
 # failures. For each failure it increments the value by 1
 @task(retries=4)
-def t1(a: int) -> int:
+def checkpoint_task(a: int) -> int:
     cp = current_context().checkpoint
     if not cp:
         raise NotImplementedError(f"Checkpoint is not available! {current_context()}")
@@ -66,7 +66,7 @@ def t1(a: int) -> int:
 # %%
 # The workflow in this case simply calls the task. The task itself will be retried for the failure :ref:pyclass:`FlyteRecoverableException`
 @workflow
-def my_wf(a: int) -> int:
+def checkpoint_wf(a: int) -> int:
     return t1(a=a)
 
 
