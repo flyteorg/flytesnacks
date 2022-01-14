@@ -2,3 +2,6 @@
 torch
 torchvision
 wandb
+# The base image used in this example is running python 3.7, but that version is no longer
+# supported in numpy as of version 1.22.0.
+numpy<1.22.0
