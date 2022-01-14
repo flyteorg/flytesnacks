@@ -64,7 +64,7 @@ def t1(a: int) -> int:
 
 
 # %%
-# The workflow in this case simply calls the task. The task itself will be retried for the failure (runtime error)
+# The workflow in this case simply calls the task. The task itself will be retried for the failure :ref:pyclass:`FlyteRecoverableException`
 @workflow
 def my_wf(a: int) -> int:
     return t1(a=a)
