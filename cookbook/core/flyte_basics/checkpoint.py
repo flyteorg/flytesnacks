@@ -53,14 +53,13 @@ def t1(a: int) -> int:
     cp = current_context().checkpoint
     if not cp:
         raise NotImplementedError(f"Checkpoint is not available! {current_context()}")
-    print(f"{cp._checkpoint_src}, {cp._checkpoint_dest}")
     prev = cp.read()
     v = a
     if prev:
-        v = int(prev)
+        v = int(str(prev))
         if a - v > 3:
             return v + 1
-    cp.write(bytes(v + 1))
+    cp.write(bytes(f"{v + 1}"))
     raise FlyteRecoverableException(f"V value {v + 1}")
 
 
