@@ -17,12 +17,17 @@ RUN pip install awscli
 RUN curl -sSL https://sdk.cloud.google.com | bash
 ENV PATH $PATH:/root/google-cloud-sdk/bin
 
-RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
+RUN apt-get update && apt-get install -y make build-essential libssl-dev curl python3.8 python3-venv python3.8-venv
+RUN update-alternatives --install /opt/conda/bin/python python /usr/bin/python3.8 1
+RUN update-alternatives --install /opt/conda/bin/python3 python3 /usr/bin/python3.8 1
 
 # Virtual environment
 ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
+
+RUN pip install --upgrade pip
+RUN pip install cryptography==36.0.1
 
 # Install Python dependencies
 COPY mnist_classifier/requirements.txt /root
