@@ -48,7 +48,7 @@ from flytekit.common.exceptions.user import FlyteRecoverableException
 #
 # The goal of this method is to actually return `a+4` It does this in 3 retries of the task, by recovering from previous
 # failures. For each failure it increments the value by 1
-@task(retries=4)
+@task(retries=3)
 def use_checkpoint(a: int) -> int:
     cp = current_context().checkpoint
     if not cp:
@@ -57,7 +57,7 @@ def use_checkpoint(a: int) -> int:
     v = a
     if prev:
         v = int(prev.decode())
-        if a - v > 3:
+        if v - a > 2:
             return v + 1
     cp.write(f"{v + 1}".encode())
     raise FlyteRecoverableException(f"V value {v + 1}")
