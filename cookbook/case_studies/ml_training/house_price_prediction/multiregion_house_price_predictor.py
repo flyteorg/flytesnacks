@@ -111,7 +111,7 @@ def generate_and_split_data_multiloc(
 
 # %%
 # Training and Generating Predictions
-# =====================================
+# ====================================
 #
 # We create another :py:func:`~flytekit:flytekit.dynamic` workflow to train the model and generate predictions.
 # Training and generating predictions ensue in parallel as a single task.
@@ -158,7 +158,7 @@ def multi_region_house_price_prediction_model_trainer(
 
 # %%
 # Running the Model Locally
-# ===========================
+# ==========================
 #
 # We can run the workflow locally provided the required libraries are installed. The output would be a list of lists of house prices based on region, generated using the XGBoost model.
 if __name__ == "__main__":
