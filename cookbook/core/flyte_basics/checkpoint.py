@@ -59,7 +59,7 @@ def t1(a: int) -> int:
         v = int(prev.decode())
         if a - v > 3:
             return v + 1
-    cp.write("{v + 1}".encode())
+    cp.write(f"{v + 1}".encode())
     raise FlyteRecoverableException(f"V value {v + 1}")
 
 
