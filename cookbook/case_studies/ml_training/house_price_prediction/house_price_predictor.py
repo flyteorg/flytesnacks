@@ -182,7 +182,6 @@ def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
     _houses = gen_houses(number_of_houses)
     return split_data(_houses, seed, split=SPLIT_RATIOS)
 
-
 # %%
 # Training
 # ==========
@@ -206,6 +205,8 @@ def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFil
     working_dir = flytekit.current_context().working_directory
     fname = os.path.join(working_dir, f"model-{loc}.joblib.dat")
     joblib.dump(m, fname)
+
+    # return the serialized model
     return JoblibSerializedFile(path=fname)
 
 

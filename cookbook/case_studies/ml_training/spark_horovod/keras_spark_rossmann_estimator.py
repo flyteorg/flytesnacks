@@ -11,6 +11,11 @@ In this tutorial, we will understand how data-parallel distributed training work
 We will forecast sales using the Rossmann store sales dataset. As the data preparation step, we will process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
 Lastly, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
+Create the following before executing the code:
+
+1. A work_dir;
+2. An s3 bucket.
+
 Let's get started with the example!
 
 """
@@ -663,11 +668,10 @@ def test(
 # The Spark attributes need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
 #
-#  .. note::
+#.. note::
 #      
-#     To set up Spark, refer to :ref:`flyte-and-spark`.
+#   To set up Spark, refer to :ref:`flyte-and-spark`.
 #
-
 @task(
     task_config=Spark(
         # the below configuration is applied to the Spark cluster
@@ -686,7 +690,6 @@ def test(
     requests=Resources(mem="1Gi"),
     limits=Resources(mem="1Gi"),
 )
-
 def horovod_spark_task(
     data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
 ) -> FlyteDirectory:
