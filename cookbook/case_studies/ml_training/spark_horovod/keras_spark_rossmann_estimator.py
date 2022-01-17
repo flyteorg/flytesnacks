@@ -15,7 +15,7 @@ Create the following before executing the code:
 
 1. A work_dir;
 2. An s3 bucket.
-
+ 
 Let's get started with the example!
 
 """
