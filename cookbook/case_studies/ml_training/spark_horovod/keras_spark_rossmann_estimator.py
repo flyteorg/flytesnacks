@@ -11,10 +11,7 @@ In this tutorial, we will understand how data-parallel distributed training work
 We will forecast sales using the Rossmann store sales dataset. As the data preparation step, we will process the data using Spark, a data processing engine. To improve the speed and ease of distributed training, we will use Horovod, a distributed deep learning training framework.
 Lastly, we will build a Keras model and perform distributed training using Horovod's `KerasEstimator API <https://github.com/horovod/horovod/blob/8d34c85ce7ec76e81fb3be99418b0e4d35204dc3/horovod/spark/keras/estimator.py#L88>`__.
 
-Create the following before executing the code:
-
-1. A work_dir;
-2. An s3 bucket.
+Before executing the code, create `work_dir`, an s3 bucket.
  
 Let's get started with the example!
 
@@ -57,7 +54,7 @@ from tensorflow.keras.layers import (
 )
 
 # %%
-# We define certain variables to represent categorical and continuous columns in the dataset.
+# We define two variables to represent categorical and continuous columns in the dataset.
 CATEGORICAL_COLS = [
     "Store",
     "State",
@@ -101,7 +98,7 @@ CONTINUOUS_COLS = [
 ]
 
 # %%
-# Next, let's initialize a data class to store the hyperparameters that will be used with the model (such as ``epochs``, ``learning_rate``, ``batch_size``, etc.).
+# Next, let's initialize a data class to store the hyperparameters that will be used with the model (``epochs``, ``learning_rate``, ``batch_size``, etc.).
 @dataclass_json
 @dataclass
 class Hyperparameters:
@@ -668,7 +665,7 @@ def test(
 # The Spark attributes need to be attached to a specific task, and just like that, Flyte can run Spark jobs natively on Kubernetes clusters!
 # Within the task, let's call the data pre-processing, training, and evaluation functions.
 #
-#.. note::
+# .. note::
 #      
 #   To set up Spark, refer to :ref:`flyte-and-spark`.
 #

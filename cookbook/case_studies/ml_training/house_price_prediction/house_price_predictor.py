@@ -14,12 +14,11 @@ We will split the generated dataset into train, test and validation set.
 Next, we will create three Flyte tasks, that will:
 
 1. Generate house details, and split the dataset.
-
 2. Train the model using XGBoost.
-
 3. Generate predictions.
 
 Let's get started with the example!
+
 """
 
 # %%
@@ -47,7 +46,7 @@ from flytekit.types.file import JoblibSerializedFile
 from typing import Tuple
 
 # %%
-# We initialize variables that represent columns in the dataset. We use these variables to build the model, since they affect the house prices.
+# We initialize a variable to represent columns in the dataset. The other variables help generate the dataset.
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
@@ -66,7 +65,7 @@ SPLIT_RATIOS = [0.6, 0.3, 0.1]
 # Data Generation
 # =====================
 #
-# We define a function to compute the price of a house based on multiple factors (such as ``number of bedrooms``, ``number of bathrooms``, ``area``, ``garage space`` and ``year built``).
+# We define a function to compute the price of a house based on multiple factors (``number of bedrooms``, ``number of bathrooms``, ``area``, ``garage space``, and ``year built``).
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
     _price = int(
@@ -81,7 +80,7 @@ def gen_price(house) -> int:
 
 
 # %%
-# Next, using the above function, let's generate a DataFrame object that constitutes all the houses' details.
+# Next, using the above function, we generate a DataFrame object that constitutes all the house details.
 def gen_houses(num_houses) -> pd.DataFrame:
     _house_list = []
     for _ in range(num_houses):
@@ -117,8 +116,7 @@ def gen_houses(num_houses) -> pd.DataFrame:
 # Data Preprocessing and Splitting
 # ===================================
 #
-# We create two columns from the dataset- `feature` and `target`. 
-# Next, we split these columns into train and test subsets. We also split the input DataFrame into train, validation, and test datasets.
+# We split the data into train, test, and validation subsets.
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -167,7 +165,7 @@ def split_data(
     )
 
 # %%
-# Let's create a ``NamedTuple`` that maps variable names to their respective data type.
+# Next, we create a ``NamedTuple`` to map a variable name to its respective data type.
 dataset = typing.NamedTuple(
     "GenerateSplitDataOutputs",
     train_data=pd.DataFrame,
@@ -176,7 +174,7 @@ dataset = typing.NamedTuple(
 )
 
 # %%
-# We define a task to generate and split data into train, test, and validation DataFrames.
+# We define a task to call the aforementioned functions.
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
     _houses = gen_houses(number_of_houses)
@@ -186,7 +184,8 @@ def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
 # Training
 # ==========
 #
-# Now, we serialize the XGBoost model using `joblib` and store the model in a `dat` file.
+# We fit an ``XGBRegressor`` model on our data, serialize the model using `joblib`, and return a 
+# :py:obj:`~flytekit:flytekit.types.file.JoblibSerializedFile`.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFile:
 

@@ -1,6 +1,8 @@
 """
+
 Predicting House Price in Multiple Regions Using XGBoost and Dynamic Workflows
 -------------------------------------------------------------------------------
+
 In this tutorial, we will understand how to predict house prices in multiple regions using XGBoost, and :ref:`dynamic workflows <sphx_glr_auto_core_control_flow_dynamics.py>` in Flyte.
 
 We will split the generated dataset into train, test and validation set. 
@@ -8,10 +10,8 @@ We will split the generated dataset into train, test and validation set.
 Next, we will create two dynamic workflows in Flyte, that will:
 
 1. Generate and split the data for multiple regions.
-
 2. Train the model using XGBoost and generate predictions.
 
-We can use two different methods to fit the model and generate predictions, but including them in the same dynamic workflow will parallelize the tasks together, where every branch denotes a region.
 Let's get started with the example!
 """
 
@@ -23,7 +23,7 @@ import pandas as pd
 from flytekit import Resources, dynamic, workflow
 
 # %%
-# We define a ``try-catch`` block to import data preprocessing functions from the :ref:`single_region_house_prediction`.
+# We define a ``try-catch`` block to import data preprocessing functions from :ref:`here <Predicting House Price in a Region Using XGBoost>`.
 try:
     from .house_price_predictor import (
         generate_and_split_data,
@@ -38,7 +38,7 @@ except ImportError:
     )
 
 # %%
-# We initialize variables that represent columns in the dataset. We use these variables to build the model, since they affect the house prices.
+# We initialize a variable to represent columns in the dataset. The other variables help generate the dataset.
 NUM_HOUSES_PER_LOCATION = 1000
 COLUMNS = [
     "PRICE",
@@ -66,8 +66,8 @@ LOCATIONS = [
 # %%
 # Data Generation and Preprocessing 
 # ====================================
-# We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` functions to to generate train, test, and validation data.
-# Let's create a ``NamedTuple`` that maps variable names to their respective data types.
+# We call the :ref:`data generation <Data Generation>` and :ref:`data preprocessing <Data Preprocessing and Splitting>` functions to generate train, test, and validation data.
+# First, let's create a ``NamedTuple`` that maps variable names to their respective data types.
 dataset = typing.NamedTuple(
     "GenerateSplitDataOutputs",
     train_data=typing.List[pd.DataFrame],
@@ -108,6 +108,7 @@ def generate_and_split_data_multiloc(
 # =====================================
 #
 # We create another :py:func:`~flytekit:flytekit.dynamic` workflow to train the model and generate predictions.
+# We can use two different methods to fit the model and generate predictions, but including them in the same dynamic workflow will parallelize the tasks together, where every branch denotes a region.
 # The two tasks together run in parallel for all the regions.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit_predict(
