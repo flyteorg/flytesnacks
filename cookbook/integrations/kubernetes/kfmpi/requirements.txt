@@ -36,7 +36,7 @@ cloudpickle==2.0.0
     # via flytekit
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.1.0
+croniter==1.2.0
     # via flytekit
 cryptography==36.0.1
     # via secretstorage
@@ -84,7 +84,7 @@ h5py==3.1.0
     # via tensorflow
 idna==3.3
     # via requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via
     #   keyring
     #   markdown
@@ -172,7 +172,7 @@ pytz==2021.3
     # via
     #   flytekit
     #   pandas
-regex==2021.11.10
+regex==2022.1.18
     # via docker-image-py
 requests==2.27.1
     # via

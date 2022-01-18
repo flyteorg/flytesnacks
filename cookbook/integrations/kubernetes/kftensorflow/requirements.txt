@@ -38,7 +38,7 @@ cloudpickle==2.0.0
     # via flytekit
 cookiecutter==1.7.3
     # via flytekit
-croniter==1.1.0
+croniter==1.2.0
     # via flytekit
 cryptography==36.0.1
     # via secretstorage
@@ -62,7 +62,7 @@ flatbuffers==2.0
     # via tensorflow
 flyteidl==0.21.23
     # via flytekit
-flytekit==0.26.0
+flytekit==0.30.0b4
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-kftensorflow
@@ -93,7 +93,7 @@ h5py==3.6.0
     # via tensorflow
 idna==3.3
     # via requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via
     #   keyring
     #   markdown
@@ -138,7 +138,7 @@ mypy-extensions==0.4.3
     # via typing-inspect
 natsort==8.0.2
     # via flytekit
-numpy==1.22.0
+numpy==1.22.1
     # via
     #   h5py
     #   keras-preprocessing
@@ -188,7 +188,7 @@ pyparsing==3.0.6
     # via
     #   matplotlib
     #   packaging
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   arrow
     #   croniter
@@ -205,7 +205,7 @@ pytz==2021.3
     # via
     #   flytekit
     #   pandas
-regex==2021.11.10
+regex==2022.1.18
     # via docker-image-py
 requests==2.27.1
     # via
@@ -230,7 +230,6 @@ six==1.16.0
     #   absl-py
     #   astunparse
     #   cookiecutter
-    #   flytekit
     #   google-auth
     #   google-pasta
     #   grpcio
