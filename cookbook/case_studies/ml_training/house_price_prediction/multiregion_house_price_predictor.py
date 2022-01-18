@@ -108,7 +108,7 @@ def generate_and_split_data_multiloc(
 # =====================================
 #
 # We create another :py:func:`~flytekit:flytekit.dynamic` workflow to train the model and generate predictions.
-# We can use two different methods to fit the model and generate predictions, but including them in the same dynamic workflow will parallelize the tasks together, i.e., the two tasks together run in parallel for all the regions..
+# We can use two different methods to fit the model and generate predictions, but including them in the same dynamic workflow will parallelize the tasks together, i.e., the two tasks together run in parallel for all the regions.
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def parallel_fit_predict(
     multi_train: typing.List[pd.DataFrame],
