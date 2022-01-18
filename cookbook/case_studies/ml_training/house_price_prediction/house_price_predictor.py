@@ -184,8 +184,7 @@ def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
 # Training
 # ==========
 #
-# We fit an ``XGBRegressor`` model on our data, serialize the model using `joblib`, and return a 
-# :py:obj:`~flytekit:flytekit.types.file.JoblibSerializedFile`.
+# We fit an ``XGBRegressor`` model on our data, serialize the model using `joblib`, and return a :py:obj:`~flytekit:flytekit.types.file.JoblibSerializedFile`.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFile:
 
