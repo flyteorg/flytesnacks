@@ -38,7 +38,7 @@ their fault-tolerance.
 """
 
 from flytekit import task, workflow, current_context
-from flytekit.common.exceptions.user import FlyteRecoverableException
+from flytekit.exceptions.user import FlyteRecoverableException
 
 
 # %%
