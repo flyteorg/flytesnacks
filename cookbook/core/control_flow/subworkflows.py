@@ -62,7 +62,7 @@ def leaf_subwf(a: int = 42) -> Tuple[str, str]:
 
 @workflow
 def other_child_wf(a: int = 42) -> Tuple[int, str]:
-    x, y = t1(a=a).with_overrides(node_name="leafwf-n0")  # intentionally using the same name
+    x, y = t1(a=a).with_overrides(node_name="other-child-n0")
     return x, y
 
 
@@ -86,6 +86,13 @@ def parent_wf(a: int) -> Tuple[int, str, str]:
     return x, u, v
 
 
+@workflow
+def other_parent_wf(a: int) -> Tuple[int, int, str]:
+    x, y = t1(a=a).with_overrides(node_name="parent-n0")  # intentionally using the same name
+    u, v = other_child_wf(a=x).with_overrides(node_name="parent-n1")  # intentionally using the same name
+    return x, u, v
+
+
 # %%
 # You can execute subworkflows locally
 if __name__ == "__main__":
@@ -106,10 +113,10 @@ def root_level_wf(a: int) -> Tuple[int, str, str, str]:
 
 
 @workflow
-def other_root_wf(a: int) -> Tuple[str, str, int, str]:
-    x, y = leaf_subwf(a=a).with_overrides(node_name="other-root-n0")
-    u, v = other_child_wf(a=a).with_overrides(node_name="other-root-n1")
-    return x, y, u, v
+def other_root_wf(a: int) -> Tuple[int, str, str, int, int, str]:
+    x, y, z = parent_wf(a=a).with_overrides(node_name="other-root-n0")
+    aa, b, c = other_parent_wf(a=a).with_overrides(node_name="other-root-n1")
+    return x, y, z, aa, b, c
 
 
 # %%
