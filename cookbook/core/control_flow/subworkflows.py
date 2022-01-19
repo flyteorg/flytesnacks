@@ -54,10 +54,16 @@ def t1(a: int) -> op:
 # This will be the subworkflow of our examples, but note that this is a workflow like any other. It can be run just
 # like any other workflow. Note here that the workflow has been declared with a default.
 @workflow
-def my_subwf(a: int = 42) -> Tuple[str, str]:
-    x, y = t1(a=a)
-    u, v = t1(a=x)
+def leaf_subwf(a: int = 42) -> Tuple[str, str]:
+    x, y = t1(a=a).with_overrides(node_name="leafwf-n0")
+    u, v = t1(a=x).with_overrides(node_name="leafwf-n1")
     return y, v
+
+
+@workflow
+def other_child_wf(a: int = 42) -> Tuple[int, str]:
+    x, y = t1(a=a).with_overrides(node_name="leafwf-n0")  # intentionally using the same name
+    return x, y
 
 
 # %%
@@ -75,8 +81,8 @@ def my_subwf(a: int = 42) -> Tuple[str, str]:
 #    Also note the use of with_overrides to provide a new name to the graph-node for better rendering or readability
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
-    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
-    u, v = my_subwf(a=x)
+    x, y = t1(a=a).with_overrides(node_name="parent-n0")
+    u, v = leaf_subwf(a=x).with_overrides(node_name="parent-n1")
     return x, u, v
 
 
@@ -93,13 +99,20 @@ if __name__ == "__main__":
 # can be simply composed from other workflows, even if the other workflows are standalone entities. Each of the
 # workflows in this module can exist independently and executed independently
 @workflow
-def nested_parent_wf(a: int) -> Tuple[int, str, str, str]:
-    x, y = my_subwf(a=a)
-    m, n, o = parent_wf(a=a)
+def root_level_wf(a: int) -> Tuple[int, str, str, str]:
+    x, y = leaf_subwf(a=a).with_overrides(node_name="root-n0")
+    m, n, o = parent_wf(a=a).with_overrides(node_name="root-n1")
     return m, n, o, y
+
+
+@workflow
+def other_root_wf(a: int) -> Tuple[str, str, int, str]:
+    x, y = leaf_subwf(a=a).with_overrides(node_name="other-root-n0")
+    u, v = other_child_wf(a=a).with_overrides(node_name="other-root-n1")
+    return x, y, u, v
 
 
 # %%
 # You can execute the nested workflows locally as well
 if __name__ == "__main__":
-    print(f"Running nested_parent_wf(a=3) {nested_parent_wf(a=3)}")
+    print(f"Running root_level_wf(a=3) {root_level_wf(a=3)}")
