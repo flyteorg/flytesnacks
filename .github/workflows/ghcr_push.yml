@@ -73,7 +73,6 @@ jobs:
           platforms: linux/arm64, linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.tags.outputs.tags }}
-          load: true
           build-args: "tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
           file: ${{ steps.example_id.outputs.id }}/Dockerfile
           cache-from: type=local,src=/tmp/.buildx-cache
