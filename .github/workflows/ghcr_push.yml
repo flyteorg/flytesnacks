@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-single-buildx-${{ hashFiles('${{ steps.example_id.outputs.path }}/${{ steps.example_id.outputs.id }}/Dockerfile') }}-${{ github.sha }}
+          key: ${{ runner.os }}-single-buildx-${{ hashFiles(${{ steps.example_id.outputs.path }}/${{ steps.example_id.outputs.id }}/Dockerfile) }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-single-buildx
       - name: Login to GitHub Container Registry
