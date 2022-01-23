@@ -75,7 +75,7 @@ jobs:
           tags: ${{ steps.tags.outputs.tags }}
           output: type=registry
           build-args: "tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-          file: ${{ steps.example_id.outputs.id }}/Dockerfile
+          file: ${{ steps.example_id.outputs.path }}/${{ steps.example_id.outputs.id }}/Dockerfile
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
       - # Temp fix
