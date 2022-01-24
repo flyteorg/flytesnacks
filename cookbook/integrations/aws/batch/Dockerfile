@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg b
 RUN pip3 install awscli
 
 # Install gcloud for GCP
-RUN apt-get install curl --assume-yes
+RUN apt-get install git curl --assume-yes
 
 RUN curl -sSL https://sdk.cloud.google.com | bash
 ENV PATH $PATH:/root/google-cloud-sdk/bin
