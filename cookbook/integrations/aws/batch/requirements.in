@@ -1,2 +1,2 @@
 -r ../../../common/requirements-common.in
-flytekitplugins-awsbatch>=0.20.0 # TODO: update version after we cut a new release
+git+https://github.com/flyteorg/flytekit.git@cbded6c0b09206e73cea73156acdc5dd1bffd77e
