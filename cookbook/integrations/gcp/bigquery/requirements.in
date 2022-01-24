@@ -1,3 +1,2 @@
 -r ../../../common/requirements-common.in
-
-flytekitplugins-bigquery>=0.22.3
+git+https://github.com/flyteorg/flytekit.git@1213386ecb52fe5bfa5997ba4eed507a3c3ca565
