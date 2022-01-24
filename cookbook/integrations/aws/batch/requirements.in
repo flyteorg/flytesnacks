@@ -1,0 +1,2 @@
+-r ../../../common/requirements-common.in
+flytekitplugins-awsbatch>=0.20.0 # TODO: update version after we cut a new release
