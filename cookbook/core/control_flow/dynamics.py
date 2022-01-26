@@ -8,14 +8,14 @@ However, in cases where a run-time parameter (e.g. the output of an earlier task
 A dynamic workflow is similar to the :py:func:`~flytekit.workflow`, in that it represents a python-esque DSL to
 declare task interactions or new workflows. One significant difference between a regular workflow and dynamic (workflow) is that
 the latter is evaluated at runtime. This means that the inputs are first materialized and sent to the actual function,
-as if it were a task. However, the return value from a dynamic workflow is a promise rather than an actual value,
+as if it were a task. However, the return value from a dynamic workflow is a ``Promise`` rather than an actual value,
 which can be fulfilled by evaluating the various tasks that were invoked in the dynamic workflow.
 
 Within the ``@dynamic`` context (function), every invocation of a :py:func:`~flytekit.task` or a derivative of
-:py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
+:py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a ``Promise``, instead
 of the actual value being materialized. You can also nest other ``@dynamic`` and ``@workflow`` constructs within this
 task, but it is not possible to interact with the outputs of a ``task/workflow`` as they are lazily evaluated.
-If you want to interact with the outputs, break up the logic in dynamic and create a new task to read and resolve the outputs.
+If you want to interact with the outputs, break up the logic in Dynamic Workflow and create a new task to read and resolve the outputs.
 
 Refer to :py:func:`~flytekit.dynamic` for more documentation.
 
@@ -33,7 +33,7 @@ from flytekit import dynamic, task, workflow
 @task
 def return_index(character: str) -> int:
     """
-    Computes the character index (which needs to fit into the 26 characters list)"""
+    computes the character index (which needs to fit into the 26 characters list)"""
     if character.islower():
         return ord(character) - ord("a")
     else:
