@@ -1,4 +1,4 @@
-"""
+ """
 Subworkflows
 ------------
 
@@ -32,7 +32,20 @@ to achieve that. This is because they execute within the same context of the par
 to do that. This is because they execute within the same context of the parent workflow. Thus all nodes of a subworkflow
 will be constrained to the total constraint on the parent workflow
 
-@ -49,7 +41,6 @@ from flytekit import task, workflow
+When you use LaunchPlans within a workflow to launch an execution of a previously defined workflow, a new
+external execution is launched, with a separate execution ID and can be observed as a distinct entity in
+FlyteConsole/Flytectl etc. Moreover, the context is not shared, hence they may have separate parallelism constraints.
+We refer to these externalized invocations of a workflow using Launchplans from a parent workflow as
+``Child Workflows``.
+
+If your deployment is using multi-cluster setup, then Child workflows, may also allow you to spread the workload of a workflow
+potentially to multiple clusters.
+"""
+
+import typing
+from typing import Tuple
+from flytekit import task, workflow
+
 
 # %%
 # The task here also uses named outputs. Note that we always try and define NamedTuple as a separate type, as a best
@@ -40,7 +53,31 @@ will be constrained to the total constraint on the parent workflow
 # practice (though it can be defined inline)
 op = typing.NamedTuple("OutputsBC", t1_int_output=int, c=str)
 
-@ -81,7 +72,6 @@ def my_subwf(a: int = 42) -> Tuple[str, str]:
+
+@task
+def t1(a: int) -> op:
+    return op(a + 2, "world")
+
+
+# %%
+# This will be the subworkflow of our examples, but note that this is a workflow like any other. It can be run just
+# like any other workflow. Note here that the workflow has been declared with a default.
+@workflow
+def my_subwf(a: int = 42) -> Tuple[str, str]:
+    x, y = t1(a=a)
+    u, v = t1(a=x)
+    return y, v
+
+
+# %%
+# Example 1:
+# ^^^^^^^^^^^
+# This is the parent workflow. In it, we call the workflow declared above.
+# This also showcases how to override the node name of a task (or subworkflow). Typically, nodes are just named
+# sequentially, ``n0``, ``n1``, and so on. Because the inner ``my_subwf`` also has a ``n0`` you may
+# wish to change the name of the first one. Not doing so is also fine - Flyte will automatically prepend something
+# to the inner ``n0``, since node IDs need to be distinct within a workflow graph. This issue does not exist
+# when calling something by launch plan since those launch a separate execution entirely.
 #
 # .. note::
 #
@@ -48,7 +85,9 @@ op = typing.NamedTuple("OutputsBC", t1_int_output=int, c=str)
 #    Also note the use of with_overrides to provide a new name to the graph-node for better rendering or readability
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
-@ -91,7 +81,6 @@ def parent_wf(a: int) -> Tuple[int, str, str]:
+    x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
+    u, v = my_subwf(a=x)
+    return x, u, v
 
 
 # %%
@@ -56,7 +95,10 @@ def parent_wf(a: int) -> Tuple[int, str, str]:
 # You can execute subworkflows locally
 if __name__ == "__main__":
     print(f"Running parent_wf(a=3) {parent_wf(a=3)}")
-@ -102,7 +91,6 @@ if __name__ == "__main__":
+
+
+# %%
+# Example 2:
 # ^^^^^^^^^^
 # You can also nest subworkflows in other subworkflows as shown in the following example. Also note, how workflows
 # can be simply composed from other workflows, even if the other workflows are standalone entities. Each of the
@@ -64,7 +106,9 @@ if __name__ == "__main__":
 # workflows in this module can exist independently and executed independently
 @workflow
 def nested_parent_wf(a: int) -> Tuple[int, str, str, str]:
-@ -112,83 +100,6 @@ def nested_parent_wf(a: int) -> Tuple[int, str, str, str]:
+    x, y = my_subwf(a=a)
+    m, n, o = parent_wf(a=a)
+    return m, n, o, y
 
 
 # %%
