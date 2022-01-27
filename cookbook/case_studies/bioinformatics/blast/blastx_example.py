@@ -52,12 +52,12 @@ def generate_blastx_command(
 # A ``ShellTask`` is useful to run commands on the shell.
 # In our example, we use ``ShellTask`` to run the BLASTX command.
 #
-# ``{{ .inputs.x }}`` is a placeholder for the command.
-# ``{{ .outputs.output }}`` is a placeholder for the output ``FlyteFile`` to record the standard output and error.
+# ``{x}`` is a placeholder for the command.
+# ``{output}`` is a placeholder for the output ``FlyteFile`` to record the standard output and error.
 blastx_on_shell = ShellTask(
     name="blastx",
     debug=True,
-    script="{{ .inputs.x }} > {{ .outputs.output }}",
+    script="{x} > {output}",
     inputs=kwtypes(x=str),
     output_locs=[
         OutputLocation(var="output", var_type=FlyteFile, location="stdout.txt")

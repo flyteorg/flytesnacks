@@ -2,7 +2,7 @@
 Run Bash Scripts Using ShellTask
 --------------------------------
 
-To run bash scripts from within Flyte, ShellTask can be used. In this example, let's define three ShellTasks to run some simple bash commands.
+To run bash scripts from within Flyte, ShellTask can be used. In this example, let's define three ShellTasks to run simple bash commands.
 """
 import os
 from typing import Tuple
@@ -20,17 +20,17 @@ t1 = ShellTask(
     script="""
     set -ex
     echo "Hey there! Let's run some bash scripts using Flyte's ShellTask."
-    echo "Showcasing Flyte's Shell Task." >> {{ .inputs.x }}
-    if grep "Flyte" {{ .inputs.x }}
+    echo "Showcasing Flyte's Shell Task." >> {x}
+    if grep "Flyte" {x}
     then
-        echo "Found it!" >> {{ .inputs.x }}
+        echo "Found it!" >> {x}
     else
         echo "Not found!"
     fi
     """,
     inputs=kwtypes(x=FlyteFile),
     output_locs=[
-        OutputLocation(var="x", var_type=FlyteFile, location="{{ .inputs.x }}")
+        OutputLocation(var="i", var_type=FlyteFile, location="{x}")
     ],
 )
 
@@ -40,12 +40,12 @@ t2 = ShellTask(
     debug=True,
     script="""
     set -ex
-    cp {{ .inputs.x }} {{ .inputs.y }}
-    tar -zcvf {{ .outputs.y }} {{ .inputs.y }}
+    cp {x} {y}
+    tar -zcvf {j} {y}
     """,
     inputs=kwtypes(x=FlyteFile, y=FlyteDirectory),
     output_locs=[
-        OutputLocation(var="y", var_type=FlyteFile, location="{{ .inputs.y }}.tar.gz")
+        OutputLocation(var="j", var_type=FlyteFile, location="{y}.tar.gz")
     ],
 )
 
@@ -55,11 +55,11 @@ t3 = ShellTask(
     debug=True,
     script="""
     set -ex
-    tar -zxvf {{ .inputs.z }}
-    cat {{ .inputs.y }}/$(basename {{ .inputs.x }}) | wc -m > {{ .outputs.z }}
+    tar -zxvf {z}
+    cat {y}/$(basename {x}) | wc -m > {k}
     """,
     inputs=kwtypes(x=FlyteFile, y=FlyteDirectory, z=FlyteFile),
-    output_locs=[OutputLocation(var="z", var_type=FlyteFile, location="output.txt")],
+    output_locs=[OutputLocation(var="k", var_type=FlyteFile, location="output.txt")],
 )
 
 

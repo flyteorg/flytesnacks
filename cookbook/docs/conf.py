@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Flyte Tutorial"
+project = "Flytesnacks"
 copyright = "2021, Flyte"
 author = "Flyte"
 
@@ -119,6 +119,7 @@ class CustomSorter(FileNameSortKey):
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
+        "tf_mnist.py",
         ## AWS
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
@@ -223,7 +224,7 @@ html_context = {
 # a list of builtin themes.
 #
 html_theme = "furo"
-html_title = "Flyte Docs"
+html_title = "Flyte"
 
 html_theme_options = {
     "light_css_variables": {
@@ -273,7 +274,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
-    # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
@@ -307,7 +308,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
-    # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
@@ -359,7 +360,7 @@ sphinx_gallery_conf = {
     "filename_pattern": "/run_",
     "capture_repr": (),
     "image_scrapers": image_scrapers,
-    "default_thumb_file": "flyte_mark_offset_pink.png",
+    "default_thumb_file": "_static/code-example-icon.png",
     "thumbnail_size": (350, 350),
     # Support for binder
     # 'binder': {'org': 'sphinx-gallery',
@@ -443,7 +444,6 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
-    "dolt": ("https://docs.dolthub.com/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
@@ -455,6 +455,10 @@ intersphinx_mapping = {
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "pytorch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
+    "tensorflow": (
+        "https://www.tensorflow.org/api_docs/python",
+        "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
+    ),
 }
 
 # Sphinx-tabs config
