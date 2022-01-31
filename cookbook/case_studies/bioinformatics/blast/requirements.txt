@@ -8,8 +8,6 @@ arrow==1.2.2
     # via jinja2-time
 binaryornot==0.4.4
     # via cookiecutter
-biopython==1.79
-    # via -r requirements.in
 certifi==2021.10.8
     # via requests
 chardet==4.0.0
@@ -85,7 +83,6 @@ natsort==8.1.0
     # via flytekit
 numpy==1.22.1
     # via
-    #   biopython
     #   matplotlib
     #   pandas
     #   pyarrow

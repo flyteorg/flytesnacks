@@ -10,10 +10,10 @@ Bioinformatics
 
     .. link-button:: auto/case_studies/bioinformatics/blast/index
        :type: ref
-       :text: Nucleotide Sequence Querying with BLASTX and Biopython
+       :text: Nucleotide Sequence Querying with BLASTX
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Use BLASTX and Biopython to Query a Nucleotide Sequence Against a Local Protein Database
+    Use BLASTX to Query a Nucleotide Sequence Against a Local Protein Database
 
 
 .. toctree::

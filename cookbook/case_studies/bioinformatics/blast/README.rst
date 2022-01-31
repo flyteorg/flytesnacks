@@ -1,18 +1,17 @@
 .. _blast:
 
-Nucleotide Sequence Querying with BLASTX and Biopython
-------------------------------------------------------
+Nucleotide Sequence Querying with BLASTX
+----------------------------------------
 
 This tutorial shows how computational biology intermixes with Flyte. The problem statement we will be looking at is
 querying a nucleotide sequence against a local protein database, to identify potential homologues.
 This guide will show you how to:
 
 - Load the data
-- Create BLASTX command line
-- Instantiate a :ref:`ShellTask <sphx_glr_auto_core_flyte_basics_shell_task.py>` to run the BLASTX search command
+- Instantiate a :ref:`ShellTask <sphx_glr_auto_core_flyte_basics_shell_task.py>` to generate and run the BLASTX search command
 - Load BLASTX results and plot a graph (``e_value`` vs. ``pc_identity``)
 
-Our example is an adaptation of `Using BLAST+ Programmatically with Biopython <https://widdowquinn.github.io/2018-03-06-ibioic/02-sequence_databases/03-programming_for_blast.html>`__.
+`Using BLAST+ Programmatically with Biopython <https://widdowquinn.github.io/2018-03-06-ibioic/02-sequence_databases/03-programming_for_blast.html>`__ has been used as a reference to construct the tutorial.
 
 About BLAST
 ===========
@@ -31,12 +30,6 @@ with other gene sequences, and is typically used for identifying the protein‐c
 It is also used to detect whether a novel nucleotide sequence is a protein‐coding gene or identify proteins encoded by transcripts or transcript variants.
 
 In this tutorial, we will run a BLASTX search.
-
-Python SDK - Biopython
-======================
-
-To interact with BLASTX programmatically, we will use `Biopython <https://biopython.org/>`__ library, a Python SDK.
-The Biopython project is an open-source collection of non-commercial Python tools for computational biology and bioinformatics.
 
 Data
 ====
