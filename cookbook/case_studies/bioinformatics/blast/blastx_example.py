@@ -51,6 +51,7 @@ blastx_on_shell = ShellTask(
         ),
     ],
 )
+
 # %%
 # .. note::
 #   ``outfmt=6`` asks BLASTX to write a tab-separated tabular plain text file.
