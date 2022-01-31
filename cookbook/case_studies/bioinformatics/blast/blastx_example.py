@@ -99,7 +99,7 @@ def blastx_output(blastout: FlyteFile) -> BLASTXOutput:
 
 
 # %%
-# To ascertain if the BLASTX standard output and error are empty, we write a task.
+# We write a task to ascertain if the BLASTX standard output and error are empty.
 # If empty, then the BLASTX run was successful, else, the run failed.
 @task
 def is_batchx_success(stdout: FlyteFile) -> bool:
