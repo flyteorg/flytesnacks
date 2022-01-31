@@ -52,8 +52,11 @@ def generate_blastx_command(
 # A ``ShellTask`` is useful to run commands on the shell.
 # In our example, we use ``ShellTask`` to run the BLASTX command.
 #
-# ``{x}`` is a placeholder for the command.
-# ``{output}`` is a placeholder for the output ``FlyteFile`` to record the standard output and error.
+# ``{inputs.x}`` is a placeholder for the command.
+# ``{outputs.output}`` is a placeholder for the output ``FlyteFile`` to record the standard output and error.
+#
+# .. note::
+#    The new input/output placeholder syntax of ``ShellTask`` is available starting Flytekit 0.30.0b8+.
 blastx_on_shell = ShellTask(
     name="blastx",
     debug=True,
