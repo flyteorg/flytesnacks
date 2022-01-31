@@ -23,7 +23,7 @@ from flytekit.types.file import FlyteFile, PNGImageFile
 #
 # First, we define the location of the BLAST output file.
 # Then we define variables that contain paths to: the input query sequence file, the database we are searching against, and the file containing the BLAST output.
-# Finally, we generate the command to run BLASTX.
+# Finally, we generate and run the BLASTX command. Both ``stdout`` and ``stderr`` are captured and saved to the ``stdout`` variable.
 #
 # ``{inputs}`` and ``{outputs}`` are placeholders for the input and output values, respectively.
 #
