@@ -57,7 +57,7 @@ def generate_blastx_command(
 blastx_on_shell = ShellTask(
     name="blastx",
     debug=True,
-    script="{x} > {output}",
+    script="{inputs.x} > {outputs.output}",
     inputs=kwtypes(x=str),
     output_locs=[
         OutputLocation(var="output", var_type=FlyteFile, location="stdout.txt")
