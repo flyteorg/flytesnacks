@@ -2,13 +2,16 @@
 Checkpoints
 ------------
 
-Checkpoints refer to a recorded waypost, that allow programs to recover from a previous failure by skipping all the
-previously visited wayposts.
+A checkpoint allows a task to recover from a previous failure by recording the state of a task before the failure and
+resuming from the latest recorded state.
 
-Flyte at its core is a workflow engine. Workflows are ways to logically break up an operation / program / idea into smaller
-sized chunks, where each chunk (called task in flyte) can be run in an isolated failure domain, i.e., if a task fails
-the workflow does not need to run the previously completed tasks, but can simply retry this one task and eventually
-when this task succeeds, it will never be run again. Thus, task boundaries naturally serve as checkpoints.
+Why Intra-task checkpoints?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Flyte at its core is a workflow engine, and workflows provide a way to logically break up an operation / program / idea
+into smaller sized tasks. If a task fails, the workflow does not need to run the previously completed tasks, but can
+simply retry the task at hand. Eventually, when the task succeeds, it will never be run again. Thus, task boundaries
+naturally serve as checkpoints.
 
 There are cases where it is not easy or desirable to break a task into further smaller tasks, as running a task
 adds overhead. This is especially true, when running a large computation in a tight-loop. It is desirable that
@@ -27,47 +30,62 @@ lower guarantees like - `AWS Spot Instances <https://aws.amazon.com/ec2/spot/>`_
 
 These instances offer great performance at much lower price-points as compared to their OnDemand or Reserved alternatives.
 This is possible if you construct your tasks in a fault-tolerant way. For most cases, when the task runs for a short duration,
-less than 10 minutes, the potential of failure is not significant and Task-boundary based recovery offers great fault-tolerance
-to ensure successful completion.
+e.g. less than 10 minutes, the potential of failure is not significant and task-boundary-based recovery offers
+significant fault-tolerance to ensure successful completion.
 
-But, as the time for a task increases, the cost of re-running the task increases and the chance of it successfully completing reduces.
-This is where Flyte's intra-task checkpointing truly shines. This document provides an example of how to develop tasks which
-utilize intra-task checkpoining. This only provides the low-level API. We intend to integrate higher level api;s with popular
-training frameworks like Keras (ModelCheckpoint), Pytorch, Scikit learn, Spark (checkpoints), flink (checkpoints) to super charge
-their fault-tolerance.
+But, as the time for a task increases, the cost of re-running the task increases and reduces the chance of successful
+completion. This is where Flyte's intra-task checkpointing truly shines. This document provides an example of how to
+develop tasks which utilize intra-task checkpointing. This only provides the low-level API. We intend to integrate
+higher level checkpointing API's available in popular training frameworks like Keras, Pytorch, Scikit learn and
+big-Data frameworks like Spark, Flink to super charge their fault-tolerance.
 """
 
 from flytekit import task, workflow, current_context
 from flytekit.exceptions.user import FlyteRecoverableException
 
 
+RETRIES=3
+
+
 # %%
 # This task shows how in case of failure checkpoints can help resume. This is only an example task and shows the api for
 # the checkpointer. The checkpoint system exposes other api's and for a more detailed understanding refer to
-# :ref:pyclass:`flytekit.Checkpoint`
+# :ref:py:class:`flytekit.Checkpoint`
 #
 # The goal of this method is to actually return `a+4` It does this in 3 retries of the task, by recovering from previous
 # failures. For each failure it increments the value by 1
-@task(retries=3)
-def use_checkpoint(a: int) -> int:
+@task(retries=RETRIES)
+def use_checkpoint(n_iterations: int) -> int:
     cp = current_context().checkpoint
     prev = cp.read()
-    v = a
+    start = 0
     if prev:
-        v = int(prev.decode())
-        if v - a > 2:
-            return v + 1
-    cp.write(f"{v + 1}".encode())
-    raise FlyteRecoverableException(f"V value {v + 1}")
+        start = int(prev.decode())
+
+    # We will create a failure interval so that we can create failures ever n iterations and then succeed within
+    # configured retries
+    failure_interval = n_iterations * 1.0 / RETRIES
+    i = 0
+    for i in range(start, n_iterations):
+        # simulate a deterministic failure, for demonstration. We want to show how it eventually completes within
+        # the given retries
+        if i > start and i % failure_interval == 0:
+            raise FlyteRecoverableException(f"Failed at iteration {start}, failure_interval {failure_interval}")
+        # save progress state. It is also entirely possible save state every few intervals.
+        cp.write(f"{i + 1}".encode())
+
+    return i
 
 
 # %%
-# The workflow in this case simply calls the task. The task itself will be retried for the failure :ref:pyclass:`FlyteRecoverableException`
+# The workflow in this case simply calls the task. The task itself will be retried for the failure :ref:py:class:`FlyteRecoverableException`
 @workflow
 def example(a: int) -> int:
     return use_checkpoint(a=a)
 
 
+#%%
+# Locally the checkpoint is stored, but since, retries are not supported, the checkpoint is not really used.
 if __name__ == "__main__":
     try:
         example(a=10)
