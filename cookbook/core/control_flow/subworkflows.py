@@ -2,12 +2,10 @@
 Subworkflows
 ------------
 
-:ref:`divedeep-launchplans <Launch plans>` were introduced in the :ref:`divedeep <Basics>` section of this book. Subworkflows are similar in that they allow users
-to kick off one workflow from inside another. What's the difference? Think of launch plans as pass by pointer and
-subworkflows as pass by value.
-Launch plans were introduced in the Basics section of this book. Subworkflows are similar in that they allow users
-to kick off one workflow from inside another. What's the difference? Think of launch plans as passing by pointer and
-subworkflows as passing by value.
+Subworkflows are similar to :ref:`Launch plans <Launch plans>` in that they allow users to kick off one workflow from inside another. 
+
+What's the difference? 
+Think of launch plans as pass by pointer and subworkflows as pass by value.
 
 .. note::
 
@@ -119,7 +117,7 @@ if __name__ == "__main__":
 
 
 # %%
-# Child Worflow
+# Child Workflow
 # ^^^^^^^^^^^^^^
 # When using LaunchPlans within a workflow to launch an execution of a previously defined workflow, a new
 # external execution is launched, with a separate execution ID and can be observed as a distinct entity in
