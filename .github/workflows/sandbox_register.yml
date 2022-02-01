@@ -142,7 +142,7 @@ jobs:
       - name: Update Release
         id: release
         run: |
-          curl --location --request POST 'https://api.github.com/repos/flyteorg/flytesnacks/releases/${{ inputs.release_id }}' \
+          curl --location --request POST 'https://api.github.com/repos/evalsocket/flytesnacks/releases/${{ inputs.release_id }}' \
           --header 'Accept: application/vnd.github.v3+json' \
           --header 'Authorization: Bearer ${{ secrets.FLYTE_BOT_PAT }}' \
           --data-raw '{
