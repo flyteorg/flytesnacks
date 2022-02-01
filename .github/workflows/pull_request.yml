@@ -1,0 +1,13 @@
+name: Serialize, Register & Release Examples
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'cookbook/docs/**'
+      - 'cookbook/deployment/**'
+jobs:
+  trigger-checks-flytesnacks-workflow:
+    name: Invoke Release Flytesnacks workflow
+    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
+    secrets:
+      FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
