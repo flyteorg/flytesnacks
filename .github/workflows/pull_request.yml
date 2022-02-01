@@ -9,7 +9,5 @@ jobs:
   trigger-checks-flytesnacks-workflow:
     name: Invoke Release Flytesnacks workflow
     uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
-    with:
-      tag: ""
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
