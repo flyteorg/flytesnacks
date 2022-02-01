@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - master
-      - fix-prerelease
-
-
-
 jobs:
   bump-version:
     name: Bump Version
@@ -26,7 +22,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.FLYTE_BOT_PAT }}
           WITH_V: true
           DEFAULT_BUMP: patch
-          RELEASE_BRANCH: fix-prerelease
 
   prerelease:
     name: Create Prerelease
