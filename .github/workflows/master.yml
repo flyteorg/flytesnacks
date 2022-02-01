@@ -23,3 +23,36 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.FLYTE_BOT_PAT }}
           WITH_V: true
           DEFAULT_BUMP: patch
+
+  prerelease:
+    name: Create Prerelease
+    needs: [bump-version]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+      - name: Create Pre release
+        id: prerelease
+        run: |
+          RELEASE_ID=$(curl --location --request POST 'https://api.github.com/repos/flyteorg/flytesnacks/releases' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --header 'Authorization: Bearer ${{ secrets.FLYTE_BOT_PAT }}' \
+          --data-raw '{
+              "tag_name": ${{ needs.bump-version.outputs.version }},
+              "draft": false,
+              "prerelease": true
+          }' | jq -r '.id')
+          echo ::set-output name=release_id::$RELEASE_ID
+    outputs:
+      release_id: ${{ steps.prerelease.outputs.release_id }}
+
+  trigger-release-flytesnacks-workflow:
+    name: Invoke Release Flytesnacks workflow
+    needs: [prerelease]
+    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
+    with:
+      tag: ${{ needs.bump-version.outputs.version }}
+      release_id: ${{ needs.prerelease.outputs.release_id }}
+    secrets:
+      FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
