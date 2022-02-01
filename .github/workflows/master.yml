@@ -6,6 +6,8 @@ on:
       - master
       - fix-prerelease
 
+
+
 jobs:
   bump-version:
     name: Bump Version
