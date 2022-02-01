@@ -129,7 +129,7 @@ class CustomSorter(FileNameSortKey):
         # TODO
         ## External Services
         "hive.py",
-        "snowflake.py"
+        "snowflake.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "run_custom_types.py",
@@ -149,6 +149,8 @@ class CustomSorter(FileNameSortKey):
         "feature_eng_tasks.py",
         "feast_dataobjects.py",
         "feast_workflow.py",
+        ## Bioinformatics
+        "blastx_example.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -261,6 +263,7 @@ examples_dirs = [
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
+    "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
     "../deployment",
@@ -294,6 +297,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
+    "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
