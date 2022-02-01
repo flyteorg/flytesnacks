@@ -3,10 +3,9 @@ builds:
   - skip: true
 release:
   github:
-    owner: flyteorg
+    owner: evalsocket
     name: flytesnacks
   draft: false
-  prerelease: auto
   name_template: "{{.ProjectName}} v{{.Version}}"
   disable: false
   extra_files:

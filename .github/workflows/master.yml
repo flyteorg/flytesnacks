@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - master
-  paths-ignore:
-    - '.github/**'
-    - 'boilerplate'
-    - 'tutorial'
-
 jobs:
   bump-version:
     name: Bump Version
@@ -39,7 +34,7 @@ jobs:
       - name: Create Pre release
         id: prerelease
         run: |
-          RELEASE_ID=$(curl --location --request POST 'https://api.github.com/repos/flyteorg/flytesnacks/releases' \
+          RELEASE_ID=$(curl --location --request POST 'https://api.github.com/repos/evalsocket/flytesnacks/releases' \
           --header 'Accept: application/vnd.github.v3+json' \
           --header 'Authorization: Bearer ${{ secrets.FLYTE_BOT_PAT }}' \
           --data-raw '{
@@ -57,6 +52,25 @@ jobs:
     uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
     with:
       tag: ${{ needs.bump-version.outputs.version }}
-      release_id: ${{ needs.prerelease.outputs.release_id }}
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
+      
+  make-release:
+    name: Update Release
+    needs: [ trigger-release-flytesnacks-workflow ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+      - name: Update Release
+        id: release
+        run: |
+          curl --location --request POST 'https://api.github.com/repos/evalsocket/flytesnacks/releases/${{ needs.prerelease.outputs.release_id }}' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --header 'Authorization: Bearer ${{ secrets.FLYTE_BOT_PAT }}' \
+          --data-raw '{
+              "tag_name": ${{ needs.bump-version.outputs.version }},
+              "prerelease": false
+          }'
+
