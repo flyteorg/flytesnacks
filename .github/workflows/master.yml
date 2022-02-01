@@ -49,7 +49,7 @@ jobs:
   trigger-release-flytesnacks-workflow:
     name: Invoke Release Flytesnacks workflow
     needs: [prerelease]
-    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@fix-prerelease
+    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
     with:
       tag: ${{ needs.bump-version.outputs.version }}
     secrets:
