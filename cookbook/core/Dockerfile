@@ -40,4 +40,3 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
