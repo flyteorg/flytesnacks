@@ -128,6 +128,8 @@ if __name__ == "__main__":
 
 # Here is an example demonstrating child workflows:
 
+# %%
+# We import the required libraries into the environment.
 import typing
 from typing import Tuple
 from flytekit import task, workflow
@@ -150,7 +152,7 @@ def div_mul(a: float, b: float) -> float:
 # %%
 # We define a workflow that executes one of the above defined tasks based on the inputs.
 @workflow
-def parent_workflow(my_input1: float, my_input2: float) -> float:
+def child_workflow(my_input1: float, my_input2: float) -> float:
     return (
         conditional("sum_diff or div_mul")
             .if_(my_input1 > my_input2)
@@ -160,18 +162,19 @@ def parent_workflow(my_input1: float, my_input2: float) -> float:
     )
 
 # We create a launch plan that uses the above defined workflow. Notice the default inputs here.
-my_parent_lp = LaunchPlan.create(
-    "parent_workflow_execution",
-    parent_workflow,
+my_child_lp = LaunchPlan.create(
+    "child_workflow_execution",
+    child_workflow,
     default_inputs={"my_input2": 6.0},
 )
 
+# Different input values passed to the above defined function.
 print("Output when default input is used : ")
-print(my_parent_lp(my_input1 = 2.0)) # 4.0 
+print(my_child_lp(my_input1 = 2.0)) # 4.0 
 print("Output when sum_diff method is called : ")
-print(my_parent_lp(my_input1 = 4.0, my_input2 = 2.0)) # 12.0
+print(my_child_lp(my_input1 = 4.0, my_input2 = 2.0)) # 12.0
 print("Output when div_mul method is called : ")
-print(my_parent_lp(my_input1 = 4.0, my_input2 = 8.0)) # 16.0
+print(my_child_lp(my_input1 = 4.0, my_input2 = 8.0)) # 16.0
 
 
 # %%
@@ -182,11 +185,11 @@ def exp_demo(x: float, y: float) -> float:
     return op1
 
 # %%
-# We define a workflow which uses the launch plan of the previously defined workflow.
+# We define a workflow which uses the launch plan of the previously defined workflow, which demonstrates child workflow.
 @workflow
-def child_workflow(my_input3: float, my_input4: float) -> Tuple[float, float]:
-    my_op1 = my_parent_lp(my_input1 = 4.0)
+def parent_workflow(my_input3: float, my_input4: float) -> Tuple[float, float]:
+    my_op1 = my_child_lp(my_input1 = 4.0)
     my_op2 = exp_demo(x = my_input3, y = my_input4)
     return my_op1,my_op2
 
-print(child_workflow(my_input3 = 3.0, my_input4 = 1.0))
+print(parent_workflow(my_input3 = 3.0, my_input4 = 1.0))
