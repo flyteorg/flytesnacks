@@ -2,6 +2,10 @@
 Checkpoints
 ------------
 
+.. note::
+
+  This feature is available since flytekit version 0.30.0b6+ and needs a Flyte backend version of atleast 0.19.0+
+
 A checkpoint allows a task to recover from a previous failure by recording the state of a task before the failure and
 resuming from the latest recorded state.
 
