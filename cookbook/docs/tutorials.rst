@@ -39,7 +39,7 @@ documenting and contributing samples easy. If this is your first time running th
        :text: 🛠 Weather forecasting
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    End-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
+    Build end-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
 
     ---
 

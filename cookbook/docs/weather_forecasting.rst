@@ -2,14 +2,14 @@
 Weather forecasting
 #####################
 
-**Bioinformatics** is defined as the application of tools of computation and analysis to capture and interpret biological data.
+We will understand how **Flyte** can be used to build an end-to-end Online Machine Learning application that performs **Weather forecasting** using Pandera and Streamlit.
 
 .. panels::
     :header: text-center
     :column: col-lg-12 p-2
 
     .. link-button:: https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting
-       :type: ref
+       :type: url
        :text: Weather forecasting Github repository
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
@@ -18,7 +18,7 @@ Weather forecasting
     ---
 
     .. link-button:: https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
-       :type: ref
+       :type: url
        :text: Detailed blog on weather forecasting
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
