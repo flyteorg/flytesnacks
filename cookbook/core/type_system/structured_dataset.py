@@ -49,7 +49,7 @@ def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
 
 
 @task
-def get_schema_df(a: int) -> FlyteSchema[superset_cols, "parquet"]:
+def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
     """
     Generate a sample dataframe
     """
@@ -70,7 +70,7 @@ def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[St
     df = df.open(pd.DataFrame).all()
     df = df.append(pd.DataFrame(data={"Age": [30]}))
     # You can also specify bigquery uri for StructuredDataset, then flytekit will write pd.dataframe to bigquery table
-    return StructuredDataset(dataframe=df, file_format="parquet")
+    return StructuredDataset(dataframe=df)
 
 
 # %%
