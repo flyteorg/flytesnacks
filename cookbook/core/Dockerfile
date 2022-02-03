@@ -25,8 +25,6 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN apt-get --allow-releaseinfo-change update && apt-get install -y git
-
 # Install Python dependencies
 COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
@@ -42,5 +40,3 @@ COPY core /root/core
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-
-RUN pip install -U --force https://github.com/flyteorg/flytekit/archive/13e1d372d0a11973c4c13952ba1d207f385e69a1.zip#egg=flytekit
