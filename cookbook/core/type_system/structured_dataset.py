@@ -49,7 +49,7 @@ def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
 
 
 @task
-def get_schema_df(a: int) -> Annotated[FlyteSchema, superset_cols]:
+def get_schema_df(a: int) -> FlyteSchema[superset_cols, "parquet"]:
     """
     Generate a sample dataframe
     """
