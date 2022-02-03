@@ -84,15 +84,15 @@ def use_checkpoint(n_iterations: int) -> int:
 # %%
 # The workflow in this case simply calls the task. The task itself will be retried for the failure :ref:py:class:`FlyteRecoverableException`
 @workflow
-def example(a: int) -> int:
-    return use_checkpoint(a=a)
+def example(n_iterations: int) -> int:
+    return use_checkpoint(n_iterations=n_iterations)
 
 
 #%%
 # Locally the checkpoint is stored, but since, retries are not supported, the checkpoint is not really used.
 if __name__ == "__main__":
     try:
-        example(a=10)
+        example(n_iterations=10)
     except RuntimeError as e:
         # Locally an exception is expected as retries are not performed.
         pass
