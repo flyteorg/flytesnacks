@@ -1,4 +1,4 @@
-name: Serialize, Register & Release Examples
+name: Serialize & Register Examples
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - 'cookbook/deployment/**'
 jobs:
   trigger-checks-flytesnacks-workflow:
-    name: Invoke Release Flytesnacks workflow
-    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
+    name: Serialize & Register Flytesnacks workflow
+    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@master
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}

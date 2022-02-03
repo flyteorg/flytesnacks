@@ -47,9 +47,9 @@ jobs:
 
 
   trigger-release-flytesnacks-workflow:
-    name: Invoke Release Flytesnacks workflow
+    name: Serialize & Register Flytesnacks workflow
     needs: [prerelease]
-    uses: flyteorg/flytesnacks/.github/workflows/sandbox_register.yml@master
+    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@master
     with:
       tag: ${{ needs.bump-version.outputs.version }}
     secrets:
@@ -57,7 +57,7 @@ jobs:
 
   # Download artifacts again and push them to the release only if this is not a pull request
   release-workflow:
-    name: Release workflows
+    name: Publish artifacts to github release
     runs-on: ubuntu-latest
     needs: [ trigger-serialize-flytesnacks-workflow]
     steps:
@@ -88,7 +88,7 @@ jobs:
           GORELEASER_CURRENT_TAG: ${{ needs.bump-version.outputs.version }}
 
   make-release:
-    name: Update Release
+    name: Mark github pre-release as Release
     needs: [ release-workflow ]
     runs-on: ubuntu-latest
     steps:
