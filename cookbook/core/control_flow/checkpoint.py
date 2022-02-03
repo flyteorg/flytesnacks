@@ -1,5 +1,5 @@
 """
-Checkpoints
+Intratask Checkpoints
 ------------
 
 .. note::
@@ -18,21 +18,22 @@ simply retry the task at hand. Eventually, when the task succeeds, it will never
 naturally serve as checkpoints.
 
 There are cases where it is not easy or desirable to break a task into further smaller tasks, as running a task
-adds overhead. This is especially true, when running a large computation in a tight-loop. It is desirable that
-once running the task proceeds to completion as the overhead of relaunching or recreating the running state is expensive.
-One might argue, that in such a case users could split each loop iteration (or some number of iterations) into a task
-and thus use workflows natural checkpointing mechanism to recover. This is completely possible and Flyte's dynamic workflows
-provide exactly this capability. But, this is still less then ideal, as in the best case scenario, where failure is not
-common, the overhead of spawning new tasks, recording intermediates and re-bootstrapping the state can be extremely
-expensive. An example of this case is model-training. Running multiple epochs or different iterations with the same
+adds overhead. This is especially true when running a large computation in a tight-loop. This these cases, users can
+split each loop iteration into its own task using dynamic workflows, but the overhead of spawning new tasks, recording
+intermediate results, and reconstituting the state can be extremely expensive.
+
+Model-training Use Case
+==================
+
+An example of this case is model training. Running multiple epochs or different iterations with the same
 dataset can take a long time, but the bootstrap time may be high and creating task boundaries can be expensive.
 
 To tackle this, Flyte offers a way to checkpoint progress within a task execution as a file or a set of files. These
-checkpoints can be written synchronously or async and in case of failure, the checkpoint file can be re-read to resume
+checkpoints can be written synchronously or asynchronously. In case of failure, the checkpoint file can be re-read to resume
 most of the state without re-running the entire task. This opens up the opportunity to use alternate compute systems with
 lower guarantees like - `AWS Spot Instances <https://aws.amazon.com/ec2/spot/>`__, `GCP Pre-emptible Instances <https://cloud.google.com/compute/docs/instances/preemptible>`__ etc.
 
-These instances offer great performance at much lower price-points as compared to their OnDemand or Reserved alternatives.
+These instances offer great performance at much lower price-points as compared to their on-demand or reserved alternatives.
 This is possible if you construct your tasks in a fault-tolerant way. For most cases, when the task runs for a short duration,
 e.g. less than 10 minutes, the potential of failure is not significant and task-boundary-based recovery offers
 significant fault-tolerance to ensure successful completion.
