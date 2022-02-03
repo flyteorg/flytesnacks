@@ -8,9 +8,9 @@ Weather forecasting
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: flytelab/tree/main
+    .. link-button:: https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting
        :type: ref
-       :text: 🛠 Weather forecasting Github repository
+       :text: Weather forecasting Github repository
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Github repository of the weather forecasting project- an end-to-end online Machine Learning application
@@ -29,5 +29,4 @@ Weather forecasting
     :caption: Contents
     :hidden:
 
-    flytelab/tree/main
-    https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
+    https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting    https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
