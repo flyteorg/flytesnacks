@@ -1,7 +1,8 @@
 ################
 ML Training
 ################
-write here
+This section deals with training various Machine Learning models using different datasets. In the process of training, data is fed to the Machine Learning algorithm. The model learns from this data, i.e captures patterns which can be used to get predictions on new data.
+
 .. panels::
     :header: text-center
     :column: col-lg-12 p-2
