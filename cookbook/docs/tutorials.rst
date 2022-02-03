@@ -34,18 +34,18 @@ documenting and contributing samples easy. If this is your first time running th
 
     ---
 
-    .. link-button:: weather_forecasting
-       :type: ref
-       :text: 🛠 Weather forecasting
-       :classes: btn-block stretched-link
-    ^^^^^^^^^^^^
-    Build end-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
-
-    ---
-
     .. link-button:: bioinformatics
        :type: ref
        :text: 🧪 Bioinformatics
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Perform computational biology with Flyte.
+
+    ---
+
+    .. link-button:: weather_forecasting
+       :type: ref
+       :text: 🛠 Weather forecasting
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Build end-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
