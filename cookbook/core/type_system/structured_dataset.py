@@ -39,13 +39,23 @@ subset_cols = kwtypes(Age=int)
 
 # %%
 # This task generates a pandas.DataFrame and returns it. The Dataframe itself will be serialized to an intermediate
-# format like parquet before passing between tasks
+# format like parquet before passing between tasks.
 @task
-def get_df(a: int) -> FlyteSchema[superset_cols]:
+def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
     """
     Generate a sample dataframe
     """
     return pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]})
+
+
+@task
+def get_schema_df(a: int) -> Annotated[FlyteSchema, superset_cols]:
+    """
+    Generate a sample dataframe
+    """
+    s = FlyteSchema()
+    s.open().write(pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]}))
+    return s
 
 
 # %%
@@ -123,7 +133,14 @@ def to_numpy(ds: Annotated[StructuredDataset, subset_cols]) -> Annotated[Structu
 @workflow
 def wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
     df = get_df(a=a)
-    ds = get_subset_df(df=df)
+    ds = get_subset_df(df=df)  # noqa, shown for demonstration, users should use the same types from one task to another
+    return to_numpy(ds=ds)
+
+
+@workflow
+def schema_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
+    df = get_schema_df(a=a)
+    ds = get_subset_df(df=df)  # noqa, shown for demonstration, users should use the same types from one task to another
     return to_numpy(ds=ds)
 
 
