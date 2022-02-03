@@ -36,7 +36,7 @@ documenting and contributing samples easy. If this is your first time running th
 
     .. link-button:: weather_forecasting
        :type: ref
-       :text: 🛠 Weather forecasting using Flyte
+       :text: 🛠 Weather forecasting
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     End-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
