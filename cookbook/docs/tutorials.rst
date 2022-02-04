@@ -41,11 +41,20 @@ documenting and contributing samples easy. If this is your first time running th
     ^^^^^^^^^^^^
     Perform computational biology with Flyte.
 
-    ---
+
+*********
+Flytelab
+*********
+
+This repository contains Machine Learning projects that use the Flytekit Python SDK to implement end-to-end ML applications.
+
+.. panels::
+    :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: weather_forecasting
        :type: ref
-       :text: 🛠 Weather forecasting
+       :text: ⛅️ Weather forecasting
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Build end-to-end weather forecasting ML application using Flyte, Pandera, and Streamlit.
+    An end-to-end online Machine Learning application for weather forecasting.

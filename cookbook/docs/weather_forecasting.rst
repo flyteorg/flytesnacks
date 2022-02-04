@@ -10,16 +10,16 @@ We will understand how **Flyte** can be used to build an end-to-end Online Machi
 
     .. link-button:: https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting
        :type: url
-       :text: Weather forecasting Github repository
+       :text: Github repository
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Github repository of the weather forecasting project- an end-to-end online Machine Learning application
+    Github repository of the weather forecasting project: an end-to-end online Machine Learning application
 
     ---
 
     .. link-button:: https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
        :type: url
-       :text: Detailed blog on weather forecasting
+       :text: Blog post
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Tutorial on building a weather forecasting model using Flyte, Pandera, and Streamlit
@@ -29,4 +29,5 @@ We will understand how **Flyte** can be used to build an end-to-end Online Machi
     :caption: Contents
     :hidden:
 
-    https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting    https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
+    Github Repo <https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting>
+    Blog Post <https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit>
