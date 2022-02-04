@@ -3,7 +3,7 @@ name: Master
 on:
   push:
     branches:
-      - reuseable-fix
+      - master
 jobs:
   bump-version:
     name: Bump Version
@@ -22,7 +22,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.FLYTE_BOT_PAT }}
           WITH_V: true
           DEFAULT_BUMP: patch
-          RELEASE_BRANCH: reuseable-fix
 
   prerelease:
     name: Create Prerelease
