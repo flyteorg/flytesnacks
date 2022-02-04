@@ -1,4 +1,2 @@
 -r ../../../common/requirements-common.in
-
-flytekitplugins-snowflake>=0.22.3
-
+flytekitplugins-snowflake>=0.30.0

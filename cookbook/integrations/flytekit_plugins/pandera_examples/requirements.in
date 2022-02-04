@@ -1,5 +1,5 @@
 -r ../../../common/requirements-common.in
-flytekitplugins-pandera>=0.16.0
+flytekitplugins-pandera>=0.30.0
 hypothesis
 joblib
 pandas
