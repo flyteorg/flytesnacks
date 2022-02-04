@@ -5,6 +5,8 @@ on:
     paths-ignore:
       - 'cookbook/docs/**'
       - 'cookbook/deployment/**'
+      - '.github/**'
+      - 'tutorial/**'
 jobs:
   trigger-checks-flytesnacks-workflow:
     name: Serialize & Register Flytesnacks workflow

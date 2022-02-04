@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'cookbook/docs/**'
+      - 'cookbook/deployment/**'
+      - '.github/**'
+      - 'tutorial/**'
 jobs:
   bump-version:
     name: Bump Version

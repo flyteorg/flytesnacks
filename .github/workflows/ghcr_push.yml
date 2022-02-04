@@ -2,6 +2,13 @@ name: Build & Push Docker Images
 
 on:
   pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'cookbook/docs/**'
+      - 'cookbook/deployment/**'
+      - '.github/**'
+      - 'tutorial/**'
   create:
     tags:
       - v*
