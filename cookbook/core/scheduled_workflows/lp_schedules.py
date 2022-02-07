@@ -3,9 +3,9 @@ Scheduling Workflows Example
 ----------------------------
 
 :ref:`flyte:divedeep-launchplans` can be set to run automatically on a schedule using the Flyte Native Scheduler.
-For workflows that depend on knowing the kick-off time, Flyte also supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow.
+For workflows that depend on knowing the kick-off time, Flyte supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow.
 
-Check out a demo of how Native Scheduler works:
+Check out a demo of how the Native Scheduler works:
 
 .. youtube:: sQoCp2qSQK4
 
@@ -39,8 +39,8 @@ def date_formatter_wf(kickoff_time: datetime):
 # Cron Schedules
 # ##############
 #
-# Cron expression strings use the following `syntax <https://pkg.go.dev/github.com/robfig/cron#hdr-CRON_Expression_Format>`_.
-# An incorrect cron schedule expression would lead to failure in triggering the schedule
+# `Cron <https://en.wikipedia.org/wiki/Cron>`_ expression strings use this :ref:`syntax <concepts-schedules>`.
+# An incorrect cron schedule expression would lead to failure in triggering the schedule.
 from flytekit import CronSchedule, LaunchPlan
 
 # creates a launch plan that runs every minute.
@@ -155,7 +155,7 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 # Platform Configuration Changes For AWS Scheduler
 # ################################################
 #
-# Scheduling feature can be run using the flyte native scheduler which comes with flyte but if you intend to use the AWS scheduler then it require additional infrastructure to run, so these will have to be created and configured.The following sections are only required if you use AWS scheme for the scheduler. You can even run the flyte native scheduler on AWS though
+# The Scheduling feature can be run using the Flyte native scheduler which comes with Flyte. If you intend to use the AWS scheduler then it requires additional infrastructure to run, so these will have to be created and configured. The following sections are only required if you use the AWS scheme for the scheduler. You can still run the Flyte native scheduler on AWS.
 #
 # Setting up Scheduled Workflows
 # ==============================
@@ -185,13 +185,13 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 
 # %%
 # * **scheme**: in this case because AWS is the only cloud back-end supported for scheduling workflows, only ``"aws"`` is a valid value. By default, the no-op scheduler is used.
-# * **region**: this specifies which region initialized AWS clients should will use when creating CloudWatch rules
+# * **region**: this specifies which region initialized AWS clients should use when creating CloudWatch rules.
 # * **scheduleRole** This is the IAM role ARN with permissions set to ``Allow``
 #     * ``events:PutRule``
 #     * ``events:PutTargets``
 #     * ``events:DeleteRule``
 #     * ``events:RemoveTargets``
-# * **targetName** this is the ARN for the SQS Queue you've allocated to scheduling workflows
+# * **targetName** this is the ARN for the SQS Queue you've allocated to scheduling workflows.
 # * **scheduleNamePrefix** this is an entirely optional prefix used when creating schedule rules. Because of AWS naming length restrictions, scheduled rules are a random hash and having a shared prefix makes these names more readable and indicates who generated the rules.
 #
 # Workflow Executor
@@ -216,7 +216,7 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 #        accountId: "{{ YOUR ACCOUNT ID }}"
 
 # %%
-# * **scheme**: in this case because AWS is the only cloud back-end supported for executing scheduled workflows, only ``"aws"`` is a valid value. By default, the no-op executor is used and in case of sandbox we use ``"local"`` scheme which uses the flyte native scheduler.
-# * **region**: this specifies which region AWS clients should will use when creating an SQS subscriber client
-# * **scheduleQueueName**: this is the name of the SQS Queue you've allocated to scheduling workflows
-# * **accountId**: Your AWS `account id <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId>`_
+# * **scheme**: in this case because AWS is the only cloud back-end supported for executing scheduled workflows, only ``"aws"`` is a valid value. By default, the no-op executor is used and in case of sandbox we use ``"local"`` scheme which uses the Flyte native scheduler.
+# * **region**: this specifies which region AWS clients should use when creating an SQS subscriber client.
+# * **scheduleQueueName**: this is the name of the SQS Queue you've allocated to scheduling workflows.
+# * **accountId**: Your AWS `account id <https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId>`_.

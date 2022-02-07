@@ -4,6 +4,7 @@ ML Training
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: auto/case_studies/ml_training/pima_diabetes/index
        :type: ref
@@ -34,7 +35,7 @@ ML Training
 
     .. link-button:: auto/case_studies/ml_training/spark_horovod/index
        :type: ref
-       :text: Forecast Sales Using Rossmann Store Sales Data
+       :text: Forecast Sales Using Rossmann Store Sales Data with Horovod and Spark
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Data-parallel distributed training using Horovod on Spark
