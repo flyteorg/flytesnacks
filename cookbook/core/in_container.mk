@@ -9,7 +9,7 @@ $(SERIALIZED_PB_OUTPUT_DIR): clean
 
 .PHONY: serialize
 serialize: $(SERIALIZED_PB_OUTPUT_DIR)
-	FLYTE_SDK_USE_STRUCTURED_DATASET=TRUE pyflyte --config /root/sandbox.config serialize workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
+	pyflyte --config /root/sandbox.config serialize workflows -f $(SERIALIZED_PB_OUTPUT_DIR)
 
 .PHONY: fast_serialize
 fast_serialize: $(SERIALIZED_PB_OUTPUT_DIR)
