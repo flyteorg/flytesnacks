@@ -4,43 +4,63 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make requirements.txt
 #
-altair==4.1.0
+altair==4.2.0
     # via great-expectations
 appnope==0.1.2
     # via
     #   ipykernel
     #   ipython
-argon2-cffi==21.1.0
+argon2-cffi==21.3.0
     # via notebook
-attrs==21.2.0
-    # via
-    #   jsonschema
-    #   scantree
+argon2-cffi-bindings==21.2.0
+    # via argon2-cffi
+arrow==1.2.2
+    # via jinja2-time
+asttokens==2.0.5
+    # via stack-data
+attrs==21.4.0
+    # via jsonschema
 backcall==0.2.0
     # via ipython
-backports.zoneinfo==0.2.1
-    # via tzlocal
+backports-zoneinfo==0.2.1
+    # via
+    #   pytz-deprecation-shim
+    #   tzlocal
+binaryornot==0.4.4
+    # via cookiecutter
+black==22.1.0
+    # via ipython
 bleach==4.1.0
     # via nbconvert
-certifi==2021.5.30
+certifi==2021.10.8
     # via requests
-cffi==1.14.6
-    # via argon2-cffi
-charset-normalizer==2.0.6
+cffi==1.15.0
+    # via argon2-cffi-bindings
+chardet==4.0.0
+    # via binaryornot
+charset-normalizer==2.0.11
     # via requests
-click==7.1.2
+checksumdir==1.2.0
+    # via flytekit
+click==8.0.3
     # via
+    #   black
+    #   cookiecutter
     #   flytekit
     #   great-expectations
-croniter==1.0.15
+cloudpickle==2.0.0
     # via flytekit
-cycler==0.10.0
+cookiecutter==1.7.3
+    # via flytekit
+croniter==1.2.0
+    # via flytekit
+cycler==0.11.0
     # via matplotlib
 dataclasses-json==0.5.6
     # via flytekit
-debugpy==1.5.0
+debugpy==1.5.1
     # via ipykernel
-decorator==5.1.0
+decorator==5.1.1
     # via
     #   ipython
     #   retry
@@ -48,76 +68,85 @@ defusedxml==0.7.1
     # via nbconvert
 deprecated==1.2.13
     # via flytekit
-dirhash==0.2.1
-    # via flytekit
-diskcache==5.2.1
+diskcache==5.4.0
     # via flytekit
 docker-image-py==0.1.12
     # via flytekit
-docstring-parser==0.11
+docstring-parser==0.13
     # via flytekit
-entrypoints==0.3
+entrypoints==0.4
     # via
     #   altair
     #   jupyter-client
     #   nbconvert
-flyteidl==0.20.2
+executing==0.8.2
+    # via stack-data
+flyteidl==0.22.0
     # via flytekit
-flytekit==0.22.2
+flytekit==0.30.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-great-expectations
-flytekitplugins-great-expectations==0.22.3
+flytekitplugins-great-expectations==0.30.1
     # via -r requirements.in
-great-expectations==0.13.37
+fonttools==4.29.1
+    # via matplotlib
+great-expectations==0.14.5
     # via flytekitplugins-great-expectations
-grpcio==1.41.0
+greenlet==1.1.2
+    # via sqlalchemy
+grpcio==1.43.0
     # via flytekit
-idna==3.2
+idna==3.3
     # via requests
-importlib-metadata==4.8.1
+importlib-metadata==4.10.1
     # via
     #   great-expectations
     #   keyring
-ipykernel==6.4.1
+importlib-resources==5.4.0
+    # via jsonschema
+ipykernel==6.9.0
     # via
     #   ipywidgets
     #   notebook
-ipython==7.28.0
+ipython==8.0.1
     # via
     #   ipykernel
     #   ipywidgets
 ipython-genutils==0.2.0
     # via
-    #   ipykernel
     #   ipywidgets
     #   nbformat
     #   notebook
 ipywidgets==7.6.5
     # via great-expectations
-jedi==0.18.0
+jedi==0.18.1
     # via ipython
-jinja2==3.0.2
+jinja2==3.0.3
     # via
     #   altair
+    #   cookiecutter
     #   great-expectations
+    #   jinja2-time
     #   nbconvert
     #   notebook
+jinja2-time==0.2.0
+    # via cookiecutter
 jsonpatch==1.32
     # via great-expectations
-jsonpointer==2.1
+jsonpointer==2.2
     # via jsonpatch
-jsonschema==4.0.1
+jsonschema==4.4.0
     # via
     #   altair
     #   great-expectations
     #   nbformat
-jupyter-client==7.0.6
+jupyter-client==7.1.2
     # via
     #   ipykernel
     #   nbclient
     #   notebook
-jupyter-core==4.8.1
+jupyter-core==4.9.1
     # via
     #   jupyter-client
     #   nbconvert
@@ -127,22 +156,22 @@ jupyterlab-pygments==0.1.2
     # via nbconvert
 jupyterlab-widgets==1.0.2
     # via ipywidgets
-keyring==23.2.1
+keyring==23.5.0
     # via flytekit
 kiwisolver==1.3.2
     # via matplotlib
 markupsafe==2.0.1
     # via jinja2
-marshmallow==3.13.0
+marshmallow==3.14.1
     # via
     #   dataclasses-json
     #   marshmallow-enum
     #   marshmallow-jsonschema
 marshmallow-enum==1.5.1
     # via dataclasses-json
-marshmallow-jsonschema==0.12.0
+marshmallow-jsonschema==0.13.0
     # via flytekit
-matplotlib==3.4.3
+matplotlib==3.5.1
     # via -r ../../../common/requirements-common.in
 matplotlib-inline==0.1.3
     # via
@@ -153,12 +182,14 @@ mistune==0.8.4
     #   great-expectations
     #   nbconvert
 mypy-extensions==0.4.3
-    # via typing-inspect
-natsort==7.1.1
+    # via
+    #   black
+    #   typing-inspect
+natsort==8.1.0
     # via flytekit
-nbclient==0.5.4
+nbclient==0.5.10
     # via nbconvert
-nbconvert==6.2.0
+nbconvert==6.4.1
     # via notebook
 nbformat==5.1.3
     # via
@@ -166,13 +197,15 @@ nbformat==5.1.3
     #   nbclient
     #   nbconvert
     #   notebook
-nest-asyncio==1.5.1
+nest-asyncio==1.5.4
     # via
+    #   ipykernel
     #   jupyter-client
     #   nbclient
-notebook==6.4.4
+    #   notebook
+notebook==6.4.8
     # via widgetsnbextension
-numpy==1.21.2
+numpy==1.22.2
     # via
     #   altair
     #   great-expectations
@@ -180,30 +213,36 @@ numpy==1.21.2
     #   pandas
     #   pyarrow
     #   scipy
-packaging==21.0
-    # via bleach
-pandas==1.3.3
+packaging==21.3
+    # via
+    #   bleach
+    #   matplotlib
+pandas==1.4.0
     # via
     #   altair
     #   flytekit
     #   great-expectations
 pandocfilters==1.5.0
     # via nbconvert
-parso==0.8.2
+parso==0.8.3
     # via jedi
 pathspec==0.9.0
-    # via scantree
+    # via black
 pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==8.3.2
+pillow==9.0.1
     # via matplotlib
-prometheus-client==0.11.0
+platformdirs==2.4.1
+    # via black
+poyo==0.5.0
+    # via cookiecutter
+prometheus-client==0.13.1
     # via notebook
-prompt-toolkit==3.0.20
+prompt-toolkit==3.0.27
     # via ipython
-protobuf==3.18.1
+protobuf==3.19.4
     # via
     #   flyteidl
     #   flytekit
@@ -211,13 +250,15 @@ ptyprocess==0.7.0
     # via
     #   pexpect
     #   terminado
-py==1.10.0
+pure-eval==0.2.2
+    # via stack-data
+py==1.11.0
     # via retry
-pyarrow==3.0.0
+pyarrow==6.0.1
     # via flytekit
-pycparser==2.20
+pycparser==2.21
     # via cffi
-pygments==2.10.0
+pygments==2.11.2
     # via
     #   ipython
     #   jupyterlab-pygments
@@ -227,10 +268,11 @@ pyparsing==2.4.7
     #   great-expectations
     #   matplotlib
     #   packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via jsonschema
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
+    #   arrow
     #   croniter
     #   flytekit
     #   great-expectations
@@ -239,58 +281,67 @@ python-dateutil==2.8.1
     #   pandas
 python-json-logger==2.0.2
     # via flytekit
+python-slugify==5.0.2
+    # via cookiecutter
 pytimeparse==1.1.8
     # via flytekit
-pytz==2018.4
+pytz==2021.3
     # via
     #   flytekit
     #   great-expectations
     #   pandas
+pytz-deprecation-shim==0.1.0.post0
+    # via tzlocal
 pyzmq==22.3.0
     # via
     #   jupyter-client
     #   notebook
-regex==2021.9.30
+regex==2022.1.18
     # via docker-image-py
-requests==2.26.0
+requests==2.27.1
     # via
+    #   cookiecutter
     #   flytekit
     #   great-expectations
     #   responses
-responses==0.14.0
+responses==0.18.0
     # via flytekit
 retry==0.9.2
     # via flytekit
-ruamel.yaml==0.17.16
+ruamel-yaml==0.17.17
     # via great-expectations
-ruamel.yaml.clib==0.2.6
-    # via ruamel.yaml
-scantree==0.0.1
-    # via dirhash
-scipy==1.7.1
+ruamel-yaml-clib==0.2.6
+    # via ruamel-yaml
+scipy==1.8.0
     # via great-expectations
 send2trash==1.8.0
     # via notebook
 six==1.16.0
     # via
+    #   asttokens
     #   bleach
-    #   cycler
-    #   flytekit
+    #   cookiecutter
     #   grpcio
     #   python-dateutil
-    #   responses
-    #   scantree
 sortedcontainers==2.4.0
     # via flytekit
+sqlalchemy==1.4.31
+    # via flytekitplugins-great-expectations
+stack-data==0.1.4
+    # via ipython
 statsd==3.3.0
     # via flytekit
 termcolor==1.1.0
     # via great-expectations
-terminado==0.12.1
+terminado==0.13.1
     # via notebook
 testpath==0.5.0
     # via nbconvert
-toolz==0.11.1
+text-unidecode==1.3
+    # via python-slugify
+tomli==2.0.1
+    # via black
+toolz==0.11.2
     # via altair
 tornado==6.1
     # via
@@ -300,7 +351,7 @@ tornado==6.1
     #   terminado
 tqdm==4.62.3
     # via great-expectations
-traitlets==5.1.0
+traitlets==5.1.1
     # via
     #   ipykernel
     #   ipython
@@ -312,13 +363,19 @@ traitlets==5.1.0
     #   nbconvert
     #   nbformat
     #   notebook
-typing-extensions==3.10.0.2
-    # via typing-inspect
+typing-extensions==4.0.1
+    # via
+    #   black
+    #   flytekit
+    #   great-expectations
+    #   typing-inspect
 typing-inspect==0.7.1
     # via dataclasses-json
-tzlocal==3.0
+tzdata==2021.5
+    # via pytz-deprecation-shim
+tzlocal==4.1
     # via great-expectations
-urllib3==1.26.7
+urllib3==1.26.8
     # via
     #   flytekit
     #   requests
@@ -327,18 +384,20 @@ wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
     # via bleach
-wheel==0.37.0
+wheel==0.37.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekit
-widgetsnbextension==3.5.1
+widgetsnbextension==3.5.2
     # via ipywidgets
-wrapt==1.13.1
+wrapt==1.13.3
     # via
     #   deprecated
     #   flytekit
-zipp==3.6.0
-    # via importlib-metadata
+zipp==3.7.0
+    # via
+    #   importlib-metadata
+    #   importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
