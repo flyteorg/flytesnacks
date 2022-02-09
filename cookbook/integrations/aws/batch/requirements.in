@@ -1,2 +1,2 @@
 -r ../../../common/requirements-common.in
-git+https://github.com/flyteorg/flytekit.git@35f8464d4af012ef6ad9398c0f98d92f5aa30da4
+git+https://github.com/flyteorg/flytekit.git@35f8464d4af012ef6ad9398c0f98d92f5aa30da4#egg=flytekitplugins-awsbatch&subdirectory=plugins/flytekit-aws-batch
