@@ -1,3 +1,3 @@
-PREFIX=athena
+PREFIX=batch
 include ../../../common/common.mk
 include ../../../common/leaf.mk
