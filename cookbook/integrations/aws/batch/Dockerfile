@@ -1,5 +1,4 @@
 FROM python:3.8-slim-buster
-LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
 ENV VENV /opt/venv

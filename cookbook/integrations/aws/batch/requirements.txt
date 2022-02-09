@@ -42,7 +42,7 @@ docstring-parser==0.11
     # via flytekit
 flyteidl==0.21.24
     # via flytekit
-flytekit @ git+https://github.com/flyteorg/flytekit.git@cbded6c0b09206e73cea73156acdc5dd1bffd77e
+flytekit @ git+https://github.com/flyteorg/flytekit.git@35f8464d4af012ef6ad9398c0f98d92f5aa30da4
     # via
     #   -r ../../../common/requirements-common.in
     #   -r requirements.in

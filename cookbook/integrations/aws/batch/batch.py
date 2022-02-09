@@ -17,10 +17,8 @@ from flytekit import task, workflow
 #
 config = AWSBatchConfig(
     parameters={"codec": "mp4"},
-    platformCapabilities=["EC2"],
-    retryStrategy={"attempts": 10},
+    platformCapabilities="EC2",
     tags={"name": "flyte-example"},
-    timeout={"attemptDurationSeconds": 60},
 )
 
 
