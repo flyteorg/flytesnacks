@@ -34,9 +34,8 @@ def date_formatter_wf(kickoff_time: datetime):
     formatted_kickoff_time = format_date(run_date=kickoff_time)
     print(formatted_kickoff_time)
 
-
-# %%
 # .. _cron_schedule:
+# %%
 # The `date_formatter_wf` workflow can be scheduled using either the `CronSchedule` or the `FixedRate` object.
 #
 # Cron Schedules
@@ -62,8 +61,8 @@ cron_lp = LaunchPlan.get_or_create(
 # The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``.
 # This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs every minute.
 
-# %%
 # .. _fixed_rate_interval:
+# %%
 # Fixed Rate Intervals
 # ####################
 # 
