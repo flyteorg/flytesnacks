@@ -41,6 +41,8 @@ def date_formatter_wf(kickoff_time: datetime):
 # Cron Schedules
 # ##############
 #
+# .. _cron_schedule:
+# 
 # `Cron <https://en.wikipedia.org/wiki/Cron>`_ expression strings use this :ref:`syntax <concepts-schedules>`.
 # An incorrect cron schedule expression would lead to failure in triggering the schedule.
 from flytekit import CronSchedule, LaunchPlan
@@ -65,6 +67,8 @@ cron_lp = LaunchPlan.get_or_create(
 # Fixed Rate Intervals
 # ####################
 #
+# .. _fixed_rate_interval:
+# 
 # If you prefer to use an interval rather than a cron scheduler to schedule your workflows, you can use the fixed-rate scheduler.
 # A fixed-rate scheduler runs at the specified interval.
 #
