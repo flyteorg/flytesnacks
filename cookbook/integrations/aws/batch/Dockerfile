@@ -25,7 +25,7 @@ ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
 COPY batch/requirements.txt /root
-RUN pip install -r /root/requirements.txt
+RUN pip install --no-deps -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /root/Makefile
