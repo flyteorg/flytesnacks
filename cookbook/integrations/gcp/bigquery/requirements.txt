@@ -8,6 +8,8 @@ arrow==1.2.1
     # via jinja2-time
 binaryornot==0.4.4
     # via cookiecutter
+cachetools==5.0.0
+    # via google-auth
 certifi==2021.10.8
     # via requests
 chardet==4.0.0
@@ -40,14 +42,42 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.11
     # via flytekit
-flyteidl==0.21.24
+flyteidl==0.22.0
     # via flytekit
-flytekit @ git+https://github.com/flyteorg/flytekit.git@1213386ecb52fe5bfa5997ba4eed507a3c3ca565
+flytekit==0.30.1
     # via
     #   -r ../../../common/requirements-common.in
-    #   -r requirements.in
-grpcio==1.41.0
-    # via flytekit
+    #   flytekitplugins-bigquery
+flytekitplugins-bigquery==0.30.1
+    # via -r requirements.in
+google-api-core[grpc]==2.5.0
+    # via
+    #   google-cloud-bigquery
+    #   google-cloud-core
+google-auth==2.6.0
+    # via
+    #   google-api-core
+    #   google-cloud-core
+google-cloud-bigquery==2.32.0
+    # via flytekitplugins-bigquery
+google-cloud-core==2.2.2
+    # via google-cloud-bigquery
+google-crc32c==1.3.0
+    # via google-resumable-media
+google-resumable-media==2.2.1
+    # via google-cloud-bigquery
+googleapis-common-protos==1.54.0
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio==1.43.0
+    # via
+    #   flytekit
+    #   google-api-core
+    #   google-cloud-bigquery
+    #   grpcio-status
+grpcio-status==1.43.0
+    # via google-api-core
 idna==3.2
     # via requests
 importlib-metadata==4.8.1
@@ -84,26 +114,45 @@ numpy==1.21.2
     #   matplotlib
     #   pandas
     #   pyarrow
+packaging==21.3
+    # via google-cloud-bigquery
 pandas==1.3.3
     # via flytekit
 pillow==8.3.2
     # via matplotlib
 poyo==0.5.0
     # via cookiecutter
-protobuf==3.18.1
+proto-plus==1.20.0
+    # via google-cloud-bigquery
+protobuf==3.19.4
     # via
     #   flyteidl
     #   flytekit
+    #   google-api-core
+    #   google-cloud-bigquery
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
 py==1.10.0
     # via retry
 pyarrow==6.0.1
     # via flytekit
+pyasn1==0.4.8
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.2.8
+    # via google-auth
 pyparsing==2.4.7
-    # via matplotlib
+    # via
+    #   matplotlib
+    #   packaging
 python-dateutil==2.8.1
     # via
+    #   arrow
     #   croniter
     #   flytekit
+    #   google-cloud-bigquery
     #   matplotlib
     #   pandas
 python-json-logger==2.0.2
@@ -122,16 +171,20 @@ requests==2.26.0
     # via
     #   cookiecutter
     #   flytekit
+    #   google-api-core
+    #   google-cloud-bigquery
     #   responses
 responses==0.14.0
     # via flytekit
 retry==0.9.2
     # via flytekit
+rsa==4.8
+    # via google-auth
 six==1.16.0
     # via
     #   cookiecutter
     #   cycler
-    #   flytekit
+    #   google-auth
     #   grpcio
     #   python-dateutil
     #   responses
@@ -142,7 +195,9 @@ statsd==3.3.0
 text-unidecode==1.3
     # via python-slugify
 typing-extensions==3.10.0.2
-    # via typing-inspect
+    # via
+    #   flytekit
+    #   typing-inspect
 typing-inspect==0.7.1
     # via dataclasses-json
 urllib3==1.26.7

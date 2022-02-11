@@ -15,6 +15,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
 .. panels::
    :header: text-center
+   :column: col-lg-12 p-2
 
    .. link-button:: auto/integrations/flytekit_plugins/sql/index
       :type: ref
@@ -82,6 +83,7 @@ orchestrated by Flyte itself, within its provisioned kubernetes clusters.
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: auto/integrations/kubernetes/pod/index
        :type: ref
@@ -103,10 +105,19 @@ orchestrated by Flyte itself, within its provisioned kubernetes clusters.
 
     .. link-button:: auto/integrations/kubernetes/kfpytorch/index
        :type: ref
-       :text: Kubeflow Pytorch
+       :text: Kubeflow PyTorch
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Run distributed pytorch training jobs using ``Kubeflow``.
+    Run distributed PyTorch training jobs using ``Kubeflow``.
+
+    ---
+
+    .. link-button:: auto/integrations/kubernetes/kftensorflow/index
+       :type: ref
+       :text: Kubeflow TensorFlow
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run distributed TensorFlow training jobs using ``Kubeflow``.
 
     ---
 
@@ -130,6 +141,7 @@ the Flyte task that use the respective plugin.
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: auto/integrations/aws/sagemaker_training/index
        :type: ref
@@ -203,6 +215,7 @@ Because Flyte uses executable docker containers as the smallest unit of compute,
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: raw_container
        :type: ref
@@ -220,6 +233,7 @@ The :ref:`community <community>` would love to help you with your own ideas of b
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: https://flytekit.readthedocs.io
        :type: url
@@ -254,6 +268,7 @@ The :ref:`community <community>` would love to help you with your own ideas of b
     auto/integrations/kubernetes/pod/index
     auto/integrations/kubernetes/k8s_spark/index
     auto/integrations/kubernetes/kfpytorch/index
+    auto/integrations/kubernetes/kftensorflow/index
     auto/integrations/kubernetes/kfmpi/index
     auto/integrations/aws/sagemaker_training/index
     auto/integrations/aws/sagemaker_pytorch/index
