@@ -14,6 +14,7 @@ documenting and contributing samples easy. If this is your first time running th
 
 .. panels::
     :header: text-center
+    :column: col-lg-12 p-2
 
     .. link-button:: ml_training
        :type: ref
@@ -30,3 +31,12 @@ documenting and contributing samples easy. If this is your first time running th
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Engineer the data features to improve your model accuracy.
+
+    ---
+
+    .. link-button:: bioinformatics
+       :type: ref
+       :text: 🧪 Bioinformatics
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Do computational biology with Flyte.

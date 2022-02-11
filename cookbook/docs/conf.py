@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 # -- Project information -----------------------------------------------------
 
-project = "Flyte Tutorial"
+project = "Flytesnacks"
 copyright = "2021, Flyte"
 author = "Flyte"
 
@@ -42,6 +42,7 @@ class CustomSorter(FileNameSortKey):
         "documented_workflow.py",
         "lp.py",
         "task_cache.py",
+        "shell_task.py",
         "reference_task.py",
         "files.py",
         "folders.py",
@@ -54,10 +55,12 @@ class CustomSorter(FileNameSortKey):
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
+        "checkpoint.py",
         "run_merge_sort.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
+        "structured_dataset.py"
         "typed_schema.py",
         "custom_objects.py",
         "enums.py",
@@ -118,6 +121,7 @@ class CustomSorter(FileNameSortKey):
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
+        "tf_mnist.py",
         ## AWS
         "sagemaker_builtin_algo_training.py",
         "sagemaker_custom_training.py",
@@ -125,8 +129,8 @@ class CustomSorter(FileNameSortKey):
         ## GCP
         # TODO
         ## External Services
-        "hive.py"
-        "snowflake.py"
+        "hive.py",
+        "snowflake.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "run_custom_types.py",
@@ -146,6 +150,8 @@ class CustomSorter(FileNameSortKey):
         "feature_eng_tasks.py",
         "feast_dataobjects.py",
         "feast_workflow.py",
+        ## Bioinformatics
+        "blastx_example.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -220,7 +226,7 @@ html_context = {
 # a list of builtin themes.
 #
 html_theme = "furo"
-html_title = "Flyte Docs"
+html_title = "Flyte"
 
 html_theme_options = {
     "light_css_variables": {
@@ -258,6 +264,7 @@ examples_dirs = [
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
+    "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
     "../deployment",
@@ -269,7 +276,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
-    # "../integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
@@ -291,6 +298,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
+    "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
@@ -302,7 +310,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
-    # "auto/integrations/kubernetes/kftensorflow",  # TODO: need to update content
+    "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
@@ -354,7 +362,7 @@ sphinx_gallery_conf = {
     "filename_pattern": "/run_",
     "capture_repr": (),
     "image_scrapers": image_scrapers,
-    "default_thumb_file": "flyte_mark_offset_pink.png",
+    "default_thumb_file": "_static/code-example-icon.png",
     "thumbnail_size": (350, 350),
     # Support for binder
     # 'binder': {'org': 'sphinx-gallery',
@@ -438,7 +446,6 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
-    "dolt": ("https://docs.dolthub.com/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
@@ -450,6 +457,10 @@ intersphinx_mapping = {
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "pytorch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
+    "tensorflow": (
+        "https://www.tensorflow.org/api_docs/python",
+        "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
+    ),
 }
 
 # Sphinx-tabs config
