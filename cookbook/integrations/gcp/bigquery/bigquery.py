@@ -4,10 +4,15 @@ BigQuery Query
 
 This example shows how to use a Flyte BigQueryTask to execute a query.
 """
-import pandas as pd
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
-from flytekit import kwtypes, workflow, StructuredDataset, task
+import pandas as pd
+from flytekit import StructuredDataset, kwtypes, task, workflow
 from flytekitplugins.bigquery import BigQueryConfig, BigQueryTask
+
 # %%
 # This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
 # BigQuery task a name that's unique across your project/domain for your Flyte installation.
@@ -32,7 +37,9 @@ def no_io_wf():
 # Let's look out how we can parameterize our query to filter results for a specific transaction version, provided as a user input
 # specifying a version.
 
-DogeCoinDataset = StructuredDataset[kwtypes(hash=str, size=int, block_number=int)]
+DogeCoinDataset = Annotated[
+    StructuredDataset, kwtypes(hash=str, size=int, block_number=int)
+]
 
 bigquery_task_templatized_query = BigQueryTask(
     name="sql.bigquery.w_io",
@@ -56,6 +63,7 @@ def convert_bq_table_to_pandas_dataframe(sd: DogeCoinDataset) -> pd.DataFrame:
 def full_bigquery_wf(version: int) -> pd.DataFrame:
     sd = bigquery_task_templatized_query(version=version)
     return convert_bq_table_to_pandas_dataframe(sd=sd)
+
 
 # %%
 # Check query result on bigquery console: ``https://console.cloud.google.com/bigquery``
