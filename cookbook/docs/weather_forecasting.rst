@@ -1,8 +1,8 @@
-#####################
+##########
 Weather forecasting
-#####################
+##########
 
-We will understand how **Flyte** can be used to build an end-to-end Online Machine Learning application that performs **Weather forecasting** using Pandera and Streamlit.
+An end-to-end Online Machine Learning application, built using Flyte, that performs **Weather forecasting** using Pandera and Streamlit.
 
 .. panels::
     :header: text-center

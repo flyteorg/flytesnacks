@@ -274,4 +274,4 @@ Table of Contents
    ml_training
    feature_engineering
    bioinformatics
-   weather_forecasting
+   flytelab

@@ -41,20 +41,11 @@ documenting and contributing samples easy. If this is your first time running th
     ^^^^^^^^^^^^
     Perform computational biology with Flyte.
 
+    ---
 
-*********
-Flytelab
-*********
-
-This repository contains Machine Learning projects that use the Flytekit Python SDK to implement end-to-end ML applications.
-
-.. panels::
-    :header: text-center
-    :column: col-lg-12 p-2
-
-    .. link-button:: weather_forecasting
+    .. link-button:: flytelab
        :type: ref
-       :text: ⛅️ Weather forecasting
+       :text: 🧪 Flytelab
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    An end-to-end online Machine Learning application for weather forecasting.
+    The open source repository of machine learning projects using Flyte.

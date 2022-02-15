@@ -1,7 +1,8 @@
 ################
 ML Training
 ################
-This section deals with training various Machine Learning models using different datasets. In the process of training, data is fed to the Machine Learning algorithm. The model learns from this data, i.e captures patterns which can be used to get predictions on new data.
+
+Understand how Machine Learning models can be trained from within Flyte, along with orchestration benefits.
 
 .. panels::
     :header: text-center
