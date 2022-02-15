@@ -1,8 +1,8 @@
-##########
+###################
 Weather forecasting
-##########
+###################
 
-An end-to-end Online Machine Learning application, built using Flyte, that performs **Weather forecasting** using Pandera and Streamlit.
+Learn how to build an online weather forecasting system that updates a model daily and displays hourly forecasts on a web UI, using Pandera and Streamlit.
 
 .. panels::
     :header: text-center
@@ -10,19 +10,19 @@ An end-to-end Online Machine Learning application, built using Flyte, that perfo
 
     .. link-button:: https://github.com/flyteorg/flytelab/tree/main/projects/weather_forecasting
        :type: url
-       :text: Github repository
+       :text: Github Repository
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Github repository of the weather forecasting project: an end-to-end online Machine Learning application
+    The code can be found here.
 
     ---
 
     .. link-button:: https://blog.flyte.org/building-a-weather-forecasting-application-with-flyte-pandera-and-streamlit
        :type: url
-       :text: Blog post
+       :text: Blog Post
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Tutorial on building a weather forecasting model using Flyte, Pandera, and Streamlit
+    An article detailing the architecture design of the weather forecasting application.
 
 .. toctree::
     :maxdepth: -1

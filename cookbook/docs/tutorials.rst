@@ -45,7 +45,7 @@ documenting and contributing samples easy. If this is your first time running th
 
     .. link-button:: flytelab
        :type: ref
-       :text: 🧪 Flytelab
+       :text: 🔬 Flytelab
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    The open source repository of machine learning projects using Flyte.
+    The open-source repository of machine learning projects using Flyte.

@@ -2,7 +2,7 @@
 ML Training
 ################
 
-Understand how Machine Learning models can be trained from within Flyte, along with orchestration benefits.
+Understand how machine learning models can be trained from within Flyte, with an added advantage of orchestration benefits.
 
 .. panels::
     :header: text-center
@@ -13,7 +13,7 @@ Understand how Machine Learning models can be trained from within Flyte, along w
        :text: Diabetes Classification
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Train an XGBoost model on the Pima Indians Diabetes Dataset
+    Train an XGBoost model on the Pima Indians Diabetes Dataset.
 
     ---
 
@@ -22,7 +22,7 @@ Understand how Machine Learning models can be trained from within Flyte, along w
        :text: House Price Regression
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Use dynamic workflows to train a multiregion house price prediction model using XGBoost
+    Use dynamic workflows to train a multiregion house price prediction model using XGBoost.
 
     ---
 
@@ -40,7 +40,7 @@ Understand how Machine Learning models can be trained from within Flyte, along w
        :text: Forecast Sales Using Rossmann Store Sales Data with Horovod and Spark
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Data-parallel distributed training using Horovod on Spark
+    Data-parallel distributed training using Horovod on Spark.
 
 
 .. toctree::
