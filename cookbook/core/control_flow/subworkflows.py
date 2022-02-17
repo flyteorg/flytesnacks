@@ -1,6 +1,6 @@
 """
-Subworkflows and External Workflows
-------------------------------------
+Subworkflows 
+------------
 
 Subworkflows are similar to :ref:`launch plans <Launch plans>` in that they allow users to kick off one workflow from inside another. 
 
