@@ -29,7 +29,6 @@ RUN pip install --no-deps -r /root/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /root/Makefile
-COPY batch/sandbox.config /root
 
 # Copy the actual code
 COPY batch /root/batch
