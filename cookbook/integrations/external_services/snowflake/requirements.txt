@@ -34,7 +34,7 @@ flyteidl==0.20.2
     # via flytekit
 flytekit==0.22.4
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r ../../../../common/requirements-common.in
     #   flytekitplugins-snowflake
 flytekitplugins-snowflake==0.22.3
     # via -r requirements.in
@@ -58,7 +58,7 @@ marshmallow-enum==1.5.1
 marshmallow-jsonschema==0.12.0
     # via flytekit
 matplotlib==3.4.3
-    # via -r ../../../common/requirements-common.in
+    # via -r ../../../../common/requirements-common.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==7.1.1
@@ -133,7 +133,7 @@ urllib3==1.26.7
     #   responses
 wheel==0.37.0
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r ../../../../common/requirements-common.in
     #   flytekit
 wrapt==1.13.1
     # via

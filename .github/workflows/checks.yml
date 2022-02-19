@@ -5,11 +5,11 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'cookbook/docs/**'
+      - 'docs/**'
       - 'cookbook/deployment/**'
   pull_request:
     paths-ignore:
-      - 'cookbook/docs/**'
+      - 'docs/**'
       - 'cookbook/deployment/**'
 jobs:
 
@@ -28,7 +28,7 @@ jobs:
   trigger_serialize_register_workflow:
     name: Serialize & Register Flytesnacks workflow
     needs: [list]
-    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@reuseable
+    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@restructure
     with:
       packages: ${{ needs.list.outputs.packages }}
     secrets:
@@ -64,8 +64,8 @@ jobs:
           push_git_tag: ${{ github.event_name != 'pull_request' }}
           push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-          context: ${{ steps.example_id.outputs.path }}
-          dockerfile: ${{ steps.example_id.outputs.id }}/Dockerfile
+          context: ${{ steps.example_id.outputs.path }}/${{ steps.example_id.outputs.id }}
+          dockerfile: Dockerfile
 
   bump_version:
     name: Bump Version
@@ -115,11 +115,9 @@ jobs:
           path: ./download-artifact/
       - name: Package Examples
         run: |
-          mkdir -p cookbook/release-snacks
-          cd download-artifact
-          for i in */; do tar -czvf "../cookbook/release-snacks/${i%/}.tar.gz" "$i" & done; wait
-          cd .. && sudo rm -rf download-artifact/
-          cp cookbook/flyte_tests_manifest.json cookbook/release-snacks/flyte_tests_manifest.json
+          mkdir -p release-snacks
+          cp -r download-artifact/* release-snacks/
+          cp flyte_tests_manifest.json release-snacks/flyte_tests_manifest.json
       - name: Release test manifest
         uses: goreleaser/goreleaser-action@v2
         with:

@@ -21,14 +21,11 @@ RUN ${VENV}/bin/pip install wheel
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY feast_integration/requirements.txt /root/.
+COPY requirements.txt /root/.
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-COPY feast_integration/sandbox.config /root/
-COPY in_container.mk /root/Makefile
-
 # Copy the actual co
-COPY feast_integration/ /root/feast_integration/
+COPY . /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

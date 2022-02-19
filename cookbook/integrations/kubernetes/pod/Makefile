@@ -1,3 +1,2 @@
 PREFIX=pod
-include ../../../common/common.mk
-include ../../../common/leaf.mk
+include ../../../../common/common.mk

@@ -25,15 +25,11 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY mnist_classifier/requirements.txt /root
+COPY requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
-COPY mnist_classifier/ /root/mnist_classifier/
-
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY mnist_classifier/sandbox.config /root
+COPY . /root/
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

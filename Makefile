@@ -46,6 +46,25 @@ ifeq ($(shell docker ps -f name=$(FLYTE_SANDBOX_NAME) --format='{{.ID}}'),)
 	$(error Cluster has not been started! Use 'make start' to start a cluster)
 endif
 
+
+define PIP_COMPILE
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
+endef
+
+dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.txt
+dev-requirements.txt: dev-requirements.in install-piptools
+	$(call PIP_COMPILE,dev-requirements.in)
+
+.PHONY: dev-requirements
+dev-requirements: dev-requirements.txt
+
+docs-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) docs-requirements.txt
+docs-requirements.txt: docs-requirements.in install-piptools
+	$(call PIP_COMPILE,docs-requirements.in)
+
+.PHONY: docs-requirements
+docs-requirements: docs-requirements.txt
+
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
@@ -75,12 +94,6 @@ register: _requires-sandbox-up  ## Register Flyte cookbook workflows
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) extra_images)
 	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) serialize)
 	make -C cookbook/$(EXAMPLES_MODULE) register
-
-.PHONY: fast_register
-fast_register: _requires-sandbox-up  ## Fast register Flyte cookbook workflows
-	$(call LOG,Fast registering example workflows from latest release of flytesnacks)
-	$(call RUN_IN_SANDBOX,make -C cookbook/$(EXAMPLES_MODULE) fast_serialize)
-	make -C cookbook/$(EXAMPLES_MODULE) fast_register
 
 .PHONY: setup-kubectl
 kubectl-config:

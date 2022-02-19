@@ -1,2 +1,2 @@
--r ../../../common/requirements-common.in
+-r ../../../../common/requirements-common.in
 flytekit>=0.30.0b8

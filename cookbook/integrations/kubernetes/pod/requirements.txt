@@ -52,7 +52,7 @@ flyteidl==0.21.25
     # via flytekit
 flytekit==0.30.0
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r ../../../../common/requirements-common.in
     #   flytekitplugins-pod
 flytekitplugins-pod==0.30.0
     # via -r requirements.in
@@ -94,7 +94,7 @@ marshmallow-enum==1.5.1
 marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.5.1
-    # via -r ../../../common/requirements-common.in
+    # via -r ../../../../common/requirements-common.in
 mypy-extensions==0.4.3
     # via typing-inspect
 natsort==8.1.0
@@ -202,7 +202,7 @@ websocket-client==1.2.3
     # via kubernetes
 wheel==0.37.1
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r ../../../../common/requirements-common.in
     #   flytekit
 wrapt==1.13.3
     # via

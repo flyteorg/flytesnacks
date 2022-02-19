@@ -73,7 +73,7 @@ RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config &&
     sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
 
 # Install Python dependencies
-COPY kfmpi/requirements.txt /root
+COPY requirements.txt /root
 
 RUN pip install -r /root/requirements.txt
 
@@ -81,12 +81,8 @@ RUN pip install -r /root/requirements.txt
 # ENV HOROVOD_GPU_OPERATIONS NCCL
 RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.22.1
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY kfmpi/sandbox.config /root
-
 # Copy the actual code
-COPY kfmpi/ /root/kfmpi/
+COPY . /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans

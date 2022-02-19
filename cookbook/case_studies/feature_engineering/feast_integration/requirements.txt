@@ -75,7 +75,7 @@ feast[aws]==0.16.0
 flyteidl==0.21.12
     # via flytekit
 flytekit==0.25.0b3
-    # via -r ../../../common/requirements-common.in
+    # via -r ../../../../common/requirements-common.in
 fonttools==4.28.3
     # via matplotlib
 google-api-core==2.3.0
@@ -137,7 +137,7 @@ marshmallow-enum==1.5.1
 marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.5.0
-    # via -r ../../../common/requirements-common.in
+    # via -r ../../../../common/requirements-common.in
 mmh3==3.0.0
     # via feast
 mypy-extensions==0.4.3
@@ -309,7 +309,7 @@ websockets==10.1
     # via uvicorn
 wheel==0.37.0
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r ../../../../common/requirements-common.in
     #   flytekit
 wrapt==1.13.3
     # via

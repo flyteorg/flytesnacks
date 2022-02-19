@@ -1,0 +1,20 @@
+-r ./cookbook/integrations/aws/sagemaker_training/requirements.in
+-r ./cookbook/integrations/aws/sagemaker_pytorch/requirements.in
+-r ./cookbook/integrations/external_services/hive/requirements.in
+-r ./cookbook/integrations/flytekit_plugins/dolt/requirements.in
+-r ./cookbook/integrations/flytekit_plugins/pandera_examples/requirements.in
+-r ./cookbook/integrations/kubernetes/pod/requirements.in
+-r ./cookbook/integrations/kubernetes/k8s_spark/requirements.in
+-r ./cookbook/integrations/kubernetes/kfpytorch/requirements.in
+-r ./cookbook/case_studies/ml_training/house_price_prediction/requirements.in
+-r ./cookbook/case_studies/ml_training/mnist_classifier/requirements.in
+-r ./cookbook/case_studies/ml_training/pima_diabetes/requirements.in
+
+black==19.10b0
+coverage
+flake8
+flake8-black
+flake8-isort
+isort
+mock
+pytest

@@ -29,15 +29,12 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY dolt/requirements.txt /root/.
+COPY requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY dolt/sandbox.config /root
 
 # Copy the actual code
-COPY dolt/ /root/dolt/
+COPY . /root/
 
 RUN mkdir -p /root/foo &&\
     cd /root/foo &&\

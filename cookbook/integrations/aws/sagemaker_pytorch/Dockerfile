@@ -19,9 +19,6 @@ RUN pip install awscli
 # Install gcloud for GCP
 RUN apt-get install curl --assume-yes
 
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/root/google-cloud-sdk/bin
-
 # Install gcc , g++ and make
 RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list \
     && apt-get update && apt-get install --no-install-recommends -y gcc g++
@@ -34,18 +31,14 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY sagemaker_pytorch/requirements.txt /root/.
+COPY requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
 # Setup Sagemaker entrypoints
 ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY sagemaker_pytorch/sandbox.config /root
-
 # Copy the actual code
-COPY sagemaker_pytorch/ /root/sagemaker_pytorch
+COPY . /root
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
