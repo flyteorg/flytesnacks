@@ -43,7 +43,6 @@ venv:
 	@virtualenv ./.venv/${PREFIX}
 
 deps:
-    pip-compile requirements.in  > requirements.txt
 	@pip install -r requirements.txt
 
 
