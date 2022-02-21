@@ -48,7 +48,7 @@ def count_unique_numbers(x: typing.List[int]) -> int:
 
 
 # %%
-# Now lets create a dummy task that determines the square of a number.
+# Let's create a dummy task that determines the square of a number.
 @task
 def square(x: int) -> int:
     return x * x
