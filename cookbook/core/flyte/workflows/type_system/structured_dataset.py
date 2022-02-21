@@ -18,9 +18,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from flytekit import task, workflow, kwtypes, FlyteContext
-from flytekit.models.types import StructuredDatasetType
-from flytekit.models import literals
+from flytekit import task, workflow, kwtypes, FlyteContext, StructuredDatasetType
 from flytekit.models.literals import StructuredDatasetMetadata
 from flytekit.types.schema import FlyteSchema
 from flytekit.types.structured.structured_dataset import StructuredDataset, StructuredDatasetEncoder, \
