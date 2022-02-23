@@ -37,21 +37,21 @@ Below you’ll find instructions that will hopefully guide you through how to co
 
    * If the Python code can be run locally, just use ``python <my file>`` to run it.
    * If the Python code has to be tested in a cluster:
-   * Install flytectl by running ``brew install flyteorg/homebrew-tap/flytectl``. Learn more about installation and configuration of flytectl `here <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__.
-   * Run the ``flytectl sandbox start --source=$(pwd)`` command in the directory that's one level above the directory that has Dockerfile. 
-   For example, to register `house_price_prediction <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies/ml_training/house_price_prediction>`__ example, run the start command in the ``ml_training`` directory. 
-   To register ``core`` examples, run the start command in the ``cookbook`` directory. So, ``cd`` to the required directory and run all the upcoming commands in there!
+      * Install Flytectl by running ``brew install flyteorg/homebrew-tap/flytectl``. Learn more about installation and configuration of Flytectl `here <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__.
+      * Run the ``flytectl sandbox start --source=$(pwd)`` command in the directory that's one level above the directory that has workflows. 
+      For example, to register `house price prediction <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies/ml_training/house_price_prediction>`__ example, run the start command in the ``ml_training`` directory. 
+      To register ``core`` examples, run the start command in the ``cookbook`` directory. So, ``cd`` to the required directory and run all the consequent commands in there!
 
-   Following are the commands to run if examples in ``core`` directory are to be tested on sandbox:
-    1. Build Docker container using the command: ``flytectl sandbox exec -- docker build . --tag "core:v1" -f core/Dockerfile``. 
-    2. Package the examples by running ``pyflyte --pkgs core package --image core:v1 -f``.
-    3. Register the examples by running ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1``.
-    4. Visit https://localhost:30081/console to view the Flyte console, which consists of the examples present in the ``flytesnacks/cookbook/core`` directory.
-    5. To fetch new dependencies and rebuild the image, run 
+      Following are the commands to run if examples in ``core`` directory are to be tested on sandbox:
+        1. Build Docker container using the command: ``flytectl sandbox exec -- docker build . --tag "core:v1" -f core/Dockerfile``. 
+        2. Package the examples by running ``pyflyte --pkgs core package --image core:v1 -f``.
+        3. Register the examples by running ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1``.
+        4. Visit https://localhost:30081/console to view the Flyte console, which consists of the examples present in the ``flytesnacks/cookbook/core`` directory.
+        5. To fetch new dependencies and rebuild the image, run 
         ``flytectl sandbox exec -- docker build . --tag "core:v2" -f core/Dockerfile``, 
         ``pyflyte --pkgs core package --image core:v2 -f``, and 
         ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2``.
-    6. Refer to `Build & Deploy Your Application “Fast”er! <https://docs.flyte.org/en/latest/getting_started_iterate.html#bonus-build-deploy-your-application-fast-er>`__ if code in itself is updated and requirements.txt is the same.
+        6. Refer to `this doc <https://docs.flyte.org/en/latest/getting_started_iterate.html#bonus-build-deploy-your-application-fast-er>`__ if the code in itself is updated and requirements.txt is the same.
 
 📝 Contribute to Documentation
 ==============================
@@ -74,6 +74,13 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
    * Add the Python file names to the ``CUSTOM_FILE_SORT_ORDER`` list
    * Add ``../integrations/external_services/snowflake`` to ``example_dirs``
    * Add ``auto/integrations/external_services/snowflake`` to ``gallery_dirs``
+   * Add the code for panel and TOC in the required RST file.
+
+     .. image:: https://user-images.githubusercontent.com/27777173/155274419-790f0916-7de0-4abf-9bd0-68c0b52859d3.png
+         :alt: panel and TOC
+
+   * Add the name and the path to ``.github/workflows/ghcr_push.yml`` if you're adding an integration or tutorial.
+   * Add an entry to cookbook/flyte_tests_manifest.json if you're adding an integration or tutorial.
 
 4. Verify if the code and documentation look as expected.
    
@@ -86,7 +93,7 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
    4. Open HTML pages present in the ``docs/_build`` directory in the browser
 
 
-5. After creating the pull request, check if the docs are rendered correctly by clicking on the documentation check.
+5. After creating the pull request, check if the docs are rendered correctly by clicking on the documentation check. You can refer to `this PR <https://github.com/flyteorg/flytesnacks/pull/332>`__ for the exact changes required.
    
    .. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/contribution-guide/test_docs_link.png
        :alt: Docs link in a PR
