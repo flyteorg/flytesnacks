@@ -74,15 +74,17 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
    * Add the Python file names to the ``CUSTOM_FILE_SORT_ORDER`` list
    * Add ``../integrations/external_services/snowflake`` to ``example_dirs``
    * Add ``auto/integrations/external_services/snowflake`` to ``gallery_dirs``
-   * Add the code for panel and TOC in the required RST file.
+
+4. Add the code for panel and TOC in the required RST file.
 
      .. image:: https://user-images.githubusercontent.com/27777173/155274419-790f0916-7de0-4abf-9bd0-68c0b52859d3.png
          :alt: panel and TOC
 
-   * Add the name and the path to ``.github/workflows/ghcr_push.yml`` if you're adding an integration or tutorial.
-   * Add an entry to cookbook/flyte_tests_manifest.json if you're adding an integration or tutorial.
+5. Add the name and path to ``.github/workflows/ghcr_push.yml`` if you're adding an integration or a tutorial.
 
-4. Verify if the code and documentation look as expected.
+6. Add an entry to cookbook/flyte_tests_manifest.json if you're adding an integration or a tutorial.
+
+7. Verify that the code and documentation look as expected.
    
    1. Learn about the documentation tools `here <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__
    2. Install the requirements by running ``pip install -r docs-requirements.txt`` in the ``cookbook`` folder
@@ -90,10 +92,12 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
 
    .. tip::
       For implicit targets, run ``make -C docs html``.
-   4. Open HTML pages present in the ``docs/_build`` directory in the browser
+   4. Open the HTML pages present in the ``docs/_build`` directory in the browser
 
 
-5. After creating the pull request, check if the docs are rendered correctly by clicking on the documentation check. You can refer to `this PR <https://github.com/flyteorg/flytesnacks/pull/332>`__ for the exact changes required.
+8. After creating the pull request, ensure that the docs are rendered correctly by clicking on the documentation check. 
    
    .. image:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/contribution-guide/test_docs_link.png
        :alt: Docs link in a PR
+
+You can refer to `this PR <https://github.com/flyteorg/flytesnacks/pull/332>`__ for the exact changes required.
