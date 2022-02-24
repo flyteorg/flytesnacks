@@ -87,8 +87,8 @@ jobs:
           push_git_tag: ${{ github.event_name != 'pull_request' }}
           push_image_and_stages: ${{ github.event_name != 'pull_request' }}
           build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-          context: ${{ steps.example_id.outputs.path }}
-          dockerfile: ${{ steps.example_id.outputs.id }}/Dockerfile
+          context: ${{ matrix.directory }}
+          dockerfile: Dockerfile
 
   push_multi_arch_images:
     name: Build & Push to GHCR
@@ -140,7 +140,7 @@ jobs:
       - name: Build and push DIND Image
         uses: docker/build-push-action@v2
         with:
-          context: ${{ steps.example_id.outputs.path }}
+          context: ${{ matrix.directory }}
           platforms: linux/arm64, linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.tags.outputs.tags }}
