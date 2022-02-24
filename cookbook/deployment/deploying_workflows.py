@@ -126,16 +126,16 @@ Under the hood this recipe again supplies some defaults you may find yourself wi
 
 .. code-block::
 
-   flyte-cli register-files -p flytetester -d development -v ${VERSION} --kubernetes-service-account demo \
-       --output-location-prefix s3://my-s3-bucket/raw_data -h flyte.example.com _pb_output/*
+   flytectl register files -p flytetester -d development --version ${VERSION} --k8ServiceAccount demo \
+       --outputLocationPrefix s3://my-s3-bucket/raw_data -h flyte.example.com _pb_output/*
 
 
 Of interest are the following args:
 
 - :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
 - :code:`-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment
-- :code:`-v` is a unique string used to identify this version of entities registered under a project and domain.
-- If required, you can specify a :code:`kubernetes-service-account` or :code:`assumable_iam_role` which your tasks will run with.
+- :code:`--version` is a unique string used to identify this version of entities registered under a project and domain.
+- If required, you can specify a :code:`--k8ServiceAccount` or :code:`--assumableIamRole` which your tasks will run with.
 
 
 Fast(er) iteration
