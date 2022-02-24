@@ -51,6 +51,10 @@ ifndef REGISTRY
 	FULL_IMAGE_NAME = ${IMAGE_NAME}
 endif
 
+ifndef DOCKER_FILE
+	DOCKER_FILE=Dockerfile
+endif
+
 # If you are using a different service account on your k8s cluster, add SERVICE_ACCOUNT=my_account before your make command
 ifndef SERVICE_ACCOUNT
 	SERVICE_ACCOUNT=default
@@ -109,7 +113,7 @@ fast_register: ## Packages code and registers without building docker images.
 docker_build:
 	echo "Tagged Image: "
 	echo ${TAGGED_IMAGE}
-	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
+	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f ${DOCKER_FILE}
 
 .PHONY: serialize
 serialize: clean _pb_output docker_build
