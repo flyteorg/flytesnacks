@@ -77,7 +77,7 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
 
 4. Add the code for panel and TOC in the required RST file.
 
-     .. image:: https://github.com/flyteorg/static-resources/raw/main/flytesnacks/contribution-guide/panel_and_toc.png
+     .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/contribution-guide/panel_and_toc.png
          :alt: panel and TOC
 
 5. Add the name and path to ``.github/workflows/ghcr_push.yml`` if you're adding an integration or a tutorial.
