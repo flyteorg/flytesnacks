@@ -195,7 +195,7 @@ def generate_image(
 def neural_style_transfer_wf(
     content_img: FlyteFile = "https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg",
     style_img: FlyteFile = "https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg",
-    epochs: int = 10,
+    epochs: int = 5,
     steps_per_epoch: int = 100,
 ) -> FlyteFile:
     content_image, style_image = preprocess_images(
