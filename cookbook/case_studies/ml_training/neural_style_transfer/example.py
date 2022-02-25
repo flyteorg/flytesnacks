@@ -150,7 +150,7 @@ def style_content_loss(outputs, content_targets, style_targets):
     return loss
 
 
-@task(requests=request_resources)
+@task(requests=Resources(cpu="1", mem="5Gi", storage="5Gi", ephemeral_storage="5Gi"))
 def train_step(
     image: tf.Variable, content_image: tf.Tensor, style_image: tf.Tensor
 ) -> tf.Variable:
