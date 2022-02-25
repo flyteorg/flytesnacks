@@ -126,8 +126,8 @@ Under the hood this recipe again supplies some defaults you may find yourself wi
 
 .. code-block::
 
-   flytectl register files -p flytetester -d development --version ${VERSION} --k8ServiceAccount demo \
-       --outputLocationPrefix s3://my-s3-bucket/raw_data -h flyte.example.com _pb_output/*
+   flytectl register files _pb_output/* -p flytetester -d development --version ${VERSION}  \
+       --k8sServiceAccount demo --outputLocationPrefix s3://my-s3-bucket/raw_data
 
 
 Of interest are the following args:
@@ -135,7 +135,7 @@ Of interest are the following args:
 - :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
 - :code:`-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment
 - :code:`--version` is a unique string used to identify this version of entities registered under a project and domain.
-- If required, you can specify a :code:`--k8ServiceAccount` or :code:`--assumableIamRole` which your tasks will run with.
+- If required, you can specify a :code:`--k8sServiceAccount` or :code:`--assumableIamRole` which your tasks will run with.
 
 
 Fast(er) iteration
@@ -161,10 +161,8 @@ and just like that you can update your code without requiring a rebuild of your 
 
 As fast registration serializes code from your local workstation and uploads it to the hosted flyte deployment, make sure to specify the following arguments correctly to ensure that the changes are picked up when the workflow is run.
 
-- :code:`pyflyte` has a flag :code:`--fast` that takes the code from the local machine and sends it to execution without building and pushing a container. The :code:`--force` flag allows overriding your previously created package.
-- :code:`flytectl` automatically understands a package meant for fast registration. 
-
-- :code:`flyte-cli fast-register-files` has a :code:`--dest-dir` option which specifies which folder (in the container) the fast serialization will dump the code in at execution time. This ensures that the running workflow loads the code changes that were uploaded via :code:`fast registration`.
+- :code:`pyflyte` has a flag :code:`--pkgs` that takes the code from the local machine and sends it to execution without building and pushing a container. This ensures that the files you want to modify are serialized. 
+- :code:`pyflyte` also has a flag  :code:`--image` to specify the Docker image that has already been built.
 
 
 Building Images
