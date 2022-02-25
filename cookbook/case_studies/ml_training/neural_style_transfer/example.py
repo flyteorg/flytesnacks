@@ -172,7 +172,9 @@ def train_step(
     return image
 
 
-@dynamic(requests=Resources(cpu="1", mem="2Gi", storage="2Gi"))
+@dynamic(
+    requests=Resources(cpu="1", mem="5Gi", storage="5Gi", ephemeral_storage="500Mi")
+)
 def generate_image(
     content_image: tf.Tensor, style_image: tf.Tensor, epochs: int, steps_per_epoch: int
 ) -> FlyteFile:
