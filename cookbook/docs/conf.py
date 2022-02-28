@@ -55,10 +55,12 @@ class CustomSorter(FileNameSortKey):
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
+        "checkpoint.py",
         "run_merge_sort.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
+        "structured_dataset.py"
         "typed_schema.py",
         "custom_objects.py",
         "enums.py",
@@ -278,6 +280,7 @@ examples_dirs = [
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
+    "../integrations/aws/batch",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
     "../integrations/gcp",
@@ -312,6 +315,7 @@ gallery_dirs = [
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
+    "auto/integrations/aws/batch",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
     "auto/integrations/gcp",
