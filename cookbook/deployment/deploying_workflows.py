@@ -149,7 +149,7 @@ First, run the fast serialization target:
 
 .. code-block::
 
-   pyflyte --pkgs flyte.workflows flytetester --image myapp:v1 --fast --force
+   pyflyte --pkgs core package --image core:v1 --fast --force
 
 And then the fast register target:
 
