@@ -136,7 +136,7 @@ def ext_workflow(my_input: str) -> Dict:
 external_lp = LaunchPlan.get_or_create(ext_workflow, "parent_workflow_execution",)
 
 # %%
-# We define another task that returns items that occured multiple times in the dictionary.
+# We define another task that returns the repeated keys (in our case, words) from a dictionary.
 @task
 def count_unique_words(input_string2: Dict) -> typing.List[str]:
     pairs = input_string2.items()
@@ -153,7 +153,7 @@ def parent_workflow(my_input1: str) -> typing.List[str]:
     return my_op2
 
 # %%
-# Here, ``parent_workflow`` is an external workflow.
+# Here, ``parent_workflow`` is an external workflow. This can be run locally too.
 if __name__ == "__main__":
     print("Running parent workflow...")
     print(parent_workflow(my_input1= "the cat took the apple and ate the apple"))
