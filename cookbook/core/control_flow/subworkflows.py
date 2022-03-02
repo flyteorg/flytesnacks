@@ -73,11 +73,7 @@ if __name__ == "__main__":
     print(f"Running parent_wf(a=3) {parent_wf(a=3)}")
 
 
-# %%
-# Subworkflows Within a Workflow
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#
-# Interestingly, we can nest subworkflows within other subworkflows.
+# Interestingly, we can nest a workflow that has a subworkflow within a workflow.
 # Workflows can be simply composed from other workflows, even if the other workflows are standalone entities. Each of the
 # workflows in this module can exist and run independently.
 @workflow
@@ -120,7 +116,7 @@ from flytekit import conditional, task, workflow, LaunchPlan
 from collections import Counter
 
 # %%
-# We define a task that computes the frequency of every word in a string, and returns a dictionary.
+# We define a task that computes the frequency of every word in a string, and returns a dictionary mapping every word to its count.
 @task
 def count_freq_words(input_string1: str) -> Dict:
     # input_string = "The cat sat on the mat"
@@ -136,27 +132,28 @@ def ext_workflow(my_input: str) -> Dict:
     return result
 
 # %%
-# We create a launch plan which is used to execute a workflow.
-# In this case, it is used to kick off one workflow from inside another. 
+# Next, we create a launch plan.
 external_lp = LaunchPlan.get_or_create(ext_workflow, "parent_workflow_execution",)
 
 # %%
-# We define another task that computes the length of the dictionary. This dictionary is the output of the previously defined workflow, which is executed using the launch plan. 
+# We define another task that returns items that occured multiple times in the dictionary.
 @task
-def count_unique_words(input_string2: Dict) -> int:
-    wordCount = len(input_string2.keys())
+def count_unique_words(input_string2: Dict) -> typing.List[str]:
+    pairs = input_string2.items()
+    filtered_dictionary = {key: value for key, value in pairs if value > 1}
+    wordCount = list(filtered_dictionary.keys())
     return wordCount
 
 # %%
-# We define a workflow that uses the launch plan of the previously defined workflow. This demonstrates external workflow.
+# We define a workflow that triggers the launch plan of the previously-defined workflow.
 @workflow
-def parent_workflow(my_input1: str) -> int:
-    my_op1 = external_lp(my_input = my_input1) # use this
+def parent_workflow(my_input1: str) -> typing.List[str]:
+    my_op1 = external_lp(my_input = my_input1) 
     my_op2 = count_unique_words(input_string2 = my_op1)
     return my_op2
 
 # %%
-# You can run the external workflow locally.
+# Here, ``parent_workflow`` is an external workflow.
 if __name__ == "__main__":
     print("Running parent workflow...")
-    print(parent_workflow(my_input1= "the cat sat on the mat"))
+    print(parent_workflow(my_input1= "the cat took the apple and ate the apple"))
