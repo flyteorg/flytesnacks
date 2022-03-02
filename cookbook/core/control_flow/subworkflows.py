@@ -138,18 +138,16 @@ external_lp = LaunchPlan.get_or_create(ext_workflow, "parent_workflow_execution"
 # %%
 # We define another task that returns the repeated keys (in our case, words) from a dictionary.
 @task
-def count_unique_words(input_string2: Dict) -> typing.List[str]:
-    pairs = input_string2.items()
-    filtered_dictionary = {key: value for key, value in pairs if value > 1}
-    wordCount = list(filtered_dictionary.keys())
-    return wordCount
+def count_repetitive_words(word_counter: Dict) -> typing.List[str]:
+    repeated_words = [key for key, value in word_counter.items() if value > 1]
+    return repeated_words
 
 # %%
 # We define a workflow that triggers the launch plan of the previously-defined workflow.
 @workflow
 def parent_workflow(my_input1: str) -> typing.List[str]:
-    my_op1 = external_lp(my_input = my_input1) 
-    my_op2 = count_unique_words(input_string2 = my_op1)
+    my_op1 = external_lp(my_input=my_input1) 
+    my_op2 = count_repetitive_words(word_counter = my_op1)
     return my_op2
 
 # %%
