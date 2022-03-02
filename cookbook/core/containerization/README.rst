@@ -2,6 +2,6 @@ Containerization
 ----------------
 
 As a container-native orchestration tool, all Flyte tasks are executed within isolated containers. The ``Flytekit``
-python SDK enables you to easily configure them for your needs, whether it's running a raw container with arbitrary
+Python SDK enables you to configure them for your needs easily, be it running a raw container with arbitrary
 commands, specifying multiple container images in a single workflow, injecting secrets into a container, or using
 spot instances.

@@ -2,15 +2,15 @@
 Subworkflows 
 ------------
 
-Subworkflows are similar to :ref:`launch plans <Launch plans>` in that they allow users to kick off one workflow from inside another. 
+Subworkflows are similar to :ref:`launch plans <Launch plans>`, since they allow users to kick off one workflow from inside another. 
 
 What's the difference? 
 Think of launch plans as pass by pointer and subworkflows as pass by value.
 
 .. note::
 
-    The reason why subworkflows exist is because this is exactly how dynamic workflows are handled by Flyte. So
-    instead of hiding this functionality, we expose it at the user level. There are pros and cons of
+    The reason why subworkflows exist is that this is how Flyte handles dynamic workflows. 
+    Instead of hiding this functionality, we expose it at the user level. There are pros and cons of
     using subworkflows as described below.
 
 When Should I Use SubWorkflows?
@@ -111,56 +111,52 @@ if __name__ == "__main__":
 # Here is an example demonstrating external workflows:
 
 # %%
+# We import the required dependencies into the environment.
 import typing
-from typing import Tuple
-from flytekit import task, workflow
+from typing import Tuple, Dict
+from flytekit import dynamic,task, workflow
 from flytekit import conditional, task, workflow, LaunchPlan
 
+from collections import Counter
+
 # %%
-# We define a task that checks if a string is a palindrome, and returns True if it is one.
+# We define a task that computes the frequency of every word in a string, and returns a dictionary.
 @task
-def check_palindrome_str(x: str, y: str) -> bool:
-    x = y[::-1]
-    if x == y :
-        result = True
-    else:
-        result = False
-    return result
-    
+def count_freq_words(input_string1: str) -> Dict:
+    # input_string = "The cat sat on the mat"
+    words = input_string1.split()
+    wordCount = dict(Counter(words))
+    return wordCount
+
 # %%
-# We define a workflow that runs the previously defined task.
+# We define a workflow that executes the previously defined task.
 @workflow
-def ext_workflow(my_input1: str, my_input2: str) -> bool:
-    result = check_palindrome_str(x=my_input1, y=my_input2)
+def ext_workflow(my_input: str) -> Dict:
+    result = count_freq_words(input_string1=my_input)
     return result
 
 # %%
-# We create a launch plan which helps kick off one workflow from inside another (in this case). 
-my_ext_lp = LaunchPlan.get_or_create(ext_workflow, "parent_workflow_execution",)
-
+# We create a launch plan which is used to execute a workflow.
+# In this case, it is used to kick off one workflow from inside another. 
+external_lp = LaunchPlan.get_or_create(ext_workflow, "parent_workflow_execution",)
 
 # %%
-# We define another task that checks if a list of elements forms a palindrome, and returns True if it is one.
+# We define another task that computes the length of the dictionary. This dictionary is the output of the previously defined workflow, which is executed using the launch plan. 
 @task
-def check_palindrome_num(m: typing.List[int], n: typing.List[int]) -> bool:
-    m = n[::-1]
-    if m == n :
-        result = True
-    else:
-        result = False
-    return result
+def count_unique_words(input_string2: Dict) -> int:
+    wordCount = len(input_string2.keys())
+    return wordCount
 
 # %%
-# We define a workflow which uses the launch plan of the previously defined workflow, which demonstrates external workflow.
+# We define a workflow that uses the launch plan of the previously defined workflow. This demonstrates external workflow.
 @workflow
-def parent_workflow(my_input3: typing.List[int], my_input4: typing.List[int]) -> Tuple[bool,bool] :
-    my_op1 = my_ext_lp(my_input1 = 'refer', my_input2 = 'refer')
-    my_op2 = check_palindrome_num(m = my_input3, n = my_input4)
-    return my_op1, my_op2
+def parent_workflow(my_input1: str) -> int:
+    my_op1 = external_lp(my_input = my_input1) # use this
+    my_op2 = count_unique_words(input_string2 = my_op1)
+    return my_op2
 
 # %%
 # You can run the external workflow locally.
 if __name__ == "__main__":
     print("Running parent workflow...")
-    print("Checking if both the integer lists and strings are palindromes...")
-    print(parent_workflow(my_input3 = [1,2,1], my_input4 =[1,2,1]))
+    print(parent_workflow(my_input1= "the cat sat on the mat"))
