@@ -93,20 +93,20 @@ The following table provides a quick overview of how types are converted from th
 
 .. prompt:: bash
 
-    flyte-cli -h localhost:30081 -i list-launch-plan-versions -p flytesnacks -d development | grep PrimitiveDemoWorkflow
-    flyte-cli -h localhost:30081 -i execute-launch-plan -p flytesnacks -d development -u <urn> -r user -- x=10 y=10.0 s="Hello" b=True
+    flytectl get launchplans -p flytesnacks -d development | grep PrimitiveDemoWorkflow
+    flyte-cli -i execute-launch-plan -p flytesnacks -d development -u <urn> -r user -- x=10 y=10.0 s="Hello" b=True
 
 To retrieve the right LaunchPlan Urn:
 
 .. prompt:: bash
 
-    flyte-cli -h localhost:30081 -i list-launch-plan-versions -p flytesnacks -d development | grep TimeDemoWorkflow
+    flytectl get launchplans -p flytesnacks -d development | grep TimeDemoWorkflow
 
 Then take the URN and plug here
 
 .. prompt:: bash
 
-    flyte-cli -h localhost:30081 -i execute-launch-plan -p flytesnacks -d development -u <urn> -r kumare -- dt=20200707T00:00Z duration=10H
+    flytectl -i execute-launch-plan -p flytesnacks -d development -u <urn> -r kumare -- dt=20200707T00:00Z duration=10H
 
 The CLI accepts *datetime* and *duration* fields in [RFC3339](https://tools.ietf.org/html/rfc3339 ) formats, which is
 usually of the form **YYYYMMDDTHH:MM:SSZ** ``(z -> timezone)``. Duration is of the format **10H** (for 10 hours) or **10S**
@@ -114,7 +114,7 @@ or **2D** (days etc)
 
 .. prompt:: bash
 
-    flyte-cli -p flytesnacks \
+    flytectl -p flytesnacks \
         -d development execute-launch-plan \
         -u lp:flytesnacks:development:types.generic.GenericDemoWorkflow:version \
         -r demo \
