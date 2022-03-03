@@ -1,5 +1,5 @@
 """
-Subworkflows 
+Subworkflows
 ------------
 
 Subworkflows are similar to :ref:`launch plans <Launch plans>`, since they allow users to kick off one workflow from inside another. 
@@ -19,7 +19,7 @@ If you want to limit parallelism within a workflow and its launched sub-flows, s
 to achieve that because they execute within the same context of the parent workflow. 
 Thus, all nodes of a subworkflow are constrained to the total constraint on the parent workflow.
 
-Consider this: When you include Workflow A as a subworkflow of Workflow B, and when Workflow B is run, the entire graph of workflow A is simply
+Consider this: When you include Workflow A as a subworkflow of Workflow B, and when Workflow B is run, the entire graph of workflow A is
 copied into workflow B at the point where it is called.
 
 Let's understand subworkflow with an example.
