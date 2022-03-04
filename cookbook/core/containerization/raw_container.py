@@ -81,7 +81,7 @@ calculate_ellipse_area_haskell = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="rawcontainers-haskell:v1",
+    image="ghcr.io/flyteorg/rawcontainers-haskell:v1",
     command=[
         "./calculate-ellipse-area",
         "/var/inputs",
