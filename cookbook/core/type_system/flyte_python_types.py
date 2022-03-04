@@ -89,3 +89,5 @@ The following table provides a quick overview of how types are converted from th
      - Any
      - Custom Transformers
      - Use python 3 type hints. We use `FlytePickle transformer <flyte_pickle.html>`_ by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
+
+"""

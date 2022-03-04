@@ -134,11 +134,11 @@ Of interest are the following args:
 
 - :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
 - :code:`-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment
-- :code:`--version` is a unique string used to identify this version of entities registered under a project and domain.
-- If required, you can specify a :code:`--k8sServiceAccount` or :code:`--assumableIamRole` which your tasks will run with.
+- :code:`--version` is a unique string used to identify the version of your entities to be registered under a project and domain.
+- If required, you can specify a :code:`--k8sServiceAccount` and :code:`--assumableIamRole` which your tasks will run with.
 
 
-Fast(er) iteration
+Fast Registration
 ^^^^^^^^^^^^^^^^^^
 Re-building a new Docker container image for every code change you make can become cumbersome and slow.
 If you're making purely code changes that **do not** require updating your container definition, you can make use of
@@ -161,7 +161,7 @@ and just like that you can update your code without requiring a rebuild of your 
 
 As fast registration serializes code from your local workstation and uploads it to the hosted flyte deployment, make sure to specify the following arguments correctly to ensure that the changes are picked up when the workflow is run.
 
-- :code:`pyflyte` has a flag :code:`--pkgs` that takes the code from the local machine and sends it to execution without building and pushing a container. This ensures that the files you want to modify are serialized. 
+- :code:`pyflyte` has a flag :code:`--pkgs` that specifies the code to be packaged. The `fast` flag picks up the code from the local machine and provides it for execution without building and pushing a container.
 - :code:`pyflyte` also has a flag  :code:`--image` to specify the Docker image that has already been built.
 
 
