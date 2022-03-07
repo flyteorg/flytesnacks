@@ -112,25 +112,18 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 
 # %%
 #
-# - View and activate launch plans:
+# - Activate launch plan:
 #
 # .. code-block:: bash
 #
-#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate``
+#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate
 
 # %%
-# - Extract the URN returned for the launch plan you're interested in and make the call to activate it:
+# - Verify if your launch plan got activated:
 #
 # .. code-block:: bash
 #
-#   flytectl update launchplan -p flyteexamples -d development core.basic.lp.go_greet --activate
-
-# %%
-# - Verify your active launch plans:
-#
-# .. code-block:: bash
-#
-#   flytectl get launchplan -p flytesnacks -d development``
+#   flytectl get launchplan -p flytesnacks -d development
 
 # %%
 # Platform Configuration Changes For AWS Scheduler
