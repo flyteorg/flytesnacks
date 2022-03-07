@@ -46,6 +46,8 @@ higher-level checkpointing APIs available in popular training frameworks like Ke
 big-data frameworks like Spark and Flink to supercharge their fault-tolerance.
 """
 
+import math
+
 from flytekit import task, workflow, current_context
 from flytekit.exceptions.user import FlyteRecoverableException
 
@@ -70,9 +72,7 @@ def use_checkpoint(n_iterations: int) -> int:
     print(f"Checkpoint, start {start}")
     # create a failure interval so we can create failures for every 'n' iterations and then succeed within
     # configured retries
-    failure_interval = int(n_iterations * 1.0 / RETRIES)
-    if failure_interval == 0:
-        failure_interval = 1
+    failure_interval = math.ceil(n_iterations * 1.0 / RETRIES)
     print(f"Failure interval {failure_interval}")
     i = 0
     for i in range(start, n_iterations):
@@ -100,7 +100,7 @@ def example(n_iterations: int) -> int:
 # The checkpoint is stored locally, but it is not used since retries are not supported.
 if __name__ == "__main__":
     try:
-        example(n_iterations=2)
+        example(n_iterations=5)
     except RuntimeError as e:
         # no retries are performed, so an exception is expected when run locally.
         pass
