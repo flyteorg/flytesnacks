@@ -5,7 +5,7 @@ Pod Example
 Pod tasks can be used whenever multiple containers need to spin up within a single task.
 They expose a fully modifiable Kubernetes `pod spec <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#podspec-v1-core>`__ which can be used to customize the task execution runtime.
 
-All we need to do to use pod tasks is:
+All we need to do to use pod tasks are:
 
 1. Define a pod spec
 2. Specify the name of the primary container
@@ -16,8 +16,7 @@ Pod tasks accept arguments that ordinary container tasks usually accept, such as
 However, these are only applied to the primary container.
 To customize other containers brought up during the execution, we can define a full-fledged pod spec.
 This is done using the `Kubernetes Python client library <https://github.com/kubernetes-client/python>`__,
-specifically with the
-`V1PodSpec <https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py>`__.
+specifically `V1PodSpec <https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py>`__.
 """
 
 # %%
@@ -49,10 +48,10 @@ _SHARED_DATA_PATH = "/data/message.txt"
 # We define a simple pod spec with two containers.
 def generate_pod_spec_for_task():
 
-    # primary containers do not require us to specify an image, the default image built for Flyte tasks will get used
+    # Primary containers do not require us to specify an image, the default image built for Flyte tasks will get used.
     primary_container = V1Container(name="primary")
 
-    # NOTE: for non-primary containers, we must specify the image
+    # NOTE: For non-primary containers, we must specify the image.
     secondary_container = V1Container(
         name="secondary",
         image="alpine",
@@ -97,7 +96,7 @@ def generate_pod_spec_for_task():
     ),
 )
 def my_pod_task() -> str:
-    # the code defined in this task will get injected into the primary container.
+    # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(5)
 
