@@ -162,6 +162,7 @@ def my_map_workflow(a: List[int]) -> str:
     return coalesced
 
 # %%
-# Since pod tasks cannot be run locally, we use the ``pass`` keyword to skip running the tasks.
+# The entire workflow can be executed locally as follows:
 if __name__ == "__main__":
-    pass
+    print(f"Running {__file__} main...")
+    print(my_map_workflow())
