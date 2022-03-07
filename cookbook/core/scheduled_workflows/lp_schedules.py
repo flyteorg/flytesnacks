@@ -111,6 +111,7 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 #   pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
 
 # %%
+# or with Flytectl:
 #
 # - Activate launch plan:
 #
