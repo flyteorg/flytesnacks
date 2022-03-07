@@ -15,8 +15,8 @@ All we need to do to use pod tasks are:
 Pod tasks accept arguments that ordinary container tasks usually accept, such as resource specifications, etc.
 However, these are only applied to the primary container.
 To customize other containers brought up during the execution, we can define a full-fledged pod spec.
-This is done using the `Kubernetes Python client library <https://github.com/kubernetes-client/python>`__,
-specifically `V1PodSpec <https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py>`__.
+This is done using the `Kubernetes Python client library <https://github.com/kubernetes-client/python>`__'s,
+`V1PodSpec <https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py>`__.
 """
 
 # %%
@@ -161,7 +161,8 @@ def my_map_workflow(a: List[int]) -> str:
     return coalesced
 
 # %%
-# The entire workflow can be executed locally as follows:
+# The workflows can be executed locally as follows:
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(my_map_workflow())
+    print(f"Calling PodWorkflow()... {PodWorkflow()}")
+    print(f"Calling my_map_workflow()... {my_map_workflow()}")
