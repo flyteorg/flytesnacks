@@ -65,3 +65,6 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
+
+RUN pip install git+https://github.com/flyteorg/flytekit.git@a88ca706ed6b290ac4f7c2cc4b464f258cfa74e8#egg=flytekit
+RUN pip install git+https://github.com/flyteorg/flytekit.git@a88ca706ed6b290ac4f7c2cc4b464f258cfa74e8#subdirectory=plugins/flytekit-spark

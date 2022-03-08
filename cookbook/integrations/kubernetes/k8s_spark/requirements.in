@@ -1,4 +1,4 @@
-# -r ../../../common/requirements-common.in
+-r ../../../common/requirements-common.in
 pyspark
-git+https://github.com/flyteorg/flytekit.git@a88ca706ed6b290ac4f7c2cc4b464f258cfa74e8#subdirectory=plugins/flytekit-spark
-git+https://github.com/flyteorg/flytekit.git@a88ca706ed6b290ac4f7c2cc4b464f258cfa74e8#egg=flytekit
+
+flytekitplugins-spark>=0.16.0
