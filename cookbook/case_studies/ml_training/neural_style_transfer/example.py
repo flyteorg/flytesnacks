@@ -12,9 +12,6 @@ style_weight = 1e-2
 content_weight = 1e4
 total_variation_weight = 30
 
-# Load compressed models from tensorflow_hub
-os.environ["TFHUB_MODEL_LOAD_FORMAT"] = "COMPRESSED"
-
 content_layers = ["block5_conv2"]
 style_layers = [
     "block1_conv1",
@@ -59,7 +56,7 @@ def load_img(path_to_img):
 
 
 @task(requests=request_resources)
-def preprocess_images(
+def preprocess_img(
     content_img: FlyteFile, style_img: FlyteFile
 ) -> Tuple[tf.Tensor, tf.Tensor]:
     content_path = content_img.download()
@@ -198,7 +195,7 @@ def neural_style_transfer_wf(
     epochs: int = 5,
     steps_per_epoch: int = 100,
 ) -> FlyteFile:
-    content_image, style_image = preprocess_images(
+    content_image, style_image = preprocess_img(
         content_img=content_img, style_img=style_img
     )
     return generate_image(
@@ -211,4 +208,4 @@ def neural_style_transfer_wf(
 
 if __name__ == "__main__":
     print(f"Running {__file__}...")
-    print(f"Image after styles have been transferred: {neural_style_transfer_wf()}")
+    print(f"Stylized image: {neural_style_transfer_wf()}")
