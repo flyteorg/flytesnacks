@@ -1,4 +1,3 @@
 # -r ../../../common/requirements-common.in
 pyspark
-wheel
 git+https://github.com/flyteorg/flytekit.git@deeb2f5d5e9d1064fde6be9e96e7edcbf96bc930#subdirectory=plugins/flytekit-spark

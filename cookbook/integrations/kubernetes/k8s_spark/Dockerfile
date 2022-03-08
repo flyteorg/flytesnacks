@@ -26,6 +26,8 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
+RUN pip install wheel
+
 # Install Python dependencies
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
@@ -62,7 +64,6 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 # For spark we want to use the default entrypoint which is part of the
 # distribution, also enable the virtualenv for this image.
 # Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv"]
+ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
-
