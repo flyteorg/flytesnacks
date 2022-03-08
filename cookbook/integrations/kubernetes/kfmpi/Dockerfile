@@ -79,7 +79,7 @@ RUN pip install -r /root/requirements.txt
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
-RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.22.1
+RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.24.1
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
