@@ -68,7 +68,7 @@ import random
 from operator import add
 
 import flytekit
-from flytekit import task, workflow
+from flytekit import task, workflow, Resources
 
 # %%
 # The following import is required to configure a Spark Server in Flyte:
@@ -98,7 +98,7 @@ from flytekitplugins.spark import Spark
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
 
-    n = 100000 * partitions
+    n = 10 * partitions
     sess = flytekit.current_context().spark_session
     count = (
         sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
