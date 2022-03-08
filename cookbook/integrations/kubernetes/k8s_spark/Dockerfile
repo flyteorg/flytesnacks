@@ -60,10 +60,8 @@ RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
 # For spark we want to use the default entrypoint which is part of the
-# distribution, also enable the virtualenv for this image. 
+# distribution, also enable the virtualenv for this image.
 # Note this relies on the VENV variable we've set in this image.
 ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
-
-RUN pip install -U "https://github.com/flyteorg/flytekit/archive/a88ca706ed6b290ac4f7c2cc4b464f258cfa74e8.zip#egg=flytekit"
