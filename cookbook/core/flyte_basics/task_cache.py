@@ -92,3 +92,93 @@ def square(n: int) -> int:
 #
 # .. note::
 #   The format used by the store is opaque and not meant to be inspectable.
+#
+# Caching of non-Flyte offloaded objects
+# ######################################
+#
+# The behavior displayed by the cache, in some cases, does not match the users intuitions. For example, this code makes use of pandas dataframes:
+
+# .. code-block:: python
+#
+#    @task
+#    def foo(a: int, b: str) -> pd.DataFrame:
+#      df = pd.Dataframe(...)
+#      ...
+#      return df
+#
+#   @task(cached=True, version="1.0")
+#   def bar(df: pd.Dataframe) -> int:
+#       ...
+#
+#   @workflow
+#   def wf(a: int, b: str):
+#       df = foo(a=a, b=b)
+#       v = bar(df=df)
+#
+#
+# One would expect that ``bar`` would be cacheable, but that is not the case due to the representation of dataframes in the Flyte type system. However, starting on flyte release 0.19.3, we provide a way to override the representation of certain objects, including pandas dataframes and other structured datasets. This is done via annotations on the objects, for example, in order to cache the result of calls to ``bar`` we can rewrite the code above like this:
+#
+# .. code-block:: python
+#
+#    @task
+#    def foo(a: int, b: str) -> Annotated[pd.DataFrame, HashMethod(hash_pandas_dataframe_function) :
+#        df = pd.Dataframe(...)
+#        ...
+#        return df
+#
+#    @task(cached=True, version="1.0")
+#    def bar(df: pd.Dataframe) -> int:
+#        ...
+#
+#    @workflow
+#    def wf(a: int, b: str):
+#        df = foo(a=a, b=b)
+#        v = bar(df=df)
+#
+# Note how the output of task ``foo`` is annotated with a an object of type ``HashMethod``. Essentially, that represents a function that will produce a hash which will then be used as part of the cache key calculation in calls to task ``bar``.
+#
+# How does caching of offloaded objects work?
+# *******************************************
+#
+# Recall how task input values are taken into account to derive a cache key? This is done by turning the Literal representation into a string and using that string as part of the cache key. In the case of dataframes annotated with ``HashMethod`` we use the hash as the representation of the Literal, in other words, the literal hash is used in the cache key.
+#
+# It is worth mentioning that this feature is also enabled for local execution.
+
+
+# %%
+# Here's a complete example of the feature:
+
+import pandas
+import time
+from typing import List
+from typing_extensions import Annotated
+
+from flytekit import HashMethod, workflow
+
+
+def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
+    return str(pandas.util.hash_pandas_object(df))
+
+@task
+def uncached_data_reading_task() -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe)]:
+    return pandas.DataFrame({"column_1": [1, 2, 3]})
+
+@task(cache=True, cache_version="1.0")
+def cached_data_processing_task(df: pandas.DataFrame) -> pandas.DataFrame:
+    time.sleep(1)
+    return df * 2
+
+@workflow
+def cached_dataframe_wf() -> pandas.DataFrame:
+    raw_data = uncached_data_reading_task()
+    return cached_data_processing_task(df=raw_data)
+
+
+if __name__ == "__main__":
+    print(f"Running cached_dataframe_wf once")
+    df1 = cached_dataframe_wf()
+    print("** Note how it took one second to run the workflow and how re-running it finishes pretty much immediately.")
+    df2 = cached_dataframe_wf()
+
+    print("Assert that both dataframes are equal")
+    assert df1.equals(df2)
