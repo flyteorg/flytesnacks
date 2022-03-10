@@ -68,4 +68,4 @@ ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
 
-RUN "pip install -U flytekit==0.32.0b0"
+RUN "pip install -U flytekit==v0.32.0b0"
