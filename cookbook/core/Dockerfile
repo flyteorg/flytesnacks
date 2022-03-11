@@ -45,5 +45,3 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 
 # Remove this after the flag has been switched.
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
-
-RUN pip install -U "https://github.com/flyteorg/flytekit/archive/1e9063298f253c3a3bae6f932b5f65bc27fd3141.zip#egg=flytekit"
