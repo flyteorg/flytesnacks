@@ -132,9 +132,9 @@ below to get started.
 
      You have successfully:
 
-     #. Run a flyte workflow locally,
-     #. Run a flyte sandbox cluster,
-     #. Run a flyte workflow on a cluster.
+     #. Run a Flyte workflow locally,
+     #. Run a Flyte Sandbox cluster,
+     #. Run a Flyte workflow on a cluster.
 
      .. rubric:: 🎉 Congratulations, now you can interactively explore Flyte's features outlined in the :ref:`Table of Contents` 🎉
 
@@ -261,7 +261,7 @@ Table of Contents
    Remote Access <auto/remote_access/index>
    Production Config <auto/deployment/index>
    Scheduling Workflows <auto/core/scheduled_workflows/index>
-   integrations
+   Integrations
    Extending flyte <auto/core/extend_flyte/index>
    contribute
 
