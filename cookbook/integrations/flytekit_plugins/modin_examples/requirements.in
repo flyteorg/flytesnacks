@@ -1,0 +1,6 @@
+-r ../../../common/requirements-common.in
+flytekitplugins-modin>=0.31.0
+modin>=0.13.0
+ray
+fsspec
+pandas
