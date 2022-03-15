@@ -143,7 +143,11 @@ def square(n: int) -> int:
 # Recall how task input values are taken into account to derive a cache key? This is done by turning the Literal representation into a string and using that string as part of the cache key. In the case of dataframes annotated with ``HashMethod`` we use the hash as the representation of the Literal, in other words, the literal hash is used in the cache key.
 #
 # It is worth mentioning that this feature is also enabled for local execution.
-
+#
+# How to enable caching of offloaded types for a different type transformer?
+# ******************************************
+#
+# The ability to cache offloaded objects is controlled by the `hash_overridable <https://github.com/flyteorg/flytekit/blob/9754a0f462f495dbd77df0572719885230bd909b/flytekit/core/type_engine.py#L56-L62>`_ property of the Type Transformer. For example, see how this is done in the case of `StructuredDataSetTransformer <https://github.com/flyteorg/flytekit/blob/9754a0f462f495dbd77df0572719885230bd909b/flytekit/types/structured/structured_dataset.py#L382-L383>`_.
 
 # %%
 # Here's a complete example of the feature:
