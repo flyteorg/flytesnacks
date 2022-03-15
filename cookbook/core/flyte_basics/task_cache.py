@@ -150,10 +150,10 @@ def square(n: int) -> int:
 
 import pandas
 import time
-from typing import List
 from typing_extensions import Annotated
 
 from flytekit import HashMethod, workflow
+from flytekit.core.node_creation import create_node
 
 
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
@@ -168,17 +168,25 @@ def cached_data_processing_task(df: pandas.DataFrame) -> pandas.DataFrame:
     time.sleep(1)
     return df * 2
 
+@task
+def compare_dataframes(df1: pandas.DataFrame, df2: pandas.DataFrame):
+    assert df1.equals(df2)
+
 @workflow
-def cached_dataframe_wf() -> pandas.DataFrame:
+def cached_dataframe_wf():
     raw_data = uncached_data_reading_task()
-    return cached_data_processing_task(df=raw_data)
+
+    # We execute `cached_data_processing_task` twice, but we force those
+    # two executions to happen serially to demonstrate how the second run
+    # hits the cache.
+    t1_node = create_node(cached_data_processing_task, df=raw_data)
+    t2_node = create_node(cached_data_processing_task, df=raw_data)
+    t1_node >> t2_node
+
+    # Confirm that the dataframes actually match
+    compare_dataframes(df1=t1_node.o0, df2=t2_node.o0)
 
 
 if __name__ == "__main__":
     print(f"Running cached_dataframe_wf once")
     df1 = cached_dataframe_wf()
-    print("** Note how it took one second to run the workflow and how re-running it finishes pretty much immediately.")
-    df2 = cached_dataframe_wf()
-
-    print("Assert that both dataframes are equal")
-    assert df1.equals(df2)
