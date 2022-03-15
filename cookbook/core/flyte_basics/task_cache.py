@@ -96,7 +96,7 @@ def square(n: int) -> int:
 # Caching of non-Flyte offloaded objects
 # ######################################
 #
-# The behavior displayed by the cache, in some cases, does not match the users intuitions. For example, this code makes use of pandas dataframes:
+# The default behavior displayed by Flyte's memoization feature might not match user intuition. For example, this code makes use of pandas dataframes:
 
 # .. code-block:: python
 #
@@ -116,7 +116,7 @@ def square(n: int) -> int:
 #       v = bar(df=df)
 #
 #
-# One would expect that ``bar`` would be cacheable, but that is not the case due to the representation of dataframes in the Flyte type system. However, starting on flyte release 0.19.3, we provide a way to override the representation of certain objects, including pandas dataframes and other structured datasets. This is done via annotations on the objects, for example, in order to cache the result of calls to ``bar`` we can rewrite the code above like this:
+# If run twice with the same inputs, one would expect that ``bar`` would trigger a cache hit, but it turns out that's not the case because of how dataframes are represented in Flyte. (something here about offloading/pointers?)  However, with release 0.19.3, Flyte provides a new way to control memoization behavior of  `FlyteSchema` and `StructuredDataset` literals. This is done via a `typing.Annotated` call on the task signature.  For example, in order to cache the result of calls to ``bar``, we can rewrite the code above like this:
 #
 # .. code-block:: python
 #
@@ -142,7 +142,7 @@ def square(n: int) -> int:
 #
 # Recall how task input values are taken into account to derive a cache key? This is done by turning the Literal representation into a string and using that string as part of the cache key. In the case of dataframes annotated with ``HashMethod`` we use the hash as the representation of the Literal, in other words, the literal hash is used in the cache key.
 #
-# It is worth mentioning that this feature is also enabled for local execution.
+# This feature also works in local execution.  (To clear the local cache, ...)
 #
 # How to enable caching of offloaded types for a different type transformer?
 # ******************************************
