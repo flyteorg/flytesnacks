@@ -10,7 +10,7 @@ We will generate the data and invoke the ``read_csv`` function on this data. We 
 .. note::
 
    Here, we use Ray as the backend.
-   
+
 """
 # %%
 # First, let's import all the necessary dependencies.
@@ -31,10 +31,11 @@ from flytekit import task, workflow
 # ================
 #
 # Let's generate data (only once) using the ``random`` method.
-df = old_pd.DataFrame(data=np.random.randint(99999, 999999999, size=(50000000,15)),columns=['C1','C2','C3','C4','C5','C6','C7','C8','C9','C10','C11','C12','C13','C14','C15'])
-df['C16'] = old_pd.util.testing.rands_array(5,50000000)
-df.to_csv("huge_data.csv")   # about 8.16 GB of data
+df = old_pd.DataFrame(data=np.random.randint(999, 999999, size=(50000000,10)),columns=['C1','C2','C3','C4','C5','C6','C7','C8','C9','C10'])
+df['C11'] = old_pd.util.testing.rands_array(5,50000000)
+df.to_csv("huge_data.csv") # 4.18 GB data
 path = "huge_data.csv"
+
 
 # %%
 # Task to Invoke the ``read_csv`` Method Using Pandas 
