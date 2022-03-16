@@ -18,7 +18,7 @@ from flytekitplugins.papermill import NotebookTask
 #
 # 1. After you are satisfied with the notebook, ensure that the first cell only has the input variables for the notebook. Now add the tag ``parameters`` for the first cell.
 #
-# .. image:: htttps://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/parameters.png
+# .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/parameters.png
 #     :alt: Example of "parameters tag" added to the cell with input variables
 #
 # 2. Typically at the last cell of the notebook (which does not need to be the last cell), add a tag ``outputs`` for the intended cell.
