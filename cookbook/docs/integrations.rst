@@ -281,7 +281,7 @@ The :ref:`community <community>` would love to help you with your own ideas of b
     auto/integrations/flytekit_plugins/greatexpectations/index
     auto/integrations/flytekit_plugins/papermilltasks/index
     auto/integrations/flytekit_plugins/pandera_examples/index
-    auto/integrations/flytekit_plugins/modin/index
+    auto/integrations/flytekit_plugins/modin_examples/index
     auto/integrations/flytekit_plugins/dolt/index
     auto/integrations/kubernetes/pod/index
     auto/integrations/kubernetes/k8s_spark/index
