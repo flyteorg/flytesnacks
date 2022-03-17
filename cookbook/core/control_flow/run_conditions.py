@@ -92,7 +92,6 @@ if __name__ == "__main__":
 # In this example, we consume the output returned by the conditional() in the subsequent task.
 @workflow
 def multiplier_3(my_input: float) -> float:
-    d = (
     result = (
         conditional("fractions")
             .if_((my_input > 0.1) & (my_input < 1.0))
