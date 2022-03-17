@@ -23,7 +23,7 @@ from flytekitplugins.papermill import NotebookTask
 #
 # 2. Typically at the last cell of the notebook (which does not need to be the last cell), add a tag ``outputs`` for the intended cell.
 #
-# .. image:: htttps://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/outputs.png
+# .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/outputs.png
 #     :alt: Example of "parameters tag" added to the cell with input variables
 #
 # 3. In a python file, create a new task at the ``module`` level.
