@@ -8,8 +8,9 @@ only be performed on primitive values.
 """
 
 # %%
-# Import the necessary modules and resolve the dependencies. 
+# Import the necessary modules. 
 import random
+
 from flytekit import conditional, task, workflow
 
 
