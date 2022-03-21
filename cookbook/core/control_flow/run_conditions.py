@@ -8,7 +8,7 @@ only be performed on primitive values.
 """
 
 # %%
-# Import the necessary modules. 
+# Import the necessary modules.
 import random
 
 from flytekit import conditional, task, workflow
@@ -24,9 +24,9 @@ def square(n: float) -> float:
     """
     Parameters:
         n (float): name of the parameter for the task is derived from the name of the input variable, and
-               the type is automatically mapped to be Types.Integer
+               the type is automatically mapped to Types.Integer
     Return:
-        float: The label for the output is automatically assigned and the type is mapped from the annotation
+        float: The label for the output is automatically assigned and the type is deduced from the annotation
     """
     return n * n
 
@@ -36,7 +36,7 @@ def double(n: float) -> float:
     """
     Parameters:
         n (float): name of the parameter for the task is derived from the name of the input variable
-               and the type is deduced to ``Types.Integer``
+               and the type is mapped to ``Types.Integer``
     Return:
         float: The label for the output is auto-assigned and the type is deduced from the annotation
     """
@@ -101,8 +101,8 @@ def multiplier_3(my_input: float) -> float:
             .else_()
             .fail("The input must be between 0 and 10")
     )
-    
-    # the 'result' will either be the output of `double` or `square`. If none of the conditions is true, 
+
+    # the 'result' will either be the output of `double` or `square`. If none of the conditions is true,
     # it gives a failure message.
     return double(n=result)
 
