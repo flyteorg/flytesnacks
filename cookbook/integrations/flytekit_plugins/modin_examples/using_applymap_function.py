@@ -15,11 +15,11 @@ ray.init() # open a new instance of ray
 
 # %%
 # Next, import the necessary dependencies.
-import flytekitplugins.modin
 import modin.pandas
 import time
 import numpy as np
 import pandas as pd
+import flytekitplugins.modin
 import typing
 from typing import Tuple
 from types import ModuleType
