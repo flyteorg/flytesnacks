@@ -10,7 +10,7 @@ We will generate the data and invoke the ``read_csv`` function on this data. We 
    In this example, we use Ray as the backend.
 
 Installation
-------------
+^^^^^^^^^^^^^
 
 To install Modin with Ray as the backend,
 
