@@ -2,7 +2,7 @@
 Using ``applymap`` Function
 ----------------------------
 
-In this example, we will see how the Modin Dataframe works with <flyte:divedeep-tasks> and workflows for the ``applymap`` function.
+In this example, we will see how the Modin Dataframe works with :ref:`tasks <divedeep-tasks>` and :ref:`workflows <divedeep-workflows>` for the ``applymap`` function.
 We will generate data, and store it in a Modin Dataframe. We will invoke the ``applymap`` function on this dataframe.
 
 """
