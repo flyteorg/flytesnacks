@@ -2,16 +2,32 @@
 Modin versus Pandas on the ``read_csv`` Function
 -------------------------------------------------
 
-In this example, we will see how the Modin plugin helps reduce the time consumed by the ``read_csv`` function to read a huge CSV file (think 10s of GB) into a Pandas Dataframe.
-
-The striking feature of Modin is that a single line of code can speed up the operation by up to 4 times.
+In this example, we will see how the Modin plugin helps reduce the time consumed by the ``read_csv`` function to read a huge CSV file (think 10s of GB) into a Pandas DataFrame.
 We will generate the data and invoke the ``read_csv`` function on this data. We will use Modin and Pandas to read the Dataframe and compare the time consumed.
 
 .. note::
 
-   Here, we use Ray as the backend.
+   In this example, we use Ray as the backend.
 
+Installation
+------------
+
+To install Modin with Ray as the backend,
+
+.. code:: bash
+
+   pip install modin[ray]
+
+
+To install Modin with Dask as the backend,
+
+.. code:: bash
+
+   pip install modin[dask]
+
+Let's dive in to the example.
 """
+
 # %%
 # Import ``ray`` and close the previous instances (if any) and start a new instance.
 import ray
@@ -20,6 +36,7 @@ ray.init() # open a new instance of ray
 
 # %%
 # Next, import the necessary dependencies.
+import flytekitplugins.modin
 import modin.pandas
 import time
 import numpy as np
@@ -35,9 +52,9 @@ from flytekit import task, workflow
 #
 # Let's define a task to generate data (only once) using the ``random`` method.
 @task
-def generate_data():
-    df = pd.DataFrame(data=np.random.randint(999, 999999, size=(500000,10)),columns=[f'C{i + 1}' for i in range(10)])
-    df['C11'] = pd.util.testing.rands_array(5,500000)
+def generate_data() -> modin.pandas.DataFrame:
+    df = modin.pandas.DataFrame(data=np.random.randint(999, 999999, size=(500000,10)),columns=[f'C{i + 1}' for i in range(10)])
+    df['C11'] = modin.pandas.util.testing.rands_array(5,500000)
     df.to_csv("data.csv") # 4.18 GB data
     return df
 
@@ -96,3 +113,10 @@ def my_workflow(my_path: str) -> float:
 if __name__ == "__main__":
     result = my_workflow(my_path = path)
     print("Modin is {} x faster than Pandas at `read_csv`".format(result))
+
+# %%
+# Conclusion
+# ^^^^^^^^^^^
+# 
+# We understood how the ``read_csv`` function performs when it is invoked on a Pandas Dataframe and a Modin Dataframe.
+# By comparing the time consumed to read a large dataset, we saw that Modin performs better than Pandas. 
