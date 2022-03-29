@@ -41,8 +41,8 @@ from sklearn.datasets import load_iris
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
-ray.shutdown()
-ray.init()
+ray.shutdown() # close previous instance of ray (if any)
+ray.init() # open a new instance of ray
 
 # A function that converts a column of integers to strings based on certain conditions.
 def converter(specie):
