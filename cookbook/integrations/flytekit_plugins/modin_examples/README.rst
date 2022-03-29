@@ -26,4 +26,4 @@ How is Modin different?
 
 Modin **scales** the Pandas workflows by changing only a **single line of code**.
 
-Modin allows the user to utilize all the CPU cores available in the machine. If the same workflow can be run using 4 processors instead of one, why not use it? This way, the time consumed reduces significantly.
+The plugin supports the usage of Modin DataFrame as an input to and output of a task/workflow, similar to how a pandas DataFrame can be used.
