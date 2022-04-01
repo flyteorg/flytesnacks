@@ -3,7 +3,7 @@ KNN Classifier
 --------------
 
 In this example, let's understand how effortlessly the Modin DataFrames can be used with tasks and workflows in a simple classification pipeline.
-Modin uses [Ray](https://github.com/ray-project/ray/) or [Dask](https://dask.org/) as the compute engine. We'll use Ray in this example.
+Modin uses `Ray <https://github.com/ray-project/ray/>`__ or `Dask <https://dask.org/>`__ as the compute engine. We will use Ray in this example.
 
 To install Modin with Ray as the backend,
 
@@ -29,7 +29,7 @@ import flytekitplugins.modin
 import modin.pandas
 import ray
 from flytekit import task, workflow
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_wine
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -52,15 +52,15 @@ split_data = NamedTuple(
 @task
 def data_processing() -> split_data:
     # load iris Data
-    iris = load_iris()
+    wine = load_wine()
 
     # convert features and target (numpy arrays) into Modin DataFrames
-    iris_features = modin.pandas.DataFrame(data=iris.data, columns=iris.feature_names)
-    iris_target = modin.pandas.DataFrame(data=iris.target, columns=["species"])
+    wine_features = modin.pandas.DataFrame(data=wine.data, columns=wine.feature_names)
+    wine_target = modin.pandas.DataFrame(data=wine.target, columns=["species"])
 
     # split the dataset
     X_train, X_test, y_train, y_test = train_test_split(
-        iris_features, iris_target, test_size=0.33, random_state=101
+        wine_features, wine_target, test_size=0.33, random_state=101
     )
 
     return split_data(
