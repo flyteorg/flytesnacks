@@ -93,8 +93,8 @@ def dt1(days_of_week: typing.List[str]) -> typing.List[str]:
 
 
 @workflow
-def dynamic_lp_greeting() -> typing.List[str]:
-    return dt1(days_of_week=["Monday", "Wednesday"])
+def dynamic_lp_greeting(days_of_week: typing.List[str]) -> typing.List[str]:
+    return dt1(days_of_week=days_of_week)
 
 
 if __name__ == "__main__":
