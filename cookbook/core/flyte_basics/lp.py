@@ -71,6 +71,8 @@ square_2 = my_fixed_lp()
 def greet(day_of_week: str, number: int, am: bool) -> str:
     greeting = "Have a great " + day_of_week + " "
     greeting += "morning" if am else "evening"
+    if "onday" in day_of_week:
+        raise Exception("test error")
     return greeting + "!" * number
 
 
