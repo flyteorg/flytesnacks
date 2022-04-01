@@ -8,6 +8,7 @@ Launch plan inputs must only assign inputs already defined in the reference work
 """
 
 import calendar
+import typing
 
 # %%
 # When To Use Launch Plans
@@ -27,7 +28,7 @@ import calendar
 # The following example creates a default launch plan with no inputs during serialization.
 import datetime
 
-from flytekit import LaunchPlan, current_context, task, workflow
+from flytekit import LaunchPlan, current_context, task, workflow, dynamic
 
 
 @task
@@ -85,13 +86,25 @@ morning_greeting = LaunchPlan.create(
     default_inputs={"number": 1},
 )
 
-# Let's see if we can convincingly pass a Turing test!
-today = datetime.datetime.today()
-for n in range(7):
-    day = today + datetime.timedelta(days=n)
-    weekday = calendar.day_name[day.weekday()]
-    if day.weekday() < 5:
-        print(morning_greeting(day_of_week=weekday))
-    else:
-        # We're extra enthusiastic on weekends
-        print(morning_greeting(number=3, day_of_week=weekday))
+
+@dynamic
+def dt1(days_of_week: typing.List[str]) -> typing.List[str]:
+    return [morning_greeting(day_of_week=d) for d in days_of_week]
+
+
+@workflow
+def dynamic_lp_greeting() -> typing.List[str]:
+    return dt1(days_of_week=["Monday", "Wednesday"])
+
+
+if __name__ == "__main__":
+    # Let's see if we can convincingly pass a Turing test!
+    today = datetime.datetime.today()
+    for n in range(7):
+        day = today + datetime.timedelta(days=n)
+        weekday = calendar.day_name[day.weekday()]
+        if day.weekday() < 5:
+            print(morning_greeting(day_of_week=weekday))
+        else:
+            # We're extra enthusiastic on weekends
+            print(morning_greeting(number=3, day_of_week=weekday))
