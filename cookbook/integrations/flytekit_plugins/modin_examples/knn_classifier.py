@@ -35,7 +35,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 ray.shutdown()  # close previous instance of ray (if any)
-ray.init()  # open a new instance of ray
+ray.init(num_cpus=2)  # open a new instance of ray
 
 
 split_data = NamedTuple(
@@ -50,13 +50,12 @@ split_data = NamedTuple(
 # %%
 # We define a task that processes the wine dataset after loading it into the environment.
 @task
-def data_processing() -> split_data:
-    # load iris Data
-    wine = load_wine()
+def preprocess_data() -> split_data:
+    wine = load_wine(as_frame=True)
 
     # convert features and target (numpy arrays) into Modin DataFrames
     wine_features = modin.pandas.DataFrame(data=wine.data, columns=wine.feature_names)
-    wine_target = modin.pandas.DataFrame(data=wine.target, columns=["species"])
+    wine_target = modin.pandas.DataFrame(data=wine.target, columns=["target"])
 
     # split the dataset
     X_train, X_test, y_train, y_test = train_test_split(
@@ -102,7 +101,7 @@ def calc_accuracy(
 # Lastly, we define a workflow.
 @workflow
 def pipeline() -> float:
-    split_data_vals = data_processing()
+    split_data_vals = preprocess_data()
     predicted_vals_output = fit_and_predict(
         X_train=split_data_vals.train_features,
         X_test=split_data_vals.test_features,
