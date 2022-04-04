@@ -115,7 +115,7 @@ class CustomSorter(FileNameSortKey):
         "dolt_branch_example.py",
         "task_example.py",
         "type_example.py",
-        "modin_versus_pandas_on_the_read_csv.py",
+        "knn_iris.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
