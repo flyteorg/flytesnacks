@@ -115,7 +115,7 @@ class CustomSorter(FileNameSortKey):
         "dolt_branch_example.py",
         "task_example.py",
         "type_example.py",
-        "knn_iris.py",
+        "knn_wine_data.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",

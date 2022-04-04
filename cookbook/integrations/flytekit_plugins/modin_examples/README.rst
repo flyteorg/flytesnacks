@@ -16,10 +16,6 @@ Installation
 
    pip install flytekitplugins-modin
 
-.. note::
-
-   Modin runs with Ray or Dask as the backend. Usage can be specified during the execution itself.
-
 
 How is Modin different?
 -----------------------

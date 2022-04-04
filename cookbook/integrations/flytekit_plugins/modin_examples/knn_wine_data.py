@@ -48,7 +48,7 @@ split_data = NamedTuple(
 
 
 # %%
-# We define a task that processes the iris dataset after loading it into the environment.
+# We define a task that processes the wine dataset after loading it into the environment.
 @task
 def data_processing() -> split_data:
     # load iris Data
