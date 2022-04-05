@@ -19,7 +19,7 @@ Let's look at an example now!
 import typing
 
 from flytekit import Resources, map_task, task, workflow
-
+from flytekit.types.file import FlyteFile
 
 # %%
 # Next, we define a task that we will use in our map task.
@@ -58,11 +58,47 @@ def my_map_workflow(a: typing.List[int]) -> str:
     return coalesced
 
 
+@task
+def print_and_return_last_file(task_params: typing.Dict[str, FlyteFile]) -> FlyteFile:
+    ff = None
+    for k, f in task_params.items():
+        ff = f
+        print(f"Opening file {k}")
+        with open(f) as fh:
+            contents = fh.read()
+        print(f"Contents of {f.remote_source}:\n{contents}")
+
+    return ff
+
+
+@workflow
+def map_wf(in1: typing.List[typing.Dict[str, FlyteFile]]) -> typing.List[FlyteFile]:
+    return map_task(print_and_return_last_file)(task_params=in1)
+
+
 # %%
 # Lastly, we can run the workflow locally!
 if __name__ == "__main__":
-    result = my_map_workflow(a=[1, 2, 3, 4, 5])
-    print(f"{result}")
+    # result = my_map_workflow(a=[1, 2, 3, 4, 5])
+    # print(f"{result}")
+
+    file_map = {
+        "a": FlyteFile("/Users/ytong/tmp/a"),
+        "b": FlyteFile("/Users/ytong/tmp/b"),
+        "c": FlyteFile("/Users/ytong/tmp/c"),
+    }
+    # result_file = print_and_return_last_file(task_params=file_map)
+    # print(result_file)
+
+    file_map2 = {
+        "a": FlyteFile("/Users/ytong/tmp/a"),
+        "b": FlyteFile("/Users/ytong/tmp/b"),
+        "c": FlyteFile("/Users/ytong/tmp/c"),
+    }
+
+    wf_output = map_wf(in1=[file_map, file_map2])
+    print(wf_output)
+
 
 # %%
 # Map tasks can run on alternate execution backends, such as `AWS Batch <https://aws.amazon.com/batch/>`__,
