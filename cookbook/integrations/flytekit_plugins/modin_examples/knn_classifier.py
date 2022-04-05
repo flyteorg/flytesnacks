@@ -11,13 +11,12 @@ To install Modin with Ray as the backend,
 
     pip install modin[ray]
 
-.. note
 
-    To install Modin with Dask as the backend,
+To install Modin with Dask as the backend,
 
-    .. code:: bash
+.. code:: bash
 
-       pip install modin[dask]
+    pip install modin[dask]
 
 Let's dive right in!
 """
