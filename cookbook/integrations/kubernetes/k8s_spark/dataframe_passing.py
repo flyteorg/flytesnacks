@@ -43,7 +43,7 @@ my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 )
 def create_spark_df() -> my_schema:
     """
-    This function returns a Spark dataset that conforms to the defined schema. Failure to do so should result
+    This task returns a Spark dataset that conforms to the defined schema. Failure to do so should result
     in a runtime error. TODO: runtime error enforcement
     """
     sess = flytekit.current_context().spark_session
