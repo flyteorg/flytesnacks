@@ -226,6 +226,15 @@ Table of Contents
    ^^^^^^^^^^^^^^^
    Define custom plugins that aren't currently supported in the Flyte ecosystem.
 
+   ---
+
+   .. link-button:: auto/repo_projects/index
+      :type: ref
+      :text: ⛰ Repo-based Projects
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^^^^
+   Build, deploy, and iterate on larger Flyte projects by organizing your code as a git repo.
+
 .. toctree::
    :maxdepth: 1
    :hidden:
@@ -253,6 +262,7 @@ Table of Contents
    Production Config <auto/deployment/index>
    Scheduling Workflows <auto/core/scheduled_workflows/index>
    Extending flyte <auto/core/extend_flyte/index>
+   Repo-based Projects <auto/repo_projects/index>
    contribute
 
 .. toctree::

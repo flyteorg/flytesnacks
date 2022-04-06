@@ -136,6 +136,10 @@ class CustomSorter(FileNameSortKey):
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "run_custom_types.py",
         "custom_task_plugin.py",
+        # Repo-based Projects
+        "repo_setup.py",
+        "repo_deploy.py",
+        "repo_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -289,6 +293,7 @@ examples_dirs = [
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
     "../core/extend_flyte",
+    "../repo_projects",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -325,6 +330,7 @@ gallery_dirs = [
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",
+    "auto/repo_projects",
 ]
 
 # image_scrapers = ('matplotlib',)
