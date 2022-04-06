@@ -4,8 +4,8 @@
 Converting a Spark DataFrame to a Pandas DataFrame
 ==================================================
 
-You will understand how a spark.Dataset can be returned from a task and consumed as a pandas DataFrame.
-If the dataframe does not fit in memory, it will result in runtime failure.
+You will understand how a Spark Dataset can be returned from a task and consumed as a pandas DataFrame.
+If the dataframe does not fit in memory, it will result in a runtime failure.
 """
 import flytekit
 import pandas
@@ -22,7 +22,7 @@ from flytekitplugins.spark import Spark
 my_schema = FlyteSchema[kwtypes(name=str, age=int)]
 
 # %%
-# ``create_spark_df`` is a spark task that runs within a Spark context (and relies on a Spark cluster that is up and running). This task generates a Spark DataFrame whose schema matches the predefined :any:`df_my_schema_definition`.
+# ``create_spark_df`` is a Spark task that runs within a Spark context (and relies on a Spark cluster that is up and running). This task generates a Spark DataFrame whose schema matches the predefined :any:`df_my_schema_definition`.
 # 
 # Notice that the task simply returns a pyspark.DataFrame object, even though the return type specifies  :any:`df_my_schema_definition`.
 # The flytekit type-system will automatically convert the pyspark.DataFrame to Flyte Schema object.
@@ -85,7 +85,7 @@ def my_smart_schema() -> int:
 
 
 # %%
-# This program can be executed locally. This greatly simplifies using disparate DataFrame technologies for the end user.
+# This program can be executed locally. This greatly simplifies using disparate DataFrame technologies for the end-user.
 # New DataFrame technologies can be dynamically loaded in Flytekit's TypeEngine as well.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
