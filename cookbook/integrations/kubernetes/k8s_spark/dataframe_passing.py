@@ -86,7 +86,10 @@ def my_smart_schema() -> int:
 
 # %%
 # This program can be executed locally. This greatly simplifies using disparate DataFrame technologies for the end-user.
-# New DataFrame technologies can be dynamically loaded in Flytekit's TypeEngine as well.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Running my_smart_schema()-> {my_smart_schema()}")
+
+# .. note::
+# New DataFrame technologies can be dynamically loaded in Flytekit's TypeEngine.
+# This requires defining a Flytekit plugin. Refer to `Modin <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-modin>`__ if you'd like to work on one!
