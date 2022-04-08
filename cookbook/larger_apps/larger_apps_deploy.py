@@ -1,5 +1,5 @@
 """
-.. _repo_project_deploy:
+.. _larger_apps_deploy:
 
 Deploy to the Cloud
 --------------------------------
@@ -49,10 +49,13 @@ Install Flytectl
 
       flytectl version
 
-#. Flyte can be deployed locally using a single Docker container — we refer to this as the ``flyte-sandbox`` environment. You can also run these `getting started` steps in a hosted or pre-provisioned environment. Refer to :ref:`deployment` section to learn how to deploy a Flyte cluster.
+#. Flyte can be deployed locally using a single Docker container — we refer to
+   this as the ``flyte-sandbox`` environment. You can also run these
+   *getting started* steps in a hosted or pre-provisioned environment. Refer to
+   :ref:`deployment` section to learn how to deploy a Flyte cluster.
 
    .. tabs::
-       .. group-tab:: Flyte Sandbox
+       .. group-tab:: Local
 
           .. tip:: Want to dive under the hood into flyte-sandbox? Refer to :ref:`deployment-sandbox`.
 

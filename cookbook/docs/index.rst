@@ -228,12 +228,12 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/repo_projects/index
+   .. link-button:: auto/larger_apps/index
       :type: ref
-      :text: ⛰ Repo-based Projects
+      :text: ⛰ Building Large Apps
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^^^^
-   Build, deploy, and iterate on larger Flyte projects by organizing your code as a git repo.
+   Build, deploy, and iterate on large projects by organizing your Flyte app.
 
 .. toctree::
    :maxdepth: 1
@@ -261,8 +261,8 @@ Table of Contents
    Remote Access <auto/remote_access/index>
    Production Config <auto/deployment/index>
    Scheduling Workflows <auto/core/scheduled_workflows/index>
-   Extending flyte <auto/core/extend_flyte/index>
-   Repo-based Projects <auto/repo_projects/index>
+   Extending Flyte <auto/core/extend_flyte/index>
+   Building Large Apps <auto/larger_apps/index>
    contribute
 
 .. toctree::

@@ -137,9 +137,9 @@ class CustomSorter(FileNameSortKey):
         "run_custom_types.py",
         "custom_task_plugin.py",
         # Repo-based Projects
-        "repo_setup.py",
-        "repo_deploy.py",
-        "repo_iterate.py",
+        "larger_apps_setup.py",
+        "larger_apps_deploy.py",
+        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -196,6 +196,7 @@ extensions = [
     "sphinx_panels",
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
+    "sphinx_tabs.tabs",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -293,7 +294,7 @@ examples_dirs = [
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
     "../core/extend_flyte",
-    "../repo_projects",
+    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -330,7 +331,7 @@ gallery_dirs = [
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",
-    "auto/repo_projects",
+    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)

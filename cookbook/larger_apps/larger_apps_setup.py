@@ -1,32 +1,42 @@
 """
-.. _repo_project_build:
+.. _larger_apps_build:
 
 Setup a Project
 ----------------
 
 Prerequisites
 ^^^^^^^^^^^^^^^^
-Make sure you have `Git <https://git-scm.com/>`__, and
-`Python <https://www.python.org/downloads/>`__ >= 3.7 installed.
+Make sure you have `git <https://git-scm.com/>`__ and
+`python <https://www.python.org/downloads/>`__ >= 3.7 installed.
 
-Start a new project / repository
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Start a new project
+^^^^^^^^^^^^^^^^^^^^
 
-Install Flyte's Python SDK — `Flytekit <https://pypi.org/project/flytekit/>`__
-on a `virtual environment <https://docs.python.org/3/library/venv.html>`__, and
-run ``pyflyte init <project_name>``, where ``<project_name>`` is the directory
-that will be created containing the scaffolding for a flyte-ready project.
+Create a `virtual environment <https://docs.python.org/3/library/venv.html>`__ :
 
-Feel free to use any name as your project name, however for this guide we're
-going call it ``my_flyte_project``:
+.. prompt:: bash $
 
-.. prompt:: bash (venv)$
+    python -m venv ~/venvs/flyte
+    source ~/venvs/flyte/bin/activate
 
-    pip install flytekit --upgrade
+Then install `Flytekit <https://pypi.org/project/flytekit/>`__ on it:
+
+.. prompt:: bash (flyte)$
+
+    pip install flytekit
+
+Then run ``pyflyte init <project_name>``, where ``<project_name>`` is the
+directory that will be created containing the scaffolding for a flyte-ready
+project. For this guide we're going call it ``my_flyte_project``:
+
+.. prompt:: bash (flyte)$
+
     pyflyte init my_flyte_project
     cd my_flyte_project
 
-The ``my_flyte_project`` directory comes with a sample workflow, which can be found under ``flyte/workflows/example.py``. The structure below shows the most important files and how a typical Flyte app should be laid out.
+The ``my_flyte_project`` directory comes with a sample workflow, which can be
+found under ``flyte/workflows/example.py``. The structure below shows the most
+important files and how a typical Flyte app should be laid out.
 
 .. dropdown:: A typical Flyte app should have these files
 
@@ -44,8 +54,6 @@ The ``my_flyte_project`` directory comes with a sample workflow, which can be fo
 
    .. note::
 
-       Two things to note here:
-
        * You can use `pip-compile` to build your requirements file.
        * The Dockerfile that comes with this is not GPU ready, but is a simple Dockerfile that should work for most of your apps.
 
@@ -54,7 +62,7 @@ Run the Workflow Locally
 
 The workflow can be run locally, simply by running it as a Python script:
 
-.. prompt:: bash (venv)$
+.. prompt:: bash (flyte)$
 
     python flyte/workflows/example.py
    
