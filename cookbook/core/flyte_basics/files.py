@@ -46,11 +46,9 @@ def normalize_columns(
     columns_to_normalize: List[str],
     output_location: str,
 ) -> FlyteFile:
-    csv_url.download()
-
     # read the data from the raw csv file
     parsed_data = defaultdict(list)
-    with open(csv_url.path, newline='\n') as input_file:
+    with open(csv_url, newline='\n') as input_file:
         reader = csv.DictReader(input_file, fieldnames=column_names)
         for row in (x for i, x in enumerate(reader) if i > 0):
             for column in columns_to_normalize:
