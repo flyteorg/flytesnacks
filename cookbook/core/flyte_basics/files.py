@@ -116,13 +116,11 @@ def normalize_csv_file(
 if __name__ == "__main__":
     default_files = [
         (
-            # Path.home() / "Downloads/biostats.csv",
             "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
             ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
             ["Age"],
         ),
         (
-            # Path.home() / "Downloads/faithful.csv",
             "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv",
             ["Index", "Eruption length (mins)", "Eruption wait (mins)"],
             ["Eruption length (mins)"],
