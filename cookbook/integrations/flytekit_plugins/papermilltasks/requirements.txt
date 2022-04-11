@@ -67,14 +67,16 @@ entrypoints==0.3
     #   jupyter-client
     #   nbconvert
     #   papermill
-flyteidl==0.21.24
+flyteidl==0.24.18
     # via flytekit
-flytekit==0.26.0
+flytekit==0.31.0
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-papermill
 flytekitplugins-papermill==0.22.3
     # via -r requirements.in
+googleapis-common-protos==1.56.0
+    # via flyteidl
 grpcio==1.41.0
     # via flytekit
 idna==3.2
@@ -180,7 +182,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==8.3.2
+pillow==9.0.1
     # via matplotlib
 platformdirs==2.4.0
     # via black
@@ -192,6 +194,10 @@ protobuf==3.18.1
     # via
     #   flyteidl
     #   flytekit
+    #   googleapis-common-protos
+    #   protoc-gen-swagger
+protoc-gen-swagger==0.1.0
+    # via flyteidl
 ptyprocess==0.7.0
     # via pexpect
 py==1.10.0
@@ -254,7 +260,6 @@ six==1.16.0
     #   bleach
     #   cookiecutter
     #   cycler
-    #   flytekit
     #   grpcio
     #   python-dateutil
     #   responses
@@ -291,6 +296,7 @@ traitlets==5.1.0
 typing-extensions==3.10.0.2
     # via
     #   black
+    #   flytekit
     #   typing-inspect
 typing-inspect==0.7.1
     # via dataclasses-json
