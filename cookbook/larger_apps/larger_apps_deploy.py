@@ -1,7 +1,7 @@
 """
 .. _larger_apps_deploy:
 
-Deploying to the Cloud
+Deploy to the Cloud
 --------------------------------
 
 Prerequisites
@@ -16,9 +16,10 @@ Daemon is running.
 Setup and Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-After you install `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/#installation>`__, you can setup a
-local :ref:`Flyte Sandbox <deployment-sandbox>` cluster, or configure ``flytectl`` to use a pre-provisioned remote Flyte
-cluster.
+First, install `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/#installation>`__.
+
+Then you can setup a local :ref:`Flyte Sandbox <deployment-sandbox>` cluster or configure ``flytectl`` to use a
+pre-provisioned remote Flyte cluster.
 
 .. tip::
    
@@ -37,14 +38,6 @@ cluster.
 
          The ``'.'`` represents the current directory, which would be ``my_flyte_project`` in this case.
 
-      Next, Configure flytectl sandbox
-
-      .. prompt:: bash $
-
-         flytectl config init
-
-      .. note::
-
          If you're having trouble with starting the sandbox cluster, refer to :ref:`troubleshoot`.
 
    .. group-tab:: Remote Flyte Cluster
@@ -60,6 +53,7 @@ cluster.
 
 Build & Deploy Your Application to the Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Flyte uses Docker containers to package the workflows and tasks, and sends them to the remote Flyte cluster. Therefore,
 there is a ``Dockerfile`` already included in the cloned repo. You can build the Docker container and push the built
 image to a registry.
@@ -108,7 +102,7 @@ the image is the same as the one built in the previous step.
 
       .. prompt:: bash $
 
-         pyflyte --pkgs flyte.workflows package --image "myapp:v1"
+         pyflyte --pkgs flyte.workflows package --image "my_flyte_project:v1"
 
    .. group-tab:: Remote Flyte Cluster
 
@@ -145,23 +139,29 @@ Execute on the Flyte Cluster
 Launch and monitor from the CLI using Flytectl.
 More details can be found `here <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_execution.html>`__.
 
-#. Generate an execution spec file.
+Generate an execution spec file.
 
-   .. prompt:: bash $
+.. prompt:: bash $
 
-      flytectl get launchplan --project flytesnacks --domain development flyte.workflows.example.my_wf --latest --execFile exec_spec.yaml
+   flytectl get launchplan --project flytesnacks --domain development flyte.workflows.example.my_wf --latest --execFile exec_spec.yaml
 
-#. Create an execution using the exec spec file.
+Create an execution using the exec spec file.
 
-   .. prompt:: bash $
+.. prompt:: bash $
 
-      flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
+   flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
 
-#. Monitor the execution by providing the execution name from the ``create execution`` command.
+You should see an output that looks like:
 
-   .. prompt:: bash $
+.. prompt:: text
 
-      flytectl get execution --project flytesnacks --domain development <execname>
+   execution identifier project:"flytesnacks" domain:"development" name:"<execution_name>"
+
+Monitor the execution by providing the execution name from the ``create execution`` command.
+
+.. prompt:: bash $
+
+   flytectl get execution --project flytesnacks --domain development <execution_name>
 
 
 **Alternatively, you can FlyteConsole to launch an execution.** 
@@ -176,7 +176,7 @@ More details can be found `here <https://docs.flyte.org/projects/flytectl/en/sta
 
       Visit ``{FLYTEADMIN_URL}/console`` on your browser
 
-Then the FlyteConsole to launch an execution: 
+Then use the FlyteConsole to launch an execution: 
 
 .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/index/getting_started_reg.gif
     :alt: A quick visual tour for launching a workflow and checking the outputs when they're done.
@@ -185,7 +185,7 @@ Then the FlyteConsole to launch an execution:
 Conclusion
 ^^^^^^^^^^^
 
-🎉  You have successfully packaged your workflow and tasks and pushed them to a Flyte cluster 🎉.
+We've successfully packaged your workflow and tasks and pushed them to a Flyte cluster! 🎉
 Next, let's learn how to :ref:`iterate on and re-deploy <larger_apps_iterate>` our Flyte app.
 
 """
