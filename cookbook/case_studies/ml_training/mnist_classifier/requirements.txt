@@ -101,8 +101,10 @@ packaging==21.3
     # via
     #   marshmallow
     #   matplotlib
-pandas==1.4.2
-    # via flytekit
+pandas==1.4.0
+    # via
+    #   -r requirements.in
+    #   flytekit
 pathtools==0.1.2
     # via wandb
 pillow==9.1.0
