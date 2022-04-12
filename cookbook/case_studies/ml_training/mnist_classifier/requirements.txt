@@ -101,7 +101,7 @@ packaging==21.3
     # via
     #   marshmallow
     #   matplotlib
-pandas==1.4.0
+pandas==1.3.5
     # via
     #   -r requirements.in
     #   flytekit
