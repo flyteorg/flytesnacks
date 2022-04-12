@@ -130,7 +130,7 @@ class CustomSorter(FileNameSortKey):
         "bigquery.py"
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
-        "run_custom_types.py",
+        "custom_types.py",
         "custom_task_plugin.py",
         # Repo-based Projects
         "larger_apps_setup.py",
