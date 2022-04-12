@@ -1,11 +1,14 @@
 """
 .. _larger_apps_iterate:
 
-Iterate and Re-deploy
-----------------------
+Iterate and Re-deploying
+-------------------------
+
+In this guide, you'll learn how to iterate on and re-deploy your tasks and workflows.
 
 Modify Code and Test Locally
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 #. Open ``example.py`` in your favorite editor.
 
    .. code-block::
@@ -17,28 +20,28 @@ Modify Code and Test Locally
       .. rli:: https://raw.githubusercontent.com/flyteorg/flytekit-python-template/simplify-template/myapp/workflows/example.py
          :language: python
 
-#. Add ``name: str`` as an argument to both ``my_wf`` and ``say_hello`` functions. Then update the body of ``say_hello`` to consume that argument.
+#. Add ``message: str`` as an argument to both ``my_wf`` and ``say_hello`` functions. Then update the body of ``say_hello`` to consume that argument.
 
    .. code-block:: python
 
      @task
-     def say_hello(name: str) -> str:
-         return f"hello world, {name}"
+     def say_hello(message: str) -> str:
+         return f"hello world, {message}"
 
    .. code-block:: python
 
      @workflow
-     def my_wf(name: str) -> str:
-         res = say_hello(name=name)
+     def my_wf(message: str) -> str:
+         res = say_hello(message=message)
          return res
 
-#. Update the simple test at the bottom of the file to pass in a name, e.g.
+#. Update the simple test at the bottom of the file to pass in a message, e.g.
 
    .. code-block:: python
 
-     print(f"Running my_wf(name='adam') {my_wf(name='adam')}")
+     print(f"Running my_wf(message='what a nice day it is!') {my_wf(message='what a nice day it is!')}")
 
-#. When you run this file locally, it should output ``hello world, adam``.
+#. When you run this file locally, it should output ``hello world, what a nice day it is!``.
 
    .. prompt:: bash (venv)$
 
@@ -49,106 +52,120 @@ Modify Code and Test Locally
 
        .. prompt:: text
 
-            Running my_wf(name='adam') hello world, adam
-
-#. Flytekit also provides ways to programmatically tests your tasks and workflows and provides easy mocking hooks to mock out certain functions.
+            Running my_wf(message='what a nice day it is!') hello world, what a nice day it is!
 
 
-[Bonus] Build & Deploy Your Application "Fast"er!
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#. To deploy this workflow to the Flyte cluster (sandbox), you can repeat the steps previously covered in :ref:`getting-started-build-deploy`. Flyte provides a **faster** way to iterate on your workflows. Since you have not updated any of the dependencies in your requirements file, it is possible to push just the code to Flyte backend without re-building the entire Docker container. To do so, run the following commands.
+Quickly Re-deploy Your Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-   .. prompt:: bash (venv)$
+To re-deploy this workflow to the sandbox Flyte cluster, you can repeat the steps previously covered in
+:ref:`getting-started-build-deploy`. Flyte provides a **faster** way to iterate on your workflows. Since you have not
+updated any of the dependencies in your requirements file, it is possible to push just the code to Flyte backend without
+re-building the entire Docker container. To do so, run the following commands.
 
-       pyflyte --pkgs flyte.workflows package --image myapp:v1 --fast --force
+.. prompt:: bash (venv)$
 
-   .. note::
+   pyflyte --pkgs flyte.workflows package --image myapp:v1 --fast --force
 
-      ``--fast`` flag will take the code from your local machine and provide it for execution without having to build the container and push it. The ``--force`` flag allows overriding your previously created package.
+.. note::
 
-   .. caution::
+   ``--fast`` flag will take the code from your local machine and provide it for execution without having to build the container and push it. The ``--force`` flag allows overriding your previously created package.
 
-      The ``fast`` registration method can only be used if you do not modify any requirements (that is, you re-use an existing environment). But, if you add a dependency to your requirements file or env you have to follow the :ref:`getting-started-build-deploy` method.
+.. caution::
 
-#. The code can now be deployed using Flytectl, similar to what we've done previously. ``flytectl`` automatically understands that the package is for ``fast`` registration.
-   For this to work, a new ``storage`` block has to be added to the Flytectl configuration with appropriate permissions at runtime. The storage block configures Flytectl to write to a specific ``S3 / GCS bucket``. If you're using the sandbox, this is automatically configured by Flytectl, so you can skip this for now. But do take a note for the future.
+   The ``fast`` registration method can only be used if you do not modify any requirements (that is, you re-use an existing environment). But, if you add a dependency to your requirements file or env you have to follow the :ref:`getting-started-build-deploy` method.
 
-   .. prompt:: bash $
+The code can now be deployed using Flytectl, similar to what we've done previously. ``flytectl`` automatically understands
+that the package is for fast registration.
 
-      flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz  --version v1-fast1
+For this to work, a new ``storage`` block has to be added to the Flytectl configuration with appropriate permissions at
+runtime. The storage block configures Flytectl to write to a specific ``S3 / GCS bucket``. If you're using the sandbox,
+this is automatically configured by Flytectl. The dropdown below provides more information on the required configuration
+depending on your cloud infrastructure.
+
+.. dropdown:: Flytectl configuration with ``storage`` block for Fast registration
+
+   .. tabbed:: Local Flyte Sandbox
+
+      Automatically configured for you by ``flytectl sandbox`` command.
+
+      .. code-block:: yaml
+
+         admin:
+            # For GRPC endpoints you might want to use dns:///flyte.myexample.com
+            endpoint: dns:///localhost:30081
+            insecure: true
+         storage:
+            connection:
+               access-key: minio
+               auth-type: accesskey
+               disable-ssl: true
+               endpoint: http://localhost:30084
+               region: my-region-here
+               secret-key: miniostorage
+            container: my-s3-bucket
+            type: minio
+
+   .. tabbed:: S3 Configuration
+
+      .. code-block:: yaml
+
+         admin:
+            # For GRPC endpoints you might want to use dns:///flyte.myexample.com
+            endpoint: dns:///<replace-me>
+            authType: Pkce # authType: Pkce # if using authentication or just drop this.
+            insecure: true # insecure: True # Set to true if the endpoint isn't accessible through TLS/SSL connection (not recommended except on local sandbox deployment)
+         storage:
+            type: stow
+            stow:
+               kind: s3
+               config:
+                  auth_type: iam
+                  region: <REGION> # Example: us-east-2
+            container: <replace> # Example my-bucket. Flyte k8s cluster / service account for execution should have read access to this bucket
 
 
-   .. dropdown:: Flytectl configuration with ``storage`` block for Fast registration
+   .. tabbed:: GCS Configuration
 
-         .. tabbed:: Local Flyte Sandbox
+      .. code-block:: yaml
 
-            Automatically configured for you by ``flytectl sandbox`` command.
+         admin:
+            # For GRPC endpoints you might want to use dns:///flyte.myexample.com
+            endpoint: dns:///<replace-me>
+            authType: Pkce # authType: Pkce # if using authentication or just drop this.
+            insecure: false # insecure: True # Set to true if the endpoint isn't accessible through TLS/SSL connection (not recommended except on local sandbox deployment)
+         storage:
+            type: stow
+            stow:
+               kind: google
+               config:
+                  json: ""
+                  project_id: <replace-me> # replace <project-id> with the GCP project ID
+                  scopes: https://www.googleapis.com/auth/devstorage.read_write
+            container: <replace> # Example my-bucket. Flyte k8s cluster / service account for execution should have access to this bucket
 
-            .. code-block:: yaml
+   .. tabbed:: Others
 
-               admin:
-                  # For GRPC endpoints you might want to use dns:///flyte.myexample.com
-                  endpoint: dns:///localhost:30081
-                  insecure: true
-               storage:
-                  connection:
-                    access-key: minio
-                    auth-type: accesskey
-                    disable-ssl: true
-                    endpoint: http://localhost:30084
-                    region: my-region-here
-                    secret-key: miniostorage
-                  container: my-s3-bucket
-                  type: minio
-
-         .. tabbed:: S3 Configuration
-
-            .. code-block:: yaml
-
-               admin:
-                 # For GRPC endpoints you might want to use dns:///flyte.myexample.com
-                 endpoint: dns:///<replace-me>
-                 authType: Pkce # authType: Pkce # if using authentication or just drop this.
-                 insecure: true # insecure: True # Set to true if the endpoint isn't accessible through TLS/SSL connection (not recommended except on local sandbox deployment)
-               storage:
-                 type: stow
-                 stow:
-                   kind: s3
-                   config:
-                       auth_type: iam
-                       region: <REGION> # Example: us-east-2
-                 container: <replace> # Example my-bucket. Flyte k8s cluster / service account for execution should have read access to this bucket
+      For other supported storage backends like Oracle, Azure, etc., refer to the configuration structure `here <https://pkg.go.dev/github.com/flyteorg/flytestdlib/storage#Config>`__.
 
 
-         .. tabbed:: GCS Configuration
+Assuming you have the required configuration for fast registration, you can register your packaged workflows with:
 
-            .. code-block:: yaml
+.. prompt:: bash $
 
-               admin:
-                 # For GRPC endpoints you might want to use dns:///flyte.myexample.com
-                 endpoint: dns:///<replace-me>
-                 authType: Pkce # authType: Pkce # if using authentication or just drop this.
-                 insecure: false # insecure: True # Set to true if the endpoint isn't accessible through TLS/SSL connection (not recommended except on local sandbox deployment)
-               storage:
-                 type: stow
-                 stow:
-                   kind: google
-                   config:
-                       json: ""
-                       project_id: <replace-me> # TODO: replace <project-id> with the GCP project ID
-                       scopes: https://www.googleapis.com/auth/devstorage.read_write
-                 container: <replace> # Example my-bucket. Flyte k8s cluster / service account for execution should have access to this bucket
+   flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz  --version v1-fast1
 
-         .. tabbed:: Others
 
-            For other supported storage backends like Oracle, Azure, etc., refer to the configuration structure `here <https://pkg.go.dev/github.com/flyteorg/flytestdlib/storage#Config>`__.
+Finally, visit `the sandbox console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/flyte.workflows.example.my_wf>`__, click launch, and give your name as the input.
 
-#. Finally, visit `the sandbox console <http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/flyte.workflows.example.my_wf>`__, click launch, and give your name as the input.
+.. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flyte/getting_started/getting_started_fastreg.gif
+   :alt: A quick visual tour for launching a workflow and checking the outputs when they're done.
 
-   .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flyte/getting_started/getting_started_fastreg.gif
-      :alt: A quick visual tour for launching a workflow and checking the outputs when they're done.
 
-   Alternatively, use ``flytectl``. To pass arguments to the workflow, update the execution spec file (previously generated).
+.. dropdown:: Alternatively, you can use ``flytectl`` to run your workflows.
+
+   To pass arguments to the workflow, update the execution spec file that we previously generated in the
+   :ref:`Deploying to the Coud <larger_apps_deploy>` step.
 
    #. Generate an execution spec file. This will prompt you to overwrite and answer 'y' on it.
 
@@ -179,19 +196,21 @@ Modify Code and Test Locally
          flytectl get execution --project flytesnacks --domain development <execname>
 
 
-.. admonition:: Recap
+Recap
+^^^^^^
 
-  In this guide, you:
+In this guide, you:
 
-  1. Setup a Flyte project with ``pyflyte init my_flyte_project`` and
-     ran your workflows locally.
-  2. Started a Flyte sandbox cluster and ran a Flyte workflow on a cluster.
-  4. Iterated on a Flyte workflow and updated the workflows on the cluster.
+1. Setup a Flyte project with ``pyflyte init my_flyte_project`` and
+   ran your workflows locally.
+2. Started a Flyte sandbox cluster and ran a Flyte workflow on a cluster.
+3. Iterated on a Flyte workflow and updated the workflows on the cluster.
 
 
-Next Steps: Deployment Guides
-==============================
+What's Next?
+^^^^^^^^^^^^^
 
-To experience the full capabilities of Flyte, take a look at the `Deployment Guides <https://docs.flyte.org/en/latest/deployment/index.html>`__.
+To experience the full power of Flyte on distributed compute, take a look at the
+`Deployment Guides <https://docs.flyte.org/en/latest/deployment/index.html>`__.
 
 """

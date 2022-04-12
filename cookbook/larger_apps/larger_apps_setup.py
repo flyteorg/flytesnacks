@@ -78,4 +78,11 @@ Expected output:
 
   Running my_wf() hello world
 
+
+Conclusion
+^^^^^^^^^^^
+
+🎉  You have successfully created a Flyte project and executed your workflows on a python runtime environment! 🎉.
+Next, let's learn how to :ref:`deploy to the cloud <larger_apps_deploy>`.
+
 """
