@@ -50,7 +50,7 @@ def normalize_columns(
 #          @reference_task(
 #               project="flytesnacks",
 #               domain="development",
-#               name="core.flyte_basics.files.rotate",
+#               name="core.flyte_basics.files.normalize_columns",
 #               version="d06cebcfbeabc02b545eefa13a01c6ca992940c8", # If using GIT for versioning OR 0.16.0, if semver
 #           )
 #           def normalize_columns(...):
