@@ -10,13 +10,16 @@ If the dataframe does not fit in memory, it will result in a runtime failure.
 
 # %%
 # Let's import the libraries.
-from typing import Annotated
-
 import flytekit
 import pandas
 from flytekit import kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
 from flytekitplugins.spark import Spark
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 # %%
 # We define two column types: `name: str` and `age: int`.
