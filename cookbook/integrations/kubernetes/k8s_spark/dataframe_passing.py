@@ -52,7 +52,7 @@ def create_spark_df() -> Annotated[StructuredDataset, columns]:
                 ("Bob", 10),
                 ("Charlie", 15),
             ],
-            columns,
+            ["name", "age"],
         )
     )
 

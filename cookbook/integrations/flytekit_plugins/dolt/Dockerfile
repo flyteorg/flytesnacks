@@ -42,8 +42,3 @@ COPY dolt/ /root/dolt/
 RUN mkdir -p /root/foo &&\
     cd /root/foo &&\
     dolt init
-
-# This tag is supplied by the build script and will be used to determine the version
-# when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag

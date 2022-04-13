@@ -20,7 +20,7 @@ from feast.infra.offline_stores.file import FileOfflineStoreConfig
 from feast.infra.online_stores.sqlite import SqliteOnlineStoreConfig
 from feast.repo_config import RepoConfig
 from flytekit import FlyteContext
-from flytekit.configuration import aws
+from flytekit.configuration.internal import aws
 
 
 @dataclass_json

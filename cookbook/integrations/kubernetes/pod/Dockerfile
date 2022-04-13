@@ -31,8 +31,3 @@ COPY pod/sandbox.config /root
 
 # Copy the actual code
 COPY pod/ /root/pod/
-
-# This tag is supplied by the build script and will be used to determine the version
-# when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag
