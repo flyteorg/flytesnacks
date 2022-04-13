@@ -38,7 +38,7 @@ import os
 import time
 from typing import List
 
-from flytekit import task, workflow
+from flytekit import task, workflow, Resources
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -101,6 +101,9 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
+    requests=Resources(
+        mem="1G",
+    ),
 )
 def my_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.
@@ -112,7 +115,7 @@ def my_pod_task() -> str:
 
 
 @workflow
-def PodWorkflow() -> str:
+def pod_workflow() -> str:
     s = my_pod_task()
     return s
 
@@ -167,6 +170,7 @@ def my_map_workflow(a: List[int]) -> str:
     )
     coalesced = coalesce(b=mapped_out)
     return coalesced
+
 
 # %%
 # The workflows can be executed locally as follows:
