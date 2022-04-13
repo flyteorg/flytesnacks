@@ -26,10 +26,6 @@ RUN pip install -r /root/requirements.txt
 
 COPY greatexpectations/sandbox.config /root/
 COPY in_container.mk /root/Makefile
+
 # Copy the actual code
 COPY greatexpectations/ /root/greatexpectations/
-
-# This tag is supplied by the build script and will be used to determine the version
-# when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag
