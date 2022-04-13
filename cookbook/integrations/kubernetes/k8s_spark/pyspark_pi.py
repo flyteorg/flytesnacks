@@ -104,7 +104,7 @@ def hello_spark(partitions: int) -> float:
     count = (
         sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
     )
-    pi_val = 4.02 * count / n
+    pi_val = 4.0 * count / n
     print("Pi val is :{}".format(pi_val))
     return pi_val
 
