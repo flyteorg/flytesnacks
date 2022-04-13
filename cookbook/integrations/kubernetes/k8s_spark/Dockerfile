@@ -53,6 +53,11 @@ COPY k8s_spark/sandbox.config /root
 # Copy the actual code
 COPY k8s_spark/ /root/k8s_spark
 
+# This tag is supplied by the build script and will be used to determine the version
+# when registering tasks, workflows, and launch plans
+ARG tag
+ENV FLYTE_INTERNAL_IMAGE $tag
+
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
