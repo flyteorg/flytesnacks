@@ -140,6 +140,7 @@ from flytekit import map_task, TaskMetadata
             ],
             init_containers=[
                 V1Container(
+                    image="alpine",
                     name="init",
                     command=["/bin/sh"],
                     args=["-c", 'echo "I\'m a customizable init container"'],
