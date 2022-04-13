@@ -66,4 +66,5 @@ ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
 
-RUN pip install -U "https://github.com/flyteorg/flytekit/archive/1d336d4d6d01042394a31b5072b7e37802509088.zip#egg=flytekit"
+RUN pip install -U "https://github.com/flyteorg/flytekit/archive/31d6a8e8699f444ae780a6384abf29fef67d5877.zip#egg=flytekit"
+RUN pip install --no-deps -U "https://github.com/flyteorg/flytekit/archive/31d6a8e8699f444ae780a6384abf29fef67d5877.zip#subdirectory=plugins/flytekit-spark&egg=flytekitplugins-spark"
