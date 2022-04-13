@@ -16,14 +16,10 @@ Repo Setup
 Clone the ``flytesnacks`` repo and install its dependencies, which includes :doc:`flytekit <flytekit:index>` :
 
 .. tip::
-    **[Recommended]** create a new python virtual environment to make sure it doesn't interfere with your
-    development environment.
 
-    .. prompt: bash
-
-        python -m venv ~/venvs/flyte
-        source ~/venvs/flyte/bin/activate
-
+    **[Recommended]** Create a new python virtual environment to make sure it doesn't interfere with your
+    development environment, e.g. with ``python -m venv <path/to/env>``.
+    
 .. prompt:: bash
 
     git clone https://github.com/flyteorg/flytesnacks
@@ -62,7 +58,7 @@ Now you can run all of the example workflows locally using the default Docker im
 
 .. note::
 
-    The primary argument ``pyflyte run`` is in the form of ``path/to/script.py:<workflow_name>``, where
+    The first argument of ``pyflyte run`` is in the form of ``path/to/script.py:<workflow_name>``, where
     ``<workflow_name>`` is the function decorated with ``@workflow`` that you want to run.
 
 To run the workflow on the demo Flyte cluster, all you need to do is supply the ``--remote`` flag:
@@ -94,17 +90,18 @@ Finally, let's run a workflow that takes some inputs, for example the ``basic_wo
     inputs are ``--a 5`` and ``--b hello``. For snake-case argument names like ``arg_name``, you can provide the
     option as ``--arg-name``.
 
-🎉 Congrats! Now you can run all the examples in the :ref:`userguide` 🎉
-
 .. tip::
 
     Running most of the examples in the **User Guide** only requires the default Docker image that ships with Flyte.
     Many examples in the :ref:`tutorials` and :ref:`integrations` section depend on additional libraries, ``sklearn``,
-    ``pytorch``, or ``tensorflow``, which will not work with the default docker image used by ``pyflyte run``. These
-    examples will explicitly show you which images to use for running these examples by passing in the docker image
-    you want to use with the ``--image`` option in ``pyflyte run`.
+    ``pytorch``, or ``tensorflow``, which will not work with the default docker image used by ``pyflyte run``.
+    
+    These examples will explicitly show you which images to use for running these examples by passing in the docker
+    image you want to use with the ``--image`` option in ``pyflyte run``.
+
+🎉 Congrats! Now you can run all the examples in the :ref:`userguide` 🎉
 
 What's Next?
 ^^^^^^^^^^^^
 
-Try out the examples in :ref:`Flyte Basics <sphx_glr_auto_core_flyte_basics>` section.
+Try out the examples in :doc:`Flyte Basics <core/flyte_basics/index>` section.

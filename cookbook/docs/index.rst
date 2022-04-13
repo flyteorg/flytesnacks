@@ -6,14 +6,19 @@ User Guide
 
 If this is your first time using Flyte, check out the `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`_ guide.
 
-The :ref:`User Guide <userguide>` and :ref:`Tutorials <tutorials>` cover all the
-key features of Flyte organized by topic. Each of the sections below introduces a topic and discusses how you can use
-Flyte to address a specific problem. Code for all of the examples in the user guide be found in the
-`flytesnacks repo <https://github.com/flyteorg/flytesnacks>`_.
+This *User Guide*, the :doc:`Tutorials <tutorials>`, and the :doc:`Integrations <integrations>` examples cover all of
+the key features of Flyte for data analytics, data science and machine learning practitioners, organized by topic. Each
+of section below introduces a core feature of Flyte and how you can use it to address specific use cases. Code for all
+of the examples can be found in the `flytesnacks repo <https://github.com/flyteorg/flytesnacks>`_.
 
-`Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a highly customized environment to make running,
-documenting and contributing samples easy. If this is your first time running these examples, follow the
+`Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a specific environment to make running, documenting
+and contributing samples easy. If this is your first time running these examples, follow the
 :ref:`environment setup guide <env_setup>` to get started.
+
+.. tip::
+
+   To learn about how to spin up and manage a Flyte cluster in the cloud, see the
+   :doc:`Deployment Guides <flyte:deployment/index>`.
 
 ******************
 Table of Contents
