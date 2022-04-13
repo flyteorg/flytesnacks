@@ -62,7 +62,7 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 # For spark we want to use the default entrypoint which is part of the
 # distribution, also enable the virtualenv for this image. 
 # Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
 ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
 
