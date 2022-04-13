@@ -13,7 +13,7 @@ of the examples can be found in the `flytesnacks repo <https://github.com/flyteo
 
 `Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a specific environment to make running, documenting
 and contributing samples easy. If this is your first time running these examples, follow the
-:ref:`environment setup guide <env_setup>` to get started.
+:doc:`environment setup guide <userguide_setup>` to get started.
 
 .. tip::
 
@@ -27,6 +27,15 @@ Table of Contents
 .. panels::
    :header: text-center
    :column: col-lg-12 p-2
+
+   .. link-button:: userguide_setup
+      :type: ref
+      :text: 🌳 Environment Setup
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Setup your development environment to run the User Guide examples.
+
+   ---
 
    .. link-button:: auto/core/flyte_basics/index
       :type: ref
