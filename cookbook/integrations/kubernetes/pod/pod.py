@@ -169,8 +169,48 @@ def my_map_workflow(a: List[int]) -> str:
     return coalesced
 
 # %%
+# Dynamic Pod Tasks
+# ====================
+#
+# To use pod task a dynamic task, simply pass the pod task config to an annotated dynamic task.
+from flytekit import dynamic
+
+
+@task
+def simple_stringify(val: int) -> str:
+    return f"{val} served courtesy of a dynamic pod task!"
+
+
+@dynamic(
+    task_config=Pod(
+        pod_spec=V1PodSpec(
+            containers=[
+                V1Container(
+                    name="primary",
+                    resources=V1ResourceRequirements(
+                        requests={"cpu": ".5", "memory": "450Mi"},
+                        limits={"cpu": ".5", "memory": "500Mi"},
+                    ),
+                )
+            ],
+        ),
+        primary_container_name="primary",
+    )
+)
+def my_dynamic_pod_task(val: int) -> str:
+    return simple_stringify(val=val)
+
+
+@workflow
+def my_dynamic_pod_task_workflow(val: int=6) -> str:
+    s = my_dynamic_pod_task(val=val)
+    return s
+
+
+# %%
 # The workflows can be executed locally as follows:
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Calling PodWorkflow()... {PodWorkflow()}")
     print(f"Calling my_map_workflow()... {my_map_workflow()}")
+    print(f"Calling my_dynamic_pod_task_workflow()... {my_dynamic_pod_task_workflow()}")
