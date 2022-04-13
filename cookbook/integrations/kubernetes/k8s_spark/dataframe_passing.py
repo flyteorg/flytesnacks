@@ -45,9 +45,17 @@ def create_spark_df() -> Annotated[StructuredDataset, columns]:
     in a runtime error. TODO: runtime error enforcement
     """
     sess = flytekit.current_context().spark_session
-    return sess.createDataFrame(
-        [("Alice", 5), ("Bob", 10), ("Charlie", 15),], columns,
+    return StructuredDataset(
+        dataframe=sess.createDataFrame(
+            [
+                ("Alice", 5),
+                ("Bob", 10),
+                ("Charlie", 15),
+            ],
+            columns,
+        )
     )
+
 
 # %%
 # ``create_spark_df`` is a Spark task that runs within a Spark context (and relies on a Spark cluster that is up and running).
@@ -62,6 +70,7 @@ def create_spark_df() -> Annotated[StructuredDataset, columns]:
 def sum_of_all_ages(s: Annotated[StructuredDataset, columns]) -> int:
     df: pandas.DataFrame = s.open(pandas.DataFrame).all()
     return int(df["age"].sum())
+
 
 # %%
 # The task ``sum_of_all_ages`` receives a parameter of type ``StructuredDataset``.
@@ -78,6 +87,7 @@ def my_smart_structured_dataset() -> int:
     """
     df = create_spark_df()
     return sum_of_all_ages(s=df)
+
 
 # %%
 # This workflow allows connecting ``create_spark_df`` with ``sum_of_all_ages`` since the return type of the first task and the
