@@ -147,8 +147,11 @@ from flytekit import map_task, TaskMetadata
                     name="init",
                     command=["/bin/sh"],
                     args=["-c", 'echo "I\'m a customizable init container"'],
+                    resources=V1ResourceRequirements(
+                        limits={"cpu": ".5", "memory": "500Mi"},
+                    ),
                 )
-            ],
+            ]
         ),
         primary_container_name="primary",
     )
