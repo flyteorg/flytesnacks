@@ -118,3 +118,4 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
+ENTRYPOINT ["/opt/entrypoint.sh"]
