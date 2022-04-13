@@ -12,6 +12,7 @@ import pathlib
 
 import flytekit
 import tensorflow as tf
+import horovod.tensorflow as hvd
 from flytekit import task, workflow, Resources
 from flytekit.types.directory import FlyteDirectory
 from flytekit.core.base_task import IgnoreOutputs
@@ -23,8 +24,6 @@ from flytekitplugins.kfmpi import MPIJob
 # The all reduce algorithm comes into the picture in this function.
 @tf.function
 def training_step(images, labels, first_batch, mnist_model, loss, opt):
-    import horovod.tensorflow as hvd
-
     with tf.GradientTape() as tape:
         probs = mnist_model(images, training=True)
         loss_value = loss(labels, probs)
@@ -71,8 +70,6 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     limits=Resources(cpu='2'),
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
-    import horovod.tensorflow as hvd
-
     """
     :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
     :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.
