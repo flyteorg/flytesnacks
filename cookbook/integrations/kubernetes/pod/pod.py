@@ -176,5 +176,5 @@ def my_map_workflow(a: List[int]) -> str:
 # The workflows can be executed locally as follows:
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(f"Calling PodWorkflow()... {PodWorkflow()}")
+    print(f"Calling PodWorkflow()... {pod_workflow()}")
     print(f"Calling my_map_workflow()... {my_map_workflow()}")
