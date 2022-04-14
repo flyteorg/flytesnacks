@@ -7,7 +7,7 @@ An example dataset is available `here <https://raw.githubusercontent.com/jbrownl
 
 Why a Workflow?
 ================
-One common question when you read through the example would bewhether it is really required to split the training of XGBoost into multiple steps. The answer is complicated, but let us try and understand the pros and cons of doing so.
+One common question when you read through the example would be whether it is really required to split the training of XGBoost into multiple steps. The answer is complicated, but let us try and understand the pros and cons of doing so.
 
 Pros:
 ^^^^^
@@ -29,7 +29,7 @@ Steps of the Pipeline
 1. Gather data and split it into training and validation sets
 2. Fit the actual model
 3. Run a set of predictions on the validation set. The function is designed to be more generic, it can be used to simply predict given a set of observations (dataset)
-4. Calculate the accuracy metric for the predictions
+4. Calculate the accuracy score for the predictions
 
 
 Takeaways
@@ -42,7 +42,7 @@ Takeaways
 Walkthrough
 ====================
 
-Run workflows in this directory with the custom-built base image like:
+Run workflows in this directory with the custom-built base image:
 
 ```shell
 pyflyte run --remote diabetes.py:diabetes_xgboost_model --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest
