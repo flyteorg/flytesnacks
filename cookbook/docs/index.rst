@@ -8,7 +8,7 @@ If this is your first time using Flyte, check out the `Getting Started <https://
 
 This *User Guide*, the :doc:`Tutorials <tutorials>`, and the :doc:`Integrations <integrations>` examples cover all of
 the key features of Flyte for data analytics, data science and machine learning practitioners, organized by topic. Each
-of section below introduces a core feature of Flyte and how you can use it to address specific use cases. Code for all
+section below introduces a core feature of Flyte and how you can use it to address specific use cases. Code for all
 of the examples can be found in the `flytesnacks repo <https://github.com/flyteorg/flytesnacks>`_.
 
 `Flytesnacks <https://github.com/flyteorg/flytesnacks>`_ comes with a specific environment to make running, documenting
