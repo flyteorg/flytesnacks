@@ -68,7 +68,7 @@ def get_mean_length(data: DataSchema) -> float:
 
 
 # %%
-# Finally, we put the two above tasks together into a workflow:
+# Finally, we put everything together into a workflow:
 @workflow
 def my_wf(min_length: int, max_length: int, limit: int) -> float:
     return get_mean_length(data=sql_task(min_length=min_length, max_length=max_length, limit=limit))
