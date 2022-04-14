@@ -7,21 +7,21 @@ An example dataset is available `here <https://raw.githubusercontent.com/jbrownl
 
 Why a Workflow?
 ================
-One common question when you read through the example might be - is it really required to split the training of xgboost into multiple steps. The answer is complicated, but let us try and understand what advantages and disadvantages of doing so.
+One common question when you read through the example would bewhether it is really required to split the training of XGBoost into multiple steps. The answer is complicated, but let us try and understand the pros and cons of doing so.
 
 Pros:
 ^^^^^
 
-- Each task/step is standalone and can be used for various other pipelines
+- Each task/step is standalone and can be used for other pipelines
 - Each step can be unit tested
-- Data splitting, cleaning etc can be done using a more scalable system like Spark
-- State is always saved between steps, so it is cheap to recover from failures, especially if caching=True
-- Visibility is high
+- Data splitting, cleaning and processing can be done using a more scalable system like Spark
+- State is always saved between steps, so it is cheap to recover from failures, especially if ``caching=True``
+- High visibility
 
 Cons:
 ^^^^^
 
-- Performance for small datasets is a concern. The reason is, the intermediate data is durably stored and the state recorded. Each step is essnetially a checkpoint
+- Performance for small datasets is a concern because the intermediate data is durably stored and the state is recorded, and each step is essentially a checkpoint
 
 Steps of the Pipeline
 ======================
@@ -29,7 +29,7 @@ Steps of the Pipeline
 1. Gather data and split it into training and validation sets
 2. Fit the actual model
 3. Run a set of predictions on the validation set. The function is designed to be more generic, it can be used to simply predict given a set of observations (dataset)
-4. Calculate the accuracy score for the predictions
+4. Calculate the accuracy metric for the predictions
 
 
 Takeaways
