@@ -75,3 +75,20 @@ if __name__ == "__main__":
 
 # %%
 # To know more about workflows, take a look at the conceptual :std:ref:`discussion <flyte:divedeep-workflow-nodes>`.
+
+
+# %%
+#
+# .. dropdown:: :fa:`play` Run this example
+#
+#    Assuming you have your :ref:`development environment <env_setup>` ready:
+#
+#    .. tabbed:: pyflyte run
+#
+#       .. literalinclude:: /../core/flyte_basics/tests/test_basic_workflow.sh
+#          :language: bash
+#
+#    .. tabbed:: Python API
+#
+#       .. literalinclude:: /../core/flyte_basics/tests/test_basic_workflow.py
+#          :language: python

@@ -338,15 +338,16 @@ min_reported_time = 0
 
 # hide example pages with empty content
 ignore_py_files = [
-    "__init__",
-    "config_resource_mgr",
-    "optimize_perf",
+    "__init__\.py",
+    "config_resource_mgr\.py",
+    "optimize_perf\.py",
+    "^test_.+\.py",
 ]
 
 sphinx_gallery_conf = {
     "examples_dirs": examples_dirs,
     "gallery_dirs": gallery_dirs,
-    "ignore_pattern": f"({'|'.join(ignore_py_files)})\.py",  # noqa: W605
+    "ignore_pattern": f"{'|'.join(ignore_py_files)}",
     # "subsection_order": ExplicitOrder(
     #     [
     #         "../core/basic",
