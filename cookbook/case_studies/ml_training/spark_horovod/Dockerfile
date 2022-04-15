@@ -37,11 +37,11 @@ ENV PATH="${VENV}/bin:$PATH"
 # in future versions to make it completely portable
 RUN pip3 install awscli
 
-# Install gcloud for GCP
-RUN apt-get install curl --assume-yes
-
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+WORKDIR /opt
+RUN curl https://sdk.cloud.google.com > install.sh
+RUN bash /opt/install.sh --install-dir=/opt
+ENV PATH $PATH:/opt/google-cloud-sdk/bin
+WORKDIR /root
 
 # Install wheel after venv is activated
 RUN pip3 install wheel
@@ -115,5 +115,4 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
-ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
-
+ENTRYPOINT ["/opt/entrypoint.sh"]

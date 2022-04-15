@@ -30,7 +30,7 @@ import joblib
 import pandas as pd
 from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueType
 from flytekit import task, workflow, TaskMetadata, Resources
-from flytekit.configuration import aws
+from flytekit.configuration.internal import AWS
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.schema import FlyteSchema
@@ -38,7 +38,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 
 from feast_dataobjects import FeatureStore, FeatureStoreConfig
-from feature_eng_tasks import mean_median_imputer, univariate_selection
+from .feature_eng_tasks import mean_median_imputer, univariate_selection
 
 logger = logging.getLogger(__file__)
 
@@ -68,10 +68,10 @@ DATA_CLASS = "surgical lesion"
 def create_bucket(bucket_name: str) -> str:
     client = boto3.client(
         "s3",
-        aws_access_key_id=aws.S3_ACCESS_KEY_ID.get(),
-        aws_secret_access_key=aws.S3_SECRET_ACCESS_KEY.get(),
+        aws_access_key_id=AWS.S3_ACCESS_KEY_ID.get(),
+        aws_secret_access_key=AWS.S3_SECRET_ACCESS_KEY.get(),
         use_ssl=False,
-        endpoint_url=aws.S3_ENDPOINT.get(),
+        endpoint_url=AWS.S3_ENDPOINT.get(),
     )
 
     try:
@@ -115,8 +115,7 @@ load_horse_colic_sql = SQLite3Task(
 #    * - ``FeatureView``
 #      - A FeatureView defines a logical grouping of serve-able features.
 #    * - ``FileSource``
-#      - File data sources allow for the retrieval of historical feature values from files on disk for building training datasets,
-#        as well as for materializing features into an online store.
+#      - File data sources allow for the retrieval of historical feature values from files on disk for building training datasets, as well as for materializing features into an online store.
 #    * - ``apply()``
 #      - Register objects to metadata store and update related infrastructure.
 #    * - ``get_historical_features()``
@@ -124,9 +123,9 @@ load_horse_colic_sql = SQLite3Task(
 #
 # .. note::
 #
-#   The returned feature store is the same mutated feature store, so be careful! This is not really immutable and
-#   hence serialization of the feature store is required. This is because Feast registries are single files and
-#   Flyte workflows can be highly concurrent.
+#     The returned feature store is the same mutated feature store, so be careful! This is not really immutable and
+#     hence serialization of the feature store is required because FEAST registries are single files and
+#     Flyte workflows can be highly concurrent.
 @task(cache=True, cache_version="1.0", limits=Resources(mem="400Mi"))
 def store_offline(feature_store: FeatureStore, dataframe: FlyteSchema) -> FeatureStore:
     horse_colic_entity = Entity(name="Hospital Number", value_type=ValueType.STRING)
@@ -339,6 +338,7 @@ def trainer(df: FlyteSchema, num_features_univariate: int = 7) -> JoblibSerializ
 # Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
 # To show how to compose an end to end workflow that includes featurization, training and example predictions,
 # we construct the following workflow, composing other workflows:
+#
 @workflow
 def feast_workflow(
     imputation_method: str = "mean",

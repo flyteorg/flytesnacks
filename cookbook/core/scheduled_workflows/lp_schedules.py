@@ -1,6 +1,8 @@
 """
+.. _launchplan_schedules:
+
 Scheduling Workflows Example
-----------------------------
+-----------------------------
 
 :ref:`flyte:divedeep-launchplans` can be set to run automatically on a schedule using the Flyte Native Scheduler.
 For workflows that depend on knowing the kick-off time, Flyte supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow.
@@ -107,49 +109,20 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 #   pyflyte lp -p {{ your project }} -d {{ your domain }} activate-all
 
 # %%
-# (or)
+# or with Flytectl:
 #
-# With flyte-cli:
-#
-# - View and activate launch plans: flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
+# - Activate launch plan:
 #
 # .. code-block:: bash
 #
-#   flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-launch-plan-versions
+#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate
 
 # %%
-# - Extract the URN returned for the launch plan you're interested in and make the call to activate it:
+# - Verify if your launch plan got activated:
 #
 # .. code-block:: bash
 #
-#   flyte-cli update-launch-plan -i -h localhost:30081 --state active -u {{ urn }}
-#
-# .. tip::
-#   The equivalent command in `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__ is:
-#
-#   .. code-block:: bash
-#
-#       flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate``
-#
-#   Example:
-#
-#   .. code-block:: bash
-#
-#       flytectl update launchplan -p flyteexamples -d development core.basic.lp.go_greet --activate
-
-# %%
-# - Verify your active launch plans:
-#
-# .. code-block:: bash
-#
-#   flyte-cli -i -h localhost:30081 -p flyteexamples -d development list-active-launch-plans
-#
-# .. tip::
-#   The equivalent command in `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__ is:
-#
-#   .. code-block:: bash
-#
-#       flytectl get launchplan -p flytesnacks -d development``
+#   flytectl get launchplan -p flytesnacks -d development
 
 # %%
 # Platform Configuration Changes For AWS Scheduler

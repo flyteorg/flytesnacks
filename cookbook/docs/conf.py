@@ -50,15 +50,17 @@ class CustomSorter(FileNameSortKey):
         "decorating_tasks.py",
         "decorating_workflows.py",
         # Control Flow
-        "run_conditions.py",
+        "conditions.py",
         "chain_tasks.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
-        "run_merge_sort.py",
+        "checkpoint.py",
+        "merge_sort.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
+        "structured_dataset.py"
         "typed_schema.py",
         "custom_objects.py",
         "enums.py",
@@ -73,9 +75,9 @@ class CustomSorter(FileNameSortKey):
         "workflow_labels_annotations.py",
         # Remote Access
         "register_project.py",
-        "run_task.py",
-        "run_workflow.py",
-        "run_launchplan.py",
+        "remote_task.py",
+        "remote_workflow.py",
+        "remote_launchplan.py",
         "inspecting_executions.py",
         "debugging_workflows_tasks.py",
         # Deployment
@@ -83,7 +85,6 @@ class CustomSorter(FileNameSortKey):
         "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
-        "fast_registration.py",
         "multiple_k8s.py",
         ## Cluster
         "config_flyte_deploy.py",
@@ -100,10 +101,6 @@ class CustomSorter(FileNameSortKey):
         "kubernetes.py",
         "aws.py",
         "gcp.py",
-        # Control Plane
-        "register_project.py",
-        "run_task.py",
-        "run_workflow.py",
         # Integrations
         ## Flytekit Plugins
         "simple.py",
@@ -114,6 +111,9 @@ class CustomSorter(FileNameSortKey):
         "dolt_branch_example.py",
         "task_example.py",
         "type_example.py",
+        "knn_classifier.py",
+        "sqlite3_integration.py",
+        "sql_alchemy.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
@@ -127,12 +127,17 @@ class CustomSorter(FileNameSortKey):
         ## GCP
         # TODO
         ## External Services
-        "hive.py",
+        "hive.py"
         "snowflake.py"
+        "bigquery.py"
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
-        "run_custom_types.py",
+        "custom_types.py",
         "custom_task_plugin.py",
+        # Repo-based Projects
+        "larger_apps_setup.py",
+        "larger_apps_deploy.py",
+        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -148,6 +153,8 @@ class CustomSorter(FileNameSortKey):
         "feature_eng_tasks.py",
         "feast_dataobjects.py",
         "feast_workflow.py",
+        ## Bioinformatics
+        "blastx_example.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -187,6 +194,7 @@ extensions = [
     "sphinx_panels",
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
+    "sphinx_tabs.tabs",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -260,6 +268,7 @@ examples_dirs = [
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
+    "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
     "../deployment",
@@ -268,6 +277,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/greatexpectations",
     "../integrations/flytekit_plugins/papermilltasks",
     "../integrations/flytekit_plugins/pandera_examples",
+    "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
@@ -275,12 +285,14 @@ examples_dirs = [
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
     "../integrations/aws/athena",
+    "../integrations/aws/batch",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
     "../integrations/gcp",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
     "../core/extend_flyte",
+    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -293,6 +305,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
+    "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
     "auto/deployment",
@@ -301,6 +314,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/greatexpectations",
     "auto/integrations/flytekit_plugins/papermilltasks",
     "auto/integrations/flytekit_plugins/pandera_examples",
+    "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
@@ -308,12 +322,14 @@ gallery_dirs = [
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
     "auto/integrations/aws/athena",
+    "auto/integrations/aws/batch",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
     "auto/integrations/gcp",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",
+    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)
@@ -440,6 +456,7 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
+    "modin": ("https://modin.readthedocs.io/en/stable/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),

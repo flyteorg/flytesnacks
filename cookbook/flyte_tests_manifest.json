@@ -54,6 +54,15 @@
       "exit_success": true,
         "exit_message": ""
     }
+  },
+  {
+    "name": "integrations-modin_examples",
+    "priority": "P1",
+    "path": "integrations/flytekit_plugins/modin_examples",
+    "exitCondition": {
+      "exit_success": true,
+        "exit_message": ""
+    }
   },{
     "name": "integrations-papermilltasks",
     "priority": "P1",
@@ -68,7 +77,7 @@
     "path": "integrations/flytekit_plugins/greatexpectations",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""    
+        "exit_message": ""
     }
   },{
     "name": "integrations-sagemaker-pytorch",
@@ -110,21 +119,29 @@
     "exit_success": true,
     "exit_message": ""
   }
- },{ 
+ },{
     "name": "case-studies-eda",
     "priority": "P2",
     "path": "case_studies/feature_engineering/eda",
     "exitCondition": {
       "exit_success": true,
-      "exit_message": ""    
+      "exit_message": ""
   }
- },{ 
+ },{
     "name": "case-studies-feast-integration",
     "priority": "P2",
     "path": "case_studies/feature_engineering/feast_integration",
     "exitCondition": {
       "exit_success": true,
-      "exit_message": ""    
+      "exit_message": ""
+   }
+  },{
+    "name": "case-studies-blast",
+    "priority": "P2",
+    "path": "case_studies/bioinformatics/blast",
+    "exitCondition": {
+      "exit_success": true,
+      "exit_message": ""
   }
 }]
 

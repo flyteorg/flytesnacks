@@ -5,7 +5,7 @@ Pod Example
 Pod tasks can be used whenever multiple containers need to spin up within a single task.
 They expose a fully modifiable Kubernetes `pod spec <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#podspec-v1-core>`__ which can be used to customize the task execution runtime.
 
-All we need to do to use pod tasks is:
+All we need to do to use pod tasks are:
 
 1. Define a pod spec
 2. Specify the name of the primary container
@@ -15,9 +15,15 @@ All we need to do to use pod tasks is:
 Pod tasks accept arguments that ordinary container tasks usually accept, such as resource specifications, etc.
 However, these are only applied to the primary container.
 To customize other containers brought up during the execution, we can define a full-fledged pod spec.
-This is done using the `Kubernetes Python client library <https://github.com/kubernetes-client/python>`__,
-specifically with the
+This is done using the `Kubernetes Python client library <https://github.com/kubernetes-client/python>`__'s,
 `V1PodSpec <https://github.com/kubernetes-client/python/blob/master/kubernetes/client/models/v1_pod_spec.py>`__.
+
+In order to use pod tasks, install the Flyte pod plugin first:
+
+.. prompt:: bash $
+
+    pip install flytekitplugins-pod
+
 """
 
 # %%
@@ -32,7 +38,7 @@ import os
 import time
 from typing import List
 
-from flytekit import task, workflow
+from flytekit import task, workflow, Resources
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -49,10 +55,10 @@ _SHARED_DATA_PATH = "/data/message.txt"
 # We define a simple pod spec with two containers.
 def generate_pod_spec_for_task():
 
-    # primary containers do not require us to specify an image, the default image built for Flyte tasks will get used
+    # Primary containers do not require us to specify an image, the default image built for Flyte tasks will get used.
     primary_container = V1Container(name="primary")
 
-    # NOTE: for non-primary containers, we must specify the image
+    # NOTE: For non-primary containers, we must specify the image.
     secondary_container = V1Container(
         name="secondary",
         image="alpine",
@@ -95,9 +101,12 @@ def generate_pod_spec_for_task():
     task_config=Pod(
         pod_spec=generate_pod_spec_for_task(), primary_container_name="primary"
     ),
+    requests=Resources(
+        mem="1G",
+    ),
 )
 def my_pod_task() -> str:
-    # the code defined in this task will get injected into the primary container.
+    # The code defined in this task will get injected into the primary container.
     while not os.path.isfile(_SHARED_DATA_PATH):
         time.sleep(5)
 
@@ -106,7 +115,7 @@ def my_pod_task() -> str:
 
 
 @workflow
-def PodWorkflow() -> str:
+def pod_workflow() -> str:
     s = my_pod_task()
     return s
 
@@ -134,11 +143,15 @@ from flytekit import map_task, TaskMetadata
             ],
             init_containers=[
                 V1Container(
+                    image="alpine",
                     name="init",
                     command=["/bin/sh"],
                     args=["-c", 'echo "I\'m a customizable init container"'],
+                    resources=V1ResourceRequirements(
+                        limits={"cpu": ".5", "memory": "500Mi"},
+                    ),
                 )
-            ],
+            ]
         ),
         primary_container_name="primary",
     )
@@ -161,7 +174,50 @@ def my_map_workflow(a: List[int]) -> str:
     coalesced = coalesce(b=mapped_out)
     return coalesced
 
+
 # %%
-# Since pod tasks cannot be run locally, we use the ``pass`` keyword to skip running the tasks.
+# Dynamic Pod Tasks
+# ====================
+#
+# To use pod task a dynamic task, simply pass the pod task config to an annotated dynamic task.
+from flytekit import dynamic
+
+
+@task
+def simple_stringify(val: int) -> str:
+    return f"{val} served courtesy of a dynamic pod task!"
+
+
+@dynamic(
+    task_config=Pod(
+        pod_spec=V1PodSpec(
+            containers=[
+                V1Container(
+                    name="primary",
+                    resources=V1ResourceRequirements(
+                        requests={"cpu": ".5", "memory": "450Mi"},
+                        limits={"cpu": ".5", "memory": "500Mi"},
+                    ),
+                )
+            ],
+        ),
+        primary_container_name="primary",
+    )
+)
+def my_dynamic_pod_task(val: int) -> str:
+    return simple_stringify(val=val)
+
+
+@workflow
+def my_dynamic_pod_task_workflow(val: int=6) -> str:
+    s = my_dynamic_pod_task(val=val)
+    return s
+
+
+# %%
+# The workflows can be executed locally as follows:
 if __name__ == "__main__":
-    pass
+    print(f"Running {__file__} main...")
+    print(f"Calling PodWorkflow()... {pod_workflow()}")
+    print(f"Calling my_map_workflow()... {my_map_workflow()}")
+    print(f"Calling my_dynamic_pod_task_workflow()... {my_dynamic_pod_task_workflow()}")

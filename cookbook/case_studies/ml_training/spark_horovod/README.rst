@@ -20,7 +20,7 @@ The goal of Horovod is to make distributed deep learning fast and easy to use.
 It uses the all-reduce algorithm for fast distributed training rather than a parameter server approach (`all-reduce vs. parameter server <https://www.run.ai/guides/gpu-deep-learning/distributed-training/#Deep>`__).
 It builds on top of low-level frameworks like MPI and NCCL and provides optimized algorithms for sharing data between parallel training processes.
 
-.. figure:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/horovod/all_reduce.png
+.. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/tutorials/horovod/all_reduce.png
     :alt: Parameter server vs. all-reduce
 
     Parameter server vs. all-reduce
@@ -66,7 +66,7 @@ To install the Spark plugin on Flyte, we use the following command:
 
     pip install flytekitplugins-spark
 
-.. figure:: https://raw.githubusercontent.com/flyteorg/flyte/static-resources/img/flytesnacks/horovod/flyte_spark.png
+.. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/tutorials/horovod/flyte_spark.png
     :alt: Flyte-Spark plugin
 
     Flyte-Spark plugin
@@ -74,3 +74,9 @@ The plugin requires configuring the Flyte backend as well. Refer to :ref:`Kubern
 In a nutshell, here’s how Horovod-Spark-Flyte can be beneficial:
 Horovod provides the distributed framework, Spark enables extracting, preprocessing, and partitioning data,
 Flyte can stitch the former two pieces together, e.g., by connecting the data output of a Spark transform to a training system using Horovod while ensuring high utilization of GPUs!
+
+Run workflows in this directory with the custom-built base image like so:
+
+```shell
+pyflyte run --remote keras_spark_rossmann_estimator.py:horovod_spark_wf --image ghcr.io/flyteorg/flytecookbook:spark_horovod-latest
+```

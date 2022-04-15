@@ -16,11 +16,11 @@ RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
 
-# Install gcloud for GCP
-RUN apt-get install curl --assume-yes
-
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+WORKDIR /opt
+RUN curl https://sdk.cloud.google.com > install.sh
+RUN bash /opt/install.sh --install-dir=/opt
+ENV PATH $PATH:/opt/google-cloud-sdk/bin
+WORKDIR /root
 
 # Install gcc , g++ and make
 RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list \
