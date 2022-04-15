@@ -54,17 +54,17 @@ flyteidl==0.24.21
     # via
     #   flytekit
     #   flytekitplugins-kfmpi
-flytekit==0.32.3
+flytekit==0.32.5
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-kfmpi
-flytekitplugins-kfmpi==0.32.3
+flytekitplugins-kfmpi==0.32.5
     # via -r requirements.in
 fonttools==4.32.0
     # via matplotlib
 gast==0.5.3
     # via tensorflow
-google-auth==2.6.4
+google-auth==2.6.5
     # via
     #   google-auth-oauthlib
     #   tensorboard

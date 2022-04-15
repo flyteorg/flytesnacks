@@ -54,7 +54,7 @@ def my_subwf(a: int = 42) -> Tuple[str, str]:
 # We call the workflow declared above in a `parent` workflow below
 # which showcases how to override the node name of a task (or subworkflow in this case). 
 # 
-# Typically, nodes are just named sequentially: ``n0``, ``n1``, and so on. Since the inner ``my_subwf`` also has a ``n0``, you may
+# Typically, nodes are just named sequentially: ``n0``, ``n1``, and so on. Since the inner ``my_subwf`` also has a``n0``, you may
 # wish to change the name of the first one. Not changing the name is fine because Flyte automatically prepends an attribute
 # to the inner ``n0`` since node IDs must be distinct within a workflow graph. 
 @workflow
