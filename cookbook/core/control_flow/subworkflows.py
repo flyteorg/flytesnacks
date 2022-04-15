@@ -1,6 +1,6 @@
 import typing
 from typing import Tuple
-from flytekit import task, workflow
+from flytekit import task, workflow, LaunchPlan
 
 op = typing.NamedTuple("OutputsBC", t1_int_output=int, c=str)
 
@@ -16,6 +16,8 @@ def leaf_subwf(a: int = 42) -> Tuple[str, str]:
     u, v = t1(a=x).with_overrides(node_name="leafwf-n1")
     return y, v
 
+leaf_lp = LaunchPlan.get_or_create(leaf_subwf)
+
 
 @workflow
 def other_child_wf(a: int = 42) -> Tuple[int, str]:
@@ -26,7 +28,7 @@ def other_child_wf(a: int = 42) -> Tuple[int, str]:
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
     x, y = t1(a=a).with_overrides(node_name="parent-n0")
-    u, v = leaf_subwf(a=x).with_overrides(node_name="parent-n1")
+    u, v = leaf_lp(a=x).with_overrides(node_name="parent-n1")
     return x, u, v
 
 
@@ -54,4 +56,4 @@ def other_root_wf(a: int) -> Tuple[int, str, str, int, int, str]:
 # %%
 # You can run the nested workflows locally as well.
 if __name__ == "__main__":
-    print(f"Running root_level_wf(a=3) {root_level_wf(a=3)}")
+    print(f"Rusnnidng root_level_wf(a=3): {root_level_wf(a=3)}")
