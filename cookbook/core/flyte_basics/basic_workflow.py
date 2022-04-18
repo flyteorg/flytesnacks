@@ -78,17 +78,4 @@ if __name__ == "__main__":
 
 
 # %%
-#
-# .. dropdown:: :fa:`play` Run this example
-#
-#    Assuming you have your :ref:`development environment <env_setup>` ready:
-#
-#    .. tabbed:: pyflyte run
-#
-#       .. literalinclude:: /../core/flyte_basics/tests/test_basic_workflow.sh
-#          :language: bash
-#
-#    .. tabbed:: Python API
-#
-#       .. literalinclude:: /../core/flyte_basics/tests/test_basic_workflow.py
-#          :language: python
+# .. run-example-cmds::
