@@ -14,10 +14,13 @@ ENV PYTHONPATH /root
 RUN pip install awscli
 
 # Install gcloud for GCP
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/root/google-cloud-sdk/bin
-
 RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
+
+WORKDIR /opt
+RUN curl https://sdk.cloud.google.com > install.sh
+RUN bash /opt/install.sh --install-dir=/opt
+ENV PATH $PATH:/opt/google-cloud-sdk/bin
+WORKDIR /root
 
 # Virtual environment
 ENV VENV /opt/venv

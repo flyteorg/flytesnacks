@@ -1,3 +1,5 @@
+.. _integrations:
+
 ############
 Integrations
 ############
@@ -53,6 +55,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
    ---
 
+   .. link-button:: auto/integrations/flytekit_plugins/modin_examples/index
+      :type: ref
+      :text: Modin
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Scale pandas workflows with ``modin``.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/dolt/index
       :type: ref
       :text: Dolt
@@ -64,22 +74,22 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins
    :animate: fade-in-slide-down
 
-   Data is automatically marshalled and unmarshalled into and out of the plugin and mostly users should implement the
-   :py:class:`~flytekit.core.base_task.PythonTask` API, defined in flytekit.
+   Data is automatically marshalled and unmarshalled in and out of the plugin. Users should mostly implement the
+   :py:class:`~flytekit.core.base_task.PythonTask` API defined in Flytekit.
 
    Flytekit Plugins are lazily loaded and can be released independently like libraries. We follow a convention to name the
-   plugin like ``flytekitplugins-*``, where * indicates the package to be integrated into flytekit. For example
-   ``flytekitplugins-papermill`` enables users to author flytekit tasks using `Papermill <https://papermill.readthedocs.io/en/latest/>`__.
+   plugin like ``flytekitplugins-*``, where * indicates the package to be integrated into Flytekit. For example
+   ``flytekitplugins-papermill`` enables users to author Flytekit tasks using `Papermill <https://papermill.readthedocs.io/en/latest/>`__.
 
-   You can find the plugins maintained by the core flyte team `here <https://github.com/flyteorg/flytekit/tree/master/plugins>`__.
+   You can find the plugins maintained by the core Flyte team `here <https://github.com/flyteorg/flytekit/tree/master/plugins>`__.
 
 
 **********************
 Native Backend Plugins
 **********************
 
-Native Backend Plugins are plugins that can be executed without any external service dependencies because the compute is
-orchestrated by Flyte itself, within its provisioned kubernetes clusters.
+Native Backend Plugins are the plugins that can be executed without any external service dependencies because the compute is
+orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
 .. panels::
     :header: text-center
@@ -261,26 +271,4 @@ The :ref:`community <community>` would love to help you with your own ideas of b
     The Java/Scala SDK for Flyte.
 
 
-.. TODO: write doct on Helm https://github.com/flyteorg/flyte/issues/299
-
-
-.. toctree::
-    :maxdepth: -1
-    :caption: Integrations
-    :hidden:
-
-    auto/integrations/flytekit_plugins/sql/index
-    auto/integrations/flytekit_plugins/greatexpectations/index
-    auto/integrations/flytekit_plugins/papermilltasks/index
-    auto/integrations/flytekit_plugins/pandera_examples/index
-    auto/integrations/flytekit_plugins/dolt/index
-    auto/integrations/kubernetes/pod/index
-    auto/integrations/kubernetes/k8s_spark/index
-    auto/integrations/kubernetes/kfpytorch/index
-    auto/integrations/kubernetes/kftensorflow/index
-    auto/integrations/kubernetes/kfmpi/index
-    auto/integrations/aws/sagemaker_training/index
-    auto/integrations/aws/sagemaker_pytorch/index
-    auto/integrations/aws/athena/index
-    auto/integrations/external_services/hive/index
-    auto/integrations/external_services/snowflake/index
+.. TODO: write docs on Helm https://github.com/flyteorg/flyte/issues/299

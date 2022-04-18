@@ -50,13 +50,13 @@ class CustomSorter(FileNameSortKey):
         "decorating_tasks.py",
         "decorating_workflows.py",
         # Control Flow
-        "run_conditions.py",
+        "conditions.py",
         "chain_tasks.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
         "checkpoint.py",
-        "run_merge_sort.py",
+        "merge_sort.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
@@ -75,9 +75,9 @@ class CustomSorter(FileNameSortKey):
         "workflow_labels_annotations.py",
         # Remote Access
         "register_project.py",
-        "run_task.py",
-        "run_workflow.py",
-        "run_launchplan.py",
+        "remote_task.py",
+        "remote_workflow.py",
+        "remote_launchplan.py",
         "inspecting_executions.py",
         "debugging_workflows_tasks.py",
         # Deployment
@@ -101,10 +101,6 @@ class CustomSorter(FileNameSortKey):
         "kubernetes.py",
         "aws.py",
         "gcp.py",
-        # Control Plane
-        "register_project.py",
-        "run_task.py",
-        "run_workflow.py",
         # Integrations
         ## Flytekit Plugins
         "simple.py",
@@ -115,6 +111,9 @@ class CustomSorter(FileNameSortKey):
         "dolt_branch_example.py",
         "task_example.py",
         "type_example.py",
+        "knn_classifier.py",
+        "sqlite3_integration.py",
+        "sql_alchemy.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
@@ -128,12 +127,17 @@ class CustomSorter(FileNameSortKey):
         ## GCP
         # TODO
         ## External Services
-        "hive.py",
-        "snowflake.py",
+        "hive.py"
+        "snowflake.py"
+        "bigquery.py"
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
-        "run_custom_types.py",
+        "custom_types.py",
         "custom_task_plugin.py",
+        # Repo-based Projects
+        "larger_apps_setup.py",
+        "larger_apps_deploy.py",
+        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -190,6 +194,7 @@ extensions = [
     "sphinx_panels",
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
+    "sphinx_tabs.tabs",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -272,6 +277,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/greatexpectations",
     "../integrations/flytekit_plugins/papermilltasks",
     "../integrations/flytekit_plugins/pandera_examples",
+    "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
@@ -286,6 +292,7 @@ examples_dirs = [
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
     "../core/extend_flyte",
+    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -307,6 +314,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/greatexpectations",
     "auto/integrations/flytekit_plugins/papermilltasks",
     "auto/integrations/flytekit_plugins/pandera_examples",
+    "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
@@ -321,6 +329,7 @@ gallery_dirs = [
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",
+    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)
@@ -447,6 +456,7 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
+    "modin": ("https://modin.readthedocs.io/en/stable/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
