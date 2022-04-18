@@ -28,7 +28,7 @@ def other_child_wf(a: int = 42) -> Tuple[int, str]:
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
     x, y = t1(a=a).with_overrides(node_name="parent-n0")
-    u, v = leaf_lp(a=x).with_overrides(node_name="parent-n1")
+    u, v = leaf_subwf(a=x).with_overrides(node_name="parent-n1")
     return x, u, v
 
 
