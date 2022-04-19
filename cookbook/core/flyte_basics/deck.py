@@ -1,5 +1,5 @@
 """
-Flyte decks
+Flyte Decks
 -------------
 
 Deck enable users to get customizable and default visibility into their tasks.
