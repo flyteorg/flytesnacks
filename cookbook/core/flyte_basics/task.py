@@ -58,12 +58,29 @@ if __name__ == "__main__":
     print(square(n=10))
 
 # %%
+#
+# Invoke a Task within a Workflow
+# ===============================
+#
+# The primary way to use Flyte tasks is to invoke them in the context of a workflow.
+
+from flytekit import workflow
+
+
+@workflow
+def wf(n: int) -> int:
+    return square(n=square(n=n))
+
+# %%
+# In this toy example, we're calling the ``square`` task twice and returning the reult.
+
+
+# %%
 # .. _single_task_execution:
 #
 # Single Task Execution
 # =====================
 #
-# Tasks are the atomic units of execution in Flyte.
 # Although workflows are traditionally composed of multiple tasks with dependencies defined by shared inputs and outputs,
 # it can be helpful to execute a single task during the process of iterating on its definition.
 # It can be tedious to write a new workflow definition every time you want to execute a single task under development

@@ -1,7 +1,7 @@
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
-from basic_workflow import my_wf
+from imperative_wf_style import wf
 
 remote = FlyteRemote(
     config=Config.for_endpoint("localhost:30081", insecure=True),
@@ -9,7 +9,7 @@ remote = FlyteRemote(
     default_domain="development",
 )
 
-registered_workflow = remote.register_script(my_wf)
+registered_workflow = remote.register_script(wf)
 
-execution = remote.execute(registered_workflow, inputs={"a": 100, "b": "hello"})
+execution = remote.execute(registered_workflow, inputs={"in1": "hello", "in2": "foo"})
 print(f"Execution successfully started: {execution.id.name}")
