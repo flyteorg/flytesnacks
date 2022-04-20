@@ -110,3 +110,6 @@ if __name__ == "__main__":
         else:
             # We're extra enthusiastic on weekends
             print(morning_greeting(number=3, day_of_week=weekday))
+
+
+# fdsa 2
