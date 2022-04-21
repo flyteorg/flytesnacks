@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest
+FROM --platform=linux/amd64 tensorflow/tensorflow:latest
 
 WORKDIR /root
 ENV VENV /opt/venv

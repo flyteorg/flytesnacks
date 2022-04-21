@@ -13,10 +13,10 @@ Here are the reasons why it is complicated and not recommended:
 
 #. All the dependencies in one container increase the size of the container image.
 #. Some task executions like Spark, Sagemaker-based Training, and Deep Learning use GPUs that need specific runtime configurations. For example,
-
-    - Spark needs JavaVirtualMachine installation and Spark entrypoints to be set
-    - NVIDIA drivers and corresponding libraries need to be installed to use GPUs for deep learning. However, these are not required for a CPU
-    - Sagemaker expects the entrypoint to be designed to accept its parameters
+   
+   - Spark needs JavaVirtualMachine installation and Spark entrypoints to be set
+   - NVIDIA drivers and corresponding libraries need to be installed to use GPUs for deep learning. However, these are not required for a CPU
+   - Sagemaker expects the entrypoint to be designed to accept its parameters
 
 #. Building a single image may increase the build time for the image itself.
 
@@ -46,87 +46,68 @@ The images themselves are parameterizable in the config in the following format:
 
     It is the responsibility of the user to push a container image that matches the new name described.
 
+Let us understand how multiple images can be used within a single workflow using an example.
 """
-import typing
-from typing import List
-
-import pandas as pd
-import tensorflow as tf
+# %%
+# Import the necessary dependencies. 
 from flytekit import task, workflow
+import pandas as pd
+from typing import NamedTuple
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-from tensorflow import keras
 
+split_data = NamedTuple(
+    "split_data",
+    train_features=pd.DataFrame,
+    test_features=pd.DataFrame,
+    train_labels=pd.DataFrame,
+    test_labels=pd.DataFrame,
+)
 
-@task(container_image="")
-def svm_classifier() -> float:
+# %%
+# Define a task that fetches data and splits the data into train and test sets.
+@task(container_image="smritisatyan/multi-images-preprocess:latest")
+def svm_trainer() -> split_data:
     dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
-    fish_data = pd.read_csv(dataset_url)
-
-    X = fish_data.drop(["Species"], axis="columns")
+    fish_data = pd.read_csv(dataset_url)   
+    X = fish_data.drop(['Species'], axis = 'columns')
     y = fish_data.Species
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.31)
+    y_train = y_train.to_frame()
+    y_test = y_test.to_frame()
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.35)
-
-    model = SVC(kernel="linear", C=1)
-
-    model.fit(X_train, y_train)
+    return split_data(
+        train_features=X_train,
+        test_features=X_test,
+        train_labels=y_train,
+        test_labels=y_test,
+    )
+    
+# %%
+# Define another task that trains the model on the data and computes the accuracy score.
+@task(container_image="smritisatyan/multi-images-predict:latest") 
+def svm_predictor(X_train:pd.DataFrame,X_test:pd.DataFrame,y_train:pd.DataFrame,y_test:pd.DataFrame) -> float:
+    model = SVC(kernel = 'linear', C = 1)
+    model.fit(X_train, y_train.values.ravel()) 
     svm_pred = model.predict(X_test)
-    accuracy = model.score(X_test, y_test)
-    return accuracy
+    accuracy_score = model.score(X_test, y_test.values.ravel())
+    return accuracy_score
 
-
-@task(container_image="")
-def digit_classifier() -> float:
-    print(
-        "Number of GPUs Available: ",
-        len(tf.config.experimental.list_physical_devices("GPU")),
-    )
-    print(
-        "Number CPUs Available: ",
-        len(tf.config.experimental.list_physical_devices("CPU")),
-    )
-
-    (X_train, y_train), (X_test, y_test) = keras.datasets.cifar10.load_data()
-
-    X_train_scaled = X_train / 255
-    X_test_scaled = X_test / 255
-    # one hot encoding labels
-    y_train_encoded = keras.utils.to_categorical(
-        y_train, num_classes=10, dtype="float32"
-    )
-    y_test_encoded = keras.utils.to_categorical(y_test, num_classes=10, dtype="float32")
-
-    def get_model():
-        model = keras.Sequential(
-            [
-                keras.layers.Flatten(input_shape=(32, 32, 3)),
-                keras.layers.Dense(3000, activation="relu"),
-                keras.layers.Dense(1000, activation="relu"),
-                keras.layers.Dense(10, activation="sigmoid"),
-            ]
-        )
-        model.compile(
-            optimizer="SGD", loss="categorical_crossentropy", metrics=["accuracy"]
-        )
-
-        return model
-
-    with tf.device("/GPU:0"):
-        model_gpu = get_model()
-        model_gpu.fit(X_train_scaled, y_train_encoded, epochs=15)
-        history = model_gpu.history.history
-        acc_val = list(history.items())
-
-        return acc_val[-1][-1][-1]
-
-
+# %%
+# Define a workflow.
 @workflow
-def my_workflow() -> List[float]:
-    svm_accuracy = svm_classifier()
-    cifar_classifier_accuracy = digit_classifier()
-    return [svm_accuracy, cifar_classifier_accuracy]
-
-
+def my_workflow() -> float:
+    train_model = svm_trainer()
+    svm_accuracy = svm_predictor(X_train = train_model.train_features, 
+                                 X_test = train_model.test_features,
+                                 y_train = train_model.train_labels,
+                                 y_test = train_model.test_labels)
+    return svm_accuracy
+    
+    
 if __name__ == "__main__":
-    print(f"Running my_workflow() { my_workflow() }")
+    print(f"Running my_workflow(), accuracy : { my_workflow() }")
+
+# %%
+# .. note::
+#     Notice that the two task annotators have two different `container_image` specified.
