@@ -46,7 +46,7 @@ flytekit==0.32.6
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekitplugins-spark
-flytekitplugins-spark==0.32.6
+flytekitplugins-spark @ git+https://github.com/flyteorg/flytekit.git@b10d67a8fae15b1060a9b962f4e43dc65e30c891#subdirectory=plugins/flytekit-spark
     # via -r requirements.in
 fonttools==4.32.0
     # via matplotlib
