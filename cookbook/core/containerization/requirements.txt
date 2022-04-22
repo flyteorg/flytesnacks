@@ -155,7 +155,7 @@ responses==0.20.0
 retry==0.9.2
     # via flytekit
 scikit-learn==1.0.2
-    # via sklearn
+    # via -r requirements.in
 scipy==1.8.0
     # via scikit-learn
 six==1.16.0
@@ -163,8 +163,6 @@ six==1.16.0
     #   cookiecutter
     #   grpcio
     #   python-dateutil
-sklearn==0.0
-    # via -r requirements.in
 sortedcontainers==2.4.0
     # via flytekit
 statsd==3.3.0
