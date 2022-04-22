@@ -1,10 +1,13 @@
-FROM --platform=linux/amd64 tensorflow/tensorflow:latest
+FROM python:3.8-slim-buster
 
 WORKDIR /root
 ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
+
+# Install skllearn
+RUN pip3 install scikit-learn
 
 # Install Python dependencies
 COPY containerization/requirements.txt /root/.

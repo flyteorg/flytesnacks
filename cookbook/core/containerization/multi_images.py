@@ -7,7 +7,7 @@ Multiple Container Images in a Single Workflow
 When working locally, it is recommended to install all requirements of your project locally (maybe in a single virtual environment). It gets complicated when you want to deploy your code to a remote
 environment. This is because most tasks in Flyte (function tasks) are deployed using a Docker Container. 
 
-A Docker container allows you to create an expected environment for your tasks. It is also possible to build a single container image with all your dependencies, but is complicated to achieve in practice.
+A Docker container allows you to create an expected environment for your tasks. It is also possible to build a single container image with all your dependencies, but sometimes this is complicated and impractical.
 
 Here are the reasons why it is complicated and not recommended:
 
@@ -46,6 +46,36 @@ The images themselves are parameterizable in the config in the following format:
 
     It is the responsibility of the user to push a container image that matches the new name described.
 
+If you wish to build and push your Docker image to Dockerhub through your account, follow the below steps:
+
+1. Create an account with `Dockerhub <https://hub.docker.com/signup>`__.
+2. Build a Docker image using the Dockerfile:
+    
+.. code-block::
+
+   docker build . -f ./<dockerfile-folder>/<dockerfile-name> -t <your-name>/<docker-image-name>:<version>
+3. Once the Docker image is built, login to your Dockerhub account from the CLI:
+    
+.. code-block::
+
+   docker login
+4. It will prompt you to enter the username and the password.
+5. Push the Docker image to Dockerhub:
+    
+.. code-block::
+        
+   docker push <your-dockerhub-name>/<docker-image-name>
+
+Example: Suppose your Dockerfile is named `Dockerfile_prediction`, Docker image name is `multi-images-prediction` with the `latest` version, your build and push commands would look like:
+
+.. code-block::
+
+   docker build -f ./path-to-dockerfile/Dockerfile_prediction -t username/multi-images-prediction:latest
+   docker login
+   docker push dockerhub_name/multi-images-prediction
+
+
+
 Let us understand how multiple images can be used within a single workflow using an example.
 """
 # %%
@@ -66,7 +96,7 @@ split_data = NamedTuple(
 
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
-@task(container_image="smritisatyan/multi-images-preprocess:latest")
+@task(container_image="ghcr.io/flyteorg/flytecookbook:multi-image-predict-adc4aaf34cacc293dd508da03f2839f50a484367b597abf1c8163625cc2b674d")
 def svm_trainer() -> split_data:
     dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
     fish_data = pd.read_csv(dataset_url)   
@@ -82,10 +112,14 @@ def svm_trainer() -> split_data:
         train_labels=y_train,
         test_labels=y_test,
     )
-    
+
+# %%
+# .. note ::
+#     To use your own Docker image, replace the value of `container_image` with the fully qualified name that identifies where the image was pushed.
+
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
-@task(container_image="smritisatyan/multi-images-predict:latest") 
+@task(container_image="ghcr.io/flyteorg/flytecookbook:multi-images-preprocess-3edc8311755363c271acc9ed1ec733b4caf21ea1e387782214acff1510a08d58") 
 def svm_predictor(X_train:pd.DataFrame,X_test:pd.DataFrame,y_train:pd.DataFrame,y_test:pd.DataFrame) -> float:
     model = SVC(kernel = 'linear', C = 1)
     model.fit(X_train, y_train.values.ravel()) 

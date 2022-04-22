@@ -6,6 +6,9 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
+# Install skllearn
+RUN pip3 install scikit-learn
+
 # Install Python dependencies
 COPY containerization/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
