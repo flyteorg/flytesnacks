@@ -25,8 +25,8 @@ Here are the reasons why it is complicated and not recommended:
    Flyte (Service) by default does not require a workflow to be bound to a single container image. Flytekit offers a simple interface to easily alter the images that should be associated for every task, yet keeping the local execution simple for the user.
 
 
-For every :py:class:`flytekit.PythonFunctionTask` type task or simply a task that is decorated with the ``@task`` decorator, users can supply rules of how the container image should be bound. By default, flytekit will associate one container image with all tasks. This image is called the ``default`` image.
-To alter the image, users should use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator. Any one of the following is an acceptable
+For every :py:class:`flytekit.PythonFunctionTask` type task or simply a task that is decorated with the ``@task`` decorator, users can supply rules of how the container image should be bound. By default, flytekit will associate one container image with all tasks, i.e., the ``default`` image.
+To alter the image, users should use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator. Any one of the following is an acceptable:
 
 #. Image reference is specified, but the version is derived from the default images version ``container_image="docker.io/redis:{{.image.default.version}},``
 #. Both the FQN and the version are derived from the default image ``container_image="{{.image.default.fqn}}:spark-{{.image.default.version}},``
@@ -74,15 +74,18 @@ Example: Suppose your Dockerfile is named `Dockerfile_prediction`, Docker image 
    docker login
    docker push dockerhub_name/multi-images-prediction
 
-
+.. tip::
+   
+   Sometimes, ``docker login`` may not be successful. In such a case, execute ``docker logout`` and ``docker login``.
 
 Let us understand how multiple images can be used within a single workflow using an example.
 """
 # %%
-# Import the necessary dependencies. 
-from flytekit import task, workflow
-import pandas as pd
+# Import the necessary dependencies.
 from typing import NamedTuple
+
+import pandas as pd
+from flytekit import task, workflow
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
@@ -96,13 +99,15 @@ split_data = NamedTuple(
 
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
-@task(container_image="ghcr.io/flyteorg/flytecookbook:multi-image-predict-adc4aaf34cacc293dd508da03f2839f50a484367b597abf1c8163625cc2b674d")
+@task(
+    container_image="ghcr.io/flyteorg/flytecookbook:multi-image-predict-adc4aaf34cacc293dd508da03f2839f50a484367b597abf1c8163625cc2b674d"
+)
 def svm_trainer() -> split_data:
     dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
-    fish_data = pd.read_csv(dataset_url)   
-    X = fish_data.drop(['Species'], axis = 'columns')
+    fish_data = pd.read_csv(dataset_url)
+    X = fish_data.drop(["Species"], axis="columns")
     y = fish_data.Species
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.31)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.31)
     y_train = y_train.to_frame()
     y_test = y_test.to_frame()
 
@@ -113,32 +118,46 @@ def svm_trainer() -> split_data:
         test_labels=y_test,
     )
 
+
 # %%
 # .. note ::
-#     To use your own Docker image, replace the value of `container_image` with the fully qualified name that identifies where the image was pushed.
+#     To use your own Docker image, replace the value of `container_image` with the fully qualified name that identifies where the image was pushed. 
+#     One pattern has been specified in the task itself, i.e., specifying the Docker image URI. The recommended usage is:
+#
+#     ``container_image="{{.image.default.fqn}}:multi-images-preprocess-{{.image.default.version}}"``
 
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
-@task(container_image="ghcr.io/flyteorg/flytecookbook:multi-images-preprocess-3edc8311755363c271acc9ed1ec733b4caf21ea1e387782214acff1510a08d58") 
-def svm_predictor(X_train:pd.DataFrame,X_test:pd.DataFrame,y_train:pd.DataFrame,y_test:pd.DataFrame) -> float:
-    model = SVC(kernel = 'linear', C = 1)
-    model.fit(X_train, y_train.values.ravel()) 
+@task(
+    container_image="ghcr.io/flyteorg/flytecookbook:multi-images-preprocess-3edc8311755363c271acc9ed1ec733b4caf21ea1e387782214acff1510a08d58"
+)
+def svm_predictor(
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame,
+    y_train: pd.DataFrame,
+    y_test: pd.DataFrame,
+) -> float:
+    model = SVC(kernel="linear", C=1)
+    model.fit(X_train, y_train.values.ravel())
     svm_pred = model.predict(X_test)
     accuracy_score = model.score(X_test, y_test.values.ravel())
     return accuracy_score
+
 
 # %%
 # Define a workflow.
 @workflow
 def my_workflow() -> float:
     train_model = svm_trainer()
-    svm_accuracy = svm_predictor(X_train = train_model.train_features, 
-                                 X_test = train_model.test_features,
-                                 y_train = train_model.train_labels,
-                                 y_test = train_model.test_labels)
+    svm_accuracy = svm_predictor(
+        X_train=train_model.train_features,
+        X_test=train_model.test_features,
+        y_train=train_model.train_labels,
+        y_test=train_model.test_labels,
+    )
     return svm_accuracy
-    
-    
+
+
 if __name__ == "__main__":
     print(f"Running my_workflow(), accuracy : { my_workflow() }")
 
