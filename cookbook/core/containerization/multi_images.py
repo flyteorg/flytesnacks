@@ -12,31 +12,30 @@ A Docker container allows you to create an expected environment for your tasks. 
 Here are the reasons why it is complicated and not recommended:
 
 #. All the dependencies in one container increase the size of the container image.
-#. Some task executions like Spark, Sagemaker-based Training, and Deep Learning use GPUs that need specific runtime configurations. For example,
+#. Some task executions like Spark, SageMaker-based Training, and deep learning use GPUs that need specific runtime configurations. For example,
    
    - Spark needs JavaVirtualMachine installation and Spark entrypoints to be set
    - NVIDIA drivers and corresponding libraries need to be installed to use GPUs for deep learning. However, these are not required for a CPU
-   - Sagemaker expects the entrypoint to be designed to accept its parameters
+   - SageMaker expects the ENTRYPOINT to be designed to accept its parameters
 
 #. Building a single image may increase the build time for the image itself.
 
 .. note::
 
-   Flyte (Service) by default does not require a workflow to be bound to a single container image. Flytekit offers a simple interface to easily alter the images that should be associated for every task, yet keeping the local execution simple for the user.
+   Flyte (Service) by default does not require a workflow to be bound to a single container image. Flytekit offers a simple interface to easily alter the images that should be associated with every task, yet keeping the local execution simple for the user.
 
+For every :py:class:`flytekit.PythonFunctionTask` type task or simply a task that is decorated with the ``@task`` decorator, users can supply rules of how the container image should be bound. By default, flytekit binds one container image, i.e., the ``default`` image to all tasks.
+To alter the image, use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator. Any one of the following is an acceptable:
 
-For every :py:class:`flytekit.PythonFunctionTask` type task or simply a task that is decorated with the ``@task`` decorator, users can supply rules of how the container image should be bound. By default, flytekit will associate one container image with all tasks, i.e., the ``default`` image.
-To alter the image, users should use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator. Any one of the following is an acceptable:
-
-#. Image reference is specified, but the version is derived from the default images version ``container_image="docker.io/redis:{{.image.default.version}},``
+#. Image reference is specified, but the version is derived from the default image version ``container_image="docker.io/redis:{{.image.default.version}},``
 #. Both the FQN and the version are derived from the default image ``container_image="{{.image.default.fqn}}:spark-{{.image.default.version}},``
 
 The images themselves are parameterizable in the config in the following format:
  ``{{.image.<name>.<attribute>}}``
 
 - ``name`` refers to the name of the image in the image configuration. The name ``default`` is a reserved keyword and will automatically apply to the default image name for this repository.
-- ``fqn`` refers to the fully qualified name of the image. For example it includes the repository and domain url of the image. E.g. docker.io/my_repo/xyz.
-- ``version`` refers to the tag of the image. E.g. latest, or python-3.8 etc. If the container_image is not specified then the default configured image for the project is used.
+- ``fqn`` refers to the fully qualified name of the image. For example, it includes the repository and domain url of the image. Example: ``docker.io/my_repo/xyz``.
+- ``version`` refers to the tag of the image. For example: `latest`, or `python-3.8` etc. If the `container_image` is not specified then the default configured image for the project is used.
 
 .. note::
 
@@ -44,8 +43,9 @@ The images themselves are parameterizable in the config in the following format:
 
 .. warning:
 
-    It is the responsibility of the user to push a container image that matches the new name described.
+   To be able to use the image, push a container image that matches the new name described.
 
+If you wish to build and push your Docker image to GHCR, follow `this <https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry>`_.
 If you wish to build and push your Docker image to Dockerhub through your account, follow the below steps:
 
 1. Create an account with `Dockerhub <https://hub.docker.com/signup>`__.
@@ -66,11 +66,11 @@ If you wish to build and push your Docker image to Dockerhub through your accoun
         
    docker push <your-dockerhub-name>/<docker-image-name>
 
-Example: Suppose your Dockerfile is named `Dockerfile_prediction`, Docker image name is `multi-images-prediction` with the `latest` version, your build and push commands would look like:
+Example: Suppose your Dockerfile is named `Dockerfile.prediction`, Docker image name is `multi-images-prediction` with the `latest` version, your build and push commands would look like:
 
 .. code-block::
 
-   docker build -f ./path-to-dockerfile/Dockerfile_prediction -t username/multi-images-prediction:latest
+   docker build -f ./path-to-dockerfile/Dockerfile.prediction -t username/multi-images-prediction:latest
    docker login
    docker push dockerhub_name/multi-images-prediction
 
@@ -78,7 +78,7 @@ Example: Suppose your Dockerfile is named `Dockerfile_prediction`, Docker image 
    
    Sometimes, ``docker login`` may not be successful. In such a case, execute ``docker logout`` and ``docker login``.
 
-Let us understand how multiple images can be used within a single workflow using an example.
+Let us understand how multiple images can be used within a single workflow.
 """
 # %%
 # Import the necessary dependencies.
@@ -97,13 +97,14 @@ split_data = NamedTuple(
     test_labels=pd.DataFrame,
 )
 
+dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
+
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
 @task(
-    container_image="ghcr.io/flyteorg/flytecookbook:multi-image-predict-adc4aaf34cacc293dd508da03f2839f50a484367b597abf1c8163625cc2b674d"
+    container_image="ghcr.io/flyteorg/flytecookbook:core-0a828f2881131f6d8a31e96cb71ffe5429e36b86"
 )
 def svm_trainer() -> split_data:
-    dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
     fish_data = pd.read_csv(dataset_url)
     X = fish_data.drop(["Species"], axis="columns")
     y = fish_data.Species
@@ -121,7 +122,7 @@ def svm_trainer() -> split_data:
 
 # %%
 # .. note ::
-#     To use your own Docker image, replace the value of `container_image` with the fully qualified name that identifies where the image was pushed. 
+#     To use your own Docker image, replace the value of `container_image` with the fully qualified name that identifies where the image has been pushed. 
 #     One pattern has been specified in the task itself, i.e., specifying the Docker image URI. The recommended usage is:
 #
 #     ``container_image="{{.image.default.fqn}}:multi-images-preprocess-{{.image.default.version}}"``
@@ -129,7 +130,7 @@ def svm_trainer() -> split_data:
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
 @task(
-    container_image="ghcr.io/flyteorg/flytecookbook:multi-images-preprocess-3edc8311755363c271acc9ed1ec733b4caf21ea1e387782214acff1510a08d58"
+    container_image="ghcr.io/flyteorg/flytecookbook:multi_image_predict-85e4a539dca98218f8bd4b3c317e4c09dd0c610adba2f694a62ad4018219a5e9"
 )
 def svm_predictor(
     X_train: pd.DataFrame,
@@ -163,4 +164,4 @@ if __name__ == "__main__":
 
 # %%
 # .. note::
-#     Notice that the two task annotators have two different `container_image` specified.
+#     Notice that the two task annotators have two different `container_image`s specified.
