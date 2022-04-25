@@ -130,7 +130,7 @@ def svm_trainer() -> split_data:
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
 @task(
-    container_image="ghcr.io/flyteorg/flytecookbook:multi_image_predict-85e4a539dca98218f8bd4b3c317e4c09dd0c610adba2f694a62ad4018219a5e9"
+    container_image="ghcr.io/flyteorg/flytecookbook:multi_image_predict-89870094721b2a24c383ee1d3ee6b31acd7a08eff8da9de2baf4447b83893b8b"
 )
 def svm_predictor(
     X_train: pd.DataFrame,
