@@ -5,8 +5,8 @@ Extending Flyte
 ###############
 
 The core of Flyte is a container execution engine, where you can write one or more tasks and compose them together to
-form a data dependency DAG, called a ``workflow``. If your work involves writing simple python or java tasks that can
-either perform operations on their own or can call out to :ref:`supported external services <external_service_backend_plugins>`,
+form a data dependency DAG, called a ``workflow``. If your work involves writing simple Python or Java tasks that can
+either perform operations on their own or call out to :ref:`supported external services <external_service_backend_plugins>`,
 then there's *no need to extend Flyte*.
 
 =================
@@ -23,9 +23,8 @@ grouping of images in a specific encoding.
 Flytekit natively supports structured data like :py:func:`~dataclasses.dataclass` using JSON as the
 representation format (see :ref:`Using Custom Python Objects <sphx_glr_auto_core_type_system_custom_objects.py>`).
 
-For types that are not simply representable as JSON documents, Flytekit allows users to extend Flyte's type system and
-implement these types in Python. The user has to implement a :py:class:`~flytekit.extend.TypeTransformer`
-class to enable translation of the type from the user type to the Flyte-understood type.
+Flytekit allows users to extend Flyte's type system and implement these types in Python for types that are not simply representable as JSON documents. The user has to implement a :py:class:`~flytekit.extend.TypeTransformer`
+class to enable the translation of the type from the user type to the Flyte-understood type.
 
 As an example, instead of using :py:class:`pandas.DataFrame` directly, you may want to use
 `Pandera <https://pandera.readthedocs.io/en/stable/>`__ to perform validation of an input or output dataframe
@@ -37,13 +36,13 @@ To extend the type system, refer to :std:ref:`advanced_custom_types`.
 Adding a New Task Type
 ======================
 
-Often times you want to interact with services like:
+Often you want to interact with services like:
 
-- Databases (e.g. Postgres, MySQL, etc)
-- DataWarehouses (e.g. Snowflake, BigQuery, Redshift etc)
-- Computation (e.g. AWS EMR, Databricks etc)
+- Databases (e.g., Postgres, MySQL, etc.)
+- DataWarehouses (e.g., Snowflake, BigQuery, Redshift etc.)
+- Computation (e.g., AWS EMR, Databricks etc.)
 
-You might want this to be available like a template for the open source community or within your organization. This
+You might want this to be available as a template for the open-source community or in your organization. This
 can be done by creating a task plugin, which makes it possible to reuse the task's underlying functionality within Flyte
 workflows.
 
@@ -75,7 +74,7 @@ Alternatively, you can provide an interface like this:
         df = query_task(time=t)
         return process(df=df)
 
-There are two options when writing a new task type: you can write a task plugin as an extension in Flytekit or you
+There are two options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
 can go deeper and write a plugin in the Flyte backend.
 
 Flytekit-only plugin
@@ -90,7 +89,7 @@ start when enabling custom task functionality.
 
    * - Pros
      - Cons
-   * - Simple to write, just implement in python. Flyte will treat it like a container execution and blindly pass
+   * - Simple to write, just implement in Python. Flyte will treat it like a container execution and blindly pass
        control to the plugin
      - Limited ways of providing additional visibility in progress, or external links etc
    * - Simple to publish: ``flytekitplugins`` can be published as independent libraries and they follow a simple API.
@@ -112,7 +111,7 @@ Backend Plugin
 --------------
 
 :std:ref:`Writing a Backend plugin <extend-plugin-flyte-backend>` makes it possible for users to write extensions for
-FlytePropeller, which is Flyte's scheduling engine. This enables complete control on the visualization and availability
+FlytePropeller, Flyte's scheduling engine. This enables complete control of the visualization and availability
 of the plugin.
 
 .. list-table::
