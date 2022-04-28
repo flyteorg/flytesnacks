@@ -14,15 +14,22 @@ Some use cases of map tasks include:
 Let's look at an example now!
 """
 
+"""
+Map Tasks Plugins
+-----------------
+
+As part of Flyte plugins, there are two plugins to run maptasks; k8s array and aws array.
+"""
+
 # %%
-# First, we import the libraries.
+# First, import the libraries.
 import typing
 
 from flytekit import Resources, map_task, task, workflow
 
 
 # %%
-# Next, we define a task that we will use in our map task.
+# Next, define a task to use in the map task.
 #
 # .. note::
 #   A map task can only accept one input and produce one output.
@@ -34,7 +41,7 @@ def a_mappable_task(a: int) -> str:
 
 
 # %%
-# We also define a task to reduce the mapped output to a string.
+# Also define a task to reduce the mapped output to a string.
 @task
 def coalesce(b: typing.List[str]) -> str:
     coalesced = "".join(b)
@@ -43,7 +50,7 @@ def coalesce(b: typing.List[str]) -> str:
 
 # %%
 # We send ``a_mappable_task`` to be repeated across a collection of inputs to the :py:func:`~flytekit:flytekit.map_task` function.
-# In our example, ``a`` of type ``typing.List[int]`` is the input.
+# In the example, ``a`` of type ``typing.List[int]`` is the input.
 # The task ``a_mappable_task`` is run for each element in the list.
 #
 # ``with_overrides`` is useful to set resources for individual map task.
@@ -66,4 +73,4 @@ if __name__ == "__main__":
 
 # %%
 # Map tasks can run on alternate execution backends, such as `AWS Batch <https://aws.amazon.com/batch/>`__,
-# which is a provisioned service that can scale to great sizes.
+# a provisioned service that can scale to great sizes.
