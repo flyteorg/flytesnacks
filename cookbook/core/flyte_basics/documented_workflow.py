@@ -17,6 +17,7 @@ import pandas as pd
 from dataclasses_json import dataclass_json
 from flytekit import task, workflow
 
+
 # %%
 # We define a dataclass.
 @dataclass_json

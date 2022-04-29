@@ -38,20 +38,18 @@ and ``hypothesis``.
 
 import typing
 
+import flytekitplugins.pandera  # noqa: F401
 import joblib
 import pandas as pd
 import pandera as pa
 from flytekit import task, workflow
 from flytekit.types.file import JoblibSerializedFile
-from pandera.typing import DataFrame, Series, Index
+from pandera.typing import DataFrame, Index, Series  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-
 # %%
 # We also need to import the ``pandera`` flytekit plugin to enable dataframe runtime type-checking:
-
-import flytekitplugins.pandera
 
 
 # %%
@@ -220,7 +218,6 @@ def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
 # Now it's time to split the data into a training and test set. Here we'll showcase the utility of
 # :ref:`named outputs <sphx_glr_auto_core_flyte_basics_named_outputs.py>` combined with pandera schemas.
 
-import typing
 
 DataSplits = typing.NamedTuple(
     "DataSplits", training_set=DataFrame[ParsedData], test_set=DataFrame[ParsedData]
@@ -330,7 +327,7 @@ if __name__ == "__main__":
     @given(
         PositiveExamples.strategy(size=5),
         NegativeExamples.strategy(size=5),
-        st.integers(min_value=0, max_value=2 ** 32),
+        st.integers(min_value=0, max_value=2**32),
     )
     @hypothesis.settings(
         deadline=1000,

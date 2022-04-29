@@ -34,6 +34,19 @@ update_boilerplate:
 	@curl https://raw.githubusercontent.com/flyteorg/boilerplate/master/boilerplate/update.sh -o boilerplate/update.sh
 	@boilerplate/update.sh
 
+.PHONY: fmt
+fmt: ## Format code with black and isort
+	pre-commit run black --all-files || true
+	pre-commit run isort --all-files || true
+
+.PHONY: lint
+lint: ## Run linters
+	mypy flytekit/core || true
+	mypy flytekit/types || true
+	mypy tests/flytekit/unit/core || true
+	# Exclude setup.py to fix error: Duplicate module named "setup"
+	mypy plugins --exclude setup.py || true
+	pre-commit run --all-files
 
 .PHONY: help
 help: ## Show help message
