@@ -28,6 +28,7 @@ import typing
 
 from flytekit import dynamic, task, workflow
 
+
 # %%
 # Next, we write a task that returns the index of a character (A-Z/a-z is equivalent to 0 to 25).
 @task
@@ -79,8 +80,8 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 # At execution (run) time, Flytekit runs the compilation step, and produces
 # a ``WorkflowTemplate`` (from the dynamic workflow), which Flytekit then passes back to Flyte Propeller for further running, exactly how sub-workflows are handled.
 #
-# .. note:: 
-#    The dynamic pattern isn't the most efficient method to iterate over a list. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_ 
+# .. note::
+#    The dynamic pattern isn't the most efficient method to iterate over a list. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_
 # might be more efficient in certain cases. But they only work for Python tasks (tasks decorated with the @task decorator) not SQL/Spark/etc,.
 #
 # We now define a dynamic workflow that encapsulates the above mentioned points.
