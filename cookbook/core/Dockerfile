@@ -13,9 +13,9 @@ RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg b
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
 
-sudo apt-key del A4B469963BF863CC
+RUN sudo apt-key del A4B469963BF863CC
 
-sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
+RUN sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
 
 WORKDIR /opt
 RUN curl https://sdk.cloud.google.com > install.sh
