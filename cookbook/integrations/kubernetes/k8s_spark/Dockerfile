@@ -15,11 +15,11 @@ RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-ess
 # in future versions to make it completely portable
 RUN pip3 install awscli
 
-# Install gcloud for GCP
-RUN apt-get install curl --assume-yes
-
-RUN curl -sSL https://sdk.cloud.google.com | bash
-ENV PATH $PATH:/root/google-cloud-sdk/bin
+WORKDIR /opt
+RUN curl https://sdk.cloud.google.com > install.sh
+RUN bash /opt/install.sh --install-dir=/opt
+ENV PATH $PATH:/opt/google-cloud-sdk/bin
+WORKDIR /root
 
 ENV VENV /opt/venv
 # Virtual environment
@@ -39,12 +39,15 @@ RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
 # Setup Spark environment
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV SPARK_HOME /opt/spark
-ENV SPARK_VERSION 3.0.1
+ENV SPARK_VERSION 3.2.1
 ENV PYSPARK_PYTHON ${VENV}/bin/python3
 ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
+# Delete this after we update CI
 COPY in_container.mk /root/Makefile
+
+# Delete this after we update CI to not serialize inside the container
 COPY k8s_spark/sandbox.config /root
 
 # Copy the actual code
@@ -60,8 +63,5 @@ RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
 # For spark we want to use the default entrypoint which is part of the
-# distribution, also enable the virtualenv for this image. 
-# Note this relies on the VENV variable we've set in this image.
-ENTRYPOINT ["/usr/local/bin/flytekit_venv", "/opt/entrypoint.sh"]
-
-ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
+# distribution, also enable the virtualenv for this image.
+ENTRYPOINT ["/opt/entrypoint.sh"]

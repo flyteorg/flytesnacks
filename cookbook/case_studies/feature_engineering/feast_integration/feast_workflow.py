@@ -30,7 +30,7 @@ import joblib
 import pandas as pd
 from feast import Entity, Feature, FeatureStore, FeatureView, FileSource, ValueType
 from flytekit import task, workflow, TaskMetadata, Resources
-from flytekit.configuration import aws
+from flytekit.configuration.internal import AWS
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import JoblibSerializedFile
 from flytekit.types.schema import FlyteSchema
@@ -38,7 +38,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 
 from feast_dataobjects import FeatureStore, FeatureStoreConfig
-from feature_eng_tasks import mean_median_imputer, univariate_selection
+from .feature_eng_tasks import mean_median_imputer, univariate_selection
 
 logger = logging.getLogger(__file__)
 
@@ -68,10 +68,10 @@ DATA_CLASS = "surgical lesion"
 def create_bucket(bucket_name: str) -> str:
     client = boto3.client(
         "s3",
-        aws_access_key_id=aws.S3_ACCESS_KEY_ID.get(),
-        aws_secret_access_key=aws.S3_SECRET_ACCESS_KEY.get(),
+        aws_access_key_id=AWS.S3_ACCESS_KEY_ID.get(),
+        aws_secret_access_key=AWS.S3_SECRET_ACCESS_KEY.get(),
         use_ssl=False,
-        endpoint_url=aws.S3_ENDPOINT.get(),
+        endpoint_url=AWS.S3_ENDPOINT.get(),
     )
 
     try:
@@ -338,6 +338,7 @@ def trainer(df: FlyteSchema, num_features_univariate: int = 7) -> JoblibSerializ
 # Finally, we define a workflow that streamlines the whole pipeline building and feature serving process.
 # To show how to compose an end to end workflow that includes featurization, training and example predictions,
 # we construct the following workflow, composing other workflows:
+#
 @workflow
 def feast_workflow(
     imputation_method: str = "mean",
