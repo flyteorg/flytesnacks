@@ -32,9 +32,8 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN apt-key del A4B469963BF863CC
 RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
- 
+
 # Install Python dependencies
 COPY sagemaker_pytorch/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
