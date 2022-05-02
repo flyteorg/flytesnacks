@@ -102,7 +102,7 @@ dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClas
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
 @task(
-    container_image="ghcr.io/flyteorg/flytecookbook:core-0a828f2881131f6d8a31e96cb71ffe5429e36b86"
+    container_image="ghcr.io/flyteorg/flytecookbook:core-with-sklearn-baa17ccf39aa667c5950bd713a4366ce7d5fccaf7f85e6be8c07fe4b522f92c3"
 )
 def svm_trainer() -> split_data:
     fish_data = pd.read_csv(dataset_url)
@@ -130,7 +130,7 @@ def svm_trainer() -> split_data:
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
 @task(
-    container_image="ghcr.io/flyteorg/flytecookbook:multi_image_predict-89870094721b2a24c383ee1d3ee6b31acd7a08eff8da9de2baf4447b83893b8b"
+    container_image="ghcr.io/flyteorg/flytecookbook:multi-image-predict-98b125fd57d20594026941c2ebe7ef662e5acb7d6423660a65f493ca2d9aa267"
 )
 def svm_predictor(
     X_train: pd.DataFrame,
@@ -141,7 +141,7 @@ def svm_predictor(
     model = SVC(kernel="linear", C=1)
     model.fit(X_train, y_train.values.ravel())
     svm_pred = model.predict(X_test)
-    accuracy_score = model.score(X_test, y_test.values.ravel())
+    accuracy_score = float(model.score(X_test, y_test.values.ravel()))
     return accuracy_score
 
 
