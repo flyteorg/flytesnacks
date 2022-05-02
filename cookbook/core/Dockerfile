@@ -1,17 +1,20 @@
+# We use devel because plugins_sagemaker-training needs gcc to build
+# TODO get rid of plugins_sagemaker-training
 FROM python:3.8-slim-buster
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
-ENV VENV /opt/venv
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM linux
 
-# This is necessary for opencv to work
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg build-essential curl
+# Install basics
+RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
 
 # Install the AWS cli separately to prevent issues with boto being written over
-RUN pip3 install awscli
+RUN pip install awscli
 
 WORKDIR /opt
 RUN curl https://sdk.cloud.google.com > install.sh
@@ -19,23 +22,32 @@ RUN bash /opt/install.sh --install-dir=/opt
 ENV PATH $PATH:/opt/google-cloud-sdk/bin
 WORKDIR /root
 
+# Install gcc , g++ and make
+RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list \
+RUN echo 'installing make' \
+    && apt-get install make
+
+ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list \
-
-
+RUN apt-key del A4B469963BF863CC
+RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
+ 
 # Install Python dependencies
-COPY core/requirements.txt /root
+COPY sagemaker_pytorch/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register
+# Setup Sagemaker entrypoints
+ENV SAGEMAKER_PROGRAM /opt/venv/bin/flytekit_sagemaker_runner.py
+
+# Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
-COPY core/sandbox.config /root
+COPY sagemaker_pytorch/sandbox.config /root
 
 # Copy the actual code
-COPY core /root/core
+COPY sagemaker_pytorch/ /root/sagemaker_pytorch
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
