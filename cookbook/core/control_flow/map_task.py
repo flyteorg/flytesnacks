@@ -14,13 +14,6 @@ Some use cases of map tasks include:
 Let's look at an example now!
 """
 
-"""
-Map Tasks Plugins
------------------
-
-As part of Flyte plugins, there are two plugins to run maptasks; k8s array and aws array.
-"""
-
 # %%
 # First, import the libraries.
 import typing
@@ -74,3 +67,48 @@ if __name__ == "__main__":
 # %%
 # Map tasks can run on alternate execution backends, such as `AWS Batch <https://aws.amazon.com/batch/>`__,
 # a provisioned service that can scale to great sizes.
+
+# %%
+# Map Task Plugins
+# -----------------
+
+#%%
+# As part of Flyte plugins, there are two plugins to run maptasks:
+
+# %%
+# 1. `:std:ref:`deployment/plugin-setup/k8`  
+# 2. `:std:ref:`deployment/plugin-setup/aws`
+
+# %%
+# Enabling a plugin is controlled in **Plugin Configuration** at `values-sandbox.yaml`.
+
+# %%
+# k8s-array
+# ^^^^^^^^^^
+
+# %%
+# By default, the plugin configuration uses `k8s-array` plugin. The way this executes array tasks is by launching a pod for every instance in the array. 
+# It's a simple and straightforward to use.
+
+# %%
+# aws-array
+# ^^^^^^^^^^
+
+# %%
+# The `aws-array` plugin needs additional configuration to work:
+
+# %%
+# - Configure the AWS Role flytepropeller and it assumes to be able to `PassRole` all the roles that you use to run jobs in AWS Batch. 
+# This requires setting up Trust Relationship.
+# - All workflows/launchplans need to be configured with an `assumable_iam_role` that Flyte will pass to AWS Batch Service to run the jobs.
+# - Configure AWS Batch Queues and configure FlyteAdmin to choose which `projects/domains/workflows` go to which AWS Batch Queues. 
+# Its strongly recommended to sepearte your development and production domains into separate queues. 
+# However, there is a limitation of the number of queues in AWS Batch. So you can't create a queue for every project/domain combination.
+
+# %%
+# Your Plugin
+# ^^^^^^^^^^^
+
+# %%
+# You can also implement your plugin that handles that task type and configure the system to use it instead.
+# `k8s-array` and `aws-array` are the names of these two plugins. If you change the config, flyte will attempt to use that one to launch array jobs.
