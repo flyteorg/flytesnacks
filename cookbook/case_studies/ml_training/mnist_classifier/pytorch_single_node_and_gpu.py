@@ -10,7 +10,7 @@ As long as the Docker image is built correctly with the right version of the GPU
 provisioned to have GPU machines, Flyte will execute the task on a node that has GPU(s).
 
 Currently, Flyte does not provide any specific task type for PyTorch (though it is entirely possible to provide a task-type
-that supports *PyTorch-Ignite* or *PyTorch Lightening* support, but this is not critical). One can request for a GPU, simply
+that supports *PyTorch-Ignite* or *PyTorch Lightning* support, but this is not critical). One can request for a GPU, simply
 by setting GPU="1" resource request and then at runtime, the GPU will be provisioned.
 
 In this example, we'll see how we can create any PyTorch model, train it using Flyte and a specialized container. The following video will outline the basics of this process.

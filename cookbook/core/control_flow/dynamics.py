@@ -92,21 +92,21 @@ def count_characters(s1: str, s2: str) -> int:
 
     # s1 and s2 are accessible
 
-    # initiliaze an empty list consisting of 26 empty slots corresponding to every alphabet (lower and upper case)
+    # initialize an empty list consisting of 26 empty slots corresponding to every alphabet (lower and upper case)
     freq1 = [0] * 26
     freq2 = [0] * 26
 
     # looping through the string s1
     for i in range(len(s1)):
 
-        # index and freq1 are not accesible as they are promises
+        # index and freq1 are not accessible as they are promises
         index = return_index(character=s1[i])
         freq1 = update_list(freq_list=freq1, list_index=index)
 
     # looping through the string s2
     for i in range(len(s2)):
 
-        # index and freq2 are not accesible as they are promises
+        # index and freq2 are not accessible as they are promises
         index = return_index(character=s2[i])
         freq2 = update_list(freq_list=freq2, list_index=index)
 

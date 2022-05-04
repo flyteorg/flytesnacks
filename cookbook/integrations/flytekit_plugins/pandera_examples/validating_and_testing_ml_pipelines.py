@@ -94,7 +94,7 @@ from sklearn.metrics import accuracy_score
 #    * - ``ca``
 #      - number of major vessels (0-3) colored by flourosopy
 #    * - ``thal``
-#      - 3 = normal; 6 = fixed defect; 7 = reversable defect
+#      - 3 = normal; 6 = fixed defect; 7 = reversible defect
 #    * - ``target``
 #      - the predicted attribute
 #
@@ -146,7 +146,7 @@ class RawData(pa.SchemaModel):
         isin=[
             3,  # normal
             6,  # fixed defect
-            7,  # reversable defect
+            7,  # reversible defect
         ]
     )
     target: Series[int] = pa.Field(ge=0, le=4)
@@ -193,7 +193,7 @@ def fetch_raw_data() -> DataFrame[RawData]:
 # having values ranging from ``0 - 4``` to a binary representation where ``0`` represents absence of heart disease and
 # ``1`` represents presence of heart disease.
 #
-# Here we can use inheritence to define a ``ParsedData`` schema by overriding just the ``target`` attribute:
+# Here we can use inheritance to define a ``ParsedData`` schema by overriding just the ``target`` attribute:
 
 
 class ParsedData(RawData):

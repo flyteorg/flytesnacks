@@ -3,7 +3,7 @@ EDA and Feature Engineering in One Jupyter Notebook and Modeling in the Other
 =============================================================================
 
 In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering
-(step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performace using mean absolute error
+(step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performance using mean absolute error
 (MAE) (step 2: Modeling in notebook).
 """
 

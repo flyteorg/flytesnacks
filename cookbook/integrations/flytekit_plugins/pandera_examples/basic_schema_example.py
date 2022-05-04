@@ -81,7 +81,7 @@ class OutSchema(IntermediateSchema):
 # :py:func:`~pandera.model_components.dataframe_check` (dataframe-level checks), which automatically make them
 # class methods.
 #
-# Pandera uses inheritence to make sure that :py:class:`~pandera.model.SchemaModel` subclasses contain
+# Pandera uses inheritance to make sure that :py:class:`~pandera.model.SchemaModel` subclasses contain
 # all of the same columns and custom check methods as their base class. Inheritance semantics
 # apply to schema models so you can override column attributes or check methods in subclasses. This has
 # the nice effect of providing an explicit graph of type dependencies as data

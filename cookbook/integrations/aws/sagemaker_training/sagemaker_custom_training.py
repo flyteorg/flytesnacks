@@ -199,9 +199,9 @@ def mnist_trainer(
 # %%
 # As long as you have tensorflow setup locally, it will run like a regular python script.
 if __name__ == "__main__":
-    model, accurracy, loss, logs = mnist_trainer()
+    model, accuracy, loss, logs = mnist_trainer()
     print(
-        f"Model: {model}, Accuracy PNG: {accurracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}"
+        f"Model: {model}, Accuracy PNG: {accuracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}"
     )
 
 # %%

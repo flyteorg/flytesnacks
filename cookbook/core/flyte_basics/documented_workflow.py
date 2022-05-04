@@ -68,7 +68,7 @@ def sphinx_docstring(df: pd.DataFrame, data: PandasData = PandasData()) -> pd.Da
 # The first block of the docstring is a one-liner about the workflow.
 # The second block of the docstring consists of a detailed description.
 # The third block of the docstring describes all the parameters along with their data types.
-# The fourth block of the docstring descibes the return type along with its data type.
+# The fourth block of the docstring describes the return type along with its data type.
 @workflow
 def numpy_docstring(df: pd.DataFrame, data: PandasData = PandasData()) -> pd.DataFrame:
     """
