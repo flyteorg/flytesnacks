@@ -34,19 +34,6 @@ RUN pip install -r /root/requirements.txt
 
 RUN flytekit_install_spark3.sh
 
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-hdfs/3.3.1/hadoop-hdfs-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-yarn-server-common/3.3.1/hadoop-yarn-server-common-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-yarn-common/3.3.1/hadoop-yarn-common-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-yarn-client/3.3.1/hadoop-yarn-client-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-yarn-api/3.3.1/hadoop-yarn-api-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-jobclient/3.3.1/hadoop-mapreduce-client-jobclient-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.1/hadoop-mapreduce-client-core-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-common/3.3.1/hadoop-mapreduce-client-common-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.1/hadoop-common-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-client/3.3.1/hadoop-client-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-auth/3.3.1/hadoop-auth-3.3.1.jar -P /opt/spark/jars
-# RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-annotations/3.3.1/hadoop-annotations-3.3.1.jar -P /opt/spark/jars
-
 # Adding Tini support for the spark pods
 RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
     cp tini /sbin/tini && cp tini /usr/bin/tini && \
@@ -77,10 +64,6 @@ ENV FLYTE_INTERNAL_IMAGE $tag
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
-
-# ENV AWS_ENDPOINT http://minio.flyte:9000
-ENV AWS_ACCESS_KEY_ID minio
-ENV AWS_SECRET_ACCESS_KEY miniostorage
 
 # For spark we want to use the default entrypoint which is part of the
 # distribution, also enable the virtualenv for this image.

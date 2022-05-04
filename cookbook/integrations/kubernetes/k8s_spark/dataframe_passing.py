@@ -12,7 +12,7 @@ If the dataframe does not fit in memory, it will result in a runtime failure.
 # Let's import the libraries.
 import flytekit
 import pandas
-from flytekit import kwtypes, task, workflow, Resources
+from flytekit import Resources, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
 from flytekitplugins.spark import Spark
 
