@@ -17,6 +17,10 @@ flake8
 pre-commit
 flake8-black
 flake8-isort
+codespell
 isort
 mock
 pytest
+mypy
+google-cloud-bigquery
+google-cloud-bigquery-storage
