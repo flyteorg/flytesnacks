@@ -49,6 +49,26 @@ workflows.
 If you want users to write code simply using the :py:func:`~flytekit.task` decorator, but you want to provide the
 capability of running the function as a spark job or a sagemaker training job, then you can extend Flyte's task system:
 
+With the decorator in place, the process is as follows:
+
+  1. A Docker container image is required at serialization time. The task code is assumed to be present in this Docker image.
+  2. The task is serialized into a :std:ref:`api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
+  3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
+
+The following are the key takeaways:
+
+	- The task object that gets serialized at compile-time is recreated using the user's code at run time.
+	- With the decorator in place, the process is as follows:
+
+  1. A Docker container image is required at serialisation time. The task code is assumed to be present in this Docker image.
+  2. The task is serialized into a :std:ref:`api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
+  3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
+
+The following are the key takeaways:
+
+	- The task object that gets serialized at compile-time is recreated using the user's code at run time.
+	- The user-decorated function is subsequently executed by the platform run-time.
+
 .. code-block:: python
 
     @task(task_config=MyContainerExecutionTask(
