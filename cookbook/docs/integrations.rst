@@ -205,14 +205,14 @@ the Flyte task that use the respective plugin.
     ^^^^^^^^^^^^
     Run Snowflake jobs in your workflows.
 
-   ---
+    ---
 
     .. link-button:: auto/integrations/gcp/bigquery/index
        :type: ref
-       :text: Bigquery
+       :text: BigQuery
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Run Bigquery jobs in your workflows.
+    Run BigQuery jobs in your workflows.
 
 
 .. _enable-backend-plugins:
