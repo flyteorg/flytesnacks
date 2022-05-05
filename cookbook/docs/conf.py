@@ -124,9 +124,10 @@ class CustomSorter(FileNameSortKey):
         "sagemaker_custom_training.py",
         "sagemaker_pytorch_distributed_training.py",
         ## GCP
-        "bigquery.py"
+        "bigquery.py",
         ## External Services
-        "hive.py" "snowflake.py" 
+        "hive.py",
+        "snowflake.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
