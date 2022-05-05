@@ -322,7 +322,7 @@ gallery_dirs = [
     "auto/integrations/aws/batch",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
-    "auto/integrations/gcp",
+    "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",

@@ -187,5 +187,6 @@ Table of Contents
    auto/integrations/aws/sagemaker_training/index
    auto/integrations/aws/sagemaker_pytorch/index
    auto/integrations/aws/athena/index
+   auto/integrations/aws/gcp/bigquery/index
    auto/integrations/external_services/hive/index
    auto/integrations/external_services/snowflake/index
