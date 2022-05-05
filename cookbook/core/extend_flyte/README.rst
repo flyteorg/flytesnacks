@@ -51,15 +51,6 @@ capability of running the function as a spark job or a sagemaker training job, t
 
 With the decorator in place, the process is as follows:
 
-  1. A Docker container image is required at serialization time. The task code is assumed to be present in this Docker image.
-  2. The task is serialized into a :std:ref:`api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
-  3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
-
-The following are the key takeaways:
-
-	- The task object that gets serialized at compile-time is recreated using the user's code at run time.
-	- With the decorator in place, the process is as follows:
-
   1. A Docker container image is required at serialisation time. The task code is assumed to be present in this Docker image.
   2. The task is serialized into a :std:ref:`api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
   3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
@@ -110,7 +101,7 @@ start when enabling custom task functionality.
    * - Pros
      - Cons
    * - Simple to write, just implement in Python. Flyte will treat it like a container execution and blindly pass
-       control to the plugin
+       control to the plugin.
      - Limited ways of providing additional visibility in progress, or external links etc
    * - Simple to publish: ``flytekitplugins`` can be published as independent libraries and they follow a simple API.
      - Has to be implemented again in every language as these are SDK side plugins only
