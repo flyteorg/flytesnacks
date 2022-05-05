@@ -65,5 +65,5 @@ if __name__ == "__main__":
     print(f"{result}")
 
 # %%
-# By deafult, map task uses K8s Array. Map tasks can also run on alternate execution backends, such as `AWS Batch <https://docs.flyte.org/en/latest/deployment/plugin_setup/aws/batch.html#deployment-plugin-setup-aws-array>`__,
+# By default, the map task uses the K8s Array plugin. Map tasks can also run on alternate execution backends, such as `AWS Batch <https://docs.flyte.org/en/latest/deployment/plugin_setup/aws/batch.html#deployment-plugin-setup-aws-array>`__,
 # a provisioned service that can scale to great sizes.
