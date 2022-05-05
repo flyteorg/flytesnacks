@@ -49,7 +49,34 @@ Below you’ll find instructions that will hopefully guide you through how to co
         ``flytectl sandbox exec -- docker build . --tag "core:v2" -f core/Dockerfile``, 
         ``pyflyte --pkgs core package --image core:v2 -f``, and 
         ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2``.
-        6. Refer to `this doc <https://docs.flyte.org/en/latest/getting_started_iterate.html#bonus-build-deploy-your-application-fast-er>`__ if the code in itself is updated and requirements.txt is the same.
+        6. Refer to `this doc <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__ if the code in itself is updated and requirements.txt is the same.
+
+
+Pre-commit hooks
+^^^^^^^^^^^^^^^^
+
+We use `pre-commit <https://pre-commit.com/>`__ to automate linting and code formatting on every commit.
+Configured hooks include `black <https://github.com/psf/black>`__, `isort <https://github.com/PyCQA/isort>`__, `flake8 <https://github.com/PyCQA/flake8>`__ and linters to check the validity of YAML files and ensure that newlines are added to the end of files.
+
+We run all those hooks in CI, but if you want to run them locally on every commit, run `pre-commit install` after installing the dev environment requirements. In case you want to disable `pre-commit` hooks locally, for example, while you're iterating on some feature, run `pre-commit uninstall`. More info `here <https://pre-commit.com/>`__.
+
+
+Formatting
+^^^^^^^^^^
+
+We use `black <https://github.com/psf/black>`__ and `isort <https://github.com/PyCQA/isort>`__ to autoformat code. They have been configured as git hooks in `pre-commit`. To execute the formatters: ::
+
+    source ~/.virtualenvs/flytekit/bin/activate
+    make fmt
+
+Spell-checking
+^^^^^^^^^^^^^^
+
+We use `codespell <https://github.com/codespell-project/codespell>`__ to catch spelling mistakes in both code and documentation. To spell-check the changes: ::
+
+    source ~/.virtualenvs/flytekit/bin/activate
+    make spellcheck
+
 
 📝 Contribute to Documentation
 ==============================
