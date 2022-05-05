@@ -65,7 +65,7 @@ flytekit==1.0.0
     # via -r ./common/requirements-common.in
 fonttools==4.33.3
     # via matplotlib
-furo @ git+https://github.com/flyteorg/furo@d5e59fbed8367b2d20d0295fd6a0651a0dc9315d
+furo @ git+https://github.com/flyteorg/furo@bafd6fa802e90fdcbcf43e703c7d6027848f16db
     # via -r docs-requirements.in
 googleapis-common-protos==1.56.0
     # via
