@@ -56,7 +56,7 @@ Pre-commit hooks
 ^^^^^^^^^^^^^^^^
 
 We use `pre-commit <https://pre-commit.com/>`__ to automate linting and code formatting on every commit.
-Configured hooks include `black <https://github.com/psf/black>`__, `isort <https://github.com/PyCQA/isort>`__, `flake8 <https://github.com/PyCQA/flake8>`__ and linters to check the validity of YAML files and ensure that newlines are added to the end of files.
+Configured hooks include `black <https://github.com/psf/black>`__, `isort <https://github.com/PyCQA/isort>`__, `flake8 <https://github.com/PyCQA/flake8>`__ and linters to ensure newlines are added to the end of files, and there is proper spacing in files.
 
 We run all those hooks in CI, but if you want to run them locally on every commit, run `pre-commit install` after installing the dev environment requirements. In case you want to disable `pre-commit` hooks locally, for example, while you're iterating on some feature, run `pre-commit uninstall`. More info `here <https://pre-commit.com/>`__.
 
@@ -64,18 +64,12 @@ We run all those hooks in CI, but if you want to run them locally on every commi
 Formatting
 ^^^^^^^^^^
 
-We use `black <https://github.com/psf/black>`__ and `isort <https://github.com/PyCQA/isort>`__ to autoformat code. They have been configured as git hooks in `pre-commit`. To execute the formatters: ::
-
-    source ~/.virtualenvs/flytekit/bin/activate
-    make fmt
+We use `black <https://github.com/psf/black>`__ and `isort <https://github.com/PyCQA/isort>`__ to autoformat code. They are configured as git hooks in `pre-commit`. Run `make fmt` to format your code.
 
 Spell-checking
 ^^^^^^^^^^^^^^
 
-We use `codespell <https://github.com/codespell-project/codespell>`__ to catch spelling mistakes in both code and documentation. To spell-check the changes: ::
-
-    source ~/.virtualenvs/flytekit/bin/activate
-    make spellcheck
+We use `codespell <https://github.com/codespell-project/codespell>`__ to catch common misspellings. Run `make spellcheck` to spell-check the changes.
 
 
 📝 Contribute to Documentation
