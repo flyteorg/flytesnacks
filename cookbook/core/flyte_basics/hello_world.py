@@ -15,6 +15,16 @@ def say_hello() -> str:
     return "hello world"
 
 
+@task(container_image="{{.image.older.fqn}}:{{.image.default.version}}")
+def say_bonjour() -> str:
+    return "Bonjour tout le monde"
+
+
+@task(container_image="{{.image.older}}")
+def say_hi() -> str:
+    return "大家你好"
+
+
 # %%
 # You can treat the outputs of a task as you normally would a Python function. Assign the output to two variables
 # and use them in subsequent tasks as normal. See :py:func:`flytekit.workflow`
@@ -23,6 +33,8 @@ def say_hello() -> str:
 @workflow
 def my_wf() -> str:
     res = say_hello()
+    say_bonjour()
+    say_hi()
     return res
 
 
