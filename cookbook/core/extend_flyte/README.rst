@@ -85,8 +85,12 @@ Alternatively, you can provide an interface like this:
         df = query_task(time=t)
         return process(df=df)
 
-There are two options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
-can go deeper and write a plugin in the Flyte backend.
+There are four options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
+can go deeper and write a plugin in the Flyte backend:
+  - :ref:`Custom Flytekit only plugin <custom_task_plugin.py>`
+  - :ref:`Custom container/Task template <task_template.py>`
+  - :ref:`Custom behavior type <custom_types>`
+  - :ref:`Backend plugin <backend_plugins>`
 
 Flytekit-only plugin
 --------------------
