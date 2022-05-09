@@ -60,8 +60,7 @@ class CustomSorter(FileNameSortKey):
         # Type System
         "flyte_python_types.py",
         "schema.py",
-        "structured_dataset.py"
-        "typed_schema.py",
+        "structured_dataset.py" "typed_schema.py",
         "custom_objects.py",
         "enums.py",
         "lp_schedules.py",
@@ -125,11 +124,10 @@ class CustomSorter(FileNameSortKey):
         "sagemaker_custom_training.py",
         "sagemaker_pytorch_distributed_training.py",
         ## GCP
-        # TODO
+        "bigquery.py",
         ## External Services
-        "hive.py"
-        "snowflake.py"
-        "bigquery.py"
+        "hive.py",
+        "snowflake.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
@@ -288,7 +286,7 @@ examples_dirs = [
     "../integrations/aws/batch",
     "../integrations/aws/sagemaker_training",
     "../integrations/aws/sagemaker_pytorch",
-    "../integrations/gcp",
+    "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
     "../core/extend_flyte",
@@ -325,7 +323,7 @@ gallery_dirs = [
     "auto/integrations/aws/batch",
     "auto/integrations/aws/sagemaker_training",
     "auto/integrations/aws/sagemaker_pytorch",
-    "auto/integrations/gcp",
+    "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
     "auto/core/extend_flyte",
@@ -347,7 +345,7 @@ ignore_py_files = [
 sphinx_gallery_conf = {
     "examples_dirs": examples_dirs,
     "gallery_dirs": gallery_dirs,
-    "ignore_pattern": f"({'|'.join(ignore_py_files)})\.py",
+    "ignore_pattern": f"({'|'.join(ignore_py_files)})\.py",  # noqa: W605
     # "subsection_order": ExplicitOrder(
     #     [
     #         "../core/basic",
