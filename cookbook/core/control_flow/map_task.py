@@ -67,3 +67,41 @@ if __name__ == "__main__":
 # %%
 # By default, the map task uses the K8s Array plugin. Map tasks can also run on alternate execution backends, such as `AWS Batch <https://docs.flyte.org/en/latest/deployment/plugin_setup/aws/batch.html#deployment-plugin-setup-aws-array>`__,
 # a provisioned service that can scale to great sizes.
+
+# %%
+# Map a task with static inputs
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#
+# You might need to map a task with multiple inputs but you only need
+# to change a few of the inputs for the mapping.
+#
+# For example, we have a task that takes 3 inputs:
+#
+@task
+def full_mappable_task(quantity: int, price: float, shipping: float) -> float:
+    return quantity * price * shipping
+
+
+# %%
+# But we only want to map this task with the ``quantity`` input while the other inputs stay the same.
+#
+# We can do this by creating a new task that prepares the map task's inputs:
+from typing import List, NamedTuple
+
+class MapInput(NamedTuple):
+    quantity: int
+    price: float
+    shipping: float
+
+@task
+def prepare_map_inputs(list_q: List[int], p: float, s: float) -> List[MapInput]:
+    return [MapInput(q, p, s) for q in list_q]
+
+# %%
+# In the workflow, we specify the static inputs:
+@workflow
+def wf(list_q: List[int], q: float, s: float) -> List[int]:
+    map_input = prepare_map_inputs(list_q=list_q, p=p, s=s)
+    return map_task(full_mappable_task)(input=map_input)
+
+
