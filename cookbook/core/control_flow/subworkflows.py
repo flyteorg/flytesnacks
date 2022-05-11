@@ -170,3 +170,24 @@ def parent_workflow(my_input1: str) -> typing.List[str]:
 if __name__ == "__main__":
     print("Running parent workflow...")
     print(parent_workflow(my_input1="the cat took the apple and ate the apple"))
+
+
+# %%
+# You can also call launch plans (in addition to workflows) within a workflow
+parent_wf_fixed_a = LaunchPlan.create(
+    "parent_wf_fixed_a",
+    parent_wf,
+    fixed_inputs={"a": 300},
+)
+
+
+@workflow
+def parent_lp_workflow() -> (int, str, str):
+    x, u, v = parent_wf_fixed_a()
+    return x, u, v
+
+
+# %%
+# You can execute the parent workflow locally as well
+if __name__ == "__main__":
+    print(f"Running parent_lp_workflow() {parent_lp_workflow()}")
