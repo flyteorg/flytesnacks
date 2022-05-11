@@ -13,3 +13,4 @@ print(area)
 
 writeLines(as.character(area), sprintf("%s/%s", output_dir, 'area'))
 writeLines("[from R rawcontainer]", sprintf("%s/%s", output_dir, 'metadata'))
+writeLines("", sprintf("%s/%s", output_dir, '_SUCCESS'))

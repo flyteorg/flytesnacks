@@ -26,6 +26,7 @@ function main(input_dir, output_dir)
 
     write_output(output_dir, "area", area)
     write_output(output_dir, "metadata", "[from julia rawcontainer]")
+    write_output(output_dir, "_SUCCESS", "")
 end
 
 # the keyword ARGS is a special value that contains the command-line arguments

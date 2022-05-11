@@ -17,5 +17,7 @@ main = do
 
   let output_area = args!!1 ++ "/area"
       output_metadata = args!!1 ++ "/metadata"
+      output_success = args!!1 ++ "/_SUCCESS"
   writeFile output_area (show area)
   writeFile output_metadata "[from haskell rawcontainer]"
+  writeFile output_success ""

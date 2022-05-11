@@ -161,6 +161,10 @@ def wf(a: float, b: float):
 #
 # The contents of each script mentioned above:
 #
+# .. note::
+#   It is necessary to manually write the _SUCCESS file to the outputs folder so that Flyte copilot, which uploads task outputs, knows the task is complete.
+#
+#
 # calculate-ellipse-area.sh
 # ^^^^^^^^^^^^^^^^^^^^^^^^^
 # .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
