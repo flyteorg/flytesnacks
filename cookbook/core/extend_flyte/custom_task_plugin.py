@@ -1,8 +1,8 @@
 """
 .. _advanced_custom_task_plugin:
 
-Writing Your Own Flytekit Task Plugins
----------------------------------------
+Custom Behavior Task Plugins
+----------------------------
 
 Flytekit is designed to be extremely extensible. You can add new task-types that are useful only for your use-cases.
 Flyte does come with the capability of extending the backend, but that is only required if you want the capability to be

@@ -1,7 +1,7 @@
 """
-.. _task_tempalate.py:
+.. _task_template:
 
-Writing Task Template Plugins
+Custom Container Task Plugins
 -----------------------------
 
 Task Templates are useful as they: 

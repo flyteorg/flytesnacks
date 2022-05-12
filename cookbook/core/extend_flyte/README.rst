@@ -6,7 +6,7 @@ Extending Flyte
 
 The core of Flyte is a container execution engine, where you can write one or more tasks and compose them together to
 form a data dependency DAG, called a ``workflow``. If your work involves writing simple Python or Java tasks that can
-either perform operations on their own or call out to :ref:`supported external services <external_service_backend_plugins>`,
+either perform operations on their own or call out to :ref:`Supported external services <external_service_backend_plugins>`,
 then there's *no need to extend Flyte*.
 
 =================
@@ -37,10 +37,9 @@ Adding a New Task Type
 ======================
 
 Often you want to interact with services like:
-
-- Databases (e.g., Postgres, MySQL, etc.)
-- DataWarehouses (e.g., Snowflake, BigQuery, Redshift etc.)
-- Computation (e.g., AWS EMR, Databricks etc.)
+  - Databases (e.g., Postgres, MySQL, etc.)
+  - DataWarehouses (e.g., Snowflake, BigQuery, Redshift etc.)
+  - Computation (e.g., AWS EMR, Databricks etc.)
 
 You might want this to be available as a template for the open-source community or in your organization. This
 can be done by creating a task plugin, which makes it possible to reuse the task's underlying functionality within Flyte
@@ -50,13 +49,11 @@ If you want users to write code simply using the :py:func:`~flytekit.task` decor
 capability of running the function as a spark job or a sagemaker training job, then you can extend Flyte's task system:
 
 With the decorator in place, the process is as follows:
-
   1. A Docker container image is required at serialisation time. The task code is assumed to be present in this Docker image.
-  2. The task is serialized into a :std:ref:`api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
+  2. The task is serialized into a `api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
   3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
 
 The following are the key takeaways:
-
 	- The task object that gets serialized at compile-time is recreated using the user's code at run time.
 	- The user-decorated function is subsequently executed by the platform run-time.
 
@@ -85,15 +82,15 @@ Alternatively, you can provide an interface like this:
         df = query_task(time=t)
         return process(df=df)
 
-There are four options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
+There are three options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
 can go deeper and write a plugin in the Flyte backend:
-  - :ref:`Custom Flytekit only plugin <custom_task_plugin.py>`
-  - :ref:`Custom container/Task template <task_template.py>`
-  - :ref:`Custom behavior type <custom_types>`
-  - :ref:`Backend plugin <backend_plugins>`
 
-Flytekit-only plugin
---------------------
+- :ref:`Custom behavior task plugin <advanced_custom_task_plugin>`
+- :ref:`Custom container task plugin <task_template>`
+- :ref:`Backend plugin <extend-plugin-flyte-backend>`
+
+Custom behavior/Flytekit-only plugin
+------------------------------------
 
 :std:ref:`Writing your own Flytekit plugin <advanced_custom_task_plugin>` is simple and is typically where you want to
 start when enabling custom task functionality.
@@ -120,7 +117,33 @@ start when enabling custom task functionality.
    * - 
      - A bug fix to the runtime, needs a new library version of the plugin
    * - 
-     - Not trivial to implement resource controls - e.g. throttling, resource pooling etc
+     - Not trivial to implement resource controls - e.g. throttling, resource pooling etc.
+
+Difference between Custom behavior and Custom container task types
+------------------------------------------------------------------
+
+.. list-table::
+   :widths: 10 50 50
+   :header-rows: 1
+
+   * - 
+     - Custom behavior task plugins
+     - Custom container task plugins
+   * - Serialization
+     - At serialization time, a Docker container image is required. The assumption is that this Docker image has the task code.
+     - The Docker container image is hardcoded at serialization time into the task definition by the author of that task type.
+   * - Serialization
+     - The serialized task contains instructions to the container on how to reconstitute the task.
+     - Serialized task should contain all the information needed to run that task instance (but not necessarily to reconstitute it).
+   * - Run-time 
+     - When Flyte runs the task, the container is launched, and the user-given instructions recreate a Python object representing the task.
+     - When Flyte runs the task, the container is launched. The container should have an executor built into it that knows how to execute the task.
+   * - Run-time
+     - The task object that gets serialized at compile-time is recreated using the user's code at run time.
+     - The task object that gets serialized at compile-time does not exist at run time.
+   * - Run-time
+     - At platform-run-time, the user-decorated function is executed.
+     - At platform-run-time, there is no user function, and the executor is responsible for producing outputs, given the inputs to the task.
 
 Backend Plugin
 --------------
