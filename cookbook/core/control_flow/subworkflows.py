@@ -170,3 +170,15 @@ def parent_workflow(my_input1: str) -> typing.List[str]:
 if __name__ == "__main__":
     print("Running parent workflow...")
     print(parent_workflow(my_input1="the cat took the apple and ate the apple"))
+
+# %%
+# How to chain SubWorkflows?
+# ^^^^^^^^^^^^^^^^^^^^^^^^
+# 
+# Similar to `tasks <https://docs.flyte.org/projects/cookbook/en/latest/auto/core/control_flow/chain_tasks.html>`_, you can also chain subworkflows as follows:
+@workflow
+def chain_tasks_wf()-> pd.DataFrame:
+    write_node = create_node(write)
+    read_node = create_node(read)
+
+    write_node >> read_node
