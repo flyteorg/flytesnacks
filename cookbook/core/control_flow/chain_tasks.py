@@ -1,18 +1,17 @@
 """
 Chain Flyte Entities
------------------
+--------------------
 
 Data passing between tasks need not necessarily happen through parameters.
 In such a case, if you want to explicitly construct the tasks' dependency, flytekit provides a mechanism to chain tasks using the ``>>`` operator and ``create_node`` function.
-You may want to call this function to specify dependencies between tasks that don't consume or produce outputs.
 
-Let's use this example to impose ``read()`` order after ``write()``.
+In this example, let's enforce an order for ``read()`` to happen after ``write()``.
 """
 # %%
+# First, import the necessary dependencies.
 import pandas as pd
 
 # %%
-# First, import the necessary dependencies.
 from flytekit import task, workflow
 from flytekit.core.node_creation import create_node
 
@@ -42,8 +41,8 @@ def write():
     # Write the data to a database
     # pd.to_csv("...")
 # %%
-# We want to enforce an order here: ``write()`` followed by ``read()``. Since no data-passing happens between the tasks, we use ``>>`` operator on the nodes.
-
+# We want to enforce an order here: ``write()`` followed by ``read()``. 
+# Since no data-passing happens between the tasks, we use ``>>`` operator on the nodes.
 @workflow
 def chain_tasks_wf() -> pd.DataFrame:
     write_node = create_node(write)
@@ -52,6 +51,7 @@ def chain_tasks_wf() -> pd.DataFrame:
     write_node >> read_node
 
     return read_node.o0
+
 # %%
 # .. note::
 #   To send arguments while creating a node, use the following syntax:
@@ -66,21 +66,16 @@ def chain_tasks_wf() -> pd.DataFrame:
 # 
 # Similar to tasks, you can also chain `SubWorkflows <https://docs.flyte.org/projects/cookbook/en/latest/auto/core/control_flow/subworkflows.html>`__.
 
-# %% 
-# First, define a sub workflow for ``write()``.
-
+# %%
 @workflow
 def write_sub_workflow():
     write()
 
-
-# %%
-# Then define a sub workflow for ``read()``.
 @workflow
 def read_sub_workflow() -> pd.DataFrame:
     return read()
 
-#  %%
+# %%
 # Use ``>>`` operator on the nodes to chain subworkflows.
 @workflow
 def chain_workflows_wf() -> pd.DataFrame:
