@@ -1,9 +1,9 @@
 """
-Chain Flyte Tasks
+Chain Flyte Entities
 -----------------
 
 Data passing between tasks need not necessarily happen through parameters.
-Flyte provides a mechanism to chain tasks using the ``>>`` operator and the ``create_node`` function.
+In such a case, if you want to explicitly construct the tasks' dependency, flytekit provides a mechanism to chain tasks using the ``>>`` operator and ``create_node`` function.
 You may want to call this function to specify dependencies between tasks that don't consume or produce outputs.
 
 Let's use this example to impose ``read()`` order after ``write()``.
@@ -61,10 +61,10 @@ def chain_tasks_wf() -> pd.DataFrame:
 #       create_node(task_name, parameter1=argument1, parameter2=argument2, ...)
 
 # %% 
-# How to chain SubWorkflows?
-# ^^^^^^^^^^^^^^^^^^^^^^^^
+# How to Chain SubWorkflows?
+# ^^^^^^^^^^^^^^^^^^^^^^
 # 
-# Similar to tasks, you can also chain `Subworkflows <https://docs.flyte.org/projects/cookbook/en/latest/auto/core/control_flow/subworkflows.html>`_ as follows:
+# Similar to tasks, you can also chain `SubWorkflows <https://docs.flyte.org/projects/cookbook/en/latest/auto/core/control_flow/subworkflows.html>`__.
 
 # %% 
 # First, define a sub workflow for ``write()``.
