@@ -147,3 +147,36 @@ if __name__ == "__main__":
 # To define workflows imperatively, refer to :ref:`this example <sphx_glr_auto_core_flyte_basics_imperative_wf_style.py>`,
 # and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks, or
 # backend plugins, see :ref:`Extending Flyte <sphx_glr_auto_core_extend_flyte>`.
+
+# %%
+#
+# Constructing a DAG From a Workflow
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# %%
+# DAG can be constructed from a given workflow in flytectl and viewed in the browser or as a ``strict digraph`` on the command line.
+#
+# A graphviz dot file rendering of a workflow using the command line:
+#
+# .. prompt:: bash $
+#
+#   flytectl get workflow -p flytesnacks -d development flyte_basics.basic_workflow.my_wf --version version -o dot
+#
+# OR (fetch the latest version)
+#
+# .. prompt:: bash $
+#
+#  flytectl get workflow -p flytesnacks -d development flyte_basics.basic_workflow.my_wf --latest -o dot
+#
+# To view the DAG in the browser:
+#
+# .. prompt:: bash $
+#
+#   flytectl get workflow -p flytesnacks -d development flyte_basics.basic_workflow.my_wf --version version -o doturl
+#
+# OR (fetch the latest version)
+#
+# .. prompt:: bash $
+#
+#  flytectl get workflow -p flytesnacks -d development flyte_basics.basic_workflow.my_wf --latest -o doturl
+
