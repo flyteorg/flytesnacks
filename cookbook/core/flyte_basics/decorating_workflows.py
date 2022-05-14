@@ -11,7 +11,7 @@ correct order.
 Setup-Teardown Pattern
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The main use case of ``@workflow`` decorated functions is to establish a setup-teardown pattern to execute task
+The main use case of decorating ``@workflow``-decorated functions is to establish a setup-teardown pattern to execute task
 before and after your main workflow logic. This is useful when integrating with other external services
 like `wandb <https://wandb.ai/site>`__ or `clearml <https://clear.ml/>`__, which enable you to track metrics of model
 training runs.
