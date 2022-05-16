@@ -3,7 +3,7 @@ Chain Flyte Entities
 --------------------
 
 Data passing between tasks need not necessarily happen through parameters.
-In such a case, if you want to explicitly construct the tasks' dependency, flytekit provides a mechanism to chain tasks using the ``>>`` operator and ``create_node`` function.
+In such a case, if you want to explicitly construct the tasks' dependency, flytekit provides a mechanism to chain tasks using the ``>>`` operator.
 
 In this example, let's enforce an order for ``read()`` to happen after ``write()``.
 """
@@ -50,7 +50,7 @@ def chain_tasks_wf() -> pd.DataFrame:
 
     write_node >> read_node
 
-    return read_node.o0
+    return read_node
 
 # %%
 # .. note::

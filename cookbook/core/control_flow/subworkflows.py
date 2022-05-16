@@ -59,8 +59,8 @@ def my_subwf(a: int = 42) -> Tuple[str, str]:
 # which demonstrates how to override the node name of a task (or subworkflow in this case).
 #
 # Nodes are typically named sequentially: ``n0``, ``n1``, and so on. Since the inner ``my_subwf`` also has a ``n0``, you might
-# want to modify the first one's name. Because node IDs must be different within a process graph, 
-# Flyte automatically prepends an attribute to the inner ``n0``. This is good.
+# want to modify the first node's name. Because node IDs must be different within a workflow graph, 
+# Flyte automatically prepends an attribute to the inner ``n0``.
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
     x, y = t1(a=a).with_overrides(node_name="node-t1-parent")
@@ -130,7 +130,7 @@ def count_freq_words(input_string1: str) -> Dict:
 
 
 # %%
-# Define a workflow that executes the previously defined task.
+# Construct a workflow that executes the previously-defined task.
 @workflow
 def ext_workflow(my_input: str) -> Dict:
     result = count_freq_words(input_string1=my_input)
