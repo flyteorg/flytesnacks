@@ -7,11 +7,11 @@ In such a case, if you want to explicitly construct the tasks' dependency, flyte
 
 In this example, let's enforce an order for ``read()`` to happen after ``write()``.
 """
+
 # %%
 # First, import the necessary dependencies.
 import pandas as pd
 
-# %%
 from flytekit import task, workflow
 from flytekit.core.node_creation import create_node
 
@@ -40,6 +40,7 @@ def write():
 
     # Write the data to a database
     # pd.to_csv("...")
+
 # %%
 # We want to enforce an order here: ``write()`` followed by ``read()``. 
 # Since no data-passing happens between the tasks, we use ``>>`` operator on the nodes.
@@ -52,17 +53,9 @@ def chain_tasks_wf() -> pd.DataFrame:
 
     return read_node
 
-# %%
-# .. note::
-#   To send arguments while creating a node, use the following syntax:
-#
-#   .. code-block:: python
-#
-#       create_node(task_name, parameter1=argument1, parameter2=argument2, ...)
-
 # %% 
 # How to Chain SubWorkflows?
-# ^^^^^^^^^^^^^^^^^^^^^^
+# ^^^^^^^^^^^^^^^^^^^^^^^^^
 # 
 # Similar to tasks, you can also chain `SubWorkflows <https://docs.flyte.org/projects/cookbook/en/latest/auto/core/control_flow/subworkflows.html>`__.
 
@@ -85,6 +78,7 @@ def chain_workflows_wf() -> pd.DataFrame:
     write_sub_wf >> read_sub_wf
 
     return read_sub_wf
+
 #%%
 # Finally, run the workflow locally.
 if __name__ == "__main__":

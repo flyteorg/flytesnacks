@@ -4,7 +4,7 @@ SubWorkflows
 
 Subworkflows are similar to :ref:`launch plans <Launch plans>` since they allow users to kick off one workflow from within another.
 
-What's the difference?
+What's the Difference?
 Consider launch plans as pass by pointer and subworkflows as pass by value.
 
 .. note::
@@ -13,7 +13,7 @@ Consider launch plans as pass by pointer and subworkflows as pass by value.
     We provide this capability at the user level rather than hiding it. The pros and cons of
     using subworkflows are discussed below.
 
-When should I use SubWorkflows?
+When Should I Use SubWorkflows?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Subworkflows provide a clean solution to control parallelism between a workflow and its launched sub-flows 
 because they execute within the same context as the parent workflow. 
