@@ -51,7 +51,7 @@ class CustomSorter(FileNameSortKey):
         "decorating_workflows.py",
         # Control Flow
         "conditions.py",
-        "chain_tasks.py",
+        "chain_entities.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
