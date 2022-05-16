@@ -50,7 +50,7 @@ def chain_tasks_wf() -> pd.DataFrame:
 
     write_node >> read_node
 
-    return read_node.o0
+    return read_node
 
 # %%
 # .. note::
