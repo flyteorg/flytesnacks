@@ -12,6 +12,10 @@ Flytekit makes it possible to return or accept a :py:class:`pandas.DataFrame` wh
 converted into Flyte's abstract representation of a structured dataset object.
 
 This example explains how a structured dataset can be used with the Flyte entities.
+
+.. note::
+    Refer :ref:`here <BigQuery Query>` to understand how the results of a BigQuery query can be stored in a StructuredDataset.
+
 """
 
 # %%
