@@ -75,7 +75,7 @@ dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClas
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
 @task(
-    container_image="{{ .image.trainer_image.default }}:core-{{ .image.trainer_image.latest }}"
+    container_image="{{ .image.trainer_image.fqn }}:{{ .image.trainer_image.version }}" 
 )
 def svm_trainer() -> split_data:
     fish_data = pd.read_csv(dataset_url)
@@ -113,7 +113,7 @@ def svm_trainer() -> split_data:
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
 @task(
-    container_image="{{ .image.predictor_image.default }}:core-{{ .image.predictor_image.latest }}"
+    container_image="{{ .image.predictor_image.fqn }}:{{ .image.predictor_image.version }}"
 )
 def svm_predictor(
     X_train: pd.DataFrame,
