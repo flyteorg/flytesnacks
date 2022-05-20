@@ -1,5 +1,5 @@
 -r ./common/requirements-common.in
-git+https://github.com/flyteorg/furo@89c52165
+git+https://github.com/flyteorg/furo@8beb9bfb
 pillow
 sphinx
 sphinx_rtd_theme
