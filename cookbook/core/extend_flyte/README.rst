@@ -23,8 +23,8 @@ grouping of images in a specific encoding.
 Flytekit natively supports structured data like :py:func:`~dataclasses.dataclass` using JSON as the
 representation format (see :ref:`Using Custom Python Objects <sphx_glr_auto_core_type_system_custom_objects.py>`).
 
-Flytekit allows users to extend Flyte's type system and implement these types in Python for types that are not simply representable as JSON documents. The user has to implement a :py:class:`~flytekit.extend.TypeTransformer`
-class to enable the translation of the type from the user type to the Flyte-understood type.
+Flytekit allows users to extend Flyte's type system and implement types in Python that are not representable as JSON documents. The user has to implement a :py:class:`~flytekit.extend.TypeTransformer`
+class to enable the translation of type from user type to Flyte-understood type.
 
 As an example, instead of using :py:class:`pandas.DataFrame` directly, you may want to use
 `Pandera <https://pandera.readthedocs.io/en/stable/>`__ to perform validation of an input or output dataframe
@@ -82,7 +82,7 @@ Alternatively, you can provide an interface like this:
         df = query_task(time=t)
         return process(df=df)
 
-There are three options when writing a new task type: you can write a task plugin as an extension in Flytekit, or you
+There are three options when writing a new task type:
 can go deeper and write a plugin in the Flyte backend:
 
 - :ref:`Custom behavior task plugin <advanced_custom_task_plugin>`
@@ -117,7 +117,7 @@ start when enabling custom task functionality.
    * - 
      - A bug fix to the runtime, needs a new library version of the plugin
    * - 
-     - Not trivial to implement resource controls - e.g. throttling, resource pooling etc.
+     - Not trivial to implement resource controls, e.g., throttling, resource pooling, etc.
 
 Difference between Custom behavior and Custom container task types
 ------------------------------------------------------------------

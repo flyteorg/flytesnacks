@@ -9,7 +9,7 @@ types do not directly work. This is true with any programming language!
 
 Similar to a programming language enabling higher-level concepts to describe user-specific objects such as classes in Python/Java/C++, struct in C/Golang, etc.,
 Flytekit allows modeling user classes. The idea is to make an interface that is more productive for the
-use case, while also writing a transformer that converts the user-defined type into one of the generic constructs in Flyte's type system.
+use case, while writing a transformer that converts the user-defined type into one of the generic constructs in Flyte's type system.
 
 This example will try to model an example user-defined dataset and show how it can be seamlessly integrated with Flytekit's type engine.
 

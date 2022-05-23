@@ -25,7 +25,7 @@ Using a Task
 Take a look at the `example PR <https://github.com/flyteorg/flytekit/pull/470>`__, where we switched the built-in SQLite3 task from the old to the new style of writing tasks.
 
 There aren't many changes from the user's standpoint:
- - Install whichever Python library has the task type definition (in the case of SQLite3, it's bundled in Flytekit, but this isn't always the case). 
+ - Install whichever Python library has the task type definition (in the case of SQLite3, it's bundled in Flytekit, but this isn't always the case (for example, SQLAlchemy)). 
  - Import and instantiate the task as you would for any other type of non-function-based task.
 
 How to write a Task
@@ -61,7 +61,8 @@ Referring to the SQLite3 example ::
 
 Note that the container is special in this case since the Python classes' definitions are included in Flytekit; we utilize the Flytekit image.
 
-Furthermore, you need to override the ``get_custom`` function.  Keep in mind that the task's execution behavior is entirely defined by the task's serialized form (that is, the serialized ``TaskTemplate``). 
+Furthermore, you need to override the ``get_custom`` function. 
+Keep in mind that the task's execution behavior is entirely defined by the task's serialized form (that is, the serialized ``TaskTemplate``). 
 This function stores and inserts the data into the template's `custom field <https://github.com/flyteorg/flyteidl/blob/7302971c064b6061a148f2bee79f673bc8cf30ee/protos/flyteidl/core/tasks.proto#L114>`__. However, keep the task template's overall size to a minimum.
 
 Executor
