@@ -27,6 +27,7 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY core/requirements.txt /root
 RUN pip install -r /root/requirements.txt
+RUN pip freeze
 
 # Copy the makefile targets to expose on the container. This makes it easier to register
 COPY in_container.mk /root/Makefile

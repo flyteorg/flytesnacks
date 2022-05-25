@@ -9,6 +9,7 @@ It has been modified to show how to integrate it with Flyte and can be probably 
 import os
 import typing
 from dataclasses import dataclass
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import torch
@@ -22,7 +23,6 @@ from tensorboardX import SummaryWriter
 from torch import distributed as dist
 from torch import nn, optim
 from torchvision import datasets, transforms
-from typing import Tuple
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
@@ -186,7 +186,7 @@ TrainingOutputs = typing.NamedTuple(
     cache=True,
     cache_version="1.0",
     requests=Resources(cpu=cpu_request, mem=mem_request, gpu=gpu_request),
-    limits=Resources(mem=mem_limit, gpu=gpu_limit)
+    limits=Resources(mem=mem_limit, gpu=gpu_limit),
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     log_dir = "logs"
@@ -297,7 +297,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
 # the serialize model
 @workflow
 def pytorch_training_wf(
-    hp: Hyperparameters,
+    hp: Hyperparameters = Hyperparameters(epochs=2, batch_size=128),
 ) -> Tuple[PythonPickledFile, PNGImageFile, TensorboardLogs]:
     accuracies, model, logs = mnist_pytorch_job(hp=hp)
     plot = plot_accuracy(epoch_accuracies=accuracies)

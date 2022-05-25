@@ -54,18 +54,18 @@ Now you can run all of the example workflows locally using the default Docker im
 
 .. prompt:: bash
 
-    pyflyte run core/flyte_basics/hello_world.py:my_wf
+    pyflyte run core/flyte_basics/hello_world.py my_wf
 
 .. note::
 
-    The first argument of ``pyflyte run`` is in the form of ``path/to/script.py:<workflow_name>``, where
+    The first couple arguments of ``pyflyte run`` is in the form of ``path/to/script.py <workflow_name>``, where
     ``<workflow_name>`` is the function decorated with ``@workflow`` that you want to run.
 
 To run the workflow on the demo Flyte cluster, all you need to do is supply the ``--remote`` flag:
 
 .. prompt:: bash
 
-    pyflyte run --remote core/flyte_basics/hello_world.py:my_wf
+    pyflyte run --remote core/flyte_basics/hello_world.py my_wf
 
 You should see an output that looks like:
 
@@ -75,14 +75,14 @@ You should see an output that looks like:
 
 You can visit this url to inspect the execution as it runs:
 
-.. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/index/first_run_console_2.gif
+.. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/first_run_console.gif
         :alt: A quick visual tour for launching your first Workflow.
 
 Finally, let's run a workflow that takes some inputs, for example the ``basic_workflow.py`` example:
 
 .. prompt:: bash
 
-    pyflyte run --remote core/flyte_basics/basic_workflow.py:my_wf --a 5 --b hello
+    pyflyte run --remote core/flyte_basics/basic_workflow.py my_wf --a 5 --b hello
 
 .. note::
 
