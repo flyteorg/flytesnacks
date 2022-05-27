@@ -83,7 +83,7 @@ Finally, let's run a workflow that takes some inputs, for example the ``basic_wo
 .. prompt:: bash
 
     pyflyte run --remote core/flyte_basics/basic_workflow.py my_wf --a 5 --b hello
-
+    
 .. note::
 
     We're passing in the workflow inputs as additional options to ``pyflyte run``, in the above example the
