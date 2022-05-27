@@ -93,7 +93,7 @@ Finally, let's run a workflow that takes some inputs, for example the ``basic_wo
 Visualizing Workflows
 ^^^^^^^^^^^^^^^^^^^^^
 
-Workflows can be visualized as DAGs on the UI. You can visualize workflows on the browser and in the terminal by *just* using your terminal.
+Workflows can be visualized as DAGs on the UI. However, you can visualize workflows on the browser and in the terminal by *just* using your terminal.
 
 To view workflow on the browser:
 
