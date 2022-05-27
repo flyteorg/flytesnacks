@@ -90,6 +90,23 @@ Finally, let's run a workflow that takes some inputs, for example the ``basic_wo
     inputs are ``--a 5`` and ``--b hello``. For snake-case argument names like ``arg_name``, you can provide the
     option as ``--arg-name``.
 
+Visualizing Workflows
+^^^^^^^^^^^^^^^^^^^^^
+
+Workflows can be visualized as DAGs on the UI. You can visualize workflows on the browser and in the terminal by *just* using your terminal.
+
+To view workflow on the browser:
+
+.. prompt:: bash $
+
+   flytectl get workflows --project flytesnacks --domain development flyte.workflows.example.my_wf --version v1 -o doturl
+
+To view workflow as a ``strict digraph`` on the command line:
+
+.. prompt:: bash $
+
+   flytectl get workflows --project flytesnacks --domain development flyte.workflows.example.my_wf --version v1 -o dot
+
 .. tip::
 
     Running most of the examples in the **User Guide** only requires the default Docker image that ships with Flyte.
