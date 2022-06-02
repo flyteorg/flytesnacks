@@ -71,11 +71,10 @@ split_data = NamedTuple(
 
 dataset_url = "https://raw.githubusercontent.com/harika-bonthu/SupportVectorClassifier/main/datasets_229906_491820_Fish.csv"
 
-
 # %%
 # Define a task that fetches data and splits the data into train and test sets.
 @task(
-    container_image="{{ .image.trainer_image.fqn }}:{{ .image.trainer_image.version }}" 
+    container_image="{{.image.trainer.fqn }}:{{.image.trainer.version}}" 
 )
 def svm_trainer() -> split_data:
     fish_data = pd.read_csv(dataset_url)
@@ -113,7 +112,7 @@ def svm_trainer() -> split_data:
 # %%
 # Define another task that trains the model on the data and computes the accuracy score.
 @task(
-    container_image="{{ .image.predictor_image.fqn }}:{{ .image.predictor_image.version }}"
+    container_image="{{.image.predictor.fqn }}:{{.image.predictor.version}}"
 )
 def svm_predictor(
     X_train: pd.DataFrame,
@@ -139,7 +138,6 @@ def my_workflow() -> float:
         y_test=train_model.test_labels,
     )
     return svm_accuracy
-
 
 if __name__ == "__main__":
     print(f"Running my_workflow(), accuracy: {my_workflow()}")
