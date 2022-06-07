@@ -73,11 +73,10 @@ RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config &&
     sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
 
 # Horovod-related installations
-RUN pip install tensorflow-cpu==2.7.0
+RUN pip install tensorflow==2.9.1
 # Enable GPU
-# RUN pip install tensorflow-gpu==2.7.0
 # ENV HOROVOD_GPU_OPERATIONS NCCL
-RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark,tensorflow]==0.23.0
+RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[spark,tensorflow]==0.24.3
 
 # Setup HOROVOD entrypoint
 # TODO: Set the entrypoint
