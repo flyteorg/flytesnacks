@@ -69,8 +69,8 @@ if __name__ == "__main__":
 # a provisioned service that can scale to great sizes.
 
 # %%
-# Map a task with static inputs
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Map a task with multiple inputs
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # You might need to map a task with multiple inputs but you only need
 # to change a few of the inputs for the mapping.
@@ -83,9 +83,10 @@ def full_mappable_task(quantity: int, price: float, shipping: float) -> float:
 
 
 # %%
-# But we only want to map this task with the ``quantity`` input while the other inputs stay the same.
-#
-# We can do this by creating a new task that prepares the map task's inputs:
+# But we only want to map this task with the ``quantity`` input
+# while the other inputs stay the same. Since a map task may accept only
+# one input, we can do this by creating a new task that prepares the
+# map task's inputs:
 from typing import List, NamedTuple
 
 class MapInput(NamedTuple):
@@ -98,10 +99,19 @@ def prepare_map_inputs(list_q: List[int], p: float, s: float) -> List[MapInput]:
     return [MapInput(q, p, s) for q in list_q]
 
 # %%
-# In the workflow, we specify the static inputs:
-@workflow
-def wf(list_q: List[int], q: float, s: float) -> List[int]:
-    map_input = prepare_map_inputs(list_q=list_q, p=p, s=s)
-    return map_task(full_mappable_task)(input=map_input)
+# When defining a map task, avoid calling other tasks in it. A map
+# task that calls other tasks prevents Flyte from accurately
+# registration. While Flyte can execute the task correctly, it will
+# not be able to give the full performance advantages of a map task.
+#
+# In this example, the map task `suboptimal_mappable_task` would not
+# give you the best performance:
+@task
+def discount(quantity: float) -> float:
+    return quantity * 0.10
+
+@task
+def suboptimal_mappable_task(quantity: int, price: float, shipping: float) -> float:
+    return quantity * price * shipping - discount(quantity)
 
 
