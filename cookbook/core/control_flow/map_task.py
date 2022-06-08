@@ -113,6 +113,10 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 # task's inputs.
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
+# while the other inputs stay the same. Since a map task may accept only
+# one input, we can do this by creating a new task that prepares the
+# map task's inputs:
+from typing import List, NamedTuple
 
 @dataclass_json
 @dataclass
