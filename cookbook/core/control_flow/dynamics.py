@@ -2,14 +2,14 @@
 Dynamic Workflows
 ------------------
 
-A workflow is typically static where the directed acyclic graph's (DAG) structure is known at compile-time.
-However, in cases where a run-time parameter (e.g. the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
+A workflow is typically static when the directed acyclic graph's (DAG) structure is known at compile-time.
+However, in cases where a run-time parameter (for example, the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
 
 A dynamic workflow is similar to the :py:func:`~flytekit.workflow`, in that it represents a python-esque DSL to
 declare task interactions or new workflows. One significant difference between a regular workflow and dynamic (workflow) is that
-the latter is evaluated at runtime. This means that the inputs are first materialized and sent to the actual function,
-as if it were a task. However, the return value from a dynamic workflow is a promise rather than an actual value,
-which can be fulfilled by evaluating the various tasks that were invoked in the dynamic workflow.
+the latter is evaluated at runtime. This means the inputs are first materialized and sent to the actual function,
+as if it were a task. However, the return value from a dynamic workflow is a Promise object instead of an actual value,
+which is fulfilled by evaluating the various tasks invoked in the dynamic workflow.
 
 Within the ``@dynamic`` context (function), every invocation of a :py:func:`~flytekit.task` or a derivative of
 :py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
@@ -82,7 +82,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 #
 # .. note::
 #    The dynamic pattern isn't the most efficient method to iterate over a list. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_
-# might be more efficient in certain cases. But they only work for Python tasks (tasks decorated with the @task decorator) not SQL/Spark/etc,.
+# might be more efficient in certain cases. But they only work for Python tasks (tasks decorated with the @task decorator) not SQL, Spark, and so on.
 #
 # We now define a dynamic workflow that encapsulates the above mentioned points.
 @dynamic
@@ -135,3 +135,28 @@ def wf(s1: str, s2: str) -> int:
 
 if __name__ == "__main__":
     print(wf(s1="Pear", s2="Earth"))
+
+
+# %%
+# Dynamic workflows from execution POV
+# -------------------------------------
+#
+# Dynamic workflows simplify your pipelines, providing the flexibility to design workflows based on your project’s requirements which can’t be achieved using static workflows.  
+# Think of a dynamic workflow as a combination of a task and a workflow, that is used to dynamically decide the parameters of a workflow at runtime. It is both compiled and executed at run-time.
+#
+# Dynamic workflow comes into the picture when you need to:
+#
+# #. Modify logic of the code at runtime 
+# #. Change or decide on feature extraction parameters on-the-go
+# #. Build AutoML pipelines
+# #. Tune hyperparameters during execution 
+
+# %%
+# How Does Flyte Handle Dynamic Workflows?
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#
+# A dynamic workflow is modeled as a task in the backend, but the body of the function is executed to produce a workflow at run-time. In both dynamic and static workflows, the output of tasks are Promise objects.
+# These Promise objects can be unwrapped in other tasks.
+#  
+# :ref:`Here <Predicting House Price in Multiple Regions Using XGBoost and Dynamic Workflows>` is an example of house price prediction using dynamic workflows.
+
