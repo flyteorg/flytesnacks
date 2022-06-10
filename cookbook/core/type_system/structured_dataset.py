@@ -90,6 +90,28 @@ def get_subset_df(
     # On specifying BigQuery uri for StructuredDataset, Flytekit will write pd.dataframe to a BigQuery table
     return StructuredDataset(dataframe=df)
 
+# %%
+# Example of StructuredDataset With ``uri`` Argument
+# ==================================================
+
+import pandas as pd
+from flytekit import task
+from flytekit.types.structured import StructuredDataset
+
+@task
+def pandas_dataframe_to_bq_table() -> StructuredDataset:
+    df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
+    return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
+
+@task
+def bq_table_to_dataframe(sd: StructuredDataset) -> pd.DataFrame:
+    # convert to pandas dataframe
+    return sd.open(pd.DataFrame).all()
+
+if __name__ == "__main__":
+    o1= bq_table_to_dataframe(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
+    o2 = pandas_dataframe_to_bq_table()
+
 
 # %%
 # ``StructuredDataset`` ships with an encoder and a decoder that handles conversion of a Python value to Flyte literal and vice-versa, respectively.
