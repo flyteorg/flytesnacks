@@ -83,6 +83,7 @@ def suboptimal__mappable_task(a: int) -> str:
     stringified = str(inc)
     return stringified
 
+
 # %%
 #
 # By default, the map task uses the K8s Array plugin. Map tasks can
@@ -115,8 +116,13 @@ from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 # while the other inputs stay the same. Since a map task may accept only
 # one input, we can do this by creating a new task that prepares the
-# map task's inputs:
-from typing import List, NamedTuple
+# map task's inputs.
+#
+# We start by putting the inputs in a Dataclass and
+# ``dataclass_json``. We also define our helper task to prepare the map
+# task's inputs.
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json
 
 @dataclass_json
 @dataclass
@@ -144,4 +150,10 @@ def multiple_workflow(list_q: List[float], p: float, s: float) -> List[float]:
     coalesced = map_task(mappable_task)(input=prepared)
     return coalesced
 
+# %%
+# Our workflow prepares a new list of inputs for the map task.
+@workflow
+def multiple_workflow(list_q: List[int], p: str, s: float) -> List[int]:
+    map_input = prepare_map_inputs(list_q=list_q, p=p, s=s)
+    return map_task(mappable_task)(input=map_input)
 
