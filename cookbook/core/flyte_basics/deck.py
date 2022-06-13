@@ -70,8 +70,17 @@ def t2() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
     return iris_df
 
 # %%
-# .. figure:: https://i.ibb.co/z7LtyDV/deck-dataframe.png
-#   :alt: Output Deck
+# Open Flyte Deck on FlyteConsole
+
+# %%
+# .. figure:: t.ly/lCTQ
+#   :alt: FlyteConsole
+#   :class: with-shadow
+#
+
+# %%
+# .. figure:: t.ly/Jw8j
+#   :alt: Dataframe
 #   :class: with-shadow
 #
 
