@@ -73,13 +73,13 @@ def t2() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
 # Open Flyte Deck on FlyteConsole
 
 # %%
-# .. figure:: t.ly/lCTQ
+# .. figure:: https://i.ibb.co/7yCJnSs/flyteconsole.png
 #   :alt: FlyteConsole
 #   :class: with-shadow
 #
 
 # %%
-# .. figure:: t.ly/Jw8j
+# .. figure:: https://i.ibb.co/vhB8Mnz/dataframe.png
 #   :alt: Dataframe
 #   :class: with-shadow
 #
