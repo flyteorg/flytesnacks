@@ -103,9 +103,9 @@ start when enabling custom task functionality.
      - Potentially expensive: in cases where the plugin runs a remote job, running a new pod for every task execution
        causes severe strain on k8s and the task itself uses almost no CPUs. Also because of its stateful nature,
        using spot-instances is not trivial.
-   * - 
+   * -
      - A bug fix to the runtime, needs a new library version of the plugin
-   * - 
+   * -
      - Not trivial to implement resource controls - e.g. throttling, resource pooling etc
 
 Backend Plugin
@@ -123,7 +123,7 @@ of the plugin.
      - Cons
    * - Service oriented way of deploying new plugins - strong contracts. Maintainers can deploy new versions of the backend plugin, fix bugs, without needing the users to upgrade Libraries etc
      - Need to be implemented in golang
-   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in Golang and uses an event loop model. Each process of FlytePropeller can execute 1000's of tasks concurrently. 
+   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in Golang and uses an event loop model. Each process of FlytePropeller can execute 1000's of tasks concurrently.
      - Needs a FlytePropeller build - *currently*
    * - Flyte will guarantee resource cleanup
      - Need to implement contract in some spec language like protobuf, openAPI etc

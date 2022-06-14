@@ -2,18 +2,18 @@
 Flytesnacks Contribution Guide
 ##############################
 
-First off, thank you for thinking about contributing! 
+First off, thank you for thinking about contributing!
 Below you’ll find instructions that will hopefully guide you through how to contribute to and improve Flytesnacks.
 
 💻 Contribute to Examples
 =========================
 
 1. Determine where to put your new code.
-   
+
    * `Core <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/core>`__: Contains examples that demonstrate functionality available within core flytekit. These examples should be runnable locally.
    * `Integrations <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/integrations>`__: Contains examples that leverage one or more of the available plugins.
    * `Case Studies <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies>`__: Contains examples that demonstrate the usage of Flyte to solve real-world problems. These are generally more complex examples that may require extra setup or that can only run on larger clusters.
-       
+
 2. Create a directory. (applicable for ``integrations`` and ``case_studies`` directories)
 
    After determining where to put your example, create a directory under the appropriate parent directory. Each example directory should contain:
@@ -36,18 +36,18 @@ Below you’ll find instructions that will hopefully guide you through how to co
    * If the Python code can be run locally, just use ``python <my file>`` to run it.
    * If the Python code has to be tested in a cluster:
       * Install Flytectl by running ``brew install flyteorg/homebrew-tap/flytectl``. Learn more about installation and configuration of Flytectl `here <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__.
-      * Run the ``flytectl sandbox start --source=$(pwd)`` command in the directory that's one level above the directory that has workflows. 
-      For example, to register `house price prediction <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies/ml_training/house_price_prediction>`__ example, run the start command in the ``ml_training`` directory. 
+      * Run the ``flytectl sandbox start --source=$(pwd)`` command in the directory that's one level above the directory that has workflows.
+      For example, to register `house price prediction <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies/ml_training/house_price_prediction>`__ example, run the start command in the ``ml_training`` directory.
       To register ``core`` examples, run the start command in the ``cookbook`` directory. So, ``cd`` to the required directory and run all the consequent commands in there!
 
       Following are the commands to run if examples in ``core`` directory are to be tested on sandbox:
-        1. Build Docker container using the command: ``flytectl sandbox exec -- docker build . --tag "core:v1" -f core/Dockerfile``. 
+        1. Build Docker container using the command: ``flytectl sandbox exec -- docker build . --tag "core:v1" -f core/Dockerfile``.
         2. Package the examples by running ``pyflyte --pkgs core package --image core:v1 -f``.
         3. Register the examples by running ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1``.
         4. Visit https://localhost:30081/console to view the Flyte console, which consists of the examples present in the ``flytesnacks/cookbook/core`` directory.
-        5. To fetch new dependencies and rebuild the image, run 
-        ``flytectl sandbox exec -- docker build . --tag "core:v2" -f core/Dockerfile``, 
-        ``pyflyte --pkgs core package --image core:v2 -f``, and 
+        5. To fetch new dependencies and rebuild the image, run
+        ``flytectl sandbox exec -- docker build . --tag "core:v2" -f core/Dockerfile``,
+        ``pyflyte --pkgs core package --image core:v2 -f``, and
         ``flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2``.
         6. Refer to `this doc <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__ if the code in itself is updated and requirements.txt is the same.
 
@@ -75,7 +75,7 @@ We use `codespell <https://github.com/codespell-project/codespell>`__ to catch c
 📝 Contribute to Documentation
 ==============================
 
-The ``docs`` folder in ``flytesnacks`` houses the required documentation configuration. The core, case_studies, and integrations docs are written in the respective README.md and the Python code files. 
+The ``docs`` folder in ``flytesnacks`` houses the required documentation configuration. The core, case_studies, and integrations docs are written in the respective README.md and the Python code files.
 
 1. README.md file needs to capture the *what*, *why*, and *how*.
 
@@ -83,13 +83,13 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
    * Why do we need this integration? How is it going to benefit the Flyte users?
    * Showcase the uniqueness of the integration
    * How to install the plugin?
-  
+
    .. tip::
       Refer to any repo in the cookbook directory to understand this better.
 
 2. Explain what the code does.
 3. Update `conf.py <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/docs/conf.py>`__ (imagine you have added ``snowflake`` to the ``integrations/external_services`` folder):
-   
+
    * Add the Python file names to the ``CUSTOM_FILE_SORT_ORDER`` list
    * Add ``../integrations/external_services/snowflake`` to ``example_dirs``
    * Add ``auto/integrations/external_services/snowflake`` to ``gallery_dirs``
@@ -104,7 +104,7 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
 6. Add an entry to cookbook/flyte_tests_manifest.json if you're adding an integration or a tutorial.
 
 7. Verify that the code and documentation look as expected.
-   
+
    1. Learn about the documentation tools `here <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__
    2. Install the requirements by running ``pip install -r docs-requirements.txt`` in the ``cookbook`` folder
    3. Run ``make html`` in the ``docs`` folder
@@ -114,8 +114,8 @@ The ``docs`` folder in ``flytesnacks`` houses the required documentation configu
    4. Open the HTML pages present in the ``docs/_build`` directory in the browser
 
 
-8. After creating the pull request, ensure that the docs are rendered correctly by clicking on the documentation check. 
-   
+8. After creating the pull request, ensure that the docs are rendered correctly by clicking on the documentation check.
+
    .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
        :alt: Docs link in a PR
 
