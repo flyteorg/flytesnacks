@@ -133,7 +133,7 @@ def bq_table_to_dataframe(sd: StructuredDataset) -> pd.DataFrame:
 #.. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
 
 # %%
-# Trigger the tasks.
+# Trigger the tasks locally.
 if __name__ == "__main__":
     o1= bq_table_to_dataframe(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
     o2 = pandas_dataframe_to_bq_table()
