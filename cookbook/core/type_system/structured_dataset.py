@@ -50,8 +50,8 @@ subset_cols = kwtypes(Age=int)
 
 
 # %%
-# We define two tasks — one returns a pandas DataFrame, and the other, a :py:class:`flytekit.types.schema.FlyteSchema`.
-# The DataFrames themselves will be serialized to an intermediate format like parquet before sending them to the other tasks.
+# We define two tasks— one returns a pandas DataFrame, and the other, a :py:class:`flytekit.types.schema.FlyteSchema`.
+# The DataFrames will be serialized to an intermediate format like parquet before sending them to the other tasks.
 @task
 def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
     """
@@ -105,7 +105,7 @@ def get_subset_df(
 # Let's dive into the example. 
 
 # %%
-# Import the necessary packages.
+# Import the dependencies.
 import pandas as pd
 from flytekit import task
 from flytekit.types.structured import StructuredDataset
@@ -117,7 +117,9 @@ from flytekit.types.structured import StructuredDataset
 # Define a task that converts a pandas dataframe to a BigQuery table.
 @task
 def pandas_dataframe_to_bq_table() -> StructuredDataset:
+    # create a pandas dataframe
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
+    # convert the dataframe to StructuredDataset
     return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
 
 # %%
