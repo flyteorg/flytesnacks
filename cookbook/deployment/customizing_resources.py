@@ -25,20 +25,22 @@ Flytekit makes it possible to specify these requirements declaratively and close
 # #. ``mem``
 # #. ``gpu``
 #
-# To ensure regular tasks that do not require GPUs are not scheduled on GPU nodes, a separate node group for GPU nodes can be configured with `taints <https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/>`_.
+# To ensure regular tasks that don't require GPUs are not scheduled on GPU nodes, a separate node group for GPU nodes can be configured with `taints <https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/>`_.
 #
-# To ensure tasks that do require GPUs get the needed tolerations on their pods, set up flytepropeller using the following `configuration <https://github.com/flyteorg/flytepropeller/blob/v0.10.5/config.yaml#L51,L56>`_. Make sure that this toleration config matches the taint config that you have configured to protect your gpu providing nodes from having to deal with regular non-gpu workloads (pods).
+# To ensure tasks that require GPUs get the needed tolerations on their pods, set up FlytePropeller using the following `configuration <https://github.com/flyteorg/flytepropeller/blob/v0.10.5/config.yaml#L51,L56>`_. Ensure that this toleration config matches the taint config you have configured to protect your gpu providing nodes from dealing with regular non-gpu workloads (pods).
 #
 # The ``storage`` resources option is not yet supported, but coming soon.
 #
-# The actual values follow the `kubernetes convention <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes>`_.
+# The actual values follow the `Kubernetes convention <https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes>`_.
+# Let's dive into an example.
 
-
+# %%
+# Import the dependencies.
 import typing
 
 from flytekit import Resources, task, workflow
 
-
+# Define a task that returns the count of unique numbers. Specify the resources (such as CPU and memory). 
 @task(requests=Resources(cpu="1", mem="100Mi"), limits=Resources(cpu="2", mem="150Mi"))
 def count_unique_numbers(x: typing.List[int]) -> int:
     s = set()
@@ -48,21 +50,59 @@ def count_unique_numbers(x: typing.List[int]) -> int:
 
 
 # %%
-# Let's create a dummy task that determines the square of a number.
+# Define a task that computes the square of a number.
 @task
 def square(x: int) -> int:
     return x * x
 
 
 # %%
-# The tasks decorated with memory and storage hints can be used like regular tasks in a workflow.
+# The tasks decorated with memory and storage hints are used like regular tasks in a workflow.
 @workflow
 def my_workflow(x: typing.List[int]) -> int:
     return square(x=count_unique_numbers(x=x))
 
 
 # %%
-# The workflow and task can be executed locally.
+# You can execute the workflow locally.
 if __name__ == "__main__":
     print(count_unique_numbers(x=[1, 1, 2]))
     print(my_workflow(x=[1, 1, 2]))
+
+# %%
+# Using ``with_overrides`` Method
+#
+# The ``with_overrides`` method is used to override the resources in the tasks based on the inputs.
+# Let's understand it with an example
+#
+
+# %%
+# Import the dependencies.
+from flytekit import task, workflow, Resources
+
+# %%
+# Define a task that returns an integer and a string.
+@task
+def t1(a:int, b:str) -> (int, str):
+    return (a,b)
+
+# %%
+# Define a task that returns sum of two integers.
+@task
+def t2(c:int, d:int) -> int:
+    return c+d
+
+# %%
+# Define a workflow. 
+@workflow
+def pipeline(a:int, b:str, c:int, d:int) -> int:
+    # ``with_overrides`` is used to specify the memory
+    op1,op2 = t1(a=a, b=b).with_overrides(limits=Resources(mem="200Mi"))
+    op3 = t2(c=op1, d=d)
+    return op3
+
+# %%
+# You can run the file locally.
+if __name__ == "__main__":
+    print(f"The output is {pipeline(a=1, b='Joe', c=100, d=10)}")   
+    
