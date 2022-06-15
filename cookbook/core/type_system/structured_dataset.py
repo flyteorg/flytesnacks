@@ -90,53 +90,64 @@ def get_subset_df(
     # On specifying BigQuery uri for StructuredDataset, flytekit writes pd.dataframe to a BigQuery table
     return StructuredDataset(dataframe=df)
 
+
 # %%
-# Example of StructuredDataset With ``uri`` Argument
-# ==================================================
+# StructuredDataset with ``uri`` Argument
+# ========================================
 #
-# As mentioned previously, if you specify BigQuery ``uri`` for StructuredDataset, flytekit writes the pandas dataframe to a BigQuery table.
+# If you specify BigQuery ``uri`` for StructuredDataset, flytekit writes the pandas dataframe to a BigQuery table.
 #
-# To write a dataframe to a BigQuery table, 
+# Before writing DataFrame to a BigQuery table,
 #
-# #. Use your gcp account (or `create <https://cloud.google.com/docs/authentication/getting-started>`_ one) and create a service account.
+# #. Create a `GCP account <https://cloud.google.com/docs/authentication/getting-started>`__ and create a service account.
 # #. Create a project and add the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to your bashrc file.
 # #. Create a dataset in your project.
 #
-# Let's dive into the example. 
+# Let's understand how to create a DataFrame from a BigQuery table through an example.
+
 
 # %%
 # Import the dependencies.
-import pandas as pd
-from flytekit import task
-from flytekit.types.structured import StructuredDataset
+import pandas as pd  # noqa: E402
+from flytekit import task  # noqa: E402
+from flytekit.types.structured import StructuredDataset  # noqa: E402
+
 
 # %%
-#.. note:: The BigQuery uri's format is ``bq://<project_name>.<dataset_name>.<table_name>``.
-
-# %%
-# Define a task that converts a pandas dataframe to a BigQuery table.
+# Define a task that converts pandas DataFrame to a BigQuery table.
 @task
-def pandas_dataframe_to_bq_table() -> StructuredDataset:
+def pandas_to_bq() -> StructuredDataset:
     # create a pandas dataframe
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
     # convert the dataframe to StructuredDataset
-    return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
+    return StructuredDataset(
+        dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1"
+    )
+
 
 # %%
-# Define a task that converts a BigQuery table to a pandas dataframe .
+# .. note:: The BigQuery uri's format is ``bq://<project_name>.<dataset_name>.<table_name>``.
+
+
+# %%
+# Define a task that converts the BigQuery table to pandas DataFrame .
 @task
-def bq_table_to_dataframe(sd: StructuredDataset) -> pd.DataFrame:
+def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
     # convert to pandas dataframe
     return sd.open(pd.DataFrame).all()
 
+
 # %%
-#.. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
+# .. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
+
 
 # %%
 # Trigger the tasks locally.
 if __name__ == "__main__":
-    o1= bq_table_to_dataframe(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
-    o2 = pandas_dataframe_to_bq_table()
+    o1 = bq_to_pandas(
+        sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1")
+    )
+    o2 = pandas_to_bq()
 
 
 # %%
