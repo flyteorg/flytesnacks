@@ -51,7 +51,7 @@ subset_cols = kwtypes(Age=int)
 
 # %%
 # We define two tasks, one returns a pandas DataFrame and the other a :py:class:`flytekit.types.schema.FlyteSchema`.
-# The DataFrames are serialized to an intermediate format (like parquet file) before sending them to the other tasks.
+# Flyte serializes the DataFrames to an intermediate format, a parquet file, before sending them to the other tasks.
 @task
 def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
     """
@@ -76,7 +76,7 @@ def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
 
 # %%
 # Next, we define a task that opens a structured dataset by calling ``all()``.
-# When we invoke ``all()``, the Flyte engine downloads parquet file on s3, and deserializes it to ``pandas.dataframe``.
+# When we invoke ``all()``, the Flyte engine downloads the parquet file on S3, and deserializes it to ``pandas.dataframe``.
 #
 # .. note::
 #   * Despite the input type of the task being ``StructuredDataset``, it can also accept FlyteSchema as input.
