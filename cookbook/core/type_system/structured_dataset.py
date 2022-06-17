@@ -95,15 +95,14 @@ def get_subset_df(
 # StructuredDataset with ``uri`` Argument
 # ========================================
 #
-# If you specify BigQuery ``uri`` for StructuredDataset, flytekit writes the pandas dataframe to a BigQuery table.
+# If you specify BigQuery ``uri`` for StructuredDataset, BigQuery creates a table in the location specified by the ``uri``.
+# Let's understand how to convert a pandas DataFrame to a BigQuery table and vice-versa through an example.
 #
 # Before writing DataFrame to a BigQuery table,
 #
 # #. Create a `GCP account <https://cloud.google.com/docs/authentication/getting-started>`__ and create a service account.
 # #. Create a project and add the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to your bashrc file.
 # #. Create a dataset in your project.
-#
-# Let's understand how to create a DataFrame from a BigQuery table through an example.
 
 
 # %%
@@ -114,7 +113,7 @@ from flytekit.types.structured import StructuredDataset  # noqa: E402
 
 
 # %%
-# Define a task that converts pandas DataFrame to a BigQuery table.
+# Define a task that converts a pandas DataFrame to a BigQuery table.
 @task
 def pandas_to_bq() -> StructuredDataset:
     # create a pandas dataframe
@@ -130,7 +129,7 @@ def pandas_to_bq() -> StructuredDataset:
 
 
 # %%
-# Define a task that converts the BigQuery table to pandas DataFrame .
+# Define a task that converts the BigQuery table to a pandas DataFrame.
 @task
 def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
     # convert to pandas dataframe
