@@ -95,6 +95,7 @@ def get_subset_df(
 # StructuredDataset with ``uri`` Argument
 # ========================================
 #
+# BigQuery ``uri`` allows you to load and retrieve data from cloud using the ``uri``. The ``uri`` comprises of the bucket name and the filename prefixed with ``gs://``.
 # If you specify BigQuery ``uri`` for StructuredDataset, BigQuery creates a table in the location specified by the ``uri``.
 # Let's understand how to convert a pandas DataFrame to a BigQuery table and vice-versa through an example.
 #
