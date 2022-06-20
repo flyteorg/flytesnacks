@@ -115,15 +115,15 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 
-@dataclass
 @dataclass_json
+@dataclass
 class MapInput:
-    quantity: int
+    quantity: float
     price: float
     shipping: float
 
 @task
-def prepare_map_inputs(list_q: List[int], p: float, s: float) -> List[MapInput]:
+def prepare_map_inputs(list_q: List[float], p: float, s: float) -> List[MapInput]:
     return [MapInput(q, p, s) for q in list_q]
 
 # %%
@@ -136,7 +136,9 @@ def mappable_task(input: MapInput) -> float:
 # %%
 # Our workflow prepares a new list of inputs for the map task.
 @workflow
-def multiple_workflow(list_q: List[int], p: str, s: float) -> List[int]:
-    map_input = prepare_map_inputs(list_q=list_q, p=p, s=s)
-    return map_task(mappable_task)(input=map_input)
+def multiple_workflow(list_q: List[float], p: float, s: float) -> List[float]:
+    prepared = prepare_map_inputs(list_q=list_q, p=p, s=s)
+    coalesced = map_task(mappable_task)(input=prepared)
+    return coalesced
+
 
