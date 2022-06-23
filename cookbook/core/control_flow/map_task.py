@@ -92,11 +92,10 @@ def suboptimal__mappable_task(a: int) -> str:
 
 
 # %%
-# Map a task with multiple inputs
+# Map a Task with Multiple Inputs
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# You might need to map a task with multiple inputs but you only need
-# to change a few of the inputs for the mapping.
+# You might need to map a task with multiple inputs.
 #
 # For example, we have a task that takes 3 inputs.
 @task
