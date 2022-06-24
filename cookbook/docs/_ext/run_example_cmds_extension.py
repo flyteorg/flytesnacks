@@ -15,7 +15,7 @@ TEMPLATE = """
    .. prompt:: bash
 
       cd cookbook/{example_root_dir}
-   
+
    .. tabbed:: pyflyte run
 
       In a terminal session, run:
@@ -58,10 +58,10 @@ class RunExampleCmds(SphinxDirective):
             str(test_dir / f"test_{rel_path.stem}.sh"),
             str(test_dir / f"test_{rel_path.stem}.py"),
         )
-    
+
     def parse_rst_template(self):
         """Parse rst template for run commands into docutils nodes.
-        
+
         This was adapted from this example: https://www.bustawin.com/sphinx-extension-devel/
         """
         test_script_paths = self.get_test_script_paths()
