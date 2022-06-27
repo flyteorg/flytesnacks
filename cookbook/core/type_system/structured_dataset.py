@@ -50,8 +50,8 @@ subset_cols = kwtypes(Age=int)
 
 
 # %%
-# We define two tasks — one returns a pandas DataFrame, and the other, a :py:class:`flytekit.types.schema.FlyteSchema`.
-# The DataFrames themselves will be serialized to an intermediate format like parquet before sending them to the other tasks.
+# We define two tasks, one returns a pandas DataFrame and the other a :py:class:`flytekit.types.schema.FlyteSchema`.
+# Flyte serializes the DataFrames to an intermediate format, a parquet file, before sending them to the other tasks.
 @task
 def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
     """
@@ -76,7 +76,7 @@ def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
 
 # %%
 # Next, we define a task that opens a structured dataset by calling ``all()``.
-# When we invoke ``all()``, Flyte engine downloads parquet file on s3, and deserializes it to ``pandas.dataframe``.
+# When we invoke ``all()``, the Flyte engine downloads the parquet file on S3, and deserializes it to ``pandas.dataframe``.
 #
 # .. note::
 #   * Despite the input type of the task being ``StructuredDataset``, it can also accept FlyteSchema as input.
@@ -87,70 +87,84 @@ def get_subset_df(
 ) -> Annotated[StructuredDataset, subset_cols]:
     df = df.open(pd.DataFrame).all()
     df = pd.concat([df, pd.DataFrame([[30]], columns=["Age"])])
-    # On specifying BigQuery uri for StructuredDataset, flytekit writes pd.dataframe to a BigQuery table
+    # On specifying BigQuery uri for StructuredDataset, flytekit writes a pandas dataframe to a BigQuery table
     return StructuredDataset(dataframe=df)
 
+
 # %%
-# Example of StructuredDataset With ``uri`` Argument
-# ==================================================
+# StructuredDataset with ``uri`` Argument
+# ========================================
 #
-# As mentioned previously, if you specify BigQuery ``uri`` for StructuredDataset, flytekit writes the pandas dataframe to a BigQuery table.
+# BigQuery ``uri`` allows you to load and retrieve data from cloud using the ``uri``. The ``uri`` comprises of the bucket name and the filename prefixed with ``gs://``.
+# If you specify BigQuery ``uri`` for StructuredDataset, BigQuery creates a table in the location specified by the ``uri``.
+# The ``uri`` in StructuredDataset reads from or writes to S3, GCP, BigQuery, or any storage.
+# Let's understand how to convert a pandas DataFrame to a BigQuery table and vice-versa through an example.
 #
-# To write a dataframe to a BigQuery table, 
+# Before writing DataFrame to a BigQuery table,
 #
-# #. Use your gcp account (or `create <https://cloud.google.com/docs/authentication/getting-started>`_ one) and create a service account.
-# #. Create a project and add the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to your bashrc file.
+# #. Create a `GCP account <https://cloud.google.com/docs/authentication/getting-started>`__ and create a service account.
+# #. Create a project and add the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to your .bashrc file.
 # #. Create a dataset in your project.
-#
-# Let's dive into the example. 
+
 
 # %%
 # Import the dependencies.
-import pandas as pd
-from flytekit import task
-from flytekit.types.structured import StructuredDataset
+import pandas as pd  # noqa: E402
+from flytekit import task  # noqa: E402
+from flytekit.types.structured import StructuredDataset  # noqa: E402
+
 
 # %%
-#.. note:: The BigQuery uri's format is ``bq://<project_name>.<dataset_name>.<table_name>``.
-
-# %%
-# Define a task that converts a pandas dataframe to a BigQuery table.
+# Define a task that converts a pandas DataFrame to a BigQuery table.
 @task
-def pandas_dataframe_to_bq_table() -> StructuredDataset:
+def pandas_to_bq() -> StructuredDataset:
+    # create a pandas dataframe
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
-    return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
+    # convert the dataframe to StructuredDataset
+    return StructuredDataset(
+        dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1"
+    )
+
 
 # %%
-# Define a task that converts a BigQuery table to a pandas dataframe .
+# .. note:: The BigQuery uri's format is ``bq://<project_name>.<dataset_name>.<table_name>``.
+
+
+# %%
+# Define a task that converts the BigQuery table to a pandas DataFrame.
 @task
-def bq_table_to_dataframe(sd: StructuredDataset) -> pd.DataFrame:
+def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
     # convert to pandas dataframe
     return sd.open(pd.DataFrame).all()
 
-# %%
-#.. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
 
 # %%
-# Trigger the tasks.
+# .. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
+
+
+# %%
+# Trigger the tasks locally.
 if __name__ == "__main__":
-    o1= bq_table_to_dataframe(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
-    o2 = pandas_dataframe_to_bq_table()
+    o1 = bq_to_pandas(
+        sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1")
+    )
+    o2 = pandas_to_bq()
 
 
 # %%
-# Numpy Encoder and Decoder
+# NumPy Encoder and Decoder
 # ==========================
 #
-# ``StructuredDataset`` ships with an encoder and a decoder that handles conversion of a Python value to Flyte literal and vice-versa, respectively.
-# Let's understand how they need to be written by defining a Numpy encoder and decoder, which in turn helps use Numpy array as a valid type within structured datasets.
+# ``StructuredDataset`` ships with an encoder and a decoder that handles the conversion of a Python value to a Flyte literal and vice-versa, respectively.
+# Let's understand how to write them by defining a NumPy encoder and decoder, which helps use NumPy array as a valid type within structured datasets.
 
 
 # %%
-# Numpy Encoder
+# NumPy Encoder
 # ^^^^^^^^^^^^^
 #
 # We extend ``StructuredDatasetEncoder`` and implement the ``encode`` function.
-# The ``encode`` function converts Numpy array to an intermediate format like parquet.
+# The ``encode`` function converts NumPy array to an intermediate format (parquet file format in this case).
 class NumpyEncodingHandlers(StructuredDatasetEncoder):
     def encode(
         self,
@@ -175,7 +189,7 @@ class NumpyEncodingHandlers(StructuredDatasetEncoder):
 
 
 # %%
-# Numpy Decoder
+# NumPy Decoder
 # ^^^^^^^^^^^^^
 #
 # Next we extend ``StructuredDatasetDecoder`` and implement the ``decode`` function.
@@ -204,7 +218,7 @@ for protocol in [LOCAL, S3]:
     )
 
 # %%
-# You can now use ``numpy.ndarray`` to deserialize the parquet file to Numpy and serialize a task's output (Numpy array) to a parquet file.
+# You can now use ``numpy.ndarray`` to deserialize the parquet file to NumPy and serialize a task's output (NumPy array) to a parquet file.
 
 # %%
 # Let's define a task to test the above functionality.
