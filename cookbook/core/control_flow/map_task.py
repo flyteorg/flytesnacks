@@ -68,7 +68,7 @@ if __name__ == "__main__":
 # When defining a map task, avoid calling other tasks in it. Flyte
 # can't accurately register tasks that call other tasks.  While Flyte
 # will correctly execute a task that calls other tasks, it will not be
-# able to give the full performance advantages. This is
+# able to give full performance advantages. This is
 # especially true for map tasks.
 #
 # In this example, the map task ``suboptimal_mappable_task`` would not
@@ -114,15 +114,6 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 # task's inputs.
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
-# while the other inputs stay the same. Since a map task may accept only
-# one input, we can do this by creating a new task that prepares the
-# map task's inputs.
-#
-# We start by putting the inputs in a Dataclass and
-# ``dataclass_json``. We also define our helper task to prepare the map
-# task's inputs.
-from dataclasses import dataclass
-from dataclasses_json import dataclass_json
 
 @dataclass_json
 @dataclass
@@ -136,8 +127,8 @@ def prepare_map_inputs(list_q: List[float], p: float, s: float) -> List[MapInput
     return [MapInput(q, p, s) for q in list_q]
 
 # %%
-# Then we refactor ``multi_input_task``. Instead of 3 inputs, this
-# map-friendly task has a single input.
+# Then we refactor ``multi_input_task``. Instead of 3 inputs, ``mappable_task``
+# has a single input.
 @task
 def mappable_task(input: MapInput) -> float:
     return input.quantity * input.price * input.shipping
@@ -147,13 +138,10 @@ def mappable_task(input: MapInput) -> float:
 @workflow
 def multiple_workflow(list_q: List[float], p: float, s: float) -> List[float]:
     prepared = prepare_map_inputs(list_q=list_q, p=p, s=s)
-    coalesced = map_task(mappable_task)(input=prepared)
-    return coalesced
+    return map_task(mappable_task)(input=prepared)
 
 # %%
-# Our workflow prepares a new list of inputs for the map task.
-@workflow
-def multiple_workflow(list_q: List[int], p: str, s: float) -> List[int]:
-    map_input = prepare_map_inputs(list_q=list_q, p=p, s=s)
-    return map_task(mappable_task)(input=map_input)
-
+# We can run our multi-input map task locally.
+if __name__ == "__main__":
+    result = multiple_workflow(list_q=[1.0, 2.0, 3.0, 4.0, 5.0], p=6.0, s=7.0)
+    print(f"{result}")
