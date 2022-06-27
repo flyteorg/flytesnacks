@@ -155,8 +155,8 @@ if __name__ == "__main__":
 # NumPy Encoder and Decoder
 # ==========================
 #
-# ``StructuredDataset`` ships with an encoder and a decoder that handles conversion of a Python value to a Flyte literal and vice-versa, respectively.
-# Let's understand how to write to write them by defining a NumPy encoder and decoder, which helps use NumPy array as a valid type within structured datasets.
+# ``StructuredDataset`` ships with an encoder and a decoder that handles the conversion of a Python value to a Flyte literal and vice-versa, respectively.
+# Let's understand how to write them by defining a NumPy encoder and decoder, which helps use NumPy array as a valid type within structured datasets.
 
 
 # %%
@@ -164,7 +164,7 @@ if __name__ == "__main__":
 # ^^^^^^^^^^^^^
 #
 # We extend ``StructuredDatasetEncoder`` and implement the ``encode`` function.
-# The ``encode`` function converts NumPy array to an intermediate format like parquet.
+# The ``encode`` function converts NumPy array to an intermediate format (parquet file format in this case).
 class NumpyEncodingHandlers(StructuredDatasetEncoder):
     def encode(
         self,
