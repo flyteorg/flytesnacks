@@ -78,7 +78,7 @@ def wf(n: int) -> int:
 # %%
 # .. _single_task_execution:
 #
-# .. dropdown:: :fa:`play` Single Task Execution
+# .. dropdown:: Execute a Single Task without a Workflow
 #
 #    Although workflows are traditionally composed of multiple tasks with dependencies defined by shared inputs and outputs,
 #    it can be helpful to execute a single task during the process of iterating on its definition.
@@ -133,5 +133,4 @@ def wf(n: int) -> int:
 #
 #      flytectl get execution --project flytesnacks --domain development <execname>
 #
-# %%
 # .. run-example-cmds::

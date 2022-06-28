@@ -10,7 +10,12 @@ from sphinx.util.docutils import SphinxDirective
 TEMPLATE = """
 .. dropdown:: :fa:`play` Run this example
 
-   Assuming you have your :ref:`development environment <env_setup>` ready:
+   You can run this example script with the ``pyflyte run`` CLI or ``FlyteRemote``:
+
+   .. admonition:: Prerequisites
+      :class: important
+
+      Make sure you have your :ref:`development environment <env_setup>` ready:
 
    .. prompt:: bash
 
@@ -52,11 +57,11 @@ class RunExampleCmds(SphinxDirective):
     def get_test_script_paths(self) -> TestScriptPaths:
         full_source_path = self.get_source_info()[0]
         rel_path = Path(full_source_path.split("/auto/")[-1])
-        test_dir = rel_path.parent / "tests"
+        run_dir = rel_path.parent / "_run"
         return TestScriptPaths(
             str(rel_path.parent),
-            str(test_dir / f"test_{rel_path.stem}.sh"),
-            str(test_dir / f"test_{rel_path.stem}.py"),
+            str(run_dir / f"run_{rel_path.stem}.sh"),
+            str(run_dir / f"run_{rel_path.stem}.py"),
         )
 
     def parse_rst_template(self):
