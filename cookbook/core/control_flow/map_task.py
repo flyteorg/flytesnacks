@@ -78,7 +78,7 @@ def upperhalf(a: int) -> int:
     return a / 2 + 1
 
 @task
-def suboptimal__mappable_task(a: int) -> str:
+def suboptimal_mappable_task(a: int) -> str:
     inc = upperhalf(a=a)
     stringified = str(inc)
     return stringified
