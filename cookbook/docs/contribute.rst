@@ -193,18 +193,19 @@ Testing on a Cluster
 Install Flytectl by running
 
 .. code-block::
+
    brew install flyteorg/homebrew-tap/flytectl
 
-.. note:: 
+.. note::
+
    Learn more about installation and configuration of Flytectl `here <https://docs.flyte.org/projects/flytectl/en/latest/index.html>`__.
 
-Run the ``flytectl sandbox start --source=$(pwd)`` command in the directory that's one level above the directory that
-contains workflows.
+Start a Flyte demo cluster with:
 
-For example, to register
-`house price prediction <https://github.com/flyteorg/flytesnacks/tree/master/cookbook/case_studies/ml_training/house_price_prediction>`__
-example, run the start command in the ``ml_training`` directory. To register ``core`` examples, run the start command in
-the ``cookbook`` directory. So, ``cd`` to the required directory and run all the consequent commands in there!
+.. code-block::
+
+   flytectl demo start
+
 
 Testing ``core`` directory examples on sandbox
 -----------------------------------------------
@@ -213,7 +214,7 @@ Build Docker container:
 
 .. prompt:: bash
 
-   flytectl sandbox exec -- docker build . --tag "core:v1" -f core/Dockerfile
+   flytectl demo exec -- docker build . --tag "core:v1" -f core/Dockerfile
 
 Package the examples by running
 
@@ -233,11 +234,11 @@ To fetch new dependencies and rebuild the image, run
 
 .. prompt:: bash
 
-   flytectl sandbox exec -- docker build . --tag "core:v2" -f core/Dockerfile
+   flytectl demo exec -- docker build . --tag "core:v2" -f core/Dockerfile
    pyflyte --pkgs core package --image core:v2 -f
    flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2
 
-Refer `here <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__
+Refer to `this guide <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__
 if the code in itself is updated and requirements.txt is the same.
 
 
@@ -278,7 +279,7 @@ to:
 - Add ``../integrations/external_services/snowflake`` to ``example_dirs``
 - Add ``auto/integrations/external_services/snowflake`` to ``gallery_dirs``
 
-If you've create a new section in the examples guides, you need to update the table of contents and navigation panels in
+If you've created a new section in the examples guides, you need to update the table of contents and navigation panels in
 the appropriate ``rst`` file.
 
 .. note::
@@ -291,10 +292,8 @@ the appropriate ``rst`` file.
 Update CI Workflows
 ===================
 
-To make sure your example is tested in CI/CD:
-
-- Add the name and path to ``.github/workflows/ghcr_push.yml`` if you're adding an integration or a tutorial.
-- Add an entry to ``cookbook/flyte_tests_manifest.json`` if you're adding an integration or a tutorial.
+To make sure your example is tested in CI/CD, add the name and path to ``.github/workflows/ghcr_push.yml`` if you're
+adding an integration or a tutorial.
 
 QA your Changes
 ===============

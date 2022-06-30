@@ -85,7 +85,7 @@ def wf(n: int) -> int:
 #    It can be tedious to write a new workflow definition every time you want to execute a single task under development
 #    but "single task executions" can be used to iterate on task logic easily.
 #
-#    You can launch a task on Flyte console by inputting an IAM role or a Kubernetes service account.
+#    You can launch a task on Flyte console by providing a Kubernetes service account.
 #
 #    Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``cookbook`` directory.
 #

@@ -4,7 +4,7 @@ from flytekit.remote import FlyteRemote
 from imperative_wf_style import wf
 
 remote = FlyteRemote(
-    config=Config.for_endpoint("localhost:30081", insecure=True),
+    config=Config.auto(),
     default_project="flytesnacks",
     default_domain="development",
 )
