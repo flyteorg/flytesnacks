@@ -17,7 +17,6 @@ N_SYNCS = 200
 COOKBOOK_ROOT_DIR = Path(__file__).parent / ".." / ".."
 
 
-
 @dataclass
 class ExampleTestCase:
     script_rel_path: Path
@@ -29,8 +28,8 @@ class ExampleTestCase:
     def __post_init__(self):
         full_path = COOKBOOK_ROOT_DIR / self.script_rel_path
         self.root_dir = full_path.parent
-        self.pyflyte_run_args = ["bash", f"tests/test_{full_path.stem}.sh"]
-        self.flytekit_remote_args = ["python", "-m", f"tests.test_{full_path.stem}"]
+        self.pyflyte_run_args = ["bash", f"_run/run_{full_path.stem}.sh"]
+        self.flytekit_remote_args = ["python", "-m", f"_run.run_{full_path.stem}"]
 
 
 @pytest.fixture(scope="session")

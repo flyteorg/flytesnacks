@@ -190,11 +190,7 @@ If the example code can be run locally, just use ``python <my file>.py`` to run 
 Testing on a Cluster
 ---------------------
 
-Install Flytectl by running
-
-.. code-block::
-
-   brew install flyteorg/homebrew-tap/flytectl
+Install :doc:`flytectl <flytectl:index>`, the commandline interface for flyte.
 
 .. note::
 

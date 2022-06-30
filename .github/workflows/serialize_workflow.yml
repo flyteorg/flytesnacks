@@ -33,6 +33,9 @@ jobs:
         id: example_id
         # add a step output `steps.build_id.outputs.id` as the unique id
         run: echo "::set-output name=id::$(echo ${{ matrix.directory }} | sed 's_/_-_g')"
+      - name: Delete Run Commands
+        # so they aren't serialized
+        run: rm -rf **/_run/*
       - name: Serialize Examples
         env:
           SANDBOX: "1"
