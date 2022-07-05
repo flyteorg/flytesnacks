@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import pytest
-import pytest_asyncio
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
