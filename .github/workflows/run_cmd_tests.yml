@@ -14,7 +14,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        # 3.7 and 3.10 have dependency issues:
+        # - https://github.com/flyteorg/flytesnacks/runs/7201286735?check_suite_focus=true
+        # - https://github.com/flyteorg/flytesnacks/runs/7201286962?check_suite_focus=true
+        python-version: ["3.8", "3.9"]
 
     env:
       RUN_CMDS_CI: "1"
