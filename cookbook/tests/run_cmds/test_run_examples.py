@@ -105,8 +105,12 @@ def test_example_suite(flyte_remote: FlyteRemote, example_test_case: ExampleTest
         get_execution_name = get_execution_name_flytekit_remote
 
     proc = subprocess.run(args, cwd=example_test_case.root_dir, capture_output=True)
-    std_out = proc.stdout.decode().strip()
+    std_out = proc.stdout.decode()
+
+    print(f"CURDIR: {os.getcwd()}")
+    print(f"COMMAND: {args}")
+    print(f"CWD: {example_test_case.root_dir}")
     print(f"STD OUT: {std_out}")
-    execution_name = get_execution_name(std_out)
+    execution_name = get_execution_name(std_out.strip())
     execution = get_execution(flyte_remote, execution_name)
     assert execution.outputs == example_test_case.expected_output

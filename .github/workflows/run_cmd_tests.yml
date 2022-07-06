@@ -46,4 +46,6 @@ jobs:
         make setup
         flytectl config init
     - name: Unit tests with pytest
-      run: pytest cookbook/tests/run_cmds -vv -s
+      run: |
+        cd cookbook
+        pytest tests/run_cmds -vv -s
