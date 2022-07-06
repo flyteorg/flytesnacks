@@ -49,3 +49,4 @@ jobs:
       run: |
         cd cookbook
         pytest tests/run_cmds -vv -s
+      shell: bash

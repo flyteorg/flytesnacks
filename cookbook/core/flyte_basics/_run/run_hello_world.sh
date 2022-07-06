@@ -1,1 +1,1 @@
-pyflyte run --remote hello_world.py:my_wf
+pyflyte run --remote hello_world.py my_wf

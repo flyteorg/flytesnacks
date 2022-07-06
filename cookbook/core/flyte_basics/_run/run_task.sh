@@ -1,1 +1,1 @@
-pyflyte run --remote task.py:wf --n 2
+pyflyte run --remote task.py wf --n 2
