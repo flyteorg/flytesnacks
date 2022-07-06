@@ -104,7 +104,9 @@ def test_example_suite(flyte_remote: FlyteRemote, example_test_case: ExampleTest
         args = example_test_case.flytekit_remote_args
         get_execution_name = get_execution_name_flytekit_remote
 
-    pyflyte_run_proc = subprocess.run(args, cwd=example_test_case.root_dir, capture_output=True)
-    execution_name = get_execution_name(pyflyte_run_proc.stdout.decode().strip())
+    proc = subprocess.run(args, cwd=example_test_case.root_dir, capture_output=True)
+    std_out = proc.stdout.decode().strip()
+    print(f"STD OUT: {std_out}")
+    execution_name = get_execution_name(std_out)
     execution = get_execution(flyte_remote, execution_name)
     assert execution.outputs == example_test_case.expected_output
