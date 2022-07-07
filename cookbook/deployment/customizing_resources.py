@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
 # %%
 # Using ``with_overrides``
-# -------------------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # You can use the ``with_overrides`` method to override the resources allocated to the tasks dynamically.
 # Let's understand how the resources can be initialized with an example.
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     print(my_pipeline(x=[1, 1, 2]))
 
 # %%
-# You can see the memory allocation below. The memory limit is ``500Mi`` instead of ``350Mi``, and the
+# You can see the memory allocation below. The memory limit is ``500Mi`` rather than ``350Mi``, and the
 # CPU limit is 4, whereas it should have been 6 as specified using ``with_overrides``.
 # This is because the default platform CPU quota for every pod is 4.
 #
@@ -126,4 +126,4 @@ if __name__ == "__main__":
 #    :alt: Resource allocated using "with_overrides" method
 #
 #    Resource allocated using "with_overrides" method
-#
+
