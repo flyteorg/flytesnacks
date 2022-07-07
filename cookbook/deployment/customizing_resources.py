@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
 # %%
 # Using ``with_overrides``
-# -------------------------
+# ^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # You can use the ``with_overrides`` method to override the resources allocated to the tasks dynamically.
 # Let's understand how the resources can be initialized with an example.
