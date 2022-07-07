@@ -123,6 +123,6 @@ if __name__ == "__main__":
 # This is because the default platform CPU quota for every pod is 4.
 #
 # .. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/core/resource_allocation.png
-#    :alt: Resource allocated using "with_overrides" method
+#    :alt: Resources allocated using "with_overrides" method
 #
-#    Resource allocated using "with_overrides" method
+#    Resources allocated using "with_overrides" method
