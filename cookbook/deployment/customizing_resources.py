@@ -86,7 +86,7 @@ from flytekit import Resources, task, workflow  # noqa: E402
 
 # %%
 # Define a task and configure the resources to be allocated to it.
-# You can use tasks decorated with memory and storage hints like regular tasks in a workflow.
+# You can use the tasks decorated with memory and storage hints like regular tasks in a workflow.
 @task(requests=Resources(cpu="2", mem="200Mi"), limits=Resources(cpu="3", mem="350Mi"))
 def count_unique_numbers_1(x: typing.List[int]) -> int:
     s = set()
