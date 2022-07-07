@@ -148,7 +148,7 @@ The ``run_my_example.sh.sh`` script should contain the terminal command that use
 
 .. code-block:: bash
    
-   pyflyte run --remote my_example.py:wf --input hello
+   pyflyte run --remote my_example.py:wf --input there
 
 Similarly, the ``run_my_example.py`` script should contain the python code that users need to invoke to run the script
 with ``FlyteRemote``, for example:
@@ -161,14 +161,14 @@ with ``FlyteRemote``, for example:
    from my_example import wf
 
    remote = FlyteRemote(
-       config=Config.for_endpoint("localhost:30081", insecure=True),
+       config=Config.auto(),
        default_project="flytesnacks",
        default_domain="development",
    )
 
    registered_workflow = remote.register_script(wf)
 
-   execution = remote.execute(registered_workflow, inputs={"input": "hello"})
+   execution = remote.execute(registered_workflow, inputs={"input": "there"})
    print(f"Execution successfully started: {execution.id.name}")
 
 Finally, in the ``my_example.py`` example script, place the following custom sphinx directive:
@@ -182,6 +182,35 @@ you just created:
 
 .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flyte/contribution_guide/run_commands.png
    :alt: Example run commands
+
+Finally, to test the run commands in CI, add an ``ExampleTestCase`` entry to
+the ``test_example_suite`` function in ``cookbook/tests/run_cmds/test_run_examples.py``. For
+example:
+
+.. code-block:: python
+
+   @pytest.mark.parametrize(
+       "example_test_case",
+       [
+           ExampleTestCase("hello-world", "core/flyte_basics/hello_world.py", {"o0": "hello world"}),
+           ExampleTestCase("task", "core/flyte_basics/task.py", {"o0": 16}),
+           ExampleTestCase("basic-workflow", "core/flyte_basics/basic_workflow.py", {"o0": 102, "o1": "helloworld"}),
+
+           # add a new example test case
+           ExampleTestCase(
+               id="my-example",
+               script_rel_path="path/to/my_example.py",
+               expected_output={"o0": "hello there"},
+           )
+       ],
+       ids=lambda x: x.id
+   )
+   @pytest.mark.parametrize(
+       "run_type", ["pyflyte_run", "flytekit_remote"], ids=lambda x: x.replace("_", "-")
+   )
+   def test_example_suite(flyte_remote: FlyteRemote, example_test_case: ExampleTestCase, run_type: str):
+       ...
+
 
 Test your code
 ===============
