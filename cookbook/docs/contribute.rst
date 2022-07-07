@@ -154,6 +154,7 @@ Similarly, the ``run_my_example.py`` script should contain the python code that 
 with ``FlyteRemote``, for example:
 
 .. code-block:: python
+
    from flytekit.configuration import Config
    from flytekit.remote import FlyteRemote
 
