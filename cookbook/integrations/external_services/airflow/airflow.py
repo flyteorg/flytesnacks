@@ -1,6 +1,6 @@
 """
-Provider Example
-----------------
+FlyteOperator Example
+---------------------
 
 This tutorial will walk you through constructing an Airflow DAG using the ``FlyteOperator``.
 
@@ -22,8 +22,15 @@ Environment Setup
 
 Astronomer's CLI is the fastest and easiest way to set up Airflow.
 
-- Download the `Astro CLI <https://github.com/astronomer/astro-cli>`__.
-- Create a new project directory, cd into it, and run ``astro dev init`` to initialize a new astro project.
+Download the `Astro CLI <https://github.com/astronomer/astro-cli>`__ and then initialize a new astro project.
+
+.. code-block::
+
+    mkdir flyte-astro-project
+    cd flyte-astro-project
+    astro dev init
+
+The directory structure of ``flyte-astro-project`` would look as follows:
 
 .. code-block::
 
@@ -49,7 +56,7 @@ The `getting started tutorial <https://docs.flyte.org/en/latest/getting_started/
 Create an Airflow Connection
 ============================
 
-Hit http://localhost:8080/, give the credentials (default username and password: ``admin``), navigate to ``Connections`` and create a
+Hit ``http://localhost:8080/``, give the credentials (default username and password: ``admin``), navigate to ``Connections`` and create a
 Flyte connection.
 
 .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/integrations/airflow/airflow_connection.png
@@ -66,11 +73,24 @@ Register Flyte Code
 At the Flyte end, we'll train an XGBoost model on Pima Indians Diabetes Dataset.
 The source code is available `here <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/ml_training/pima_diabetes/diabetes.py>`__.
 
-Register the example on Flyte backend before proceeding with running the Airflow DAG.
+Register the example on the Flyte backend before proceeding with running the Airflow DAG.
 
 - Configure flytectl config at ``~/.flyte/config.yaml`` to point to the relevant endpoint.
-- Clone `flytesnacks repository <https://github.com/flyteorg/flytesnacks>`__.
-- Run ``cd cookbook/case_studies`` in the root of flytesnacks repository.
+
+  .. code-block:: yaml
+
+    admin:
+      endpoint: dns:///<your-endpoint>
+      insecure: true # Set to false to enable TLS/SSL connection.
+      authType: Pkce # authType: Pkce # if using authentication or just drop this.
+
+- Clone the `flytesnacks repository <https://github.com/flyteorg/flytesnacks>`__ and go into the ``cookbook/case_studies`` directory.
+
+  .. code-block::
+
+    git clone https://github.com/flyteorg/flytesnacks
+    cd flytesnacks/cookbook/case_studies
+
 - Serialize the workflow.
 
   .. code-block::
@@ -128,8 +148,8 @@ with DAG(
 # Run the Workflow
 # ================
 # - Run the command ``astro dev start``.
-# - Trigger the Airflow DAG.
-# - Verify if Flyte execution got triggered on the FlyteConsole.
+# - Trigger the Airflow DAG by clicking the "Trigger DAG" button on the Airflow UI.
+# - Verify if Flyte execution got triggered on the FlyteConsole by going to ``http://<path>`` and navigating to the workflow page.
 
 # %%
 # That's about it! With the Flyte Airflow Provider, you get to reap the benefits of Flyte, a full-fledged machine learning orchestration service,
