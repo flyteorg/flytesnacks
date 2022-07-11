@@ -154,7 +154,7 @@ Table of Contents
    Scheduling Workflows <auto/core/scheduled_workflows/index>
    Extending Flyte <auto/core/extend_flyte/index>
    Building Large Apps <auto/larger_apps/index>
-   contribute
+   Example Contribution Guide <contribute>
 
 .. toctree::
    :maxdepth: -1
@@ -190,3 +190,4 @@ Table of Contents
    auto/integrations/external_services/hive/index
    auto/integrations/external_services/snowflake/index
    auto/integrations/gcp/bigquery/index
+   auto/integrations/external_services/airflow/index
