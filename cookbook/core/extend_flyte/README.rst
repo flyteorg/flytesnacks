@@ -9,12 +9,9 @@ form a data dependency DAG, called a ``workflow``. If your work involves writing
 either perform operations on their own or call out to :ref:`Supported external services <external_service_backend_plugins>`,
 then there's *no need to extend Flyte*.
 
-=================
-Why Extend Flyte?
-=================
-
-Define Custom Types
-===================
+====================
+Define a Custom Type
+====================
 
 Flyte, just like a programming language, has a core type-system, which can be extended by adding user-defined data types.
 For example, Flyte supports adding support for a dataframe type from a new library, a custom user data structure, or a
@@ -32,30 +29,22 @@ As an example, instead of using :py:class:`pandas.DataFrame` directly, you may w
 
 To extend the type system, refer to :std:ref:`advanced_custom_types`.
 
-
-Adding a New Task Type
-======================
+=====================
+Add a New Task Plugin
+=====================
 
 Often you want to interact with services like:
-  - Databases (e.g., Postgres, MySQL, etc.)
-  - DataWarehouses (e.g., Snowflake, BigQuery, Redshift etc.)
-  - Computation (e.g., AWS EMR, Databricks etc.)
 
-You might want this to be available as a template for the open-source community or in your organization. This
+- Databases (e.g., Postgres, MySQL, etc.)
+- DataWarehouses (e.g., Snowflake, BigQuery, Redshift etc.)
+- Computation (e.g., AWS EMR, Databricks etc.)
+
+You might want this interaction to be available as a template for the open-source community or in your organization. This
 can be done by creating a task plugin, which makes it possible to reuse the task's underlying functionality within Flyte
 workflows.
 
-If you want users to write code simply using the :py:func:`~flytekit.task` decorator, but you want to provide the
-capability of running the function as a spark job or a sagemaker training job, then you can extend Flyte's task system:
-
-With the decorator in place, the process is as follows:
-  1. A Docker container image is required at serialisation time. The task code is assumed to be present in this Docker image.
-  2. The task is serialized into a `api_msg_flyteidl.core.tasktemplate`. This template contains instructions to the container on how to reconstitute the task.
-  3. When Flyte performs the job, the container from #1 is launched, and the instructions from #2 use the user code in the container to recreate a Python object representing the task. As a result, the task object is executed.
-
-The following are the key takeaways:
-	- The task object that gets serialized at compile-time is recreated using the user's code at run time.
-	- The user-decorated function is subsequently executed by the platform run-time.
+If you want users to write code simply using the :py:func:`~flytekit.task` decorator, but want to provide the
+capability of running the function as a spark job or a sagemaker training job, then you can extend Flyte's task system.
 
 .. code-block:: python
 
@@ -82,18 +71,17 @@ Alternatively, you can provide an interface like this:
         df = query_task(time=t)
         return process(df=df)
 
-There are three options when writing a new task type:
-can go deeper and write a plugin in the Flyte backend:
+There are two options when writing a new task plugin: you can write a task plugin as an extension in Flytekit or you
+can go deeper and write a plugin in the Flyte backend.
 
-- :ref:`Custom behavior task plugin <advanced_custom_task_plugin>`
-- :ref:`Custom container task plugin <task_template>`
-- :ref:`Backend plugin <extend-plugin-flyte-backend>`
+Flytekit-Only Task Plugin
+=========================
 
-Custom behavior/Flytekit-only plugin
-------------------------------------
+Flytekit is designed to be extremely extensible. You can add new task-types that are useful only for your use-case.
+Flyte does come with the capability of extending the backend, but that is only required if you want the capability to be
+extended to all users of Flyte, or there is a cost/visibility benefit of doing so.
 
-:std:ref:`Writing your own Flytekit plugin <advanced_custom_task_plugin>` is simple and is typically where you want to
-start when enabling custom task functionality.
+Writing your own Flytekit plugin is simple and is typically where you want to start when enabling custom task functionality.
 
 .. list-table::
    :widths: 50 50
@@ -101,41 +89,43 @@ start when enabling custom task functionality.
 
    * - Pros
      - Cons
-   * - Simple to write, just implement in Python. Flyte will treat it like a container execution and blindly pass
+   * - Simple to write — implement in Python. Flyte will treat it like a container execution and blindly pass
        control to the plugin.
-     - Limited ways of providing additional visibility in progress, or external links etc
+     - Limited ways of providing additional visibility in progress, external links, etc.
    * - Simple to publish: ``flytekitplugins`` can be published as independent libraries and they follow a simple API.
-     - Has to be implemented again in every language as these are SDK side plugins only
-   * - Simple to perform testing: just test locally in flytekit
-     - In case of side-effects, potential of causing resource leaks. For example if the plugins runs a BigQuery job,
-       it is possible that the plugin may crash after running the Job and Flyte cannot guarantee that the BigQuery job
+     - Has to be implemented in every language as these are SDK-side plugins only.
+   * - Simple to perform testing: test locally in flytekit.
+     - In case of side-effects, it could lead to resource leaks. For example, if the plugin runs a BigQuery job,
+       it is possible that the plugin may crash after running the job and Flyte cannot guarantee that the BigQuery job
        will be successfully terminated.
    * -
      - Potentially expensive: in cases where the plugin runs a remote job, running a new pod for every task execution
-       causes severe strain on k8s and the task itself uses almost no CPUs. Also because of its stateful nature,
+       causes severe strain on Kubernetes and the task itself uses almost no CPUs. Also because of its stateful nature,
        using spot-instances is not trivial.
-   * - 
-     - A bug fix to the runtime, needs a new library version of the plugin
-   * - 
-     - Not trivial to implement resource controls, e.g., throttling, resource pooling, etc.
+   * -
+     - A bug fix to the runtime needs a new library version of the plugin.
+   * -
+     - Not trivial to implement resource controls, like throttling, resource pooling, etc.
 
-Difference between Custom behavior and Custom container task types
-------------------------------------------------------------------
+User Container vs. Pre-built Container Task Plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A Flytekit-only task plugin can be a :ref:`user container <user_container>` or :ref:`pre-built container <prebuilt_container>` task plugin.
 
 .. list-table::
    :widths: 10 50 50
    :header-rows: 1
 
-   * - 
-     - Custom behavior task plugins
-     - Custom container task plugins
+   * -
+     - User Container
+     - Pre-built Container
    * - Serialization
      - At serialization time, a Docker container image is required. The assumption is that this Docker image has the task code.
-     - The Docker container image is hardcoded at serialization time into the task definition by the author of that task type.
+     - The Docker container image is hardcoded at serialization time into the task definition by the author of that task plugin.
    * - Serialization
      - The serialized task contains instructions to the container on how to reconstitute the task.
      - Serialized task should contain all the information needed to run that task instance (but not necessarily to reconstitute it).
-   * - Run-time 
+   * - Run-time
      - When Flyte runs the task, the container is launched, and the user-given instructions recreate a Python object representing the task.
      - When Flyte runs the task, the container is launched. The container should have an executor built into it that knows how to execute the task.
    * - Run-time
@@ -146,10 +136,10 @@ Difference between Custom behavior and Custom container task types
      - At platform-run-time, there is no user function, and the executor is responsible for producing outputs, given the inputs to the task.
 
 Backend Plugin
---------------
+==============
 
 :std:ref:`Writing a Backend plugin <extend-plugin-flyte-backend>` makes it possible for users to write extensions for
-FlytePropeller, Flyte's scheduling engine. This enables complete control of the visualization and availability
+FlytePropeller - Flyte's scheduling engine. This enables complete control of the visualization and availability
 of the plugin.
 
 .. list-table::
@@ -158,17 +148,17 @@ of the plugin.
 
    * - Pros
      - Cons
-   * - Service oriented way of deploying new plugins - strong contracts. Maintainers can deploy new versions of the backend plugin, fix bugs, without needing the users to upgrade Libraries etc
-     - Need to be implemented in golang
-   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in Golang and uses an event loop model. Each process of FlytePropeller can execute 1000's of tasks concurrently. 
-     - Needs a FlytePropeller build - *currently*
-   * - Flyte will guarantee resource cleanup
-     - Need to implement contract in some spec language like protobuf, openAPI etc
-   * - Flyteconsole plugins (capability coming soon) can be added to customize visualization and progress tracking of the execution
-     - Development cycle can be much slower than flytekit only plugins
-   * - Resource controls and backpressure management is available
+   * - Service oriented way of deploying new plugins - strong contracts. Maintainers can deploy new versions of the backend plugin, fix bugs, without needing the users to upgrade libraries, etc.
+     - Need to be implemented in GOlang.
+   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in GOlang and uses an event loop model. Each process of FlytePropeller can execute thousands of tasks concurrently.
+     - Needs a FlytePropeller build (*currently*).
+   * - Flyte guarantees resource cleanup.
+     - Need to implement contract in a spec language like protobuf, OpenAPI, etc.
+   * - Flyteconsole plugins (capability coming soon!) can be added to customize visualization and progress tracking of the execution.
+     - Development cycle can be much slower than flytekit-only plugins.
+   * - Resource controls and backpressure management is available.
      -
-   * - Implement once, use in any SDK or language
+   * - Implement once, use in any SDK or language!
      -
 
 =======
