@@ -8,9 +8,9 @@ Notifications
 # %%
 # When a workflow is completed, users can be notified through:
 #
-# * `email <https://slack.com/help/articles/206819278-Send-emails-to-Slack>`__
-# * `pagerduty <https://support.pagerduty.com/docs/email-integration-guide#integrating-with-a-pagerduty-service>`__
-# * `slack <https://slack.com/>`__
+# * `Create an email address for a channel or DM <https://slack.com/help/articles/206819278-Send-emails-to-Slack>`__
+# * `Pagerduty <https://support.pagerduty.com/docs/email-integration-guide#integrating-with-a-pagerduty-service>`__
+# * `Slack <https://slack.com/>`__
 #
 # The content of these notifications is configurable at the platform level.
 #
