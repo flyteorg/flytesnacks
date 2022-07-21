@@ -107,7 +107,7 @@ To view workflow as a ``strict digraph`` on the command line:
 
    flytectl get workflows --project flytesnacks --domain development flyte.workflows.example.my_wf --version <version> -o dot
 
-Replace ``<version>`` with version from console UI, it may look smth. like ``BLrGKJaYsW2ME1PaoirK1g==``
+Replace ``<version>`` with version from console UI, it may look something like ``BLrGKJaYsW2ME1PaoirK1g==``
 
 .. tip::
 
