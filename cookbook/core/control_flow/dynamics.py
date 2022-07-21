@@ -160,7 +160,7 @@ if __name__ == "__main__":
 # """""""""""""""""""""""
 #
 # The workflow CRD and the states associated with static workflows are stored in etcd, which is the Kubernetes database. This database stores Flyte workflow CRD as key-value pairs and keeps track of the status of each node’s execution.
-# A limitation of etcd is that the aggregate of the size of the workflow and the status of the nodes shouldn't exceed 2MB.
+# A limitation of etcd is that the aggregate of the size of the workflow and the status of the nodes shouldn't exceed 2 MB.
 # Due to this limitation, you need to ensure that your static workflows don’t consume too much memory.
 # In contrast, dynamic workflows are not stored in etcd, thereby eliminating the concept of storage space limitation.
 # You can create large dynamic workflows or multiple dynamic workflows that are nested in a static workflow that saves storage space on etcd for memory-intensive jobs.
@@ -190,7 +190,7 @@ if __name__ == "__main__":
 #
 # Dynamic workflow comes into the picture when you need to:
 #
-# #. Modify logic of the code at runtime
+# #. Modify the logic of the code at runtime
 # #. Change or decide on feature extraction parameters on-the-go
 # #. Build AutoML pipelines
 # #. Tune hyperparameters during execution
@@ -200,6 +200,3 @@ if __name__ == "__main__":
 #
 # Dynamic tasks have overhead for large fan-out tasks because they store metadata for the entire workflow. In contrast, map tasks are efficient for these large fan-out tasks since they don’t store the metadata, as a consequence of which overhead is less apparent.
 #
-# Overriding Config and Resources at Runtime Using Dynamic Workflows
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-# #to-do
