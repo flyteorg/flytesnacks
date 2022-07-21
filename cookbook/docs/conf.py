@@ -42,6 +42,8 @@ class CustomSorter(FileNameSortKey):
         "documented_workflow.py",
         "lp.py",
         "task_cache.py",
+        "deck.py",
+        "task_cache.py",
         "shell_task.py",
         "reference_task.py",
         "files.py",
