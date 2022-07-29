@@ -29,4 +29,6 @@ Here's an example configuration:
               operator: "Equal"
               value: "value1"
               effect: "NoSchedule"
+
+Getting this configuration into your deployment will depend on how Flyte is deployed on your cluster. If you use the default Opta/Helm route, you'll need to amend your Helm chart values (`example <https://github.com/flyteorg/flyte/blob/cc127265aec490ad9537d29bd7baff828043c6f5/charts/flyte-core/values.yaml#L629>`__) so that they end up `here <https://github.com/flyteorg/flyte/blob/3d265f166fcdd8e20b07ff82b494c0a7f6b7b108/deployment/eks/flyte_helm_generated.yaml#L521>`__.
 """
