@@ -1,0 +1,19 @@
+FROM ghcr.io/flyteorg/flytekit:py3.9-1.1.0
+
+RUN apt-get update && apt-get install -y vim curl
+
+RUN curl https://storage.googleapis.com/pub/gsutil.tar.gz | tar xfz - -C /opt
+RUN ln -s /opt/gsutil/gsutil /bin/gsutil
+
+# Required for gsutil to work with workload-identity
+# RUN echo '[GoogleCompute]\nservice_account = default' > /etc/boto.cfg
+
+RUN pip install flytekitplugins-data-fsspec
+RUN pip install gcsfs
+
+COPY core/requirements.txt /root
+RUN pip install -r /root/requirements.txt
+RUN pip freeze
+
+COPY core/sandbox.config /root
+COPY core /root/core
