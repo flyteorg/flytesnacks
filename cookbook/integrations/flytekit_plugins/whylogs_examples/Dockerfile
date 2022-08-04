@@ -24,14 +24,14 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY whylogs/requirements.txt /root/.
+COPY whylogs_examples/requirements.txt /root/.
 RUN pip install -r /root/requirements.txt
 
-COPY whylogs/sandbox.config /root/
+COPY whylogs_examples/sandbox.config /root/
 COPY in_container.mk /root/Makefile
 
 # Copy the actual code
-COPY whylogs/ /root/whylogs/
+COPY whylogs_examples/ /root/whylogs_examples/
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
