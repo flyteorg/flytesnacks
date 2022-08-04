@@ -57,7 +57,8 @@ class MyModel(torch.nn.Module):
 
 
 @task
-def get_l1(model: torch.nn.Module) -> torch.nn.Module:
+def get_l1() -> torch.nn.Module:
+    model = MyModel()
     return model.l1
 
 
@@ -65,7 +66,8 @@ def get_l1(model: torch.nn.Module) -> torch.nn.Module:
 def pytorch_native_wf():
     reshape_tensor(tensor=generate_tensor_2d())
     get_model_weight(model=generate_module())
-    get_l1(model=MyModel())
+    get_l1()
+
 
 # %%
 # Passing around tensors and modules is no more a hassle!
@@ -135,8 +137,7 @@ def load(checkpoint: PyTorchCheckpoint):
 
 @workflow
 def pytorch_checkpoint_wf():
-    hyperparameters = Hyperparameters(epochs=10, loss=0.1)
-    checkpoint = generate_model(hyperparameters=hyperparameters)
+    checkpoint = generate_model(hyperparameters=Hyperparameters(epochs=10, loss=0.1))
     load(checkpoint=checkpoint)
 
 
