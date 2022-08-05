@@ -40,7 +40,7 @@ def get_target_data() -> pd.DataFrame:
     diabetes = load_diabetes()
     df = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
     df["target"] = pd.DataFrame(diabetes.target)
-    return df.where(df < 0.0)
+    return df.mask(df["age"] < 0.0).dropna(axis=0)
 
 
 # %%
@@ -63,7 +63,7 @@ def constraints_report(profile_view: DatasetProfileView) -> bool:
     builder.add_constraint(greater_than_number(column_name="age", number=-11.0))
     builder.add_constraint(smaller_than_number(column_name="bp", number=20.0))
     builder.add_constraint(mean_between_range(column_name="s3", lower=-1.5, upper=1.5))
-    builder.add_constraint(null_percentage_below_number(column_name="sex", number=40.0))
+    builder.add_constraint(null_percentage_below_number(column_name="sex", number=0.9))
 
     constraints = builder.build()
 
@@ -81,7 +81,7 @@ def constraints_report(profile_view: DatasetProfileView) -> bool:
 # constraints suite.
 @task
 def make_predictions(input_data: pd.DataFrame, output_path: str) -> str:
-    input_data["predictions"] = np.random.random(size=442)
+    input_data["predictions"] = np.random.random(size=len(input_data))
     if not os.path.exists(output_path):
         os.makedirs(output_path)
     input_data.to_csv(os.path.join(output_path, "predictions.csv"))
