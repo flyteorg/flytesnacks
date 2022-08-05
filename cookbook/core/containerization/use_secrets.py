@@ -2,8 +2,9 @@
 
 .. _secrets:
 
+=======================
 Using Secrets in a Task
------------------------
+=======================
 
 Flyte supports running a wide variety of tasks, from containers to SQL queries and service calls. In order for Flyte-run
 containers to request and access secrets, Flyte provides a native Secret construct.
@@ -33,7 +34,7 @@ The webhook is included in all overlays in the Flytekit repo. The deployment fil
 2) ``flyte-pod-webhook`` Deployment: This deployment creates the Webhook pod which creates a MutatingWebhookConfiguration on startup. This serves as the registration contract with the ApiServer to know about the Webhook before it starts serving traffic.
 
 Secret Discovery
-----------------
+================
 
 Flyte identifies secrets using a secret group and a secret key.
 In a task decorator you request a secret like this: ``@task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])``
@@ -50,7 +51,7 @@ When running a workflow on a Flyte cluster, the configured secret manager will u
 If successful, it will make the secret available as either file or environment variable and will if necessary modify the above variables automatically so that the task can load and use the secrets.
 
 Configuring a secret management system plugin into use
-------------------------------------------------------
+======================================================
 
 When a task requests a secret Flytepropeller will try to retrieve secrets in the following order: 1.) checking for global secrets (secrets mounted as files or environment variables on the flyte-pod-webhook pod) and 2.) checking with an additional configurable secret manager.
 Note that the global secrets take precedence over any secret discoverable by the secret manager plugins.
@@ -77,7 +78,7 @@ You can also configure the Vault role under which Flyte will try to read the sec
 
 
 How to Use Secrets Injection in a Task
-######################################
+======================================
 
 This feature is available in Flytekit v0.17.0+. This example explains how a secret can be accessed in a Flyte Task. Flyte provides different types of Secrets, as part of
 SecurityContext. But, for users writing python tasks, you can only access ``secure secrets`` either as environment variable
@@ -213,16 +214,16 @@ if __name__ == "__main__":
 
 # %%
 # Scaling the Webhook
-# ###################
+# ===================
 #
 # Vertical Scaling
-# =================
+# -----------------
 #
 # To scale the Webhook to be able to process the number/rate of pods you need, you may need to configure a vertical `pod
 # autoscaler <https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler>`_.
 #
 # Horizontal Scaling
-# ==================
+# -------------------
 #
 # The Webhook does not make any external API Requests in response to Pod mutation requests. It should be able to handle traffic
 # quickly. For horizontal scaling, adding additional replicas for the Pod in the
