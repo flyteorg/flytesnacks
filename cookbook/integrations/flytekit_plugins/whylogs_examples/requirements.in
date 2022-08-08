@@ -1,6 +1,6 @@
 -r ../../../common/requirements-common.in
 flytekitplugins-whylogs>=1.1.1b0
-# TODO make sure this is actually necessary
-whylogs[s3]  # had to add, because make serialize would crash due to "can't import" on whylogs writers
+scikit-learn
+whylogs[s3]
 whylogs[mlflow]
 whylogs[whylabs]

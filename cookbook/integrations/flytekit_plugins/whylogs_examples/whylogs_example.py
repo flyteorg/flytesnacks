@@ -1,3 +1,12 @@
+"""
+whylogs Example
+---------------
+
+This examples shows users how to profile pandas DataFrames with whylogs,
+pass them within tasks and also use our renderers to create a SummaryDriftReport
+and a ConstraintsReport with failed and passed constraints.
+"""
+
 # %%
 # First, let's make all the necessary imports for our example to run properly
 import os
@@ -63,7 +72,7 @@ def constraints_report(profile_view: DatasetProfileView) -> bool:
     builder.add_constraint(greater_than_number(column_name="age", number=-11.0))
     builder.add_constraint(smaller_than_number(column_name="bp", number=20.0))
     builder.add_constraint(mean_between_range(column_name="s3", lower=-1.5, upper=1.5))
-    builder.add_constraint(null_percentage_below_number(column_name="sex", number=0.9))
+    builder.add_constraint(null_percentage_below_number(column_name="sex", number=0.0))
 
     constraints = builder.build()
 
