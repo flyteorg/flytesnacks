@@ -10,9 +10,10 @@ Let's get started with an example!
 # %%
 # First, we load the libraries.
 import typing
+
 import ray
-from flytekit import task, workflow, Resources
-from flytekitplugins.ray import RayJobConfig, WorkerNodeConfig, HeadNodeConfig
+from flytekit import Resources, task, workflow
+from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
 # %%
@@ -38,7 +39,8 @@ def f(x):
 #
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}),
-    worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=5)], runtime_env={"pip": ["numpy", "pandas"]}
+    worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=5)],
+    runtime_env={"pip": ["numpy", "pandas"]},
 )
 
 

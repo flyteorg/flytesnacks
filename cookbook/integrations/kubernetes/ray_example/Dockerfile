@@ -4,7 +4,6 @@ FROM rayproject/ray:1.13.1-py37-gpu
 USER ray
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
-# WORKDIR /root
 ARG HOME=/home/ray
 WORKDIR $HOME
 ENV LANG C.UTF-8
@@ -18,10 +17,6 @@ ENV TERM linux
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip install awscli
-
-#RUN curl https://sdk.cloud.google.com > install.sh
-#RUN bash $HOME/install.sh --install-dir=$HOME
-#ENV PATH $PATH:$HOME/google-cloud-sdk/bin
 
 # Install wheel after venv is activated
 RUN pip3 install wheel
