@@ -9,7 +9,7 @@ To install Modin with Ray as the backend,
 
 .. code:: bash
 
-    pip install modin[ray]
+    pip install modin[ray_example]
 
 .. note::
 
@@ -34,8 +34,8 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 
-ray.shutdown()  # close previous instance of ray (if any)
-ray.init(num_cpus=2)  # open a new instance of ray
+ray.shutdown()  # close previous instance of ray_example (if any)
+ray.init(num_cpus=2)  # open a new instance of ray_example
 
 
 split_data = NamedTuple(
