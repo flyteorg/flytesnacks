@@ -70,6 +70,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ^^^^^^^^^^^^
    Version your SQL database with ``dolt``.
 
+   ---
+   .. link-button:: auto/integrations/flytekit_plugins/whylogs_examples/index
+      :type: ref
+      :text: whylogs
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   ``whylogs``, the open standard for data logging.
+
 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins
    :animate: fade-in-slide-down
@@ -279,5 +287,21 @@ The :ref:`community <community>` would love to help you with your own ideas of b
     ^^^^^^^^^^^^
     The Java/Scala SDK for Flyte.
 
+**********************
+Flyte Airflow Provider
+**********************
+
+The Flyte Airflow Provider is helpful to call Flyte tasks/workflows from within Airflow.
+
+.. panels::
+    :header: text-center
+    :column: col-lg-12 p-2
+
+    .. link-button:: auto/integrations/external_services/airflow/index
+       :type: ref
+       :text: Airflow
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Trigger Flyte executions from Airflow.
 
 .. TODO: write docs on Helm https://github.com/flyteorg/flyte/issues/299
