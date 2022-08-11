@@ -1,7 +1,7 @@
 KubeRay
 ===================
 
-`KubeRay <https://github.com/ray-project/kuberay>`__ is an open source toolkit to run Ray applications on Kubernetes. It provides several tools to improve running and managing Ray on Kubernetes.
+`KubeRay <https://github.com/ray-project/kuberay>`__ is an open source toolkit to run Ray applications on Kubernetes. It provides tools to improve running and managing Ray on Kubernetes.
 - Ray Operator
 - Backend services to create/delete cluster resources
 - Kubectl plugin/CLI to operate CRD objects
@@ -18,7 +18,7 @@ To install the Ray plugin, run the following command:
 
 To enable the plugin in the backend, follow instructions outlined in the :std:ref:`flyte:deployment-plugin-setup-k8s` guide.
 
-Submit a Ray job to existing cluster
+Submit a Ray Job to Existing Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. testcode:: ray-quickstart-1
     import ray
@@ -38,7 +38,7 @@ Submit a Ray job to existing cluster
         return ray.get(futures)
 
 
-Create a Ray cluster managed by Flyte and run a Ray job on this cluster
+Create a Ray Cluster Managed by Flyte and Run a Ray Job on This Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. testcode:: ray-quickstart-2
     @task(task_config=RayJobConfig(worker_node_config=[WorkerNodeConfig(group_name="test-group", replicas=10)])

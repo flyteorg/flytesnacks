@@ -1,7 +1,7 @@
 """
-Ray tasks
--------------------------------
-Ray task allow you to run a Ray job on existing Ray cluster or create a Ray cluster by using Ray operator.
+Ray Tasks
+----------
+Ray task allows you to run a Ray job on an existing Ray cluster or create a Ray cluster by using the Ray operator.
 
 
 Let's get started with an example!
@@ -17,8 +17,8 @@ from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
 # %%
-# Ray task
-# ========
+# Ray Task
+# =========
 #
 # We define a ray_example `remote function <https://docs.ray.io/en/latest/ray-core/tasks.html#tasks>`__ that will be executed asynchronously in the Ray cluster.
 @ray.remote
@@ -27,7 +27,7 @@ def f(x):
 
 
 # %%
-# Defining an Ray config
+# Defining a Ray Config
 # ====================
 #
 # We create a HeadNodeConfig and WorkerNodeConfig for the Ray job, and these config will be used by Ray operator to launch a Ray cluster before running the task.
@@ -40,12 +40,12 @@ def f(x):
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}),
     worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=5)],
-    runtime_env={"pip": ["numpy", "pandas"]},
+    runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
 )
 
 
 # %%
-# Defining an Ray task
+# Defining a Ray Task
 # ===================
 # We use `Ray job submission <https://docs.ray.io/en/latest/cluster/job-submission.html#job-submission-architecture>`__ to run our ray_example tasks.
 # ray_task will be called in the Ray head node, and f.remote(i) will be executed asynchronously on separate Ray workers
@@ -69,6 +69,6 @@ def ray_workflow(n: int) -> typing.List[int]:
 
 
 # %%
-# We can also run the code locally ,and Flyte will create a standalone Ray cluster locally
+# We can run the code locally wherein Flyte creates a standalone Ray cluster locally.
 if __name__ == "__main__":
     print(ray_workflow(n=10))
