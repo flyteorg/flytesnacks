@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
 USER ray
 RUN mkdir /tmp/output
+RUN sudo chmod 777 /tmp/output
 ARG HOME=/home/ray
 WORKDIR $HOME
 ENV LANG C.UTF-8
