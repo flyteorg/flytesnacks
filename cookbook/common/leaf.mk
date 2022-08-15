@@ -146,7 +146,7 @@ register: docker_push
 
 _pb_output:
 	mkdir -p _pb_output
-	chmod 777 _pb_output
+	chmod 666 _pb_output
 
 .PHONY: clean
 clean:

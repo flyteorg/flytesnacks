@@ -5,8 +5,6 @@ USER ray
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
 USER ray
-RUN mkdir /tmp/output
-RUN sudo chmod 777 /tmp/output
 ARG HOME=/home/ray
 WORKDIR $HOME
 ENV LANG C.UTF-8
@@ -21,7 +19,7 @@ RUN pip install awscli
 RUN pip3 install wheel
 
 # Install Python dependencies
-RUN pip3 install flytekit "git+https://github.com/flyteorg/flytekit@ray#egg=flytekitplugins-ray&subdirectory=plugins/flytekit-ray"
+RUN pip3 install flytekit "git+https://github.com/flyteorg/flytekit@master#egg=flytekitplugins-ray&subdirectory=plugins/flytekit-ray"
 RUN pip3 install ray[default]
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
