@@ -130,7 +130,7 @@ serialize: clean _pb_output docker_build
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		${TAGGED_IMAGE} make serialize
+		${TAGGED_IMAGE} sudo make serialize
 
 
 .PHONY: register
@@ -146,6 +146,7 @@ register: docker_push
 
 _pb_output:
 	mkdir -p _pb_output
+	chmod 777 _pb_output
 
 .PHONY: clean
 clean:
