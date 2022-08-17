@@ -101,11 +101,11 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 # Activating a Schedule
 # #####################
 #
-# After initializing your launch plan, activate it so that the schedule runs.
+# After initializing your launch plan, activate the specific version of the launch plan so that the schedule runs.
 #
 # .. code-block:: bash
 #
-#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --activate
+#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --version <foo> --activate
 
 # %%
 # Verify if your launch plan was activated:
