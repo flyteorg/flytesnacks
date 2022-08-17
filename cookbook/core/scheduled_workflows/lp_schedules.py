@@ -114,6 +114,15 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 #
 #   flytectl get launchplan -p flytesnacks -d development
 
+# Deactivating a Schedule
+# #######################
+#
+# You can archive/deactivate the launch plan to deschedule any scheduled job associated with it.
+#
+# .. code-block:: bash
+#
+#   flytectl update launchplan -p flyteexamples -d development {{ name_of_lp }} --version <foo> --archive
+
 # %%
 # Platform Configuration Changes For AWS Scheduler
 # ################################################
