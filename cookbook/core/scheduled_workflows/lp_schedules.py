@@ -101,7 +101,7 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 # Activating a Schedule
 # #####################
 #
-# After initializing your launch plan, activate the specific version of the launch plan so that the schedule runs.
+# After initializing your launch plan, `activate the specific version of the launch plan <https://docs.flyte.org/projects/flytectl/en/latest/gen/flytectl_update_launchplan.html>`__ so that the schedule runs.
 #
 # .. code-block:: bash
 #
@@ -114,10 +114,11 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 #
 #   flytectl get launchplan -p flytesnacks -d development
 
+# %%
 # Deactivating a Schedule
 # #######################
 #
-# You can archive/deactivate the launch plan to deschedule any scheduled job associated with it.
+# You can `archive/deactivate the launch plan <https://docs.flyte.org/projects/flytectl/en/latest/gen/flytectl_update_launchplan.html>`__ to deschedule any scheduled job associated with it.
 #
 # .. code-block:: bash
 #
