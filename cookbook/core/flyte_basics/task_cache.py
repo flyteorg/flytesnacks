@@ -114,7 +114,7 @@ def foo(a: int, b: str) -> pandas.DataFrame:
     return df
 
 
-@task(cache=True, version="1.0")
+@task(cache=True, cache_version="1.0")
 def bar(df: pandas.Dataframe) -> int:
     ...
 
@@ -142,7 +142,7 @@ def foo(  # noqa: F811
     return df
 
 
-@task(cached=True, version="1.0")  # noqa: F811
+@task(cached=True, cache_version="1.0")  # noqa: F811
 def bar(df: pandas.Dataframe) -> int:  # noqa: F811
     ...  # noqa: F811
 
