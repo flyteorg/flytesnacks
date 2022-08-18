@@ -108,14 +108,14 @@ def square(n: int) -> int:
 
 
 @task
-def foo(a: int, b: str) -> pd.DataFrame:
-    df = pd.Dataframe(...)
+def foo(a: int, b: str) -> pandas.DataFrame:
+    df = pandas.Dataframe(...)
     ...
     return df
 
 
 @task(cached=True, version="1.0")
-def bar(df: pd.Dataframe) -> int:
+def bar(df: pandas.Dataframe) -> int:
     ...
 
 
@@ -134,14 +134,14 @@ def wf(a: int, b: str):
 @task
 def foo(
     a: int, b: str
-) -> Annotated[pd.DataFrame, HashMethod(hash_pandas_dataframe_function)]:
-    df = pd.Dataframe(...)
+) -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe_function)]:
+    df = pandas.Dataframe(...)
     ...
     return df
 
 
 @task(cached=True, version="1.0")
-def bar(df: pd.Dataframe) -> int:
+def bar(df: pandas.Dataframe) -> int:
     ...
 
 
