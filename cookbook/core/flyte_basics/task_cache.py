@@ -104,7 +104,7 @@ def square(n: int) -> int:
 # Caching of Non-flyte Offloaded Objects
 # ######################################
 #
-# The default behavior displayed by Flyte's memoization feature might not match user intuition. For example, this code makes use of pandas dataframes:
+# The default behavior displayed by Flyte's memoization feature might not match the user intuition. For example, this code makes use of pandas dataframes:
 
 
 @task
