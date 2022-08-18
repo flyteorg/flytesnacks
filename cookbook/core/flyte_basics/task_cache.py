@@ -36,7 +36,7 @@ from typing_extensions import Annotated
 # You can manually update this version and Flyte caches the next execution instead of relying on the old cache.
 
 
-@task(cache=True, cache_version="1.0")
+@task(cache=True, cache_version="1.0")  # noqa: F841
 def square(n: int) -> int:
     """
      Parameters:
@@ -114,7 +114,7 @@ def foo(a: int, b: str) -> pandas.DataFrame:
     return df
 
 
-@task(cached=True, version="1.0")
+@task(cache=True, version="1.0")
 def bar(df: pandas.Dataframe) -> int:
     ...
 
@@ -122,7 +122,7 @@ def bar(df: pandas.Dataframe) -> int:
 @workflow
 def wf(a: int, b: str):
     df = foo(a=a, b=b)
-    v = bar(df=df)
+    v = bar(df=df)  # noqa: F841
 
 
 # %%
@@ -132,23 +132,25 @@ def wf(a: int, b: str):
 
 
 @task
-def foo(
-    a: int, b: str
-) -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe_function)]:
-    df = pandas.Dataframe(...)
+def foo(  # noqa: F811
+    a: int, b: str  # noqa: F821
+) -> Annotated[
+    pandas.DataFrame, HashMethod(hash_pandas_dataframe_function)  # noqa: F821
+]:  # noqa: F821
+    df = pandas.Dataframe(...)  # noqa: F821
     ...
     return df
 
 
-@task(cached=True, version="1.0")
-def bar(df: pandas.Dataframe) -> int:
-    ...
+@task(cached=True, version="1.0")  # noqa: F811
+def bar(df: pandas.Dataframe) -> int:  # noqa: F811
+    ...  # noqa: F811
 
 
 @workflow
-def wf(a: int, b: str):
-    df = foo(a=a, b=b)
-    v = bar(df=df)
+def wf(a: int, b: str):  # noqa: F811
+    df = foo(a=a, b=b)  # noqa: F811
+    v = bar(df=df)  # noqa: F841
 
 
 # %%
