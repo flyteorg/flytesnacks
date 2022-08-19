@@ -137,7 +137,7 @@ def hash_pandas_dataframe_function(df: pandas.DataFrame) -> str:
 
 
 @task
-def foo(  # noqa: F811
+def foo_1(  # noqa: F811
     a: int, b: str  # noqa: F821
 ) -> Annotated[
     pandas.DataFrame, HashMethod(hash_pandas_dataframe_function)  # noqa: F821
@@ -148,12 +148,12 @@ def foo(  # noqa: F811
 
 
 @task(cache=True, cache_version="1.0")  # noqa: F811
-def bar(df: pandas.DataFrame) -> int:  # noqa: F811
+def bar_1(df: pandas.DataFrame) -> int:  # noqa: F811
     ...  # noqa: F811
 
 
 @workflow
-def wf(a: int, b: str):  # noqa: F811
+def wf_1(a: int, b: str):  # noqa: F811
     df = foo(a=a, b=b)  # noqa: F811
     v = bar(df=df)  # noqa: F841
 
