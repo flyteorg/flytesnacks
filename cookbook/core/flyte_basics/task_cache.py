@@ -132,6 +132,11 @@ def wf(a: int, b: str):
 
 
 @task
+def hash_pandas_dataframe_function(df: pandas.DataFrame) -> Annotated[pandas.DataFrame]:
+    ...
+
+
+@task
 def foo(  # noqa: F811
     a: int, b: str  # noqa: F821
 ) -> Annotated[
