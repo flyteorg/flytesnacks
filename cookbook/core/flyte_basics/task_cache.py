@@ -147,7 +147,7 @@ def foo(  # noqa: F811
     return df
 
 
-@task(cached=True, cache_version="1.0")  # noqa: F811
+@task(cache=True, cache_version="1.0")  # noqa: F811
 def bar(df: pandas.DataFrame) -> int:  # noqa: F811
     ...  # noqa: F811
 
