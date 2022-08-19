@@ -132,8 +132,8 @@ def wf(a: int, b: str):
 
 
 @task
-def hash_pandas_dataframe_function(df: pandas.DataFrame) -> Annotated[pandas.DataFrame]:
-    ...
+def hash_pandas_dataframe_function(df: pandas.DataFrame) -> str:
+    return str(pandas.util.hash_pandas_object(df))
 
 
 @task
