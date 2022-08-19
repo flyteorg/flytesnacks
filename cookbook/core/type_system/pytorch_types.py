@@ -13,7 +13,7 @@ around tensors and models, we added support for the PyTorch types.
 # Tensors & Modules
 # -----------------
 #
-# Many a times, we need to pass around tensors and modules (aka models). In the absence of native type support for PyTorch tensors and modules,
+# Many a times, you may need to pass around tensors and modules (aka models). In the absence of native type support for PyTorch tensors and modules,
 # Flytekit resorts to using pickle to serialize and deserialize the entities; in fact, pickle is used for any unknown type.
 # This is not very efficient, and hence, we added PyTorch's serialization and deserialization support to the Flyte type system.
 import torch
@@ -76,7 +76,7 @@ def pytorch_native_wf():
 # Checkpoint
 # ----------
 #
-# ``PyTorchCheckpoint`` is a special type of checkpoint that is used to serialize and deserialize PyTorch models.
+# ``PyTorchCheckpoint`` is a special type of checkpoint to serialize and deserialize PyTorch models.
 # It checkpoints ``torch.nn.Module``'s state, hyperparameters, and optimizer state.
 # The module checkpoint differs from the standard checkpoint in that it checkpoints the module's ``state_dict``.
 # Hence, when restoring the module, the module's ``state_dict`` needs to be used in conjunction with the actual module.
@@ -143,15 +143,16 @@ def pytorch_checkpoint_wf():
 
 # %%
 # .. note::
-#   ``PyTorchCheckpoint`` supports serializing hyperparameters of type ``dict``, ``NamedTuple``, and ``dataclass``.
+#   ``PyTorchCheckpoint`` supports serializing hyperparameters of types ``dict``, ``NamedTuple``, and ``dataclass``.
 #
 # Auto GPU to CPU & CPU to GPU Conversion
 # ---------------------------------------
 #
-# Not all PyTorch computations need to run on a GPU. There are some cases where it is beneficial to move the computation to the CPU after say,
-# the model is trained on a GPU. To avail the GPU power when the computations are run on a GPU, we do ``to(torch.device("cuda"))``.
+# Not all PyTorch computations require a GPU to run. There are some cases where it is beneficial to move the computation to the CPU after, say,
+# the model is trained on a GPU. To avail the GPU power, we do ``to(torch.device("cuda"))``.
 # To use the GPU-variables on a CPU, we need to move the variables to a CPU using ``to(torch.device("cpu"))`` construct.
-# This manual conversion is not very user friendly, and hence, we added support for automatic GPU to CPU conversion (and vice versa) for the PyTorch types.
+# This manual conversion proposed by PyTorch is not very user friendly, and hence,
+# we added support for automatic GPU to CPU conversion (and vice versa) for the PyTorch types.
 #
 # .. code-block:: python
 #
@@ -188,5 +189,5 @@ def pytorch_checkpoint_wf():
 #           correct = (torch.argmax(y_pred, dim=1) == y_test).type(torch.FloatTensor)
 #           accuracy_list = correct.mean()
 #
-# ``predict`` task here runs on a CPU.
+# The ``predict`` task here runs on a CPU.
 # As can be seen, you need not do the device conversion from GPU to CPU in the ``predict`` task as that's handled automatically by Flytekit!
