@@ -30,6 +30,7 @@ COPY ray_example/sandbox.config /home/ray
 # Note: when we start the container using this image, we'll run "ray_example start" first at "/home/ray_example/anaconda3/lib/python3.7", and then
 # run "pyflyte-execute" to run a ray_example job. Therefore, actual code should be copy to "/home/ray_example/anaconda3/lib/python3.7"
 COPY ray_example/ /home/ray/anaconda3/lib/python3.7/ray_example
+COPY requirements.txt /home/ray/anaconda3/lib/python3.7/ray_example
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
 ARG tag

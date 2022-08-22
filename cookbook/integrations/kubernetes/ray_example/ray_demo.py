@@ -13,7 +13,7 @@ def f(x):
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}),
     worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=2)],
-    runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
+    runtime_env={"pip": "./requirements.txt"},
 )
 
 @task(task_config=ray_config, limits=Resources(mem="2000Mi", cpu="1"))
