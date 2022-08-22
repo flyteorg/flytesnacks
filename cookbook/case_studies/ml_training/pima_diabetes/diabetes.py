@@ -68,7 +68,7 @@ CLASSES_COLUMNS = OrderedDict({"class": int})
 # columns and converts it to a typed schema.
 # An example CSV file is available at
 # `https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv<https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="800Mi"))
 def split_traintest_dataset(
     dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
 ) -> Tuple[
@@ -126,7 +126,7 @@ workflow_outputs = typing.NamedTuple(
 )
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="800Mi"))
 def fit(
     x: FlyteSchema[FEATURE_COLUMNS],
     y: FlyteSchema[CLASSES_COLUMNS],
@@ -156,7 +156,7 @@ def fit(
     return (fname,)
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def predict(
     x: FlyteSchema[FEATURE_COLUMNS],
     model_ser: FlyteFile[MODELSER_JOBLIB],

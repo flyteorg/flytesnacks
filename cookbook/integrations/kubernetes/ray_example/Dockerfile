@@ -5,8 +5,6 @@ USER ray
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
 USER ray
-ARG HOME=/home/ray
-WORKDIR $HOME
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
@@ -21,10 +19,13 @@ RUN pip3 install wheel
 # Install Python dependencies
 RUN pip3 install flytekit "git+https://github.com/flyteorg/flytekit@master#egg=flytekitplugins-ray&subdirectory=plugins/flytekit-ray"
 RUN pip3 install ray[default]
+RUN pip3 install xgboost_ray
+RUN pip3 install sklearn
+
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY ray_example/in_container.mk /$HOME/Makefile
-COPY ray_example/sandbox.config /$HOME
+COPY ray_example/in_container.mk /home/ray/Makefile
+COPY ray_example/sandbox.config /home/ray
 
 # Note: when we start the container using this image, we'll run "ray_example start" first at "/home/ray_example/anaconda3/lib/python3.7", and then
 # run "pyflyte-execute" to run a ray_example job. Therefore, actual code should be copy to "/home/ray_example/anaconda3/lib/python3.7"
