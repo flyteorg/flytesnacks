@@ -6,8 +6,8 @@ from flytekit import task, workflow
 @ray.remote
 def f(x):
     return x * x
-
-
+ 
+# Run (ray start --head --dashboard-host "0.0.0.0") in the command line to create a ray cluster locally
 @task()
 def ray_task() -> typing.List[int]:
     ray.init(address="ray://localhost:10001")
