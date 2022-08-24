@@ -1,0 +1,3 @@
+PREFIX=onnx
+include ../../../common/common.mk
+include ../../../common/leaf.mk
