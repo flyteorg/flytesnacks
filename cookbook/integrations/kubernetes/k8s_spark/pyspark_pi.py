@@ -92,6 +92,9 @@ from flytekitplugins.spark import Spark
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
+            "spark.sql.execution.arrow.enabled": "true",
+            "spark.sql.execution.arrow.pyspark.enabled": "true",
+            "spark.jars.packages": "org.apache.spark:spark-avro_2.12:2.4.4",
         }
     ),
     limits=Resources(mem="2000M"),
@@ -100,13 +103,20 @@ from flytekitplugins.spark import Spark
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
 
-    n = 100000 * partitions
+    # n = 100000 * partitions
     sess = flytekit.current_context().spark_session
-    count = (
-        sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
-    )
-    pi_val = 4.0 * count / n
-    print("Pi val is :{}".format(pi_val))
+    # count = (
+    #     sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
+    # )
+    # pi_val = 4.0 * count / n
+    # print("Pi val is :{}".format(pi_val))
+
+    spark = sess.builder.config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:2.4.4").config("spark.sql.execution.arrow.enabled", "true").config("spark.sql.execution.arrow.pyspark.enabled", "true").getOrCreate()
+    spark_df = spark.read.format("avro").load("/root/k8s_spark/users.avro")
+    df = spark_df.select("*").toPandas()
+    print(df.head())
+    print("done printing")
+
     return pi_val
 
 
