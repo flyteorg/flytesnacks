@@ -1,0 +1,4 @@
+-r ../../../common/requirements-common.in
+flytekitplugins-ray
+grpcio-status==1.43.0
+
