@@ -12,6 +12,10 @@ import pathlib
 from flytekit import kwtypes, task, workflow
 from flytekitplugins.papermill import NotebookTask
 
+from flytekitplugins.pod import Pod
+from kubernetes.client import V1Container, V1PodSpec
+
+
 #%%
 # How to specify inputs and outputs
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -28,11 +32,21 @@ from flytekitplugins.papermill import NotebookTask
 #
 # 3. In a python file, create a new task at the ``module`` level.
 #    An example task is shown below:
+
+def generate_por_spec_for_task():
+    primary_container = V1Container(name="primary")
+    pod_spec = V1PodSpec(containers=[primary_container])
+
+    return pod_spec
+
+
 nb = NotebookTask(
     name="simple-nb",
+    task_config=Pod(pod_spec=generate_por_spec_for_task(), primary_container_name="primary"),
     notebook_path=os.path.join(
         pathlib.Path(__file__).parent.absolute(), "nb-simple.ipynb"
     ),
+    render_deck=True,
     inputs=kwtypes(v=float),
     outputs=kwtypes(square=float),
 )

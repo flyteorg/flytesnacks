@@ -1,2 +1,3 @@
 -r ../../../common/requirements-common.in
-flytekitplugins-papermill>=0.16.0
+flytekitplugins-papermill>=v1.2.0b0
+flytekitplugins-pod>=v1.2.0b0
