@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM apache/spark-py:v3.3.0
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -8,7 +8,8 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python3 and other basics
+## Install Python3 and other basics
+USER 0
 RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-essential libssl-dev python3-pip curl
 
 # Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
@@ -32,20 +33,20 @@ RUN pip3 install wheel
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
-COPY k8s_spark/install_spark3.sh /root
-RUN /root/install_spark3.sh
+#COPY k8s_spark/install_spark3.sh /root
+#RUN /root/install_spark3.sh
 
-# Adding Tini support for the spark pods
-RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
-    cp tini /sbin/tini && cp tini /usr/bin/tini && \
-    chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
+## Adding Tini support for the spark pods
+#RUN wget  https://github.com/krallin/tini/releases/download/v0.18.0/tini && \
+#    cp tini /sbin/tini && cp tini /usr/bin/tini && \
+#    chmod a+x /sbin/tini && chmod a+x /usr/bin/tini
 
 # Setup Spark environment
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV SPARK_HOME /opt/spark
-ENV SPARK_VERSION 3.3.0
-ENV PYSPARK_PYTHON ${VENV}/bin/python3
-ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
+#ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+#ENV SPARK_HOME /opt/spark
+#ENV SPARK_VERSION 3.3.0
+#ENV PYSPARK_PYTHON ${VENV}/bin/python3
+#ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 # Delete this after we update CI

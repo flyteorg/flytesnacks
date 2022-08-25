@@ -66,11 +66,9 @@ This example also shows how a user can simply create 2 tasks, that use different
 """
 import datetime
 import random
-from operator import add
 
 import flytekit
 from flytekit import Resources, task, workflow
-
 # %%
 # The following import is required to configure a Spark Server in Flyte:
 from flytekitplugins.spark import Spark
@@ -92,9 +90,9 @@ from flytekitplugins.spark import Spark
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
-            "spark.sql.execution.arrow.enabled": "true",
             "spark.sql.execution.arrow.pyspark.enabled": "true",
-            "spark.jars.packages": "org.apache.spark:spark-avro_2.12:2.4.4",
+            # "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.3.0",
+            "spark.jars": "local:///root/k8s_spark/spark-avro_2.12-3.3.0.jar",
         }
     ),
     limits=Resources(mem="2000M"),
@@ -111,19 +109,37 @@ def hello_spark(partitions: int) -> float:
     # pi_val = 4.0 * count / n
     # print("Pi val is :{}".format(pi_val))
 
-    spark = sess.builder.config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:2.4.4").config("spark.sql.execution.arrow.enabled", "true").config("spark.sql.execution.arrow.pyspark.enabled", "true").getOrCreate()
-    spark_df = spark.read.format("avro").load("/root/k8s_spark/users.avro")
+    spark = sess.builder \
+        .config("spark.sql.execution.arrow.pyspark.enabled", "true") \
+        .getOrCreate()
+
+    data = [{
+        'col1': 'Category A',
+        'col2': 100
+    }, {
+        'col1': 'Category B',
+        'col2': 200
+    }, {
+        'col1': 'Category C',
+        'col2': 300
+    }]
+
+    df = sess.createDataFrame(data)
+    print(df)
+    df.write.format("avro").save("person_partition.avro")
+
+    spark_df = spark.read.format("avro").load("person_partition.avro")
     df = spark_df.select("*").toPandas()
     print(df.head())
     print("done printing")
 
-    return pi_val
+    return 2.0
 
 
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
-    return 1 if x**2 + y**2 <= 1 else 0
+    return 1 if x ** 2 + y ** 2 <= 1 else 0
 
 
 # %%
@@ -137,7 +153,7 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 # %%
 # The Workflow shows that a spark task and any python function (or any other task type) can be chained together as long as they match the parameter specifications.
 @workflow
-def my_spark(triggered_date: datetime.datetime) -> float:
+def my_spark(triggered_date: datetime.datetime = datetime.datetime.fromisocalendar(2022, 8, 1)) -> float:
     """
     Using the workflow is still as any other workflow. As image is a property of the task, the workflow does not care
     about how the image is configured.
