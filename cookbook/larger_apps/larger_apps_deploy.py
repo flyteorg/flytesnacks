@@ -18,7 +18,7 @@ Setup and Configuration
 
 First, install `flytectl <https://docs.flyte.org/projects/flytectl/en/latest/#installation>`__.
 
-Then you can setup a local :ref:`Flyte Sandbox <deployment-sandbox>` cluster or configure ``flytectl`` to use a
+Then you can setup a local :ref:`Flyte Demo <deployment-sandbox>` cluster or configure ``flytectl`` to use a
 pre-provisioned remote Flyte cluster.
 
 .. tip::
@@ -26,19 +26,19 @@ pre-provisioned remote Flyte cluster.
    Learn how to deploy to a Flyte Cluster using the :ref:`Deployment Guides <deployment>`.
 
 .. tabs::
-   .. group-tab:: Flyte Sandbox
+   .. group-tab:: Flyte Demo
 
-      To start the Flyte Sandbox, run:
+      To start a local Flyte cluster, run:
 
       .. prompt:: bash $
 
-         flytectl sandbox start --source .
+         flytectl demo start --source .
 
       .. note::
 
          The ``'.'`` represents the current directory, which would be ``my_flyte_project`` in this case.
 
-         If you're having trouble with starting the sandbox cluster, refer to :ref:`troubleshoot`.
+         If you're having trouble with starting the demo cluster, refer to :ref:`troubleshoot`.
 
    .. group-tab:: Remote Flyte Cluster
 
@@ -53,20 +53,20 @@ pre-provisioned remote Flyte cluster.
 Build & Deploy Your Application to the Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Flyte uses Docker containers to package the workflows and tasks, and sends them to the remote Flyte cluster. Therefore,
+Flyte uses Docker containers to package the workflows and tasks and sends them to the remote Flyte cluster. Therefore,
 there is a ``Dockerfile`` already included in the cloned repo. You can build the Docker container and push the built
 image to a registry.
 
 .. tabs::
-   .. group-tab:: Flyte Sandbox
+   .. group-tab:: Flyte Demo
 
-      Since ``flyte-sandbox`` runs locally in a Docker container, you do not need to push the Docker image. You can
-      combine the build and push step by simply building the image inside the Flyte-sandbox container. This can be done
+      Since the Flyte Demo cluster runs locally in a Docker container, you do not need to push the Docker image. You can
+      combine the build and push step by simply building the image inside the ``flyte-sandbox`` container. This can be done
       using the following command:
 
       .. prompt:: bash $
 
-         flytectl sandbox exec -- docker build . --tag "my_flyte_project:v1"
+         flytectl demo exec -- docker build . --tag "my_flyte_project:v1"
 
       .. tip::
          Why are we not pushing the Docker image? To understand the details, refer to :ref:`deployment-sandbox`.
@@ -97,7 +97,7 @@ the image is the same as the one built in the previous step.
 
 .. tabs::
 
-   .. group-tab:: Flyte Sandbox
+   .. group-tab:: Flyte Demo
 
       .. prompt:: bash $
 
@@ -172,7 +172,7 @@ Monitor the execution by providing the execution name from the ``create executio
 
 .. tabs::
 
-   .. group-tab:: Flyte Sandbox
+   .. group-tab:: Flyte Demo
 
       Visit ``http://localhost:30080/console`` on your browser
 
