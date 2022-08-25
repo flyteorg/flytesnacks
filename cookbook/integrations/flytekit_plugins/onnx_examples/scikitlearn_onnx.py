@@ -41,53 +41,6 @@ TrainOutput = NamedTuple(
     ],
 )
 
-# %%
-# The acceptable parameters for the ``ScikitLearn2ONNXConfig`` dataclass are as follows:
-#
-# .. list-table:: ``ScikitLearn2ONNXConfig`` Parameters
-#
-#   * - ``initial_types``
-#     - ``list[tuple[str, type]]``
-#     - The types of the inputs to the model.
-#   * - ``name``
-#     - ``str``
-#     - The name of the graph in the produced ONNX model.
-#   * - ``doc_string``
-#     - ``str``
-#     - A string attached onto the produced ONNX model.
-#   * - ``target_opset``
-#     - ``int``
-#     - The ONNX opset number.
-#   * - ``custom_conversion_functions``
-#     - ``dict[Callable[..., Any], Callable[...,  None]]``
-#     - A dictionary for specifying the user customized conversion function.
-#   * - ``custom_shape_calculators``
-#     - ``dict[Callable[..., Any], Callable[...,  None]]``
-#     - A dictionary for specifying the user customized shape calculator.
-#   * - ``custom_parsers``
-#     - ``dict[Callable[..., Any], Callable[...,  None]]``
-#     - Parsers determine which outputs are expected for which particular task.
-#   * - ``options``
-#     - ``dict[Any, Any]``
-#     - Specific options given to converters.
-#   * - ``intermediate``
-#     - ``bool``
-#     - If True, the function returns the converted model and the instance of Topology used, else, it returns the converted model.
-#   * - ``naming``
-#     - ``Union[str, Callable[..., Any]]``
-#     - Change the way intermediates are named.
-#   * - ``white_op``
-#     - ``set[str]``
-#     - White list of ONNX nodes allowed while converting a pipeline.
-#   * - ``black_op``
-#     - ``set[str]``
-#     - Black list of ONNX nodes disallowed while converting a pipeline.
-#   * - ``verbose``
-#     - ``int``
-#     - Display progress while converting a model
-#   * - ``final_types``
-#     - ``list[tuple[str, type]]``
-#     - Used to overwrite the type (if type is not None) and the name of every output.
 
 # %%
 # Define a ``train`` task that will train a scikitlearn model and return the model and test data.

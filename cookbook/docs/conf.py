@@ -449,6 +449,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
     "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
+    "flytekitplugins": ("https://docs.flyte.org/projects/flytekit/en/latest/", None),
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),

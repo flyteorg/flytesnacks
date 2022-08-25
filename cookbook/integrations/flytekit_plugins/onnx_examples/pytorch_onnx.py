@@ -56,7 +56,7 @@ class SuperResolutionNet(nn.Module):
 # %%
 # Define a ``train`` task to train the model.
 # Note the annotated output put.
-# This is a special annotation that tells Flytekit that this parameter is to be converted to an ONNX model with the given metadata.
+# This is a special annotation that tells Flytekit that this parameter is to be converted to an ONNX model with the given config.
 @task
 def train() -> Annotated[
     PyTorch2ONNX,
@@ -91,51 +91,6 @@ def train() -> Annotated[
 
 
 # %%
-# The acceptable parameters for ``PyTorch2ONNXConfig`` are as follows:
-#
-# .. list-table:: ``PyTorch2ONNXConfig`` Parameters
-#
-#   * - ``args``
-#     - ``Union[tuple, torch.Tensor]``
-#     - The input to the model.
-#   * - ``export_params``
-#     - ``bool``
-#     - Whether to export all the parameters.
-#   * - ``verbose``
-#     - ``bool``
-#     - Whether to print description of the ONNX model.
-#   * - ``training``
-#     - ``TrainingMode``
-#     - Whether to export the model in training mode or inference mode.
-#   * - ``opset_version``
-#     - ``int``
-#     - The ONNX version to export the model to.
-#   * - ``input_names``
-#     - ``List[str]``
-#     - Names to assign to the input nodes of the graph.
-#   * - ``output_names``
-#     - ``List[str]``
-#     - Names to assign to the output nodes of the graph.
-#   * - ``operator_export_type``
-#     - ``OperatorExportTypes``
-#     - How to export the ops.
-#   * - ``do_constant_folding``
-#     - ``bool``
-#     - Whether to apply constant folding for optimization.
-#   * - ``dynamic_axes``
-#     - ``Union[dict[str, dict[int, str]], dict[str, list[int]]]``
-#     - Specify axes of tensors as dynamic.
-#   * - ``keep_initializers_as_inputs``
-#     - ``bool``
-#     - Whether to add the initializers as inputs to the graph.
-#   * - ``custom_opsets``
-#     - ``dict[str, int]``
-#     - A dictionary of opset doman name and version.
-#   * - ``export_modules_as_functions``
-#     - ``Union[bool, set[type]]``
-#     - Whether to export modules as functions.
-
-# %%
 # Define an ``onnx_predict`` task to generate a super resolution image from the model, given an input image.
 @task
 def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
@@ -148,8 +103,7 @@ def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
         ).raw
     )
 
-    resize = transforms.Resize([224, 224])
-    img = resize(img)
+    img = transforms.Resize([224, 224])(img)
 
     img_ycbcr = img.convert("YCbCr")
     img_y, img_cb, img_cr = img_ycbcr.split()
@@ -186,7 +140,6 @@ def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
     )
     final_img.save(img_path)
 
-    # Save the image, we will compare this with the output image from mobile device
     return JPEGImageFile(path=str(img_path))
 
 

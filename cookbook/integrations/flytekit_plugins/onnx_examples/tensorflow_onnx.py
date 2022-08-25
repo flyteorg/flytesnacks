@@ -62,8 +62,6 @@ def train(
     model.add(layers.Conv2D(32, (3, 3), activation="relu", input_shape=(32, 32, 3)))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Conv2D(64, (3, 3), activation="relu"))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation="relu"))
     model.add(layers.Flatten())
     model.add(layers.Dense(64, activation="relu"))
     model.add(layers.Dense(10))
@@ -78,42 +76,6 @@ def train(
 
     return TensorFlow2ONNX(model=model)
 
-
-# %%
-# The acceptable parameters for the ``TensorFlow2ONNXConfig`` dataclass are as follows:
-#
-# .. list-table:: ``TensorFlow2ONNXConfig`` Parameters
-#
-#   * - ``input_signature``
-#     - ``Union[tf.TensorSpec, np.ndarray]``
-#     - The shape/dtype of the inputs to the model.
-#   * - ``custom_ops``
-#     - ``dict[str, Any]``
-#     - if a model contains ops not recognized by ONNX runtime, you can tag these ops with a custom op domain so that the runtime can still open the model.
-#   * - ``target``
-#     - ``list[Any]``
-#     - List of workarounds applied to help certain platforms.
-#   * - ``custom_op_handlers``
-#     - ``dict[Any, tuple]``
-#     - A dictionary of custom op handlers.
-#   * - ``custom_rewriter``
-#     - ``list[Any]``
-#     - A list of custom graph rewriters.
-#   * - ``opset``
-#     - ``int``
-#     - The ONNX opset number.
-#   * - ``extra_opset``
-#     - ``list[int]``
-#     - The extra ONNX opset numbers to be used by, say, custom ops.
-#   * - ``shape_override``
-#     - ``dict[str, list[Any]]``
-#     - Dict with inputs that override the shapes given by tensorflow.
-#   * - ``inputs_as_nchw``
-#     - ``list[str]``
-#     - Transpose inputs in list from nhwc to nchw.
-#   * - ``large_model``
-#     - ``bool``
-#     - Whether to use the ONNX external tensor storage format.
 
 # %%
 # Define an ``onnx_predict`` task to generate predictions for the test data using the ONNX model.
