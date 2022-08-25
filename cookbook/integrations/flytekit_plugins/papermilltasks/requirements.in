@@ -1,3 +1,4 @@
 -r ../../../common/requirements-common.in
 flytekitplugins-papermill>=v1.2.0b0
 flytekitplugins-pod>=v1.2.0b0
+ipywidgets

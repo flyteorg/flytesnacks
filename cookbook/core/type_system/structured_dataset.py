@@ -260,3 +260,45 @@ if __name__ == "__main__":
     print(f"pandas DataFrame compatibility check output: {numpy_array_one}")
     numpy_array_two = schema_compatibility_wf(a=42).open(np.ndarray).all()
     print(f"Schema compatibility check output: {numpy_array_two}")
+
+# %%
+# Example of StructuredDataset With ``uri`` Argument
+# ==================================================
+#
+# As mentioned previously, if you specify BigQuery ``uri`` for StructuredDataset, flytekit writes the pandas dataframe to a BigQuery table.
+#
+# To write a dataframe to a BigQuery table, 
+#
+# #. Use your gcp account (or `create <https://cloud.google.com/docs/authentication/getting-started>`_ one) and create a service account.
+# #. Create a project and add the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to your bashrc file.
+# #. Create a dataset in your project.
+#
+# Let's dive into the example. 
+
+
+# %%
+#.. note:: The BigQuery uri's format is ``bq://<project_name>.<dataset_name>.<table_name>``.
+
+# %%
+# Define a task that converts a pandas dataframe to a BigQuery table.
+@task
+def pandas_dataframe_to_bq_table() -> StructuredDataset:
+    df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
+    return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
+
+# %%
+# Define a task that converts a BigQuery table to a pandas dataframe .
+@task
+def bq_table_to_dataframe(sd: StructuredDataset) -> pd.DataFrame:
+    # convert to pandas dataframe
+    return sd.open(pd.DataFrame).all()
+
+# %%
+#.. note:: Flyte creates the table inside the dataset in the project upon BigQuery query execution.
+
+# %%
+# Trigger the tasks.
+if __name__ == "__main__":
+    o1= bq_table_to_dataframe(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
+    o2 = pandas_dataframe_to_bq_table()
+

@@ -122,9 +122,15 @@ importlib-metadata==4.12.0
     #   markdown
     #   nbconvert
 ipykernel==6.15.1
-    # via flytekitplugins-papermill
+    # via
+    #   flytekitplugins-papermill
+    #   ipywidgets
 ipython==8.4.0
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   ipywidgets
+ipywidgets==8.0.1
+    # via -r requirements.in
 jedi==0.18.1
     # via ipython
 jinja2==3.1.2
@@ -152,6 +158,8 @@ jupyter-core==4.11.1
     #   nbformat
 jupyterlab-pygments==0.2.2
     # via nbconvert
+jupyterlab-widgets==3.0.2
+    # via ipywidgets
 keyring==23.8.2
     # via flytekit
 kiwisolver==1.4.4
@@ -415,6 +423,7 @@ traitlets==5.3.0
     # via
     #   ipykernel
     #   ipython
+    #   ipywidgets
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
@@ -450,6 +459,8 @@ wheel==0.37.1
     # via
     #   -r ../../../common/requirements-common.in
     #   flytekit
+widgetsnbextension==4.0.2
+    # via ipywidgets
 wrapt==1.14.1
     # via
     #   deprecated
