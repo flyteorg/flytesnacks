@@ -1,11 +1,8 @@
 """
 Train and Validate a Diabetes Classification XGBoost Model
------------------------------------------------------------
+----------------------------------------------------------
 
-Watch a demo of sandbox creation and a sample execution of the pima diabetes pipeline below.
-
-..  youtube:: YEvs0MHXZnY
-
+In this example, we'll see how to train an XGBoost model on Pima Indian Diabetes dataset.
 """
 import typing
 from collections import OrderedDict
@@ -54,12 +51,12 @@ DATASET_COLUMNS = OrderedDict(
     }
 )
 # %%
-# The first 8 columns are features
+# The first 8 columns are features.
 FEATURE_COLUMNS = OrderedDict(
     {k: v for k, v in DATASET_COLUMNS.items() if k != "class"}
 )
 # %%
-# The last column is the class
+# The last column is the class.
 CLASSES_COLUMNS = OrderedDict({"class": int})
 
 
@@ -87,9 +84,9 @@ def split_traintest_dataset(
     column_names = [k for k in DATASET_COLUMNS.keys()]
     df = pd.read_csv(dataset, names=column_names)
 
-    # Select all features
+    # select all features
     x = df[column_names[:8]]
-    # Select only the classes
+    # select only the classes
     y = df[[column_names[-1]]]
 
     # split data into train and test sets
@@ -126,7 +123,7 @@ workflow_outputs = typing.NamedTuple(
 )
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="500Mi"))
 def fit(
     x: FlyteSchema[FEATURE_COLUMNS],
     y: FlyteSchema[CLASSES_COLUMNS],
@@ -156,7 +153,7 @@ def fit(
     return (fname,)
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="500Mi"))
 def predict(
     x: FlyteSchema[FEATURE_COLUMNS],
     model_ser: FlyteFile[MODELSER_JOBLIB],
@@ -176,7 +173,7 @@ def predict(
     return y_pred_df
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="500Mi"))
 def score(
     predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
 ) -> float:
@@ -192,7 +189,7 @@ def score(
 
 
 # %%
-# Workflow sample here
+# You can run the workflow locally.
 @workflow
 def diabetes_xgboost_model(
     dataset: FlyteFile[
