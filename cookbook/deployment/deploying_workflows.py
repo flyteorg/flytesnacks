@@ -191,7 +191,7 @@ A general trivia while using these private registries has been discussed below.
 
    #. Add the authorization token and name to the default/new service account.
    #. Ensure that the service account you are using for authentication has permissions to access the container registry.
-   #. Add your ``imagePullSecrets`` to this service account.
+   #. Add your ``imagePullSecrets`` to this `service account <https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#add-image-pull-secret-to-service-account>`__.
    #. Use this default/new service account to login into the private registry and pull the image.
 
 **OR**
