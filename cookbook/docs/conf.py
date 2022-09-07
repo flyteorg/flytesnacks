@@ -20,6 +20,7 @@ from sphinx.errors import ConfigError
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
+sys.path.append(os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
@@ -41,6 +42,9 @@ class CustomSorter(FileNameSortKey):
         "imperative_wf_style.py",
         "documented_workflow.py",
         "lp.py",
+        "deck.py",
+        "task_cache.py",
+        "deck.py",
         "task_cache.py",
         "shell_task.py",
         "reference_task.py",
@@ -51,7 +55,7 @@ class CustomSorter(FileNameSortKey):
         "decorating_workflows.py",
         # Control Flow
         "conditions.py",
-        "chain_tasks.py",
+        "chain_entities.py",
         "subworkflows.py",
         "dynamics.py",
         "map_task.py",
@@ -60,7 +64,9 @@ class CustomSorter(FileNameSortKey):
         # Type System
         "flyte_python_types.py",
         "schema.py",
-        "structured_dataset.py" "typed_schema.py",
+        "structured_dataset.py",
+        "typed_schema.py",
+        "pytorch_types.py",
         "custom_objects.py",
         "enums.py",
         "lp_schedules.py",
@@ -113,6 +119,7 @@ class CustomSorter(FileNameSortKey):
         "knn_classifier.py",
         "sqlite3_integration.py",
         "sql_alchemy.py",
+        "whylogs_example.py",
         ## Kubernetes
         "pod.py",
         "pyspark_pi.py",
@@ -128,6 +135,7 @@ class CustomSorter(FileNameSortKey):
         ## External Services
         "hive.py",
         "snowflake.py",
+        "airflow.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
@@ -193,6 +201,7 @@ extensions = [
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
     "sphinx_tabs.tabs",
+    "run_example_cmds_extension",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -277,11 +286,14 @@ examples_dirs = [
     "../integrations/flytekit_plugins/pandera_examples",
     "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
+    "../integrations/flytekit_plugins/whylogs_examples",
+    "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
     "../integrations/kubernetes/kfmpi",
+    "../integrations/kubernetes/ray_example",
     "../integrations/aws/athena",
     "../integrations/aws/batch",
     "../integrations/aws/sagemaker_training",
@@ -289,6 +301,7 @@ examples_dirs = [
     "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
+    "../integrations/external_services/airflow",
     "../core/extend_flyte",
     "../larger_apps",
 ]
@@ -314,11 +327,14 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/pandera_examples",
     "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
+    "auto/integrations/flytekit_plugins/whylogs_examples",
+    "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
     "auto/integrations/kubernetes/kfmpi",
+    "auto/integrations/kubernetes/ray_example",
     "auto/integrations/aws/athena",
     "auto/integrations/aws/batch",
     "auto/integrations/aws/sagemaker_training",
@@ -326,6 +342,7 @@ gallery_dirs = [
     "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
+    "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
     "auto/larger_apps",
 ]
@@ -337,50 +354,23 @@ min_reported_time = 0
 
 # hide example pages with empty content
 ignore_py_files = [
-    "__init__",
-    "config_resource_mgr",
-    "optimize_perf",
+    "__init__\.py",
+    "config_resource_mgr\.py",
+    "optimize_perf\.py",
+    "^run_.+\.py",
 ]
 
 sphinx_gallery_conf = {
     "examples_dirs": examples_dirs,
     "gallery_dirs": gallery_dirs,
-    "ignore_pattern": f"({'|'.join(ignore_py_files)})\.py",  # noqa: W605
-    # "subsection_order": ExplicitOrder(
-    #     [
-    #         "../core/basic",
-    #         "../core/intermediate",
-    #         "../core/advanced",
-    #         "../core/remote_flyte",
-    #         "../case_studies/pima_diabetes",
-    #         "../case_studies/house_price_prediction",
-    #         "../testing",
-    #         "../plugins/pod/",
-    #         "../plugins/k8s_spark",
-    #         "../plugins/papermilltasks/",
-    #         "../plugins/hive",
-    #         "../plugins/sagemaker_training",
-    #         "../plugins/kfpytorch",
-    #         "../plugins/sagemaker_pytorch/",
-    #     ]
-    # ),
-    # # specify the order of examples to be according to filename
+    "ignore_pattern": f"{'|'.join(ignore_py_files)}",
+    # specify the order of examples to be according to filename
     "within_subsection_order": CustomSorter,
     "min_reported_time": min_reported_time,
-    "filename_pattern": "/run_",
     "capture_repr": (),
     "image_scrapers": image_scrapers,
     "default_thumb_file": "_static/code-example-icon.png",
     "thumbnail_size": (350, 350),
-    # Support for binder
-    # 'binder': {'org': 'sphinx-gallery',
-    # 'repo': 'sphinx-gallery.github.io',
-    # 'branch': 'master',
-    # 'binderhub_url': 'https://mybinder.org',
-    # 'dependencies': './binder/requirements.txt',
-    # 'notebooks_dir': 'notebooks',
-    # 'use_jupyter_lab': True,
-    # },
 }
 
 if len(examples_dirs) != len(gallery_dirs):
@@ -459,6 +449,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
     "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
+    "flytekitplugins": ("https://docs.flyte.org/projects/flytekit/en/latest/", None),
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
@@ -470,6 +461,7 @@ intersphinx_mapping = {
         "https://www.tensorflow.org/api_docs/python",
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
     ),
+    "whylogs": ("https://whylogs.readthedocs.io/", None),
 }
 
 # Sphinx-tabs config
