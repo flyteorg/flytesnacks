@@ -86,3 +86,6 @@ def notebook_wf(
 # We can now run the two notebooks locally.
 if __name__ == "__main__":
     print(notebook_wf())
+
+# %%
+# .. run-example-cmds::

@@ -1,4 +1,4 @@
-from basic_workflow import my_wf
+from diabetes import diabetes_xgboost_model
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
@@ -8,7 +8,7 @@ remote = FlyteRemote(
     default_domain="development",
 )
 
-registered_workflow = remote.register_script(my_wf)
+registered_workflow = remote.register_script(diabetes_xgboost_model)
 
-execution = remote.execute(registered_workflow, inputs={"a": 100, "b": "hello"})
+execution = remote.execute(registered_workflow, inputs={})
 print(f"Execution successfully started: {execution.id.name}")

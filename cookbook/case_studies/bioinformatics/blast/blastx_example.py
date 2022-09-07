@@ -138,3 +138,6 @@ def blast_wf(
 if __name__ == "__main__":
     print("Running BLASTX...")
     print(f"BLASTX result: {blast_wf()}")
+
+# %%
+# .. run-example-cmds::

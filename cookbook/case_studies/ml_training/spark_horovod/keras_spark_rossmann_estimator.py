@@ -738,3 +738,6 @@ def horovod_spark_wf(
 if __name__ == "__main__":
     metrics_directory = horovod_spark_wf()
     print(f"Find the model and predictions at {metrics_directory}")
+
+# %%
+# .. run-example-cmds::

@@ -107,3 +107,6 @@ def notebook_wf(hyperparams: Hyperparameters = Hyperparameters()) -> float:
 # We can now run the notebook and the modeling task locally.
 if __name__ == "__main__":
     print(notebook_wf())
+
+# %%
+# .. run-example-cmds::

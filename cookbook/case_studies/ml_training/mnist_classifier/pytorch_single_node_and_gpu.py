@@ -382,3 +382,6 @@ if __name__ == "__main__":
 #
 # .. tip::
 #   A lot more customizations can be done to the report according to your requirement!
+
+# %%
+# .. run-example-cmds::

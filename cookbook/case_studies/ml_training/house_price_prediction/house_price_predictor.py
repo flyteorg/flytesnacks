@@ -271,3 +271,6 @@ def house_price_predictor_trainer(
 # We can run the workflow locally provided the required libraries are installed. The output would be a list of house prices, generated using the XGBoost model.
 if __name__ == "__main__":
     print(house_price_predictor_trainer())
+
+# %%
+# .. run-example-cmds::

@@ -1,6 +1,5 @@
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
-
 from imperative_wf_style import wf
 
 remote = FlyteRemote(

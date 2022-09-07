@@ -382,3 +382,6 @@ if __name__ == "__main__":
 
 # %%
 # You should see prediction against the test input as the workflow output.
+
+# %%
+# .. run-example-cmds::

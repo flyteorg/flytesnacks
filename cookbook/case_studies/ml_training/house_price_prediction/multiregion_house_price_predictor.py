@@ -151,3 +151,6 @@ def multi_region_house_price_prediction_model_trainer(
 # We can run the workflow locally provided the required libraries are installed. The output would be a list of lists of house prices based on region, generated using the XGBoost model.
 if __name__ == "__main__":
     print(multi_region_house_price_prediction_model_trainer())
+
+# %%
+# .. run-example-cmds::

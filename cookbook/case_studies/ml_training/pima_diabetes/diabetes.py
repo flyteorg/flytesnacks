@@ -68,7 +68,7 @@ CLASSES_COLUMNS = OrderedDict({"class": int})
 # columns and converts it to a typed schema.
 # An example CSV file is available at
 # `https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv<https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def split_traintest_dataset(
     dataset: FlyteFile[typing.TypeVar("csv")], seed: int, test_split_ratio: float
 ) -> Tuple[
@@ -126,7 +126,7 @@ workflow_outputs = typing.NamedTuple(
 )
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(
     x: FlyteSchema[FEATURE_COLUMNS],
     y: FlyteSchema[CLASSES_COLUMNS],
@@ -156,7 +156,7 @@ def fit(
     return (fname,)
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def predict(
     x: FlyteSchema[FEATURE_COLUMNS],
     model_ser: FlyteFile[MODELSER_JOBLIB],
@@ -176,7 +176,7 @@ def predict(
     return y_pred_df
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def score(
     predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
 ) -> float:
@@ -197,12 +197,12 @@ def score(
 def diabetes_xgboost_model(
     dataset: FlyteFile[
         typing.TypeVar("csv")
-    ] = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv",
+    ] = "https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.data.csv",
     test_split_ratio: float = 0.33,
     seed: int = 7,
 ) -> workflow_outputs:
     """
-    This pipeline trains an XGBoost mode for any given dataset that matches the schema as specified in
+    This pipeline trains an XGBoost model for any given dataset that matches the schema specified in
     https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names.
     """
     x_train, x_test, y_train, y_test = split_traintest_dataset(
@@ -222,3 +222,6 @@ def diabetes_xgboost_model(
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(diabetes_xgboost_model())
+
+# %%
+# .. run-example-cmds::
