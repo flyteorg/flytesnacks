@@ -17,7 +17,7 @@ of the actual value being materialized. You can also nest other ``@dynamic`` and
 task, but it is not possible to interact with the outputs of a ``task/workflow`` as they are lazily evaluated.
 If you want to interact with the outputs, break up the logic in dynamic and create a new task to read and resolve the outputs.
 
-Refer to :py:func:`~flytekit.dynamic` for more documentation.
+Refer to :py:func:`~flytekit.dynamic` for documentation.
 
 Here's a code example that counts the common characters between any two strings.
 """
@@ -160,10 +160,11 @@ if __name__ == "__main__":
 # """""""""""""""""""""""
 #
 # The workflow CRD and the states associated with static workflows are stored in etcd, which is the Kubernetes database. This database stores Flyte workflow CRD as key-value pairs and keeps track of the status of each node’s execution.
-# A limitation of etcd is that the aggregate of the size of the workflow and the status of the nodes shouldn't exceed 2 MB.
+# A limitation of etcd is that there is a hard limit on the data size (data size refers to the aggregate of the size of the workflow and the status of the nodes).
 # Due to this limitation, you need to ensure that your static workflows don’t consume too much memory.
-# In contrast, dynamic workflows are not stored in etcd, thereby eliminating the concept of storage space limitation.
-# You can create large dynamic workflows or multiple dynamic workflows that are nested in a static workflow that saves storage space on etcd for memory-intensive jobs.
+#
+# Dynamic workflows offload the workflow spec (node/task definitions and connections, etc) to the blobstore but the node statuses are stored in the FlyteWorkflow CRD (in etcd).
+# Dynamic workflows alleviate a portion of etcd storage space thereby reducing pressure on etcd.
 #
 # How Is a Dynamic Workflow Executed?
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
