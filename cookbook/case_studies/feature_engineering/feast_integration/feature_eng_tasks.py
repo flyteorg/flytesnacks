@@ -9,7 +9,6 @@ We'll define the relevant feature engineering tasks to clean up the SQLite data.
 import numpy as np
 import pandas as pd
 from flytekit import task
-from flytekit.types.schema import FlyteSchema
 from numpy.core.fromnumeric import sort
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.impute import SimpleImputer
@@ -29,11 +28,11 @@ NO_IMPUTATION_COLS = [
 # %%
 # We define a ``mean_median_imputer`` task to fill in the missing values of the dataset, for which we use the
 # `SimpleImputer <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`__ class from the ``scikit-learn`` library.
-@task(cache=True, cache_version="1.0")
+@task
 def mean_median_imputer(
     dataframe: pd.DataFrame,
     imputation_method: str,
-) -> FlyteSchema:
+) -> pd.DataFrame:
     dataframe = dataframe.replace("?", np.nan)
     if imputation_method not in ["median", "mean"]:
         raise ValueError("imputation_method takes only values 'median' or 'mean'")
@@ -55,7 +54,7 @@ def mean_median_imputer(
 # Let's define the other task called ``univariate_selection`` that does feature selection.
 # The `SelectKBest <https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest>`__ method removes all
 # but the highest scoring features (DataFrame columns).
-@task(cache=True, cache_version="1.0")
+@task
 def univariate_selection(
     dataframe: pd.DataFrame, num_features: int, data_class: str
 ) -> pd.DataFrame:
