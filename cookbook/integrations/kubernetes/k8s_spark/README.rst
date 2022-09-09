@@ -61,7 +61,11 @@ Spark needs a special service account (with associated role and role bindings) t
 If you use IAM for Service accounts or GCP Workload identity, you need to update the service account to include this.
 
 You can use ``Flyte cluster resource manager`` to manage creating the spark service account per namespace.
-For this, you need to add the cluster resource templates as shown `here <https://github.com/flyteorg/flyte/tree/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/clusterresource-templates>`__ (refer to the ``*spark*.yaml`` files).
+For this, you need to add the cluster resource templates as shown `here <https://github.com/flyteorg/flyte/tree/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/clusterresource-templates>`__ (refer to the ``spark.yaml`` files).
+
+.. note::
+
+   Refer to `this <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/gcp.md>`__ guide to use GCP instead of AWS.
 
 Step 2: Environment Setup
 -------------------------
@@ -124,7 +128,7 @@ Setup Spark Driver and Executor Logs
 
 This can be configured by configuring the ``logs`` configuration for the Spark plugin. Spark Plugin uses the same default log configuration as explained in :ref:`configure-logging`.
 
-SparkPlugin supports separating User (spark user code) vs. System (spark core logs) to enhance visibility into Spark, which is only available if you can route the spark user logs separately from the core logs. 
+SparkPlugin supports separating User (spark user code) vs. System (spark core logs) to enhance visibility into Spark, which is only available if you can route the spark user logs separately from the core logs.
 **Flyte does not automatically separate the logs.** Checkout the configuration structure `here <https://github.com/flyteorg/flyteplugins/blob/2e8a22b1b5569d6f24373495fdfec68c5e7d344f/go/tasks/plugins/k8s/spark/config.go#L31>`__.
 
 - *Mixed*: Get unseparated logs from Spark Driver (both user and system), which follow the same structure as all log plugins. You can get links to the K8s dashboard, or a log aggregator of your choice, as long as it can generate standardized links.
