@@ -154,7 +154,7 @@ Table of Contents
    Scheduling Workflows <auto/core/scheduled_workflows/index>
    Extending Flyte <auto/core/extend_flyte/index>
    Building Large Apps <auto/larger_apps/index>
-   contribute
+   Example Contribution Guide <contribute>
 
 .. toctree::
    :maxdepth: -1
@@ -179,14 +179,18 @@ Table of Contents
    auto/integrations/flytekit_plugins/pandera_examples/index
    auto/integrations/flytekit_plugins/modin_examples/index
    auto/integrations/flytekit_plugins/dolt/index
+   auto/integrations/flytekit_plugins/whylogs_examples/index
+   auto/integrations/flytekit_plugins/onnx_examples/index
    auto/integrations/kubernetes/pod/index
    auto/integrations/kubernetes/k8s_spark/index
    auto/integrations/kubernetes/kfpytorch/index
    auto/integrations/kubernetes/kftensorflow/index
    auto/integrations/kubernetes/kfmpi/index
+   auto/integrations/kubernetes/ray_example/index
    auto/integrations/aws/sagemaker_training/index
    auto/integrations/aws/sagemaker_pytorch/index
    auto/integrations/aws/athena/index
    auto/integrations/external_services/hive/index
    auto/integrations/external_services/snowflake/index
    auto/integrations/gcp/bigquery/index
+   auto/integrations/external_services/airflow/index
