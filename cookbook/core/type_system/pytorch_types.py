@@ -17,7 +17,6 @@ around tensors and models, we added support for the PyTorch types.
 # Flytekit resorts to using pickle to serialize and deserialize the entities; in fact, pickle is used for any unknown type.
 # This is not very efficient, and hence, we added PyTorch's serialization and deserialization support to the Flyte type system.
 import torch
-
 from flytekit import task, workflow
 
 
@@ -72,6 +71,8 @@ def pytorch_native_wf():
 # %%
 # Passing around tensors and modules is no more a hassle!
 
+from dataclasses import dataclass
+
 # %%
 # Checkpoint
 # ----------
@@ -85,8 +86,6 @@ def pytorch_native_wf():
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from dataclasses import dataclass
-
 from dataclasses_json import dataclass_json
 from flytekit.extras.pytorch import PyTorchCheckpoint
 

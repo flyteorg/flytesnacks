@@ -1,7 +1,6 @@
+from basic_workflow import my_wf
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
-
-from basic_workflow import my_wf
 
 remote = FlyteRemote(
     config=Config.auto(),

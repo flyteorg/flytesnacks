@@ -77,6 +77,7 @@ if __name__ == "__main__":
 def upperhalf(a: int) -> int:
     return a / 2 + 1
 
+
 @task
 def suboptimal_mappable_task(a: int) -> str:
     inc = upperhalf(a=a)
@@ -103,6 +104,7 @@ def suboptimal_mappable_task(a: int) -> str:
 def multi_input_task(quantity: int, price: float, shipping: float) -> float:
     return quantity * price * shipping
 
+
 # %%
 # But we only want to map this task with the ``quantity`` input
 # while the other inputs stay the same. Since a map task accepts only
@@ -113,7 +115,9 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 # ``dataclass_json``. We also define our helper task to prepare the map
 # task's inputs.
 from dataclasses import dataclass
+
 from dataclasses_json import dataclass_json
+
 
 @dataclass_json
 @dataclass
@@ -122,9 +126,11 @@ class MapInput:
     price: float
     shipping: float
 
+
 @task
 def prepare_map_inputs(list_q: List[float], p: float, s: float) -> List[MapInput]:
     return [MapInput(q, p, s) for q in list_q]
+
 
 # %%
 # Then we refactor ``multi_input_task``. Instead of 3 inputs, ``mappable_task``
@@ -133,12 +139,14 @@ def prepare_map_inputs(list_q: List[float], p: float, s: float) -> List[MapInput
 def mappable_task(input: MapInput) -> float:
     return input.quantity * input.price * input.shipping
 
+
 # %%
 # Our workflow prepares a new list of inputs for the map task.
 @workflow
 def multiple_workflow(list_q: List[float], p: float, s: float) -> List[float]:
     prepared = prepare_map_inputs(list_q=list_q, p=p, s=s)
     return map_task(mappable_task)(input=prepared)
+
 
 # %%
 # We can run our multi-input map task locally.

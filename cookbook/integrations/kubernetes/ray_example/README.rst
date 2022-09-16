@@ -50,4 +50,3 @@ Create a Ray Cluster Managed by Flyte and Run a Ray Job on This Cluster
     def ray_task() -> typing.List[int]:
         futures = [f.remote(i) for i in range(5)]
         return ray.get(futures)
-

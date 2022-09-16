@@ -1,5 +1,5 @@
-import re
 import os
+import re
 import subprocess
 import typing
 from dataclasses import dataclass, field
@@ -9,14 +9,15 @@ import pytest
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
-
 N_SYNCS = 200
 
 
 COOKBOOK_ROOT_DIR = Path(__file__).parent / ".." / ".."
 
 FLYTECTL_CMD = "sandbox" if os.getenv("RUN_CMDS_CI", False) else "demo"
-NO_CLUSTER_MSG = "🛑 no demo cluster found" if FLYTECTL_CMD == "demo" else "🛑 no Sandbox found"
+NO_CLUSTER_MSG = (
+    "🛑 no demo cluster found" if FLYTECTL_CMD == "demo" else "🛑 no Sandbox found"
+)
 
 
 @dataclass
@@ -88,16 +89,24 @@ def get_execution_name_flytekit_remote(x):
 @pytest.mark.parametrize(
     "example_test_case",
     [
-        ExampleTestCase("hello-world", "core/flyte_basics/hello_world.py", {"o0": "hello world"}),
+        ExampleTestCase(
+            "hello-world", "core/flyte_basics/hello_world.py", {"o0": "hello world"}
+        ),
         ExampleTestCase("task", "core/flyte_basics/task.py", {"o0": 16}),
-        ExampleTestCase("basic-workflow", "core/flyte_basics/basic_workflow.py", {"o0": 102, "o1": "helloworld"}),
+        ExampleTestCase(
+            "basic-workflow",
+            "core/flyte_basics/basic_workflow.py",
+            {"o0": 102, "o1": "helloworld"},
+        ),
     ],
-    ids=lambda x: x.id
+    ids=lambda x: x.id,
 )
 @pytest.mark.parametrize(
     "run_type", ["pyflyte_run", "flytekit_remote"], ids=lambda x: x.replace("_", "-")
 )
-def test_example_suite(flyte_remote: FlyteRemote, example_test_case: ExampleTestCase, run_type: str):
+def test_example_suite(
+    flyte_remote: FlyteRemote, example_test_case: ExampleTestCase, run_type: str
+):
     args = example_test_case.pyflyte_run_args
     get_execution_name = get_execution_name_pyflyte
     if run_type == "flytekit_remote":

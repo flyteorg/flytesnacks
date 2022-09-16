@@ -6,7 +6,6 @@ from docutils import nodes
 from docutils.statemachine import StringList, string2lines
 from sphinx.util.docutils import SphinxDirective
 
-
 TEMPLATE = """
 .. dropdown:: :fa:`play` Run this example
 
@@ -44,7 +43,7 @@ TestScriptPaths = NamedTuple(
         ("example_root_dir", str),
         ("pyflyte_run_path", str),
         ("flyte_remote_path", str),
-    ]
+    ],
 )
 
 

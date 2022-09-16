@@ -1,6 +1,5 @@
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
-
 from hello_world import my_wf
 
 remote = FlyteRemote(

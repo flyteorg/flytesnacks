@@ -1,6 +1,5 @@
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
-
 from task import wf
 
 remote = FlyteRemote(

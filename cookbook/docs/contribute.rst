@@ -52,7 +52,7 @@ follows:
    fit into any of the existing subdirectories, you'll need to setup a new example directory.
 
    Create a new directory with ``mkdir {integrations, case_studies}/path/to/new/example_dir``
-   
+
    Each example directory should contain:
 
    * ``Dockerfile``
@@ -69,7 +69,7 @@ a descriptive name for your example. Be sure to follow the `percent <https://jup
 format for delimiting code and markdown in your script.
 
 .. note::
-   
+
    ``flytesnacks`` uses `sphinx gallery <https://sphinx-gallery.github.io/stable/index.html>`_
    to convert the python files to ``.rst`` format so that the examples can be rendered in the
    documentation.
@@ -83,7 +83,7 @@ The ``README.md`` file needs to capture the *what*, *why*, and *how* of the exam
 * Why do we need this integration? How is it going to benefit the Flyte users?
 * Showcase the uniqueness of the integration
 * How to install the plugin?
-  
+
 .. tip::
    Refer to any subdirectory in the ``cookbook`` directory for examples
 
@@ -123,7 +123,7 @@ as the example script.
 Let's suppose our example script is called ``my_example.py`` with the following contents:
 
 .. code-block:: python
-   
+
    from flytekit import task, workflow
 
    @task
@@ -147,7 +147,7 @@ The ``run_my_example.sh.sh`` script should contain the terminal command that use
 ``pyflyte run``, for example:
 
 .. code-block:: bash
-   
+
    pyflyte run --remote my_example.py:wf --input there
 
 Similarly, the ``run_my_example.py`` script should contain the python code that users need to invoke to run the script
@@ -245,7 +245,7 @@ Build Docker container:
 Package the examples by running
 
 .. prompt:: bash
-   
+
    pyflyte --pkgs core package --image core:v1 -f
 
 Register the examples by running
@@ -256,7 +256,7 @@ Register the examples by running
 Visit ``https://localhost:30081/console`` to view the Flyte console, which consists of the examples present in the
 ``flytesnacks/cookbook/core`` directory.
 
-To fetch new dependencies and rebuild the image, run 
+To fetch new dependencies and rebuild the image, run
 
 .. prompt:: bash
 
@@ -300,7 +300,7 @@ The ``cookbook/docs/conf.py`` contains the sphinx configuration for building the
 
 For example, if you added the ``snowflake`` directory to the ``integrations/external_services`` folder, you then need
 to:
-   
+
 - Add the Python file names to the ``CUSTOM_FILE_SORT_ORDER`` list
 - Add ``../integrations/external_services/snowflake`` to ``example_dirs``
 - Add ``auto/integrations/external_services/snowflake`` to ``gallery_dirs``
@@ -325,7 +325,7 @@ QA your Changes
 ===============
 
 Verify that the code and documentation look as expected:
-   
+
 - Learn about the documentation tools `here <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__
 - Install the requirements by running ``pip install -r docs-requirements.txt`` in the ``cookbook`` folder
 - Run ``make html`` in the ``docs`` folder
@@ -338,8 +338,8 @@ Verify that the code and documentation look as expected:
 Create a Pull request
 ======================
 
-Create the pull request, then ensure that the docs are rendered correctly by clicking on the documentation check. 
-   
+Create the pull request, then ensure that the docs are rendered correctly by clicking on the documentation check.
+
    .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
        :alt: Docs link in a PR
 

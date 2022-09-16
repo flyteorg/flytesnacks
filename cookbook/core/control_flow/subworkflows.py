@@ -17,8 +17,8 @@ Consider launch plans as pass by pointer and subworkflows as pass by value.
 
 When Should I Use SubWorkflows?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Subworkflows provide a clean solution to control parallelism between a workflow and its launched sub-flows 
-because they execute within the same context as the parent workflow. 
+Subworkflows provide a clean solution to control parallelism between a workflow and its launched sub-flows
+because they execute within the same context as the parent workflow.
 Thus, all nodes of a subworkflow are bound by the total constraint on the parent workflow.
 
 Consider this: When Workflow A is included as a subworkflow of Workflow B, and when Workflow B is run, the entire graph of workflow A is
@@ -61,7 +61,7 @@ def my_subwf(a: int = 42) -> Tuple[str, str]:
 # which demonstrates how to override the node name of a task (or subworkflow in this case).
 #
 # Nodes are typically named sequentially: ``n0``, ``n1``, and so on. Since the inner ``my_subwf`` also has a ``n0``, you might
-# want to modify the first node's name. Because node IDs must be different within a workflow graph, 
+# want to modify the first node's name. Because node IDs must be different within a workflow graph,
 # Flyte automatically prepends an attribute to the inner ``n0``.
 @workflow
 def parent_wf(a: int) -> Tuple[int, str, str]:
@@ -124,6 +124,7 @@ from typing import Dict, Tuple  # noqa: E402
 
 from flytekit import LaunchPlan, task, workflow  # noqa: E402
 
+
 # %%
 # Define a task that computes the frequency of each word in a string, and returns a dictionary mapping every word to its count.
 @task
@@ -171,4 +172,3 @@ def parent_workflow(my_input1: str) -> typing.List[str]:
 if __name__ == "__main__":
     print("Running parent workflow...")
     print(parent_workflow(my_input1="the cat took the apple and ate the apple"))
-

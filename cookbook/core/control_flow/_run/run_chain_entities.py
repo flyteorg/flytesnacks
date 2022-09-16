@@ -1,7 +1,6 @@
+from chain_entities import chain_tasks_wf
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
-
-from chain_entities import chain_tasks_wf
 
 remote = FlyteRemote(
     config=Config.auto(),
