@@ -28,20 +28,13 @@ from flytekit.models import literals
 from flytekit.models.literals import StructuredDatasetMetadata
 from flytekit.types.schema import FlyteSchema
 from flytekit.types.structured.structured_dataset import (
-    LOCAL,
     PARQUET,
-    S3,
     StructuredDataset,
     StructuredDatasetDecoder,
     StructuredDatasetEncoder,
     StructuredDatasetTransformerEngine,
 )
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
-
+from typing_extensions import Annotated
 
 # %%
 # We define the columns types for schema and ``StructuredDataset``.
@@ -208,14 +201,34 @@ class NumpyDecodingHandlers(StructuredDatasetDecoder):
 
 
 # %%
-# Finally, we register the encoder and decoder with the ``StructuredDatasetTransformerEngine``.
-for protocol in [LOCAL, S3]:
-    StructuredDatasetTransformerEngine.register(
-        NumpyEncodingHandlers(np.ndarray, protocol, PARQUET)
-    )
-    StructuredDatasetTransformerEngine.register(
-        NumpyDecodingHandlers(np.ndarray, protocol, PARQUET)
-    )
+# NumPy Renderer
+# ^^^^^^^^^^^^^^
+#
+# Create a default renderer for numpy array, then flytekit will use this renderer to
+# display schema of numpy array on flyte deck.
+
+
+class NumpyRenderer:
+    """
+    The schema of Numpy array are rendered as an HTML table.
+    """
+
+    def to_html(self, df: np.ndarray) -> str:
+        assert isinstance(df, np.ndarray)
+        name = ["col" + str(i) for i in range(len(df))]
+        table = pa.Table.from_arrays(df, name)
+        return pd.DataFrame(table.schema).to_html(index=False)
+
+
+# %%
+# Finally, we register the encoder, decoder, and renderer with the ``StructuredDatasetTransformerEngine``.
+StructuredDatasetTransformerEngine.register(
+    NumpyEncodingHandlers(np.ndarray, None, PARQUET)
+)
+StructuredDatasetTransformerEngine.register(
+    NumpyDecodingHandlers(np.ndarray, None, PARQUET)
+)
+StructuredDatasetTransformerEngine.register_renderer(np.ndarray, NumpyRenderer())
 
 # %%
 # You can now use ``numpy.ndarray`` to deserialize the parquet file to NumPy and serialize a task's output (NumPy array) to a parquet file.
