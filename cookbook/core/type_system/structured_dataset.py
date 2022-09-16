@@ -206,8 +206,6 @@ class NumpyDecodingHandlers(StructuredDatasetDecoder):
 #
 # Create a default renderer for numpy array, then flytekit will use this renderer to
 # display schema of numpy array on flyte deck.
-
-
 class NumpyRenderer:
     """
     The schema of Numpy array are rendered as an HTML table.
@@ -222,12 +220,8 @@ class NumpyRenderer:
 
 # %%
 # Finally, we register the encoder, decoder, and renderer with the ``StructuredDatasetTransformerEngine``.
-StructuredDatasetTransformerEngine.register(
-    NumpyEncodingHandlers(np.ndarray, None, PARQUET)
-)
-StructuredDatasetTransformerEngine.register(
-    NumpyDecodingHandlers(np.ndarray, None, PARQUET)
-)
+StructuredDatasetTransformerEngine.register(NumpyEncodingHandlers(np.ndarray, None, PARQUET))
+StructuredDatasetTransformerEngine.register(NumpyDecodingHandlers(np.ndarray, None, PARQUET))
 StructuredDatasetTransformerEngine.register_renderer(np.ndarray, NumpyRenderer())
 
 # %%
