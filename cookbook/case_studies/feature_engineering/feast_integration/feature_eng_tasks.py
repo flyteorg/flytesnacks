@@ -1,11 +1,12 @@
 """
 Feature Engineering Tasks
 -------------------------
-We'll define the relevant feature engineering tasks to clean up the SQLite data.
+
+Let's define some feature engineering tasks to be used in conjunction with the Flyte workflow.
 """
 
 # %%
-# First, let's import the required libraries.
+# Import the necessary libraries.
 import numpy as np
 import pandas as pd
 from flytekit import task
@@ -14,7 +15,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.impute import SimpleImputer
 
 # %%
-# There are a specific set of columns for which imputation isn't required. We ignore them.
+# There are a specific set of columns for which imputation isn't required. Ignore them.
 NO_IMPUTATION_COLS = [
     "Hospital Number",
     "surgery",
@@ -24,10 +25,9 @@ NO_IMPUTATION_COLS = [
     "timestamp",
 ]
 
-
 # %%
-# We define a ``mean_median_imputer`` task to fill in the missing values of the dataset, for which we use the
-# `SimpleImputer <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`__ class from the ``scikit-learn`` library.
+# Use the `SimpleImputer <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`__ class from the ``scikit-learn`` library
+# to fill in the missing values of the dataset.
 @task
 def mean_median_imputer(
     dataframe: pd.DataFrame,
@@ -51,14 +51,13 @@ def mean_median_imputer(
 
 
 # %%
-# Let's define the other task called ``univariate_selection`` that does feature selection.
-# The `SelectKBest <https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest>`__ method removes all
-# but the highest scoring features (DataFrame columns).
+# The `SelectKBest <https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest>`__ method
+# removes all but the highest scoring features.
 @task
 def univariate_selection(
     dataframe: pd.DataFrame, num_features: int, data_class: str
 ) -> pd.DataFrame:
-    # Remove ``timestamp`` and ``Hospital Number`` columns as they ought to be present in the dataset
+    # remove ``timestamp`` and ``Hospital Number`` columns as they ought to be present in the dataset
     dataframe = dataframe.drop(["event_timestamp", "Hospital Number"], axis=1)
 
     if num_features > 9:

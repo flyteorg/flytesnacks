@@ -157,7 +157,6 @@ class CustomSorter(FileNameSortKey):
         "notebook_and_task.py",
         "notebook_as_tasks.py",
         "feature_eng_tasks.py",
-        "feast_dataobjects.py",
         "feast_workflow.py",
         ## Bioinformatics
         "blastx_example.py",
