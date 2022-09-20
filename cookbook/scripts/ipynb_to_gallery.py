@@ -49,7 +49,6 @@ def fetch_ipynb():
     ipynb_files = []
     for folder in folders:
         ipynb_files += glob.glob(f"{folder}/**/*.ipynb", recursive=True)
-    print(ipynb_files)
     return ipynb_files
 
 

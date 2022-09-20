@@ -27,5 +27,5 @@ repos:
     - id: convert ipynb to sphinx gallery styled python code
       name: converts ipynb to sphinx gallery python code files
       language: system
-      entry: python cookbook/scripts/ipynb_to_gallery.py
+      entry: cd cookbook && python scripts.ipynb_to_gallery.py
       always_run: true
