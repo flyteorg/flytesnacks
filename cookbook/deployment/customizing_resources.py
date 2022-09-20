@@ -38,7 +38,7 @@ from flytekit import Resources, task, workflow
 
 
 # %%
-# Define a task and configure the resources to be allocated to it.
+# Define a task and configure the resources to be allocated to it. Currently, you can specify the maximum memory to be ``1Gi`` in the demo cluster.
 @task(requests=Resources(cpu="1", mem="100Mi"), limits=Resources(cpu="2", mem="150Mi"))
 def count_unique_numbers(x: typing.List[int]) -> int:
     s = set()
