@@ -79,18 +79,15 @@ Getting your tasks, workflows, and launch plans to run on a Flyte platform is a 
 It produces registerable protobuf files for your tasks and templates. For every task, one protobuf file is produced which represents one TaskTemplate object.
 For every workflow, one protofbuf file is produced which represents a WorkflowClosure object.
 
-Once you've built a Docker container image with your updated code changes, you can use the ``pyflyte serialize`` command to serialize your tasks:
+Once you've built a Docker container image with your updated code changes, you can use the ``pyflyte package`` command to serialize your tasks and compress the folder to a zip file:
 
 .. code-block::
 
-   pyflyte -c sandbox.config --pkgs core serialize --image somedocker.com/myimage:someversion123 --local-source-root ${CURDIR} --in-container-config-path /root/sandbox.config workflows -f _pb_output/
+   pyflyte --pkgs <parent-package>.<child-package-with-the-workflow> package --image somedocker.com/myimage:someversion123
 
 where
 
-- :code:`-c` specifies the path to the config definition on your machine, that is, the SDK default attributes.
 - :code:`--pkgs` arg points to the packages within the directory.
-- ``local-source-root`` argument specifies the root directory for the Python code that contains workflow definitions to use when the code lies outside your working directory, in out of container mode.
-- ``in-container-config-path`` argument specifies the configuration where the task is present inside the container. This argument is required because ``pyflyte`` utility wouldn't know the location that the Dockerfile writes the config file to.
 - :code:`--image` is a non-optional fully qualified name of the container image housing your code.
 
 
