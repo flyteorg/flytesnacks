@@ -93,13 +93,6 @@ where
 - ``in-container-config-path`` argument specifies the configuration where the task is present inside the container. This argument is required because ``pyflyte`` utility wouldn't know the location that the Dockerfile writes the config file to.
 - :code:`--image` is a non-optional fully qualified name of the container image housing your code.
 
-In-Container Serialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Notice that the commands above are run locally, **not** inside the container. Strictly speaking, serialization should be done within the container for the following reasons.
-
-1. It ensures that the versions of all libraries used at execution time on the Flyte platform are the same as that used during serialization.
-2. Since serialization runs part of flytekit, it ensures that your container is set up correctly.
 
 Register Your Workflows and Tasks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -114,7 +107,7 @@ It can be understood as combination of ``pyflyte package`` and ``flytectl regist
 
 where
 
-- :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.
+- :code:`-p` specifies the project to register your entities. This project itself must already be registered on your Flyte deployment.s
 - :code:`-d` specifies the domain to register your entities. This domain must already be configured in your Flyte deployment.
 - :code:`-i` specifies the fully qualified tag for a docker image. It is optional, and if not specified, the default image is used.
 - :code:`-o` specifies the directory where the zip file (containing protobuf definitions) is written to.
