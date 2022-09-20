@@ -1,5 +1,5 @@
 """Convert jupyter notebook to sphinx gallery notebook styled examples.
-Usage: python ipynb_to_gallery.py <notebook.ipynb>
+Usage: python scripts/ipynb_to_gallery.py <notebook.ipynb>
 Dependencies:
 pandoc: `brew install pandoc`
 pypandoc: install using `brew install pypandoc`
