@@ -11,6 +11,9 @@ the latter is evaluated at runtime. This means the inputs are first materialized
 as if it were a task. However, the return value from a dynamic workflow is a Promise object instead of an actual value,
 which is fulfilled by evaluating the various tasks invoked in the dynamic workflow.
 
+Think of a dynamic workflow as a parent graph node that spins off new child nodes which would represent a new child graph. 
+At runtime, dynamic workflows receive input and create new workflows. These new workflows have graph nodes. 
+
 Within the ``@dynamic`` context (function), every invocation of a :py:func:`~flytekit.task` or a derivative of
 :py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
 of the actual value being materialized. You can also nest other ``@dynamic`` and ``@workflow`` constructs within this
@@ -82,7 +85,7 @@ def derive_count(freq1: typing.List[int], freq2: typing.List[int]) -> int:
 #
 # .. note::
 #    The dynamic pattern isn't the most efficient method to iterate over a list. `Map tasks <https://github.com/flyteorg/flytekit/blob/8528268a29a07fe7e9ce9f7f08fea68c41b6a60b/flytekit/core/map_task.py/>`_
-# might be more efficient in certain cases. But they only work for Python tasks (tasks decorated with the @task decorator) not SQL, Spark, and so on.
+#    might be more efficient in certain cases. But they only work for Python tasks (tasks decorated with the @task decorator) not SQL, Spark, and so on.
 #
 # We now define a dynamic workflow that encapsulates the above mentioned points.
 @dynamic
