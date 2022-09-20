@@ -22,3 +22,9 @@ repos:
   rev: v0.7.2.1
   hooks:
   - id: shellcheck
+- repo: local
+  hooks:
+    - id: convert ipynb to sphinx gallery styled python code
+      name: converts ipynb to sphinx gallery python code files
+      language: system
+      entry: python cookbook/scripts/ipynb_to_gallery.py

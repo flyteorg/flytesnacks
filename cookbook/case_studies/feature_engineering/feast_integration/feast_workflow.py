@@ -27,8 +27,6 @@ Here's the step-by-step process:
 import logging
 import os
 from datetime import datetime, timedelta
-from re import I
-from tkinter import END
 
 import boto3
 import flytekit
@@ -46,8 +44,6 @@ from flytekit.types.file import FlyteFile, JoblibSerializedFile
 from flytekit.types.structured import StructuredDataset
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from flytekit.core.data_persistence import FileAccessProvider
-from flytekit.configuration import S3Config, DataConfig
 
 logger = logging.getLogger(__file__)
 
@@ -129,6 +125,7 @@ load_horse_colic_sql = SQLite3Task(
         compressed=True,
     ),
 )
+
 
 # %%
 # Set the datatype of the timestamp column in the underlying DataFrane to ``datetime``, which would otherwise be a string.
@@ -307,14 +304,6 @@ def retrieve_online(
     entity_rows = [{"Hospital Number": data_point}]
 
     # download the online store file and copy the content to the actual online store path
-    # file_access_obj = FlyteContext().current_context().file_access
-    # file_access_obj.data_config = DataConfig(
-    #     s3=S3Config(
-    #         endpoint=ENDPOINT,
-    #         secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-    #         access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-    #     )
-    # )
     FlyteContext.current_context().file_access.get_data(
         online_store.download(), repo_config.online_store.path
     )

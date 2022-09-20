@@ -25,11 +25,10 @@ sys.path.append(os.path.abspath("./_ext"))
 # -- Project information -----------------------------------------------------
 
 project = "Flytesnacks"
-copyright = "2021, Flyte"
+copyright = "2022, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
-# The full version, including alpha/beta/rc tags.
 release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
@@ -353,10 +352,10 @@ min_reported_time = 0
 
 # hide example pages with empty content
 ignore_py_files = [
-    "__init__\.py",
-    "config_resource_mgr\.py",
-    "optimize_perf\.py",
-    "^run_.+\.py",
+    r"__init__\.py",
+    r"config_resource_mgr\.py",
+    r"optimize_perf\.py",
+    r"^run_.+\.py",
 ]
 
 sphinx_gallery_conf = {
