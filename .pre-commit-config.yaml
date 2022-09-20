@@ -28,3 +28,4 @@ repos:
       name: converts ipynb to sphinx gallery python code files
       language: system
       entry: python cookbook/scripts/ipynb_to_gallery.py
+      always_run: true
