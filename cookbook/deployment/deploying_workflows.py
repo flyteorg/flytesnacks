@@ -5,7 +5,7 @@ Deploying Workflows - Registration
 Locally, Flytekit relies on the Python interpreter to execute tasks and workflows.
 To leverage the full power of Flyte, we recommend using a deployed backend of Flyte. Flyte can be run
 on any Kubernetes cluster (for example, a local cluster like `kind <https://kind.sigs.k8s.io/>`__), in a cloud environment,
-or on-prem. This process of deploying your workflows to a Flyte cluster is known as ``**registration**``. It involves the
+or on-prem. This process of deploying your workflows to a Flyte cluster is known as **registration**. It involves the
 following steps:
 
 1. Writing code, SQL etc;
@@ -73,13 +73,16 @@ Build Your Dockerfile
 .. note::
    In the above Dockerfile, ``core`` directory is considered.
 
-Serialize Your Workflows and Tasks
+Package Your Workflows and Tasks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Getting your tasks, workflows, and launch plans to run on a Flyte platform is a two-step process. **Serialization** is the first step of that process.
 It produces registerable protobuf files for your tasks and templates. For every task, one protobuf file is produced which represents one TaskTemplate object.
 For every workflow, one protofbuf file is produced which represents a WorkflowClosure object.
+The second step is to compress the folder into a zip file.
+Once you've built a Docker container image with your updated code changes, you can use the ``pyflyte package`` command to complete both the steps, that is:
 
-Once you've built a Docker container image with your updated code changes, you can use the ``pyflyte package`` command to serialize your tasks and compress the folder to a zip file:
+1. Serialize your tasks;
+2. Compress the folder to a zip file.
 
 .. code-block::
 
@@ -93,7 +96,7 @@ where
 
 Register Your Workflows and Tasks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Once you've serialized your workflows and tasks to proto, you'll need to register them with your deployed Flyte installation.
+Once you've packaged your workflows and tasks to proto, you'll need to register them with your deployed Flyte installation.
 You can register your workflows and tasks using ``pyflyte register`` command. This command ``fast regsisters`` by default.
 It compiles all your Flyte entities defined in Python, and sends these entities to the backend specified by your config file.
 It can be understood as combination of ``pyflyte package`` and ``flytectl register`` commands.
@@ -116,17 +119,7 @@ Let us also understand how the combination of the ``pyflyte package`` and ``flyt
 
 .. code-block::
 
-   pyflyte package -i somedocker.com/myimage:someversion123 -s root/of/package/ -o path/to/python/package/source -f -p python/interpreter/loc -d path/to/copied/code/Dockerfile
-
-where
-
-- :code:`-i` specifies the fully qualified tag for a docker image. It is optional, and if not specified, the default image is used.
-- :code:`-s` specifies the local filesystem path to the root of the package.
-- :code:`-o` specifies the filesystem path to the source of the python package from where the pkgs start.
-- ``fast`` flag enables fast packaging that allows ``no container build`` deploys of flyte workflows and tasks. It needs additional configuration.
-- :code:`-f` flag enables overriding the existing output files. If not specified, package exits if an output file exists.
-- :code:`-p` overrides the default location of the in-container Python interpreter that is used by Flyte to load your program. Flytekit is usually installed inside this container.
-- :code:`-d` specifies the filesystem path to which the code is copied within Dockerfile.
+   pyflyte --pkgs <parent-package>.<child-package-with-the-workflow> package --image somedocker.com/myimage:someversion123
 
 .. code-block::
 
@@ -152,6 +145,11 @@ First, run the fast serialization target:
 .. code-block::
 
    pyflyte --pkgs core package --image core:v1 --fast --force
+
+where
+
+- ``--fast`` flag enables fast packaging, that is, it allows a no container build to deploy flyte tasks and workflows.
+- ``--force`` flag helps override existing output files. If an output file exists, the package exits with an error.
 
 Next, use ``pyflyte register`` which fast registers the target:
 
