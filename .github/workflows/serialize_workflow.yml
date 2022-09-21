@@ -33,6 +33,7 @@ jobs:
         id: example_id
         # add a step output `steps.build_id.outputs.id` as the unique id
         run: echo "::set-output name=id::$(echo ${{ matrix.directory }} | sed 's_/_-_g')"
+      - uses: unionai/flytectl-setup-action@v0.0.1
       - name: Setup sandbox
         run: |
           make setup
