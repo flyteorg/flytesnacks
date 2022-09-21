@@ -49,7 +49,7 @@ def convert_ipynb_to_gallery(file_names):
 def fetch_ipynb():
     ipynb_files = []
     for folder in folders:
-        ipynb_files += glob.glob(f"{folder}/**/*.ipynb", recursive=True)
+        ipynb_files += glob.glob(f"cookbook/{folder}/**/*.ipynb", recursive=True)
     return ipynb_files
 
 

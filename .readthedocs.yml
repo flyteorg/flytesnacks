@@ -16,3 +16,10 @@ python:
     - requirements: cookbook/dev-requirements.txt
     - requirements: cookbook/docs-requirements.txt
 
+build:
+  os: "ubuntu-20.04"
+  tools:
+    python: "3.9"
+  jobs:
+    post_checkout:
+      - python ./cookbook/scripts/ipynb_to_gallery.py
