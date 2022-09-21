@@ -24,6 +24,14 @@ Here's the step-by-step process:
 
 # %%
 # Import the necessary dependencies.
+#
+# .. note::
+#
+#   If running the workflow locally, do an absolute import of the feature engineering tasks.
+#
+#   .. code-block::
+#
+#       from feature_eng_tasks import mean_median_imputer, univariate_selection
 import logging
 import os
 from datetime import datetime, timedelta
@@ -45,12 +53,10 @@ from flytekit.types.structured import StructuredDataset
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 
+from .feature_eng_tasks import mean_median_imputer, univariate_selection
+
 logger = logging.getLogger(__file__)
 
-try:
-    from feature_eng_tasks import mean_median_imputer, univariate_selection
-except ImportError:
-    from .feature_eng_tasks import mean_median_imputer, univariate_selection
 
 # %%
 # Set the endpoint, import the feature engineering tasks, and initialize the AWS environment variables.
@@ -158,8 +164,8 @@ def convert_timestamp_column(
 #
 # .. note::
 #
-#     The Feast feature store is mutable, so be careful, as Flyte workflows can be highly concurrent!
-#     TODO: use postgres db as the registry to support concurrent writes.
+#   The Feast feature store is mutable, so be careful, as Flyte workflows can be highly concurrent!
+#   TODO: use postgres db as the registry to support concurrent writes.
 @task(limits=Resources(mem="400Mi"))
 def store_offline(repo_config: RepoConfig, dataframe: StructuredDataset) -> FlyteFile:
     horse_colic_entity = Entity(name="Hospital Number")
