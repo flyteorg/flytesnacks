@@ -9,7 +9,7 @@ build:
   tools:
     python: "3.9"
   jobs:
-    post_checkout:
+    pre_build:
       - python ./cookbook/scripts/ipynb_to_gallery.py
 
 # Build documentation in the docs/ directory with Sphinx
