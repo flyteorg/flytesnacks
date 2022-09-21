@@ -256,4 +256,4 @@ print("MAE Score: ", mae_score)
 
 from flytekitplugins.papermill import record_outputs
 
-record_outputs(mae_score=mae_score)
+record_outputs(mae_score=float(mae_score))
