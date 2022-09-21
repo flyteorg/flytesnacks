@@ -25,7 +25,7 @@ jobs:
 
   trigger_serialize_register_workflow:
     name: Serialize & Register Flytesnacks workflow
-    needs: [list, extract_branch_name]
+    needs: [list]
     uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@fix-feast-workflow
     with:
       packages: ${{ needs.list.outputs.packages }}
