@@ -37,6 +37,7 @@ jobs:
       - name: Setup sandbox
         run: |
           make setup
+          flytectl config init
       - name: Serialize Examples
         env:
           SANDBOX: "1"
