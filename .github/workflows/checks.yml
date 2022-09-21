@@ -23,19 +23,10 @@ jobs:
     outputs:
       packages: "${{ steps.create-list.outputs.packages }}"
 
-  extract_branch_name:
-    name: Extract branch name
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
   trigger_serialize_register_workflow:
     name: Serialize & Register Flytesnacks workflow
     needs: [list, extract_branch_name]
-    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@${{ needs.extract_branch_name.outputs.branch }}
+    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@${GITHUB_REF##*/}
     with:
       packages: ${{ needs.list.outputs.packages }}
     secrets:
