@@ -9,6 +9,9 @@ build:
   tools:
     python: "3.9"
   jobs:
+    pre_install:
+      - sudo apt install pandoc
+      - pip install pypandoc
     pre_build:
       - python ./cookbook/scripts/ipynb_to_gallery.py
 
