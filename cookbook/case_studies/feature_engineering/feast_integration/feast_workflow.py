@@ -46,14 +46,13 @@ from feast.infra.offline_stores.file import FileOfflineStoreConfig
 from feast.infra.online_stores.sqlite import SqliteOnlineStoreConfig
 from feast.repo_config import RepoConfig
 from feast.types import Float64, String
+from feature_eng_tasks import mean_median_imputer, univariate_selection
 from flytekit import FlyteContext, Resources, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 from flytekit.types.file import FlyteFile, JoblibSerializedFile
 from flytekit.types.structured import StructuredDataset
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-
-from .feature_eng_tasks import mean_median_imputer, univariate_selection
 
 logger = logging.getLogger(__file__)
 

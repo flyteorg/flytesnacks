@@ -103,11 +103,11 @@ fastavro==1.6.1
     # via
     #   feast
     #   pandavro
-feast[aws]==0.24.1
+feast[aws]==0.25.0
     # via -r requirements.in
 fissix==21.11.13
     # via bowler
-flyteidl==1.1.16
+flyteidl==1.1.17
     # via flytekit
 flytekit==1.1.3
     # via
@@ -115,7 +115,7 @@ flytekit==1.1.3
     #   flytekitplugins-deck-standard
 flytekitplugins-deck-standard==1.1.3
     # via -r ../../../common/requirements-common.in
-fonttools==4.37.2
+fonttools==4.37.3
     # via matplotlib
 frozenlist==1.3.1
     # via
@@ -145,13 +145,9 @@ grpcio==1.48.1
     #   grpcio-reflection
     #   grpcio-status
 grpcio-reflection==1.48.1
-    # via
-    #   -r requirements.in
-    #   feast
+    # via feast
 grpcio-status==1.48.1
-    # via
-    #   -r requirements.in
-    #   flytekit
+    # via flytekit
 h11==0.13.0
     # via uvicorn
 htmlmin==0.1.12
@@ -433,7 +429,7 @@ tangled-up-in-unicode==0.2.0
     # via
     #   pandas-profiling
     #   visions
-tenacity==8.0.1
+tenacity==8.1.0
     # via
     #   feast
     #   plotly

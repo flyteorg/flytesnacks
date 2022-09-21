@@ -2,5 +2,3 @@
 scikit-learn
 numpy
 feast[aws]
-grpcio-status==1.48.1
-grpcio-reflection==1.48.1
