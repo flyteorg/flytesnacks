@@ -1,11 +1,4 @@
 repos:
-- repo: local
-  hooks:
-    - id: ipynb to py
-      name: converts ipynb to sphinx gallery python code files
-      language: system
-      entry: bash -c 'cd cookbook && python scripts/ipynb_to_gallery.py'
-      stages: ["manual"]
 - repo: https://github.com/PyCQA/flake8
   rev:  3.9.2
   hooks:
