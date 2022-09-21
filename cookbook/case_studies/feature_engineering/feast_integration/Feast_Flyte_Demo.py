@@ -53,7 +53,7 @@ from flytekit.remote import FlyteRemote
 
 # The `for_sandbox` method instantiates a connection to the demo cluster.
 remote = FlyteRemote(
-    config=Config.for_sandbox(),
+    config=Config.auto(),
     default_project="flytesnacks",
     default_domain="development",
 )
