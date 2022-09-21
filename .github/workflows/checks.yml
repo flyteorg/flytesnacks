@@ -35,7 +35,7 @@ jobs:
   trigger_serialize_register_workflow:
     name: Serialize & Register Flytesnacks workflow
     needs: [list, extract_branch_name]
-    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@${{ needs.extract_branch.outputs.branch }}
+    uses: flyteorg/flytesnacks/.github/workflows/serialize_workflow.yml@${{ needs.extract_branch_name.outputs.branch }}
     with:
       packages: ${{ needs.list.outputs.packages }}
     secrets:
