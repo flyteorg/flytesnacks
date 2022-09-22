@@ -1,6 +1,7 @@
 """
+=================
 Dynamic Workflows
-------------------
+=================
 
 A workflow is typically static when the directed acyclic graph's (DAG) structure is known at compile-time.
 However, in cases where a run-time parameter (for example, the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
@@ -11,8 +12,8 @@ the latter is evaluated at runtime. This means the inputs are first materialized
 as if it were a task. However, the return value from a dynamic workflow is a Promise object instead of an actual value,
 which is fulfilled by evaluating the various tasks invoked in the dynamic workflow.
 
-Think of a dynamic workflow as a parent graph node that spins off new child nodes which would represent a new child graph.
-At runtime, dynamic workflows receive input and create new workflows. These new workflows have graph nodes.
+Think of a dynamic workflow as a parent graph node that spins off new child nodes which would represent a new child graph. 
+At runtime, dynamic workflows receive input and create new workflows. These new workflows have graph nodes. 
 
 Within the ``@dynamic`` context (function), every invocation of a :py:func:`~flytekit.task` or a derivative of
 :py:class:`~flytekit.core.base_task.Task` class will result in deferred evaluation using a promise, instead
@@ -141,8 +142,8 @@ if __name__ == "__main__":
 
 
 # %%
-# Dynamic Workflows from Execution POV
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# Dynamic Workflows Under the Hood
+# --------------------------------
 #
 # What Is a Dynamic Workflow?
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^
