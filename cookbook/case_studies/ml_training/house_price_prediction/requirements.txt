@@ -167,7 +167,7 @@ patsy==0.5.2
     # via statsmodels
 phik==0.12.2
     # via pandas-profiling
-pillow==9.1.0
+pillow==9.1.1
     # via
     #   imagehash
     #   matplotlib
