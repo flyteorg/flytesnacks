@@ -129,7 +129,7 @@ packaging==21.3
     # via marshmallow
 pandas==1.4.2
     # via flytekit
-protobuf==3.20.0
+protobuf==3.20.2
     # via
     #   flyteidl
     #   flytekit
