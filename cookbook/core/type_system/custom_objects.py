@@ -64,7 +64,8 @@ class Result:
 # %%
 # .. note::
 #
-#   A data class supports the usage of data associated with Python types, data classes, FlyteFile, FlyteDirectory, and FlyteSchema.
+#   1. A data class supports the usage of data associated with Python types, data classes, FlyteFile, FlyteDirectory, and FlyteSchema.
+#   2. We use the Marshmallow package to serialize the dataclass, and it doesn't support union type in the dataclass.
 #
 # Once declared, dataclasses can be returned as outputs or accepted as inputs.
 #
