@@ -74,7 +74,7 @@ def t1() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
 
 # %%
 # Create a custom Flyte Deck Renderer, and the renderer must override `to_html` method.
-class matplotlibRenderer:
+class MatplotlibRenderer:
     def __init__(self, x: np.array, y: np.array):
         self._x = x
         self._y = y
@@ -87,12 +87,12 @@ class matplotlibRenderer:
 
 
 # %%
-# Use `matplotlibRenderer` to display a linear graph on flyte deck.
+# Use `MatplotlibRenderer` to display a linear graph on flyte deck.
 @task
 def t2():
     x_points = np.array([0, 6])
     y_points = np.array([0, 250])
-    flytekit.Deck("matplotlib", matplotlibRenderer(x_points, y_points).to_html())
+    flytekit.Deck("matplotlib", MatplotlibRenderer(x_points, y_points).to_html())
 
 
 # %%
