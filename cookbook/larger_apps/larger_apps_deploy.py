@@ -56,6 +56,7 @@ Build & Deploy Your Application to the Cluster
 Flyte uses Docker containers to package the workflows and tasks, and sends them to the remote Flyte cluster. Therefore,
 there is a ``Dockerfile`` already included in the cloned repo. You can build the Docker container and push the built
 image to a registry.
+Another fun way to deploy your application is by using `AWS Lambda <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_execution.html>`.
 
 .. tabs::
    .. group-tab:: Flyte Sandbox

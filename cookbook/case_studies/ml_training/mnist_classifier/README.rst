@@ -58,6 +58,7 @@ Flyte also supports distributed training for PyTorch models, but this is not nat
 
 - Natively on Kubernetes using :ref:`kf-pytorch-op`
 - On AWS using :ref:`aws-sagemaker` training
+- Using `Horovod <https://blog.flyte.org/data-parallel-distributed-training-with-horovod-and-flyte>`
 
 *Other distributed training plugins are coming soon -- MPIOperator, Google Vertex AI, etc. You can add your favorite services, too!*
 
