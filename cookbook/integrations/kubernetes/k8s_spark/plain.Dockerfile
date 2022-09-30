@@ -10,16 +10,22 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ## Install Python3 and other basics
 USER 0
-RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-essential libssl-dev python3-pip curl
+#RUN apt-get update \
+#    && apt-get install -y software-properties-common \
+#    && add-apt-repository ppa:deadsnakes/ppa \
+#    && apt-get update \
+#    && apt-get install -y python3.8 python3-venv make build-essential libssl-dev python3-pip curl
+RUN apt-get install -y python3-venv
 
+#
 # Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
 # in future versions to make it completely portable
 RUN pip3 install awscli
 
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
+#WORKDIR /opt
+#RUN curl https://sdk.cloud.google.com > install.sh
+#RUN bash /opt/install.sh --install-dir=/opt
+#ENV PATH $PATH:/opt/google-cloud-sdk/bin
 WORKDIR /root
 
 ENV VENV /opt/venv

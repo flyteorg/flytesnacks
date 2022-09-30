@@ -92,7 +92,7 @@ from flytekitplugins.spark import Spark
             "spark.driver.cores": "1",
             "spark.sql.execution.arrow.pyspark.enabled": "true",
             # "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.3.0",
-            "spark.jars": "local:///root/k8s_spark/spark-avro_2.12-3.3.0.jar",
+            # "spark.jars": "local:///root/k8s_spark/spark-avro_2.12-3.3.0.jar",
         }
     ),
     limits=Resources(mem="2000M"),
@@ -126,9 +126,9 @@ def hello_spark(partitions: int) -> float:
 
     df = sess.createDataFrame(data)
     print(df)
-    df.write.format("avro").save("person_partition.avro")
+    df.write.format("avro").mode('overwrite').save("person_partition.avro")
 
-    spark_df = spark.read.format("avro").load("person_partition.avro")
+    spark_df = spark.read.format("avro").load("k8s_spark/users.avro")
     df = spark_df.select("*").toPandas()
     print(df.head())
     print("done printing")
