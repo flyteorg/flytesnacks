@@ -738,3 +738,22 @@ def horovod_spark_wf(
 if __name__ == "__main__":
     metrics_directory = horovod_spark_wf()
     print(f"Find the model and predictions at {metrics_directory}")
+
+# %%
+# .. panels::
+#    :header: text-center
+#    :column: col-lg-12 p-2
+#
+#    .. link-button:: https://blog.flyte.org/data-parallel-distributed-training-with-horovod-and-flyte
+#       :type: url
+#       :text: Blog Post
+#       :classes: btn-block stretched-link
+#    ^^^^^^^^^^^^
+#    An article detailing data-parallel distributed training with Horovod and Flyte.
+#
+# .. toctree::
+#    :maxdepth: -1
+#    :caption: Contents
+#    :hidden:
+#
+#    Blog Post <https://blog.flyte.org/data-parallel-distributed-training-with-horovod-and-flyte>
