@@ -20,19 +20,21 @@ and be able to use the statistical representation for many validations and drift
 
 To be able use it, pass in a ``pandas.DataFrame`` to a task and call:
 
-.. code:: python
-    @task
-    def profiling_task(data: pd.DataFrame) -> DatasetProfileView:
-        results = why.log(data)
-        return results.view()
+.. code-block:: python
+
+   @task
+   def profiling_task(data: pd.DataFrame) -> DatasetProfileView:
+       results = why.log(data)
+       return results.view()
 
 This will grant any downstream task the ability to ingest the profiled dataset and use
 basically anything from whylogs' api, such as transforming it back to a pandas DataFrame:
 
-.. code:: python
-    @task
-    def consume_profile_view(profile_view: DatasetProfileView) -> pd.DataFrame:
-        return profile_view.to_pandas()
+.. code-block:: python
+
+   @task
+   def consume_profile_view(profile_view: DatasetProfileView) -> pd.DataFrame:
+       return profile_view.to_pandas()
 
 
 Renderers
@@ -43,16 +45,18 @@ against the one that was used to train the model that's in production.
 
 To use it, simply take in the two desired ``pandas.DataFrame`` objects and call:
 
-.. code:: python
-    renderer = WhylogsSummaryDriftRenderer()
-    report = renderer.to_html(target_data=new_data, reference_data=reference_data)
-    flytekit.Deck("summary drift", report)
+.. code-block:: python
+
+   renderer = WhylogsSummaryDriftRenderer()
+   report = renderer.to_html(target_data=new_data, reference_data=reference_data)
+   flytekit.Deck("summary drift", report)
 
 The other report that can be generated with our integration is the Constraints Report. With it, users will
 have a neat view on a Flyte Deck that will give intuition on which are the passed and failing constraints, enabling
 them to act quicker on potentially wrong results.
 
-.. code:: python
+.. code-block:: python
+
     from whylogs.core.constraints.factories import greater_than_number
 
     @task
@@ -72,7 +76,8 @@ passed the validations or not, and take actions depending on this result downstr
 Other use-case would be to return the constraints report itself and parse it to provide more information to other
 systems automatically.
 
-.. code:: python
+.. code-block:: python
+
     constraints = builder.build()
     constraints.report()
 
@@ -84,7 +89,8 @@ Installing the plugin
 
 In order to have the whylogs plugin installed, simply run:
 
-.. code:: bash
+.. code-block:: bash
+
     pip install flytekitplugins.whylogs
 
 And you should then have it available to use on your environment!
