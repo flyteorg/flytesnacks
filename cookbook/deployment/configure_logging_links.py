@@ -61,8 +61,9 @@ The parameterization engine uses Golangs native templating format and hence uses
             messageFormat: "json" # "unknown" | "csv" | "json"
 
 .. tip::
-   Since helm chart uses same templating for args (like ``{{ }}``), after compiling the chart, helm replaces flyte log link templates too. To avoid this, use escaped templating for flyte logs in the helm chart.
-   This will replace the values for your arguments in the configuration file.
+
+   Since helm chart uses the same templating syntax for args (like ``{{ }}``), compiling the chart results in helm replacing Flyte log link templates as well. To avoid this, you can use escaped templating for Flyte logs in the helm chart.
+   This ensures that Flyte log link templates remain in place during helm chart compilation.
    For example:
 
    If your configuration looks like this:
@@ -78,5 +79,5 @@ The parameterization engine uses Golangs native templating format and hence uses
    ``https://someexample.com/app/podName=pname&containerName=cname``
 
 This code snippet will output two logs per task that use the log plugin.
-However, not all task types use the log plugin; for example, the Sagemaker plugin uses the log output provided by Sagemaker, and the Snowflake plugin will use a link to the snowflake console.
+However, not all task types use the log plugin; for example, the SageMaker plugin uses the log output provided by Sagemaker, and the Snowflake plugin will use a link to the snowflake console.
 """
