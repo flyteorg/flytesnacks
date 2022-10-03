@@ -54,7 +54,7 @@ def get_target_data() -> pd.DataFrame:
 
 # %%
 # Now we will define a task that can take in any pandas DataFrame
-# and return a `:class:DatasetProfileView, which is our data profile.
+# and return a ``DatasetProfileView``, which is our data profile.
 # With it, users can either visualize and check overall statistics
 # Or even run a constraint suite on top of it.
 @task
