@@ -127,7 +127,7 @@ def wf(a: int, b: str):
 
 # %%
 # If run twice with the same inputs, one would expect that ``bar`` would trigger a cache hit, but it turns out that's not the case because of how dataframes are represented in Flyte.
-# However, with release 0.19.3, Flyte provides a new way to control memoization behavior of  `FlyteSchema` and `StructuredDataset` literals. This is done via a ``typing.Annotated`` call on the task signature.
+# However, with release 1.2.0, Flyte provides a new way to control memoization behavior of literals. This is done via a ``typing.Annotated`` call on the task signature.
 # For example, in order to cache the result of calls to ``bar``, you can rewrite the code above like this:
 
 
