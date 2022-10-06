@@ -26,7 +26,7 @@ All the configuration options for the provider are available in the provider rep
        :text: Blog Post
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    An article detailing Scale Airflow for Machine Learning Tasks with the Flyte Airflow Provider.
+   An article on how to use the Flyte Airflow provider to trigger Flyte tasks from within Airflow.
 
 .. toctree::
     :maxdepth: -1
