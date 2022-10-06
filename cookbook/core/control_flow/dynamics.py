@@ -216,7 +216,7 @@ if __name__ == "__main__":
 #        :text: Blog Post
 #        :classes: btn-block stretched-link
 #     ^^^^^^^^^^^^
-#     An article detailing Dynamic Workflows in Flyte.
+#     An article on how to use Dynamic Workflows in Flyte.
 #
 # .. toctree::
 #     :maxdepth: -1
