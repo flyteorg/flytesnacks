@@ -156,7 +156,7 @@ if __name__ == "__main__":
 #        :text: Blog Post
 #        :classes: btn-block stretched-link
 #     ^^^^^^^^^^^^
-#     An article detailing Map Task usage in Flyte.
+#     An article on how to use Map Taks in Flyte.
 #
 # .. toctree::
 #     :maxdepth: -1
