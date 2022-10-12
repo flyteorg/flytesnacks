@@ -25,11 +25,10 @@ sys.path.append(os.path.abspath("./_ext"))
 # -- Project information -----------------------------------------------------
 
 project = "Flytesnacks"
-copyright = "2021, Flyte"
+copyright = "2022, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
-# The full version, including alpha/beta/rc tags.
 release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
@@ -64,7 +63,9 @@ class CustomSorter(FileNameSortKey):
         # Type System
         "flyte_python_types.py",
         "schema.py",
-        "structured_dataset.py" "typed_schema.py",
+        "structured_dataset.py",
+        "typed_schema.py",
+        "pytorch_types.py",
         "custom_objects.py",
         "enums.py",
         "lp_schedules.py",
@@ -155,7 +156,6 @@ class CustomSorter(FileNameSortKey):
         "notebook_and_task.py",
         "notebook_as_tasks.py",
         "feature_eng_tasks.py",
-        "feast_dataobjects.py",
         "feast_workflow.py",
         ## Bioinformatics
         "blastx_example.py",
@@ -285,6 +285,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
     "../integrations/flytekit_plugins/whylogs_examples",
+    "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
@@ -325,6 +326,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/flytekit_plugins/whylogs_examples",
+    "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
@@ -350,10 +352,10 @@ min_reported_time = 0
 
 # hide example pages with empty content
 ignore_py_files = [
-    "__init__\.py",
-    "config_resource_mgr\.py",
-    "optimize_perf\.py",
-    "^run_.+\.py",
+    r"__init__\.py",
+    r"config_resource_mgr\.py",
+    r"optimize_perf\.py",
+    r"^run_.+\.py",
 ]
 
 sphinx_gallery_conf = {
@@ -445,6 +447,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
     "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
+    "flytekitplugins": ("https://docs.flyte.org/projects/flytekit/en/latest/", None),
     "flyte": ("https://flyte.readthedocs.io/en/latest/", None),
     # Uncomment for local development and change to your username
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
