@@ -27,14 +27,17 @@ To be able use it, pass in a ``pandas.DataFrame`` to a task and call:
        results = why.log(data)
        return results.view()
 
+
 This will grant any downstream task the ability to ingest the profiled dataset and use
 basically anything from whylogs' api, such as transforming it back to a pandas DataFrame:
+
 
 .. code-block:: python
 
    @task
    def consume_profile_view(profile_view: DatasetProfileView) -> pd.DataFrame:
        return profile_view.to_pandas()
+
 
 
 Renderers
@@ -51,11 +54,15 @@ To use it, simply take in the two desired ``pandas.DataFrame`` objects and call:
    report = renderer.to_html(target_data=new_data, reference_data=reference_data)
    flytekit.Deck("summary drift", report)
 
+
+
 The other report that can be generated with our integration is the Constraints Report. With it, users will
 have a neat view on a Flyte Deck that will give intuition on which are the passed and failing constraints, enabling
 them to act quicker on potentially wrong results.
 
+
 .. code-block:: python
+
 
     from whylogs.core.constraints.factories import greater_than_number
 
@@ -76,6 +83,7 @@ passed the validations or not, and take actions depending on this result downstr
 Other use-case would be to return the constraints report itself and parse it to provide more information to other
 systems automatically.
 
+
 .. code-block:: python
 
     constraints = builder.build()
@@ -88,6 +96,7 @@ Installing the plugin
 ---------------------
 
 In order to have the whylogs plugin installed, simply run:
+
 
 .. code-block:: bash
 
