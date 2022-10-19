@@ -1,33 +1,34 @@
 """
-Jupyter Notebook Tasks
------------------------
-In this example, we will show how to create a flyte task that runs a simple notebook, accepts one input variable, transforms it, and produces
-one output. This can be generalized to multiple inputs and outputs.
+Jupyter Notebook Task
+---------------------
 
+In this example, we will see how to create a flyte task that runs a simple notebook that accepts one input variable, transforms it and produces
+an output. This example can be generalized to multiple inputs and outputs.
 """
+
+# %%
+# Import the necessary dependencies.
 import math
 import os
 import pathlib
-
+import flytekit
+flytekit.current_context().execution_id.project
 from flytekit import kwtypes, task, workflow
 from flytekitplugins.papermill import NotebookTask
 
-#%%
-# How to specify inputs and outputs
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# %%
+# Specifying inputs and outputs
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
-# 1. After you are satisfied with the notebook, ensure that the first cell only has the input variables for the notebook. Now add the tag ``parameters`` for the first cell.
+# 1. After you are satisfied with the notebook, ensure that the first cell only has the input variables for the notebook. Add the tag ``parameters`` to the first cell.
 #
-# .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/parameters.png
-#     :alt: Example of "parameters tag" added to the cell with input variables
+#   .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/parameters.png
 #
-# 2. Typically at the last cell of the notebook (which does not need to be the last cell), add a tag ``outputs`` for the intended cell.
+# 2. Add ``outputs`` to the cell that returns the outputs.
 #
 # .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/outputs.png
-#     :alt: Example of "parameters tag" added to the cell with input variables
 #
-# 3. In a python file, create a new task at the ``module`` level.
-#    An example task is shown below:
+# 3. In a Python file, create a new ``NotebookTask`` at the module level.
 nb = NotebookTask(
     name="simple-nb",
     notebook_path=os.path.join(
@@ -40,40 +41,38 @@ nb = NotebookTask(
 #%%
 # .. note::
 #
-#  - Note the notebook_path. This is the absolute path to the actual notebook.
-#  - Note the inputs and outputs. The variable names match the variable names in the jupyter notebook.
-#  - You can see the notebook on Flyte deck if ``render_deck`` is set to true.
+#  - The ``notebook_path`` needs to be the absolute path to the actual notebook.
+#  - The ``inputs`` and ``outputs`` variables need to match the variable names in the Jupyter notebook.
+#  - You can see the notebook on Flyte deck if ``render_deck`` is set to ``True``.
 
-#%%
+# %%
 # .. figure:: https://i.imgur.com/ogfVpr2.png
 #   :alt: Notebook
 #   :class: with-shadow
 #
-# Other tasks
-# ^^^^^^^^^^^^^^^
-# You can definitely declare other tasks and seamlessly work with notebook tasks. The example below shows how to declare a task that accepts the squared value from the notebook and provides a sqrt:
+# Next declare a task that accepts the squared value from the notebook and provides a square root.
 @task
 def square_root_task(f: float) -> float:
     return math.sqrt(f)
 
 
-#%%
-# Now treat the notebook task as a regular task:
+# %%
+# Treat the notebook task as a regular task and call it from within a flyte workflow.
 @workflow
 def nb_to_python_wf(f: float) -> float:
     out = nb(v=f)
     return square_root_task(f=out.square)
 
 
-#%%
-# And execute the task locally as well:
+# %%
+# You can run the task locally.
 if __name__ == "__main__":
     print(nb_to_python_wf(f=3.14))
 
-#%%
-# Why Are There 3 Outputs?
+# %%
+# Why are there 3 outputs?
 # ^^^^^^^^^^^^^^^^^^^^^^^^
 # On executing, you should see 3 outputs instead of the expected one, because this task generates 2 implicit outputs.
 #
-# One of them is the executed notebook (captured) and a rendered (HTML) of the executed notebook. In this case they are called
-# ``nb-simple-out.ipynb`` and ``nb-simple-out.html``, respectively.
+# One of them is the executed notebook (captured) and the other is a rendered (HTML) version of the executed notebook,
+# which are named ``nb-simple-out.ipynb`` and ``nb-simple-out.html``, respectively.

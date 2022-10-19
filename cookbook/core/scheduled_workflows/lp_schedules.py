@@ -25,13 +25,13 @@ from flytekit import task, workflow
 
 
 @task
-def format_date(run_date: datetime) -> str:
-    return run_date.strftime("%Y-%m-%d %H:%M")
+def format_date() -> str:
+    return datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
 @workflow
-def date_formatter_wf(kickoff_time: datetime):
-    formatted_kickoff_time = format_date(run_date=kickoff_time)
+def date_formatter_wf():
+    formatted_kickoff_time = format_date()
     print(formatted_kickoff_time)
 
 
@@ -53,7 +53,7 @@ cron_lp = LaunchPlan.get_or_create(
         # Note that the ``kickoff_time_input_arg`` matches the workflow input we defined above: kickoff_time
         # But in case you are using the AWS scheme of schedules and not using the native scheduler then switch over the schedule parameter with cron_expression
         schedule="*/1 * * * *",  # Following schedule runs every min
-        kickoff_time_input_arg="kickoff_time",
+        # kickoff_time_input_arg="kickoff_time",
     ),
 )
 
@@ -70,30 +70,30 @@ cron_lp = LaunchPlan.get_or_create(
 #
 # Here's an example:
 
-from datetime import timedelta  # noqa: E402
+# from datetime import timedelta  # noqa: E402
 
-from flytekit import FixedRate, LaunchPlan  # noqa: E402
-
-
-@task
-def be_positive(name: str) -> str:
-    return f"You're awesome, {name}"
+# from flytekit import FixedRate, LaunchPlan  # noqa: E402
 
 
-@workflow
-def positive_wf(name: str):
-    reminder = be_positive(name=name)
-    print(f"{reminder}")
+# @task
+# def be_positive(name: str) -> str:
+#     return f"You're awesome, {name}"
 
 
-fixed_rate_lp = LaunchPlan.get_or_create(
-    name="my_fixed_rate_lp",
-    workflow=positive_wf,
-    # Note that the workflow above doesn't accept any kickoff time arguments.
-    # We just omit the ``kickoff_time_input_arg`` from the FixedRate schedule invocation
-    schedule=FixedRate(duration=timedelta(minutes=10)),
-    fixed_inputs={"name": "you"},
-)
+# @workflow
+# def positive_wf(name: str):
+#     reminder = be_positive(name=name)
+#     print(f"{reminder}")
+
+
+# fixed_rate_lp = LaunchPlan.get_or_create(
+#     name="my_fixed_rate_lp",
+#     workflow=positive_wf,
+#     # Note that the workflow above doesn't accept any kickoff time arguments.
+#     # We just omit the ``kickoff_time_input_arg`` from the FixedRate schedule invocation
+#     schedule=FixedRate(duration=timedelta(minutes=10)),
+#     fixed_inputs={"name": "you"},
+# )
 
 # %%
 # This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a fixed-rate scheduler also accepts ``kickoff_time_input_arg`` (which is omitted in this example).
