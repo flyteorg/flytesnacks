@@ -6,7 +6,7 @@ lda models and generate plots as part of Flyte workflow.
 The tutorial is based of the official `gensim` tutorials on [word2vec](https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html)
 and [lda](https://radimrehurek.com/gensim/models/ldamodel.html).
 The dataset used for this tutorial is the open source [Lee Background Corpus](https://github.com/RaRe-Technologies/gensim/blob/develop/gensim/test/test_data/lee_background.cor)
-included with hte `gensim` library.
+included with the `Gensim` library.
 
 
 Steps of the Pipeline
