@@ -149,7 +149,7 @@ class CustomSorter(FileNameSortKey):
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
         "keras_spark_rossmann_estimator.py",
-        "word2vec_and_lda.py"
+        "word2vec_and_lda.py",
         ## Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
