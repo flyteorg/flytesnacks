@@ -21,6 +21,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
 from sklearn.manifold import TSNE
 
+
 # typing for serialised model file
 MODELSER_NLP = typing.TypeVar("model")
 model_file = typing.NamedTuple("ModelFile", model=FlyteFile[MODELSER_NLP])

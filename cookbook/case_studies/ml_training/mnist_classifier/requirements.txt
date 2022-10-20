@@ -137,6 +137,8 @@ py==1.11.0
     # via retry
 pyarrow==6.0.1
     # via flytekit
+pyemd==0.5.1
+    # via -r requirements.in
 pyparsing==3.0.8
     # via
     #   matplotlib
