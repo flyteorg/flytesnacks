@@ -13,8 +13,6 @@ This script will create six Flyte tasks, that will:
 5. Compute word movers distance
 6. Reduce dimensions using tsne and generate a plot using FlyteDeck
 
-Let's get started with the example!
-
 """
 
 # %%
@@ -45,7 +43,7 @@ from sklearn.manifold import TSNE
 
 # %%
 # Here we define the output file type. This is useful in
-# combining tasks, where one task may only accept models serialized in ``.model``
+# combining tasks, where one task may only accept models serialized in ``.model`` format.
 MODELSER_NLP = typing.TypeVar("model")
 model_file = typing.NamedTuple("ModelFile", model=FlyteFile[MODELSER_NLP])
 
@@ -80,7 +78,7 @@ workflow_outputs = typing.NamedTuple(
 
 
 # %%
-# Sample sentences of very similar context to compare using the trained model
+# Sample sentences of very similar context to compare using the trained model.
 SENTENCE_A = "Australian cricket captain has supported fast bowler"
 SENTENCE_B = "Fast bowler received support from cricket captain"
 
@@ -102,9 +100,8 @@ def pre_processing(line: str) -> List[str]:
 
 
 # %%
-# Here we implement an iterator that yields one sentence after another. It calls the
-#  ``pre_processing`` function on each input sentence from the corpus and yields the processed
-#  results.
+# Here we implement an iterator that yields one sentence after another. It calls the ``pre_processing``
+# function on each input sentence from the corpus and yields the processed results.
 class MyCorpus:
     """An iterator that yields sentences (lists of str)."""
 
@@ -117,8 +114,7 @@ class MyCorpus:
 
 
 # %%
-# We define the first Flyte task to generate the processed corpus containing a list of
-# tokenised sentence lists.
+# We define the first Flyte task to generate the processed corpus containing a list of tokenised sentence lists.
 @task
 def generate_processed_corpus() -> List[List[str]]:
     # Set file names for train and test data
@@ -133,13 +129,13 @@ def generate_processed_corpus() -> List[List[str]]:
 #
 # It is also possible in Flyte to pass custom objects, as long as they are
 # declared as ``dataclass``es and also decorated with ``@dataclass_json``.
-# Here we create a dataclass for Word2Vec model hyperparameters.
-# 1. min_count:  for pruning the dictionary and removing low frequency words
-# 2. vector_size: number of dimensions (N) of the N-dimensional space that gensim
-# Word2Vec maps the words onto.Bigger size values require more training data, but can
-# lead to better (more accurate) models.
-# 3. workers: For training parallelization, to speed up training
-# 4. compute_loss:  can be used to toggle computation of loss while training the Word2Vec model.
+# Here we create a dataclass for Word2Vec model hyperparameters:
+#
+# - `min_count`:  for pruning the dictionary and removing low frequency words.
+# - `vector_size`: number of dimensions (N) of the N-dimensional space that gensim Word2Vec maps the words onto.
+#   Bigger size values require more training data, but can lead to better (more accurate) models.
+# - `workers`: For training parallelization, to speed up training.
+# - `compute_loss`:  can be used to toggle computation of loss while training the Word2Vec model.
 @dataclass_json
 @dataclass
 class Word2VecModelHyperparams(object):
@@ -155,15 +151,14 @@ class Word2VecModelHyperparams(object):
 
 # %%
 # Similarly we create a dataclass for LDA model hyperparameters:
-# 1. num_topics: The number of topics to be extracted from the training corpus.
-# 2. alpha: A-priori belief on document-topic distribution. Set this to `auto` so the model learns this
-# from the data.
-# 3. passes: Controls how often we train the model on the entire corpus or number of epochs.
-# 4. chunksize:  Controls how many documents are processed at a time in the training
-# algorithm. Increasing chunksize will speed up training, at least as long as the chunk of documents
-# easily fit into memory.
-# 5. update_every : Number of documents to be iterated through for each update.
-# 6. random_state: seed for reproducibility
+#
+# - `num_topics`: The number of topics to be extracted from the training corpus.
+# - `alpha`: A-priori belief on document-topic distribution. Set this to `auto` so the model learns this from the data.
+# - `passes`: Controls how often we train the model on the entire corpus or number of epochs.
+# - `chunksize`:  Controls how many documents are processed at a time in the training algorithm. Increasing
+#   chunksize will speed up training, at least as long as the chunk of documents easily fit into memory.
+# - `update_every` : Number of documents to be iterated through for each update.
+# - `random_state`: seed for reproducibility
 @dataclass_json
 @dataclass
 class LDAModelHyperparams(object):
@@ -254,8 +249,12 @@ def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
 # Sentence Similarity
 # ========
 #
-# This helper function creates a word embeddings matplotlib plot
-# rendered using FlyteDeck and output as html.
+# This task computes the Word Mover’s Distance (WMD) metric using the trained embeddings of words. This
+# enables us to assess the “distance” between two documents in a meaningful way even when they have
+# no words in common. WMD is larger for two completely unrelated sentences and smaller for two closely related
+# sentences. We have already chosen two similar sentences for comparison so the word movers distance
+# should be a low value. You can try altering `SENTENCE_A` or `SENTENCE_B` to be a dissimilar sentence
+# to the other, and see the value computed to be larger.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
 def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     sentences = [SENTENCE_A, SENTENCE_B]
@@ -266,7 +265,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     model = Word2Vec.load(model_ser.path)
     distance = model.wv.wmdistance(*results)
     print(f"Computing word movers distance for: {SENTENCE_A} and {SENTENCE_B} ")
-    print(f"Word Movers Distance is {distance} (lower means closer)")
+    print(f"Word Movers Distance is {distance}")
     return distance
 
 
