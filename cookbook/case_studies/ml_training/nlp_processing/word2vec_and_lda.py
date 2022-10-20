@@ -5,11 +5,12 @@ from dataclasses import dataclass
 from pprint import pprint
 from pprint import pprint as print
 from typing import List, Tuple
-
+import mpld3
 import gensim
 import matplotlib.pyplot as plt
 import numpy as np
 from dataclasses_json import dataclass_json
+import flytekit
 from flytekit import Resources, task, workflow
 from flytekit.types.file import FlyteFile
 from gensim import utils
@@ -193,13 +194,14 @@ def tsne_and_plot(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
 
 
 def plot_with_matplotlib(x, y, labels):
-    plt.figure(figsize=(12, 12))
-    plt.scatter(x, y)
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    ax.scatter(x, y)
     indices = list(range(len(labels)))
     selected_indices = random.sample(indices, 25)
     for i in selected_indices:
         plt.annotate(labels[i], (x[i], y[i]))
-    plt.show()
+    flytekit.Deck("matplotlib", mpld3.fig_to_html(fig))
 
 
 @workflow
