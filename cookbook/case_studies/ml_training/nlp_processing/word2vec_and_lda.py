@@ -201,7 +201,7 @@ def plot_with_matplotlib(x, y, labels):
     selected_indices = random.sample(indices, 25)
     for i in selected_indices:
         plt.annotate(labels[i], (x[i], y[i]))
-    flytekit.Deck("matplotlib", mpld3.fig_to_html(fig))
+    flytekit.Deck("Word Embeddings", mpld3.fig_to_html(fig))
 
 
 @workflow
