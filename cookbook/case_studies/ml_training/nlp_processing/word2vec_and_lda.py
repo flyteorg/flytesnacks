@@ -1,3 +1,34 @@
+"""
+.. _word2vec_and_lda:
+
+Word Embeddings and Topic Modelling using Gensim
+------------------------------------------------
+
+`Gensim <https://radimrehurek.com/gensim/>`__ is an fast library for processing large corpus of unstructred data
+using data streamed algorithms. It also published pre-trained models for a number of domains and allows custom training
+of word embeddings.
+
+In this tutorial, we will demostrate a workflow to preprocess the `Lee Background Corpus
+https://github.com/RaRe-Technologies/gensim/blob/develop/gensim/test/test_data/lee_background.cor` and create word
+embeddings and topic models using Gensim, and Flyte.
+
+We will split the generated dataset into train, test and validation set.
+
+Next, we will create six Flyte tasks, that will:
+
+1. Generate the sample dataset
+2. Train the word2vec model.
+3. Train the LDA model and display the words per topic
+4. Compute word similarities
+5. Compute word movers distance
+6. Reduce dimensions using tsne and generate a plot using FlyteDeck
+
+
+Let's get started with the example!
+
+"""
+
+
 import os
 import random
 import typing
