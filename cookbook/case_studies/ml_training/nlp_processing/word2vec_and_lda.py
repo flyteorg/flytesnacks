@@ -48,13 +48,13 @@ MODELSER_NLP = typing.TypeVar("model")
 model_file = typing.NamedTuple("ModelFile", model=FlyteFile[MODELSER_NLP])
 
 # %%
-# Define the path to the Lee Corpus Dataset (installed with gensim)
+# Here we define the path to the Lee Corpus Dataset (installed with gensim)
 data_dir = os.path.join(gensim.__path__[0], "test", "test_data")
 lee_train_file = os.path.join(data_dir, "lee_background.cor")
 
 
 # %%
-# Declare NamedTuples which will be used as signatures for the Flyte task outputs.
+# We will declare NamedTuples which will be used as signatures for the Flyte task outputs.
 # The variable names and types correspond to the values of the unpacked tuples returned
 # from the corresponding Flyte task.
 plotdata = typing.NamedTuple(
@@ -90,7 +90,7 @@ SENTENCE_B = "Fast bowler received support from cricket captain"
 # This function carries out the preprocessing steps on the dataset before training both models.
 # First we turn all words to lower case and remove stopwords. We then split the document
 # into tokens using a regular expression tokenizer from NLTK. We remove numeric tokens and tokens
-# that are only a single character, as they don’t tend to be useful, and the dataset contains a
+# that are only a single character, as they do not tend to be useful, and the dataset contains a
 # lot of them. We then use the WordNet lemmatizer from NLTK and return a list of lemmatised tokens.
 def pre_processing(line: str) -> List[str]:
     tokenizer = RegexpTokenizer(r"\w+")
@@ -128,14 +128,14 @@ def generate_processed_corpus() -> List[List[str]]:
 # ========
 #
 # It is also possible in Flyte to pass custom objects, as long as they are
-# declared as ``dataclass``es and also decorated with ``@dataclass_json``.
+# declared as ``dataclass`` and also decorated with ``@dataclass_json``.
 # Here we create a dataclass for Word2Vec model hyperparameters:
 #
-# - `min_count`:  for pruning the dictionary and removing low frequency words.
-# - `vector_size`: number of dimensions (N) of the N-dimensional space that gensim Word2Vec maps the words onto.
+# - ``min_count``:  for pruning the dictionary and removing low frequency words.
+# - ``vector_size``: number of dimensions (N) of the N-dimensional space that gensim Word2Vec maps the words onto.
 #   Bigger size values require more training data, but can lead to better (more accurate) models.
-# - `workers`: For training parallelization, to speed up training.
-# - `compute_loss`:  can be used to toggle computation of loss while training the Word2Vec model.
+# - ``workers``: For training parallelization, to speed up training.
+# - ``compute_loss``:  can be used to toggle computation of loss while training the Word2Vec model.
 @dataclass_json
 @dataclass
 class Word2VecModelHyperparams(object):
@@ -152,13 +152,13 @@ class Word2VecModelHyperparams(object):
 # %%
 # Similarly we create a dataclass for LDA model hyperparameters:
 #
-# - `num_topics`: The number of topics to be extracted from the training corpus.
-# - `alpha`: A-priori belief on document-topic distribution. Set this to `auto` so the model learns this from the data.
-# - `passes`: Controls how often we train the model on the entire corpus or number of epochs.
-# - `chunksize`:  Controls how many documents are processed at a time in the training algorithm. Increasing
+# - ``num_topics``: The number of topics to be extracted from the training corpus.
+# - ``alpha``: A-priori belief on document-topic distribution. In `auto` mode, the model learns this from the data.
+# - ``passes``: Controls how often we train the model on the entire corpus or number of epochs.
+# - ``chunksize``:  Controls how many documents are processed at a time in the training algorithm. Increasing
 #   chunksize will speed up training, at least as long as the chunk of documents easily fit into memory.
-# - `update_every` : Number of documents to be iterated through for each update.
-# - `random_state`: seed for reproducibility
+# - ``update_every``: Number of documents to be iterated through for each update.
+# - ``random_state``: seed for reproducibility
 @dataclass_json
 @dataclass
 class LDAModelHyperparams(object):
@@ -250,11 +250,11 @@ def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
 # ========
 #
 # This task computes the Word Mover’s Distance (WMD) metric using the trained embeddings of words. This
-# enables us to assess the “distance” between two documents in a meaningful way even when they have
+# enables us to assess the distance between two documents in a meaningful way even when they have
 # no words in common. WMD is larger for two completely unrelated sentences and smaller for two closely related
 # sentences. We have already chosen two similar sentences for comparison so the word movers distance
-# should be a low value. You can try altering `SENTENCE_A` or `SENTENCE_B` to be a dissimilar sentence
-# to the other, and see the value computed to be larger.
+# should be a low value. You can try altering either ``SENTENCE_A`` or ``SENTENCE_B`` variables to be dissimilar
+# to the other sentence, and check that the value computed is larger.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
 def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     sentences = [SENTENCE_A, SENTENCE_B]
