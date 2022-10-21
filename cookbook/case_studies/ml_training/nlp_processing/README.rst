@@ -35,8 +35,7 @@ Steps of the Pipeline
 
 .. note::
   You will see multiple outputs once the pipeline completes. These would be associated with the serialised LDA and
-  Word2Vec models. In addition, FlyteDeck is used to generate a plot rendered in html. By default, all these files should be
-  stored in the directory in which the script is being run from.
+  Word2Vec models. In addition, FlyteDeck is used to render the word embeddings plot in html in the Flyte console.
 
 Walkthrough
 ====================
