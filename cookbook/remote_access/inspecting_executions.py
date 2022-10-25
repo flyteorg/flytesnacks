@@ -2,11 +2,11 @@
 Inspecting Workflow and Task Executions
 ---------------------------------------
 
-Using flyctl:
+Flytectl:
 =============
 
-Inspecting workflow and task executions are done in the same manner as below. For more details see the
-`flytectl API reference <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_get_execution.html>`__.
+Flytectl supports inspecting execution by retrieving its details. For a deeper dive, refer to the
+`API reference <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_get_execution.html>`__ guide.
 
 Monitor the execution by providing the execution id from create command which can be task or workflow execution. ::
 
@@ -25,11 +25,13 @@ To see the results of the execution you can inspect the node closure outputUri i
     "outputUri": "s3://my-s3-bucket/metadata/propeller/flytesnacks-development-<execid>/n0/data/0/outputs.pb"
 
 
-Using flytekit (python):
+FlyteRemote:
 ========================
-More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/projects/flytekit/en/latest/remote.html>`__
+
+With FlyteRemote, you can fetch the inputs and outputs of execution and inspect them.
 
 .. code-block:: python
+
     from flytekit.remote import FlyteRemote
 
     # FlyteRemote object is the main entrypoint to API
@@ -48,10 +50,8 @@ More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/
     input_keys = execution.inputs.keys()
     output_keys = execution.outputs.keys()
 
-    # Fetching a specific output, say, a model file:
-    model_file = execution.outputs["model_file"]
-    with open(model_file) as f:
-        # use mode
-        ...
+    # You can use FlyteRemote.sync() to to sync the entity object's state with the remote state during the execution run
+    synced_execution = remote.sync(execution, sync_nodes=True)
+    node_keys = synced_execution.node_executions.keys()
 
 """

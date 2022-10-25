@@ -14,11 +14,13 @@ A ``default launchplan`` has the same name as the workflow and all argument defa
 One difference between running a task and a workflow via launchplans is that launchplans cannot be associated with a
 task. This is to avoid triggers and scheduling.
 
-Using flytekit (python):
+FlyteRemote:
 ========================
-More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/projects/flytekit/en/latest/remote.html>`__
+
+Workflows and launchplans can be run through FlyteRemote programmatically.
 
 .. code-block:: python
+
     from flytekit.remote import FlyteRemote
     from flytekit.configuration import Config
 
@@ -29,14 +31,12 @@ More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/
         default_domain="development",
     )
 
-    # Fetch workflow or launch_plan
-    flyte_workflow = remote.fetch_workflow(name="my_workflow", version="v1")
-    flyte_launch_plan = remote.fetch_launch_plan(name="my_launch_plan", version="v1")
+    # Fetch workflow
+    flyte_workflow = remote.fetch_workflow(name="workflows.statistics_flow", version="v1")
 
-    # Execute the flyte_entity
-    # flyte_entity being either 'flyte_workflow' or 'flyte_launch_plan'
+    # Execute
     execution = remote.execute(
-        flyte_entity, inputs={...}, execution_name="my_execution", wait=True
+        flyte_workflow, inputs={"mean": 1}, execution_name="my_execution", wait=True
     )
 
 """

@@ -2,32 +2,32 @@
 Running a Task
 --------------------
 
-Using flyctl:
+Flytectl:
 =============
 
-This is multi-steps process as well where we create an execution spec file, update the spec file and then create the execution.
-More details can be found `here <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_execution.html>`__
+This is a multi-step process where we create an execution spec file, update the spec file, and then create the execution.
+More details can be found in the `Flytectl API reference <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_execution.html>`__.
 
 **Generate execution spec file** ::
 
-    flytectl get tasks -d development -p flytectldemo core.advanced.merge_sort.merge  --latest --execFile exec_spec.yaml
+    flytectl get tasks -d development -p flytectldemo workflows.descriptive_statistics  --latest --execFile exec_spec.yaml
 
 **Update the input spec file for arguments to the workflow** ::
 
             iamRoleARN: 'arn:aws:iam::12345678:role/defaultrole'
             inputs:
-              sorted_list1:
+              mean:
+              - 1
+              - 2
+              - 3
+              other_input:
               - 2
               - 4
               - 6
-              sorted_list2:
-              - 1
-              - 3
-              - 5
             kubeServiceAcct: ""
             targetDomain: ""
             targetProject: ""
-            task: core.advanced.merge_sort.merge
+            task: workflows.descriptive_statistics
             version: "v1"
 
 **Create execution using the exec spec file** ::
@@ -40,11 +40,13 @@ More details can be found `here <https://docs.flyte.org/projects/flytectl/en/sta
     flytectl get execution -p flytesnacks -d development <execid>
 
 
-Using flytekit (python):
+FlyteRemote:
 ========================
-More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/projects/flytekit/en/latest/remote.html>`__
+
+A task can be launched via FlyteRemote programmatically.
 
 .. code-block:: python
+
     from flytekit.remote import FlyteRemote
     from flytekit.configuration import Config, SerializationSettings
 
@@ -56,25 +58,17 @@ More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/
     )
 
     # Get Task
-    task_1 = remote.fetch_task(name="core.basic.hello_world.say_hello", version="v1")
+    flyte_task = remote.fetch_task(name="workflows.descriptive_statistics", version="v1")
 
-    # Tasks, workflows, and launch plans can be registered using FlyteRemote.
-    flyte_entity = ...
     flyte_task = remote.register_task(
-        entity=flyte_entity,
+        entity=flyte_task,
         serialization_settings=SerializationSettings(image_config=None),
         version="v1",
     )
-    flyte_workflow = remote.register_workflow(
-        entity=flyte_entity,
-        serialization_settings=SerializationSettings(image_config=None),
-        version="v1",
-    )
-    flyte_launch_plan = remote.register_launch_plan(entity=flyte_entity, version="v1")
 
     # Run Task
     execution = remote.execute(
-        task_1, inputs={...}, execution_name="my_execution", wait=True
+         flyte_task, inputs={"mean": 1}, execution_name="task_execution", wait=True
     )
 
     # Inspecting execution
