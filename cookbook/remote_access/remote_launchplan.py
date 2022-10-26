@@ -2,8 +2,8 @@
 Running a Launchplan
 --------------------
 
-Flytectl:
-=============
+Flytectl
+========
 
 This is multi-steps process where we create an execution spec file, update the spec file and then create the execution.
 More details can be found `here <https://docs.flyte.org/projects/flytectl/en/stable/gen/flytectl_create_execution.html>`__.
@@ -28,10 +28,10 @@ More details can be found `here <https://docs.flyte.org/projects/flytectl/en/sta
 
     flytectl get execution -p flytesnacks -d development <execid>
 
-FlyteRemote:
-========================
+FlyteRemote
+===========
 
-More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/projects/flytekit/en/latest/remote.html>`__
+A launch plan can be launched via FlyteRemote programmatically.
 
 .. code-block:: python
 
@@ -46,17 +46,14 @@ More details can be found in the docs for  `FlyteRemote <https://docs.flyte.org/
         default_domain="development",
     )
 
-    # Fetch workflow
-    flyte_workflow = remote.fetch_workflow(
-        name="workflows.statistics_flow", version="v1", project="flytesnacks", domain="development"
+    # Fetch launch plan
+    flyte_lp = remote.fetch_launch_plan(
+        name="workflows.example.wf", version="v1", project="flytesnacks", domain="development"
     )
-
-    # Get or create attached launchplan
-    flyte_launch_plan = LaunchPlan.get_or_create(name="workflows.statistics_plan", workflow=flyte_workflow)
 
     # Execute
     execution = remote.execute(
-        flyte_launch_plan, inputs={"mean": 1}, execution_name="my_execution", wait=True
+        flyte_launch_plan, inputs={"mean": 1}, execution_name="lp_execution", wait=True
     )
 
 """
