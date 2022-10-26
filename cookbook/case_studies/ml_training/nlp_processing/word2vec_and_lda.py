@@ -278,7 +278,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
 # =====================================
 #
 # The word embeddings made by the model can be visualized after reducing the dimensionality to two with tSNE.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task
 def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     model = Word2Vec.load(model_ser.path)
     num_dimensions = 2
@@ -322,7 +322,7 @@ def nlp_workflow() -> workflow_outputs:
     word_movers_distance(model_ser=model_wv.model)
     axis_labels = dimensionality_reduction(model_ser=model_wv.model)
     plot_with_matplotlib(
-        axis_labels["x_values"], axis_labels["y_values"], axis_labels["labels"]
+        x=axis_labels.x_values, y=axis_labels.y_values, labels=axis_labels.labels
     )
     return model_wv.model, model_lda.model
 

@@ -26,7 +26,7 @@ that comes with the Gensim library.
 Step-by-Step Process
 ====================
 
-Returns a preprocessed (tokenized, stop words excluded, lemmatized) corpus from the custom iterator.
+- Returns a preprocessed (tokenized, stop words excluded, lemmatized) corpus from the custom iterator.
 - Trains the Word2vec model on the preprocessed corpus.
 - Generates a bag of words from the corpus and trains the LDA model.
 - Saves the LDA and Word2Vec models to disk.
