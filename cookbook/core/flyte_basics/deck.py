@@ -15,6 +15,11 @@ their data with custom renderers.
 Let's dive into an example.
 
 """
+# %%
+# .. note::
+#
+#   Flyte Decks is an opt-in feature - disabled by default. 
+#   To enable it, users need to set `disable_deck` as True in `flytekit.core.base_task`.
 
 # %%
 # Import the dependencies.
