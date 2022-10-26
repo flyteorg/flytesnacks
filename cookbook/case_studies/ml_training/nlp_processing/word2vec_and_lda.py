@@ -60,8 +60,8 @@ lee_train_file = os.path.join(data_dir, "lee_background.cor")
 # from the corresponding Flyte task.
 plotdata = typing.NamedTuple(
     "PlottingData",
-    x_values=typing.List[np.float32],
-    y_values=typing.List[np.float32],
+    x_values=List[np.float32],
+    y_values=List[np.float32],
     labels=np.array,
 )
 
@@ -294,7 +294,7 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
 # %%
 # We can now visualise the word embeddings with a matplotlib plot.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
-def plot_with_matplotlib(x, y, labels):
+def plot_with_matplotlib(x: List[np.float32], y: List[np.float32], labels: np.array):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
     ax.scatter(x, y)
