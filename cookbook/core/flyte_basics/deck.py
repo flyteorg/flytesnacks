@@ -18,7 +18,7 @@ Let's dive into an example.
 # %%
 # .. note::
 #
-#   Flyte Decks is an opt-in feature; to enable it, set `disable_deck` to `False` in the task params.
+#   Flyte Decks is an opt-in feature; to enable it, set ``disable_deck`` to ``False`` in the task params.
 
 # %%
 # Import the dependencies.
