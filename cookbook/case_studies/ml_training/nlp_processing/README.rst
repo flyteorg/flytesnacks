@@ -2,8 +2,8 @@ NLP Processing
 --------------
 
 This tutorial will demonstrate how to process text data and generate word embeddings and visualizations
-as part of a Flyte workflow. It goes by the official Gensim `Word2Vec tutorial <https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html>`__
-and `LDA guide <https://radimrehurek.com/gensim/models/ldamodel.html>`__ with some modifications.
+as part of a Flyte workflow. It's an adaptation of the official Gensim `Word2Vec tutorial <https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html>`__.
+
 
 About Gensim
 ============
@@ -14,7 +14,8 @@ It has efficient multicore implementations of a number of algorithms such as `La
 `Word2Vec deep learning <https://arxiv.org/pdf/1301.3781.pdf>`__ to perform complex tasks including understanding
 document relationships, topic modeling, learning word embeddings, and more.
 
-You can read more about Gensim in the `Gensim Homepage <https://radimrehurek.com/gensim/>`__.
+You can read more about Gensim `here <https://radimrehurek.com/gensim/>`__.
+
 
 Data
 ====
@@ -33,6 +34,4 @@ Step-by-Step Process
 - Deserializes the Word2Vec model, runs word similarity and computes word movers distance.
 - Reduces the dimensionality (using tsne) and plots the word embeddings.
 
-.. note::
-You will see multiple outputs once the pipeline completes. These would be associated with the serialized LDA and
-Word2Vec models. In addition, FlyteDeck is used to render the word embeddings plot on the Flyte console.
+Let's dive into the code!

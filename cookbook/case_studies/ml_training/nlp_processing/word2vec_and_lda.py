@@ -10,7 +10,7 @@ This example creates six Flyte tasks that:
 3. Train the LDA model and display the words per topic.
 4. Compute word similarities.
 5. Compute word movers distance.
-6. Reduce dimensions using tsne and generate a plot using FlyteDeck.
+6. Reduce dimensions using t-SNE and generate a plot using FlyteDeck.
 
 """
 
@@ -28,6 +28,7 @@ import flytekit
 import gensim
 import matplotlib.pyplot as plt
 import mpld3
+import nltk
 import numpy as np
 from dataclasses_json import dataclass_json
 from flytekit import Resources, task, workflow
@@ -44,12 +45,19 @@ from sklearn.manifold import TSNE
 logger = logging.getLogger(__file__)
 
 # %%
+# First, we download the required packages from the nltk library
+# for the preprocessing steps
+nltk.download("wordnet")
+nltk.download("omw-1.4")
+
+
+# %%
 # We define the output file type.
 MODELSER_NLP = typing.TypeVar("model")
 model_file = typing.NamedTuple("ModelFile", model=FlyteFile[MODELSER_NLP])
 
 # %%
-# Next, we define the path to the Lee Corpus Dataset (installed with gensim).
+# Next, we define the path to the lee corpus dataset (installed with gensim).
 data_dir = os.path.join(gensim.__path__[0], "test", "test_data")
 lee_train_file = os.path.join(data_dir, "lee_background.cor")
 
@@ -88,8 +96,8 @@ SENTENCE_B = "Fast bowler received support from cricket captain"
 # Data Generation
 # ===============
 #
-# We define a function that carries out the following preprocessing steps on the dataset before training Word2Vec
-# and LDA models:
+# The data pre-processor implements the following steps:
+#
 # 1. Turns all words to lowercase and remove stopwords.
 # 2. Splits the document into tokens using a regular expression tokenizer from NLTK.
 # 3. Removes numeric single-character tokens as they do not tend to be useful, and the dataset contains a lot of them.
@@ -102,8 +110,8 @@ def pre_processing(line: str) -> List[str]:
 
 
 # %%
-# Next, we implement an iterator that calls the ``pre_processing`` function on each input sentence from the corpus
-# and yields the processed results.
+# Now, we implement an iterator that calls the ``pre_processing`` function on each input sentence from the corpus
+# and yield the processed results.
 class MyCorpus:
     """An iterator that yields sentences (lists of str)."""
 
@@ -129,7 +137,7 @@ def generate_processed_corpus() -> List[List[str]]:
 # Hyperparameters
 # ===============
 #
-# Next we create a dataclass for Word2Vec model hyperparameters comprising the following parameters:
+# Next, we create a dataclass comprising Word2Vec hyperparameters:
 #
 # - ``min_count``:  Prunes the dictionary and removes low-frequency words.
 # - ``vector_size``: Number of dimensions (N) of the N-dimensional space that gensim Word2Vec maps the words onto.
@@ -150,7 +158,7 @@ class Word2VecModelHyperparams(object):
 
 
 # %%
-# Similarly we create a dataclass for LDA model hyperparameters:
+# LDA needs a similar dataclass:
 #
 # - ``num_topics``: The number of topics to be extracted from the training corpus.
 # - ``alpha``: A-priori belief on document-topic distribution. In `auto` mode, the model learns this from the data.
@@ -178,8 +186,7 @@ class LDAModelHyperparams(object):
 # Training
 # ========
 #
-# Next we initialize and train the Word2Vec model on the preprocessed corpus using hyperparameters defined
-# in the dataclass.
+# We initialize and train a Word2Vec model on the preprocessed corpus using hyperparameters defined.
 @task
 def train_word2vec_model(
     training_data: List[List[str]], hyperparams: Word2VecModelHyperparams
@@ -202,8 +209,8 @@ def train_word2vec_model(
 
 
 # %%
-# We transform the documents to a vectorized form and compute the frequency of each word to generate a bag of
-# word corpus for the LDA model to train on. We also create a mapping from word IDs to words as input to
+# Next, we transform the documents to a vectorized form and compute the frequency of each word to generate a bag of
+# words corpus for the LDA model to train on. We also create a mapping from word IDs to words as input to
 # the LDA model for training.
 @task
 def train_lda_model(
@@ -224,9 +231,9 @@ def train_lda_model(
         random_state=hyperparams.random_state,
     )
     logger.info(f"Shows words in each topic: {lda.print_topics(num_words=5)}")
-    file = "lda.model"
-    lda.save(file)
-    return (file,)
+    out_path = os.path.join(flytekit.current_context().working_directory, "lda.model")
+    lda.save(out_path)
+    return (out_path,)
 
 
 # %%
@@ -251,7 +258,7 @@ def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
 # Sentence Similarity
 # ===================
 #
-# We define a task that computes the Word Mover’s Distance (WMD) metric using the trained embeddings of words.
+# We compute Word Mover’s Distance (WMD) using the trained embeddings of words.
 # This enables us to assess the distance between two documents in a meaningful way even when they have
 # no words in common.
 # WMD outputs a large value for two completely unrelated sentences and small value for two closely related
@@ -277,7 +284,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
 # Dimensionality Reduction and Plotting
 # =====================================
 #
-# The word embeddings made by the model can be visualized after reducing the dimensionality to two with tSNE.
+# The word embeddings made by the model can be visualized after reducing the dimensionality to two with t-SNE.
 @task
 def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     model = Word2Vec.load(model_ser.path)
@@ -291,8 +298,6 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     return x_vals, y_vals, labels
 
 
-# %%
-# We can now visualise the word embeddings with a matplotlib plot.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
 def plot_with_matplotlib(x: List[np.float32], y: List[np.float32], labels: np.array):
     fig = plt.figure()
@@ -309,8 +314,7 @@ def plot_with_matplotlib(x: List[np.float32], y: List[np.float32], labels: np.ar
 # Running the Workflow
 # ====================
 #
-# Lastly we define a workflow to call the aforementioned tasks.
-# This will return the Word2Vec and LDA models as workflow outputs.
+# Let's kick off a workflow! This will return the Word2Vec and LDA models as workflow outputs.
 @workflow
 def nlp_workflow() -> workflow_outputs:
     corpus = generate_processed_corpus()
@@ -327,8 +331,6 @@ def nlp_workflow() -> workflow_outputs:
     return model_wv.model, model_lda.model
 
 
-# %%
-# Finally, we can run the workflow locally.
 if __name__ == "__main__":
     logger.info(f"Running {__file__} main...")
     print(nlp_workflow())

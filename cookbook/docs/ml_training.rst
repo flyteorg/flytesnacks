@@ -40,7 +40,7 @@ Understand how machine learning models can be trained from within Flyte, with an
        :text: NLP Processing with Gensim
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
-    Word Embedding and Topic Modelling on Lee Background Corpus with Gensim
+    Word embedding and topic modelling on lee background corpus with Gensim
 
     ---
 
