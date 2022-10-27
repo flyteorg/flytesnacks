@@ -5,6 +5,7 @@ Word Embeddings and Topic Modelling with Gensim
 -----------------------------------------------
 
 This example creates six Flyte tasks that:
+
 1. Generate the sample dataset.
 2. Train the word2vec model.
 3. Train the LDA model and display the words per topic.
