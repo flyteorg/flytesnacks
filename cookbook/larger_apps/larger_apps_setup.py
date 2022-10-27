@@ -79,7 +79,7 @@ Expected output:
   Running my_wf() hello world
 
 
-Conclusion
+Keep going
 ^^^^^^^^^^^
 
 We've successfully created a Flyte project and executed your workflows on a python runtime environment! 🎉

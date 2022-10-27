@@ -48,7 +48,7 @@ This is a backend plugin which has to be enabled in your deployment; you can fol
 
 .. todo: Update to show Helm deployment
 
-You can optionally configure the plugin as per the `backend config structure <https://pkg.go.dev/github.com/flyteorg/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark#Config>`__ and an example config is defined
+You can optionally configure the plugin as per the `backend config structure <https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark#Config>`__ and an example config is defined
 `here <https://github.com/flyteorg/flyte/blob/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/propeller/plugins/spark.yaml>`__. This is how it looks:
 
 .. rli:: https://raw.githubusercontent.com/flyteorg/flyte/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/propeller/plugins/spark.yaml
