@@ -15,7 +15,6 @@ This example creates six Flyte tasks that:
 
 """
 
-import logging
 
 # %%
 # First, we import the necessary libraries.
@@ -39,6 +38,7 @@ from gensim.corpora import Dictionary
 from gensim.models import LdaModel, Word2Vec
 from gensim.parsing.preprocessing import STOPWORDS, remove_stopwords
 from gensim.test.utils import datapath
+import logging
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
 from sklearn.manifold import TSNE
@@ -245,7 +245,7 @@ def train_lda_model(
 # words to the given word in the corpus (we will use the word `computer` when running
 # the workflow to output similar words). Note that since the model is trained
 # on a small corpus, some of the relations might not be clear.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
     model = Word2Vec.load(model_ser.path)
     wv = model.wv
@@ -267,7 +267,7 @@ def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
 # Since we chose two similar sentences for comparison, the word movers distance
 # should be small. You can try altering either ``SENTENCE_A`` or ``SENTENCE_B`` variables to be dissimilar
 # to the other sentence, and check if the value computed is larger.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     sentences = [SENTENCE_A, SENTENCE_B]
     results = []
@@ -286,7 +286,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
 # =====================================
 #
 # The word embeddings made by the model can be visualized after reducing the dimensionality to two with t-SNE.
-@task
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     model = Word2Vec.load(model_ser.path)
     num_dimensions = 2
@@ -299,7 +299,7 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     return x_vals, y_vals, labels
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def plot_with_matplotlib(x: List[np.float32], y: List[np.float32], labels: np.array):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
