@@ -22,7 +22,7 @@ import os
 import random
 import typing
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import flytekit
 import gensim
@@ -241,13 +241,15 @@ def train_lda_model(
 # the workflow to output similar words). Note that since the model is trained
 # on a small corpus, some of the relations might not be clear.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
+def word_similarities(
+    model_ser: FlyteFile[MODELSER_NLP], word: str
+) -> Dict[str, float]:
     model = Word2Vec.load(model_ser.download())
     wv = model.wv
+    similar_words = wv.most_similar(word, topn=10)
     logger.info(f"Word vector for {word}:{wv[word]}")
-    logger.info(
-        f"Most similar words in corpus to {word}: {wv.most_similar(word, topn=10)}"
-    )
+    logger.info(f"Most similar words in corpus to {word}: {similar_words}")
+    return dict(similar_words)
 
 
 # %%
@@ -300,8 +302,11 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), disable_deck=False
 )
 def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
-    layout = go.Layout(height=1300, width=2000)
-    fig = go.Figure(data=go.Scattergl(x=x, y=y, mode="markers"), layout=layout)
+    layout = go.Layout(height=600, width=800)
+    fig = go.Figure(
+        data=go.Scattergl(x=x, y=y, mode="markers", marker=dict(color="aqua")),
+        layout=layout,
+    )
     indices = list(range(len(labels)))
     selected_indices = random.sample(indices, 50)
     for i in selected_indices:
@@ -310,7 +315,7 @@ def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
             x=x[i],
             y=y[i],
             showarrow=False,
-            font=dict(size=22, color="black", family="Sans Serif"),
+            font=dict(size=15, color="black", family="Sans Serif"),
         )
     flytekit.Deck("Word Embeddings", io.to_html(fig, full_html=True))
 
