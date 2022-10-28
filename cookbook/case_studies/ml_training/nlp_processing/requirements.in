@@ -2,7 +2,6 @@
 numpy
 gensim
 nltk
-matplotlib
-mpld3
+plotly
 pyemd
 scikit-learn

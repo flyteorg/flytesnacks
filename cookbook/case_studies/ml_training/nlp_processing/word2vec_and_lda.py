@@ -26,10 +26,10 @@ from typing import List, Tuple
 
 import flytekit
 import gensim
-import matplotlib.pyplot as plt
-import mpld3
 import nltk
 import numpy as np
+import plotly.graph_objects as go
+import plotly.io as io
 from dataclasses_json import dataclass_json
 from flytekit import Resources, task, workflow
 from flytekit.types.file import FlyteFile
@@ -57,7 +57,7 @@ lee_train_file = os.path.join(data_dir, "lee_background.cor")
 
 
 # %%
-# We will declare NamedTuples which will be used as signatures for the Flyte task outputs.
+# We declare ``NamedTuple``s which will be used as signatures of the Flyte task outputs.
 # The variable names and types correspond to the values of the unpacked tuples returned
 # from the corresponding Flyte task.
 plotdata = typing.NamedTuple(
@@ -281,6 +281,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
 # =====================================
 #
 # The word embeddings made by the model can be visualized after reducing the dimensionality to two with t-SNE.
+# This task can take a few minutes to complete.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="1000Mi"))
 def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     model = Word2Vec.load(model_ser.download())
@@ -295,16 +296,23 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     return x_vals, y_vals, labels
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def plot_with_matplotlib(x: List[float], y: List[float], labels: List[str]):
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.scatter(x, y)
+@task(
+    cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), disable_deck=False
+)
+def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
+    layout = go.Layout(height=1300, width=2000)
+    fig = go.Figure(data=go.Scattergl(x=x, y=y, mode="markers"), layout=layout)
     indices = list(range(len(labels)))
-    selected_indices = random.sample(indices, 25)
+    selected_indices = random.sample(indices, 50)
     for i in selected_indices:
-        plt.annotate(labels[i], (x[i], y[i]))
-    flytekit.Deck("Word Embeddings", mpld3.fig_to_html(fig))
+        fig.add_annotation(
+            text=labels[i],
+            x=x[i],
+            y=y[i],
+            showarrow=False,
+            font=dict(size=22, color="black", family="Sans Serif"),
+        )
+    flytekit.Deck("Word Embeddings", io.to_html(fig, full_html=True))
 
 
 # %%
@@ -322,7 +330,7 @@ def nlp_workflow() -> workflow_outputs:
     word_similarities(model_ser=model_wv.model, word="computer")
     word_movers_distance(model_ser=model_wv.model)
     axis_labels = dimensionality_reduction(model_ser=model_wv.model)
-    plot_with_matplotlib(
+    plot_with_plotly(
         x=axis_labels.x_values, y=axis_labels.y_values, labels=axis_labels.labels
     )
     return model_wv.model, model_lda.model

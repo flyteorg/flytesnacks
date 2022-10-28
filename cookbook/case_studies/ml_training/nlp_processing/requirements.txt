@@ -84,7 +84,6 @@ jinja2==3.1.1
     # via
     #   cookiecutter
     #   jinja2-time
-    #   mpld3
     #   pandas-profiling
 jinja2-time==0.2.0
     # via cookiecutter
@@ -114,16 +113,12 @@ marshmallow-jsonschema==0.13.0
 matplotlib==3.5.1
     # via
     #   -r ../../../common/requirements-common.in
-    #   -r requirements.in
     #   missingno
-    #   mpld3
     #   pandas-profiling
     #   phik
     #   seaborn
 missingno==0.5.1
     # via pandas-profiling
-mpld3==0.5.8
-    # via -r requirements.in
 multimethod==1.8
     # via
     #   pandas-profiling
@@ -179,7 +174,9 @@ pillow==9.1.0
     #   matplotlib
     #   visions
 plotly==5.10.0
-    # via flytekitplugins-deck-standard
+    # via
+    #   -r requirements.in
+    #   flytekitplugins-deck-standard
 protobuf==3.20.0
     # via
     #   flyteidl
