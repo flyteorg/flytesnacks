@@ -15,6 +15,10 @@ their data with custom renderers.
 Let's dive into an example.
 
 """
+# %%
+# .. note::
+#
+#   Flyte Decks is an opt-in feature; to enable it, set ``disable_deck`` to ``False`` in the task params.
 
 import flytekit
 import matplotlib.pyplot as plt
@@ -38,7 +42,7 @@ iris_df = px.data.iris()
 # Create a new deck called ``demo``, and use the box renderer to display the box plot on demo deck.
 # Use MarkdownRenderer to render ``md_text``, and append HTML to the default deck.
 # Use ``Annotated`` to override the default renderer, and display top 10 rows of dataframe.
-@task
+@task(disable_deck=False)
 def t1() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
     md_text = "#Hello Flyte\n##Hello Flyte\n###Hello Flyte"
     flytekit.Deck("demo", BoxRenderer("sepal_length").to_html(iris_df))
@@ -88,7 +92,7 @@ class MatplotlibRenderer:
 
 # %%
 # Use `MatplotlibRenderer` to display a linear graph on flyte deck.
-@task
+@task(disable_deck=False)
 def t2():
     x_points = np.array([0, 6])
     y_points = np.array([0, 250])
