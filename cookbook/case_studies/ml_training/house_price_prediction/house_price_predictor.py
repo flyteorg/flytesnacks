@@ -268,6 +268,8 @@ def house_price_predictor_trainer(
 # Running the Model Locally
 # ==========================
 #
-# We can run the workflow locally provided the required libraries are installed. The output would be a list of house prices, generated using the XGBoost model.
+# If the required libraries are installed, we can run the model locally using the following command:
+#    pyflyte run --remote house_price_predictor.py house_price_predictor_trainer
+# The output would be a list of house prices, generated using the XGBoost model.
 if __name__ == "__main__":
     print(house_price_predictor_trainer())
