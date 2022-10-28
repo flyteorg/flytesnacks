@@ -15,9 +15,9 @@ This example creates six Flyte tasks that:
 
 """
 
-
 # %%
 # First, we import the necessary libraries.
+import logging
 import os
 import random
 import typing
@@ -38,7 +38,6 @@ from gensim.corpora import Dictionary
 from gensim.models import LdaModel, Word2Vec
 from gensim.parsing.preprocessing import STOPWORDS, remove_stopwords
 from gensim.test.utils import datapath
-import logging
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
 from sklearn.manifold import TSNE
