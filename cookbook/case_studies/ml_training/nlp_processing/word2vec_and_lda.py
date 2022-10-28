@@ -44,12 +44,6 @@ from sklearn.manifold import TSNE
 
 logger = logging.getLogger(__file__)
 
-# %%
-# First, we download the required packages from the nltk library
-# for the preprocessing steps
-nltk.download("wordnet")
-nltk.download("omw-1.4")
-
 
 # %%
 # We define the output file type.
@@ -68,9 +62,9 @@ lee_train_file = os.path.join(data_dir, "lee_background.cor")
 # from the corresponding Flyte task.
 plotdata = typing.NamedTuple(
     "PlottingData",
-    x_values=List[np.float32],
-    y_values=List[np.float32],
-    labels=np.array,
+    x_values=List[float],
+    y_values=List[float],
+    labels=List[str],
 )
 
 bowdata = typing.NamedTuple(
@@ -127,7 +121,9 @@ class MyCorpus:
 # We define a Flyte task to generate the processed corpus containing a list of tokenized sentence lists.
 @task
 def generate_processed_corpus() -> List[List[str]]:
-    # Set file names for train and test data
+    # download the required packages from the nltk library
+    nltk.download("wordnet")
+    nltk.download("omw-1.4")
     sentences_train = MyCorpus(lee_train_file)
     train_corpus = list(sentences_train)
     return train_corpus
@@ -246,7 +242,7 @@ def train_lda_model(
 # on a small corpus, some of the relations might not be clear.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
-    model = Word2Vec.load(model_ser.path)
+    model = Word2Vec.load(model_ser.download())
     wv = model.wv
     logger.info(f"Word vector for {word}:{wv[word]}")
     logger.info(
@@ -273,7 +269,7 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     for i in sentences:
         result = [w for w in utils.tokenize(i) if w not in STOPWORDS]
         results.append(result)
-    model = Word2Vec.load(model_ser.path)
+    model = Word2Vec.load(model_ser.download())
     distance = model.wv.wmdistance(*results)
     logger.info(f"Computing word movers distance for: {SENTENCE_A} and {SENTENCE_B} ")
     logger.info(f"Word Movers Distance is {distance}")
@@ -285,21 +281,22 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
 # =====================================
 #
 # The word embeddings made by the model can be visualized after reducing the dimensionality to two with t-SNE.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
+@task(cache_version="1.0", cache=True, limits=Resources(mem="1000Mi"))
 def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
-    model = Word2Vec.load(model_ser.path)
+    model = Word2Vec.load(model_ser.download())
     num_dimensions = 2
     vectors = np.asarray(model.wv.vectors)
     labels = np.asarray(model.wv.index_to_key)
     tsne = TSNE(n_components=num_dimensions, random_state=0)
     vectors = tsne.fit_transform(vectors)
-    x_vals = [v[0] for v in vectors]
-    y_vals = [v[1] for v in vectors]
+    x_vals = [float(v[0]) for v in vectors]
+    y_vals = [float(v[1]) for v in vectors]
+    labels = [str(l) for l in labels]
     return x_vals, y_vals, labels
 
 
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def plot_with_matplotlib(x: List[np.float32], y: List[np.float32], labels: np.array):
+def plot_with_matplotlib(x: List[float], y: List[float], labels: List[str]):
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
     ax.scatter(x, y)

@@ -5,4 +5,4 @@ nltk
 matplotlib
 mpld3
 pyemd
-sklearn
+scikit-learn
