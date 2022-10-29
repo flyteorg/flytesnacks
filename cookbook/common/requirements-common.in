@@ -2,3 +2,4 @@ flytekit>=0.32.3
 wheel
 matplotlib
 flytekitplugins-deck-standard
+grpcio-status<1.49.0
