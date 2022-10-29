@@ -12,7 +12,7 @@ following steps:
 2. Providing packaging in the form of Docker images for code when needed. In some cases packaging isn't needed,
    because the code itself is portable- for example SQL, or the task references a remote service - SageMaker Builtin
    algorithms, or the code can be safely transferred over;
-3. Alternatively, packaging with :ref:`deployment-fast-registration`;
+3. Alternatively, packaging with :ref:`fast registration`;
 4. Registering the serialized workflows and tasks.
 
 Using remote Flyte provides:
@@ -27,7 +27,7 @@ Build Your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
 
 1. Commit your changes. Some of the steps below default to referencing the git sha.
-2. Run ``pyflyte register``. This :doc:`command <flytekit:pyflyte-register>` compiles all Flyte entities and sends it to the backend as specified by your config file.
+2. Run ``pyflyte register``. This :ref:`command <flytekit:pyflyte-register>` compiles all Flyte entities and sends it to the backend as specified by your config file.
 3. Build a container image that holds your code.
 
 .. code-block:: docker
