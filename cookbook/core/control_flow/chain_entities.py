@@ -5,8 +5,8 @@ Chain Flyte Entities
 Data passing between tasks or workflows need not necessarily happen through parameters.
 In such a case, if you want to explicitly construct the dependency, flytekit provides a mechanism to chain Flyte entities using the ``>>`` operator.
 
-Tasks
-^^^^^
+Chain Tasks
+^^^^^^^^^^^^
 
 Let's enforce an order for ``read()`` to happen after ``write()``, and for ``write()`` to happen after ``create_bucket()``.
 
@@ -95,8 +95,8 @@ def chain_tasks_wf() -> pd.DataFrame:
 
 
 # %%
-# SubWorkflows
-# ^^^^^^^^^^^^
+# Chain SubWorkflows
+# ^^^^^^^^^^^^^^^^^^^
 #
 # Similar to tasks, you can chain :ref:`subworkflows <subworkflows>`.
 @workflow

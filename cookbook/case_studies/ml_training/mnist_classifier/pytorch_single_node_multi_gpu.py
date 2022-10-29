@@ -2,8 +2,8 @@
 Single Node, Multi GPU Training
 --------------------------------
 
-When you need to scale up model training in pytorch, you can use the :py:class:`~pytorch:torch.nn.DataParallel` for
-single node, multi-gpu/cpu training or :py:class:`~pytorch:torch.nn.parallel.DistributedDataParallel` for multi-node,
+When you need to scale up model training in pytorch, you can use the :py:class:`~torch.nn.DataParallel` for
+single node, multi-gpu/cpu training or :py:class:`~torch.nn.parallel.DistributedDataParallel` for multi-node,
 multi-gpu training.
 
 This tutorial will cover how to write a simple training script on the MNIST dataset that uses
@@ -272,7 +272,7 @@ ACCURACIES_FILE = "./mnist_cnn_accuracies.json"
 
 # %%
 # Then we define the ``train_mnist`` function. Note the conditionals that check for ``rank == 0``. These parts of the
-# functions are only called in the main process, which is the ``0``th rank. The reason for this is that we only want the
+# functions are only called in the main process, which is the ``0`` th rank. The reason for this is that we only want the
 # main process to perform certain actions such as:
 #
 # - log metrics via ``wandb``
@@ -355,7 +355,7 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 
 
 # %%
-# The output model using :py:func:`pytorch:torch.save` saves the `state_dict` as described
+# The output model using :py:func:`torch.save` saves the `state_dict` as described
 # `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
 # A common convention is to have the ``.pt`` extension for the model file.
 #
@@ -370,7 +370,7 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 # =====================
 #
 # Next we define the flyte task that kicks off the distributed training process. Here we call the
-# pytorch :py:func:`multiprocessing <pytorch:torch.multiprocessing.spawn>` function to initiate a process on each
+# pytorch :py:func:`multiprocessing <torch.multiprocessing.spawn>` function to initiate a process on each
 # available GPU. Since we're parallelizing the data, each process will contain a copy of the model and pytorch
 # will handle syncing the weights across all processes on ``optimizer.step()`` calls.
 #
