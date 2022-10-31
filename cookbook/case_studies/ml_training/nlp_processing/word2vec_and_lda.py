@@ -22,7 +22,7 @@ import os
 import random
 import typing
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 import flytekit
 import gensim
@@ -241,9 +241,7 @@ def train_lda_model(
 # the workflow to output similar words). Note that since the model is trained
 # on a small corpus, some of the relations might not be clear.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_similarities(
-    model_ser: FlyteFile[MODELSER_NLP], word: str
-) -> Dict[str, float]:
+def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
     model = Word2Vec.load(model_ser.download())
     wv = model.wv
     similar_words = wv.most_similar(word, topn=10)
@@ -264,7 +262,7 @@ def word_similarities(
 # should be small. You can try altering either ``SENTENCE_A`` or ``SENTENCE_B`` variables to be dissimilar
 # to the other sentence, and check if the value computed is larger.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
+def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]):
     sentences = [SENTENCE_A, SENTENCE_B]
     results = []
     for i in sentences:
@@ -274,7 +272,6 @@ def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     distance = model.wv.wmdistance(*results)
     logger.info(f"Computing word movers distance for: {SENTENCE_A} and {SENTENCE_B} ")
     logger.info(f"Word Movers Distance is {distance}")
-    return distance
 
 
 # %%
