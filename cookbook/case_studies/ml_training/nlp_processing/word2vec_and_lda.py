@@ -249,7 +249,6 @@ def word_similarities(
     similar_words = wv.most_similar(word, topn=10)
     logger.info(f"Word vector for {word}:{wv[word]}")
     logger.info(f"Most similar words in corpus to {word}: {similar_words}")
-    return dict(similar_words)
 
 
 # %%
