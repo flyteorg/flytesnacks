@@ -240,7 +240,7 @@ def word_similarities(
     model = Word2Vec.load(model_ser.download())
     wv = model.wv
     logger.info(f"Word vector for {word}:{wv[word]}")
-    return wv.most_similar(word, topn=10)
+    return dict(wv.most_similar(word, topn=10))
 
 
 # %%
