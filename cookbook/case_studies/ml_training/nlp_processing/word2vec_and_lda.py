@@ -22,7 +22,7 @@ import os
 import random
 import typing
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import Dict, List
 
 import flytekit
 import gensim
@@ -67,16 +67,12 @@ plotdata = typing.NamedTuple(
     labels=List[str],
 )
 
-bowdata = typing.NamedTuple(
-    "BagOfWordsOutput",
-    bow=List[List[Tuple]],
-    id2word=List[List[Tuple]],
-)
 
 workflow_outputs = typing.NamedTuple(
     "WorkflowOutputs",
-    word2vecmodel=FlyteFile[MODELSER_NLP],
-    ldamodel=FlyteFile[MODELSER_NLP],
+    simwords=Dict[str, float],
+    distance=float,
+    topics=Dict[int, List[str]],
 )
 
 
@@ -147,8 +143,8 @@ class Word2VecModelHyperparams(object):
     Hyperparameters that can be used while training the word2vec model.
     """
 
-    min_count: int = 1
     vector_size: int = 200
+    min_count: int = 1
     workers: int = 4
     compute_loss: bool = True
 
@@ -182,7 +178,7 @@ class LDAModelHyperparams(object):
 # Training
 # ========
 #
-# We initialize and train a Word2Vec model on the preprocessed corpus using hyperparameters defined.
+# We initialize and train a Word2Vec model on the preprocessed corpus.
 @task
 def train_word2vec_model(
     training_data: List[List[str]], hyperparams: Word2VecModelHyperparams
@@ -206,16 +202,16 @@ def train_word2vec_model(
 
 # %%
 # Next, we transform the documents to a vectorized form and compute the frequency of each word to generate a bag of
-# words corpus for the LDA model to train on. We also create a mapping from word IDs to words as input to
+# words corpus for the LDA model to train on. We also create a mapping from word IDs to words to send it as an input to
 # the LDA model for training.
 @task
 def train_lda_model(
     corpus: List[List[str]], hyperparams: LDAModelHyperparams
-) -> model_file:
+) -> Dict[int, List[str]]:
     id2word = Dictionary(corpus)
     bow_corpus = [id2word.doc2bow(doc) for doc in corpus]
     id_words = [[(id2word[id], count) for id, count in line] for line in bow_corpus]
-    logger.info(f"sample of bag of words generated: {id_words[:2]}")
+    logger.info(f"Sample of bag of words generated: {id_words[:2]}")
     lda = LdaModel(
         corpus=bow_corpus,
         id2word=id2word,
@@ -226,10 +222,7 @@ def train_lda_model(
         update_every=hyperparams.update_every,
         random_state=hyperparams.random_state,
     )
-    logger.info(f"Shows words in each topic: {lda.print_topics(num_words=5)}")
-    out_path = os.path.join(flytekit.current_context().working_directory, "lda.model")
-    lda.save(out_path)
-    return (out_path,)
+    return dict(lda.show_topics(num_words=5))
 
 
 # %%
@@ -241,12 +234,13 @@ def train_lda_model(
 # the workflow to output similar words). Note that since the model is trained
 # on a small corpus, some of the relations might not be clear.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
+def word_similarities(
+    model_ser: FlyteFile[MODELSER_NLP], word: str
+) -> Dict[str, float]:
     model = Word2Vec.load(model_ser.download())
     wv = model.wv
-    similar_words = wv.most_similar(word, topn=10)
     logger.info(f"Word vector for {word}:{wv[word]}")
-    logger.info(f"Most similar words in corpus to {word}: {similar_words}")
+    return wv.most_similar(word, topn=10)
 
 
 # %%
@@ -262,16 +256,15 @@ def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str):
 # should be small. You can try altering either ``SENTENCE_A`` or ``SENTENCE_B`` variables to be dissimilar
 # to the other sentence, and check if the value computed is larger.
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]):
+def word_movers_distance(model_ser: FlyteFile[MODELSER_NLP]) -> float:
     sentences = [SENTENCE_A, SENTENCE_B]
     results = []
     for i in sentences:
         result = [w for w in utils.tokenize(i) if w not in STOPWORDS]
         results.append(result)
     model = Word2Vec.load(model_ser.download())
-    distance = model.wv.wmdistance(*results)
     logger.info(f"Computing word movers distance for: {SENTENCE_A} and {SENTENCE_B} ")
-    logger.info(f"Word Movers Distance is {distance}")
+    return model.wv.wmdistance(*results)
 
 
 # %%
@@ -286,6 +279,7 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     num_dimensions = 2
     vectors = np.asarray(model.wv.vectors)
     labels = np.asarray(model.wv.index_to_key)
+    logger.info("Running dimensionality reduction using t-SNE")
     tsne = TSNE(n_components=num_dimensions, random_state=0)
     vectors = tsne.fit_transform(vectors)
     x_vals = [float(v[0]) for v in vectors]
@@ -313,6 +307,7 @@ def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
             showarrow=False,
             font=dict(size=15, color="black", family="Sans Serif"),
         )
+    logger.info("Generating the Word Embedding Plot using Flyte Deck")
     flytekit.Deck("Word Embeddings", io.to_html(fig, full_html=True))
 
 
@@ -320,23 +315,24 @@ def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
 # Running the Workflow
 # ====================
 #
-# Let's kick off a workflow! This will return the Word2Vec and LDA models as workflow outputs.
+# Let's kick off a workflow! This will return the inference outputs of both gensim models:
+# similar words, WMD and LDA topics.
 @workflow
-def nlp_workflow() -> workflow_outputs:
+def nlp_workflow(target_word: str = "computer") -> workflow_outputs:
     corpus = generate_processed_corpus()
     model_wv = train_word2vec_model(
         training_data=corpus, hyperparams=Word2VecModelHyperparams()
     )
-    model_lda = train_lda_model(corpus=corpus, hyperparams=LDAModelHyperparams())
-    word_similarities(model_ser=model_wv.model, word="computer")
-    word_movers_distance(model_ser=model_wv.model)
+    lda_topics = train_lda_model(corpus=corpus, hyperparams=LDAModelHyperparams())
+    similar_words = word_similarities(model_ser=model_wv.model, word=target_word)
+    distance = word_movers_distance(model_ser=model_wv.model)
     axis_labels = dimensionality_reduction(model_ser=model_wv.model)
     plot_with_plotly(
         x=axis_labels.x_values, y=axis_labels.y_values, labels=axis_labels.labels
     )
-    return model_wv.model, model_lda.model
+    return similar_words, distance, lda_topics
 
 
 if __name__ == "__main__":
-    logger.info(f"Running {__file__} main...")
+    print(f"Running {__file__} main...")
     print(nlp_workflow())
