@@ -1,4 +1,4 @@
-FROM apache/spark-py:v3.3.0
+FROM apache/spark-py:v3.2.2
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ## Install Python3 and other basics
 USER 0
-RUN apt-get update && apt-get install -y python3.8 python3.8-venv make build-essential libssl-dev python3-pip curl
+RUN apt-get update && apt-get install -y python3 python3-venv make build-essential libssl-dev python3-pip curl wget
 
 # Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
 # in future versions to make it completely portable
@@ -31,6 +31,15 @@ RUN pip3 install wheel
 # Install Python dependencies
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
+
+RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.2/hadoop-common-3.3.2.jar -P /opt/spark/jars && \
+    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.2/hadoop-aws-3.3.2.jar -P /opt/spark/jars && \
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.1026/aws-java-sdk-bundle-1.11.1026.jar -P /opt/spark/jars
+
+# ENV SPARK_HOME /opt/spark
+# ENV SPARK_VERSION 3.2.2
+# ENV PYSPARK_PYTHON ${VENV}/bin/python3
+# ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 # Delete this after we update CI

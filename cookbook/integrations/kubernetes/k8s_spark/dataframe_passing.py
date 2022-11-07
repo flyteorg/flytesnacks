@@ -35,6 +35,7 @@ columns = kwtypes(name=str, age=int)
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
+            # "packages": "org.apache.hadoop:hadoop-aws:3.3.2,com.amazonaws:aws-java-sdk:1.11.1026",
         }
     ),
     limits=Resources(mem="2000M"),
