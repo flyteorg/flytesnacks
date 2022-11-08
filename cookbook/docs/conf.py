@@ -20,7 +20,6 @@ from sphinx.errors import ConfigError
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
-sys.path.append(os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
@@ -149,6 +148,7 @@ class CustomSorter(FileNameSortKey):
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
         "keras_spark_rossmann_estimator.py",
+        "word2vec_and_lda.py",
         ## Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
@@ -199,7 +199,6 @@ extensions = [
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
     "sphinx_tabs.tabs",
-    "run_example_cmds_extension",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -270,6 +269,7 @@ examples_dirs = [
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
+    "../case_studies/ml_training/nlp_processing",
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
@@ -311,6 +311,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
+    "auto/case_studies/ml_training/nlp_processing",
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
@@ -355,7 +356,6 @@ ignore_py_files = [
     r"__init__\.py",
     r"config_resource_mgr\.py",
     r"optimize_perf\.py",
-    r"^run_.+\.py",
 ]
 
 sphinx_gallery_conf = {
