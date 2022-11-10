@@ -17,8 +17,7 @@ Usage
 Take a look at the `example PR <https://github.com/flyteorg/flytekit/pull/470>`__, where we switched the built-in SQLite3 task from the old (user-container) to the new style of writing tasks.
 
 There aren't many changes from the user's standpoint:
-- Install whichever Python library has the task type definition (in the case of SQLite3, it's bundled in Flytekit, but this isn't always the case
-  (for example, `SQLAlchemy <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-sqlalchemy>`__)).
+- Install whichever Python library has the task type definition (in the case of SQLite3, it's bundled in Flytekit, but this isn't always the case (for example, `SQLAlchemy <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-sqlalchemy>`__)).
 - Import and instantiate the task as you would for any other type of non-function-based task.
 
 How to Write a Task
@@ -51,9 +50,9 @@ So you may call it whatever you want, just not something that's already been cla
 
 Referring to the SQLite3 example, ::
 
-    container_image="ghcr.io/flyteorg/flytekit:py38-v0.19.0b7",
-    executor_type=SQLite3TaskExecutor,
-    task_type="sqlite",
+  container_image="ghcr.io/flyteorg/flytekit:py38-v0.19.0b7",
+  executor_type=SQLite3TaskExecutor,
+  task_type="sqlite",
 
 Note that the container is special in this case since we utilize the Flytekit image.
 
