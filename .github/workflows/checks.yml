@@ -150,12 +150,11 @@ jobs:
     name: Docs Warnings
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-      - name: Report Sphinx Warnings
-        id: sphinx-warnings
-        run: |
-          apt-get install python3-sphinx
-          cd cookbook && make docs-requirements.txt
-          cd docs && make html
+      - uses: ammaraskar/sphinx-action@master
+        with:
+          name: Report Sphinx Warnings
+          docs-folder: "cookbook/docs/"
+          build-command: "sphinx-build -n -W -b html . _build"
