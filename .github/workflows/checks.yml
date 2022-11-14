@@ -157,4 +157,6 @@ jobs:
         id: sphinx-warnings
         run: |
           sudo apt-get install python3-sphinx
-          cd cookbook && make docs-requirements.txt && cd docs && make html
+          cd cookbook
+          pip install -r docs-requirements.txt
+          cd docs && make html
