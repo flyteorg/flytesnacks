@@ -155,4 +155,4 @@ jobs:
           fetch-depth: "0"
       - name: Report Sphinx Warnings
         id: sphinx-warnings
-        run: cd flytesnacks/coobook/docs && make html
+        run: cd cookbook/docs && make html
