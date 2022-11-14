@@ -156,5 +156,6 @@ jobs:
       - uses: ammaraskar/sphinx-action@master
         with:
           name: Report Sphinx Warnings
-          docs-folder: "cookbook/docs/"
+          docs-folder: "cookbook/docs"
+          pre-build-command: "cd cookbook && make docs-requirements.txt"
           build-command: "sphinx-build -n -W -b html . _build"
