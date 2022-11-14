@@ -13,7 +13,7 @@ ensure that everything is as you expected and hence, data will not crash your pi
 How to Define the Integration
 -----------------------------
 
-Great Expectations supports native execution of expectations against various `Datasources <https://docs.greatexpectations.io/docs/reference/datasources>`__,
+Great Expectations supports native execution of expectations against various `Datasources <https://docs.greatexpectations.io/docs/terms/datasource/>`__,
 such as Pandas dataframes, Spark dataframes, and SQL databases via SQLAlchemy.
 
 We're supporting two Flyte types that should suit Great Expectations' ``Datasources``:

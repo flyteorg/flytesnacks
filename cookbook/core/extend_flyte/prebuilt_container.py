@@ -77,7 +77,7 @@ This is the custom image that you specified in the subclass ``PythonCustomizedCo
 
     pyflyte-execute --inputs s3://inputs.pb --output-prefix s3://outputs --raw-output-data-prefix s3://user-data --resolver flytekit.core.python_customized_container_task.default_task_template_resolver -- {{.taskTemplatePath}} path.to.your.executor.subclass
 
-This means that your `Docker image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile.py3.10>`_ will need Python and Flytekit installed.
+This means that your `Docker image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__ will need Python and Flytekit installed.
 The container's Python interpreter should be able to find your custom executor class at the import path ``path.to.your.executor.subclass``.
 
 ----

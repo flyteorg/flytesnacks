@@ -207,7 +207,7 @@ templates_path = ["_templates"]
 html_static_path = ["_static"]
 html_css_files = ["sphx_gallery_autogen.css", "custom.css"]
 
-suppress_warnings = ['autosectionlabel.*']
+suppress_warnings = ["autosectionlabel.*"]
 
 # generate autosummary even if no references
 autosummary_generate = True
