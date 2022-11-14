@@ -156,5 +156,6 @@ jobs:
       - name: Report Sphinx Warnings
         id: sphinx-warnings
         run: |
+          apt-get install python3-sphinx
           cd cookbook && make docs-requirements.txt
           cd docs && make html
