@@ -153,9 +153,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-      - uses: ammaraskar/sphinx-action@master
-        with:
-          name: Report Sphinx Warnings
-          docs-folder: "cookbook/docs"
-          pre-build-command: "cd cookbook && make docs-requirements.txt"
-          build-command: "sphinx-build -n -W -b html . _build"
+      - name: Report Sphinx Warnings
+        id: sphinx-warnings
+        run: |
+          sudo apt-get install python3-sphinx
+          cd cookbook && make docs-requirements.txt
+          cd docs && make html
