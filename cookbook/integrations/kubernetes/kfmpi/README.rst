@@ -3,6 +3,8 @@
 MPI Operator
 ============
 
+.. tags:: Advanced, Integration, DistributedComputing, MachineLearning, KubernetesOperator
+
 The upcoming example shows how to use MPI in Horovod.
 
 Horovod

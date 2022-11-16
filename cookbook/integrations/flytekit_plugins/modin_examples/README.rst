@@ -1,6 +1,8 @@
 Modin
 ======
 
+.. tags:: Intermediate, Integration, DataFrame, MachineLearning
+
 Modin is a pandas-accelerator that helps handle large datasets.
 Pandas works gracefully with small datasets since it is inherently single-threaded, and designed to work on a single CPU core.
 With large datasets, the performance of pandas drops (becomes slow or runs out of memory) due to single core usage.

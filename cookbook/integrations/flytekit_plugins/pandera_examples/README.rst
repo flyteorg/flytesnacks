@@ -1,6 +1,8 @@
 Pandera
 =======
 
+.. tags:: Intermediate, Integration, DataFrame
+
 Flytekit python natively supports :ref:`many data types <flytekit_to_flyte_type_mapping>`,
 including a :ref:`FlyteSchema <typed_schema>` type for
 type-annotating pandas dataframes. The flytekit pandera plugin provides an alternative for

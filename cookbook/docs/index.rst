@@ -190,7 +190,15 @@ Table of Contents
    auto/integrations/aws/sagemaker_training/index
    auto/integrations/aws/sagemaker_pytorch/index
    auto/integrations/aws/athena/index
+   auto/integrations/aws/batch/index
    auto/integrations/external_services/hive/index
    auto/integrations/external_services/snowflake/index
    auto/integrations/gcp/bigquery/index
    auto/integrations/external_services/airflow/index
+
+.. toctree::
+   :maxdepth: -1
+   :caption: Tags
+   :hidden:
+
+   _tags/tagsindex.rst

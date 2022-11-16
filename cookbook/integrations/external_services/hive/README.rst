@@ -1,6 +1,8 @@
 Hive
 ====
 
+.. tags:: Advanced, Integration, Data
+
 Flyte backend can be connected with various hive services. Once enabled it can allow you to query a hive service (e.g. Qubole) and retrieve typed schema (optionally).
 This section will provide how to use the Hive Query Plugin using flytekit python
 

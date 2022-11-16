@@ -2,7 +2,9 @@
 .. _larger_apps_build:
 
 Setup a Project
-----------------
+---------------
+
+.. tags:: Basic
 
 Prerequisites
 ^^^^^^^^^^^^^^^^

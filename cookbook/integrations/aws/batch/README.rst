@@ -2,6 +2,8 @@
 AWS Batch
 ##########
 
+.. tags:: Advanced, Data, Integration, AWS
+
 Executing Batch Job
 =======================
 Flyte backend can be connected with batch. Once enabled, it allows you to run regular task on AWS batch.

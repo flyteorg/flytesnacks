@@ -1,6 +1,8 @@
 KubeRay
 ========
 
+.. tags:: Advanced, Integration, DistributedComputing, KubernetesOperator
+
 `KubeRay <https://github.com/ray-project/kuberay>`__ is an open source toolkit to run Ray applications on Kubernetes. It provides tools to improve running and managing Ray on Kubernetes.
 
 - Ray Operator

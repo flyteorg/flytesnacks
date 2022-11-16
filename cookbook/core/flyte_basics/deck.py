@@ -1,6 +1,8 @@
 """
 Flyte Decks
--------------
+-----------
+
+.. tags:: Basic, Visualization, UI
 
 Deck enables users to get customizable and default visibility into their tasks.
 

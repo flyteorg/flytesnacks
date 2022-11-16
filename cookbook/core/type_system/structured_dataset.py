@@ -4,6 +4,8 @@
 Structured Dataset
 ------------------
 
+.. tags:: Basic, DataFrame
+
 Structured dataset is a superset of Flyte Schema.
 
 The ``StructuredDataset`` Transformer can write a dataframe to BigQuery, s3, or any storage by registering new structured dataset encoder and decoder.

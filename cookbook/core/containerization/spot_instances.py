@@ -2,6 +2,8 @@
 Using Spot/Preemptible Instances
 --------------------------------
 
+.. tags:: Intermediate, AWS, GCP
+
 """
 # %%
 # What Are Spot/Preemptible Instances?
