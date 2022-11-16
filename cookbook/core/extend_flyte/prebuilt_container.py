@@ -4,7 +4,7 @@
 Pre-built Container Task Plugin
 -------------------------------
 
-.. tags:: Extensibility
+.. tags:: Extensibility, Contribute
 
 A pre-built container task plugin runs a pre-built container. The following are the advantages of using a pre-built container in comparison to a user-defined container:
 

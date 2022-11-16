@@ -5,7 +5,7 @@
 Writing Backend Extensions
 ##########################
 
-.. tags:: Extensibility
+.. tags:: Extensibility, Contribute
 
 Now that you have landed here, we can assume that you have exhausted your options of extending and want to extend Flyte in a way that adds new capabilities to the platform.
 

@@ -4,7 +4,7 @@
 User Container Task Plugin
 --------------------------
 
-.. tags:: Extensibility
+.. tags:: Extensibility, Contribute
 
 A user container task plugin runs a user-defined container that has the user code.
 
