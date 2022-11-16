@@ -1,5 +1,5 @@
-Tags: UI
-########
+Tag: UI
+#######
 
 .. toctree::
     :maxdepth: 1

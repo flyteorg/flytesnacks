@@ -1,5 +1,5 @@
-Tags: Basic
-###########
+Tag: Basic
+##########
 
 .. toctree::
     :maxdepth: 1

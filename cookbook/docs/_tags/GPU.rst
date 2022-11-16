@@ -1,5 +1,5 @@
-Tags: GPU
-#########
+Tag: GPU
+########
 
 .. toctree::
     :maxdepth: 1

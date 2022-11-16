@@ -1,5 +1,5 @@
-Tags: Integration
-#################
+Tag: Integration
+################
 
 .. toctree::
     :maxdepth: 1

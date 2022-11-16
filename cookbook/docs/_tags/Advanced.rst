@@ -1,18 +1,15 @@
-Tags: Advanced
-##############
+Tag: Advanced
+#############
 
 .. toctree::
     :maxdepth: 1
     :caption: With this tag
 
     ../auto/case_studies/bioinformatics/blast/index.rst
-    ../auto/case_studies/feature_engineering/eda/index.rst
     ../auto/case_studies/feature_engineering/feast_integration/index.rst
     ../auto/case_studies/ml_training/mnist_classifier/index.rst
-    ../auto/case_studies/ml_training/nlp_processing/index.rst
     ../auto/case_studies/ml_training/spark_horovod/index.rst
     ../auto/core/containerization/raw_container.rst
-    ../auto/core/containerization/spot_instances.rst
     ../auto/deployment/deploying_workflows.rst
     ../auto/integrations/aws/athena/index.rst
     ../auto/integrations/aws/batch/index.rst

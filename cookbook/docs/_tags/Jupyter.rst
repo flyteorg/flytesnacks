@@ -1,5 +1,5 @@
-Tags: Jupyter
-#############
+Tag: Jupyter
+############
 
 .. toctree::
     :maxdepth: 1

@@ -1,5 +1,5 @@
-Tags: MachineLearning
-#####################
+Tag: MachineLearning
+####################
 
 .. toctree::
     :maxdepth: 1

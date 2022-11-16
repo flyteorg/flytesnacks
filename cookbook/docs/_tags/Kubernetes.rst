@@ -1,5 +1,5 @@
-Tags: Kubernetes
-################
+Tag: Kubernetes
+###############
 
 .. toctree::
     :maxdepth: 1

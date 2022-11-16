@@ -1,5 +1,5 @@
-Tags: GCP
-#########
+Tag: GCP
+########
 
 .. toctree::
     :maxdepth: 1

@@ -1,5 +1,5 @@
-Tags: SQL
-#########
+Tag: SQL
+########
 
 .. toctree::
     :maxdepth: 1

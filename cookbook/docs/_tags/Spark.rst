@@ -1,5 +1,5 @@
-Tags: Spark
-###########
+Tag: Spark
+##########
 
 .. toctree::
     :maxdepth: 1

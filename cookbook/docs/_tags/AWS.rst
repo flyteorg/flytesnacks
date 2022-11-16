@@ -1,5 +1,5 @@
-Tags: AWS
-#########
+Tag: AWS
+########
 
 .. toctree::
     :maxdepth: 1

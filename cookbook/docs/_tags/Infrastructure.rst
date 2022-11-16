@@ -1,5 +1,5 @@
-Tags: Infrastructure
-####################
+Tag: Infrastructure
+###################
 
 .. toctree::
     :maxdepth: 1

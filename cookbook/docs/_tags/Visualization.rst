@@ -1,5 +1,5 @@
-Tags: Visualization
-###################
+Tag: Visualization
+##################
 
 .. toctree::
     :maxdepth: 1

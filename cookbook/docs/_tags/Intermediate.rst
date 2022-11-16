@@ -1,13 +1,16 @@
-Tags: Intermediate
-##################
+Tag: Intermediate
+#################
 
 .. toctree::
     :maxdepth: 1
     :caption: With this tag
 
+    ../auto/case_studies/feature_engineering/eda/index.rst
     ../auto/case_studies/ml_training/house_price_prediction/index.rst
+    ../auto/case_studies/ml_training/nlp_processing/index.rst
     ../auto/case_studies/ml_training/pima_diabetes/index.rst
     ../auto/core/containerization/multi_images.rst
+    ../auto/core/containerization/spot_instances.rst
     ../auto/core/containerization/use_secrets.rst
     ../auto/core/containerization/workflow_labels_annotations.rst
     ../auto/core/control_flow/checkpoint.rst
@@ -37,9 +40,4 @@ Tags: Intermediate
     ../auto/integrations/kubernetes/k8s_spark/index.rst
     ../auto/larger_apps/larger_apps_deploy.rst
     ../auto/larger_apps/larger_apps_iterate.rst
-    ../auto/remote_access/debugging_workflows_tasks.rst
-    ../auto/remote_access/inspecting_executions.rst
-    ../auto/remote_access/register_project.rst
-    ../auto/remote_access/remote_launchplan.rst
-    ../auto/remote_access/remote_task.rst
-    ../auto/remote_access/remote_workflow.rst
+    ../auto/remote_access/index.rst

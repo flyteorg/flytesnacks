@@ -195,10 +195,3 @@ Table of Contents
    auto/integrations/external_services/snowflake/index
    auto/integrations/gcp/bigquery/index
    auto/integrations/external_services/airflow/index
-
-.. toctree::
-   :maxdepth: -1
-   :caption: Tags
-   :hidden:
-
-   _tags/tagsindex.rst

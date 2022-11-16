@@ -1,5 +1,5 @@
-Tag: Extensibility
-##################
+Tag: Contribute
+###############
 
 .. toctree::
     :maxdepth: 1
@@ -10,3 +10,4 @@ Tag: Extensibility
     ../auto/core/extend_flyte/custom_types.rst
     ../auto/core/extend_flyte/prebuilt_container.rst
     ../auto/core/extend_flyte/user_container.rst
+    ../contribute.rst

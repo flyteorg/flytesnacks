@@ -1,5 +1,5 @@
-Tags: Data
-##########
+Tag: Data
+#########
 
 .. toctree::
     :maxdepth: 1

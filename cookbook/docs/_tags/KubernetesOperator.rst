@@ -1,5 +1,5 @@
-Tags: KubernetesOperator
-########################
+Tag: KubernetesOperator
+#######################
 
 .. toctree::
     :maxdepth: 1

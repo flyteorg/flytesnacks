@@ -1,5 +1,5 @@
-Tags: DataFrame
-###############
+Tag: DataFrame
+##############
 
 .. toctree::
     :maxdepth: 1
