@@ -2,7 +2,7 @@
 AWS Athena
 ##########
 
-.. tags:: Advanced, Data, Integration, AWS
+.. tags:: Data, Integration, AWS, Advanced
 
 Executing Athena Queries
 ========================

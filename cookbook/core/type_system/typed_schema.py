@@ -4,7 +4,7 @@
 Typed Columns in a Schema
 -------------------------
 
-.. tags:: Basic, DataFrame
+.. tags:: DataFrame, Basic
 
 This example explains how a typed schema can be used in Flyte and declared in flytekit.
 

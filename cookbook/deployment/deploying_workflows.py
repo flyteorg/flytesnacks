@@ -2,7 +2,7 @@
 Deploying Workflows - Registration
 ----------------------------------
 
-.. tags:: Advanced, Deployment
+.. tags:: Deployment, Advanced
 
 Locally, Flytekit relies on the Python interpreter to execute tasks and workflows.
 To leverage the full power of Flyte, we recommend using a deployed backend of Flyte. Flyte can be run

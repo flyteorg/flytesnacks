@@ -4,8 +4,6 @@
 Deploy to the Cloud
 -------------------
 
-.. tags:: Intermediate, UI
-
 Prerequisites
 ^^^^^^^^^^^^^^^^
 Make sure you have `Docker <https://docs.docker.com/get-docker/>`__ and Docker

@@ -28,3 +28,4 @@ Tag: Basic
     ../auto/core/type_system/typed_schema.rst
     ../auto/deployment/customizing_resources.rst
     ../auto/larger_apps/larger_apps_setup.rst
+    ../contribute.rst

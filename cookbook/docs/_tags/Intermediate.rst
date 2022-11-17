@@ -19,6 +19,11 @@ Tag: Intermediate
     ../auto/core/control_flow/map_task.rst
     ../auto/core/control_flow/merge_sort.rst
     ../auto/core/control_flow/subworkflows.rst
+    ../auto/core/extend_flyte/backend_plugins.rst
+    ../auto/core/extend_flyte/container_interface.rst
+    ../auto/core/extend_flyte/custom_types.rst
+    ../auto/core/extend_flyte/prebuilt_container.rst
+    ../auto/core/extend_flyte/user_container.rst
     ../auto/core/flyte_basics/decorating_tasks.rst
     ../auto/core/flyte_basics/decorating_workflows.rst
     ../auto/core/flyte_basics/reference_task.rst
@@ -27,6 +32,7 @@ Tag: Intermediate
     ../auto/deployment/configure_logging_links.rst
     ../auto/deployment/configure_use_gpus.rst
     ../auto/deployment/lp_notifications.rst
+    ../auto/integrations/external_services/airflow/index.rst
     ../auto/integrations/flytekit_plugins/dolt/index.rst
     ../auto/integrations/flytekit_plugins/greatexpectations/index.rst
     ../auto/integrations/flytekit_plugins/modin_examples/index.rst
@@ -36,8 +42,5 @@ Tag: Intermediate
     ../auto/integrations/flytekit_plugins/papermilltasks/index.rst
     ../auto/integrations/flytekit_plugins/sql/index.rst
     ../auto/integrations/flytekit_plugins/whylogs_examples/index.rst
-    ../auto/integrations/gcp/bigquery/index.rst
-    ../auto/integrations/kubernetes/k8s_spark/index.rst
-    ../auto/larger_apps/larger_apps_deploy.rst
-    ../auto/larger_apps/larger_apps_iterate.rst
+    ../auto/larger_apps/index.rst
     ../auto/remote_access/index.rst

@@ -2,7 +2,7 @@
 Adding Workflow Labels and Annotations
 --------------------------------------
 
-.. tags:: Intermediate, Kubernetes, Infrastructure
+.. tags:: Kubernetes, Intermediate
 
 In Flyte, workflow executions are created as Kubernetes resources. These can be extended with
 `labels <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/>`__ and

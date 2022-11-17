@@ -4,7 +4,7 @@
 Configuring Flyte to Access GPUs
 --------------------------------
 
-.. tags:: Intermediate, Deployment, Infrastructure, GPU
+.. tags:: Deployment, Infrastructure, GPU, Intermediate
 
 Along with the simpler resources like CPU/Memory, you may want to configure and access GPU resources. Flyte
 allows you to configure the GPU access poilcy for your cluster. GPUs are expensive and it would not be ideal to

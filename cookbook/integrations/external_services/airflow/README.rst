@@ -1,7 +1,7 @@
 Airflow Provider
 ================
 
-.. tags:: Advanced, Integration
+.. tags:: Integration, Intermediate
 
 The ``airflow-provider-flyte`` package provides an operator, a sensor, and a hook that integrates Flyte into Apache Airflow.
 ``FlyteOperator`` is helpful to trigger a task/workflow in Flyte and ``FlyteSensor`` enables monitoring a Flyte execution status for completion.

@@ -15,9 +15,10 @@ Tag: Advanced
     ../auto/integrations/aws/batch/index.rst
     ../auto/integrations/aws/sagemaker_pytorch/index.rst
     ../auto/integrations/aws/sagemaker_training/index.rst
-    ../auto/integrations/external_services/airflow/index.rst
     ../auto/integrations/external_services/hive/index.rst
     ../auto/integrations/external_services/snowflake/index.rst
+    ../auto/integrations/gcp/bigquery/index.rst
+    ../auto/integrations/kubernetes/k8s_spark/index.rst
     ../auto/integrations/kubernetes/kfmpi/index.rst
     ../auto/integrations/kubernetes/kfpytorch/index.rst
     ../auto/integrations/kubernetes/kftensorflow/index.rst

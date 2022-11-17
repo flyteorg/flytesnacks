@@ -4,7 +4,7 @@
 Container Interface
 -------------------
 
-.. tags:: Extensibility, Contribute
+.. tags:: Extensibility, Contribute, Intermediate
 
 Flyte typically interacts with containers in the course of its task execution (since most tasks are container
 tasks). This is what that process looks like:

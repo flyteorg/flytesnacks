@@ -1,7 +1,7 @@
 NLP Processing
 --------------
 
-.. tags:: Intermediate, MachineLearning, UI
+.. tags:: MachineLearning, UI, Intermediate
 
 This tutorial will demonstrate how to process text data and generate word embeddings and visualizations
 as part of a Flyte workflow. It's an adaptation of the official Gensim `Word2Vec tutorial <https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html>`__.

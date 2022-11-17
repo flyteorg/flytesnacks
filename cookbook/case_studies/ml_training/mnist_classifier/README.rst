@@ -3,7 +3,7 @@
 MNIST Classification With PyTorch and W&B
 -----------------------------------------
 
-.. tags:: Advanced, MachineLearning, GPU
+.. tags:: MachineLearning, GPU, Advanced
 
 PyTorch
 =======

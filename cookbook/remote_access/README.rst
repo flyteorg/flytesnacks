@@ -3,7 +3,7 @@
 Remote Access
 -------------
 
-.. tags:: Intermediate, Deployment, Remote, CLI
+.. tags:: Deployment, Remote, CLI, Intermediate
 
 Flyte provides multiple ways of creating, registering, and inspecting Flyte backend
 entities. The main entities include Flyte tasks, workflows, launchplans, as well as

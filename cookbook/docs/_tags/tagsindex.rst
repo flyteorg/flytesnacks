@@ -10,8 +10,8 @@ All Tags
     :maxdepth: 1
 
     AWS (5) <AWS.rst>
-    Advanced (18) <Advanced.rst>
-    Basic (23) <Basic.rst>
+    Advanced (19) <Advanced.rst>
+    Basic (24) <Basic.rst>
     CLI (1) <CLI.rst>
     Containerization (2) <Containerization.rst>
     Contribute (6) <Contribute.rst>
@@ -22,15 +22,14 @@ All Tags
     Extensibility (5) <Extensibility.rst>
     GCP (2) <GCP.rst>
     GPU (2) <GPU.rst>
-    Infrastructure (3) <Infrastructure.rst>
+    Infrastructure (2) <Infrastructure.rst>
     Integration (23) <Integration.rst>
-    Intermediate (36) <Intermediate.rst>
+    Intermediate (40) <Intermediate.rst>
     Jupyter (2) <Jupyter.rst>
     Kubernetes (3) <Kubernetes.rst>
-    KubernetesOperator (5) <KubernetesOperator.rst>
+    KubernetesOperator (4) <KubernetesOperator.rst>
     MachineLearning (16) <MachineLearning.rst>
     Remote (1) <Remote.rst>
     SQL (2) <SQL.rst>
     Spark (1) <Spark.rst>
-    UI (4) <UI.rst>
-    Visualization (1) <Visualization.rst>
+    UI (2) <UI.rst>

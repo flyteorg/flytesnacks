@@ -2,7 +2,7 @@
 Working With Files
 ------------------
 
-.. tags:: Basic, Data
+.. tags:: Data, Basic
 
 Files are one of the most fundamental entities that users of Python work with,
 and they are fully supported by Flyte. In the IDL, they are known as

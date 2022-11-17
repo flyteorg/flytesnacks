@@ -1,7 +1,7 @@
 Feast Integration
 -----------------
 
-.. tags:: Advanced, Data, MachineLearning
+.. tags:: Data, MachineLearning, Advanced
 
 `Feast <https://feast.dev/>`__ is an operational data system for managing and serving machine learning features to models in production.
 

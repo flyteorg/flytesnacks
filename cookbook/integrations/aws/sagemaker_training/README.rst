@@ -3,7 +3,7 @@
 AWS Sagemaker Training
 ======================
 
-.. tags:: Advanced, Integration, MachineLearning, AWS
+.. tags:: Integration, MachineLearning, AWS, Advanced
 
 This section provides examples of Flyte Plugins that are designed to work with
 AWS Hosted services like Sagemaker, EMR, Athena, Redshift etc

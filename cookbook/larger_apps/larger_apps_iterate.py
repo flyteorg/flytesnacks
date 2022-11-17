@@ -4,8 +4,6 @@
 Iterate and Re-deploy
 ---------------------
 
-.. tags:: Intermediate, UI
-
 In this guide, you'll learn how to iterate on and re-deploy your tasks and workflows.
 
 Modify Code and Test Locally

@@ -6,7 +6,7 @@
 Using Secrets in a Task
 =======================
 
-.. tags:: Intermediate, Kubernetes
+.. tags:: Kubernetes, Intermediate
 
 Flyte supports running a variety of tasks, from containers to SQL queries and service calls. For Flyte-run
 containers to request and access secrets, Flyte provides a native Secret construct.

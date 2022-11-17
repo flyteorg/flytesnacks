@@ -2,7 +2,7 @@
 AWS Batch
 ##########
 
-.. tags:: Advanced, Data, Integration, AWS
+.. tags:: Data, Integration, AWS, Advanced
 
 Executing Batch Job
 =======================

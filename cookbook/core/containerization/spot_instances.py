@@ -2,7 +2,7 @@
 Using Spot/Preemptible Instances
 --------------------------------
 
-.. tags:: Intermediate, AWS, GCP
+.. tags:: AWS, GCP, Intermediate
 
 """
 # %%

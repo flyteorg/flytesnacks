@@ -3,7 +3,7 @@
 Kubernetes Spark Jobs
 =====================
 
-.. tags:: Intermediate, Spark, Integration, DistributedComputing
+.. tags:: Spark, Integration, DistributedComputing, Advanced
 
 Flyte can execute Spark jobs natively on a Kubernetes Cluster, which manages a virtual cluster's lifecycle, spin-up, and tear down.
 It leverages the open-sourced `Spark On K8s Operator <https://github.com/GoogleCloudPlatform/spark-on-k8s-operator>`__
