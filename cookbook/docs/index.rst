@@ -4,6 +4,8 @@
 User Guide
 ##############
 
+`All Tags <_tags/tagsindex.html>`__
+
 If this is your first time using Flyte, check out the `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`_ guide.
 
 This *User Guide*, the :doc:`Tutorials <tutorials>`, and the :doc:`Integrations <integrations>` examples cover all of
