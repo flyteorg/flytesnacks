@@ -3,7 +3,7 @@
 Building Large Apps
 -------------------
 
-.. tags:: Intermediate
+.. tags:: Deployment, Intermediate
 
 So far in the *User Guide* you've been running Flyte workflows as one-off
 scripts, which is useful for quick prototyping and iteration of small ideas

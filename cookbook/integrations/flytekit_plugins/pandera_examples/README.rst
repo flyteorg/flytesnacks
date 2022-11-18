@@ -1,7 +1,7 @@
 Pandera
 =======
 
-.. tags:: Intermediate, Integration, DataFrame
+.. tags:: Integration, DataFrame, Data, Intermediate
 
 Flytekit python natively supports :ref:`many data types <flytekit_to_flyte_type_mapping>`,
 including a :ref:`FlyteSchema <typed_schema>` type for

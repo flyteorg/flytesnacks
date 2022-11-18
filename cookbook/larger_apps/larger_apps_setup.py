@@ -4,8 +4,6 @@
 Setup a Project
 ---------------
 
-.. tags:: Basic
-
 Prerequisites
 ^^^^^^^^^^^^^^^^
 Make sure you have `git <https://git-scm.com/>`__ and

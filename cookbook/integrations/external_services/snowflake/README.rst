@@ -1,7 +1,7 @@
 Snowflake
 =========
 
-.. tags:: Integration, Data, Advanced
+.. tags:: Integration, Data, Advanced, SQL
 
 Flyte backend can be connected with snowflake service. Once enabled it can allow you to query a snowflake service.
 This section will provide how to use the Snowflake Query Plugin using flytekit python.

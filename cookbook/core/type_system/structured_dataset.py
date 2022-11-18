@@ -4,7 +4,7 @@
 Structured Dataset
 ------------------
 
-.. tags:: DataFrame, Basic
+.. tags:: DataFrame, Basic, Data
 
 Structured dataset is a superset of Flyte Schema.
 
