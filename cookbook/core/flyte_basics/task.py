@@ -95,6 +95,9 @@ def wf(n: int) -> int:
 #    .. note::
 #      This example is building a Docker image and pushing it only for sandbox
 #      (for non-sandbox, you will have to push the image to a Docker registry).
+#      For the next command to work make sure that you started the sandbox from
+#      the cookbook folder with source included (eg ``flytectl sandbox start
+#      --source .`` in ``flytesnacks/cookbook``)
 #
 #    Build a Docker image to package the task.
 #
