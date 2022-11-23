@@ -41,7 +41,8 @@ ENV PATH="${VENV}/bin:$PATH"
 
 # Install BLAST
 COPY blast/ncbi-blast-2.12.0+-x64-linux.tar.gz .
-RUN tar -xzf ncbi-blast-2.12.0+-x64-linux.tar.gz
+RUN md5sum ncbi-blast-2.12.0+-x64-linux.tar.gz
+RUN tar -vxzf ncbi-blast-2.12.0+-x64-linux.tar.gz
 
 ENV PATH=".:./ncbi-blast-2.12.0+/bin:${PATH}"
 
