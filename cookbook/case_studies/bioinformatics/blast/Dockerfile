@@ -39,14 +39,14 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-# Download BLAST
-RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz && \
-    tar -xzf ncbi-blast-2.12.0+-x64-linux.tar.gz
+# Install BLAST
+COPY blast/ncbi-blast-2.12.0+-x64-linux.tar.gz .
+RUN tar -xzf ncbi-blast-2.12.0+-x64-linux.tar.gz
 
-ENV PATH=".:/ncbi-blast-2.12.0+/bin:${PATH}"
+ENV PATH=".:./ncbi-blast-2.12.0+/bin:${PATH}"
 
 # Check if BLAST is installed
-RUN echo $(blastx)
+RUN which blastx
 
 # Set the working directory
 WORKDIR /root
