@@ -1,4 +1,4 @@
-FROM apache/spark-py:v3.2.2
+FROM apache/spark-py:3.3.1
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -7,6 +7,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
+ARG spark_uid=1001
 
 ## Install Python3 and other basics
 USER 0
@@ -32,14 +33,8 @@ RUN pip3 install wheel
 COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
-RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.2/hadoop-common-3.3.2.jar -P /opt/spark/jars && \
-    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.2/hadoop-aws-3.3.2.jar -P /opt/spark/jars && \
-    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.1026/aws-java-sdk-bundle-1.11.1026.jar -P /opt/spark/jars
-
-# ENV SPARK_HOME /opt/spark
-# ENV SPARK_VERSION 3.2.2
-# ENV PYSPARK_PYTHON ${VENV}/bin/python3
-# ENV PYSPARK_DRIVER_PYTHON ${VENV}/bin/python3
+RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar -P /opt/spark/jars && \
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.563/aws-java-sdk-bundle-1.11.563.jar -P /opt/spark/jars
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 # Delete this after we update CI
@@ -63,3 +58,5 @@ RUN chmod a+x /usr/local/bin/flytekit_venv
 # For spark we want to use the default entrypoint which is part of the
 # distribution, also enable the virtualenv for this image.
 ENTRYPOINT ["/opt/entrypoint.sh"]
+
+# USER ${spark_uid}
