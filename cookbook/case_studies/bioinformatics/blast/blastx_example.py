@@ -113,7 +113,7 @@ def is_batchx_success(stdout: FlyteFile) -> bool:
 # We use :ref:`conditional <sphx_glr_auto_core_control_flow_conditions.py>` to check if the BLASTX command succeeded.
 @workflow
 def blast_wf(
-    datadir: str = "data/kitasatospora",
+    datadir: str = "blast/datasets/kitasatospora",
     outdir: str = "output",
     query: str = "k_sp_CB01950_penicillin.fasta",
     db: str = "kitasatospora_proteins.faa",
