@@ -2,7 +2,9 @@
 .. _raw_container:
 
 Using Raw Containers
----------------------
+--------------------
+
+.. tags:: Containerization, Advanced
 
 This example demonstrates how to use arbitrary containers in 5 different languages, all orchestrated in flytekit seamlessly.
 Flyte mounts an input data volume where all the data needed by the container is available and an output data volume
@@ -35,10 +37,11 @@ calculate_ellipse_area_shell = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-shell:v1",
+    image="ghcr.io/flyteorg/rawcontainers-shell:v2",
     command=[
         "./calculate-ellipse-area.sh",
-        "/var/inputs",
+        "{{.inputs.a}}",
+        "{{.inputs.b}}",
         "/var/outputs",
     ],
 )
@@ -49,11 +52,12 @@ calculate_ellipse_area_python = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-python:v1",
+    image="ghcr.io/flyteorg/rawcontainers-python:v2",
     command=[
         "python",
         "calculate-ellipse-area.py",
-        "/var/inputs",
+        "{{.inputs.a}}",
+        "{{.inputs.b}}",
         "/var/outputs",
     ],
 )
@@ -64,12 +68,13 @@ calculate_ellipse_area_r = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-r:v1",
+    image="ghcr.io/flyteorg/rawcontainers-r:v2",
     command=[
         "Rscript",
         "--vanilla",
         "calculate-ellipse-area.R",
-        "/var/inputs",
+        "{{.inputs.a}}",
+        "{{.inputs.b}}",
         "/var/outputs",
     ],
 )
@@ -80,10 +85,11 @@ calculate_ellipse_area_haskell = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-haskell:v1",
+    image="ghcr.io/flyteorg/rawcontainers-haskell:v2",
     command=[
         "./calculate-ellipse-area",
-        "/var/inputs",
+        "{{.inputs.a}}",
+        "{{.inputs.b}}",
         "/var/outputs",
     ],
 )
@@ -94,11 +100,12 @@ calculate_ellipse_area_julia = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-julia:v1",
+    image="ghcr.io/flyteorg/rawcontainers-julia:v2",
     command=[
         "julia",
         "calculate-ellipse-area.jl",
-        "/var/inputs",
+        "{{.inputs.a}}",
+        "{{.inputs.b}}",
         "/var/outputs",
     ],
 )

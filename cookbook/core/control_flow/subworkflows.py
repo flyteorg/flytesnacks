@@ -4,6 +4,8 @@
 SubWorkflows
 ------------
 
+.. tags:: Intermediate
+
 Subworkflows are similar to :ref:`launch plans <Launch plans>` since they allow users to kick off one workflow from within another.
 
 What's the Difference?
@@ -96,7 +98,7 @@ if __name__ == "__main__":
     print(f"Running nested_parent_wf(a=3) {nested_parent_wf(a=3)}")
 
 # %%
-# .. note:: You can chain and execute subworkflows similar to chained :ref:`Flyte tasks<Chain Flyte Tasks>`.
+# .. note:: You can :ref:`chain and execute subworkflows <Chain SubWorkflows>` similar to chained flyte tasks.
 
 
 # %%
@@ -112,7 +114,7 @@ if __name__ == "__main__":
 #
 # .. tip::
 #
-#    If your deployment uses :ref:`multicluster-setup <Using Multiple Kubernetes Clusters>`, then external workflows may allow you to distribute the workload of a workflow to multiple clusters.
+#    If your deployment uses :ref:`Using Multiple Kubernetes Clusters <flyte:multicluster-setup>`, then external workflows may allow you to distribute the workload of a workflow to multiple clusters.
 #
 # Here's an example demonstrating external workflows:
 

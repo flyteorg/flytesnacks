@@ -1,6 +1,7 @@
 """
 Ray Tasks
-----------
+---------
+
 Ray task allows you to run a Ray job on an existing Ray cluster or create a Ray cluster by using the Ray operator.
 
 
@@ -18,7 +19,7 @@ from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 # %%
 # Ray Task
-# =========
+# ========
 #
 # We define a ray_example `remote function <https://docs.ray.io/en/latest/ray-core/tasks.html#tasks>`__ that will be executed asynchronously in the Ray cluster.
 @ray.remote
@@ -28,7 +29,7 @@ def f(x):
 
 # %%
 # Defining a Ray Config
-# ====================
+# =====================
 #
 # We create a HeadNodeConfig and WorkerNodeConfig for the Ray job, and these config will be used by Ray operator to launch a Ray cluster before running the task.
 #

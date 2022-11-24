@@ -1,7 +1,10 @@
-# .. _basics_of_tasks:
 """
+.. _basics_of_tasks:
+
 Tasks
 -----
+
+.. tags:: Basic
 
 Task is a fundamental building block and an extension point of Flyte, which encapsulates the users' code. They possess the following properties:
 
@@ -132,5 +135,3 @@ def wf(n: int) -> int:
 #    .. prompt:: bash $
 #
 #      flytectl get execution --project flytesnacks --domain development <execname>
-#
-# .. run-example-cmds::

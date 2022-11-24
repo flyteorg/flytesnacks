@@ -2,7 +2,9 @@
 .. _flytekit_to_flyte_type_mapping:
 
 Flyte and Python Types
------------------------
+----------------------
+
+.. tags:: Basic
 
 FlyteKit automatically maps Python types to Flyte types. This section provides details of the mappings, but for the most
 part you can skip this section, as almost all of Python types are mapped automatically.
@@ -88,6 +90,6 @@ The following table provides a quick overview of how types are converted from th
    * - User defined types
      - Any
      - Custom Transformers
-     - Use python 3 type hints. We use `FlytePickle transformer <flyte_pickle.html>`_ by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
+     - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
 
 """
