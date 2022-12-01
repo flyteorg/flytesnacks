@@ -1,5 +1,4 @@
-from flytekit import task, workflow, dynamic
-from flytekit.core.gate import wait_for_input, approve, sleep
+from flytekit import task, workflow, dynamic, wait_for_input, approve, sleep, conditional
 import typing
 from datetime import timedelta
 
@@ -82,3 +81,40 @@ def dyn(a: int) -> typing.Tuple[int, int, int]:
 def wf_dyn(a: int) -> typing.Tuple[int, int, int]:
     y, z, q = dyn(a=a)
     return y, z, q
+
+
+nt = typing.NamedTuple("Multi", named1=int, named2=int)
+
+
+@task
+def nt1(a: int) -> nt:
+    a = a + 2
+    return nt(a, a)
+
+
+@workflow
+def subwf(a: int) -> nt:
+    return nt1(a=a)
+
+
+@workflow
+def parent_wf(b: int) -> nt:
+    out = subwf(a=b)
+    return nt1(a=approve(out.named1, "subwf approve", timeout=timedelta(hours=2)))
+
+
+@task
+def square(n: float) -> float:
+    return n * n
+
+
+@task
+def double(n: float) -> float:
+    return 2 * n
+
+
+@workflow
+def cond_wf(a: int) -> float:
+    # Because approve itself produces a node, call approve outside of the conditional.
+    input_1 = wait_for_input("top-input", timeout=timedelta(hours=1), expected_type=int)
+    return conditional("fractions").if_(input_1 >= 5).then(double(n=a)).else_().then(square(n=a))
