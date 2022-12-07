@@ -231,7 +231,6 @@ exclude_patterns = [
     "auto/**/*.ipynb",
     "auto/**/*.py",
     "auto/**/*.md",
-    "README.md",
     "jupyter_execute/**",
 ]
 
@@ -378,7 +377,6 @@ ignore_py_files = [
     r"__init__\.py",
     r"config_resource_mgr\.py",
     r"optimize_perf\.py",
-    r"README\.md",
 ]
 
 sphinx_gallery_conf = {
