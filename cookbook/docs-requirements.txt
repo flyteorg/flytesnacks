@@ -146,8 +146,9 @@ importlib-resources==5.10.1
     # via jsonschema
 ipykernel==6.17.1
     # via myst-nb
-ipython==8.7.0
+ipython==8.6.0
     # via
+    #   -r docs-requirements.in
     #   ipykernel
     #   myst-nb
 jaraco-classes==3.2.3
