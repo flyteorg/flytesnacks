@@ -2,6 +2,8 @@
 Chain Flyte Entities
 --------------------
 
+.. tags:: Basic
+
 Data passing between tasks or workflows need not necessarily happen through parameters.
 In such a case, if you want to explicitly construct the dependency, flytekit provides a mechanism to chain Flyte entities using the ``>>`` operator.
 
@@ -95,8 +97,8 @@ def chain_tasks_wf() -> pd.DataFrame:
 
 
 # %%
-# SubWorkflows
-# ^^^^^^^^^^^^
+# Chain SubWorkflows
+# ^^^^^^^^^^^^^^^^^^
 #
 # Similar to tasks, you can chain :ref:`subworkflows <subworkflows>`.
 @workflow
@@ -129,6 +131,3 @@ if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Running chain_tasks_wf()... {chain_tasks_wf()}")
     print(f"Running chain_workflows_wf()... {chain_workflows_wf()}")
-
-# %%
-# .. run-example-cmds::
