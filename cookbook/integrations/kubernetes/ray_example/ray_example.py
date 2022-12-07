@@ -73,3 +73,15 @@ def ray_workflow(n: int) -> typing.List[int]:
 # We can run the code locally wherein Flyte creates a standalone Ray cluster locally.
 if __name__ == "__main__":
     print(ray_workflow(n=10))
+ 
+# %%
+# Troubleshooting 
+# ===============
+# If you notice that the head and worker pods aren't being created. You need to make sure that ray[default] is installed since that supports the cluster and dashboard launcher
+# 
+# Another error you might run into is an ingress errors in the kuberay-operator logs
+# If you see an error along the lines of 
+# 
+# ERROR controllers.RayCluster Ingress create error! {"Ingress.Error": "Internal error occurred: failed calling webhook \"validate.nginx.ingress.kubernetes.io\": failed to call webhook: Post \"https://nginx-ingress-ingress-nginx-controller-admission.default.svc:443/networking/v1/ingresses?timeout=10s\": no endpoints available for service \"nginx-ingress-ingress-nginx-controller-admission\"", "error": "Internal error occurred: failed calling webhook \"validate.nginx.ingress.kubernetes.io\": failed to call webhook: Post \"https://nginx-ingress-ingress-nginx-controller-admission.default.svc:443/networking/v1/ingresses?timeout=10s\": no endpoints available for service \"nginx-ingress-ingress-nginx-controller-admission\""}
+#
+# You need to make sure that the ingress controller is `installed <https://docs.flyte.org/en/latest/deployment/gcp/manual.html#ingress>`__
