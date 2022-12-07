@@ -17,4 +17,5 @@ sphinx-tabs<3.4.1
 astroid
 grpcio < 1.49.0
 grpcio-status < 1.49.0
+myst-nb
 sphinx-tags
