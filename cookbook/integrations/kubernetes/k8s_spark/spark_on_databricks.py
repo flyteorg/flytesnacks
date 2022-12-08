@@ -85,9 +85,7 @@ For a more complete example refer to the :std:ref:`example-spark`
        hello_spark(partitions=10)
 
 #. Use it in a workflow (check cookbook)
-#. Run it on a remote cluster - To do this, you can have to build a custom image. Follow this `guide <https://docs.databricks.com/clusters/custom-containers.html>`_ to build a custom image.
-#. However, you can use default image provided by databricks, but make sure to add flytekit to the pypi config in the databricks config.
-#. Note: using default image only works in the fast-register mode because the workflow code isn't located in the image.
+#. Run it on a remote cluster - To do this, you can have to build a custom image. Follow this `guide <https://docs.databricks.com/clusters/custom-containers.html>`_ to build a custom image. However, you can use default image provided by databricks, but make sure to add flytekit to the pypi config in the databricks config. Note: using default image only works in the fast-register mode because the workflow code isn't located in the image.
 
 Examples
 ========
@@ -178,7 +176,7 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 
 
 # %%
-# The Workflow shows that a spark task and any python function (or any other task type) can be chained together as long as they match the parameter specifications.
+# The workflow shows that a spark task and any python function (or any other task type) can be chained together as long as they match the parameter specifications.
 @workflow
 def my_spark(triggered_date: datetime.datetime) -> float:
     """
