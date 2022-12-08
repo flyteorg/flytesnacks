@@ -39,6 +39,21 @@ For a more complete example refer to the :std:ref:`example-spark`
        if __name__ == '__main__':
            main()
 
+#. Generate a Databricks `access token <https://docs.databricks.com/dev-tools/auth.html#databricks-personal-access-tokens>`_ for propeller, so it will be able to submit the job request to Databricks platform.
+ After that, create a secret containing the token like below, and it should be mounted into the propeller.
+
+   .. code-block:: yaml
+
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: databricks-token
+        namespace: flyte
+      type: Opaque
+      data:
+        FLYTE_DATABRICKS_API_TOKEN: <API_TOKEN>
+
+#. Create a `Instance Profile <https://docs.databricks.com/administration-guide/cloud-configurations/aws/instance-profiles.html>`_ for the Spark cluster, it allows the spark job to access your data in the s3 bucket.
 
 #. Write regular pyspark code - with one change in ``@task`` decorator. Refer to the example below:
 
@@ -48,9 +63,7 @@ For a more complete example refer to the :std:ref:`example-spark`
            task_config=Spark(
                # this configuration is applied to the spark cluster
                spark_conf={
-                   "spark.driver.memory": "1000M",
                    "spark.executor.instances": "2",
-                   "spark.driver.cores": "1",
                }
                databricks_conf={
                    # The config is equal to the databricks job request.
@@ -60,7 +73,8 @@ For a more complete example refer to the :std:ref:`example-spark`
                        "spark_version": "11.0.x-scala2.12",
                        "node_type_id": "r3.xlarge",
                        "aws_attributes": {
-                           "availability": "ON_DEMAND"
+                           "availability": "ON_DEMAND",
+                           "instance_profile_arn": "arn:aws:iam::590375263360:instance-profile/databricks-s3-role",
                        },
                        "num_workers": 4,
                    },
@@ -68,8 +82,6 @@ For a more complete example refer to the :std:ref:`example-spark`
                    "max_retries": 1,
                }
            ),
-           cache_version="1",
-           cache=True,
        )
        def hello_spark(partitions: int) -> float:
            ...
@@ -137,7 +149,8 @@ from flytekitplugins.spark import Spark
                "spark_version": "11.0.x-scala2.12",
                "node_type_id": "r3.xlarge",
                "aws_attributes": {
-                   "availability": "ON_DEMAND"
+                   "availability": "ON_DEMAND",
+                   "instance_profile_arn": "arn:aws:iam::590375263360:instance-profile/databricks-s3-role",
                },
                "num_workers": 4,
            },
