@@ -41,6 +41,34 @@ For a more complete example refer to the :std:ref:`example-spark`
            # Regular Pypsark code
            ...
 
+# To run spark job on Databricks platform, just add Databricks config to the task config. Databricks Config is is the same as the databricks job request. Refer to `Databricks job request <https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure>`_
+
+   .. code-block:: python
+
+       @task(
+           task_config=Spark(
+               # this configuration is applied to the spark cluster
+               spark_conf={
+                   "spark.driver.memory": "1000M",
+                   "spark.executor.instances": "2",
+                   "spark.driver.cores": "1",
+               },
+               databricks_conf={
+                   "run_name": "flytekit databricks plugin example",
+                   "new_cluster": {
+                       "spark_version": "11.0.x-scala2.12",
+                       "node_type_id": "r3.xlarge",
+                       "aws_attributes": {
+                           "availability": "ON_DEMAND",
+                           "instance_profile_arn": "arn:aws:iam::590375263360:instance-profile/databricks-s3-role",
+                       },
+                       "num_workers": 4,
+                   },
+                   "timeout_seconds": 3600,
+                   "max_retries": 1,
+               }
+           ),
+       )
 
 #. Run it locally
 
