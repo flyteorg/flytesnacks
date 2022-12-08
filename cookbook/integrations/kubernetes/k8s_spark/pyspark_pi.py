@@ -41,7 +41,7 @@ For a more complete example refer to the :std:ref:`example-spark`
            # Regular Pypsark code
            ...
 
-# To run spark job on Databricks platform, just add Databricks config to the task config. Databricks Config is is the same as the databricks job request. Refer to `Databricks job request <https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure>`_
+# To run a Spark job on Databricks platform, just add Databricks config to the task config. Databricks Config is is the same as the databricks job request. Refer to `Databricks job request <https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure>`_
 
    .. code-block:: python
 
