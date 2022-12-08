@@ -2,7 +2,7 @@
 .. _spark_tasks_on_databricks:
 
 Running a PySpark Task on Databricks Platform
-------------------------
+---------------------------------------------
 Flyte has an optional plugin that makes it possible to run `Apache Spark <https://spark.apache.org/>`_ jobs natively on your databricks spark cluster.
 It makes it extremely easy to run your pyspark code as a task. The plugin creates a new ephemeral cluster for the spark execution dynamically.
 
@@ -17,9 +17,10 @@ For a more complete example refer to the :std:ref:`example-spark`
 
     pip install flytekitplugins-spark
 
-# Upload an entrypoint.py to dbfs or s3. Spark driver node run this file to override the default command in the dbx job.
+#. Upload an entrypoint.py to dbfs or s3. Spark driver node run this file to override the default command in the dbx job.
 
     .. code-block:: python
+
         # entrypoint.py
         import os
         import subprocess
@@ -87,12 +88,11 @@ For a more complete example refer to the :std:ref:`example-spark`
 #. Run it on a remote cluster - To do this, you can have to build a custom image. Follow this `guide <https://docs.databricks.com/clusters/custom-containers.html>`_ to build a custom image.
 #. However, you can use default image provided by databricks, but make sure to add flytekit to the pypi config in the databricks config.
 #. Note: using default image only works in the fast-register mode because the workflow code isn't located in the image.
--
 
 Examples
 ========
 
-.. _example-spark:
+.. _example-spark_on_databricks:
 
 How Flytekit Simplifies Usage of Pyspark in a Users Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -192,10 +192,6 @@ def my_spark(triggered_date: datetime.datetime) -> float:
 # %%
 # Workflows with spark tasks can be executed locally. Some aspects of spark, like links to plugins_hive metastores may not work, but these are limitations of using Spark and are not introduced by Flyte.
 if __name__ == "__main__":
-    """
-    NOTE: To run a multi-image workflow locally, all dependencies of all the tasks should be installed, ignoring which
-    may result in local runtime failures.
-    """
     print(f"Running {__file__} main...")
     print(
         f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}"
