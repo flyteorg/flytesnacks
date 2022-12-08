@@ -39,8 +39,7 @@ For a more complete example refer to the :std:ref:`example-spark`
        if __name__ == '__main__':
            main()
 
-#. Generate a Databricks `access token <https://docs.databricks.com/dev-tools/auth.html#databricks-personal-access-tokens>`_ for propeller, so it will be able to submit the job request to Databricks platform.
- After that, create a secret containing the token like below, and it should be mounted into the propeller.
+#. Generate a Databricks `access token <https://docs.databricks.com/dev-tools/auth.html#databricks-personal-access-tokens>`_ for propeller, so it will be able to submit the job request to Databricks platform. After that, create a secret containing the token like below, and it should be mounted into the propeller.
 
    .. code-block:: yaml
 
@@ -97,7 +96,7 @@ For a more complete example refer to the :std:ref:`example-spark`
        hello_spark(partitions=10)
 
 #. Use it in a workflow (check cookbook)
-#. Run it on a remote cluster - To do this, you can have to build a custom image. Follow this `guide <https://docs.databricks.com/clusters/custom-containers.html>`_ to build a custom image. However, you can use default image provided by databricks, but make sure to add flytekit to the pypi config in the databricks config. Note: using default image only works in the fast-register mode because the workflow code isn't located in the image.
+#. Run it on a remote cluster - To do this, you can have to build a custom image. Follow this `guide <https://docs.databricks.com/clusters/custom-containers.html>`_ to build a custom image. You can also use the default image provided by Databricks, but make sure to add ``flytekit`` and ``flytekitplugins-spark`` to the pypi config in the databricks config. Note: using default image only works in the fast-register mode because the workflow code isn't located in the image.
 
 Examples
 ========
