@@ -19,25 +19,25 @@ For a more complete example refer to the :std:ref:`example-spark`
 
 #. Upload an entrypoint.py to dbfs or s3. Spark driver node run this file to override the default command in the dbx job.
 
-    .. code-block:: python
+   .. code-block:: python
 
-        # entrypoint.py
-        import os
-        import subprocess
-        import sys
+       # entrypoint.py
+       import os
+       import subprocess
+       import sys
 
-        def main():
-            args = sys.argv
-            p = subprocess.run(args[1:], capture_output=True)
-            print("==========================stdout==============================")
-            print(p.stdout.decode('utf-8'))
-            print("==========================stderr==============================")
-            print(p.stderr.decode('utf-8'))
-            if p.stderr:
-                exit(1)
+       def main():
+           args = sys.argv
+           p = subprocess.run(args[1:], capture_output=True)
+           print("==========================stdout==============================")
+           print(p.stdout.decode('utf-8'))
+           print("==========================stderr==============================")
+           print(p.stderr.decode('utf-8'))
+           if p.stderr:
+               exit(1)
 
-        if __name__ == '__main__':
-            main()
+       if __name__ == '__main__':
+           main()
 
 
 #. Write regular pyspark code - with one change in ``@task`` decorator. Refer to the example below:
@@ -99,6 +99,7 @@ How Flytekit Simplifies Usage of Pyspark in a Users Code
 
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
 but when run remote spins up a arbitrarily sized cluster depending on the specified databricks configuration. ``databricks_conf``
+The UX is the same as Spark on Kubernetes. Just need to add databricks config to the task config.
 
 """
 import datetime
@@ -120,6 +121,8 @@ from flytekitplugins.spark import Spark
 # This example shows how a Spark task can be written simply by adding a ``@task(task_config=Spark(...)...)`` decorator.
 # Refer to `Spark <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/spark/task.py#L18-L36>`__
 # class to understand the various configuration options.
+# Databricks Config is equal to the databricks job request.
+# Refer to `Databricks job request <https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure>`_
 @task(
     task_config=Spark(
         # this configuration is applied to the spark cluster
@@ -131,8 +134,6 @@ from flytekitplugins.spark import Spark
             "spark.driver.cores": "1",
         },
         databricks_conf={
-           # The config is equal to the databricks job request.
-           # https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure
            "run_name": "flytekit databricks plugin example",
            "new_cluster": {
                "spark_version": "11.0.x-scala2.12",
