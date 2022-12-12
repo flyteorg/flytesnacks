@@ -60,7 +60,8 @@ How Flytekit Simplifies Usage of Pyspark in a Users Code
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The task ``hello_spark`` runs a new spark cluster, which when run locally runs a single node client only cluster,
-but when run remote spins up a arbitrarily sized cluster depending on the specified spark configuration. ``spark_conf``
+but when run remote spins up an arbitrarily sized cluster depending on the specified spark configuration in
+``spark_conf``.
 
 This example also shows how a user can simply create 2 tasks, that use different Docker images. For more information refer to :any:`hosted_multi_images`
 
