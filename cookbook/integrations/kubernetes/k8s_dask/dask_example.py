@@ -36,7 +36,7 @@ For a more complete example refer to the :std:ref:`example-dask`
         )
         def hello_dask(size: int) -> float:
             ...
-            client = Client()  # Create a client as would in local code
+            client = Client()  # Create a client as you would in local code
             # Regular dask code
             ...
 
