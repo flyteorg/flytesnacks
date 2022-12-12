@@ -76,7 +76,7 @@ from flytekitplugins.dask import Dask, DaskCluster, JobPodSpec
 # ^^^^^^^^^^^^^^^^
 #
 # This example shows how a Dask task can be written simply by adding a ``@task(task_config=Dask(...), ...)`` decorator.
-# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/dask/task.py#L18-L36>`
+# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/dask/task.py#L18-L36>`_
 # class to understand the various configuration options.
 
 
@@ -94,12 +94,17 @@ from flytekitplugins.dask import Dask, DaskCluster, JobPodSpec
     cache=True,
 )
 def hello_dask(size: int) -> float:
-    # Dask will implicitly create a `Client` in the background by calling ``Client()``. When executing
-    # remotely, this ``Client()`` will use the deployed ``dask`` cluster.
+    # Dask will implicitly create a Client in the background by calling Client(). When executing
+    # remotely, this Client() will use the deployed ``dask`` cluster.
     array = da.random.random(size)
     return float(array.mean().compute())
 
 
 # %%
 # The function can be executed locally:
+# Guard with:
+#
+#   if __name__ == '__main__':
+#
+# in a local Python script
 print(hello_dask(size=1000))

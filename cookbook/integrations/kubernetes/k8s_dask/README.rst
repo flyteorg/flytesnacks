@@ -17,6 +17,8 @@ Flytekit makes it possible to write ``dask`` code natively as a task and the ``d
 configured using the decorated ``Dask()`` config. The examples in this section provide a hands-on tutorial for writing
 ``dask`` Flyte tasks.
 
+The plugin has been tested against the ``2022.12.0`` version of the ``dask-kubernetes-operator``.
+
 
 Why use K8s dask?
 -----------------
