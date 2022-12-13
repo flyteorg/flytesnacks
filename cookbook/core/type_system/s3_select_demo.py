@@ -4,7 +4,6 @@ import boto3
 import pandas as pd
 from flytekit import FlyteContext, task, workflow, kwtypes
 from flytekit.extras.persistence.s3_awscli import S3Persistence
-from flytekit.loggers import logger
 from flytekit.models import literals
 from flytekit.models.literals import StructuredDatasetMetadata
 from flytekit.types.structured.structured_dataset import (
@@ -37,14 +36,14 @@ class ExperimentalNaiveS3SelectDecoder(StructuredDatasetDecoder):
         sql = f"select {sql_cols} from s3object"
 
         bucket, prefix = S3Persistence._split_s3_path_to_bucket_and_key(s3_file)  # noqa
-        logger.info(f"Selecting from {bucket}, {prefix}")
+        print(f"Selecting from {bucket}, {prefix}, original uri {flyte_value.uri} with query {sql}")
         s3 = boto3.client("s3")
         r = s3.select_object_content(
             Bucket=bucket,
             Key=prefix,
             ExpressionType="SQL",
             Expression=sql,
-            InputSerialization={"CompressionType": PARQUET},
+            InputSerialization={"Parquet": {}},
             OutputSerialization={"CSV": {}},
         )
 
@@ -69,8 +68,10 @@ def make_df() -> pd.DataFrame:
 
 
 @task
-def use_df(a: Annotated[pd.DataFrame, kwtypes(Name=str)]):
-    print(f"This is the subset dataframe\n{a}")
+def use_df(a: Annotated[pd.DataFrame, kwtypes(Name=str)]) -> str:
+    msg = f"This is the subset dataframe\n{a}"
+    print(msg)
+    return msg
 
 
 @workflow
