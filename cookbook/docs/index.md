@@ -28,8 +28,8 @@ on your local machine.
 ```{admonition} Prerequisites
 :class: important
 
-[Install Docker](https://docs.docker.com/get-docker/) and that the Docker daemon
-is running.
+[Install Docker](https://docs.docker.com/get-docker/) and ensure that the Docker
+daemon is running.
 ```
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK.
@@ -65,7 +65,7 @@ of three steps:
 1. 🍷 Gets the classic [wine dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#wine-recognition-dataset)
    using [sklearn](https://scikit-learn.org/stable/).
 2. 📊 Processes the data that simplifies the 3-class prediction problem into a
-   binary classification problem by collapsing class labels `1` and `2` into
+   binary classification problem by consolidating class labels `1` and `2` into
    a single class.
 3. 🤖 Trains a `LogisticRegression` model to learn a binary classifier.
 
@@ -105,7 +105,7 @@ As we can see in the code snippet above, we defined three tasks as Python
 functions: `get_data`, `process_data`, and `train_model`.
 
 In Flyte, a **task** is the most basic unit of compute and serves as the building
-blocks 🧱 for more complex applications. It's a function that takes some inputs and
+block 🧱 for more complex applications. It's a function that takes some inputs and
 (optionally) produces an output. We can use these tasks to define a simple model
 training workflow:
 
@@ -138,7 +138,7 @@ even import and use them in other Python modules or scripts.
 :::{note}
 A {func}`~flytekit.task` is a pure Python function, while a {func}`~flytekit.workflow`
 is actually a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) that
-only support a subset of Python's semantics. Some key things to learn here are:
+only supports a subset of Python's semantics. Some key things to learn here are:
 
 - In workflows, you can't use non-deterministic operations like `rand.random`,
   `time.now()`, etc.
@@ -170,8 +170,8 @@ pyflyte run example.py training_workflow --hyperparameters '{"C": 0.1, "max_iter
 :title: text-muted
 :animate: fade-in-slide-down
 
-`pyflyte run` enables you to execute a specific workflow in your Python script
-using the syntax `pyflyte run <path/to/script.py> <workflow_function_name>`.
+`pyflyte run` enables you to execute a specific workflow using the syntax
+`pyflyte run <path/to/script.py> <workflow_or_task_function_name>`.
 
 Keyword arguments can be supplied to ``pyflyte run`` by passing in options in
 the format ``--kwarg value``, and in the case of ``snake_case_arg`` argument
@@ -207,10 +207,10 @@ if __name__ == "__main__":
 :::::
 
 
-## Flyte Cluster Execution
+### Flyte Cluster Execution
 
-To run your Flyte workflows on an actual Flyte cluster, first we need to
-spin up a local demo cluster:
+To run your Flyte workflows on an actual Flyte cluster, spin up a local demo
+cluster:
 
 ```{prompt} bash $
 flytectl demo start
@@ -231,9 +231,6 @@ Make sure to export the `KUBECONFIG` and `FLYTECTL_CONFIG` environment variables
 in your shell.
 ```
 ````
-
-
-### Remote Execution
 
 Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote`
 flag:
