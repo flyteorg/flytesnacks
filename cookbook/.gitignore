@@ -14,3 +14,4 @@ docs/_rsts/
 .hypothesis
 .config/
 test.ipynb
+jupyter_execute
