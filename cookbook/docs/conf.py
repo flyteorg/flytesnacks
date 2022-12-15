@@ -200,7 +200,15 @@ extensions = [
     "sphinxcontrib.yt",
     "sphinx_tabs.tabs",
     "sphinx_tags",
+    "myst_nb",
 ]
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'myst-nb',
+}
+
+myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -213,13 +221,18 @@ suppress_warnings = ["autosectionlabel.*"]
 # generate autosummary even if no references
 autosummary_generate = True
 
-# The suffix of source filenames.
-source_suffix = ".rst"
-
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "auto/**/*.ipynb",
+    "auto/**/*.py",
+    "auto/**/*.md",
+    "jupyter_execute/**",
+]
 
 # The master toctree document.
 master_doc = "index"
