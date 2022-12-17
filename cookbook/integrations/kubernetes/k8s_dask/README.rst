@@ -67,7 +67,7 @@ Resource specification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 It is advised to set ``limits`` as this will set the ``--nthreads`` and ``--memory-limit`` arguments for the workers
-as advised by ``dask`` `best practices <https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices>`_.
+as recommended by ``dask`` `best practices <https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices>`_.
 When specifying resources, the following precedence is followed for all components of the ``dask`` job (job-runner pod,
 scheduler pod and worker pods):
 
@@ -91,14 +91,14 @@ scheduler pod and worker pods):
         .. code-block:: python
 
           from flytekit import Resources, task
-          from flytekitplugins.dask import Dask, JobPodSpec, Cluster
+          from flytekitplugins.dask import Dask, Scheduler, WorkerGroup
 
           @task(
             task_config=Dask(
-                job_pod_spec=JobPodSpec(
+                scheduler=Scheduler(
                     limits=Resources(cpu="1", mem="2Gi"),  # Will be applied to the job pod
                 ),
-                cluster=DaskCluster(
+                workers=WorkerGroup(
                     limits=Resources(cpu="4", mem="10Gi"), # Will be applied to the scheduler and worker pods
                 ),
             ),
@@ -120,14 +120,14 @@ components of the ``dask`` job, it is not advised, as this can quickly lead to P
         .. code-block:: python
 
           from flytekit import Resources, task
-          from flytekitplugins.dask import Dask, JobPodSpec, Cluster
+          from flytekitplugins.dask import Dask, Scheduler, WorkerGroup
 
           @task(
             task_config=Dask(
-                job_pod_spec=JobPodSpec(
+                scheduler=Scheduler(
                     image="my_image:0.1.0",  # Will be used by the job pod
                 ),
-                cluster=DaskCluster(
+                workers=WorkerGroup(
                     image="my_image:0.1.0", # Will be used by the scheduler and worker pods
                 ),
             ),
@@ -153,6 +153,31 @@ scheduler pod and worker pods)
       def my_dask_task():
          ...
 
+
+Labels and Annotations
+^^^^^^^^^^^^^^^^^^^^^^
+
+Labels and annotations set in a ``LaunchPlan`` will be passed on to all ``dask`` job components (job runner pod,
+scheduler pod and worker pods)
+
+    .. code-block:: python
+
+      from flytekit import Resources, task, workflow, Labels, Annotations
+      from flytekitplugins.dask import Dask
+
+      @task(task_config=Dask())
+      def my_dask_task():
+         ...
+
+      @workflow
+      def my_dask_workflow():
+         my_dask_task()
+
+      # Labels and annotations will be passed on to all dask cluster components
+      my_launch_plan = my_dask_workflow.create_launch_plan(
+        labels=Labels({"myexecutionlabel": "bar", ...}),
+        annotations=Annotations({"region": "SEA", ...}),
+      )
 
 Labels and Annotations
 ^^^^^^^^^^^^^^^^^^^^^^
