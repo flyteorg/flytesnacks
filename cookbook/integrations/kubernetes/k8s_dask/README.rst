@@ -204,6 +204,25 @@ scheduler pod and worker pods)
         annotations=Annotations({"region": "SEA", ...}),
       )
 
+Interruptible Tasks
+^^^^^^^^^^^^^^^^^^^
+
+The ``dask`` backend plugin supports running on interruptible nodes. When ``interruptible==True`, the plugin will add
+the configured tolerations and node selectors to all worker pods. Please note that the job runner as well as the
+scheduler will not be run on interruptible nodes.
+
+    .. code-block:: python
+
+      from flytekit import Resources, task, workflow, Labels, Annotations
+      from flytekitplugins.dask import Dask
+
+      @task(
+        task_config=Dask(),
+        interruptible=True,
+      )
+      def my_dask_task():
+         ...
+
 
 .. _dask-examples:
 
