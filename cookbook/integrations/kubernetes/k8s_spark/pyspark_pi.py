@@ -46,7 +46,7 @@ For a more complete example refer to the :std:ref:`example-spark`
    .. code-block:: python
 
        @task(
-           task_config=Spark(
+           task_config=Databricks(
                # this configuration is applied to the spark cluster
                spark_conf={
                    "spark.driver.memory": "1000M",
