@@ -26,7 +26,7 @@ Flyte tasks are the core building blocks of larger, more complex workflows.
 ### Tasks are Containerized Blocks of Compute
 
 You can think of Flyte tasks as containerized blocks of compute. When tasks are
-run in a Flyte backend, they that are actually isolated from all other tasks.
+run in a Flyte backend, they are actually isolated from all other tasks.
 Consider this simple task:
 
 ```{code-cell} ipython3
@@ -39,7 +39,7 @@ def mean(values: List[float]) -> float:
 ```
 
 As you can see, a task is just a regular Python function that's decorated
-with `@task`. We can run this function just like a function:
+with `@task`. We can run this function just like any other Python function:
 
 ```{code-cell} ipython3
 mean(values=[float(i) for i in range(1, 11)])
@@ -77,9 +77,9 @@ This may not seem like much for this simple example, but as you start dealing
 with more complex data types and pipelines, Flyte's type system becomes
 invaluable for catching bugs early.
 
-Flyte's type system is also used for automatic serialization and deserialization
-of data as it's passed from one task to another. You can learn more about it
-in the {ref}`User Guide <flyte_type_system>`.
+Flyte's type system is also used for caching, data lineage tracking, and
+automatic serialization and deserialization of data as it's passed from one task
+to another. You can learn more about it in the {ref}`User Guide <flyte_type_system>`.
 
 ## 🔀 Workflows
 
@@ -104,8 +104,8 @@ from flytekit import workflow
 
 @task
 def standard_deviation(values: List[float], mu: float) -> float:
-    var = sum([(x - mu) ** 2 for x in values])
-    return sqrt(var)
+    variance = sum([(x - mu) ** 2 for x in values])
+    return sqrt(variance)
 
 @task
 def standard_scale(values: List[float], mu: float, sigma: float) -> List[float]:
@@ -129,7 +129,7 @@ standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ```
 
 ```{important}
-Although Flyte workflows look like Python code, it's actually a
+Although Flyte workflow syntax looks like Python code, it's actually a
 domain-specific language (DSL) for building execution graphs where tasks
 – and other workflows – serve as the building blocks.
 
@@ -162,7 +162,7 @@ We didn't even execute the workflow and we're already seeing the value of `mu`,
 which is a promise. So what's happening here?
 
 When we decorate `standard_scale_workflow` with `@workflow`, Flyte compiles an
-execution graph that's defined inside the function body, *it doesn't actually
+execution graph that's defined inside the function body, so *it doesn't actually
 run the computations yet*. Therefore, when Flyte compiles a workflow, the
 outputs of task calls are actually promises and not regular python values.
 
@@ -184,7 +184,6 @@ def standard_scale(values: List[float], mu: float, sigma: float) -> float:
     be List[float] instead of a sum of all the scaled values.
     """
     return sum([(x - mu) / sigma for x in values])
-
 
 @workflow
 def standard_scale_workflow(values: List[float]) -> List[float]:
