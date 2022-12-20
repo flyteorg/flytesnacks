@@ -23,6 +23,8 @@ applications.
 This quickstart guide provides an overview of how to get Flyte up and running
 on your local machine.
 
+(getting_started_installation)=
+
 ## Installation
 
 ```{admonition} Prerequisites
@@ -316,6 +318,7 @@ orchestration tool 💪.
 
 self
 getting_started/creating_tasks_and_workflows
+getting_started/init_flyte_project
 ```
 
 ```{toctree}
