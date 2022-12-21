@@ -8,7 +8,8 @@ ENV PYTHONPATH /databricks/driver
 ENV PATH="/databricks/python3/bin:$PATH"
 USER 0
 
-RUN sudo apt-get update && sudo apt-get -y install git
+RUN sudo apt-get update && sudo apt-get install -y make build-essential libssl-dev git
+
 # Install custom package
 RUN /databricks/python3/bin/pip install awscli
 WORKDIR /opt
@@ -17,15 +18,15 @@ RUN bash /opt/install.sh --install-dir=/opt
 WORKDIR /databricks/driver
 
 # Install Python dependencies
-COPY databricks/requirements.txt /root
-RUN /databricks/python3/bin/pip install -r /root/requirements.txt
+COPY databricks/requirements.txt /databricks/driver
+RUN /databricks/python3/bin/pip install -r /databricks/driver/requirements.txt
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 # Delete this after we update CI
-COPY in_container.mk /root/Makefile
+COPY in_container.mk /databricks/driver
 
 # Delete this after we update CI to not serialize inside the container
-COPY databricks/sandbox.config /root
+COPY databricks/sandbox.config /databricks/driver
 
 # Copy the actual code
 COPY ./ /databricks/driver
