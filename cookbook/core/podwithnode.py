@@ -53,6 +53,24 @@ def pod_workflow():
     my_pod_task()
 
 
+@task(
+    task_config=generate_pod(),
+    requests=Resources(
+        mem="200Mi",
+    ),
+)
+def my_pod_map_task(stringify: int) -> str:
+    return str(stringify)
+
+
+@workflow
+def my_map_workflow(a: List[int]) -> List[str]:
+    mapped_out = map_task(my_pod_map_task, metadata=TaskMetadata(retries=1))(
+        stringify=a
+    )
+    return mapped_out
+
+
 # @task(
 #     task_config=Pod(
 #         pod_spec=V1PodSpec(
