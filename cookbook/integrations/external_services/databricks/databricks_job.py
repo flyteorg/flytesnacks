@@ -1,5 +1,5 @@
 """
-.. _intermediate_using_spark_tasks:
+.. _spark_on_databricks:
 
 Writing a PySpark Task
 ----------------------
@@ -16,38 +16,17 @@ Spark in Flytekit
 
     pip install flytekitplugins-spark
 
-#. Write regular PySpark code.
+#. Run remotely
+# To correctly kick off an execution of this task, you'll need to use the following command.
+#
+# .. code::
+#
+#   pyflyte --config ~/.flyte/your-config.yaml run --destination-dir /app --remote --image ghcr.io/flyteorg/flytekit:py3.8-sqlalchemy-latest integrations/flytekit_plugins/sql/sql_alchemy.py my_wf --min_length 3 --max_length 100 --limit 50
+#
+# Note also we added the ``destination-dir`` argument, since by default ``pyflyte run`` copies code into ``/root`` which
+# is not what that image's workdir is set to.
 
-   .. code-block:: python
 
-       @task(
-           task_config=Spark(
-               # this configuration is applied to the spark cluster
-               spark_conf={
-                   "spark.driver.memory": "1000M",
-                   "spark.executor.instances": "2",
-                   "spark.driver.cores": "1",
-               }
-           ),
-           cache_version="1",
-           cache=True,
-       )
-       def hello_spark(partitions: int) -> float:
-           ...
-           sess = flytekit.current_context().spark_session
-           # Regular PySpark code
-           ...
-
-#. Run it locally.
-
-   .. code-block:: python
-
-       hello_spark(partitions=10)
-
-#. Use it in a Flyte workflow.
-#. Run it on a remote cluster by building a Docker image using the Dockerfile in the README.
-
-.. _example-spark:
 
 How Flytekit Simplifies Usage of Pyspark
 ========================================
@@ -65,14 +44,16 @@ from operator import add
 import flytekit
 from flytekit import Resources, task, workflow
 
-from flytekitplugins.spark import Spark
+from flytekitplugins.spark import Databricks
+
 
 # %%
 # You can create a Spark task by adding a ``@task(task_config=Spark(...)...)`` decorator.
 # ``spark_conf`` can have configuration options that are typically used when configuring a Spark cluster.
-# ``hadoop_conf`` can also be given as an input if required.
+# To run a Spark job on Databricks platform, just add Databricks config to the task config. Databricks Config is the same as the databricks job request.
+# Refer to `Databricks job request <https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure>`__
 @task(
-    task_config=Spark(
+    task_config=Databricks(
         # this configuration is applied to the spark cluster
         spark_conf={
             "spark.driver.memory": "1000M",
@@ -80,6 +61,20 @@ from flytekitplugins.spark import Spark
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
+        },
+        databricks_conf={
+            "run_name": "flytekit databricks plugin example",
+            "new_cluster": {
+                "spark_version": "11.0.x-scala2.12",
+                "node_type_id": "r3.xlarge",
+                "aws_attributes": {
+                    "availability": "ON_DEMAND",
+                    "instance_profile_arn": "arn:aws:iam::590375264460:instance-profile/databricks-s3-role",
+                },
+                "num_workers": 4,
+            },
+            "timeout_seconds": 3600,
+            "max_retries": 1,
         }
     ),
     limits=Resources(mem="2000M"),
@@ -97,12 +92,13 @@ def hello_spark(partitions: int) -> float:
     print("Pi val is :{}".format(pi_val))
     return pi_val
 
+
 # %%
 # Let's define a function on which the map-reduce operation is called within the Spark cluster.
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
-    return 1 if x**2 + y**2 <= 1 else 0
+    return 1 if x ** 2 + y ** 2 <= 1 else 0
 
 
 # %%
@@ -116,7 +112,7 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 # %%
 # This workflow shows that a spark task and any python function (or a Flyte task) can be chained together as long as they match the parameter specifications.
 @workflow
-def my_spark(triggered_date: datetime.datetime) -> float:
+def my_databricks_job(triggered_date: datetime.datetime = datetime.datetime.now()) -> float:
     """
     Using the workflow is still as any other workflow. As image is a property of the task, the workflow does not care
     about how the image is configured.
@@ -127,9 +123,9 @@ def my_spark(triggered_date: datetime.datetime) -> float:
 
 
 # %%
-# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to :ref:`Hive <Hive>` metastores may not work, but these are limitations of using Spark and are not introduced by Flyte.
+# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to :ref:`Hive <Hive>` meta stores may not work, but these are limitations of using Spark and are not introduced by Flyte.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(
-        f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}"
+        f"Running To run a Spark job on Databricks platform(triggered_date=datetime.datetime.now()){my_databricks_job(triggered_date=datetime.datetime.now())}"
     )
