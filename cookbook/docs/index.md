@@ -60,14 +60,14 @@ curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
 ## Creating a Workflow
 
 The first workflow we'll create is a simple model training workflow that consists
-of three steps:
+of three steps that will:
 
-1. 🍷 Gets the classic [wine dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#wine-recognition-dataset)
+1. 🍷 Get the classic [wine dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#wine-recognition-dataset)
    using [sklearn](https://scikit-learn.org/stable/).
-2. 📊 Processes the data that simplifies the 3-class prediction problem into a
+2. 📊 Process the data that simplifies the 3-class prediction problem into a
    binary classification problem by consolidating class labels `1` and `2` into
    a single class.
-3. 🤖 Trains a `LogisticRegression` model to learn a binary classifier.
+3. 🤖 Train a `LogisticRegression` model to learn a binary classifier.
 
 First, we'll define three tasks for each of these steps. Create a file called
 `example.py` and copy the following code into it.
@@ -104,9 +104,9 @@ def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression
 As we can see in the code snippet above, we defined three tasks as Python
 functions: `get_data`, `process_data`, and `train_model`.
 
-In Flyte, a **task** is the most basic unit of compute and serves as the building
-block 🧱 for more complex applications. It's a function that takes some inputs and
-(optionally) produces an output. We can use these tasks to define a simple model
+In Flyte, **tasks** are the most basic unit of compute and serve as the building
+blocks 🧱 for more complex applications. A task is a function that takes some
+inputs and produces an output. We can use these tasks to define a simple model
 training workflow:
 
 ```{code-cell} python
@@ -119,6 +119,12 @@ def training_workflow(hyperparameters: dict) -> FlytePickle:
         data=processed_data,
         hyperparameters=hyperparameters,
     )
+```
+
+```{note}
+A task can also be an isolated piece of compute that takes no inputs and
+produces no output, but for the most part to do something useful a task
+is typically written with inputs and outputs.
 ```
 
 A **workflow** is also defined as a Python function, and it specifies the flow
@@ -279,7 +285,7 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 🎉  **Congratulations! In this introductory guide, you:**
 
 1. 📜 Created a Flyte script, which trains a binary classification model.
-2. 🚀 Created a demo Flyte cluster on your local system.
+2. 🚀 Spun up a demo Flyte cluster on your local system.
 3. 👟 Ran a workflow locally and on a demo Flyte cluster.
 
 
@@ -309,6 +315,7 @@ orchestration tool 💪.
 :hidden:
 
 self
+getting_started/creating_tasks_and_workflows
 ```
 
 ```{toctree}
