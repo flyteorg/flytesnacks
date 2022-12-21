@@ -14,9 +14,9 @@ kernelspec:
 
 # Creating Tasks and Workflows
 
-In the {ref}`Introduction to Flyte <index>`, we got a basic sense of how Flyte
-works by creating a few tasks and a simple model-training workflow. In this
-guide, you'll learn more about how tasks and workflows fit into the Flyte
+In the {ref}`Introduction to Flyte <getting_started_index>`, we got a basic sense
+of how Flyte works by creating a few tasks and a simple model-training workflow.
+In this guide, you'll learn more about how tasks and workflows fit into the Flyte
 programming model.
 
 ## 🧱 Tasks
