@@ -80,26 +80,6 @@ Running wf() DefaultNamedTupleOutput(o0='hello passengers!', o1=17)
 
 ````
 
-The `workflows/helpers.py` module demonstrates how you can include additional
-pure Python functions/classes in your project, which you can then import into
-your workflow modules.
-
-````{div} shadow p-3 mb-8 rounded
-
-```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/workflows/helpers.py
-:language: python
-:caption: workflows/helpers.py
-```
-
-```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/workflows/example.py
-:caption: workflows/example.py
-:language: python
-:lines: 1-7,19-22
-:emphasize-lines: 6,11
-```
-
-````
-
 ## Python Dependencies
 
 You can specify additional Python dependencies in your project by updating the
@@ -110,6 +90,14 @@ pip-installable package that your project may need.
 We recommend using [pip-compile](https://pip-tools.readthedocs.io/en/latest/) to
 manage the requirements of your project.
 ```
+
+````{dropdown} See requirements.txt
+
+```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/requirements.txt
+:caption: requirements.txt
+```
+
+````
 
 
 ## Dockerfile
