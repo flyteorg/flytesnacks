@@ -7,7 +7,6 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
-ARG spark_uid=1001
 
 ## Install Python3 and other basics
 USER 0
