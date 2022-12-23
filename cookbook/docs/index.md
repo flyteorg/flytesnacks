@@ -320,6 +320,7 @@ orchestration tool 💪.
 self
 getting_started/creating_tasks_and_workflows
 getting_started/init_flyte_project
+getting_started/package_register
 ```
 
 ```{toctree}
