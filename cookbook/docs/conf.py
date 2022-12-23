@@ -234,6 +234,7 @@ exclude_patterns = [
     "auto/**/*.py",
     "auto/**/*.md",
     "jupyter_execute/**",
+    "README.md",
 ]
 
 # The master toctree document.
