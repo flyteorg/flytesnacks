@@ -25,13 +25,14 @@ def t3(a: int) -> named_output:
 def t4(s: str) -> str:
     return s + " t4"
 
+
 @task
 def t5():
     ...
 
 
 @workflow
-def wf(a: int) -> typing.Tuple[int, int, int]:
+def mainwf(a: int) -> typing.Tuple[int, int, int]:
     x = t1(a=a)
     s1 = wait_for_input("my-signal-name", timeout=timedelta(hours=1), expected_type=bool)
     s2 = wait_for_input("my-signal-name-2", timeout=timedelta(hours=2), expected_type=int)
