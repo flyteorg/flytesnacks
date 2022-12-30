@@ -105,17 +105,17 @@ def parent_wf(b: int) -> nt:
 
 
 @task
-def square(n: float) -> float:
+def square(n: int) -> int:
     return n * n
 
 
 @task
-def double(n: float) -> float:
+def double(n: int) -> int:
     return 2 * n
 
 
 @workflow
-def cond_wf(a: int) -> float:
+def cond_wf(a: int) -> int:
     # Because approve itself produces a node, call approve outside of the conditional.
     input_1 = wait_for_input("top-input", timeout=timedelta(hours=1), expected_type=int)
     return conditional("fractions").if_(input_1 >= 5).then(double(n=a)).else_().then(square(n=a))
