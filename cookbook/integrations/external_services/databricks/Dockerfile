@@ -1,5 +1,6 @@
 FROM databricksruntime/standard:11.3-LTS
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
+# To build this dockerfile, run "make docker_build".
 
 ENV VENV /opt/venv
 ENV LANG C.UTF-8
@@ -30,7 +31,3 @@ COPY databricks/sandbox.config /databricks/driver
 
 # Copy the actual code
 COPY databricks/ /databricks/driver/databricks/
-# This tag is supplied by the build script and will be used to determine the version
-# when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag

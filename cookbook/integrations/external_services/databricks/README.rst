@@ -1,4 +1,4 @@
-Snowflake
+Databricks
 =========
 
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
@@ -9,7 +9,7 @@ This section will provide how to use the Databricks Plugin using flytekit python
 Installation
 ------------
 
-To use the flytekit Databricks plugin simply run the following:
+The flytekit Databricks plugin is bundled into its Spark plugin, so to use, simply run the following:
 
 .. prompt:: bash
 
