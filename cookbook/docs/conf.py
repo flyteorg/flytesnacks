@@ -132,7 +132,8 @@ class CustomSorter(FileNameSortKey):
         "bigquery.py",
         ## External Services
         "hive.py",
-        "snowflake.py",
+        "snowflake",
+        "databricks_job.py",
         "airflow.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
