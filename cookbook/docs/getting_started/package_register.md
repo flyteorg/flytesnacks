@@ -12,7 +12,12 @@ kernelspec:
 
 (getting_started_package_register)=
 
-# Packaging and Registering Workflows
+# Registering Workflows
+
+In this guide, you'll learn how to package and register your tasks and
+workflows to a Flyte cluster. This will enable you to scale your workloads with
+larger memory and compute requirements, schedule your workflows to run on a
+pre-defined cadence, and leverage the Flyte backend plugins like Spark.
 
 ```{admonition} Prerequisites
 :class: important
@@ -24,11 +29,6 @@ This guide assumes that you:
 - Followed the {ref}`Initializing a Flyte project <getting_started_init_flyte_project>`
   guide to create a minimal Flyte project.
 ```
-
-In this guide, you'll learn how to package and register your tasks and
-workflows to a Flyte cluster. This will enable you to scale your workloads with
-larger memory and compute requirements, schedule your workflows to run on a
-pre-defined cadence, and leverage the Flyte backend plugins like Spark.
 
 ## Flyte Demo Cluster
 
@@ -46,7 +46,7 @@ operations:
 
 ### Configuration
 
-The `config-sandbox.yaml` file contains configuration for **Flyte Admin**,
+The `config-sandbox.yaml` file contains configuration for **FlyteAdmin**,
 which is the Flyte cluster backend component that processes all client requests
 such as workflow executions:
 
@@ -67,7 +67,8 @@ logger:
 You can also create your own config file with `flytectl config init`, which
 will create a config file at `~/.flyte/config.yaml`.
 
-Learn more about the configuration settings in the {ref}:`Deployment Guide <flyte:flyteadmin-config-specification>`
+Learn more about the configuration settings in the
+{ref}`Deployment Guide <flyte:flyteadmin-config-specification>`
 ```
 
 ### Custom Python dependencies
@@ -82,13 +83,18 @@ from other languages.
 
 ## Registration Patterns
 
-There are three methods of registering your workflows to a Flyte cluster, where
-each method fulfills a particular use case during the workflow development cycle.
-In this section, we'll cover the commands you need to fulfill each use case.
+There are different methods of registering your workflows to a Flyte cluster
+where each method fulfills a particular use case during the workflow development
+cycle. In this section, we'll cover the commands you need to fulfill the
+following use cases:
+
+1. Iterating on a single workflow script.
+2. Iterating on a Flyte project with multiple task/workflow modules.
+3. Deploying your workflows to a production environment.
 
 (getting_started_register_pyflyte_run)=
 
-## Iterating on a Single Workflow Script
+### Iterating on a Single Workflow Script
 
 The quickest way to register a workflow to a Flyte cluster is with the
 `pyflyte run` CLI command. Assuming that you're inside the `my_project` directory
@@ -122,7 +128,7 @@ scripts, meaning that it shouldn't import any other user-defined modules that
 contain other tasks or workflows.
 ```
 
-## Iterating on a Flyte Project
+### Iterating on a Flyte Project
 
 One of Flyte's benefits is its functional design, which means that you can
 import and reuse tasks and workflows like you would Python functions when you
@@ -163,6 +169,7 @@ the explicit equivalent to the default image value would be something like:
 pyflyte register workflows --image ghcr.io/flyteorg/flytekit:py3.9-latest
 ```
 
+```{important}
 `pyflyte register` packages up your code through a mechanism called
 **fast registration**. At a high level, this will:
 
@@ -171,9 +178,11 @@ pyflyte register workflows --image ghcr.io/flyteorg/flytekit:py3.9-latest
 2. Register the Flyte package to the specified Flyte cluster, which is the
    local Flyte demo cluster by default.
 
+```
+
 Once you've successfully registered your workflows, you can execute them by
 going to the Flyte console. If you're using a local Flyte demo cluster, you can
-go to in the browser at `localhost:30080/console` and do the following:
+go to the browser at `localhost:30080/console` and do the following:
 
 - Navigate to the **flytesnacks** > **development** domain.
 - Click on the **Workflows** section of the left-hand sidebar.
@@ -186,7 +195,7 @@ In the next guide you'll learn about how to run your workflows programmatically.
 ```
 
 
-## Productionizing your Workflows
+### Productionizing your Workflows
 
 Flyte's core design decision is to make workflows reproducible and repeatable.
 One way it achieves this is by providing a way for you to bake in user-defined
@@ -195,15 +204,15 @@ workflows and all of their dependencies into a Docker container.
 The third method of registering your workflows uses two commands:
 
 - `pyflyte package`: packages your tasks and workflows into protobuf format.
-- `flytectl register`: registers 
+- `flytectl register`: registers the Flyte package to the configured cluster.
 
-This is the recommended way of deploying workflows to production, because this
+This is the production-grade registration flow that we recommend because this
 method ensures that the workflows are fully containerized, which ensures that
-the system- and Python-level dependencies along with your workflow code are
-immutable.
+the system- and Python-level dependencies along with your workflow source code
+are immutable.
 
 
-### Containerizing your Project
+**Containerizing your Project**
 
 Flyte relies on Docker to containerize your code and third-party dependencies.
 When you invoke `pyflyte init`, the resulting template project ships with a
@@ -237,7 +246,7 @@ The `docker_build.sh` script is purely for convenience; you can always roll
 your own way of building Docker containers.
 ```
 
-### Package your Project with `pyflyte package`
+**Package your Project with `pyflyte package`**
 
 You can package your project with the `pyflyte package` command like so:
 
@@ -264,7 +273,7 @@ This will create a portable package `flyte-package.tgz` containing all the Flyte
 entities compiled as protobuf files that you can register with multiple Flyte
 clusters.
 
-### Register with `flytectl register`
+**Register with `flytectl register`**
 
 Finally, register your tasks and workflows with `flytectl register files`:
 
@@ -277,7 +286,7 @@ flytectl register files \
 ```
 
 ```{note}
-Let's down what each flag is doing here:
+Let's break down what each flag is doing here:
 
 - `--project`: A project is a Flyte concept for built-in multi-tenancy so that
   you can logically group tasks and workflows. The Flyte demo cluster ships with
@@ -289,7 +298,7 @@ Let's down what each flag is doing here:
 - `--archive`: This argument allows you to pass in a package file, which in
   this case is `flyte-package.tgz`.
 - `--version`: This is a version string that can be any string, but we recommend
-  using the git sha in general, but especially in production use cases.
+  using the git sha in general, especially in production use cases.
 ```
 
 :::{admonition} When to use `pyflyte register` versus `pyflyte package` + `flytectl register`?
@@ -304,6 +313,14 @@ you're:
 - Deploying workflows to a production context
 - Testing your Flyte workflows in your CI/CD infrastructure.
 :::
+
+```{admonition} Programmatic Python API
+:class: important
+
+You can also perform the equivalent of the three methods of registration using
+a {py:class}`~flytekit.remote.remote.FlyteRemote` object. You can learn more
+about how to do this {ref}`here <flytekit:design-control-plane>`.
+```
 
 ## CI/CD with Flyte and GitHub Actions
 
@@ -320,7 +337,7 @@ two GitHub actions that facilitates this:
 
 ## What's Next?
 
-This this guide, you learn about the Flyte demo cluster, configuration, and
+In this guide, you learned about the Flyte demo cluster, configuration, and
 the different registation patterns you can leverage during the workflow
 development lifecycle. In the next guide, we'll learn how to run and schedule
 workflows programmatically.

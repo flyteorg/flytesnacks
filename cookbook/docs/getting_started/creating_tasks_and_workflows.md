@@ -10,9 +10,9 @@ kernelspec:
   name: python3
 ---
 
-(getting_started_creating_tasks_and_workflows)=
+(getting_started_understanding_tasks_and_workflows)=
 
-# Creating Tasks and Workflows
+# Tasks, Workflows and LaunchPlans
 
 In the {ref}`Introduction to Flyte <getting_started_index>`, we got a basic sense
 of how Flyte works by creating a few tasks and a simple model-training workflow.
@@ -196,6 +196,37 @@ try:
 except Exception as e:
     print(e)
 ```
+
+## 🚀 Launch plans
+
+A Flyte {py:class}`~flytekit.LaunchPlan` is a partial or complete binding of
+inputs necessary to launch a workflow. You can think of it like
+the {py:func}`~functools.partial` function in the Python standard library where
+you can define default (overrideable) and fixed (non-overrideable) inputs.
+
+```{note}
+Additionally, `LaunchPlan`s provides an interface for specifiying run-time
+overrides such as notifications, schedules, and more.
+```
+
+Create launch plan like so:
+
+```{code-cell} ipython3
+from flytekit import LaunchPlan
+
+
+launch_plan = LaunchPlan.get_or_create(
+    standard_scale_workflow,
+    name="standard_scale_lp",
+    default_inputs={"values": [3.0, 4.0, 5.0]}
+)
+```
+
+Later, you'll learn how to run a launch plan to run on a cron schedule, but for
+the time being you can think of them as a way for you to templatize workflows
+for some set of related use cases, such as model training with a fixed dataset
+for reproducibility purposes.
+
 
 ## What's Next?
 
