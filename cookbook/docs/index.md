@@ -161,6 +161,8 @@ You can read more about tasks {doc}`here <auto/core/flyte_basics/task>` and work
 
 ::::
 
+(intro_running_flyte_workflows)=
+
 ## Running Flyte Workflows
 
 You can run the workflow in ``example.py`` on a local Python environment or a
@@ -214,6 +216,7 @@ if __name__ == "__main__":
 
 :::::
 
+(getting_started_flyte_cluster)=
 
 ### Flyte Cluster Execution
 
@@ -229,14 +232,14 @@ flytectl demo start
 
 ```{code-block}
 👨‍💻 Flyte is ready! Flyte UI is available at http://localhost:30080/console 🚀 🚀 🎉
-Add KUBECONFIG and FLYTECTL_CONFIG to your environment variable
-export KUBECONFIG=$KUBECONFIG:/Users/<username>/.kube/config:/Users/<username>/.flyte/k3s/k3s.yaml
-export FLYTECTL_CONFIG=/Users/<username>/.flyte/config-sandbox.yaml
+❇️ Run the following command to export sandbox environment variables for accessing flytectl
+	export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
+🐋 Flyte sandbox ships with a Docker registry. Tag and push custom workflow images to localhost:30000
+📂 The Minio API is hosted on localhost:30002. Use http://localhost:30080/minio/login for Minio console
 ```
 
 ```{important}
-Make sure to export the `KUBECONFIG` and `FLYTECTL_CONFIG` environment variables
-in your shell.
+Make sure to export the `FLYTECTL_CONFIG` environment variable in your shell.
 ```
 ````
 
@@ -319,6 +322,8 @@ orchestration tool 💪.
 self
 getting_started/creating_tasks_and_workflows
 getting_started/init_flyte_project
+getting_started/package_register
+getting_started/run_schedule
 ```
 
 ```{toctree}

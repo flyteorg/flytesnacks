@@ -21,9 +21,14 @@ learn how to organize a Flyte project so that it can scale to a larger codebase.
 ```{admonition} Prerequisites
 :class: important
 
-Install `flytekit` and `flytectl` according to the
+- Install `flytekit` and `flytectl` according to the
 [introduction guide](getting_started_installation) instructions.
+- Install [`git`](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 ```
+
+A Flyte project is essentially a directory containing workflows, internal Python
+source code, configuration, and other artifacts needed to package up your code
+so that it can be run on a Flyte cluster.
 
 `pyflyte`, the CLI tool that ships with `flytekit`, comes with an `init` command
 that you can use to quickly initialize a Flyte project according to the
@@ -32,6 +37,7 @@ recommended file structure.
 ```{prompt} bash $
 pyflyte init my_project
 cd my_project
+git init  # initialize a git repository
 ```
 
 ## Project Structure
@@ -39,7 +45,7 @@ cd my_project
 If you examine `my_project`, you'll see the following file structure:
 
 ```{code-block} bash
-.
+my_project
 ├── Dockerfile        # Docker image
 ├── LICENSE
 ├── README.md
@@ -47,14 +53,34 @@ If you examine `my_project`, you'll see the following file structure:
 ├── requirements.txt  # Python dependencies
 └── workflows
     ├── __init__.py
-    ├── example.py    # Example Flyte workflows
-    └── helpers.py    # Helper functions
+    └── example.py    # Example Flyte workflows
+```
+
+```{note}
+You can create your own conventions and file structure for your Flyte projects.
+The `pyflyte init` command simply provides a good starting point.
 ```
 
 In the rest of this guide we'll orient you to all the important pieces of the
 minimal Flyte project template.
 
-## Workflow Source Code
+## Create a Virtual Environment
+
+We recommend creating a virtual environment for your Flyte project so you that
+you can isolate its dependencies:
+
+```{prompt} bash $
+python -m venv ~/venvs/my_project
+source ~/venvs/my_project/bin/activate
+pip install -r requirements.txt
+```
+
+```{note}
+You can also use other tools like [miniconda](https://docs.conda.io/en/latest/miniconda.html)
+to create a virtual environment.
+```
+
+## Example Workflows
 
 The `workflows/example.py` module contains a simple set of tasks and workflows
 that you can use to make sure that everything's working as expected:
@@ -102,9 +128,9 @@ manage the requirements of your project.
 
 ## Dockerfile
 
-The minimal Flyte project ships with a `Dockerfile` script that defines the
-minimum system requirements for running your tasks and workflows. You can
-customize this image to suit your needs:
+The minimal Flyte project ships with a `Dockerfile` that defines the
+system requirements for running your tasks and workflows. You can customize this
+image to suit your needs:
 
 ````{dropdown} See Dockerfile
 
@@ -113,33 +139,6 @@ customize this image to suit your needs:
 ```
 
 ````
-
-The default template also includes a `docker_build.sh` script  that you can use
-to build a Docker image according to the recommended practice:
-
-```{prompt} bash $
-./docker_build.sh
-```
-
-By default, the `docker_build.sh` script:
-
-- Uses the `PROJECT_NAME` specified in the `pyflyte init` command.
-- Will not use any remote registry.
-- Uses the git sha to version your tasks and workflows.
-
-Override any of these values with the following flags:
-
-```{prompt} bash $
-./docker_build.sh -p <PROJECT_NAME> -r <REGISTRY> -v <VERSION>
-```
-
-For example, if you want to push your Docker image to Github's image registry
-you can specify the `-r ghcr.io` flag.
-
-```{note}
-You can create your own way of building your Docker containers, the
-`docker_build.sh` is for convenience.
-```
 
 ## What's Next?
 
