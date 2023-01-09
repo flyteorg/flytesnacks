@@ -340,7 +340,7 @@ if __name__ == "__main__":
 # Refer to .. TODO.
 # You can retrieve the outputs - which will be a path to a blob store like S3, GCS, minio, etc. Tensorboad can be
 # pointed to on your local laptop to visualize the results.
-
+#
 # Control which rank returns its value
 # ====================================
 # In distributed training, the return values from different workers might differ.
