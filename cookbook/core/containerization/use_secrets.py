@@ -6,6 +6,8 @@
 Using Secrets in a Task
 =======================
 
+.. tags:: Kubernetes, Intermediate
+
 Flyte supports running a variety of tasks, from containers to SQL queries and service calls. For Flyte-run
 containers to request and access secrets, Flyte provides a native Secret construct.
 
@@ -41,7 +43,7 @@ In a task decorator you request a secret like this: ``@task(secret_requests=[Sec
 Flytekit provides a shorthand for loading the requested secret inside a task: ``secret = flytekit.current_context().secrets.get(SECRET_GROUP, SECRET_NAME)``
 See the python examples further down for more details on how to request and use secrets in a task.
 
-Flytekit relies on the following environment variables to load secrets (defined `here <https://github.com/flyteorg/flytekit/blob/master/flytekit/configuration/secrets.py>`_). When running tasks and workflows locally you should make sure to store your secrets accordingly or to modify these:
+Flytekit relies on the following environment variables to load secrets (defined `here <https://github.com/flyteorg/flytekit/blob/9d313429c577a919ec0ad4cd397a5db356a1df0d/flytekit/configuration/internal.py#L141-L159>`_). When running tasks and workflows locally you should make sure to store your secrets accordingly or to modify these:
 
 - ``FLYTE_SECRETS_DEFAULT_DIR``: The directory Flytekit searches for secret files, default: ``"/etc/secrets"``
 - ``FLYTE_SECRETS_FILE_PREFIX``: a common file prefix for Flyte secrets, default: ``""``

@@ -2,7 +2,9 @@
 .. _launchplan_schedules:
 
 Scheduling Workflows Example
------------------------------
+----------------------------
+
+.. tags:: Basic
 
 :ref:`flyte:divedeep-launchplans` can be set to run automatically on a schedule using the Flyte Native Scheduler.
 For workflows that depend on knowing the kick-off time, Flyte supports passing in the scheduled time (not the actual time, which may be a few seconds off) as an argument to the workflow.
@@ -59,7 +61,8 @@ cron_lp = LaunchPlan.get_or_create(
 
 # %%
 # The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``.
-# This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs every minute.
+# Specifying this argument means that Flyte will pass in the kick-off time of the
+# cron schedule into the ``kickoff_time`` argument of the ``date_formatter_wf`` workflow.
 
 # %%
 # Fixed Rate Intervals

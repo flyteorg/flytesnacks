@@ -2,7 +2,9 @@
 .. _typed_schema:
 
 Typed Columns in a Schema
---------------------------
+-------------------------
+
+.. tags:: DataFrame, Basic, Data
 
 This example explains how a typed schema can be used in Flyte and declared in flytekit.
 
@@ -21,7 +23,7 @@ out_schema = FlyteSchema[kwtypes(x=int, y=str)]
 
 
 # %%
-# To write to a schema object refer to :py:meth:`flytekit.types.schema.FlyteSchema.open` method. Writing can be done
+# To write to a schema object refer to ``FlyteSchema.open`` method. Writing can be done
 # using any of the supported dataframe formats.
 #
 # .. todo::
@@ -36,7 +38,7 @@ def t1() -> out_schema:
 
 
 # %%
-# To read a Schema, one has to invoke the :py:meth:`flytekit.types.schema.FlyteSchema.open`. The default mode
+# To read a Schema, one has to invoke the ``FlyteSchema.open``. The default mode
 # is automatically configured to be `open` and the default returned dataframe type is :py:class:`pandas.DataFrame`
 # Different types of dataframes can be returned based on the type passed into the open method
 @task

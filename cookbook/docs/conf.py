@@ -20,16 +20,14 @@ from sphinx.errors import ConfigError
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
-sys.path.append(os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
 project = "Flytesnacks"
-copyright = "2021, Flyte"
+copyright = "2022, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
-# The full version, including alpha/beta/rc tags.
 release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
@@ -134,7 +132,8 @@ class CustomSorter(FileNameSortKey):
         "bigquery.py",
         ## External Services
         "hive.py",
-        "snowflake.py",
+        "snowflake",
+        "databricks_job.py",
         "airflow.py",
         # Extending Flyte
         "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
@@ -150,6 +149,7 @@ class CustomSorter(FileNameSortKey):
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
         "keras_spark_rossmann_estimator.py",
+        "word2vec_and_lda.py",
         ## Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
@@ -157,7 +157,6 @@ class CustomSorter(FileNameSortKey):
         "notebook_and_task.py",
         "notebook_as_tasks.py",
         "feature_eng_tasks.py",
-        "feast_dataobjects.py",
         "feast_workflow.py",
         ## Bioinformatics
         "blastx_example.py",
@@ -201,7 +200,7 @@ extensions = [
     "sphinxcontrib.mermaid",
     "sphinxcontrib.yt",
     "sphinx_tabs.tabs",
-    "run_example_cmds_extension",
+    "sphinx_tags",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -209,6 +208,8 @@ templates_path = ["_templates"]
 
 html_static_path = ["_static"]
 html_css_files = ["sphx_gallery_autogen.css", "custom.css"]
+
+suppress_warnings = ["autosectionlabel.*"]
 
 # generate autosummary even if no references
 autosummary_generate = True
@@ -223,6 +224,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The master toctree document.
 master_doc = "index"
+
+# Tags config
+tags_create_tags = True
+tags_page_title = "Tag"
+tags_overview_title = "All Tags"
 
 pygments_style = "tango"
 pygments_dark_style = "monokai"
@@ -272,6 +278,7 @@ examples_dirs = [
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
+    "../case_studies/ml_training/nlp_processing",
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
@@ -313,6 +320,7 @@ gallery_dirs = [
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
+    "auto/case_studies/ml_training/nlp_processing",
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
@@ -354,10 +362,9 @@ min_reported_time = 0
 
 # hide example pages with empty content
 ignore_py_files = [
-    "__init__\.py",
-    "config_resource_mgr\.py",
-    "optimize_perf\.py",
-    "^run_.+\.py",
+    r"__init__\.py",
+    r"config_resource_mgr\.py",
+    r"optimize_perf\.py",
 ]
 
 sphinx_gallery_conf = {
@@ -445,7 +452,6 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
     "modin": ("https://modin.readthedocs.io/en/stable/", None),
-    "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
     "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
@@ -455,13 +461,16 @@ intersphinx_mapping = {
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
-    "pytorch": ("https://pytorch.org/docs/stable/", None),
+    "torch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
     "tensorflow": (
         "https://www.tensorflow.org/api_docs/python",
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
     ),
-    "whylogs": ("https://whylogs.readthedocs.io/", None),
+    "whylogs": ("https://whylogs.readthedocs.io/en/latest/", None),
+    "horovod": ("https://horovod.readthedocs.io/en/stable/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "feast": ("https://rtd.feast.dev/en/latest", None),
 }
 
 # Sphinx-tabs config

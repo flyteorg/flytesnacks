@@ -1,6 +1,9 @@
 """
+=================
 Dynamic Workflows
-------------------
+=================
+
+.. tags:: Intermediate
 
 A workflow is typically static when the directed acyclic graph's (DAG) structure is known at compile-time.
 However, in cases where a run-time parameter (for example, the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
@@ -123,7 +126,8 @@ def count_characters(s1: str, s2: str) -> int:
 # To manage this problem, the values need to be passed to the other tasks to unwrap them.
 #
 # .. note:: The local execution will work when a ``@dynamic`` decorator is used because Flytekit treats it like a ``task`` that will run with the Python native inputs.
-# Therefore, there are no Promise objects locally within the function decorated with ``@dynamic`` as it is treated as a ``task``.
+#
+# Therefore, there are no Promise objects locally within the function decorated with ``@dynamic`` as it is treated as a ``task``\.
 
 # %%
 # Finally, we define a workflow that calls the dynamic workflow.
@@ -141,8 +145,8 @@ if __name__ == "__main__":
 
 
 # %%
-# Dynamic Workflows from Execution POV
-# ------------------------------------
+# Dynamic Workflows Under the Hood
+# --------------------------------
 #
 # What Is a Dynamic Workflow?
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -184,13 +188,13 @@ if __name__ == "__main__":
 #
 # A dynamic workflow is modeled as a task in the backend, but the body of the function is executed to produce a workflow at run-time. In both dynamic and static workflows, the output of tasks are Promise objects.
 #
+# .. note::
+#   When a dynamic (or static) workflow calls a task, the workflow returns a :py:class:`Promise <flytekit.extend.Promise>` object. You can’t interact with this Promise object directly since it uses lazy evaluation (it defers the evaluation until absolutely needed). You can unwrap the Promise object by passing it to a task or a dynamic workflow.
 #
-# .. note:: When a dynamic (or static) workflow calls a task, the workflow returns a :ref:`Promise <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.extend.Promise.html#flytekit-extend-promise>` object. You can’t interact with this Promise object directly since it uses lazy evaluation (it defers the evaluation until absolutely needed). You can unwrap the Promise object by passing it to a task or a dynamic workflow.
-#
-# :ref:`Here<Predicting House Price in Multiple Regions Using XGBoost and Dynamic Workflows>` is an example of house price prediction using dynamic workflows.
+# :ref:`Here <Predicting House Price in Multiple Regions Using XGBoost and Dynamic Workflows>` is an example of house price prediction using dynamic workflows.
 #
 # Where Are Dynamic Workflows Used?
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #
 # Dynamic workflow comes into the picture when you need to:
 #
@@ -204,3 +208,22 @@ if __name__ == "__main__":
 #
 # Dynamic tasks have overhead for large fan-out tasks because they store metadata for the entire workflow. In contrast, map tasks are efficient for these large fan-out tasks since they don’t store the metadata, as a consequence of which overhead is less apparent.
 #
+
+# %%
+# .. panels::
+#     :header: text-center
+#     :column: col-lg-12 p-2
+#
+#     .. link-button:: https://blog.flyte.org/dynamic-workflows-in-flyte
+#        :type: url
+#        :text: Blog Post
+#        :classes: btn-block stretched-link
+#     ^^^^^^^^^^^^
+#     An article on how to use Dynamic Workflows in Flyte.
+#
+# .. toctree::
+#     :maxdepth: -1
+#     :caption: Contents
+#     :hidden:
+#
+#     Blog Post <https://blog.flyte.org/dynamic-workflows-in-flyte>

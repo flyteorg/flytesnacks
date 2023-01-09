@@ -4,6 +4,8 @@
 Structured Dataset
 ------------------
 
+.. tags:: DataFrame, Basic, Data
+
 Structured dataset is a superset of Flyte Schema.
 
 The ``StructuredDataset`` Transformer can write a dataframe to BigQuery, s3, or any storage by registering new structured dataset encoder and decoder.
@@ -43,7 +45,7 @@ subset_cols = kwtypes(Age=int)
 
 
 # %%
-# We define two tasks, one returns a pandas DataFrame and the other a :py:class:`flytekit.types.schema.FlyteSchema`.
+# We define two tasks, one returns a pandas DataFrame and the other a ``FlyteSchema``.
 # Flyte serializes the DataFrames to an intermediate format, a parquet file, before sending them to the other tasks.
 @task
 def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
