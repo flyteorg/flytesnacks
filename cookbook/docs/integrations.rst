@@ -249,6 +249,15 @@ the Flyte task that use the respective plugin.
 
     ---
 
+    .. link-button:: auto/integrations/external_services/databricks/index
+       :type: ref
+       :text: Databricks
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Databricks jobs in your workflows.
+
+    ---
+
     .. link-button:: auto/integrations/gcp/bigquery/index
        :type: ref
        :text: BigQuery
