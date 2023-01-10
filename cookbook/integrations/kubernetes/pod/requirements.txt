@@ -65,9 +65,9 @@ flytekitplugins-pod==1.2.7
     # via -r requirements.in
 fonttools==4.38.0
     # via matplotlib
-google-auth==2.15.0
+google-auth==2.16.0
     # via kubernetes
-googleapis-common-protos==1.57.1
+googleapis-common-protos==1.58.0
     # via
     #   flyteidl
     #   grpcio-status

@@ -32,8 +32,8 @@ from kubernetes.client.models import (
 )
 
 # %%
-# Simple example
-# ==============
+# Add additional properties to the task container
+# ===============================================
 #
 # In this example, we define a simple pod specification.
 # The ``containers`` field is set to an empty list, signaling to Flyte to insert a placeholder primary container.
@@ -53,6 +53,7 @@ def pod_task() -> str:
     return "Hello from pod task!"
 
 
+@workflow
 def pod_workflow() -> str:
     return pod_task()
 
@@ -181,7 +182,7 @@ def coalesce(list_of_strings: List[str]) -> str:
 @workflow
 def map_pod_workflow(list_of_ints: List[int]) -> str:
     mapped_out = map_task(map_pod_task, metadata=TaskMetadata(retries=1))(
-        list_of_ints=list_of_ints
+        int_val=list_of_ints
     )
     coalesced = coalesce(list_of_strings=mapped_out)
     return coalesced
