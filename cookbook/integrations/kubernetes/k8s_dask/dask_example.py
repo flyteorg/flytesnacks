@@ -69,27 +69,25 @@ from flytekit import Resources, task
 
 # %%
 # The following imports are required to configure the Dask cluster in Flyte
-from flytekitplugins.dask import Dask, DaskCluster, JobPodSpec
+from flytekitplugins.dask import Dask, WorkerGroup
 
 # %%
 # Dask Task Sample
 # ^^^^^^^^^^^^^^^^
 #
 # This example shows how a Dask task can be written simply by adding a ``@task(task_config=Dask(...), ...)`` decorator.
-# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/dask/task.py#L18-L36>`__
+# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/4b1675ffb85648dc5742e9a6dea98b94714963e1/plugins/flytekit-dask/flytekitplugins/dask/task.py#L54-L63>`__
 # class to understand the various configuration options.
 
 
 @task(
     task_config=Dask(
-        job_pod_spec=JobPodSpec(
-            limits=Resources(cpu="1", mem="2Gi"),
-        ),
-        cluster=DaskCluster(
-            n_workers=10,
+        workers=WorkerGroup(
+            number_of_workers=10,
             limits=Resources(cpu="4", mem="10Gi"),
         ),
     ),
+    limits=Resources(cpu="1", mem="2Gi"),
     cache_version="1",
     cache=True,
 )

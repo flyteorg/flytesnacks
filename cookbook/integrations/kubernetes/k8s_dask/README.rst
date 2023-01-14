@@ -36,7 +36,8 @@ clusters.
 **Cons:**
 
 #. Short running, bursty jobs are not a great fit because of the container overhead
-#. No interactive Spark capabilities are available with Flyte K8s dask, which is more suited for running adhoc and scheduled jobs.
+#. No interactive Dask capabilities are available with Flyte K8s dask, which is more suited for running adhoc and
+   scheduled jobs.
 
 
 Step 1: Deploy the Dask Plugin in the Flyte Backend
