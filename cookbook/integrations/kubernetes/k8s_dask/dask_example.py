@@ -4,7 +4,7 @@
 Writing a Dask Task
 ----------------------
 
-Flyte has an optional plugin that makes it possible to run `Dask <https://www.dask.org/>`_ jobs natively on your
+Flyte has an optional plugin that makes it possible to run `Dask <https://www.dask.org/>`__ jobs natively on your
 kubernetes cluster. It makes it extremely easy to run your ``dask`` code as a task. The plugin creates a new
 virtual/ephemeral cluster for each ``dask`` task, where Flyte manages the cluster lifecycle.
 
@@ -76,7 +76,7 @@ from flytekitplugins.dask import Dask, DaskCluster, JobPodSpec
 # ^^^^^^^^^^^^^^^^
 #
 # This example shows how a Dask task can be written simply by adding a ``@task(task_config=Dask(...), ...)`` decorator.
-# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/dask/task.py#L18-L36>`_
+# Refer to the `Dask <https://github.com/flyteorg/flytekit/blob/9e156bb0cf3d1441c7d1727729e8f9b4bbc3f168/plugins/flytekit-spark/flytekitplugins/dask/task.py#L18-L36>`__
 # class to understand the various configuration options.
 
 

@@ -43,7 +43,7 @@ Step 1: Deploy the Dask Plugin in the Flyte Backend
 ---------------------------------------------------
 
 Flyte dask uses the `Dask Kubernetes Operator <https://kubernetes.dask.org/en/latest/operator.html>`__ and a custom
-built `Flyte Dask Plugin <https://pkg.go.dev/github.com/flyteorg/flyteplugins@v1.1.0/go/tasks/plugins/k8s/dask>`__.
+built `Flyte Dask Plugin <https://pkg.go.dev/github.com/flyteorg/flyteplugins@v1.0.28/go/tasks/plugins/k8s/dask>`__.
 This is a backend plugin which has to be enabled in your deployment; you can follow the steps mentioned in the
 :ref:`flyte:deployment-plugin-setup-k8s` section.
 
@@ -109,9 +109,8 @@ scheduler pod and worker pods):
 
 Images
 ^^^^^^
-
 By default, all components of the deployed ``dask`` job (job runner pod, scheduler pod and worker pods) will all use the
-the image that was used whilst registering (this image should have ``dask[distributed]`` installed in it's Python
+the image that was used whilst registering (this image should have ``dask[distributed]`` installed in its Python
 environment). This helps keeping the Python environments of all cluster components in sync.
 However, there is the possibility to specify different images for the components. This allows for usecases such as using
 different images between tasks of the same workflow. While it is possible to use different images for the different
@@ -179,35 +178,11 @@ scheduler pod and worker pods)
         annotations=Annotations({"region": "SEA", ...}),
       )
 
-Labels and Annotations
-^^^^^^^^^^^^^^^^^^^^^^
-
-Labels and annotations set in a ``LaunchPlan`` will be passed on to all ``dask`` job components (job runner pod,
-scheduler pod and worker pods)
-
-    .. code-block:: python
-
-      from flytekit import Resources, task, workflow, Labels, Annotations
-      from flytekitplugins.dask import Dask
-
-      @task(task_config=Dask())
-      def my_dask_task():
-         ...
-
-      @workflow
-      def my_dask_workflow():
-         my_dask_task()
-
-      # Labels and annotations will be passed on to all dask cluster components
-      my_launch_plan = my_dask_workflow.create_launch_plan(
-        labels=Labels({"myexecutionlabel": "bar", ...}),
-        annotations=Annotations({"region": "SEA", ...}),
-      )
 
 Interruptible Tasks
 ^^^^^^^^^^^^^^^^^^^
 
-The ``dask`` backend plugin supports running on interruptible nodes. When ``interruptible==True`, the plugin will add
+The ``dask`` backend plugin supports running on interruptible nodes. When ``interruptible==True``, the plugin will add
 the configured tolerations and node selectors to all worker pods. Please note that the job runner as well as the
 scheduler will not be run on interruptible nodes.
 
@@ -223,8 +198,6 @@ scheduler will not be run on interruptible nodes.
       def my_dask_task():
          ...
 
-
-.. _dask-examples:
 
 Code Examples
 -------------
