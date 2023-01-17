@@ -7,7 +7,7 @@ Kubernetes Dask Jobs
 
 Flyte can execute dask jobs natively on a Kubernetes Cluster, which manages a virtual ``dask`` cluster's lifecycle. To
 do so, it leverages the open-sourced `Dask Kubernetes Operator <https://kubernetes.dask.org/en/latest/operator.html>`__
-and can be enabled without signing up for any service. This is like running a ephemeral ``dask`` cluster, which gets
+and can be enabled without signing up for any service. This is like running an ephemeral ``dask`` cluster, which gets
 created for the specific Flyte task and gets torn down after completion.
 
 In Flyte/K8s, the cost is amortized because pods are faster to create than a machine, but the penalty of downloading
@@ -64,11 +64,19 @@ Step 2: Environment setup
 Implementation details
 ----------------------
 
+Local execution
+^^^^^^^^^^^^^^^
+
+When running the ``dask`` task locally, it will use a local `distributed Client
+<https://distributed.dask.org/en/stable/client.html>`__. In case you would like to connect the to a remote cluster for
+when developing locally, you can set the ``DASK_SCHEDULER_ADDRESS`` environment variable to the URL of the remote
+scheduler and the ``Client()`` will use the cluster automatically.
+
 Resource specification
 ^^^^^^^^^^^^^^^^^^^^^^
 
 It is advised to set ``limits`` as this will set the ``--nthreads`` and ``--memory-limit`` arguments for the workers
-as recommended by ``dask`` `best practices <https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices>`_.
+as recommended by ``dask`` `best practices <https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices>`__.
 When specifying resources, the following precedence is followed for all components of the ``dask`` job (job-runner pod,
 scheduler pod and worker pods):
 
