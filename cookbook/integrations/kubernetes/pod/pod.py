@@ -57,6 +57,10 @@ def pod_task() -> str:
 def pod_workflow() -> str:
     return pod_task()
 
+# %%
+# .. note::
+#   To configure default settings for all pods, including tasks for pods, containers, PyTorch, Spark, Ray, and Dask,
+#   :ref:`configure a default Kubernetes pod template <https://docs.flyte.org/en/latest/deployment/cluster_config/general.html#using-default-k8s-podtemplates>`__.
 
 # %%
 # Multiple containers
