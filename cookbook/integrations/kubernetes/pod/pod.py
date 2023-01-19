@@ -59,7 +59,7 @@ def pod_workflow() -> str:
 
 # %%
 # .. note::
-#   To configure default settings for all pods, including tasks for pods, containers, PyTorch, Spark, Ray, and Dask,
+#   To configure default settings for all pods Flyte creates, including tasks for pods, containers, PyTorch, Spark, Ray, and Dask,
 #   :ref:`configure a default Kubernetes pod template <https://docs.flyte.org/en/latest/deployment/cluster_config/general.html#using-default-k8s-podtemplates>`__.
 
 # %%
