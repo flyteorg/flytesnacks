@@ -16,11 +16,11 @@ kernelspec:
 
 [Flytesnacks Tags](_tags/tagsindex)
 
-Flyte is a workflow orchestrator that seamlessly unifies ETL/ELT,
+Flyte is a workflow orchestrator that seamlessly unifies data,
 machine learning, and analytics stacks for building robust and reliable
 applications.
 
-This quickstart guide provides an overview of how to get Flyte up and running
+This introduction provides a quick overview of how to get Flyte up and running
 on your local machine.
 
 (getting_started_installation)=
@@ -300,6 +300,16 @@ Follow the rest of the guides in the **Getting Started** section to get a
 better understanding of the key constructs that make Flyte a such powerful
 orchestration tool 💪.
 
+```{list-table}
+:header-rows: 0
+:widths: 10 30
+
+* - {ref}`Flyte Fundamentals <getting_started_fundamentals>`
+  - A brief tour of the Flyte's main concepts and development lifecycle
+* - {ref}`Core Use Cases <getting_started_core_use_cases>`
+  - A practical guide for data, machine learning, and analytics practitioners
+```
+
 
 ```{toctree}
 :maxdepth: 1
@@ -320,10 +330,8 @@ orchestration tool 💪.
 :hidden:
 
 self
-getting_started/creating_tasks_and_workflows
-getting_started/init_flyte_project
-getting_started/package_register
-getting_started/run_schedule
+getting_started/flyte_fundamentals
+getting_started/core_use_cases
 ```
 
 ```{toctree}

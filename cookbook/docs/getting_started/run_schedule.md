@@ -29,7 +29,7 @@ and production use cases.
 :class: important
 
 This guide assumes that you've completed the previous guides for
-{ref}`Initializing a Flyte project <getting_started_init_flyte_project>` and
+{ref}`Initializing a Flyte project <getting_started_creating_flyte_project>` and
 {ref}`Packaging and Registering Workflows <getting_started_package_register>`.
 Completing 
 ```

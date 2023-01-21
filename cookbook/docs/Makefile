@@ -14,8 +14,12 @@ linkcheck:
 doctest:
 	sphinx-build -n -b doctest . _build
 
+.PHONY: clear-cache
+clear-cache:
+	pyflyte local-cache clear
+
 .PHONY: clean
-clean:
+clean: clear-cache
 	rm -rf _build
 	rm -rf auto_*
 	rm -rf auto/*

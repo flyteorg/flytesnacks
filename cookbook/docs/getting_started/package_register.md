@@ -26,7 +26,7 @@ This guide assumes that you:
 
 - Have a local Flyte cluster running with `flytectl demo start` as described in
   the {ref}`Introduction to Flyte <getting_started_flyte_cluster>` guide.
-- Followed the {ref}`Initializing a Flyte project <getting_started_init_flyte_project>`
+- Followed the {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>`
   guide to create a minimal Flyte project.
 ```
 
@@ -98,7 +98,7 @@ following use cases:
 
 The quickest way to register a workflow to a Flyte cluster is with the
 `pyflyte run` CLI command. Assuming that you're inside the `my_project` directory
-that we created in {ref}`Initializing a Flyte project <getting_started_init_flyte_project>`,
+that we created in {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>`,
 you can invoke it like so:
 
 ```{prompt} bash $
@@ -127,6 +127,8 @@ Currently, `pyflyte run` only supports Flyte workflows that are in self-containe
 scripts, meaning that it shouldn't import any other user-defined modules that
 contain other tasks or workflows.
 ```
+
+(getting_started_pyflyte_register)=
 
 ### Iterating on a Flyte Project
 

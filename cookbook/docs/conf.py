@@ -137,9 +137,11 @@ class CustomSorter(FileNameSortKey):
         "databricks_job.py",
         "airflow.py",
         # Extending Flyte
-        "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
         "custom_task_plugin.py",
+        "prebuilt_container.py",
+        "user_container.py",
+        "backend_plugins.py",
         # Repo-based Projects
         "larger_apps_setup.py",
         "larger_apps_deploy.py",

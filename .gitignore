@@ -32,3 +32,4 @@ typescript
 .bash_history
 .venv/
 cookbook/docs/_tags/
+cookbook/docs/_flyte_decks/

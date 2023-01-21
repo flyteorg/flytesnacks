@@ -10,9 +10,9 @@ kernelspec:
   name: python3
 ---
 
-(getting_started_init_flyte_project)=
+(getting_started_creating_flyte_project)=
 
-# Initializing a Flyte Project
+# Creating a Flyte Project
 
 So far we've been dealing with fairly simple workflows composed of a handful of
 tasks, all of which can fit into a single Python script. In this guide, you'll
