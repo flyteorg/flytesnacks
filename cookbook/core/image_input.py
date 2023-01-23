@@ -1,22 +1,22 @@
+import base64
 import typing
-from random import random
 from datetime import timedelta
+from io import BytesIO
+from random import random
 
-from flytekit import wait_for_input, task, workflow, current_context
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy
+import numpy as np
+from flytekit import current_context, task, wait_for_input, workflow
 from matplotlib.figure import Figure
 from sklearn.datasets import load_digits
-import numpy
-from io import BytesIO
-import base64
 
 
 class MatplotFigureRenderer(object):
     def to_html(self, fig: Figure) -> str:
         tmpfile = BytesIO()
-        fig.savefig(tmpfile, format='png')
-        encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+        fig.savefig(tmpfile, format="png")
+        encoded = base64.b64encode(tmpfile.getvalue()).decode("utf-8")
         return f"<img src='data:image/png;base64,{encoded}'>"
 
 
@@ -29,7 +29,7 @@ def plot_images() -> numpy.ndarray:  # noqa
     for index, image in enumerate(X[0:20]):
         plt.subplot(1, 20, index + 1)
         plt.imshow(np.reshape(image, (8, 8)), cmap=plt.cm.gray)
-        plt.title('Training: %in' % index, fontsize=15)
+        plt.title("Training: %in" % index, fontsize=15)
 
     d = current_context().default_deck
     d.append(MatplotFigureRenderer().to_html(fig))
@@ -49,9 +49,10 @@ def validate_model(known_values: typing.List[int], data: numpy.ndarray) -> float
 @workflow
 def wf() -> float:
     image_data = plot_images()
-    s1 = wait_for_input("images-values-known", timeout=timedelta(hours=1), expected_type=typing.List[int])
+    s1 = wait_for_input(
+        "images-values-known",
+        timeout=timedelta(hours=1),
+        expected_type=typing.List[int],
+    )
     score = validate_model(known_values=s1, data=image_data)
     return score
-
-
-

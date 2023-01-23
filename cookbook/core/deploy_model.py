@@ -1,7 +1,6 @@
 from datetime import timedelta
 
-
-from flytekit import approve, task, workflow, sleep, current_context
+from flytekit import approve, current_context, sleep, task, workflow
 from flytekitplugins.deck.renderer import MarkdownRenderer
 
 
@@ -9,11 +8,14 @@ from flytekitplugins.deck.renderer import MarkdownRenderer
 def evaluate_model() -> float:  # noqa
     deck = current_context().default_deck
     m = MarkdownRenderer()
-    deck.append(m.to_html(
-    """
+    deck.append(
+        m.to_html(
+            """
     ## Score
     0.72
-    """))
+    """
+        )
+    )
     return 0.72
 
 
