@@ -9,6 +9,12 @@ Flytekit makes it possible for users to directly return or accept a :py:class:`p
 converted into flyte's abstract representation of a schema object
 
 """
+
+# %%
+# .. warning::
+#
+#   ``FlyteSchema`` is deprecated in 1.4.0, use :ref:`structured_dataset_example` instead.
+
 import pandas
 from flytekit import task, workflow
 
