@@ -75,6 +75,9 @@ if __name__ == "__main__":
 # .. note:: To alter the limits of the default platform configuration, change the `admin config <https://github.com/flyteorg/flyte/blob/b16ffd76934d690068db1265ac9907a278fba2ee/deployment/eks/flyte_helm_generated.yaml#L203-L213>`_ and `namespace level quota <https://github.com/flyteorg/flyte/blob/b16ffd76934d690068db1265ac9907a278fba2ee/deployment/eks/flyte_helm_generated.yaml#L214-L240>`_ on the cluster.
 
 # %%
+#
+# .. _resource_with_overrides:
+#
 # Using ``with_overrides``
 # ^^^^^^^^^^^^^^^^^^^^^^^^
 #

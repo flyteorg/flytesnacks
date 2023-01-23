@@ -16,11 +16,11 @@ practice.
 :header-rows: 0
 :widths: 10 30
 
-* - {doc}`Data Engineering <data_engineering>`
+* - {doc}`📊 Data Engineering <data_engineering>`
   - Create an ELT workflow for processing data with SQLAlchemy and Pandas.
-* - {doc}`Machine Learning <machine_learning>`
+* - {doc}`🤖 Machine Learning <machine_learning>`
   - Train a classifier with Scikit-Learn and Pandas.
-* - {doc}`Analytics <analytics>`
+* - {doc}`📈 Analytics <analytics>`
   - Develop a data cleaning and plotting pipeline with Plotly and Pandas.
 ```
 

@@ -217,6 +217,8 @@ logger.removeFilter(deck_filter)
 IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
 ```
 
+(getting_started_customer_renderers)=
+
 ## Custom Renderers
 
 What if we don't want to show raw data values in the Flyte Deck? We can create a

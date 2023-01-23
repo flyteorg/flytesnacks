@@ -296,8 +296,8 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 
 ## What's Next?
 
-Follow the rest of the guides in the **Getting Started** section to get a
-better understanding of the key constructs that make Flyte a such powerful
+Follow the rest of the sections in the **Getting Started** documentation to get
+a better understanding of the key constructs that make Flyte a such powerful
 orchestration tool 💪.
 
 ```{list-table}

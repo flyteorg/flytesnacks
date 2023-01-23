@@ -1,6 +1,7 @@
 -r ./common/requirements-common.in
 git+https://github.com/flyteorg/furo@main
 pillow
+pycountry
 flytekitplugins-kfpytorch
 sphinx
 sphinx_rtd_theme
