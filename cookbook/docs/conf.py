@@ -119,6 +119,7 @@ class CustomSorter(FileNameSortKey):
         "sql_alchemy.py",
         "whylogs_example.py",
         ## Kubernetes
+        "dask.py",
         "pod.py",
         "pyspark_pi.py",
         "dataframe_passing.py",
@@ -296,6 +297,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/whylogs_examples",
     "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/kubernetes/pod",
+    "../integrations/kubernetes/k8s_dask",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
@@ -338,6 +340,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/whylogs_examples",
     "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/kubernetes/pod",
+    "auto/integrations/kubernetes/k8s_dask",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
