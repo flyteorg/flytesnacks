@@ -11,7 +11,7 @@ and can be enabled without signing up for any service. This is like running an e
 created for the specific Flyte task and gets torn down after completion.
 
 In Flyte/K8s, the cost is amortized because pods are faster to create than a machine, but the penalty of downloading
-Docker images may affect the performance. Also, remember that starting a pod is not as fast a running a process.
+Docker images may affect the performance. Also, remember that starting a pod is not as fast as running a process.
 
 Flytekit makes it possible to write ``dask`` code natively as a task and the ``dask`` cluster will be automatically
 configured using the decorated ``Dask()`` config. The examples in this section provide a hands-on tutorial for writing
@@ -119,9 +119,9 @@ scheduler pod and worker pods):
 Images
 ^^^^^^
 By default, all components of the deployed ``dask`` job (job runner pod, scheduler pod and worker pods) will all use the
-the image that was used whilst registering (this image should have ``dask[distributed]`` installed in its Python
+the image that was used while registering (this image should have ``dask[distributed]`` installed in its Python
 environment). This helps keeping the Python environments of all cluster components in sync.
-However, there is the possibility to specify different images for the components. This allows for usecases such as using
+However, there is the possibility to specify different images for the components. This allows for use cases such as using
 different images between tasks of the same workflow. While it is possible to use different images for the different
 components of the ``dask`` job, it is not advised, as this can quickly lead to Python environments getting our of sync.
 
