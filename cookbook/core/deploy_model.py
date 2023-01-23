@@ -35,7 +35,7 @@ def deploy_model_wf():
     approve_to_fifty = approve(ten, "approve-to-fifty", timeout=timedelta(hours=1))
     fifty = deploy_model(percentage=50.0)
     approve_to_fifty >> fifty
-    wait = sleep(duration=timedelta(days=2))
+    wait = sleep(duration=timedelta(minutes=58))
     fifty >> wait
     all = deploy_model(percentage=100.0)
     wait >> all
