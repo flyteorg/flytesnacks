@@ -120,6 +120,15 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
+    .. link-button:: auto/integrations/kubernetes/k8s_dask/index
+       :type: ref
+       :text: K8s Cluster Dask Jobs
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Dask jobs on a K8s Cluster.
+
+    ---
+
     .. link-button:: auto/integrations/kubernetes/k8s_spark/index
        :type: ref
        :text: K8s Cluster Spark Jobs
