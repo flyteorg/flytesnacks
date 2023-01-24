@@ -105,6 +105,7 @@ flytekit==1.2.6
     #   flytekitplugins-deck-standard
 flytekitplugins-deck-standard==1.2.6
     # via -r ./common/requirements-common.in
+flytekitplugins-sqlalchemy==1.2.6
 fonttools==4.38.0
     # via matplotlib
 furo @ git+https://github.com/flyteorg/furo@getting-started
@@ -336,6 +337,7 @@ pycparser==2.21
     # via cffi
 pydantic==1.10.2
     # via pandas-profiling
+pycountry
 pygments==2.13.0
     # via
     #   furo

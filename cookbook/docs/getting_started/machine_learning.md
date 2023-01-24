@@ -57,7 +57,7 @@ def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression
     """Train a model on the wine dataset."""
     features = data.drop("target", axis="columns")
     target = data["target"]
-    return LogisticRegression(**hyperparameters).fit(features, target)
+    return LogisticRegression(max_iter=5000, **hyperparameters).fit(features, target)
 
 
 @workflow
@@ -87,7 +87,7 @@ sure we can use our newly trained model to make predictions based on some
 feature matrix.
 
 ```{code-cell} ipython3
-model = training_workflow(hyperparameters={"C": 0.01, "max_iter": 5000})
+model = training_workflow(hyperparameters={"C": 0.01})
 X, _ = load_wine(as_frame=True, return_X_y=True)
 model.predict(X.sample(10, random_state=41))
 ```

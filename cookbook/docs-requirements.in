@@ -3,6 +3,7 @@ git+https://github.com/flyteorg/furo@getting-started
 pillow
 pycountry
 flytekitplugins-kfpytorch
+flytekitplugins-sqlalchemy
 sphinx
 sphinx_rtd_theme
 sphinx-gallery
