@@ -113,7 +113,7 @@ class DeckFilter(logging.Filter):
         msg = record.getMessage()
         matches = re.match(patt, msg)
 
-        if msg = "Connection error. Skip stats collection.":
+        if msg == "Connection error. Skip stats collection.":
             return False
 
         if matches:
