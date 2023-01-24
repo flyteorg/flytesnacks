@@ -62,7 +62,7 @@ interface defined by the workflow.
 
 `````{tabs}
 
-````{group-tab} Local Workflow
+````{group-tab} Locally Imported
 
 If you have access to the `@workflow`-decorated function in your Python runtime
 environment, you can import and execute it directly:
@@ -76,7 +76,7 @@ exection = remote.execute(wf, inputs={"name": "Kermit"})
 
 ````
 
-````{group-tab} Remote Workflow
+````{group-tab} Remotely Fetched
 
 Execute a workflow by fetching a `FlyteWorkflow` object from the remote
 **FlyteAdmin** service, which essentially contains the metadata representing a
@@ -91,6 +91,10 @@ execution = remote.execute(flyte_wf, inputs={"name": "Kermit"})
 
 `````
 
+```{note}
+You can also launch workflows via `flytectl`, learn more in the {ref}`User Guide <remote_launchplan>`
+```
+
 ## Running a Task
 
 You can also run individual tasks on a Flyte cluster by using the
@@ -98,7 +102,7 @@ You can also run individual tasks on a Flyte cluster by using the
 
 `````{tabs}
 
-````{group-tab} Local Task
+````{group-tab} Locally Imported
 
 If you have access to the `@task`-decorated function in your Python runtime
 environment, you can import and execute it directly:
@@ -112,7 +116,7 @@ execution = remote.execute(say_hello, inputs={"name": "Kermit"})
 
 ````
 
-````{group-tab} Remote Task
+````{group-tab} Remotely Fetched
 
 Execute a task by fetching a `FlyteWorkflow` object from the remote
 **FlyteAdmin** service, which essentially contains the metadata representing a
@@ -127,9 +131,13 @@ execution = remote.execute(flyte_task, inputs={"name": "Kermit"})
 
 `````
 
+```{note}
+You can also launch tasks via `flytectl`, learn more in the {ref}`User Guide <remote_task>`
+```
+
 ## Fetching Inputs and Outputs of an Execution
 
-By default, `FlyteRemote` {py:meth}`~flytekit.remote.remote.FlyteRemote.execute`
+By default, {py:meth}`FlyteRemote.execute <flytekit.remote.remote.FlyteRemote.execute>`
 is non-blocking, but you can also pass in `wait=True` to make it synchronously
 wait for the task or workflow to complete.
 
@@ -220,13 +228,13 @@ process_data_lp = LaunchPlan.get_or_create(
 )
 ```
 
-#### Registering Launch Plans
+### Registering Launch Plans
 
 Any of the methods described in the {doc}`package_register` guide will register
 a launchplan as long as it's defined in any of the Python modules that you
 want to register to a Flyte backend.
 
-#### Activating a Schedule
+### Activating a Schedule
 
 Once you've registered your launch plan, You can use the `FlyteRemote` client or
 the `flytectl` CLI to activate the schedule:
@@ -253,7 +261,7 @@ flytectl update launchplan -p flyteexamples -d development \
 
 :::::
 
-#### Deactivating a Schedule
+### Deactivating a Schedule
 
 Similarly, you can deactivate a launchplan with:
 

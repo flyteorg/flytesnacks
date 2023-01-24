@@ -45,7 +45,11 @@ DATABASE_URI = (
 
 extract_task = SQLAlchemyTask(
     "extract_rna",
-    query_template="""select len as sequence_length, timestamp from rna where len >= {{ .inputs.min_length }} and len <= {{ .inputs.max_length }} limit {{ .inputs.limit }}""",
+    query_template=(
+        "select len as sequence_length, timestamp from rna "
+        "where len >= {{ .inputs.min_length }} and len <= {{ .inputs.max_length }} "
+        "limit {{ .inputs.limit }}"
+    ),
     inputs=kwtypes(min_length=int, max_length=int, limit=int),
     output_schema_type=pd.DataFrame,
     task_config=SQLAlchemyConfig(uri=DATABASE_URI),
@@ -171,9 +175,10 @@ def downstream_workflow(
 ```{important}
 Prefer other data processing frameworks? Flyte ships with
 [Polars](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-polars),
-{ref}`Modin <modin_integration>`, {ref}`Spark <plugins-spark-k8s>`,
+{ref}`Dask <plugins-dask-k8s>`, {ref}`Modin <modin_integration>`, {ref}`Spark <plugins-spark-k8s>`,
 [Vaex](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-vaex),
-and [DBT integrations](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-dbt).
+and [DBT](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-dbt)
+integrations.
 
 For database connectors, Flyte provides first-party support for {ref}`AWS Athena <aws_athena>`,
 {ref}`Google Bigquery <big_query>`, {ref}`Snowflake <plugins-snowflake>`,

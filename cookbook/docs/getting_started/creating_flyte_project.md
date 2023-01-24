@@ -106,6 +106,8 @@ Running wf() DefaultNamedTupleOutput(o0='hello passengers!', o1=17)
 
 ````
 
+(getting_started_python_dependencies)=
+
 ## Python Dependencies
 
 You can specify additional Python dependencies in your project by updating the
@@ -125,6 +127,7 @@ manage the requirements of your project.
 
 ````
 
+(getting_started_dockerfile)=
 
 ## Dockerfile
 

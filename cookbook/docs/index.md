@@ -173,7 +173,8 @@ Flyte cluster.
 You can run your workflow using `pyflyte`, the CLI that ships with `flytekit`.
 
 ```{prompt} bash $
-pyflyte run example.py training_workflow --hyperparameters '{"C": 0.1, "max_iter": 3000}'
+pyflyte run example.py training_workflow \
+    --hyperparameters '{"C": 0.1, "max_iter": 3000}'
 ```
 
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
@@ -247,7 +248,8 @@ Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote`
 flag:
 
 ```{prompt} bash $
-pyflyte run --remote example.py training_workflow --hyperparameters '{"C": 0.1, "max_iter": 3000}'
+pyflyte run --remote example.py training_workflow \
+    --hyperparameters '{"C": 0.1, "max_iter": 3000}'
 ```
 
 ````{div} shadow p-3 mb-8 rounded

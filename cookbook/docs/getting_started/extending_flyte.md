@@ -165,6 +165,6 @@ many more ways to customize Flyte tasks:
 Congratulations! 🎉 You've just completed the Flyte Fundamentals tour.
 
 The final section in the getting started section of the docs is to provide you
-with some practical use cases for implementing your first workflows, whether
-you're a data scientist, data analyst, data engineer, or machine learning
-engineer.
+with some {ref}`core use cases <getting_started_core_use_cases>` for implementing
+your first workflows, whether you're a data scientist, data analyst, data engineer,
+or machine learning engineer.

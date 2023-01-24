@@ -96,21 +96,32 @@ model.predict(X.sample(10, random_state=41))
 
 There are many ways to extend your workloads:
 
-- Use the {py:class}`~flytekit.Resources` task keyword argument to request
-  additional CPUs, GPUs, and/or memory.
-- With constructs like {py:func}`~flytekit.dynamic` workflows and
-  {py:func}`~flytekit.map_task`s, implement gridsearch, random search,
-  and even [bayesian optimization](https://github.com/flyteorg/flytekit-python-template/tree/main/bayesian-optimization/%7B%7Bcookiecutter.project_name%7D%7D).
-- Use the {ref}`Ray Integration <kube-ray-op>` and leverage tools like
-  [Ray Tune](https://docs.ray.io/en/latest/tune/index.html) for hyperparameter
-  optimization, all orchestrated by Flyte as ephemerally-provisioned Ray clusters.
-- Use the {ref}`MPI <kf-mpi-op>`, {ref}`Sagemaker <aws-sagemaker>`,
-  {ref}`Kubeflow Tensorflow <kftensorflow_plugin>` and more
-  {doc}`integrations <_tags/DistributedComputing>` to do distributed training.
-- Auto-capture training logs with the {py:func}`~flytekitplugins.mlflow.mlflow_autolog`
-  decorator, which can be viewed as Flyte Decks with `@task(disable_decks=False)`.
-- Serialize your models in ONNX format using the {ref}`ONNX plugin <onnx>`, which
-  supports ScikitLearn, TensorFlow, and Pytorch.
+```{list-table}
+:header-rows: 0
+:widths: 20 30
+
+* - **🏔 Vertical Scaling**
+  - Use the {py:class}`~flytekit.Resources` task keyword argument to request
+    additional CPUs, GPUs, and/or memory.
+* - **🗺 Horizontal Scaling**
+  - With constructs like {py:func}`~flytekit.dynamic` workflows and
+    {py:func}`~flytekit.map_task`s, implement gridsearch, random search,
+    and even [bayesian optimization](https://github.com/flyteorg/flytekit-python-template/tree/main/bayesian-optimization/%7B%7Bcookiecutter.project_name%7D%7D).
+* - **🔧 Specialized Tuning Libraries**
+  - Use the {ref}`Ray Integration <kube-ray-op>` and leverage tools like
+    [Ray Tune](https://docs.ray.io/en/latest/tune/index.html) for hyperparameter
+    optimization, all orchestrated by Flyte as ephemerally-provisioned Ray clusters.
+* - **📦 Ephemeral Cluster Resources**
+  - Use the {ref}`MPI Operator <kf-mpi-op>`, {ref}`Sagemaker <aws-sagemaker>`,
+    {ref}`Kubeflow Tensorflow <kftensorflow_plugin>`, {ref}`Kubeflow Pytorch<kf-pytorch-op>`
+    and {doc}`more <_tags/DistributedComputing>` to do distributed training.
+* - **🔎 Experiment Tracking**
+  - Auto-capture training logs with the {py:func}`~flytekitplugins.mlflow.mlflow_autolog`
+    decorator, which can be viewed as Flyte Decks with `@task(disable_decks=False)`.
+* - **⏩ Inference Acceleration**
+  - Serialize your models in ONNX format using the {ref}`ONNX plugin <onnx>`, which
+    supports ScikitLearn, TensorFlow, and Pytorch.
+```
 
 
 ```{admonition} Learn More

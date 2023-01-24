@@ -53,7 +53,8 @@ population that has received at least one COVID-19 vaccination.
 ## Rendering PLots
 
 We can use {ref}`Flyte Decks <flyte-decks>` for rendering a static HTML report
-of the map.
+of the map. In this case, we normalize the `people_vaccinated` by the
+`population` count of each country:
 
 ```{code-cell} ipython3
 @task(disable_deck=False)
@@ -155,16 +156,19 @@ logger.removeFilter(deck_filter)
 IFrame(src=cp_deck(deck_filter.deck_files["plot"]), width="100%", height="400px")
 ```
 
-```{important}
-Prefer other data processing frameworks? Flyte ships with
-[Polars](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-polars),
-{ref}`Modin <modin_integration>`, {ref}`Spark <plugins-spark-k8s>`,
-[Vaex](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-vaex),
-and [DBT integrations](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-dbt).
+## Custom Flyte Deck Renderers
 
 You can also create your own {ref}`custom Flyte Deck renderers <getting_started_customer_renderers>`
 to visualize data with any plotting/visualization library of your choice, as
 long as you can create render HTML for the objects of interest.
+
+```{important}
+Prefer other data processing frameworks? Flyte ships with
+[Polars](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-polars),
+{ref}`Dask <plugins-dask-k8s>`, {ref}`Modin <modin_integration>`, {ref}`Spark <plugins-spark-k8s>`,
+[Vaex](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-vaex),
+and [DBT](https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-dbt)
+integrations.
 
 If you need to connect to a database, Flyte provides first-party
 support for {ref}`AWS Athena <aws_athena>`, {ref}`Google Bigquery <big_query>`,

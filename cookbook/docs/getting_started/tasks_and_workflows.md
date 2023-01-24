@@ -19,7 +19,7 @@ of how Flyte works by creating a few tasks and a simple model-training workflow.
 In this guide, you'll learn more about how tasks and workflows fit into the Flyte
 programming model.
 
-## 🧱 Tasks
+## Tasks
 
 Flyte tasks are the core building blocks of larger, more complex workflows.
 
@@ -39,7 +39,8 @@ def mean(values: List[float]) -> float:
 ```
 
 As you can see, a task is just a regular Python function that's decorated
-with `@task`. We can run this function just like any other Python function:
+with {py:func}`@task <flytekit.task>`. We can run this function just like any
+other Python function:
 
 ```{code-cell} ipython3
 mean(values=[float(i) for i in range(1, 11)])
@@ -81,7 +82,7 @@ Flyte's type system is also used for caching, data lineage tracking, and
 automatic serialization and deserialization of data as it's passed from one task
 to another. You can learn more about it in the {ref}`User Guide <flyte_type_system>`.
 
-## 🔀 Workflows
+## Workflows
 
 Workflows compose multiple tasks – or other workflows – into meaningful steps
 of computation to produce some useful set of outputs or outcomes.
@@ -95,7 +96,7 @@ Suppose that we want to mean-center and standard-deviation-scale a set of
 values. In addition to a `mean` function, we also need to compute standard
 deviation and implement the centering and scaling logic.
 
-Let's go ahead and implement those as tasks:
+Let's go ahead and implement those as {py:func}`~flytekit.task`s:
 
 ```{code-cell} ipython3
 from math import sqrt
@@ -112,7 +113,8 @@ def standard_scale(values: List[float], mu: float, sigma: float) -> List[float]:
     return [(x - mu) / sigma for x in values]
 ```
 
-Then we put all the pieces together into a workflow:
+Then we put all the pieces together into a workflow, which is a function
+that's decorated with {py:func}`@workflow <flytekit.workflow>`:
 
 ```{code-cell} ipython3
 @workflow
@@ -197,7 +199,7 @@ except Exception as e:
     print(e)
 ```
 
-## 🚀 Launch plans
+## Launch plans
 
 A Flyte {py:class}`~flytekit.LaunchPlan` is a partial or complete binding of
 inputs necessary to launch a workflow. You can think of it like
@@ -209,11 +211,10 @@ Additionally, `LaunchPlan`s provides an interface for specifiying run-time
 overrides such as notifications, schedules, and more.
 ```
 
-Create launch plan like so:
+Create a launch plan like so:
 
 ```{code-cell} ipython3
 from flytekit import LaunchPlan
-
 
 launch_plan = LaunchPlan.get_or_create(
     standard_scale_workflow,

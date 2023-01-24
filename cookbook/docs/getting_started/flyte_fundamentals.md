@@ -15,20 +15,20 @@ use cases.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Tasks, Workflows and LaunchPlans <tasks_and_workflows>`
+* - {doc}`🔀 Tasks, Workflows and LaunchPlans <tasks_and_workflows>`
   - Create tasks as building blocks, compose them into workflows, and schedule
     them with launchplans.
-* - {doc}`Creating a Flyte Project <creating_flyte_project>`
+* - {doc}`✨ Creating a Flyte Project <creating_flyte_project>`
   - Build a Flyte project from scratch.
-* - {doc}`Registering Workflow <package_register>`
+* - {doc}`🗄 Registering Workflows <package_register>`
   - Develop and deploy workflows to a local Flyte demo cluster.
-* - {doc}`Running and Scheduling Workflows <run_schedule>`
+* - {doc}`🚀 Running and Scheduling Workflows <run_schedule>`
   - Execute workflows programmatically and schedule them as cron jobs.
-* - {doc}`Visualizing Artifacts <visualizing_artifacts>`
+* - {doc}`📊 Visualizing Artifacts <visualizing_artifacts>`
   - Create rich, customizable static reports for increased visibility into tasks.
-* - {doc}`Optimizing Tasks <optimizing_tasks>`
+* - {doc}`🏎 Optimizing Tasks <optimizing_tasks>`
   - Make tasks scalable, performant, and robust to unexpected failures.
-* - {doc}`Extending Flyte <extending_flyte>`
+* - {doc}`🔌 Extending Flyte <extending_flyte>`
   - Customize Flyte types and tasks to fit your needs.
 ```
 

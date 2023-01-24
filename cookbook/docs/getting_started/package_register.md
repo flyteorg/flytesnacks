@@ -50,6 +50,8 @@ The `config-sandbox.yaml` file contains configuration for **FlyteAdmin**,
 which is the Flyte cluster backend component that processes all client requests
 such as workflow executions:
 
+````{dropdown} See Configuration
+
 ```{code-block} yaml
 admin:
   # For GRPC endpoints you might want to use dns:///flyte.myexample.com
@@ -63,6 +65,8 @@ logger:
   level: 0
 ```
 
+````
+
 ```{note}
 You can also create your own config file with `flytectl config init`, which
 will create a config file at `~/.flyte/config.yaml`.
@@ -71,14 +75,15 @@ Learn more about the configuration settings in the
 {ref}`Deployment Guide <flyte:flyteadmin-config-specification>`
 ```
 
-### Custom Python dependencies
+### Custom Dependencies
 
-If you have custom Python dependencies, update the `requirements.txt` file and
-those changes will be incorporated into the Docker image.
+If you have custom Python dependencies, update the `requirements.txt` file that
+ships with the {ref}`project template <getting_started_python_dependencies>`
+and those changes will be incorporated into the Docker image.
 
-You can also update the `Dockerfile` if you want to use a different base image
-or if the additional Python dependencies require installing binaries or packages
-from other languages.
+You can also update the {ref}`Dockerfile <getting_started_dockerfile>` if you
+want to use a different base image or if the additional Python dependencies
+require installing binaries or packages from other languages.
 
 
 ## Registration Patterns
