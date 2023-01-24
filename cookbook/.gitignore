@@ -15,3 +15,4 @@ docs/_rsts/
 .config/
 test.ipynb
 jupyter_execute
+_flyte_decks
