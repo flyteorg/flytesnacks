@@ -163,14 +163,10 @@ You can read more about tasks and workflow
 
 (intro_running_flyte_workflows)=
 
-## Running Flyte Workflows
+## Running Flyte Workflows in Python
 
-You can run the workflow in ``example.py`` on a local Python environment or a
-Flyte cluster.
-
-### Local Execution
-
-You can run your workflow using `pyflyte`, the CLI that ships with `flytekit`.
+You can run the workflow in ``example.py`` on a local Python by using `pyflyte`,
+the CLI that ships with `flytekit`.
 
 ```{prompt} bash $
 pyflyte run example.py training_workflow \
@@ -219,10 +215,10 @@ if __name__ == "__main__":
 
 (getting_started_flyte_cluster)=
 
-### Flyte Cluster Execution
+## Running Workflow in a Flyte Cluster
 
-To run your Flyte workflows on an actual Flyte cluster, spin up a local demo
-cluster:
+You can also use `pyflyte run` to execute workflows on a Flyte cluster. To
+do so, first spin up a local demo cluster:
 
 ```{prompt} bash $
 flytectl demo start
@@ -244,8 +240,8 @@ Make sure to export the `FLYTECTL_CONFIG` environment variable in your shell.
 ```
 ````
 
-Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote`
-flag:
+Then, run the workflow on the Flyte cluster with `pyflyte run` using the
+`--remote` flag:
 
 ```{prompt} bash $
 pyflyte run --remote example.py training_workflow \
@@ -264,14 +260,11 @@ Where ``<execution_name>`` is a unique identifier for the workflow execution.
 
 ````
 
-Unlike the previous ``pyflyte run`` invocation, passing the ``--remote`` flag
-will trigger the execution on the configured backend.
-
 
 ## Inspect the Results
 
-Navigate to the URL produced as the result of running `pyflyte run`. This will
-take you to FlyteConsole, the web UI used to manage Flyte entities such as tasks,
+Navigate to the URL produced by `pyflyte run`. This will take you to
+FlyteConsole, the web UI used to manage Flyte entities such as tasks,
 workflows, and executions.
 
 ![getting started console](https://github.com/flyteorg/static-resources/raw/main/flytesnacks/getting_started/getting_started_console.gif)
@@ -287,7 +280,7 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 - On completion, you can inspect the outputs of each task, and ultimately, the overarching workflow.
 ```
 
-## Recap
+## Summary
 
 🎉  **Congratulations! In this introductory guide, you:**
 
@@ -298,20 +291,36 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 
 ## What's Next?
 
-Follow the rest of the sections in the **Getting Started** documentation to get
-a better understanding of the key constructs that make Flyte a such powerful
-orchestration tool 💪.
+Follow the rest of the sections in the documentation to get a better
+understanding of the key constructs that make Flyte a such powerful orchestration
+tool 💪.
+
+```{admonition} Recommendation
+:class: tip
+
+If you're new to Flyte we recommend that you go through the
+{ref}`Flyte Fundamentals <getting_started_fundamentals>` and
+{ref}`Core Use Cases <getting_started_core_use_cases>` section before diving
+into the other sections of the documentation.
+```
 
 ```{list-table}
 :header-rows: 0
 :widths: 10 30
 
-* - {ref}`Flyte Fundamentals <getting_started_fundamentals>`
+* - {ref}`🔤 Flyte Fundamentals <getting_started_fundamentals>`
   - A brief tour of the Flyte's main concepts and development lifecycle
-* - {ref}`Core Use Cases <getting_started_core_use_cases>`
+* - {ref}`🌟 Core Use Cases <getting_started_core_use_cases>`
   - A practical guide for data, machine learning, and analytics practitioners
+* - {ref}`📖 User Guide <userguide>`
+  - A comprehensive view of all of Flyte's functionality.
+* - {ref}`📚 Tutorials <tutorials>`
+  - End-to-end examples of Flyte for data/feature engineering, machine learning,
+    bioinformatics, and more.
+* - {ref}`🚀 Deployment Guide <deployment>`
+  - Guides for platform engineers to deploy a Flyte cluster on your own
+    infrastructure.
 ```
-
 
 ```{toctree}
 :maxdepth: 1

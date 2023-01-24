@@ -22,7 +22,7 @@ use cases.
   - Build a Flyte project from scratch.
 * - {doc}`🗄 Registering Workflows <package_register>`
   - Develop and deploy workflows to a local Flyte demo cluster.
-* - {doc}`🚀 Running and Scheduling Workflows <run_schedule>`
+* - {doc}`⏱ Running and Scheduling Workflows <run_schedule>`
   - Execute workflows programmatically and schedule them as cron jobs.
 * - {doc}`📊 Visualizing Artifacts <visualizing_artifacts>`
   - Create rich, customizable static reports for increased visibility into tasks.
