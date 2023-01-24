@@ -105,6 +105,7 @@ flytekit==1.2.6
     #   flytekitplugins-deck-standard
 flytekitplugins-deck-standard==1.2.6
     # via -r ./common/requirements-common.in
+flytekitplugins-kfpytorch==1.2.6
 flytekitplugins-sqlalchemy==1.2.6
 fonttools==4.38.0
     # via matplotlib
