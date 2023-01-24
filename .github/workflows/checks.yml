@@ -155,9 +155,9 @@ jobs:
           fetch-depth: "0"
       - name: Report Sphinx Warnings
         id: sphinx-warnings
-        # NOTE: myst-nb build warnings are logged in docs/_build/reports/index.err.log
+        # NOTE: myst-nb build warnings are logged in docs/_build/reports/*.err.log
         run: |
           sudo apt-get install python3-sphinx
           cd cookbook
           pip install -r docs-requirements.txt
-          cd docs && make html && cat _build/**/*.err.log
+          cd docs && make html
