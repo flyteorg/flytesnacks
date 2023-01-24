@@ -25,7 +25,7 @@ from flytekitplugins.dbt.task import (
 # %%
 # We're going to use the well-known jaffle shop example (https://github.com/dbt-labs/jaffle_shop).
 DBT_PROJECT_DIR = "jaffle_shop"
-DBT_PROFILES_DIR = "."
+DBT_PROFILES_DIR = "dbt-profiles"
 DBT_PROFILE = "jaffle_shop"
 
 # %%
@@ -36,7 +36,7 @@ def prepare_and_seed_database():
     # Ensure the jaffle_shop database is created
     subprocess.run(["psql", "-h", "sandbox-postgresql.flyte.svc.cluster.local", "-p", "5432", "-U", "postgres", "-c", "CREATE DATABASE jaffle_shop;"], env={"PGPASSWORD": "postgres"})
     # Seed the database with some data
-    subprocess.run(["dbt", "seed", "--project-dir", "jaffle_shop", "--profiles-dir", "dbt-profiles"])
+    subprocess.run(["dbt", "seed", "--project-dir", DBT_PROJECT_DIR, "--profiles-dir", DBT_PROFILES_DIR])
 
 
 # %%

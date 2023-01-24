@@ -17,19 +17,23 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY ./requirements.txt /root
+COPY dbt_example/requirements.txt /root/
 RUN pip install -r /root/requirements.txt
 
+# Copy the makefile targets to expose on the container. This makes it easier to register.
+COPY in_container.mk /root/Makefile
+COPY dbt_example/sandbox.config /root
+
 # Copy the actual code
-COPY . /root
+COPY dbt_example/ /root/dbt_example/
+
+# Copy dbt-specific files
+COPY dbt_example/profiles.yml /root/dbt-profiles/
+COPY dbt_example/jaffle_shop /root/jaffle_shop
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-
-RUN mkdir /root/dbt-profiles
-COPY profiles.yml /root/dbt-profiles
-COPY jaffle_shop /root/jaffle_shop
 
 ENV FLYTE_SDK_LOGGING_LEVEL 10
