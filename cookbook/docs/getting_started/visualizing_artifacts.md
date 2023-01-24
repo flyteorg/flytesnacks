@@ -136,7 +136,7 @@ from pathlib import Path
 
 def cp_deck(src):
     src = Path(src)
-    target = Path.cwd() / ".." / "_flyte_decks" / src.parent.name
+    target = Path.cwd() / "_flyte_decks" / src.parent.name
     target.mkdir(parents=True, exist_ok=True)
     shutil.copy(src, target)
     return target / "deck.html"

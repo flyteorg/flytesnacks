@@ -2,6 +2,7 @@
 git+https://github.com/flyteorg/furo@getting-started
 pillow
 pycountry
+psycopg2
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 sphinx

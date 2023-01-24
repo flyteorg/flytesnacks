@@ -338,6 +338,7 @@ pycparser==2.21
 pydantic==1.10.2
     # via pandas-profiling
 pycountry
+psycopg2
 pygments==2.13.0
     # via
     #   furo
