@@ -32,7 +32,9 @@ use cases.
   - Customize Flyte types and tasks to fit your needs.
 ```
 
-```{important}
+```{admonition} Learn more
+:class: important
+
 For a comprehensive view of all of Flyte's functionality, see the
 {ref}`User Guide <userguide>`, and to learn how to deploy a production Flyte
 cluster, see the {ref}`Deployment Guide <deployment>`.

@@ -107,7 +107,7 @@ flytekitplugins-deck-standard==1.2.6
     # via -r ./common/requirements-common.in
 fonttools==4.38.0
     # via matplotlib
-furo @ git+https://github.com/flyteorg/furo@main
+furo @ git+https://github.com/flyteorg/furo@getting-started
     # via -r docs-requirements.in
 googleapis-common-protos==1.57.0
     # via
