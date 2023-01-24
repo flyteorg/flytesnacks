@@ -53,5 +53,5 @@ def wf() -> float:
         timeout=timedelta(hours=1),
         expected_type=typing.List[int],
     )
-    score = validate_model(known_values=s1, data=image_data)
+    score = validate_model(labels=s1, data=image_data)
     return score
