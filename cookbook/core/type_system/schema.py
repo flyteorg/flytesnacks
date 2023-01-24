@@ -13,7 +13,7 @@ converted into flyte's abstract representation of a schema object
 # %%
 # .. warning::
 #
-#   ``FlyteSchema`` is deprecated in 1.4.0, use :ref:`structured_dataset_example` instead.
+#   ``FlyteSchema`` is deprecated, use :ref:`structured_dataset_example` instead.
 
 import pandas
 from flytekit import task, workflow
