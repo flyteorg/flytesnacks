@@ -119,8 +119,8 @@ class CustomSorter(FileNameSortKey):
         "sql_alchemy.py",
         "whylogs_example.py",
         ## Kubernetes
-        "dask.py",
         "pod.py",
+        "dask_example.py",
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
