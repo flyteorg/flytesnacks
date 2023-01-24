@@ -81,8 +81,8 @@ import pandas as pd
 from sklearn.datasets import load_wine
 from sklearn.linear_model import LogisticRegression
 
+import flytekit.extras.sklearn
 from flytekit import task, workflow
-from flytekit.types.pickle import FlytePickle
 
 
 @task
@@ -113,7 +113,7 @@ training workflow:
 
 ```{code-cell} python
 @workflow
-def training_workflow(hyperparameters: dict) -> FlytePickle:
+def training_workflow(hyperparameters: dict) -> LogisticRegression:
     """Put all of the steps together into a single workflow."""
     data = get_data()
     processed_data = process_data(data=data)
