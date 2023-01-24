@@ -112,6 +112,10 @@ class DeckFilter(logging.Filter):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
         msg = record.getMessage()
         matches = re.match(patt, msg)
+
+        if msg = "Connection error. Skip stats collection.":
+            return False
+
         if matches:
             task, filepath = matches.group(1), matches.group(2)
             self.logs.append(self.formatter.format(record))

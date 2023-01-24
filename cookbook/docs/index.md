@@ -43,7 +43,7 @@ pip install flytekit
 Then install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
 which the command-line interface for interacting with a Flyte backend.
 
-````{tabbed} OSX
+````{tabbed} Homebrew
 
 ```{prompt} bash $
 brew install flyteorg/homebrew-tap/flytectl
@@ -51,7 +51,7 @@ brew install flyteorg/homebrew-tap/flytectl
 
 ````
 
-````{tabbed} Other Operating systems
+````{tabbed} Curl
 
 ```{prompt} bash $
 curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
@@ -144,7 +144,7 @@ This means that you can invoke tasks and workflows as regular Python methods and
 even import and use them in other Python modules or scripts.
 
 :::{note}
-A {func}`~flytekit.task` is a pure Python function, while a {func}`~flytekit.workflow`
+A {func}`task <flytekit.task>` is a pure Python function, while a {func}`workflow <flytekit.workflow>`
 is actually a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) that
 only supports a subset of Python's semantics. Some key things to learn here are:
 
@@ -155,8 +155,8 @@ only supports a subset of Python's semantics. Some key things to learn here are:
   *You can only pass promises into other tasks/workflows.*
 - Tasks can only be invoked with keyword arguments, not positional arguments.
 
-You can read more about tasks {doc}`here <auto/core/flyte_basics/task>` and workflows
-{doc}`here <auto/core/flyte_basics/basic_workflow>`.
+You can read more about tasks and workflow
+{ref}`here <getting_started_tasks_and_workflows>`.
 :::
 
 ::::
