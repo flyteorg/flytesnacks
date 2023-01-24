@@ -311,9 +311,11 @@ into the other sections of the documentation.
 * - {ref}`🔤 Flyte Fundamentals <getting_started_fundamentals>`
   - A brief tour of the Flyte's main concepts and development lifecycle
 * - {ref}`🌟 Core Use Cases <getting_started_core_use_cases>`
-  - A practical guide for data, machine learning, and analytics practitioners
+  - An overview of core uses cases for data, machine learning, and analytics
+    practitioners.
 * - {ref}`📖 User Guide <userguide>`
-  - A comprehensive view of all of Flyte's functionality.
+  - A comprehensive view of Flyte's functionality for data scientists,
+    ML engineers, data engineers, and data analysts.
 * - {ref}`📚 Tutorials <tutorials>`
   - End-to-end examples of Flyte for data/feature engineering, machine learning,
     bioinformatics, and more.
