@@ -161,3 +161,6 @@ jobs:
           cd cookbook
           pip install -r docs-requirements.txt
           cd docs && make html
+      - name: Report Myst Notebook Build Errors
+        id: myst-errors
+        run: cat _build/**/*.err.log
