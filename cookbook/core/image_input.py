@@ -5,7 +5,6 @@ from io import BytesIO
 from random import random
 
 import matplotlib.pyplot as plt
-import numpy
 import numpy as np
 from flytekit import current_context, task, wait_for_input, workflow
 from matplotlib.figure import Figure
@@ -21,7 +20,7 @@ class MatplotFigureRenderer(object):
 
 
 @task(disable_deck=False)
-def plot_images() -> numpy.ndarray:  # noqa
+def plot_images() -> np.ndarray:  # noqa
     data = load_digits()
     X = data.images.reshape(len(data.images), -1)[68:88]
 
@@ -29,7 +28,7 @@ def plot_images() -> numpy.ndarray:  # noqa
     for index, image in enumerate(X[0:20]):
         plt.subplot(1, 20, index + 1)
         plt.imshow(np.reshape(image, (8, 8)), cmap=plt.cm.gray)
-        plt.title("Training: %in" % index, fontsize=15)
+        plt.title(f"{index}", fontsize=15)
 
     d = current_context().default_deck
     d.append(MatplotFigureRenderer().to_html(fig))
@@ -38,8 +37,8 @@ def plot_images() -> numpy.ndarray:  # noqa
 
 
 @task
-def validate_model(known_values: typing.List[int], data: numpy.ndarray) -> float:
-    print(f"Known values are {known_values}")
+def validate_model(labels: typing.List[int], data: np.ndarray) -> float:
+    print(f"Known values are {labels}")
     print(f"Data: {data}")
     model_score = random()
     print(f"Score: {model_score}")
@@ -50,7 +49,7 @@ def validate_model(known_values: typing.List[int], data: numpy.ndarray) -> float
 def wf() -> float:
     image_data = plot_images()
     s1 = wait_for_input(
-        "images-values-known",
+        "known-labels",
         timeout=timedelta(hours=1),
         expected_type=typing.List[int],
     )
