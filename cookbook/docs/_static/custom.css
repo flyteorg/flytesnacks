@@ -34,3 +34,13 @@ details.dropdown[open] summary {
 .rst-versions .rst-other-versions dl:nth-child(3) {
   display: none;
 }
+
+/* Flyte Deck custom style */
+#flyte-frame-nav, #flyte-frame-container, #flyte-frame-tabs li.active {
+    color: var(--color-content-foreground) !important;
+}
+
+div.cell_output #flyte-frame-container table {
+    font-size: 0.8em;
+    color: var(--color-content-foreground);
+}

@@ -16,13 +16,13 @@ kernelspec:
 
 Flyte {py:class}`~flytekit.deck.Deck`s are one of the first-class constructs in
 Flyte, allowing you to generate static HTML reports associated any of the
-artifacts associated with your tasks.
+artifacts materialized within your tasks.
 
-You can think of Decks as stacks of HTML snippets that are logically grouped.
-By default, every task has three decks: an **input**, an **output**, and a
+You can think of Decks as stacks of HTML snippets that are logically grouped by
+tabs. By default, every task has three decks: an **input**, an **output**, and a
 **default** deck.
 
-Flyte materializes Decks via renderers, which are specific implementations of
+Flyte materializes Decks via `Renderer`s, which are specific implementations of
 how to generate an HTML report from some Python object.
 
 ## Enabling Flyte Decks
@@ -43,12 +43,11 @@ def iris_data() -> pd.DataFrame:
 Specifying this flag indicates that Decks should be rendered whenever this task
 is invoked.
 
-
 ## Rendering Task Inputs and Outputs
 
 By default, Flyte will render the inputs and outputs of tasks with the built-in
-renderers in the corresponding **input** and **output** decks, respectively.
-In the following task, we load the iris dataset using the `plotly` package.
+renderers in the corresponding **input** and **output** {py:class}`~flytekit.deck.Deck`s,
+respectively. In the following task, we load the iris dataset using the `plotly` package.
 
 ```{code-cell} ipython3
 
@@ -78,7 +77,8 @@ def wf(
 ```
 
 Then, invoking the workflow containing a deck-enabled task will render the
-following reports for the input and output data:
+following reports for the input and output data in an HTML file, which you can
+see in the logs:
 
 
 ```{code-cell} ipython3
@@ -88,25 +88,42 @@ tags: [remove-input]
 
 # this is an unrendered cell, used to capture the logs in order to render the
 # Flyte Decks directly in the docs.
+import datetime
 import logging
 import os
 import re
+import shutil
+from pythonjsonlogger import jsonlogger
 from IPython.display import HTML, IFrame
+from pathlib import Path
 
 
 class DeckFilter(logging.Filter):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.formatter = jsonlogger.JsonFormatter(
+            fmt="%(asctime)s %(name)s %(levelname)s %(message)s"
+        )
+        self.logs = []
         self.deck_files = {}
     
     def filter(self, record):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
-        matches = re.match(patt, record.getMessage())
+        msg = record.getMessage()
+        matches = re.match(patt, msg)
         if matches:
             task, filepath = matches.group(1), matches.group(2)
+            self.logs.append(self.formatter.format(record))
             self.deck_files[task] = re.sub("^file://", "", filepath)
         return True
+
+def cp_deck(src):
+    src = Path(src)
+    target = Path.cwd() / "_flyte_decks" / src.parent.name
+    target.mkdir(parents=True, exist_ok=True)
+    shutil.copy(src, target)
+    return target / "deck.html"
 
 
 logger = logging.getLogger("flytekit")
@@ -120,40 +137,19 @@ logger.addFilter(deck_filter)
 wf(sample_frac=1.0, random_state=42)
 ```
 
-As you can see below, the built-in decks for the **input** arguments for
-primitive types like `int` and `float` are barebones, simply showing the
-values. The **output** argument in this case is a `pandas.DataFrame`, where
-the default renderer will display the first and last five rows.
-
 ```{code-cell} ipython3
 ---
 tags: [remove-input]
 ---
-
-import os
-import shutil
-from pathlib import Path
-
-def cp_deck(src):
-    src = Path(src)
-    target = Path.cwd() / "_flyte_decks" / src.parent.name
-    target.mkdir(parents=True, exist_ok=True)
-    shutil.copy(src, target)
-    return target / "deck.html"
-
 logger.removeFilter(deck_filter)
-HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
+for log in deck_filter.logs:
+    print(log)
 ```
 
 ````{note}
 To see where the HTML file is written to when you run the deck-enabled tasks
 locally, you need to set the `FLYTE_SDK_LOGGING_LEVEL` environment variable
 to `20`. Doing so will emit logs that look like:
-
-
-```{code-block}
-{"asctime": "2023-01-18 17:48:55,722", "name": "flytekit", "levelname": "INFO", "message": "iris_data task creates flyte deck html to file:///var/folders/4q/frdnh9l10h53gggw1m59gr9m0000gn/T/flyte-mq3hz60r/sandbox/local_flytekit/a8278eb21300b63504d9a4d5a4b41ca2/deck.html"}
-```
 
 Where the `deck.html` filepath can be found in the `message` key.
 ````
@@ -165,13 +161,13 @@ deck, which you can access with the {py:func}`~flytekit.current_context`
 function. In the following example, we extend the `iris_data` task with:
 
 - A markdown snippet to provide more context about what the task does.
-- A profile of the dataset using the {py:class}`~flytekitplugins.deck.FrameProfilingRenderer`,
+- A profile of the dataset using the {py:class}`~flytekitplugins.deck.renderer.BoxRenderer`,
   which leverages the [`pandas-profiling`](https://pandas-profiling.ydata.ai/docs/master/index.html)
   package to auto-generate a set of plots and summary statistics from the dataframe.
 
 ```{code-cell} ipython
 import flytekit
-from flytekitplugins.deck.renderer import MarkdownRenderer, FrameProfilingRenderer
+from flytekitplugins.deck.renderer import MarkdownRenderer, BoxRenderer
 
 @task(disable_deck=False)
 def iris_data(
@@ -187,36 +183,12 @@ def iris_data(
         "This task loads the iris dataset using the  `plotly` package."
     )
     flytekit.current_context().default_deck.append(MarkdownRenderer().to_html(md_text))
-    flytekit.Deck("profile", FrameProfilingRenderer("Iris").to_html(data))
+    flytekit.Deck("box plot", BoxRenderer("sepal_length").to_html(data))
     return data
 ```
 
-Re-running the workflow, we get:
-
-```{code-cell} ipython
----
-tags: [remove-input]
----
-import warnings
-
-@workflow
-def wf(
-    sample_frac: Optional[float] = None,
-    random_state: Optional[int] = None,
-):
-    iris_data(sample_frac=sample_frac, random_state=random_state)
-
-deck_filter = DeckFilter()
-logger.addFilter(deck_filter)
-
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    wf(sample_frac=1.0, random_state=42)
-
-logger.removeFilter(deck_filter)
-# IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
-# HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
-```
+This will create new tab in the Flyte Deck HTML view named **default**, which
+should contain the markdown text we specified.
 
 (getting_started_customer_renderers)=
 
@@ -259,12 +231,12 @@ def iris_data(
         "This task loads the iris dataset using the  `plotly` package."
     )
     flytekit.current_context().default_deck.append(MarkdownRenderer().to_html(md_text))
+    flytekit.Deck("box plot", BoxRenderer("sepal_length").to_html(data))
     return data
 ```
 
-Running this version of our `iris_data` task, we get the Deck below. Go to the
-**output** tab to see that the dataset is rendered as a summary table instead of
-the first and last few rows of the actual data.
+Finally, we can run the workflow and embed the resulting html file by parsing
+out the filepath from logs:
 
 ```{code-cell} ipython
 ---
@@ -287,15 +259,24 @@ with warnings.catch_warnings():
     wf(sample_frac=1.0, random_state=42)
 
 logger.removeFilter(deck_filter)
-# IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
-# HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
+HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
 ```
 
-As we can see from the `DataFrameSummaryRenderer` example above, Flyte Decks
-are simple to customize, as long as you can render the Python object into some
-HTML representation.
+As you can see below, Flyte renders in-line decks in the order in which they
+called in the task function body: **default**, then **box plot**, which contain
+the markdown description and box plot, respectively.
 
-```{note}
+The built-in decks for the **input** arguments for primitive types like `int`
+and `float` are barebones, simply showing the values, and the **output** argument
+contains the output of our custom `DataFrameSummaryRenderer` to show a summary
+of our dataset.
+
+```{admonition} Learn more
+:class: important
+
+Flyte Decks are simple to customize, as long as you can render the Python object
+into some HTML representation.
+
 Learn more about Flyte Decks in the {ref}`User Guide <flyte-decks>`.
 ```
 

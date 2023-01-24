@@ -50,7 +50,7 @@ As you can see, we're using `pandas` for data processing, and in the task
 below we use `plotly` to create a choropleth map of the percent of a country's
 population that has received at least one COVID-19 vaccination.
 
-## Rendering PLots
+## Rendering Plots
 
 We can use {ref}`Flyte Decks <flyte-decks>` for rendering a static HTML report
 of the map. In this case, we normalize the `people_vaccinated` by the

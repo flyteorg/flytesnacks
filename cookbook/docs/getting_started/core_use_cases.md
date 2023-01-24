@@ -24,8 +24,12 @@ practice.
   - Develop a data cleaning and plotting pipeline with Plotly and Pandas.
 ```
 
-```{important}
-Check out more end-to-end examples in the {ref}`Tutorials <tutorials>` section.
+```{admonition} Learn more
+:class: important
+
+Check out more examples in the {ref}`Tutorials <tutorials>` section, which
+includes examples of Flyte in specific domains like
+{ref}`bioinformatics <bioinformatics>`.
 ```
 
 ```{toctree}
