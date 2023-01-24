@@ -142,7 +142,7 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
-IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
+HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
 ```
 
 ````{note}
@@ -214,7 +214,8 @@ with warnings.catch_warnings():
     wf(sample_frac=1.0, random_state=42)
 
 logger.removeFilter(deck_filter)
-IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
+# IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
+# HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
 ```
 
 (getting_started_customer_renderers)=
@@ -286,7 +287,8 @@ with warnings.catch_warnings():
     wf(sample_frac=1.0, random_state=42)
 
 logger.removeFilter(deck_filter)
-IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
+# IFrame(src=cp_deck(deck_filter.deck_files["iris_data"]), width="100%", height="400px")
+# HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
 ```
 
 As we can see from the `DataFrameSummaryRenderer` example above, Flyte Decks

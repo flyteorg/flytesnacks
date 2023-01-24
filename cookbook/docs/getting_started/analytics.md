@@ -153,7 +153,8 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
-IFrame(src=cp_deck(deck_filter.deck_files["plot"]), width="100%", height="400px")
+# IFrame(src=cp_deck(deck_filter.deck_files["plot"]), width="100%", height="400px")
+HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 ```
 
 ## Custom Flyte Deck Renderers
