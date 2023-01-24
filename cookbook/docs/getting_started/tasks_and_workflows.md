@@ -47,10 +47,13 @@ mean(values=[float(i) for i in range(1, 11)])
 ```
 
 ```{important}
-There are two important things to note here:
+There are three important things to note here:
 
 - Most of the Flyte tasks you'll ever write can be executed locally.
-- Tasks must be invoked with keyword arguments.
+- Tasks and workflows must be invoked with keyword arguments.
+- When a task runs on a Flyte cluster, it runs on a
+  [Kubernetes Pod](https://kubernetes.io/docs/concepts/workloads/pods/), where
+  Flyte orchestrates what task runs when in the context of a workflow.
 ```
 
 ### Tasks are Strongly Typed
@@ -223,7 +226,7 @@ launch_plan = LaunchPlan.get_or_create(
 )
 ```
 
-Later, you'll learn how to run a launch plan to run on a cron schedule, but for
+Later, you'll learn how to run a launch plan on a cron schedule, but for
 the time being you can think of them as a way for you to templatize workflows
 for some set of related use cases, such as model training with a fixed dataset
 for reproducibility purposes.
