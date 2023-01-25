@@ -8,7 +8,7 @@ we're going to assume that the discipline of data science can be broken down int
 at least three specializations: data engineering, machine learning (or
 statistical modeling more broadly), and analytics.
 
-The purpose of these guides is to provide the you, the data and ML practitioner,
+The purpose of these guides is to provide you, the data and ML practitioner,
 some practical and simple examples of how Flyte can help you in your daily
 practice.
 

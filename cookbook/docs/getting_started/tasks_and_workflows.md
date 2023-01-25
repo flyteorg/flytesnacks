@@ -156,7 +156,7 @@ the workflow above but let's also print the output of one of the tasks:
 
 ```{code-cell} ipython3
 @workflow
-def standard_scale_workflow(values: List[float]) -> List[float]:
+def standard_scale_workflow_with_print(values: List[float]) -> List[float]:
     mu = mean(values=values)
     print(mu)  # this is not the actual float value!
     sigma = standard_deviation(values=values, mu=mu)
@@ -166,10 +166,11 @@ def standard_scale_workflow(values: List[float]) -> List[float]:
 We didn't even execute the workflow and we're already seeing the value of `mu`,
 which is a promise. So what's happening here?
 
-When we decorate `standard_scale_workflow` with `@workflow`, Flyte compiles an
-execution graph that's defined inside the function body, so *it doesn't actually
-run the computations yet*. Therefore, when Flyte compiles a workflow, the
-outputs of task calls are actually promises and not regular python values.
+When we decorate `standard_scale_workflow_with_print` with `@workflow`, Flyte
+compiles an execution graph that's defined inside the function body, so
+*it doesn't actually run the computations yet*. Therefore, when Flyte compiles a
+workflow, the outputs of task calls are actually promises and not regular python
+values.
 
 ### Workflows are Strongly Typed Too
 
@@ -183,7 +184,7 @@ error if we introduce a bug in the `standard_scale` task.
 
 ```{code-cell} ipython3
 @task
-def standard_scale(values: List[float], mu: float, sigma: float) -> float:
+def buggy_standard_scale(values: List[float], mu: float, sigma: float) -> float:
     """
     🐞 The implementation and output type of this task is incorrect! It should
     be List[float] instead of a sum of all the scaled values.
@@ -191,15 +192,45 @@ def standard_scale(values: List[float], mu: float, sigma: float) -> float:
     return sum([(x - mu) / sigma for x in values])
 
 @workflow
-def standard_scale_workflow(values: List[float]) -> List[float]:
+def buggy_standard_scale_workflow(values: List[float]) -> List[float]:
     mu = mean(values=values)
     sigma = standard_deviation(values=values, mu=mu)
-    return standard_scale(values=values, mu=mu, sigma=sigma) 
+    return buggy_standard_scale(values=values, mu=mu, sigma=sigma) 
 
 try:
-    standard_scale_workflow(values=[float(i) for i in range(1, 11)])
+    buggy_standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 except Exception as e:
     print(e)
+```
+
+### Workflows can be Embedded in Other Workflows
+
+When a workflow uses another workflow as part of the execution graph, we call
+the inner workflow a "subworkflow". Subworkflows are strongly typed and behave
+just like tasks when the outer workflow runs.
+
+For example, we can embed `standard_scale_workflow` inside
+`workflow_with_subworkflow`, which uses a `generate_data` task to supply the
+data for scaling:
+
+```{code-cell} ipython3
+import random
+
+@task
+def generate_data(num_samples: int, seed: int) -> List[float]:
+    random.seed(seed)
+    return [random.random() for _ in range(num_samples)]
+
+@workflow
+def workflow_with_subworkflow(num_samples: int, seed: int) -> List[float]:
+    data = generate_data(num_samples=num_samples, seed=seed)
+    return standard_scale_workflow(values=data)
+
+workflow_with_subworkflow(num_samples=10, seed=3)
+```
+
+```{important}
+Learn more about subworkflows in the {ref}`User Guide <subworkflows>`.
 ```
 
 ## Launch plans
@@ -219,11 +250,26 @@ Create a launch plan like so:
 ```{code-cell} ipython3
 from flytekit import LaunchPlan
 
-launch_plan = LaunchPlan.get_or_create(
+standard_scale_launch_plan = LaunchPlan.get_or_create(
     standard_scale_workflow,
     name="standard_scale_lp",
     default_inputs={"values": [3.0, 4.0, 5.0]}
 )
+```
+
+### Invoking LaunchPlans Locally
+
+You can run LaunchPlans locally, which uses the `default_inputs` dictionary
+whenever it's invoked:
+
+```{code-cell} ipython3
+standard_scale_launch_plan()
+```
+
+Of course, these defaults can be overridden:
+
+```{code-cell} ipython3
+standard_scale_launch_plan(values=[float(x) for x in range(20, 30)])
 ```
 
 Later, you'll learn how to run a launch plan on a cron schedule, but for
@@ -231,6 +277,27 @@ the time being you can think of them as a way for you to templatize workflows
 for some set of related use cases, such as model training with a fixed dataset
 for reproducibility purposes.
 
+### LaunchPlans can be Embedded in Workflows
+
+Similar to subworkflows, launchplans can be used in a workflow definition:
+
+```{code-cell} ipython3
+@workflow
+def workflow_with_launchplan(num_samples: int, seed: int) -> List[float]:
+    data = generate_data(num_samples=num_samples, seed=seed)
+    return standard_scale_launch_plan(values=data)
+
+workflow_with_launchplan(num_samples=10, seed=3)
+```
+
+The main difference between subworkflows and launchplans invoked in workflows is
+that the latter will kick off a new workflow execution on the Flyte cluster with
+its own execution name, while the former will execute the workflow in the
+context of the parent workflow's execution context.
+
+```{important}
+Learn more about subworkflows in the {ref}`User Guide <launchplans>`.
+```
 
 ## What's Next?
 

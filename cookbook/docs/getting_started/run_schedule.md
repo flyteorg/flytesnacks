@@ -71,7 +71,7 @@ environment, you can import and execute it directly:
 
 from workflows.example import wf
 
-exection = remote.execute(wf, inputs={"name": "Kermit"})
+execution = remote.execute(wf, inputs={"name": "Kermit"})
 ```
 
 ````

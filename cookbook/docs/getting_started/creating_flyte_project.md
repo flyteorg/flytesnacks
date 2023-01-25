@@ -147,5 +147,5 @@ image to suit your needs:
 
 In summary, this guide took you through the recommended way of initializing and
 structuring a larger Flyte codebase. In the next guide, we'll walk through how
-to package register your tasks and workflows so that they can be executed on
+to package and register your tasks and workflows so that they can be executed on
 a Flyte cluster.
