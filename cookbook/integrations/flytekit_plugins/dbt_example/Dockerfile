@@ -29,7 +29,7 @@ COPY dbt_example/ /root/dbt_example/
 
 # Copy dbt-specific files
 COPY dbt_example/profiles.yml /root/dbt-profiles/
-COPY dbt_example/jaffle_shop /root/jaffle_shop
+RUN git clone https://github.com/dbt-labs/jaffle_shop.git
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
