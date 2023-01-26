@@ -165,9 +165,9 @@ deck, which you can access with the {py:func}`~flytekit.current_context`
 function. In the following example, we extend the `iris_data` task with:
 
 - A markdown snippet to provide more context about what the task does.
-- A profile of the dataset using the {py:class}`~flytekitplugins.deck.renderer.BoxRenderer`,
-  which leverages the [`pandas-profiling`](https://pandas-profiling.ydata.ai/docs/master/index.html)
-  package to auto-generate a set of plots and summary statistics from the dataframe.
+- A boxplot of the `sepal_length` variable using {py:class}`~flytekitplugins.deck.renderer.BoxRenderer`,
+  which leverages the `plotly` package to auto-generate a set of plots and
+  summary statistics from the dataframe.
 
 ```{code-cell} ipython
 import flytekit

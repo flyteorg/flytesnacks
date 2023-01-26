@@ -12,7 +12,7 @@ kernelspec:
 
 (getting_started_index)=
 
-# Introduction to Flyte
+# Getting Started
 
 [Flytesnacks Tags](_tags/tagsindex)
 
@@ -30,7 +30,10 @@ on your local machine.
 ```{admonition} Prerequisites
 :class: important
 
-[Install Docker](https://docs.docker.com/get-docker/) and ensure that the Docker
+[Install Docker](https://docs.docker.com/get-docker/) or any other
+[OCI-compatible](https://opencontainers.org/) container technology (like
+[Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/),
+and [Containerd](https://containerd.io/)), and ensure that the associated client
 daemon is running.
 ```
 
@@ -236,7 +239,8 @@ flytectl demo start
 ```
 
 ```{important}
-Make sure to export the `FLYTECTL_CONFIG` environment variable in your shell.
+Make sure to export the `FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml` environment
+variable in your shell.
 ```
 ````
 

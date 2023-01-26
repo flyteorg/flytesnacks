@@ -25,9 +25,9 @@ Flyte tasks are the core building blocks of larger, more complex workflows.
 
 ### Tasks are Containerized Blocks of Compute
 
-You can think of Flyte tasks as containerized blocks of compute. When tasks are
-run in a Flyte backend, they are actually isolated from all other tasks.
-Consider this simple task:
+You can think of a Flyte task as a containerized block of compute. When a task
+is  run in a Flyte backend, is is isolated within its own container, separate
+from all other tasks. Consider this simple one:
 
 ```{code-cell} ipython3
 from typing import List
@@ -99,7 +99,7 @@ Suppose that we want to mean-center and standard-deviation-scale a set of
 values. In addition to a `mean` function, we also need to compute standard
 deviation and implement the centering and scaling logic.
 
-Let's go ahead and implement those as {py:func}`~flytekit.task`s:
+Let's go ahead and implement those as tasks:
 
 ```{code-cell} ipython3
 from math import sqrt
@@ -133,7 +133,8 @@ Just like tasks, workflows are executable in a regular Python runtime:
 standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ```
 
-```{important}
+### Task and Workflows Under the Hood
+
 Although Flyte workflow syntax looks like Python code, it's actually a
 domain-specific language (DSL) for building execution graphs where tasks
 – and other workflows – serve as the building blocks.
@@ -146,7 +147,10 @@ semantics:
 - Within workflows, the outputs of tasks are promises under the hood, so you
   can't access and operate on them like typical Python function outputs. *You
   can only pass promises into other tasks and workflows*.
-```
+
+In contrast to workflow code, the code within tasks is actually executed by a
+Python interpreter when it's run locally or inside a container when run on a
+Flyte cluster.
 
 ### Promises
 
@@ -259,7 +263,7 @@ standard_scale_launch_plan = LaunchPlan.get_or_create(
 
 ### Invoking LaunchPlans Locally
 
-You can run LaunchPlans locally, which uses the `default_inputs` dictionary
+You can run a `LaunchPlan` locally. It will use the `default_inputs` dictionary
 whenever it's invoked:
 
 ```{code-cell} ipython3
@@ -272,7 +276,7 @@ Of course, these defaults can be overridden:
 standard_scale_launch_plan(values=[float(x) for x in range(20, 30)])
 ```
 
-Later, you'll learn how to run a launch plan on a cron schedule, but for
+Later, you'll learn how to run a launch plan on a `cron` schedule, but for
 the time being you can think of them as a way for you to templatize workflows
 for some set of related use cases, such as model training with a fixed dataset
 for reproducibility purposes.
@@ -290,7 +294,7 @@ def workflow_with_launchplan(num_samples: int, seed: int) -> List[float]:
 workflow_with_launchplan(num_samples=10, seed=3)
 ```
 
-The main difference between subworkflows and launchplans invoked in workflows is
+The main difference between subworkflows and launch plans invoked in workflows is
 that the latter will kick off a new workflow execution on the Flyte cluster with
 its own execution name, while the former will execute the workflow in the
 context of the parent workflow's execution context.

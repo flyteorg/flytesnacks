@@ -31,7 +31,6 @@ and production use cases.
 This guide assumes that you've completed the previous guides for
 {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>` and
 {ref}`Packaging and Registering Workflows <getting_started_package_register>`.
-Completing 
 ```
 
 ## Create a `FlyteRemote` Object

@@ -198,7 +198,7 @@ def train_model(features: np.ndarray, target: np.ndarray) -> nn.Module:
 These tasks assume that we're going to use the {ref}`pyflyte register <getting_started_pyflyte_register>`
 command to register these tasks, since these static images will not contain
 the code that we defined above. Using `pyflyte register` ensures that `get_data`
-and `train_model` are zipped up and Flyte has access to it when they're exectued
+and `train_model` are zipped up and Flyte has access to it when they're executed
 on a Flyte backend.
 
 ```{important}

@@ -1,3 +1,6 @@
+ul {
+    list-style: unset !important;
+}
 
 html .tabbed-set > label {
     color: var(--color-foreground-border);

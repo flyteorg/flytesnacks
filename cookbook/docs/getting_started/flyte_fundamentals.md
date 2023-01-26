@@ -3,7 +3,7 @@
 # Flyte Fundamentals
 
 This section of the **Getting Started** documentation will take you through the
-fundamental concepts of Flyte: tasks, workflows, and launchplans.
+fundamental concepts of Flyte: tasks, workflows, and launch plans.
 
 You'll learn about the full development lifecycle of creating a project,
 registering workflows, and running them on a demo Flyte cluster. These

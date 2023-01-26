@@ -205,7 +205,7 @@ In the next guide you'll learn about how to run your workflows programmatically.
 ### Productionizing your Workflows
 
 Flyte's core design decision is to make workflows reproducible and repeatable.
-One way it achieves this is by providing a way for you to bake in user-defined
+One way it achieves this is by providing a way for you to bake-in user-defined
 workflows and all of their dependencies into a Docker container.
 
 The third method of registering your workflows uses two commands:
@@ -292,7 +292,6 @@ flytectl register files \
     --version "$(git rev-parse HEAD)"
 ```
 
-```{note}
 Let's break down what each flag is doing here:
 
 - `--project`: A project is a Flyte concept for built-in multi-tenancy so that
@@ -306,20 +305,18 @@ Let's break down what each flag is doing here:
   this case is `flyte-package.tgz`.
 - `--version`: This is a version string that can be any string, but we recommend
   using the git sha in general, especially in production use cases.
-```
 
-:::{admonition} When to use `pyflyte register` versus `pyflyte package` + `flytectl register`?
-:class: important
+### Using `pyflyte register` versus `pyflyte package` + `flytectl register`
 
-As a rule of thumb, `pyflyte register` works well in a single Flyte cluster use
-case where you are iterating quickly on your task/workflow code.
+As a rule of thumb, `pyflyte register` works well in a single Flyte cluster where
+you are iterating quickly on your task/workflow code.
 
 On the other hand, `pyflyte package` and `flytectl register` is appropriate if
 you're:
+
 - Working with multiple Flyte clusters since it uses a portable package
 - Deploying workflows to a production context
 - Testing your Flyte workflows in your CI/CD infrastructure.
-:::
 
 ```{admonition} Programmatic Python API
 :class: important
