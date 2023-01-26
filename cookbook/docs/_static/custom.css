@@ -1,5 +1,5 @@
-ul {
-    list-style: unset !important;
+ul.simple {
+    list-style: unset;
 }
 
 html .tabbed-set > label {
@@ -46,4 +46,9 @@ details.dropdown[open] summary {
 div.cell_output #flyte-frame-container table {
     font-size: 0.8em;
     color: var(--color-content-foreground);
+}
+
+a.try-hosted-flyte {
+    text-decoration: none;
+    background: #fada78;
 }

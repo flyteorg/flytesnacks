@@ -16,12 +16,34 @@ kernelspec:
 
 [Flytesnacks Tags](_tags/tagsindex)
 
+## Introduction to Flyte
+
 Flyte is a workflow orchestrator that seamlessly unifies data,
 machine learning, and analytics stacks for building robust and reliable
 applications.
 
 This introduction provides a quick overview of how to get Flyte up and running
 on your local machine.
+
+````{dropdown} Want to try Flyte on the browser?
+:title: text-muted
+:animate: fade-in-slide-down
+
+The introduction below is also available on a hosted sandbox environment, where
+you can get started with Flyte without installing anything locally.
+
+```{link-button} https://sandbox.union.ai/
+---
+classes: try-hosted-flyte btn-warning btn-block
+text: Try Hosted Flyte Sandbox
+---
+```
+
+```{div} text-muted
+*Courtesy of [Union.ai](https://www.union.ai/)*
+```
+
+````
 
 (getting_started_installation)=
 
@@ -34,7 +56,7 @@ on your local machine.
 [OCI-compatible](https://opencontainers.org/) container technology (like
 [Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/),
 and [Containerd](https://containerd.io/)), and ensure that the associated client
-daemon is running.
+daemon is running (e.g. the Docker daemon).
 ```
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK.
@@ -346,7 +368,7 @@ into the other sections of the documentation.
 :caption: Getting Started
 :hidden:
 
-self
+Introduction to Flyte <self>
 getting_started/flyte_fundamentals
 getting_started/core_use_cases
 ```

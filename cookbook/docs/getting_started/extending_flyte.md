@@ -136,7 +136,8 @@ allows you to enable/disable services at the beginning/end of your workflows.
 See the {ref}`User Guide <decorating_workflows>` for more details.
 ```
 
-````{important}
+## The Plugin Hierarchy of Needs
+
 The decorator approach is great for many surface-level use cases, but that are
 many more ways to customize Flyte tasks:
 
@@ -152,13 +153,13 @@ many more ways to customize Flyte tasks:
     requires user-defined code.
 * - {ref}`Raw Container Tasks <raw_container>`
   - These tasks can be implemented in other programming languages like R,
-    Julia, etc. Useful for leveraging highly optimized domain-specific libraries.
+    Julia, etc. Useful for leveraging highly optimized domain-specific libraries
+    in other languages outside of the `flytekit` SDK language.
 * - {ref}`Backend Plugins <extend-plugin-flyte-backend>`
   - These tasks plugins require implementing a backend plugin to leverage
     external services like Sagemaker, Snowflake, BigQuery, etc.
 ```
 
-````
 
 ## What's Next?
 

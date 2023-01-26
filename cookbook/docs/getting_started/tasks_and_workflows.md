@@ -133,11 +133,12 @@ Just like tasks, workflows are executable in a regular Python runtime:
 standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ```
 
-### Task and Workflows Under the Hood
+### Workflows versus Tasks Under the Hood
 
 Although Flyte workflow syntax looks like Python code, it's actually a
-domain-specific language (DSL) for building execution graphs where tasks
-– and other workflows – serve as the building blocks.
+[domain-specific language (DSL)[*https://en.wikipedia.org/wiki/Domain-specific_language()]
+for building execution graphs where tasks – and other workflows – serve as the
+building blocks.
 
 This means that the workflow function body only supports a subset of Python's
 semantics:
@@ -152,7 +153,7 @@ In contrast to workflow code, the code within tasks is actually executed by a
 Python interpreter when it's run locally or inside a container when run on a
 Flyte cluster.
 
-### Promises
+### Workflows Deal with Promises
 
 A promise is essentially a placeholder for a value that hasn't been
 materialized yet. To show you what this means concretely, let's re-define
@@ -236,6 +237,30 @@ workflow_with_subworkflow(num_samples=10, seed=3)
 ```{important}
 Learn more about subworkflows in the {ref}`User Guide <subworkflows>`.
 ```
+
+### Specifying Dependencies without Passing Data
+
+You can also specify dependencies between tasks and subworkflows without passing
+data from the upstream entity to the downstream entity using the `>>` right shift
+operator:
+
+```{code-cell} ipython3
+@workflow
+def wf():
+    promise1 = task1()
+    promise2 = task2()
+    promise3 = subworkflow()
+    promise1 >> promise2
+    promise2 >> promise3
+```
+
+In this workflow, `task1` will execute before `task2`, but it won't pass any of
+its data to `task2`. Similarly, `task2` will execute before `subworkflow`.
+
+```{important}
+Learn more about chaining flyte entities in the {ref}`User Guide <chain_flyte_entities>`
+```
+
 
 ## Launch plans
 

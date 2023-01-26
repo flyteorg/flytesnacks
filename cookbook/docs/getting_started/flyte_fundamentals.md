@@ -19,7 +19,8 @@ use cases.
   - Create tasks as building blocks, compose them into workflows, and schedule
     them with launchplans.
 * - {doc}`✨ Creating a Flyte Project <creating_flyte_project>`
-  - Build a Flyte project from scratch.
+  - Build a Flyte project from scratch and learn about the recommended project
+    structure.
 * - {doc}`🗄 Registering Workflows <package_register>`
   - Develop and deploy workflows to a local Flyte demo cluster.
 * - {doc}`⏱ Running and Scheduling Workflows <run_schedule>`
