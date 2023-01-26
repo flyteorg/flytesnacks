@@ -213,7 +213,7 @@ except Exception as e:
 ### Workflows can be Embedded in Other Workflows
 
 When a workflow uses another workflow as part of the execution graph, we call
-the inner workflow a "subworkflow". Subworkflows are strongly typed and behave
+the inner workflow a **subworkflow**. Subworkflows are strongly typed and behave
 just like tasks when the outer workflow runs.
 
 For example, we can embed `standard_scale_workflow` inside
