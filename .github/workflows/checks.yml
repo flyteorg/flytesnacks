@@ -161,3 +161,4 @@ jobs:
           cd cookbook
           pip install -r docs-requirements.txt
           cd docs && make html
+          cat _build/reports/getting_started/optimizing_tasks.err.log
