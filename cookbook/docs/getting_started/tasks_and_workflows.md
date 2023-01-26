@@ -246,7 +246,7 @@ You can also specify dependencies between tasks and subworkflows without passing
 data from the upstream entity to the downstream entity using the `>>` right shift
 operator:
 
-```{code-cell} ipython3
+```{code-block} python
 @workflow
 def wf():
     promise1 = task1()
