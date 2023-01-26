@@ -148,6 +148,8 @@ semantics:
 - Within workflows, the outputs of tasks are promises under the hood, so you
   can't access and operate on them like typical Python function outputs. *You
   can only pass promises into other tasks and workflows*.
+- Regular Python conditionals won't work as intended in workflows: you need to
+  use the {ref}`conditional <conditional>` construct.
 
 In contrast to workflow code, the code within tasks is actually executed by a
 Python interpreter when it's run locally or inside a container when run on a
