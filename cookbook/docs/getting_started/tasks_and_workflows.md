@@ -136,7 +136,7 @@ standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ### Workflows versus Tasks Under the Hood
 
 Although Flyte workflow syntax looks like Python code, it's actually a
-[domain-specific language (DSL)[*https://en.wikipedia.org/wiki/Domain-specific_language()]
+[domain-specific language (DSL)[https://en.wikipedia.org/wiki/Domain-specific_language]
 for building execution graphs where tasks – and other workflows – serve as the
 building blocks.
 
