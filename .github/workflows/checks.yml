@@ -160,5 +160,5 @@ jobs:
           sudo apt-get install python3-sphinx
           cd cookbook
           pip install -r docs-requirements.txt
-          cd docs && make html
+          SPHINXOPTS="-W" cd docs && make html
           cat _build/reports/**/*.err.log || echo 'no error reports'
