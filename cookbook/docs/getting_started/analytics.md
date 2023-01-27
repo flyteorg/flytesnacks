@@ -8,6 +8,9 @@ kernelspec:
   display_name: Python 3
   language: python
   name: python3
+
+next-page: userguide
+next-page-title: User Guide
 ---
 
 (getting_started_analytics)=

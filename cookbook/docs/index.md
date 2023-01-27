@@ -8,6 +8,10 @@ kernelspec:
   display_name: Python 3
   language: python
   name: python3
+
+# override the toc-determined page navigation order
+next-page: getting_started/flyte_fundamentals
+next-page-title: Flyte Fundamentals
 ---
 
 (getting_started_index)=
@@ -390,7 +394,7 @@ Example Contribution Guide <contribute>
 :hidden:
 
 Tutorials <tutorials>
-ml_training
+Model Training <ml_training>
 feature_engineering
 bioinformatics_examples
 flyte_lab

@@ -1,3 +1,8 @@
+:next-page: userguide_setup
+:next-page-title: Environment Setup
+:prev-page: getting_started/analytics
+:prev-page-title: Analytics
+
 .. _userguide:
 
 ##############

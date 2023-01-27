@@ -1,3 +1,9 @@
+---
+# override the toc-determined page navigation order
+prev-page: index
+prev-page-title: Getting Started
+---
+
 (getting_started_fundamentals)=
 
 # Flyte Fundamentals

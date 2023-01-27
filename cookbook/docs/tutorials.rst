@@ -1,3 +1,6 @@
+:next-page: ml_training
+:next-page-title: Model Training
+
 .. _tutorials:
 
 #########

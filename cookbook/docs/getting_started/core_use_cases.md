@@ -1,3 +1,8 @@
+---
+next-page: getting_started/data_engineering
+next-page-title: Data Engineering
+---
+
 (getting_started_core_use_cases)=
 
 # Core Use Cases
