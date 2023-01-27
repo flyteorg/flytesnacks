@@ -15,7 +15,7 @@ kernelspec:
 # Visualizing Artifacts
 
 Flyte {py:class}`~flytekit.deck.Deck`s are one of the first-class constructs in
-Flyte, allowing you to generate static HTML reports associated any of the
+Flyte, allowing you to generate static HTML reports associated with any of the
 artifacts materialized within your tasks.
 
 You can think of Decks as stacks of HTML snippets that are logically grouped by
@@ -153,9 +153,8 @@ for log in deck_filter.logs:
 ````{note}
 To see where the HTML file is written to when you run the deck-enabled tasks
 locally, you need to set the `FLYTE_SDK_LOGGING_LEVEL` environment variable
-to `20`. Doing so will emit logs that look like:
-
-Where the `deck.html` filepath can be found in the `message` key.
+to `20`. Doing so will emit logs that look like the above print statement,
+where the `deck.html` filepath can be found in the `message` key.
 ````
 
 ## Rendering In-line Decks

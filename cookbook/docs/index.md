@@ -171,17 +171,8 @@ even import and use them in other Python modules or scripts.
 :::{note}
 A {func}`task <flytekit.task>` is a pure Python function, while a {func}`workflow <flytekit.workflow>`
 is actually a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) that
-only supports a subset of Python's semantics. Some key things to learn here are:
-
-- In workflows, you can't use non-deterministic operations like `rand.random`,
-  `time.now()`, etc.
-- Within workflows, the outputs of tasks are promises under the hood, so you
-  can't access and operate on them like typical Python function outputs.
-  *You can only pass promises into other tasks/workflows.*
-- Tasks can only be invoked with keyword arguments, not positional arguments.
-
-You can read more about tasks and workflow
-{ref}`here <getting_started_tasks_and_workflows>`.
+only supports a subset of Python's semantics. Learn more in the
+{ref}`Flyte Fundamentals <workflows_versus_task_syntax>` section.
 :::
 
 ::::
@@ -318,8 +309,8 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 ## What's Next?
 
 Follow the rest of the sections in the documentation to get a better
-understanding of the key constructs that make Flyte a such powerful orchestration
-tool 💪.
+understanding of the key constructs that make Flyte such a powerful
+orchestration tool 💪.
 
 ```{admonition} Recommendation
 :class: tip

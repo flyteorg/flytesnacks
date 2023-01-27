@@ -163,7 +163,7 @@ def plot(data: pd.DataFrame):
 def downstream_workflow(
     min_length: int = 50, max_length: int = 200, limit: int = 10
 ):
-    """A downstream workflow that visualizes an aggregated for of the data."""
+    """A downstream workflow that visualizes an aggregation of the data."""
     csv_file = etl_workflow(
         min_length=min_length,
         max_length=max_length,

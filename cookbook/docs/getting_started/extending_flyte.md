@@ -34,7 +34,7 @@ However, the types that ship with Flyte or one of Flyte's
 this case, you'll need to create your own.
 
 The easiest way to do with is with the {py:mod}`dataclasses` and
-[dataclasses](https://lidatong.github.io/dataclasses-json/) modules, which
+[dataclasses-json](https://lidatong.github.io/dataclasses-json/) modules, which
 let you compose several Flyte-supported types into a single object. For
 example, suppose you want to support a coordinates data type with arbitrary
 metadata:
@@ -138,7 +138,7 @@ See the {ref}`User Guide <decorating_workflows>` for more details.
 
 ## The Plugin Hierarchy of Needs
 
-The decorator approach is great for many surface-level use cases, but that are
+The decorator approach is great for many surface-level use cases, but there are
 many more ways to customize Flyte tasks:
 
 ```{list-table}

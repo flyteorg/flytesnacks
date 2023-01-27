@@ -161,7 +161,7 @@ HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 
 You can also create your own {ref}`custom Flyte Deck renderers <getting_started_customer_renderers>`
 to visualize data with any plotting/visualization library of your choice, as
-long as you can create render HTML for the objects of interest.
+long as you can render HTML for the objects of interest.
 
 ```{important}
 Prefer other data processing frameworks? Flyte ships with

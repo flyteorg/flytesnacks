@@ -120,7 +120,7 @@ There are many ways to extend your workloads:
     decorator, which can be viewed as Flyte Decks with `@task(disable_decks=False)`.
 * - **⏩ Inference Acceleration**
   - Serialize your models in ONNX format using the {ref}`ONNX plugin <onnx>`, which
-    supports ScikitLearn, TensorFlow, and Pytorch.
+    supports ScikitLearn, TensorFlow, and PyTorch.
 ```
 
 

@@ -60,13 +60,13 @@ There are three important things to note here:
 
 You might also notice that the `mean` function signature is type-annotated with
 Python type hints. Flyte uses these annotations to check the input and output
-types of the function when it's invoked.
+types of the task when it's compiled or invoked.
 
-### The Flyte Type System
-
-The Flyte type system uses Python type annotations to make sure that the
-data passing through tasks and workflows are compatible with the explicitly
-stated types that we define through a function signature.
+Under the hood, Flyte uses its own type system that translates values to and from
+Flyte types and the SDK language types, in this case Python. The Flyte type
+system uses Python type annotations to make sure that the data passing through
+tasks and workflows are compatible with the explicitly stated types that we
+define through a function signature.
 
 So if we call the `mean` function with the wrong types, we get an error:
 
@@ -133,10 +133,12 @@ Just like tasks, workflows are executable in a regular Python runtime:
 standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ```
 
+(workflows_versus_task_syntax)=
+
 ### Workflows versus Tasks Under the Hood
 
 Although Flyte workflow syntax looks like Python code, it's actually a
-[domain-specific language (DSL)[https://en.wikipedia.org/wiki/Domain-specific_language]
+[domain-specific language (DSL)][https://en.wikipedia.org/wiki/Domain-specific_language]
 for building execution graphs where tasks – and other workflows – serve as the
 building blocks.
 
@@ -213,8 +215,8 @@ except Exception as e:
 ### Workflows can be Embedded in Other Workflows
 
 When a workflow uses another workflow as part of the execution graph, we call
-the inner workflow a **subworkflow**. Subworkflows are strongly typed and behave
-just like tasks when the outer workflow runs.
+the inner workflow a **subworkflow**. Subworkflows are strongly typed and can
+be invoked just like tasks when defining the outer workflow.
 
 For example, we can embed `standard_scale_workflow` inside
 `workflow_with_subworkflow`, which uses a `generate_data` task to supply the
