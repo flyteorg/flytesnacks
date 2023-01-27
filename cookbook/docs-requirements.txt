@@ -4,7 +4,7 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make docs-requirements.txt
 #
-alabaster==0.7.12
+alabaster==0.7.13
     # via sphinx
 appnope==0.1.3
     # via
@@ -12,13 +12,13 @@ appnope==0.1.3
     #   ipython
 arrow==1.2.3
     # via jinja2-time
-astroid==2.12.13
+astroid==2.13.3
     # via
     #   -r docs-requirements.in
     #   sphinx-autoapi
 asttokens==2.2.1
     # via stack-data
-attrs==22.1.0
+attrs==22.2.0
     # via
     #   jsonschema
     #   jupyter-cache
@@ -41,30 +41,30 @@ cfgv==3.3.1
     # via pre-commit
 chardet==5.1.0
     # via binaryornot
-charset-normalizer==2.1.1
+charset-normalizer==3.0.1
     # via requests
 click==8.1.3
     # via
     #   cookiecutter
     #   flytekit
     #   jupyter-cache
-cloudpickle==2.2.0
+cloudpickle==2.2.1
     # via flytekit
 comm==0.1.2
     # via ipykernel
-contourpy==1.0.6
+contourpy==1.0.7
     # via matplotlib
 cookiecutter==2.1.1
     # via flytekit
 croniter==1.3.8
     # via flytekit
-cryptography==38.0.4
+cryptography==39.0.0
     # via pyopenssl
 cycler==0.11.0
     # via matplotlib
 dataclasses-json==0.5.7
     # via flytekit
-debugpy==1.6.4
+debugpy==1.6.6
     # via ipykernel
 decorator==5.1.1
     # via
@@ -89,29 +89,31 @@ docutils==0.17.1
     #   sphinx-panels
     #   sphinx-rtd-theme
     #   sphinx-tabs
-entrypoints==0.4
-    # via jupyter-client
 executing==1.2.0
     # via stack-data
 fastjsonschema==2.16.2
     # via nbformat
-filelock==3.8.2
+filelock==3.9.0
     # via virtualenv
 flyteidl==1.2.5
     # via flytekit
-flytekit==1.2.6
+flytekit==1.2.7
     # via
     #   -r ./common/requirements-common.in
     #   flytekitplugins-deck-standard
-flytekitplugins-deck-standard==1.2.6
+    #   flytekitplugins-kfpytorch
+    #   flytekitplugins-sqlalchemy
+flytekitplugins-deck-standard==1.2.7
     # via -r ./common/requirements-common.in
-flytekitplugins-kfpytorch==1.2.6
-flytekitplugins-sqlalchemy==1.2.6
+flytekitplugins-kfpytorch==1.2.7
+    # via -r docs-requirements.in
+flytekitplugins-sqlalchemy==1.2.7
+    # via -r docs-requirements.in
 fonttools==4.38.0
     # via matplotlib
-furo @ git+https://github.com/flyteorg/furo@getting-started
+furo @ git+https://github.com/flyteorg/furo@main
     # via -r docs-requirements.in
-googleapis-common-protos==1.57.0
+googleapis-common-protos==1.58.0
     # via
     #   flyteidl
     #   grpcio-status
@@ -128,7 +130,7 @@ grpcio-status==1.48.2
     #   flytekit
 htmlmin==0.1.12
     # via pandas-profiling
-identify==2.5.9
+identify==2.5.15
     # via pre-commit
 idna==3.4
     # via requests
@@ -136,19 +138,22 @@ imagehash==4.3.1
     # via visions
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==5.1.0
+importlib-metadata==6.0.0
     # via
     #   flytekit
     #   jupyter-cache
+    #   jupyter-client
     #   keyring
     #   markdown
     #   myst-nb
     #   sphinx
-importlib-resources==5.10.1
-    # via jsonschema
-ipykernel==6.19.2
+importlib-resources==5.10.2
+    # via
+    #   jsonschema
+    #   keyring
+ipykernel==6.20.2
     # via myst-nb
-ipython==8.6.0
+ipython==8.9.0
     # via
     #   -r docs-requirements.in
     #   ipykernel
@@ -177,19 +182,19 @@ jsonschema==4.17.3
     # via nbformat
 jupyter-cache==0.5.0
     # via myst-nb
-jupyter-client==7.4.8
+jupyter-client==8.0.1
     # via
     #   ipykernel
     #   nbclient
-jupyter-core==5.1.0
+jupyter-core==5.1.5
     # via
     #   jupyter-client
     #   nbformat
-keyring==23.11.0
+keyring==23.13.1
     # via flytekit
 kiwisolver==1.4.4
     # via matplotlib
-lazy-object-proxy==1.8.0
+lazy-object-proxy==1.9.0
     # via astroid
 markdown==3.4.1
     # via flytekitplugins-deck-standard
@@ -197,7 +202,7 @@ markdown-it-py==2.1.0
     # via
     #   mdit-py-plugins
     #   myst-parser
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via jinja2
 marshmallow==3.19.0
     # via
@@ -208,7 +213,7 @@ marshmallow-enum==1.5.1
     # via dataclasses-json
 marshmallow-jsonschema==0.13.0
     # via flytekit
-matplotlib==3.6.2
+matplotlib==3.6.3
     # via
     #   -r ./common/requirements-common.in
     #   pandas-profiling
@@ -224,7 +229,7 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.0.0
     # via jaraco-classes
-multimethod==1.9
+multimethod==1.9.1
     # via
     #   pandas-profiling
     #   visions
@@ -240,7 +245,7 @@ nbclient==0.5.13
     # via
     #   jupyter-cache
     #   myst-nb
-nbformat==5.7.0
+nbformat==5.7.3
     # via
     #   jupyter-cache
     #   myst-nb
@@ -248,15 +253,15 @@ nbformat==5.7.0
 nest-asyncio==1.5.6
     # via
     #   ipykernel
-    #   jupyter-client
     #   nbclient
-networkx==2.8.8
+networkx==3.0
     # via visions
 nodeenv==1.7.0
     # via pre-commit
 numpy==1.23.5
     # via
     #   contourpy
+    #   flytekit
     #   imagehash
     #   matplotlib
     #   pandas
@@ -264,12 +269,13 @@ numpy==1.23.5
     #   patsy
     #   phik
     #   pyarrow
+    #   pywavelets
     #   scikit-learn
     #   scipy
     #   seaborn
     #   statsmodels
     #   visions
-packaging==22.0
+packaging==23.0
     # via
     #   docker
     #   ipykernel
@@ -277,7 +283,7 @@ packaging==22.0
     #   matplotlib
     #   sphinx
     #   statsmodels
-pandas==1.5.2
+pandas==1.5.3
     # via
     #   flytekit
     #   pandas-profiling
@@ -285,7 +291,7 @@ pandas==1.5.2
     #   seaborn
     #   statsmodels
     #   visions
-pandas-profiling==3.5.0
+pandas-profiling==3.6.3
     # via flytekitplugins-deck-standard
 parso==0.8.3
     # via jedi
@@ -297,7 +303,7 @@ phik==0.12.3
     # via pandas-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==9.3.0
+pillow==9.4.0
     # via
     #   -r docs-requirements.in
     #   imagehash
@@ -305,13 +311,13 @@ pillow==9.3.0
     #   visions
 pkgutil-resolve-name==1.3.10
     # via jsonschema
-platformdirs==2.6.0
+platformdirs==2.6.2
     # via
     #   jupyter-core
     #   virtualenv
-plotly==5.11.0
+plotly==5.13.0
     # via flytekitplugins-deck-standard
-pre-commit==2.20.0
+pre-commit==3.0.1
     # via sphinx-tags
 prompt-toolkit==3.0.36
     # via ipython
@@ -326,6 +332,8 @@ protoc-gen-swagger==0.1.0
     # via flyteidl
 psutil==5.9.4
     # via ipykernel
+psycopg2==2.9.5
+    # via -r docs-requirements.in
 ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
@@ -334,24 +342,24 @@ py==1.11.0
     # via retry
 pyarrow==10.0.1
     # via flytekit
+pycountry==22.3.5
+    # via -r docs-requirements.in
 pycparser==2.21
     # via cffi
-pydantic==1.10.2
+pydantic==1.10.4
     # via pandas-profiling
-pycountry
-psycopg2
-pygments==2.13.0
+pygments==2.14.0
     # via
     #   furo
     #   ipython
     #   sphinx
     #   sphinx-prompt
     #   sphinx-tabs
-pyopenssl==22.1.0
+pyopenssl==23.0.0
     # via flytekit
 pyparsing==3.0.9
     # via matplotlib
-pyrsistent==0.19.2
+pyrsistent==0.19.3
     # via jsonschema
 python-dateutil==2.8.2
     # via
@@ -367,7 +375,7 @@ python-slugify==7.0.0
     # via cookiecutter
 pytimeparse==1.1.8
     # via flytekit
-pytz==2022.6
+pytz==2022.7.1
     # via
     #   babel
     #   flytekit
@@ -384,13 +392,13 @@ pyyaml==6.0
     #   pandas-profiling
     #   pre-commit
     #   sphinx-autoapi
-pyzmq==24.0.1
+pyzmq==25.0.0
     # via
     #   ipykernel
     #   jupyter-client
 regex==2022.10.31
     # via docker-image-py
-requests==2.28.1
+requests==2.28.2
     # via
     #   cookiecutter
     #   docker
@@ -402,7 +410,7 @@ responses==0.22.0
     # via flytekit
 retry==0.9.2
     # via flytekit
-scikit-learn==1.2.0
+scikit-learn==1.2.1
     # via -r docs-requirements.in
 scipy==1.9.3
     # via
@@ -411,7 +419,7 @@ scipy==1.9.3
     #   phik
     #   scikit-learn
     #   statsmodels
-seaborn==0.12.1
+seaborn==0.12.2
     # via pandas-profiling
 six==1.16.0
     # via
@@ -445,7 +453,7 @@ sphinx==4.5.0
     #   sphinx-tabs
     #   sphinx-tags
     #   sphinxcontrib-yt
-sphinx-autoapi==2.0.0
+sphinx-autoapi==2.0.1
     # via -r docs-requirements.in
 sphinx-basic-ng==1.0.0b1
     # via furo
@@ -467,7 +475,7 @@ sphinx-tabs==3.4.0
     # via -r docs-requirements.in
 sphinx-tags==0.1.6
     # via -r docs-requirements.in
-sphinxcontrib-applehelp==1.0.2
+sphinxcontrib-applehelp==1.0.4
     # via sphinx
 sphinxcontrib-devhelp==1.0.2
     # via sphinx
@@ -485,8 +493,10 @@ sphinxcontrib-yt==0.2.2
     # via -r docs-requirements.in
 sphinxext-remoteliteralinclude==0.4.0
     # via -r docs-requirements.in
-sqlalchemy==1.4.45
-    # via jupyter-cache
+sqlalchemy==1.4.46
+    # via
+    #   flytekitplugins-sqlalchemy
+    #   jupyter-cache
 stack-data==0.6.2
     # via ipython
 statsd==3.3.0
@@ -503,18 +513,17 @@ text-unidecode==1.3
     # via python-slugify
 threadpoolctl==3.1.0
     # via scikit-learn
-torch
 toml==0.10.2
-    # via
-    #   pre-commit
-    #   responses
+    # via responses
+torch==1.13.1
+    # via -r docs-requirements.in
 tornado==6.2
     # via
     #   ipykernel
     #   jupyter-client
 tqdm==4.64.1
     # via pandas-profiling
-traitlets==5.7.1
+traitlets==5.8.1
     # via
     #   comm
     #   ipykernel
@@ -535,12 +544,13 @@ typing-extensions==4.4.0
     #   myst-nb
     #   myst-parser
     #   pydantic
+    #   torch
     #   typing-inspect
 typing-inspect==0.8.0
     # via dataclasses-json
 unidecode==1.3.6
     # via sphinx-autoapi
-urllib3==1.26.13
+urllib3==1.26.14
     # via
     #   docker
     #   flytekit
@@ -550,9 +560,9 @@ virtualenv==20.17.1
     # via pre-commit
 visions[type_image_path]==0.7.5
     # via pandas-profiling
-wcwidth==0.2.5
+wcwidth==0.2.6
     # via prompt-toolkit
-websocket-client==1.4.2
+websocket-client==1.5.0
     # via docker
 wheel==0.38.4
     # via
