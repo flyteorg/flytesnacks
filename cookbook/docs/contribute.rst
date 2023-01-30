@@ -240,7 +240,7 @@ Create a Pull request
 
 Create the pull request, then ensure that the docs are rendered correctly by clicking on the documentation check. 
    
-   .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
-       :alt: Docs link in a PR
+.. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
+   :alt: Docs link in a PR
 
 You can refer to `this PR <https://github.com/flyteorg/flytesnacks/pull/332>`__ for the exact changes required.

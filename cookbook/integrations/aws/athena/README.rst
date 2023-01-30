@@ -1,3 +1,5 @@
+.. _aws_athena:
+
 ##########
 AWS Athena
 ##########
