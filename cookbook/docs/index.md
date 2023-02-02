@@ -69,6 +69,12 @@ First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK
 pip install flytekit
 ```
 
+Make sure you have the [sklearn](https://scikit-learn.org/stable) package installed as well.
+
+```{prompt} bash $
+pip install scikit-learn
+```
+
 Then install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
 which the command-line interface for interacting with a Flyte backend.
 
