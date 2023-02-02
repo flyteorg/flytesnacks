@@ -69,7 +69,7 @@ First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK
 pip install flytekit
 ```
 
-Make sure you have the [sklearn](https://scikit-learn.org/stable) package installed as well.
+The [sklearn](https://scikit-learn.org/stable) package is a secondary dependency for this demo.
 
 ```{prompt} bash $
 pip install scikit-learn
