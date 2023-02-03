@@ -85,7 +85,6 @@ class CustomSorter(FileNameSortKey):
         "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
-        "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "multiple_k8s.py",
