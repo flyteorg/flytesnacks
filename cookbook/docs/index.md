@@ -193,6 +193,23 @@ pyflyte run example.py training_workflow \
     --hyperparameters '{"C": 0.1, "max_iter": 3000}'
 ```
 
+:::::{dropdown} {fa}`info-circle`  Running into shell issues?
+:title: text-muted
+:animate: fade-in-slide-down
+
+If you're using Bash, you can ignore this :)
+You may need to add .local/bin to your PATH variable if it's not already set,
+as that's not automatically added for non-bourne shells like fish or xzsh.
+
+to use pyflyte, make sure to set the /.local/bin directory in PATH
+
+:::{code-block} fish
+set -gx PATH $PATH ~/.local/bin
+:::
+:::::
+
+
+
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
 :title: text-muted
 :animate: fade-in-slide-down
