@@ -1,3 +1,5 @@
+.. _kftensorflow_plugin:
+
 Kubeflow TensorFlow
 ===================
 
