@@ -129,7 +129,7 @@ def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression
     """Train a model on the wine dataset."""
     features = data.drop("target", axis="columns")
     target = data["target"]
-    return LogisticRegression(**hyperparameters).fit(features, target)
+    return LogisticRegression(max_iter=2000, **hyperparameters).fit(features, target)
 ```
 
 As we can see in the code snippet above, we defined three tasks as Python
@@ -190,7 +190,7 @@ the CLI that ships with `flytekit`.
 
 ```{prompt} bash $
 pyflyte run example.py training_workflow \
-    --hyperparameters '{"C": 0.1, "max_iter": 3000}'
+    --hyperparameters '{"C": 0.1}'
 ```
 
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
@@ -211,7 +211,7 @@ workflow:
 
 :::{code-block} python
 if __name__ == "__main__":
-    training_workflow(hyperparameters={"C": 0.1, "max_iter": 3000})
+    training_workflow(hyperparameters={"C": 0.1})
 :::
 
 This becomes even more verbose if you want to pass in arguments:
@@ -266,7 +266,7 @@ Then, run the workflow on the Flyte cluster with `pyflyte run` using the
 
 ```{prompt} bash $
 pyflyte run --remote example.py training_workflow \
-    --hyperparameters '{"C": 0.1, "max_iter": 3000}'
+    --hyperparameters '{"C": 0.1}'
 ```
 
 ````{div} shadow p-3 mb-8 rounded
