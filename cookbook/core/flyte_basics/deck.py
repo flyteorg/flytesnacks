@@ -1,4 +1,6 @@
 """
+.. _flyte-decks:
+
 Flyte Decks
 -----------
 

@@ -1,3 +1,5 @@
+.. _modin_integration:
+
 Modin
 ======
 

@@ -1,12 +1,15 @@
+:next-page: userguide_setup
+:next-page-title: Environment Setup
+:prev-page: getting_started/analytics
+:prev-page-title: Analytics
+
 .. _userguide:
 
 ##############
 User Guide
 ##############
 
-`Flytesnacks Tags <_tags/tagsindex.html>`__
-
-If this is your first time using Flyte, check out the `Getting Started <https://docs.flyte.org/en/latest/getting_started.html>`_ guide.
+If this is your first time using Flyte, check out the :doc:`Getting Started <index>` guide.
 
 This *User Guide*, the :doc:`Tutorials <tutorials>`, and the :doc:`Integrations <integrations>` examples cover all of
 the key features of Flyte for data analytics, data science and machine learning practitioners, organized by topic. Each
@@ -126,75 +129,3 @@ Table of Contents
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^^^^
    Build, deploy, and iterate on large projects by organizing your Flyte app.
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-
-   |plane| Getting Started <https://docs.flyte.org/en/latest/getting_started.html>
-   |book-reader| User Guide <self>
-   |chalkboard| Tutorials <tutorials>
-   |project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
-   |rocket| Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
-   |book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
-   |hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
-
-.. toctree::
-   :maxdepth: -1
-   :caption: User Guide
-   :hidden:
-
-   User Guide <self>
-   Environment Setup <userguide_setup>
-   Basics <auto/core/flyte_basics/index>
-   Control Flow <auto/core/control_flow/index>
-   Type System <auto/core/type_system/index>
-   Testing <auto/testing/index>
-   Containerization <auto/core/containerization/index>
-   Remote Access <auto/remote_access/index>
-   Production Config <auto/deployment/index>
-   Scheduling Workflows <auto/core/scheduled_workflows/index>
-   Extending Flyte <auto/core/extend_flyte/index>
-   Building Large Apps <auto/larger_apps/index>
-   Example Contribution Guide <contribute>
-
-.. toctree::
-   :maxdepth: -1
-   :caption: Tutorials
-   :hidden:
-
-   Tutorials <tutorials>
-   ml_training
-   feature_engineering
-   bioinformatics_examples
-   flyte_lab
-
-.. toctree::
-   :maxdepth: -1
-   :caption: Integrations
-   :hidden:
-
-   Integrations <integrations>
-   auto/integrations/flytekit_plugins/sql/index
-   auto/integrations/flytekit_plugins/greatexpectations/index
-   auto/integrations/flytekit_plugins/papermilltasks/index
-   auto/integrations/flytekit_plugins/pandera_examples/index
-   auto/integrations/flytekit_plugins/modin_examples/index
-   auto/integrations/flytekit_plugins/dolt/index
-   auto/integrations/flytekit_plugins/whylogs_examples/index
-   auto/integrations/flytekit_plugins/onnx_examples/index
-   auto/integrations/kubernetes/pod/index
-   auto/integrations/kubernetes/k8s_dask/index
-   auto/integrations/kubernetes/k8s_spark/index
-   auto/integrations/kubernetes/kfpytorch/index
-   auto/integrations/kubernetes/kftensorflow/index
-   auto/integrations/kubernetes/kfmpi/index
-   auto/integrations/kubernetes/ray_example/index
-   auto/integrations/aws/sagemaker_training/index
-   auto/integrations/aws/sagemaker_pytorch/index
-   auto/integrations/aws/athena/index
-   auto/integrations/aws/batch/index
-   auto/integrations/external_services/hive/index
-   auto/integrations/external_services/snowflake/index
-   auto/integrations/gcp/bigquery/index
-   auto/integrations/external_services/airflow/index
