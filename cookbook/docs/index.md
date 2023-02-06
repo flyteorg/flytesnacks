@@ -129,7 +129,7 @@ def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression
     """Train a model on the wine dataset."""
     features = data.drop("target", axis="columns")
     target = data["target"]
-    return LogisticRegression(max_iter=2000, **hyperparameters).fit(features, target)
+    return LogisticRegression(max_iter=3000, **hyperparameters).fit(features, target)
 ```
 
 As we can see in the code snippet above, we defined three tasks as Python
