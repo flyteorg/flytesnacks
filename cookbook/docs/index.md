@@ -63,10 +63,10 @@ and [Containerd](https://containerd.io/)), and ensure that the associated client
 daemon is running (e.g. the Docker daemon).
 ```
 
-First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK.
+First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
 
 ```{prompt} bash $
-pip install flytekit
+pip install flytekit scikit-learn
 ```
 
 Then install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
