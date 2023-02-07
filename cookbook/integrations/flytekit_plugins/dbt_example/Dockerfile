@@ -6,7 +6,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
-RUN apt-get update && apt-get install -y build-essential git postgresql-client
+RUN apt-get update && apt-get install -y build-essential git postgresql-client libpq-dev
 
 # Install the AWS cli separately to prevent issues with boto being written over
 RUN pip3 install awscli
@@ -19,6 +19,9 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY dbt_example/requirements.txt /root/
 RUN pip install -r /root/requirements.txt
+# psycopg2-binary is a dependency of the dbt-postgres adapter, but that doesn't work on mac M1s.
+# As per https://github.com/psycopg/psycopg2/issues/1360, we install psycopg to circumvent this.
+RUN pip uninstall -y psycopg2-binary && pip install psycopg2
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 COPY in_container.mk /root/Makefile
