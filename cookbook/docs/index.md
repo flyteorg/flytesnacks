@@ -197,11 +197,11 @@ pyflyte run example.py training_workflow \
 :title: text-muted
 :animate: fade-in-slide-down
 
-If you're using Bash, you can ignore this :)
+If you're using Bash, you can ignore this 🙂
 You may need to add .local/bin to your PATH variable if it's not already set,
 as that's not automatically added for non-bourne shells like fish or xzsh.
 
-to use pyflyte, make sure to set the /.local/bin directory in PATH
+To use pyflyte, make sure to set the /.local/bin directory in PATH
 
 :::{code-block} fish
 set -gx PATH $PATH ~/.local/bin
