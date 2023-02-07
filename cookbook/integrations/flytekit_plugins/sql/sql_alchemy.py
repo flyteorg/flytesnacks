@@ -1,4 +1,6 @@
 """
+.. _sql_alchemy:
+
 SQLAlchemy
 ----------
 

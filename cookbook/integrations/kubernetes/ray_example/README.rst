@@ -1,3 +1,5 @@
+.. _kube-ray-op:
+
 KubeRay
 ========
 

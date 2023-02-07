@@ -4,7 +4,7 @@ include common/common.mk
 include common/parent.mk
 
 define PIP_COMPILE
-pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose --resolver=backtracking
 endef
 
 dev-requirements.txt: export CUSTOM_COMPILE_COMMAND := $(MAKE) dev-requirements.txt
