@@ -47,7 +47,7 @@ Dockerfile
 
 .. literalinclude:: ../../../../../case_studies/bioinformatics/blast/Dockerfile
     :language: docker
-    :emphasize-lines: 40-47
+    :emphasize-lines: 42-44,67-70
 
 Initiate the workflow on the Flyte backend by executing the following two commands in the "bioinformatics" directory::
 
