@@ -2,31 +2,50 @@
 BLASTX Example
 --------------
 
-This example will use BLASTX to search for a nucleotide sequence against a local protein database.
+This demonstration will utilize BLASTX to search for a nucleotide sequence within a local protein database.
 """
 
 # %%
-# First, we need to import some libraries.
+# Import the necessary libraries.
+from pathlib import Path
 from typing import NamedTuple
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 from flytekit import conditional, kwtypes, task, workflow
 from flytekit.extras.tasks.shell import OutputLocation, ShellTask
 from flytekit.types.file import FlyteFile, PNGImageFile
 
+
 # %%
-# A ``ShellTask`` is useful to run commands on the shell.
-# In this example, we use ``ShellTask`` to generate and run the BLASTX command.
-#
-# First, we define the location of the BLAST output file.
-# Then we define variables that contain paths to: the input query sequence file, the database we are searching against, and the file containing the BLAST output.
-# Finally, we generate and run the BLASTX command. Both ``stdout`` and ``stderr`` are captured and saved to the ``stdout`` variable.
-#
-# ``{inputs}`` and ``{outputs}`` are placeholders for the input and output values, respectively.
+# Download the data from GitHub.
 #
 # .. note::
-#    The new input/output placeholder syntax of ``ShellTask`` is available starting Flytekit 0.30.0b8+.
+#   When running the code on the demo cluster, make sure the data is included in the Docker image.
+def download_dataset():
+    Path("kitasatospora").mkdir(exist_ok=True)
+    r = requests.get(
+        "https://api.github.com/repos/flyteorg/flytesnacks/contents/blast/kitasatospora?ref=datasets"
+    )
+    for each_file in r.json():
+        download_url = each_file["download_url"]
+        file_name = f"kitasatospora/{Path(download_url).name}"
+        if not Path(file_name).exists():
+            r_file = requests.get(each_file["download_url"])
+            open(file_name, "wb").write(r_file.content)
+
+
+# %%
+# A ``ShellTask`` allows you to run commands on the shell.
+# In this example, we use a ``ShellTask`` to create and execute the BLASTX command.
+#
+# Start by specifying the location of the BLAST output file.
+# Then, define variables that hold the paths to the input query sequence file, the database we are searching against, and the output file for BLAST.
+# Finally, generate and run the BLASTX command.
+# Both the standard output (stdout) and standard error (stderr) are captured and saved in the ``stdout`` variable.
+#
+# The ``{inputs}`` and ``{outputs}`` are placeholders for input and output values, respectively.
 blastx_on_shell = ShellTask(
     name="blastx",
     debug=True,
@@ -52,24 +71,23 @@ blastx_on_shell = ShellTask(
 
 # %%
 # .. note::
-#   ``outfmt=6`` asks BLASTX to write a tab-separated tabular plain text file.
-#   This differs from the usual human-readable output, but is particularly convenient for automated processing.
+#   The ``outfmt=6`` option requests BLASTX to generate a tab-separated plain text file, which is convenient for automated processing.
 #
-# If the command works, then there should be no standard output and error, i.e., stdout and stderr have to be empty.
+# If the command runs successfully, there should be no standard output or error (stdout and stderr should be empty).
 
 # %%
-# Next, we define a task to load the BLASTX output. The task returns a pandas DataFrame and a plot.
-# ``blastout`` pertains to the BLAST output file.
-
+# Next, define a task to load the BLASTX output.
+# The task returns a pandas DataFrame and a plot.
+# The file containing the BLASTX results is referred to as blastout.
 BLASTXOutput = NamedTuple("blastx_output", result=pd.DataFrame, plot=PNGImageFile)
 
 
 @task
 def blastx_output(blastout: FlyteFile) -> BLASTXOutput:
-    # Read BLASTX output
+    # read BLASTX output
     result = pd.read_csv(blastout, sep="\t", header=None)
 
-    # Define column headers
+    # define column headers
     headers = [
         "query",
         "subject",
@@ -85,10 +103,10 @@ def blastx_output(blastout: FlyteFile) -> BLASTXOutput:
         "bitscore",
     ]
 
-    # Assign headers
+    # assign headers
     result.columns = headers
 
-    # Create a scatterplot
+    # create a scatterplot
     result.plot.scatter("pc_identity", "e_value")
     plt.title("E value vs %identity")
     plot = "plot.png"
@@ -98,8 +116,7 @@ def blastx_output(blastout: FlyteFile) -> BLASTXOutput:
 
 
 # %%
-# We write a task to ascertain if the BLASTX standard output and error are empty.
-# If empty, then the BLASTX run was successful, else, the run failed.
+# Verify that the BLASTX run was successful by checking if the standard output and error are empty.
 @task
 def is_batchx_success(stdout: FlyteFile) -> bool:
     if open(stdout).read():
@@ -109,11 +126,11 @@ def is_batchx_success(stdout: FlyteFile) -> bool:
 
 
 # %%
-# Next, we define a workflow to call the aforementioned tasks.
-# We use :ref:`conditional <sphx_glr_auto_core_control_flow_conditions.py>` to check if the BLASTX command succeeded.
+# Create a workflow that calls the previously defined tasks.
+# A :ref:`conditional <sphx_glr_auto_core_control_flow_conditions.py>` statement is used to check the success of the BLASTX command.
 @workflow
 def blast_wf(
-    datadir: str = "data/kitasatospora",
+    datadir: str = "kitasatospora",
     outdir: str = "output",
     query: str = "k_sp_CB01950_penicillin.fasta",
     db: str = "kitasatospora_proteins.faa",
@@ -134,7 +151,9 @@ def blast_wf(
 
 
 # %%
-# Finally, we can run the workflow locally.
+# Run the workflow locally.
 if __name__ == "__main__":
+    print("Downloading dataset...")
+    download_dataset()
     print("Running BLASTX...")
     print(f"BLASTX result: {blast_wf()}")
