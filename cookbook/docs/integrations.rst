@@ -71,6 +71,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Version your SQL database with ``dolt``.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/dbt_example/index
+      :type: ref
+      :text: dbt
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run and test your ``dbt`` pipelines in Flyte.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/whylogs_examples/index
       :type: ref
       :text: whylogs
