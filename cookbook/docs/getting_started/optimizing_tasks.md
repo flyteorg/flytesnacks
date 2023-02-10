@@ -14,6 +14,9 @@ kernelspec:
 
 # Optimizing Tasks
 
+There are many way to optimize your tasks and workflows in Flyte, and this guide
+will take you through just some the common methods for doing so.
+
 ## Caching
 
 Caching allows you to avoid re-running potentially expensive tasks. You can
@@ -45,6 +48,12 @@ Caching works both locally and on a Flyte backend.
 
 As you can see, the second call to the `wf` workflow takes less time because
 Flyte simply hits the cache to obtain the result.
+
+```{note}
+For file-like data types like {py:class}`flytekit.types.FlyteFile` and offloaded
+data types like `pandas.DataFrame` objects, you can provide a hash function that
+represents the cache key. Learn more in the {ref}`User Guide <cache-offloaded-objects>`.
+```
 
 ## Retries
 
@@ -236,7 +245,7 @@ Flyte: the ability to *declaratively specify infrastructure requirements*
 at the most granular level of your workflow!
 
 When this task is executed on a Flyte cluster, it automatically provisions all of
-the resources that you need. In this case that need is distributed
+the resources that you need. In this case, that need is distributed
 training, but Flyte also provides integrations for {ref}`Spark <plugins-spark-k8s>`,
 {ref}`Ray <kube-ray-op>`, {ref}`MPI <kf-mpi-op>`, {ref}`Sagemaker <aws-sagemaker>`,
 {ref}`Snowflake <plugins-snowflake>`, and more.
@@ -253,4 +262,4 @@ Flyte programming paradigm.
 In this guide, you learned the various ways in which you can optimize your
 tasks and workflows to make them more scalable and robust. In the final stop of
 the Flyte Fundamentals tour, we'll see how to extend Flyte in the cases where
-the built-in functionality don't quite fit your needs.
+the built-in functionality doesn't quite fit your needs.

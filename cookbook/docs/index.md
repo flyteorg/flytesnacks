@@ -65,6 +65,10 @@ daemon is running (e.g. the Docker daemon).
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
 
+```{note}
+`flytekit` currently requires Python version `>=3.7, <=3.10`.
+```
+
 ```{prompt} bash $
 pip install flytekit scikit-learn
 ```
@@ -252,10 +256,23 @@ if __name__ == "__main__":
 
 (getting_started_flyte_cluster)=
 
-## Running Workflow in a Flyte Cluster
+## Running Workflows in a Flyte Cluster
 
-You can also use `pyflyte run` to execute workflows on a Flyte cluster. To
-do so, first spin up a local demo cluster:
+You can also use `pyflyte run` to execute workflows on a Flyte cluster.
+To do so, first spin up a local demo cluster. `flytectl` uses Docker to create
+a local Kubernetes cluster and minimal Flyte backend that you can use to run
+the example above:
+
+```{important}
+Before you start the local cluster, make sure that you allocate a minimum of
+`4 CPUs` and `3 GB` of memory in your Docker daemon. If you're using the
+[Docker Desktop](https://www.docker.com/products/docker-desktop/), you can
+do this easily by going to:
+
+`Settings > Resources > Advanced`
+
+Then set the **CPUs** and **Memory** sliders the appropriate levels.
+```
 
 ```{prompt} bash $
 flytectl demo start
@@ -401,7 +418,6 @@ Remote Access <auto/remote_access/index>
 Production Config <auto/deployment/index>
 Scheduling Workflows <auto/core/scheduled_workflows/index>
 Extending Flyte <auto/core/extend_flyte/index>
-Building Large Apps <auto/larger_apps/index>
 Example Contribution Guide <contribute>
 ```
 

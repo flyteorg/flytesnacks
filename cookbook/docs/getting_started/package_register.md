@@ -187,6 +187,18 @@ pyflyte register workflows --image ghcr.io/flyteorg/flytekit:py3.9-latest
 
 ```
 
+````{note}
+You can also specify multiple workflow directories, like:
+
+```{prompt} bash $
+pyflyte register <dir1> <dir2> ...
+```
+
+This is useful in cases where you want to register two different Flyte projects
+that you maintain in a single place.
+
+````
+
 Once you've successfully registered your workflows, you can execute them by
 going to the Flyte console. If you're using a local Flyte demo cluster, you can
 go to the browser at `localhost:30080/console` and do the following:
@@ -219,7 +231,7 @@ the system- and Python-level dependencies along with your workflow source code
 are immutable.
 
 
-**Containerizing your Project**
+#### Containerizing your Project
 
 Flyte relies on Docker to containerize your code and third-party dependencies.
 When you invoke `pyflyte init`, the resulting template project ships with a
@@ -253,7 +265,7 @@ The `docker_build.sh` script is purely for convenience; you can always roll
 your own way of building Docker containers.
 ```
 
-**Package your Project with `pyflyte package`**
+#### Package your Project with `pyflyte package`
 
 You can package your project with the `pyflyte package` command like so:
 
@@ -280,7 +292,19 @@ This will create a portable package `flyte-package.tgz` containing all the Flyte
 entities compiled as protobuf files that you can register with multiple Flyte
 clusters.
 
-**Register with `flytectl register`**
+````{note}
+Like `pyflyte register`, can also specify multiple workflow directories, like:
+
+```{prompt} bash $
+pyflyte --pkgs <dir1> --pkgs <dir2> package ...
+```
+
+This is useful in cases where you want to register two different Flyte projects
+that you maintain in a single place.
+
+````
+
+#### Register with `flytectl register`
 
 Finally, register your tasks and workflows with `flytectl register files`:
 
@@ -341,7 +365,7 @@ two GitHub actions that facilitates this:
 
 ## What's Next?
 
-In this guide, you learned about the Flyte demo cluster, configuration, and
+In this guide, you learned about the Flyte demo cluster, Flyte configuration, and
 the different registation patterns you can leverage during the workflow
 development lifecycle. In the next guide, we'll learn how to run and schedule
 workflows programmatically.
