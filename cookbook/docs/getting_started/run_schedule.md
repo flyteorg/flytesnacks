@@ -129,8 +129,8 @@ This example assumes that you've added a `launch_plan` with some default inputs
 to the `example.py` script and registered it to the backend:
 
 ```{code-block} python
-flyte_task = remote.fetch_launch_plan(name="workflows.example.launch_plan")
-execution = remote.execute(flyte_task, inputs={})
+flyte_launchplan = remote.fetch_launch_plan(name="workflows.example.launch_plan")
+execution = remote.execute(flyte_launchplan, inputs={})
 ```
 
 ````
