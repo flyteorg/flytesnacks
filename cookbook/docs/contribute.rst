@@ -42,7 +42,6 @@ follows:
    cookbook
    ├── core          # User Guide Basics features
    ├── deployment    # User Guide Production Config guides
-   ├── larger_apps   # User Guide Building Large Apps
    ├── remote_access # User Guide Remote Access guides
    ├── testing       # User Guide Testing guides
    ├── case_studies  # Tutorials live here
@@ -164,7 +163,7 @@ To fetch new dependencies and rebuild the image, run
    pyflyte --pkgs core package --image core:v2 -f
    flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2
 
-Refer to `this guide <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__
+Refer to :ref:`this guide <getting_started_package_register>`
 if the code in itself is updated and requirements.txt is the same.
 
 

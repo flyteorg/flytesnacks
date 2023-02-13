@@ -110,7 +110,7 @@ tags: [remove-input]
 import logging
 import os
 import re
-from IPython.display import HTML, IFrame
+from IPython.display import HTML
 
 
 class DeckFilter(logging.Filter):
@@ -156,7 +156,6 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
-# IFrame(src=cp_deck(deck_filter.deck_files["plot"]), width="100%", height="400px")
 HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 ```
 

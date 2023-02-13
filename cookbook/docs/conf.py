@@ -144,10 +144,6 @@ class CustomSorter(FileNameSortKey):
         "prebuilt_container.py",
         "user_container.py",
         "backend_plugins.py",
-        # Repo-based Projects
-        "larger_apps_setup.py",
-        "larger_apps_deploy.py",
-        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -332,7 +328,6 @@ examples_dirs = [
     "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
     "../core/extend_flyte",
-    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -377,7 +372,6 @@ gallery_dirs = [
     "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
-    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)
