@@ -1,8 +1,9 @@
 -r ./common/requirements-common.in
+flytekit>=1.3.0
 git+https://github.com/flyteorg/furo@main
 pillow
 pycountry
-psycopg2
+psycopg2-binary
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 sphinx
@@ -19,8 +20,8 @@ sphinxcontrib-mermaid
 sphinxcontrib-yt
 sphinx-tabs
 astroid
-grpcio < 1.49.0
-grpcio-status < 1.49.0
+grpcio
+grpcio-status
 myst-nb
 ipython!=8.7.0
 sphinx-tags
