@@ -22,7 +22,7 @@ practice.
 :widths: 10 30
 
 * - {doc}`🛠 Data Engineering <data_engineering>`
-  - Create an ELT workflow for processing data with SQLAlchemy and Pandas.
+  - Create an ETL workflow for processing data with SQLAlchemy and Pandas.
 * - {doc}`🤖 Machine Learning <machine_learning>`
   - Train a classifier with Scikit-Learn and Pandas.
 * - {doc}`📈 Analytics <analytics>`

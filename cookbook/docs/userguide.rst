@@ -120,12 +120,3 @@ Table of Contents
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^^^^
    Define custom plugins that aren't currently supported in the Flyte ecosystem.
-
-   ---
-
-   .. link-button:: auto/larger_apps/index
-      :type: ref
-      :text: ⛰ Building Large Apps
-      :classes: btn-block stretched-link
-   ^^^^^^^^^^^^^^^
-   Build, deploy, and iterate on large projects by organizing your Flyte app.
