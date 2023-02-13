@@ -230,13 +230,14 @@ method ensures that the workflows are fully containerized, which ensures that
 the system- and Python-level dependencies along with your workflow source code
 are immutable.
 
+(containerizing_your_project)=
 
 #### Containerizing your Project
 
-Flyte relies on Docker to containerize your code and third-party dependencies.
-When you invoke `pyflyte init`, the resulting template project ships with a
-`docker_build.sh` script that you can use to build and tag a container according
-to the recommended practice:
+Flyte relies on OCI-compatible containers to package up your code and third-party
+dependencies. When you invoke `pyflyte init`, the resulting template project
+ships with a `docker_build.sh` script that you can use to build and tag a
+container according to the recommended practice:
 
 ```{prompt} bash $
 ./docker_build.sh

@@ -72,6 +72,7 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         # Containerization
         "raw_container.py",
+        "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
