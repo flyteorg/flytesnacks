@@ -366,6 +366,6 @@ two GitHub actions that facilitates this:
 ## What's Next?
 
 In this guide, you learned about the Flyte demo cluster, Flyte configuration, and
-the different registation patterns you can leverage during the workflow
+the different registration patterns you can leverage during the workflow
 development lifecycle. In the next guide, we'll learn how to run and schedule
 workflows programmatically.

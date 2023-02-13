@@ -56,11 +56,15 @@ text: Try Hosted Flyte Sandbox
 ```{admonition} Prerequisites
 :class: important
 
-[Install Docker](https://docs.docker.com/get-docker/) or any other
-[OCI-compatible](https://opencontainers.org/) container technology (like
-[Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/),
-and [Containerd](https://containerd.io/)), and ensure that the associated client
-daemon is running (e.g. the Docker daemon).
+[Install Docker](https://docs.docker.com/get-docker/) and ensure that you
+have the Docker daemon running.
+
+Flyte supports any [OCI-compatible](https://opencontainers.org/) container
+technology (like [Podman](https://podman.io/),
+[LXD](https://linuxcontainers.org/lxd/introduction/), and
+[Containerd](https://containerd.io/)) when running tasks on a Flyte cluster, but
+for the purpose of this guide, `flytectl` uses Docker to spin up a local
+Kubernetes cluster so that you can interact with it on your machine.
 ```
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).

@@ -14,7 +14,7 @@ kernelspec:
 
 # Optimizing Tasks
 
-There are many way to optimize your tasks and workflows in Flyte, and this guide
+There are many ways to optimize your tasks and workflows in Flyte, and this guide
 will take you through just some the common methods for doing so.
 
 ## Caching
