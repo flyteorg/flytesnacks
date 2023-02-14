@@ -24,9 +24,13 @@ Let's dive into an example.
 #
 #   Flyte Decks is an opt-in feature; to enable it, set ``disable_deck`` to ``False`` in the task params.
 
+import flytekit
+import matplotlib.pyplot as plt
+import mpld3
+
 # %%
 # Import the dependencies.
-import flytekit
+import numpy as np
 import pandas as pd
 import plotly.express as px
 from flytekit import task, workflow
@@ -41,12 +45,13 @@ iris_df = px.data.iris()
 # %%
 # Create a new deck called ``demo``, and use the box renderer to display the box plot on demo deck.
 # Use MarkdownRenderer to render ``md_text``, and append HTML to the default deck.
+# Use ``Annotated`` to override the default renderer, and display top 10 rows of dataframe.
 @task(disable_deck=False)
-def t1() -> str:
+def t1() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
     md_text = "#Hello Flyte\n##Hello Flyte\n###Hello Flyte"
     flytekit.Deck("demo", BoxRenderer("sepal_length").to_html(iris_df))
     flytekit.current_context().default_deck.append(MarkdownRenderer().to_html(md_text))
-    return md_text
+    return iris_df
 
 
 # %%
@@ -75,12 +80,27 @@ def t1() -> str:
 #   :class: with-shadow
 #
 
+# %%
+# Create a custom Flyte Deck Renderer, and the renderer must override `to_html` method.
+class MatplotlibRenderer:
+    def __init__(self, x: np.array, y: np.array):
+        self._x = x
+        self._y = y
+
+    def to_html(self) -> str:
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+        ax.plot(self._x, self._y)
+        return mpld3.fig_to_html(fig)
+
 
 # %%
-# Use ``Annotated`` to override the default renderer, and display top 10 rows of dataframe.
+# Use `MatplotlibRenderer` to display a linear graph on flyte deck.
 @task(disable_deck=False)
-def t2() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
-    return iris_df
+def t2():
+    x_points = np.array([0, 6])
+    y_points = np.array([0, 250])
+    flytekit.Deck("matplotlib", MatplotlibRenderer(x_points, y_points).to_html())
 
 
 # %%
@@ -97,6 +117,7 @@ def t2() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
 #   :alt: Dataframe
 #   :class: with-shadow
 #
+
 
 # %%
 # Define the workflow.
