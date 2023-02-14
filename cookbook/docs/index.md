@@ -275,7 +275,7 @@ do this easily by going to:
 
 `Settings > Resources > Advanced`
 
-Then set the **CPUs** and **Memory** sliders the appropriate levels.
+Then set the **CPUs** and **Memory** sliders to the appropriate levels.
 ```
 
 ```{prompt} bash $
