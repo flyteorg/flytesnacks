@@ -51,6 +51,7 @@ which is the Flyte cluster backend component that processes all client requests
 such as workflow executions:
 
 ````{dropdown} See Configuration
+:title: text-muted
 
 ```{code-block} yaml
 admin:
@@ -258,12 +259,30 @@ You can override the default values with the following flags:
 ./docker_build.sh -p <PROJECT_NAME> -r <REGISTRY> -v <VERSION>
 ```
 
-For example, if you want to push your Docker image to Github's image registry
-you can specify the `-r ghcr.io` flag.
+For example, if you want to push your Docker image to Github's container
+registry you can specify the `-r ghcr.io` flag.
 
 ```{note}
 The `docker_build.sh` script is purely for convenience; you can always roll
 your own way of building Docker containers.
+```
+
+Once you've built the image, you can push it to the specified registry. For
+example, if you're using Github container registry, do the following:
+
+```{prompt} bash $
+docker login ghcr.io
+docker push <tag>
+```
+
+```{admonition} Pulling Private Images
+:class: important
+
+For many projects it's convenient to make your images public, but in the case
+that you're building proprietary images or images that may contain sensitive
+metadata/configuration, it's more secure if they're private.
+
+Learn more about how to pull private image in the {ref}`User Guide <private_images>`.
 ```
 
 #### Package your Project with `pyflyte package`

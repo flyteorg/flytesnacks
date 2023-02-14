@@ -1,4 +1,6 @@
 """
+.. _private_images:
+
 Pulling Private Images
 ----------------------
 
