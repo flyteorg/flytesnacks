@@ -22,6 +22,8 @@ for your specific use cases.
 This guide will walk you through two of the many different ways you can extend
 the Flyte type system and Flyte tasks.
 
+(customizing_flyte_types)=
+
 ## Customizing Flyte Types
 
 Flyte has a {ref}`rich type system <flyte_type_system>` that automatically
@@ -165,7 +167,7 @@ many more ways to customize Flyte tasks:
 
 Congratulations! 🎉 You've just completed the Flyte Fundamentals tour.
 
-The final section in the getting started section of the docs is to provide you
+The final section in the getting started section of the docs will provide you
 with some {ref}`core use cases <getting_started_core_use_cases>` for implementing
 your first workflows, whether you're a data scientist, data analyst, data engineer,
 or machine learning engineer.

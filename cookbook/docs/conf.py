@@ -110,6 +110,7 @@ class CustomSorter(FileNameSortKey):
         "basic_schema_example.py",
         "branch_example.py",
         "quickstart_example.py",
+        "dbt_example.py",
         "dolt_quickstart_example.py",
         "dolt_branch_example.py",
         "task_example.py",
@@ -119,6 +120,7 @@ class CustomSorter(FileNameSortKey):
         "sql_alchemy.py",
         "whylogs_example.py",
         ## Kubernetes
+        "dask.py",
         "pod.py",
         "dask_example.py",
         "pyspark_pi.py",
@@ -142,10 +144,6 @@ class CustomSorter(FileNameSortKey):
         "prebuilt_container.py",
         "user_container.py",
         "backend_plugins.py",
-        # Repo-based Projects
-        "larger_apps_setup.py",
-        "larger_apps_deploy.py",
-        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -310,6 +308,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/pandera_examples",
     "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
+    "../integrations/flytekit_plugins/dbt_example",
     "../integrations/flytekit_plugins/whylogs_examples",
     "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/kubernetes/pod",
@@ -326,9 +325,9 @@ examples_dirs = [
     "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
+    "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
     "../core/extend_flyte",
-    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -353,6 +352,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/pandera_examples",
     "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
+    "auto/integrations/flytekit_plugins/dbt_example",
     "auto/integrations/flytekit_plugins/whylogs_examples",
     "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/kubernetes/pod",
@@ -369,9 +369,9 @@ gallery_dirs = [
     "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
+    "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
-    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)

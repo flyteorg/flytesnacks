@@ -1,0 +1,26 @@
+name: Docs Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  docs_warnings:
+    name: Docs Warnings
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: "0"
+      - name: Report Sphinx Warnings
+        id: sphinx-warnings
+        # NOTE: myst-nb build warnings are logged in docs/_build/reports/*.err.log
+        run: |
+          sudo apt-get install python3-sphinx
+          cd cookbook
+          pip install -r docs-requirements.txt
+          SPHINXOPTS="-W" cd docs && make html
+          cat _build/reports/**/*.err.log || echo 'no error reports'

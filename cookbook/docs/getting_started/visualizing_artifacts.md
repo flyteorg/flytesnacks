@@ -265,7 +265,7 @@ logger.removeFilter(deck_filter)
 HTML(filename=cp_deck(deck_filter.deck_files["iris_data"]))
 ```
 
-As you can see below, Flyte renders in-line decks in the order in which they
+As you can see above, Flyte renders in-line decks in the order in which they are
 called in the task function body: **default**, then **box plot**, which contain
 the markdown description and box plot, respectively.
 

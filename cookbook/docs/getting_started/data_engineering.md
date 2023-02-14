@@ -20,7 +20,7 @@ data processing tools you prefer.
 
 In this example, we create an ETL workflow that extracts data from a public
 [RNA database](https://rnacentral.org/help/public-database), performs some simple
-transforms on the data, and loads it to a CSV file.
+transforms on the data, and loads it into a CSV file.
 
 ## Extract
 
@@ -73,10 +73,9 @@ that you have connection credentials available in the configured
 
 Next, we parse the raw `timestamp`s and represent the time as separate `date`
 and `time` columns. Notice that we can encode the assumptions we have about this
-task's resource requirements with the {py:class}`~flytekit.Resources` object
-when this task runs on a Flyte cluster. If those assumptions ever change we can
-update the resource request here, or override it at the workflow-level with the
-{ref}`with_overrides <resource_with_overrides>` method.
+task's resource requirements with the {py:class}`~flytekit.Resources` object.
+If those assumptions ever change we can update the resource request here, or
+override it at the workflow-level with the {ref}`with_overrides <resource_with_overrides>` method.
 
 
 ```{code-cell} ipython3
@@ -92,7 +91,7 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
 
 ## Load
 
-Finally, we load the transformed data into its final destination, a CSV file in
+Finally, we load the transformed data into its final destination: a CSV file in
 blob storage. Flyte has a built-in `CSVFile` type that automatically handles
 serializing/deserializing and uploading/downloading the file as it's passed from
 one task to the next. All you need to do is write the file to some local location
@@ -141,11 +140,8 @@ pd.read_csv(csv_file)
 ## Workflows as Reusable Components
 
 Because Flyte tasks and workflows are simply functions, we can embed
-`etl_workflow` in a larger workflow that uses is a component in a downstream
-data processing task.
-
-The `etl_workflow` file output can then be consumed by downstream tasks or
-subworkflows:
+`etl_workflow` as part of a larger workflow, where it's used to create a
+CSV file that's then consumed by downstream tasks or subworkflows:
 
 ```{code-cell} ipython3
 @task
