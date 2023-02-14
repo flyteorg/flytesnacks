@@ -72,6 +72,7 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         # Containerization
         "raw_container.py",
+        "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
@@ -85,7 +86,6 @@ class CustomSorter(FileNameSortKey):
         "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
-        "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "multiple_k8s.py",
