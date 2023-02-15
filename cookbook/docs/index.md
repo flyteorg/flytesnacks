@@ -56,14 +56,22 @@ text: Try Hosted Flyte Sandbox
 ```{admonition} Prerequisites
 :class: important
 
-[Install Docker](https://docs.docker.com/get-docker/) or any other
-[OCI-compatible](https://opencontainers.org/) container technology (like
-[Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/),
-and [Containerd](https://containerd.io/)), and ensure that the associated client
-daemon is running (e.g. the Docker daemon).
+[Install Docker](https://docs.docker.com/get-docker/) and ensure that you
+have the Docker daemon running.
+
+Flyte supports any [OCI-compatible](https://opencontainers.org/) container
+technology (like [Podman](https://podman.io/),
+[LXD](https://linuxcontainers.org/lxd/introduction/), and
+[Containerd](https://containerd.io/)) when running tasks on a Flyte cluster, but
+for the purpose of this guide, `flytectl` uses Docker to spin up a local
+Kubernetes cluster so that you can interact with it on your machine.
 ```
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
+
+```{note}
+`flytekit` currently requires Python version `>=3.7, <=3.10`.
+```
 
 ```{prompt} bash $
 pip install flytekit scikit-learn
@@ -193,6 +201,23 @@ pyflyte run example.py training_workflow \
     --hyperparameters '{"C": 0.1}'
 ```
 
+:::::{dropdown} {fa}`info-circle`  Running into shell issues?
+:title: text-muted
+:animate: fade-in-slide-down
+
+If you're using Bash, you can ignore this 🙂
+You may need to add .local/bin to your PATH variable if it's not already set,
+as that's not automatically added for non-bourne shells like fish or xzsh.
+
+To use pyflyte, make sure to set the /.local/bin directory in PATH
+
+:::{code-block} fish
+set -gx PATH $PATH ~/.local/bin
+:::
+:::::
+
+
+
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
 :title: text-muted
 :animate: fade-in-slide-down
@@ -235,10 +260,23 @@ if __name__ == "__main__":
 
 (getting_started_flyte_cluster)=
 
-## Running Workflow in a Flyte Cluster
+## Running Workflows in a Flyte Cluster
 
-You can also use `pyflyte run` to execute workflows on a Flyte cluster. To
-do so, first spin up a local demo cluster:
+You can also use `pyflyte run` to execute workflows on a Flyte cluster.
+To do so, first spin up a local demo cluster. `flytectl` uses Docker to create
+a local Kubernetes cluster and minimal Flyte backend that you can use to run
+the example above:
+
+```{important}
+Before you start the local cluster, make sure that you allocate a minimum of
+`4 CPUs` and `3 GB` of memory in your Docker daemon. If you're using the
+[Docker Desktop](https://www.docker.com/products/docker-desktop/), you can
+do this easily by going to:
+
+`Settings > Resources > Advanced`
+
+Then set the **CPUs** and **Memory** sliders to the appropriate levels.
+```
 
 ```{prompt} bash $
 flytectl demo start
@@ -384,7 +422,6 @@ Remote Access <auto/remote_access/index>
 Production Config <auto/deployment/index>
 Scheduling Workflows <auto/core/scheduled_workflows/index>
 Extending Flyte <auto/core/extend_flyte/index>
-Building Large Apps <auto/larger_apps/index>
 Example Contribution Guide <contribute>
 ```
 
@@ -428,6 +465,7 @@ auto/integrations/aws/athena/index
 auto/integrations/aws/batch/index
 auto/integrations/external_services/hive/index
 auto/integrations/external_services/snowflake/index
+auto/integrations/external_services/databricks/index
 auto/integrations/gcp/bigquery/index
 auto/integrations/external_services/airflow/index
 ```

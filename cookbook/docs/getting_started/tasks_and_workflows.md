@@ -26,8 +26,8 @@ Flyte tasks are the core building blocks of larger, more complex workflows.
 ### Tasks are Containerized Blocks of Compute
 
 You can think of a Flyte task as a containerized block of compute. When a task
-is  run in a Flyte backend, is is isolated within its own container, separate
-from all other tasks. Consider this simple one:
+runs on a Flyte backend, it's isolated within its own container, separate from
+all other tasks. Consider this simple one:
 
 ```{code-cell} ipython3
 from typing import List
@@ -53,7 +53,7 @@ There are three important things to note here:
 - Tasks and workflows must be invoked with keyword arguments.
 - When a task runs on a Flyte cluster, it runs on a
   [Kubernetes Pod](https://kubernetes.io/docs/concepts/workloads/pods/), where
-  Flyte orchestrates what task runs when in the context of a workflow.
+  Flyte orchestrates what task to run at what time in the context of a workflow.
 ```
 
 ### Tasks are Strongly Typed
@@ -138,7 +138,7 @@ standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ### Workflows versus Tasks Under the Hood
 
 Although Flyte workflow syntax looks like Python code, it's actually a
-[domain-specific language (DSL)][https://en.wikipedia.org/wiki/Domain-specific_language]
+[domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language)
 for building execution graphs where tasks – and other workflows – serve as the
 building blocks.
 
@@ -146,10 +146,11 @@ This means that the workflow function body only supports a subset of Python's
 semantics:
 
 - In workflows, you shouldn't use non-deterministic operations like
-  `rand.random`, `time.now()`, etc.
+  `rand.random`, `time.now()`, etc. These functions will be invoked at compile
+  time and your workflows will not behave as you expect them to.
 - Within workflows, the outputs of tasks are promises under the hood, so you
   can't access and operate on them like typical Python function outputs. *You
-  can only pass promises into other tasks and workflows*.
+  can only pass promises into tasks, workflows, and other Flyte constructs*.
 - Regular Python conditionals won't work as intended in workflows: you need to
   use the {ref}`conditional <conditional>` construct.
 
@@ -184,7 +185,7 @@ values.
 ### Workflows are Strongly Typed Too
 
 Since both tasks and workflows are strongly typed, Flyte can actually catch
-type errors! When we learn about more packaging and registering in the next few
+type errors! When we learn more about packaging and registering in the next few
 guides, we'll see that Flyte can also catch compile-time errors even before
 you running any code!
 
@@ -262,7 +263,7 @@ In this workflow, `task1` will execute before `task2`, but it won't pass any of
 its data to `task2`. Similarly, `task2` will execute before `subworkflow`.
 
 ```{important}
-Learn more about chaining flyte entities in the {ref}`User Guide <chain_flyte_entities>`
+Learn more about chaining flyte entities in the {ref}`User Guide <chain_flyte_entities>`.
 ```
 
 
