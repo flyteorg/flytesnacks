@@ -19,8 +19,8 @@ setting, which increases the iteration speed of building out your data-
 or machine-learning-driven applications.
 
 Running your workflows locally is great for the initial stages of testing, but
-what if you need to make sure that your workflows run as intended on a Flyte
-cluster? What if you need to run your workflows on a regular cadence?
+what if you need to make sure that they run as intended on a Flyte cluster?
+What if you need to run them on a regular cadence?
 
 In this guide we'll cover how to run and schedule workflows for both development
 and production use cases.
@@ -91,13 +91,55 @@ execution = remote.execute(flyte_wf, inputs={"name": "Kermit"})
 `````
 
 ```{note}
-You can also launch workflows via `flytectl`, learn more in the {ref}`User Guide <remote_launchplan>`
+You can also launch workflows via `flytectl` which you can learn more about in
+the {ref}`User Guide <remote_launchplan>`
 ```
+
+## Running a Launchplan
+
+Similar to workflows, you can run launch plans with `FlyteRemote`:
+
+`````{tabs}
+
+````{group-tab} Locally Imported
+
+If you have a `LaunchPlan` defined in your Python runtime environment, you can
+execute it directly:
+
+```{code-block} python
+
+from workflows.example import wf
+
+launch_plan = LaunchPlan.get_or_create(
+    wf, name="launch_plan", default_inputs={"name": "Elmo"},
+)
+
+execution = remote.execute(launch_plan, inputs={})
+```
+
+````
+
+````{group-tab} Remotely Fetched
+
+Execute a task by fetching a `FlyteLaunchPlan` object from the remote
+**FlyteAdmin** service, which essentially contains the metadata representing a
+Flyte task that exists on a Flyte cluster backend.
+
+This example assumes that you've added a `launch_plan` with some default inputs
+to the `example.py` script and registered it to the backend:
+
+```{code-block} python
+flyte_launchplan = remote.fetch_launch_plan(name="workflows.example.launch_plan")
+execution = remote.execute(flyte_launchplan, inputs={})
+```
+
+````
+
+`````
 
 ## Running a Task
 
-You can also run individual tasks on a Flyte cluster by using the
-`FlyteRemote` {py:meth}`~flytekit.remote.remote.FlyteRemote.execute` method.
+You can also run individual tasks on a Flyte cluster using `FlyteRemote`:
 
 `````{tabs}
 
@@ -184,7 +226,6 @@ launch_plan = LaunchPlan.get_or_create(
 
 You can also specify a fixed-rate interval:
 
-
 ```{code-block} python
 from datetime import timedelta
 from flytekit import FixedRate
@@ -200,8 +241,8 @@ launch_plan = LaunchPlan.get_or_create(
 
 ### Passing in the Scheduled Kick-off Time
 
-Suppose that your workflow is parameterized to take in a `datetime` argument
-that determines how the workflow is executed (e.g. reading in data based on the
+Suppose that your workflow is parameterized to take in a `datetime` argument,
+which determines how the workflow is executed (e.g. reading in data using the
 current date).
 
 You can specify a `kickoff_time_input_arg` in the schedule so that it
@@ -288,7 +329,9 @@ flytectl update launchplan -p flyteexamples -d development \
 
 ## What's Next?
 
-In this guide, you learned about how to run tasks and workflows using
-`FlyteRemote` and how to create a cron schedule to run a launch plan at a
-specified time interval. In the next guide, you'll learn how to visualize
-tasks using Flyte Decks.
+In this guide, you learned about how to:
+
+- Run tasks, workflows, and launch plans using `FlyteRemote`.
+- Create a cron schedule to run a launch plan at a specified time interval.
+
+In the next guide, you'll learn how to visualize tasks using Flyte Decks.

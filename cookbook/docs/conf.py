@@ -72,6 +72,7 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         # Containerization
         "raw_container.py",
+        "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
@@ -85,7 +86,6 @@ class CustomSorter(FileNameSortKey):
         "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
-        "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "multiple_k8s.py",
@@ -120,6 +120,7 @@ class CustomSorter(FileNameSortKey):
         "sql_alchemy.py",
         "whylogs_example.py",
         ## Kubernetes
+        "dask.py",
         "pod.py",
         "dask_example.py",
         "pyspark_pi.py",
@@ -143,10 +144,6 @@ class CustomSorter(FileNameSortKey):
         "prebuilt_container.py",
         "user_container.py",
         "backend_plugins.py",
-        # Repo-based Projects
-        "larger_apps_setup.py",
-        "larger_apps_deploy.py",
-        "larger_apps_iterate.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -328,9 +325,9 @@ examples_dirs = [
     "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
+    "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
     "../core/extend_flyte",
-    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -372,9 +369,9 @@ gallery_dirs = [
     "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
+    "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
-    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)

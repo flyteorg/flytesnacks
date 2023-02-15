@@ -3,21 +3,21 @@ Kubernetes Pods
 
 .. tags:: Integration, Kubernetes, Advanced
 
-Flyte tasks (Python functions decorated with :py:func:`@task <flytekit:flytekit.task>`) are essentially single functions loaded in one container.
-But often, there is a need to run a job with more than one container, in cases such as:
+Flyte tasks, represented by the :py:func:`@task <flytekit:flytekit.task>` decorator, are essentially single functions that run in one container.
+However, there may be situations where you need to run a job with more than one container or require additional capabilities, such as:
 
-- A special hyper-parameter optimizer with state stored in a Redis DB
+- Running a hyper-parameter optimizer that stores state in a Redis database
 - Simulating a service locally
-- Running a sidecar to fetch or orchestrate data to handle additional logging and monitoring
-- Running a pod with its complete set of possibilities: mounting volumes, etc.
+- Running a sidecar container for logging and monitoring purposes
+- Running a pod with additional capabilities, such as mounting volumes
 
-Flyte provides a simplified interface to implement Kubernetes pod abstraction to execute multiple containers.
-This is done using ``Pod`` task_config, which enables customization of the pod spec used to run the task.
+To support these use cases, Flyte provides a Pod configuration that allows you to customize the pod specification used to run the task.
+This simplifies the process of implementing the Kubernetes pod abstraction for running multiple containers.
 
 .. note::
 
-    Typically, a Kubernetes pod will not exit if the pod contains any sidecars (containers that do not exit automatically).
-    No additional code is required to handle this as Flyte automatically takes care of pod tasks.
+    A Kubernetes pod will not exit if it contains any sidecar containers (containers that do not exit automatically).
+    You do not need to write any additional code to handle this, as Flyte automatically manages pod tasks.
 
 Installation
 ------------
@@ -26,4 +26,4 @@ To use the Flytekit pod plugin, run the following command:
 
 .. prompt:: bash
 
-   pip install flytekitplugins-pod
+    pip install flytekitplugins-pod
