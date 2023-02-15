@@ -1,4 +1,7 @@
 """
+
+.. _decorating_workflows:
+
 Decorating Workflows
 --------------------
 

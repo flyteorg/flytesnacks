@@ -1,4 +1,6 @@
 """
+.. _chain_flyte_entities:
+
 Chain Flyte Entities
 --------------------
 

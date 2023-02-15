@@ -71,6 +71,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Version your SQL database with ``dolt``.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/dbt_example/index
+      :type: ref
+      :text: dbt
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run and test your ``dbt`` pipelines in Flyte.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/whylogs_examples/index
       :type: ref
       :text: whylogs
@@ -117,6 +125,15 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Execute K8s pods for arbitrary workloads.
+
+    ---
+
+    .. link-button:: auto/integrations/kubernetes/k8s_dask/index
+       :type: ref
+       :text: K8s Cluster Dask Jobs
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Dask jobs on a K8s Cluster.
 
     ---
 
@@ -229,6 +246,15 @@ the Flyte task that use the respective plugin.
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Run Snowflake jobs in your workflows.
+
+    ---
+
+    .. link-button:: auto/integrations/external_services/databricks/index
+       :type: ref
+       :text: Databricks
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Databricks jobs in your workflows.
 
     ---
 

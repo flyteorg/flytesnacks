@@ -1,3 +1,6 @@
+ul.simple {
+    list-style: unset;
+}
 
 html .tabbed-set > label {
     color: var(--color-foreground-border);
@@ -33,4 +36,19 @@ details.dropdown[open] summary {
 /* Hide "On GitHub" section from versions menu */
 .rst-versions .rst-other-versions dl:nth-child(3) {
   display: none;
+}
+
+/* Flyte Deck custom style */
+#flyte-frame-nav, #flyte-frame-container, #flyte-frame-tabs li.active {
+    color: var(--color-content-foreground) !important;
+}
+
+div.cell_output #flyte-frame-container table {
+    font-size: 0.8em;
+    color: var(--color-content-foreground);
+}
+
+a.try-hosted-flyte {
+    text-decoration: none;
+    background: #fada78;
 }
