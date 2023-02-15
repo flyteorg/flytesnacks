@@ -93,14 +93,16 @@ def wf(n: int) -> int:
 #    Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``cookbook`` directory.
 #
 #    .. note::
-#      This example is building a Docker image and pushing it only for sandbox
-#      (for non-sandbox, you will have to push the image to a Docker registry).
+#      This example is building a Docker image and pushing it only for the demo sandbox
+#      environment. For a production cluster, you will have to push the image to a Docker registry.
+#      For the next command to work make sure that you start the sandbox from
+#      the ``flytesnacks/cookbook`` directory with ``flytectl demo start --source .``
 #
 #    Build a Docker image to package the task.
 #
 #    .. prompt:: bash $
 #
-#      flytectl sandbox exec -- docker build . --tag "flytebasics:v1" -f core/Dockerfile
+#      flytectl demo exec -- docker build . --tag "flytebasics:v1" -f core/Dockerfile
 #
 #    Package the task.
 #

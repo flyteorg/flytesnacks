@@ -72,6 +72,7 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         # Containerization
         "raw_container.py",
+        "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
@@ -85,7 +86,6 @@ class CustomSorter(FileNameSortKey):
         "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
-        "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "multiple_k8s.py",
@@ -110,6 +110,7 @@ class CustomSorter(FileNameSortKey):
         "basic_schema_example.py",
         "branch_example.py",
         "quickstart_example.py",
+        "dbt_example.py",
         "dolt_quickstart_example.py",
         "dolt_branch_example.py",
         "task_example.py",
@@ -119,7 +120,9 @@ class CustomSorter(FileNameSortKey):
         "sql_alchemy.py",
         "whylogs_example.py",
         ## Kubernetes
+        "dask.py",
         "pod.py",
+        "dask_example.py",
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
@@ -132,16 +135,15 @@ class CustomSorter(FileNameSortKey):
         "bigquery.py",
         ## External Services
         "hive.py",
-        "snowflake.py",
+        "snowflake",
+        "databricks_job.py",
         "airflow.py",
         # Extending Flyte
-        "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
         "custom_task_plugin.py",
-        # Repo-based Projects
-        "larger_apps_setup.py",
-        "larger_apps_deploy.py",
-        "larger_apps_iterate.py",
+        "prebuilt_container.py",
+        "user_container.py",
+        "backend_plugins.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
@@ -200,7 +202,15 @@ extensions = [
     "sphinxcontrib.yt",
     "sphinx_tabs.tabs",
     "sphinx_tags",
+    "myst_nb",
 ]
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'myst-nb',
+}
+
+myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -213,13 +223,19 @@ suppress_warnings = ["autosectionlabel.*"]
 # generate autosummary even if no references
 autosummary_generate = True
 
-# The suffix of source filenames.
-source_suffix = ".rst"
-
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "auto/**/*.ipynb",
+    "auto/**/*.py",
+    "auto/**/*.md",
+    "jupyter_execute/**",
+    "README.md",
+]
 
 # The master toctree document.
 master_doc = "index"
@@ -292,9 +308,11 @@ examples_dirs = [
     "../integrations/flytekit_plugins/pandera_examples",
     "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
+    "../integrations/flytekit_plugins/dbt_example",
     "../integrations/flytekit_plugins/whylogs_examples",
     "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/kubernetes/pod",
+    "../integrations/kubernetes/k8s_dask",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
@@ -307,9 +325,9 @@ examples_dirs = [
     "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
+    "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
     "../core/extend_flyte",
-    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -334,9 +352,11 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/pandera_examples",
     "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
+    "auto/integrations/flytekit_plugins/dbt_example",
     "auto/integrations/flytekit_plugins/whylogs_examples",
     "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/kubernetes/pod",
+    "auto/integrations/kubernetes/k8s_dask",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
@@ -349,9 +369,9 @@ gallery_dirs = [
     "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
+    "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
-    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)

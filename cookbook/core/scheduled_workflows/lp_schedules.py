@@ -61,7 +61,8 @@ cron_lp = LaunchPlan.get_or_create(
 
 # %%
 # The ``kickoff_time_input_arg`` corresponds to the workflow input ``kickoff_time``.
-# This means that the workflow gets triggered only after the specified kickoff time, and it thereby runs every minute.
+# Specifying this argument means that Flyte will pass in the kick-off time of the
+# cron schedule into the ``kickoff_time`` argument of the ``date_formatter_wf`` workflow.
 
 # %%
 # Fixed Rate Intervals

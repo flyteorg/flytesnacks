@@ -1,3 +1,5 @@
+.. _big_query:
+
 BigQuery
 ========
 
