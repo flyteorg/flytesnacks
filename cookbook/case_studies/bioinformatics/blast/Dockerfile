@@ -55,7 +55,7 @@ COPY in_container.mk /root/Makefile
 COPY blast/sandbox.config /root
 
 # Copy data
-COPY blast/kitasatospora /root/kitasatospora
+# COPY blast/kitasatospora /root/kitasatospora
 
 # Copy the actual code
 COPY blast/ /root/bioinformatics/blast/

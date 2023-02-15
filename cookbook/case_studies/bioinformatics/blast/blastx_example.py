@@ -22,7 +22,8 @@ from flytekit.types.file import FlyteFile, PNGImageFile
 # Download the data from GitHub.
 #
 # .. note::
-#   When running the code on the demo cluster, make sure the data is included in the Docker image.
+#   When running code on the demo cluster, make sure data is included in the Docker image.
+#   Uncomment copy data command in the Dockerfile.
 def download_dataset():
     Path("kitasatospora").mkdir(exist_ok=True)
     r = requests.get(
