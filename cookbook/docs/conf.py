@@ -117,6 +117,7 @@ class CustomSorter(FileNameSortKey):
         "type_example.py",
         "knn_classifier.py",
         "sqlite3_integration.py",
+        "sql_alchemy.py",
         "mlflow_example.py",
         "whylogs_example.py",
         ## Kubernetes
