@@ -84,4 +84,37 @@ The parameterization engine uses Golangs native templating format and hence uses
 
 This code snippet will output two logs per task that use the log plugin.
 However, not all task types use the log plugin; for example, the SageMaker plugin uses the log output provided by Sagemaker, and the Snowflake plugin will use a link to the snowflake console.
+
+Datadog Integration
+^^^^^^^^^^^^^^^^^^^
+
+In order to send your Flyte Workflows's logs to Datadog, you can follow the next steps:
+
+1) Enable logs, collection of logs from containers and collection of logs using files. This should be enabled in different ways according on how have you set up your Datadog integration. 
+
+For example, if using Helm:
+
+.. code-block:: yaml
+
+  logs:
+    enabled: true
+    containerCollectAll: true
+    containerCollectUsingFiles: true
+
+
+If using environment variables:
+
+.. code-block:: yaml
+
+  DD_LOGS_ENABLED: "false"
+  DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
+  DD_LOGS_CONFIG_K8S_CONTAINER_USE_FILE: "true"
+  DD_CONTAINER_EXCLUDE_LOGS: "name:datadog-agent"  # This is to avoid tracking logs produced by the datadog agent itself
+
+
+.. tip:: The boolean values have to be represented as strings, as in this example.
+
+2) In the Datadog `guide <https://docs.datadoghq.com/containers/kubernetes/log/?tab=daemonset>`_ there is a section referred to mounting volumes. From said guide, it is mandatory (and a requirement for this to work) to map the volumes `logpodpath` and `logcontainerpath` mentioned in the linked example. `pointerdir` is optional, and should be mapped in order "to prevent loss of container logs during restarts or network issue" (quoted).
+
 """
+
