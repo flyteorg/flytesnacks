@@ -64,8 +64,8 @@ from operator import add
 
 import flytekit
 from flytekit import Resources, task, workflow
-
 from flytekitplugins.spark import Spark
+
 
 # %%
 # You can create a Spark task by adding a ``@task(task_config=Spark(...)...)`` decorator.
@@ -96,6 +96,7 @@ def hello_spark(partitions: int) -> float:
     pi_val = 4.0 * count / n
     print("Pi val is :{}".format(pi_val))
     return pi_val
+
 
 # %%
 # Let's define a function on which the map-reduce operation is called within the Spark cluster.

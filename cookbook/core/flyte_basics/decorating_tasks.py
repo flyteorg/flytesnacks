@@ -1,4 +1,6 @@
 """
+.. _decorating_tasks:
+
 Decorating Tasks
 ----------------
 
@@ -52,6 +54,8 @@ def t1(x: int) -> int:
 
 
 # %%
+#
+# .. _stacking_decorators:
 #
 # Stacking Multiple Decorators
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

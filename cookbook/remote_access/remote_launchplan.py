@@ -1,4 +1,6 @@
 """
+.. _remote_launchplan:
+
 Running a Launchplan
 --------------------
 

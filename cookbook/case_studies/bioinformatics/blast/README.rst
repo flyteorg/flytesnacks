@@ -5,50 +5,51 @@ Nucleotide Sequence Querying with BLASTX
 
 .. tags:: Advanced
 
-This tutorial shows how computational biology intermixes with Flyte. The problem statement we will be looking at is
-querying a nucleotide sequence against a local protein database, to identify potential homologues.
-This guide will show you how to:
+This tutorial demonstrates the integration of computational biology and Flyte.
+The focus will be on searching a nucleotide sequence against a local protein database to identify possible homologues.
+The steps include:
 
-- Load the data
-- Instantiate a :ref:`ShellTask <sphx_glr_auto_core_flyte_basics_shell_task.py>` to generate and run the BLASTX search command
-- Load BLASTX results and plot a graph (``e_value`` vs. ``pc_identity``)
+- Data loading
+- Creation of a :ref:`ShellTask <sphx_glr_auto_core_flyte_basics_shell_task.py>` to execute the BLASTX search command
+- Loading of BLASTX results and plotting a graph of "e-value" vs "pc identity"
 
-`Using BLAST+ Programmatically with Biopython <https://widdowquinn.github.io/2018-03-06-ibioic/02-sequence_databases/03-programming_for_blast.html>`__ has been used as a reference to construct the tutorial.
+This tutorial is based on the reference guide `"Using BLAST+ Programmatically with Biopython" <https://widdowquinn.github.io/2018-03-06-ibioic/02-sequence_databases/03-programming_for_blast.html>`__.
 
-About BLAST
-===========
+BLAST
+=====
 
-The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences.
-The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches.
-BLAST can be used to infer functional and evolutionary relationships between sequences as well as help identify members of gene families.
+The Basic Local Alignment Search Tool (BLAST) is a program that identifies similar regions between sequences.
+It compares nucleotide or protein sequences with sequence databases and evaluates the statistical significance of the matches.
+BLAST can be used to deduce functional and evolutionary relationships between sequences and identify members of gene families.
 
-You can read more about BLAST in the `BLAST Homepage <https://blast.ncbi.nlm.nih.gov/Blast.cgi>`__.
+For additional information, visit the `BLAST Homepage <https://blast.ncbi.nlm.nih.gov/Blast.cgi>`__.
 
 BLASTX
 ^^^^^^
 
-BLASTx is a powerful tool to search for genes and predict their functions or relationships
-with other gene sequences, and is typically used for identifying the protein‐coding genes in genomic DNA/cDNA.
-It is also used to detect whether a novel nucleotide sequence is a protein‐coding gene or identify proteins encoded by transcripts or transcript variants.
+BLASTx is a useful tool for searching genes and predicting their functions or relationships with other gene sequences.
+It is commonly employed to find protein-coding genes in genomic DNA or cDNA, as well as to determine whether a new nucleotide sequence encodes a protein or to identify proteins encoded by transcripts or transcript variants.
 
-In this tutorial, we will run a BLASTX search.
+This tutorial will demonstrate how to perform a BLASTx search.
 
 Data
 ====
 
-The database comprises predicted gene products from five Kitasatospora genomes.
+The database used in this example consists of predicted gene products from five Kitasatospora genomes.
 The query is a single nucleotide sequence of a predicted penicillin-binding protein from Kitasatospora sp. CB01950.
 
-To run the example, download the database from `Flytesnacks datasets <https://github.com/flyteorg/flytesnacks/tree/datasets/blast/kitasatospora>`__.
-
 .. note::
-    To run the example locally, download BLAST first.
+    To run the example locally, you need to download BLAST.
     You can find OS-specific installation instructions in the `user manual <https://www.ncbi.nlm.nih.gov/books/NBK569861/>`__.
-    This example uses BLAST 2.12.0 version.
 
 Dockerfile
 ==========
 
 .. literalinclude:: ../../../../../case_studies/bioinformatics/blast/Dockerfile
     :language: docker
-    :emphasize-lines: 40-47
+    :emphasize-lines: 42-44,67-70
+
+Initiate the workflow on the Flyte backend by executing the following two commands in the "bioinformatics" directory::
+
+    pyflyte --pkgs blast package --image ghcr.io/flyteorg/flytecookbook:blast-latest
+    flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1

@@ -1,4 +1,6 @@
 """
+.. _remote_task:
+
 Running a Task
 --------------
 

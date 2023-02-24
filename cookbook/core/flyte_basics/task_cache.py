@@ -103,6 +103,8 @@ def square(n: int) -> int:
 # .. note::
 #   The format used by the store is opaque and not meant to be inspectable.
 #
+# .. _cache-offloaded-objects:
+#
 # Caching of Non-flyte Offloaded Objects
 # ######################################
 #

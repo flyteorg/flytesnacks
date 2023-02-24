@@ -340,3 +340,8 @@ if __name__ == "__main__":
 # Refer to .. TODO.
 # You can retrieve the outputs - which will be a path to a blob store like S3, GCS, minio, etc. Tensorboad can be
 # pointed to on your local laptop to visualize the results.
+#
+# Control which rank returns its value
+# ====================================
+# In distributed training, the return values from different workers might differ.
+# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a `IgnoreOutputs <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html>`_ exception for all other ranks.

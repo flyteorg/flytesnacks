@@ -40,13 +40,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Download BLAST
-RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-x64-linux.tar.gz && \
-    tar -xzf ncbi-blast-2.12.0+-x64-linux.tar.gz
-
-ENV PATH=".:/ncbi-blast-2.12.0+/bin:${PATH}"
-
-# Check if BLAST is installed
-RUN echo $(blastx)
+RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.13.0/ncbi-blast-2.13.0+-x64-linux.tar.gz && \
+    tar -xzf ncbi-blast-2.13.0+-x64-linux.tar.gz
 
 # Set the working directory
 WORKDIR /root
@@ -59,15 +54,22 @@ RUN ${VENV}/bin/pip install -r /root/requirements.txt
 COPY in_container.mk /root/Makefile
 COPY blast/sandbox.config /root
 
+# Copy data
+# COPY blast/kitasatospora /root/kitasatospora
+
 # Copy the actual code
-COPY blast/ /root/blast/
+COPY blast/ /root/bioinformatics/blast/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
 RUN chmod a+x /usr/local/bin/flytekit_venv
 
+# Check if BLAST is installed
+ENV PATH=$PATH:/root/ncbi-blast-2.13.0+/bin
+RUN echo $PATH
+RUN output="$(which blastx)" && echo $output
+
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-ENV FLYTE_SDK_USE_STRUCTURED_DATASET TRUE
