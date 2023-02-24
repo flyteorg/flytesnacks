@@ -1,3 +1,4 @@
+import typing
 import flytekit
 
 from flytekit import Secret, task, workflow, CronSchedule, LaunchPlan
