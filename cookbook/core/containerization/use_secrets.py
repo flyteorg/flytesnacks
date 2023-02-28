@@ -22,16 +22,28 @@ variables or as a file injected into the running container.
 # Creating Secrets with a Secrets Manager
 # =======================================
 #
-# The first step to using secrets in Flyte is to create one. By default, Flyte
-# uses the K8s-native secrets manager, which we'll use in this example, but you
-# can also :ref:`configure a different secret managers <configure_secret_management>`.
+# .. admonition:: Prerequisites
+#    :class: important
 #
-# First, we use `kubectl` to create a secret called ``user-info`` with a
+#    Make sure you have `kubectl <https://kubernetes.io/docs/tasks/tools/>`__ installed to run this example.
+#
+# The first step to using secrets in Flyte is to create one on the backend.
+# By default, Flyte uses the K8s-native secrets manager, which we'll use in this
+# example, but you can also :ref:`configure a different secret managers <configure_secret_management>`.
+#
+# First, we use ``kubectl`` to create a secret called ``user-info`` with a
 # ``user_secret`` key:
 #
 # .. prompt:: bash $
 #
 #    kubectl create secret generic user-info --from-literal=user_secret=mysecret
+#
+# .. important::
+#
+#    The imperative command above is useful for creating secrets in an ad hoc manner,
+#    but it may not be the most secure or sustainable way to do so. You can, however,
+#    define secrets using a `configuration file <https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-config-file/>`__
+#    or tools like `Kustomize <https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kustomize/>`__.
 
 # %%
 # Using Secrets in Tasks
@@ -47,21 +59,18 @@ import flytekit
 from flytekit import Secret, task, workflow
 from flytekit.testing import SecretsManager
 
+secret = Secret(
+    group="<SECRET_GROUP>",
+    key="<SECRET_KEY>",
+    mount_requirement=Secret.MountType.ENV_VAR,
+)
+
 # %%
-# Secrets consists of a name and a ``mounting_requirement`` argument, which takes
-# a ``MountType`` enum that indicates how the secrets will be accessed.
+# Secrets consists of ``group``, ``key``, and ``mounting_requirement`` arguments,
+# where a secret group can have multiple secrets associated with it
 # 
-# If the ``mounting_requirement`` argument is not specified then the secret will
-# be injected as an environment variable is possible.
-#
-# A secret group can have multiple secrets associated with the group. Optionally,
-# it may also have a ``group_version``. The version helps in rotating secrets.
-# If not specified, the task will always retrieve the latest version.
-#
-# .. tip::
-#
-#    Though not recommended some users may want the task version to be bound to
-#    a secret version.
+# If the ``mounting_requirement`` argument is not specified, the secret will
+# be injected as an environment variable by default.
 #
 # In the code below we specify two variables, ``SECRET_GROUP`` and
 # ``SECRET_NAME``, which maps onto the ``user-info`` secret that we created
@@ -182,6 +191,9 @@ def my_secret_workflow() -> Tuple[str, str, str, str, str]:
 
 
 # %%
+# Testing with Mock Secrets
+# -------------------------
+#
 # The simplest way to test Secret accessibility is to export the secret as an environment variable. There are some
 # helper methods available to do so
 
@@ -234,9 +246,9 @@ if __name__ == "__main__":
 #
 # Flytekit relies on the following environment variables to load secrets (defined `here <https://github.com/flyteorg/flytekit/blob/9d313429c577a919ec0ad4cd397a5db356a1df0d/flytekit/configuration/internal.py#L141-L159>`_). When running tasks and workflows locally you should make sure to store your secrets accordingly or to modify these:
 #
-# - ``FLYTE_SECRETS_DEFAULT_DIR``: The directory Flytekit searches for secret files. Default: ``"/etc/secrets"``
-# - ``FLYTE_SECRETS_FILE_PREFIX``: a common file prefix for Flyte secrets. Default: ``""``
-# - ``FLYTE_SECRETS_ENV_PREFIX``: a common env var prefix for Flyte secrets. Default: ``"_FSEC_"``
+# - ``FLYTE_SECRETS_DEFAULT_DIR``: The directory Flytekit searches for secret files. **Default:** ``"/etc/secrets"``
+# - ``FLYTE_SECRETS_FILE_PREFIX``: a common file prefix for Flyte secrets. **Default:** ``""``
+# - ``FLYTE_SECRETS_ENV_PREFIX``: a common env var prefix for Flyte secrets. **Default:** ``"_FSEC_"``
 #
 # When running a workflow on a Flyte cluster, the configured secret manager will use the secret Group and Key to try and retrieve a secret.
 # If successful, it will make the secret available as either file or environment variable and will if necessary modify the above variables automatically so that the task can load and use the secrets.
@@ -258,7 +270,7 @@ if __name__ == "__main__":
 #
 # The following secret managers are available at the time of writing:
 #
-# - `K8s secrets <https://kubernetes.io/docs/concepts/configuration/secret/#creating-a-secret>`__ (default): ``flyte-pod-webhook`` will try to look for a K8s secret named after the secret Group and retrieve the value for the secret Key.
+# - `K8s secrets <https://kubernetes.io/docs/concepts/configuration/secret/#creating-a-secret>`__ (**default**): ``flyte-pod-webhook`` will try to look for a K8s secret named after the secret Group and retrieve the value for the secret Key.
 # - `AWS Secret Manager <https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_secret.html>`__: ``flyte-pod-webhook`` will add the AWS Secret Manager sidecar container to a task Pod which will mount the secret.
 # - `Vault Agent Injector <https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-first-secret#write-a-secret>`__ : ``flyte-pod-webhook`` will annotate the task Pod with the respective Vault annotations that trigger an existing Vault Agent Injector to retrieve the specified secret Key from a vault path defined as secret Group.
 #
@@ -275,7 +287,7 @@ if __name__ == "__main__":
 # -------------------
 #
 # When using the AWS secret management plugin, secrets need to be specified by naming them in the format
-# ``<SECRET_GROUP>:<SECRET_KEY>```, where the secret string is a plain-text value, **not** key/value json.
+# ``<SECRET_GROUP>:<SECRET_KEY>``, where the secret string is a plain-text value, **not** key/value json.
 #
 # Vault Secrets Manager
 # ---------------------
@@ -303,5 +315,5 @@ if __name__ == "__main__":
 #
 # The Webhook does not make any external API Requests in response to Pod mutation requests. It should be able to handle traffic
 # quickly. For horizontal scaling, adding additional replicas for the Pod in the
-# deployment should be sufficient. A single MutatingWebhookConfiguration object will be used, the same TLS certificate
+# deployment should be sufficient. A single ``MutatingWebhookConfiguration`` object will be used, the same TLS certificate
 # will be shared across the pods and the Service created will automatically load balance traffic across the available pods.
