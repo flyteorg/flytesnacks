@@ -71,7 +71,7 @@ t3 = ShellTask(
 # * The ``script`` parameter is the actual bash script that will be executed (``{inputs.x}``, ``{outputs.j}``, etc. will be replaced with the actual input and output values)
 # * The ``debug`` parameter is useful for debugging
 #
-# Next, we define a task to create FlyteFile and FlyteDirectory.
+# Next, we define a task to create FlyteFile and FlyteDirectory. An empty file is created within the FlyteDirectory as a placeholder.
 @task
 def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
     working_dir = flytekit.current_context().working_directory
@@ -79,6 +79,8 @@ def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
     os.open(flytefile, os.O_CREAT)
     flytedir = os.path.join(working_dir, "testdata")
     os.makedirs(flytedir, exist_ok=True)
+    flytedir_file = os.path.join(flytedir, "test.txt")
+    os.open(flytedir_file, os.O_CREAT)
     return flytefile, flytedir
 
 
