@@ -210,6 +210,46 @@ if __name__ == "__main__":
     assert s == "value"
 
 # %%
+# Using Secrets in Task Templates
+# ===============================
+#
+# For task types that connect to a remote database, you'll need to specify
+# secret request as well. For example, for the :py:class:`flytekitplugins.sqlalchemy.SQLAlchemyTask`
+# you need to (a) specify the ``secret_requests`` and (b) configure the
+# :py:class:`flytekitplugins.sqlalchemy.SQLAlchemyConfig` to declare which
+# secret maps onto which connection argument:
+
+from flytekit import kwtypes
+from flytekitplugins.sqlalchemy import SQLAlchemyTask, SQLAlchemyConfig
+
+
+# define the secrets
+secrets = {
+    "username": Secret(group="<SECRET_GROUP>", key="<USERNAME_SECRET>"),
+    "password": Secret(group="<SECRET_GROUP>", key="<PASSWORD_SECRET>"),
+}
+
+
+sql_query = SQLAlchemyTask(
+    name="sql_query",
+    query_template="""SELECT * FROM my_table LIMIT {{ .inputs.limit }}""",
+    inputs=kwtypes(limit=int),
+
+    # request secrets
+    secret_requests=[*secrets.values()],
+
+    # specify username and password credentials in the configuration
+    task_config=SQLAlchemyConfig(
+        uri="<DATABASE_URI>",
+        secret_connect_args=secrets,
+    ),
+)
+
+# %%
+# You can then use the ``sql_query`` task inside a workflow to grab data and
+# perform downstream transformations on it.
+
+# %%
 # How Secrets Injection Works
 # ===========================
 #
