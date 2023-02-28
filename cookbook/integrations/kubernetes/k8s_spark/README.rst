@@ -20,7 +20,7 @@ hands-on tutorial for writing PySpark tasks.
 .. NOTE::
 
    This plugin has been tested at scale, and more than 100k Spark Jobs run through Flyte at Lyft. This still needs a large capacity on Kubernetes and careful configuration.
-   We recommend using multi-cluster mode: :std:ref:`deployment/cluster_config/performance:multi-cluster mode` , and enabling :std:ref:`Resource Quotas <deployment/cluster_config/general:configurable resource types>` for large and extremely frequent Spark Jobs.
+   We recommend using multi-cluster mode: :std:ref:`deployment/configuration/performance:multi-cluster mode` , and enabling :std:ref:`Resource Quotas <deployment/configuration/general:configurable resource types>` for large and extremely frequent Spark Jobs.
    This is not recommended for extremely short-running jobs, and it might be better to use a pre-spawned cluster. A job can be considered ``short`` if the runtime is less than ``2-3`` minutes.
    In this scenario, the cost of pod bring-up outweighs the cost of execution.
 
