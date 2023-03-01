@@ -232,32 +232,34 @@ if __name__ == "__main__":
 # 1. Specify the ``secret_requests`` argument.
 # 2. Configure the :py:class:`~flytekitplugins.sqlalchemy.SQLAlchemyConfig` to
 #    declare which secret maps onto which connection argument.
-
-from flytekit import kwtypes
-from flytekitplugins.sqlalchemy import SQLAlchemyTask, SQLAlchemyConfig
-
-
-# define the secrets
-secrets = {
-    "username": Secret(group="<SECRET_GROUP>", key="<USERNAME_SECRET>"),
-    "password": Secret(group="<SECRET_GROUP>", key="<PASSWORD_SECRET>"),
-}
-
-
-sql_query = SQLAlchemyTask(
-    name="sql_query",
-    query_template="""SELECT * FROM my_table LIMIT {{ .inputs.limit }}""",
-    inputs=kwtypes(limit=int),
-
-    # request secrets
-    secret_requests=[*secrets.values()],
-
-    # specify username and password credentials in the configuration
-    task_config=SQLAlchemyConfig(
-        uri="<DATABASE_URI>",
-        secret_connect_args=secrets,
-    ),
-)
+#
+# .. code-block:: python
+#
+#    from flytekit import kwtypes
+#    from flytekitplugins.sqlalchemy import SQLAlchemyTask, SQLAlchemyConfig
+#    
+#    
+#    # define the secrets
+#    secrets = {
+#        "username": Secret(group="<SECRET_GROUP>", key="<USERNAME_SECRET>"),
+#        "password": Secret(group="<SECRET_GROUP>", key="<PASSWORD_SECRET>"),
+#    }
+#    
+#    
+#    sql_query = SQLAlchemyTask(
+#        name="sql_query",
+#        query_template="""SELECT * FROM my_table LIMIT {{ .inputs.limit }}""",
+#        inputs=kwtypes(limit=int),
+#    
+#        # request secrets
+#        secret_requests=[*secrets.values()],
+#    
+#        # specify username and password credentials in the configuration
+#        task_config=SQLAlchemyConfig(
+#            uri="<DATABASE_URI>",
+#            secret_connect_args=secrets,
+#        ),
+#    )
 
 # %%
 # .. note::
