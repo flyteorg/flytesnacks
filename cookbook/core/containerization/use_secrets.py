@@ -12,10 +12,10 @@ Flyte supports running a variety of tasks, from containers to SQL queries and
 service calls, and it provides a native Secret construct to request and access
 secrets.
 
-This example explains how a secret can be accessed in a Flyte Task. Flyte provides
-different types of Secrets, as part of :py:class:`~flytekit.SecurityContext`. For
-users writing python tasks, you can only access secure secrets either as environment
-variables or as a file injected into the running container.
+This example explains how you can access secrets in a Flyte Task. Flyte provides
+different types of secrets, but for users writing Python tasks, you can only access
+secure secrets either as environment variables or as a file injected into the
+running container.
 """
 
 # %%
@@ -25,11 +25,13 @@ variables or as a file injected into the running container.
 # .. admonition:: Prerequisites
 #    :class: important
 #
-#    Make sure you have `kubectl <https://kubernetes.io/docs/tasks/tools/>`__ installed to run this example.
+#    - Install `kubectl <https://kubernetes.io/docs/tasks/tools/>`__.
+#    - Have access to a Flyte cluster, for e.g. with ``flytectl demo start`` as
+#      described :ref:`here <getting_started_flyte_cluster>`.
 #
 # The first step to using secrets in Flyte is to create one on the backend.
 # By default, Flyte uses the K8s-native secrets manager, which we'll use in this
-# example, but you can also :ref:`configure a different secret managers <configure_secret_management>`.
+# example, but you can also :ref:`configure different secret managers <configure_secret_management>`.
 #
 # First, we use ``kubectl`` to create a secret called ``user-info`` with a
 # ``user_secret`` key:
@@ -49,8 +51,9 @@ variables or as a file injected into the running container.
 # Using Secrets in Tasks
 # ======================
 #
-# Flytekit exposes a class called :py:class:`~flytekit.Secret`\s, which allows
-# you to request a secret from the configured secret manager.
+# Once you've defined a secret on the Flyte backend, ``flytekit`` exposes a class
+# called :py:class:`~flytekit.Secret`\s, which allows you to request a secret
+# from the configured secret manager.
 
 import os
 from typing import Tuple
@@ -67,8 +70,7 @@ secret = Secret(
 
 # %%
 # Secrets consists of ``group``, ``key``, and ``mounting_requirement`` arguments,
-# where a secret group can have multiple secrets associated with it
-# 
+# where a secret group can have multiple secrets associated with it.
 # If the ``mounting_requirement`` argument is not specified, the secret will
 # be injected as an environment variable by default.
 #
@@ -105,11 +107,14 @@ def secret_task() -> str:
 #
 #    Never print secret values! The example above is just for demonstration purposes.
 #
-# .. important::
+# .. note::
 #
 #   - In case Flyte fails to access the secret, an error is raised.
 #   - The ``Secret`` group and key are required parameters during declaration
 #     and usage. Failure to specify will cause a :py:class:`ValueError`.
+#
+# Multiple Keys Grouped into One Secret
+# -------------------------------------
 #
 # In some cases you may have multiple secrets and sometimes, they maybe grouped
 # as one secret in the SecretStore.
@@ -152,13 +157,16 @@ def user_info_task() -> Tuple[str, str]:
 #
 #    Never print secret values! The example above is just for demonstration purposes.
 #
+# Mounting Secrets as Files or Environment Variables
+# --------------------------------------------------
+#
 # It is also possible to make Flyte mount the secret as a file or an environment
 # variable.
 #
 # The file type is useful for large secrets that do not fit in environment variables,
-# which are typically asymmetric keys (certs etc). Another reason may be that a
-# dependent library necessitates that the secret be available as a file.
-# In these scenarios you can specify the ``mount_requirement``.
+# which are typically asymmetric keys (like certs, etc). Another reason may be that a
+# dependent library requires the secret to be available as a file.
+# In these scenarios you can specify the ``mount_requirement=Secret.MountType.FILE``.
 #
 # In the following example we force the mounting to be an environment variable:
 
@@ -172,10 +180,14 @@ def user_info_task() -> Tuple[str, str]:
     ]
 )
 def secret_file_task() -> Tuple[str, str]:
-    # SM here is a handle to the secrets manager
-    sm = flytekit.current_context().secrets
-    f = sm.get_secrets_file(SECRET_GROUP, SECRET_NAME)
-    secret_val = sm.get(SECRET_GROUP, SECRET_NAME)
+    secret_manager = flytekit.current_context().secrets
+
+    # get the secrets filename
+    f = secret_manager.get_secrets_file(SECRET_GROUP, SECRET_NAME)
+
+    # get secret value from an environment variable
+    secret_val = secret_manager.get(SECRET_GROUP, SECRET_NAME)
+
     # returning the filename and the secret_val
     return f, secret_val
 
@@ -194,8 +206,8 @@ def my_secret_workflow() -> Tuple[str, str, str, str, str]:
 # Testing with Mock Secrets
 # -------------------------
 #
-# The simplest way to test Secret accessibility is to export the secret as an environment variable. There are some
-# helper methods available to do so
+# The simplest way to test secret accessibility is to export the secret as an
+# environment variable. There are some helper methods available to do so:
 
 if __name__ == "__main__":
     sec = SecretsManager()
@@ -214,10 +226,12 @@ if __name__ == "__main__":
 # ===============================
 #
 # For task types that connect to a remote database, you'll need to specify
-# secret request as well. For example, for the :py:class:`flytekitplugins.sqlalchemy.SQLAlchemyTask`
-# you need to (a) specify the ``secret_requests`` and (b) configure the
-# :py:class:`flytekitplugins.sqlalchemy.SQLAlchemyConfig` to declare which
-# secret maps onto which connection argument:
+# secret request as well. For example, for the :py:class:`~flytekitplugins.sqlalchemy.SQLAlchemyTask`
+# you need to:
+# 
+# 1. Specify the ``secret_requests`` argument.
+# 2. Configure the :py:class:`~flytekitplugins.sqlalchemy.SQLAlchemyConfig` to
+#    declare which secret maps onto which connection argument.
 
 from flytekit import kwtypes
 from flytekitplugins.sqlalchemy import SQLAlchemyTask, SQLAlchemyConfig
@@ -246,6 +260,12 @@ sql_query = SQLAlchemyTask(
 )
 
 # %%
+# .. note::
+#    
+#    Here the ``secret_connect_args`` map to the
+#    `SQLAlchemy engine configuration <https://docs.sqlalchemy.org/en/20/core/engines.html>`__
+#    argument names for the username and password.
+#
 # You can then use the ``sql_query`` task inside a workflow to grab data and
 # perform downstream transformations on it.
 
@@ -253,6 +273,7 @@ sql_query = SQLAlchemyTask(
 # How Secrets Injection Works
 # ===========================
 #
+# The rest of this page describes how secrets injection works under the hood.
 # For a simple task that launches a Pod, the flow would look something like this:
 #
 # .. image:: https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgUHJvcGVsbGVyLT4-K1BsdWdpbnM6IENyZWF0ZSBLOHMgUmVzb3VyY2VcbiAgICBQbHVnaW5zLT4-LVByb3BlbGxlcjogUmVzb3VyY2UgT2JqZWN0XG4gICAgUHJvcGVsbGVyLT4-K1Byb3BlbGxlcjogU2V0IExhYmVscyAmIEFubm90YXRpb25zXG4gICAgUHJvcGVsbGVyLT4-K0FwaVNlcnZlcjogQ3JlYXRlIE9iamVjdCAoZS5nLiBQb2QpXG4gICAgQXBpU2VydmVyLT4-K1BvZCBXZWJob29rOiAvbXV0YXRlXG4gICAgUG9kIFdlYmhvb2stPj4rUG9kIFdlYmhvb2s6IExvb2t1cCBnbG9iYWxzXG4gICAgUG9kIFdlYmhvb2stPj4rUG9kIFdlYmhvb2s6IEluamVjdCBTZWNyZXQgQW5ub3RhdGlvbnMgKGUuZy4gSzhzLCBWYXVsdC4uLiBldGMuKVxuICAgIFBvZCBXZWJob29rLT4-LUFwaVNlcnZlcjogTXV0YXRlZCBQb2RcbiAgICBcbiAgICAgICAgICAgICIsIm1lcm1haWQiOnt9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ
