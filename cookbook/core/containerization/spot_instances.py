@@ -52,7 +52,7 @@ Using Spot/Preemptible Instances
 # By setting this value, Flyte will schedule your task on an auto-scaling group (ASG) with only spot instances.
 #
 # .. note::
-#   If your task gets preempted, Flyte will retry your task on a non-spot (regular) instance. This retry will not count towards a retry that a user sets. Please note that tasks will only be retried if at least one retry is allowed using the `retries` parameter in the `task` decorator.
+#   If you set `retries=n`, for instance, and the task gets preempted repeatedly, Flyte will retry on a preemptible/spot instance `n-1` times and for the last attempt will retry your task on a non-spot (regular) instance. Please note that tasks will only be retried if at least one retry is allowed using the `retries` parameter in the `task` decorator.
 #
 # Which Tasks Should Be Set To Interruptible?
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
