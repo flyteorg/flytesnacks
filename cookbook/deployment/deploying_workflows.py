@@ -23,7 +23,7 @@ Using remote Flyte provides:
 - **Portability**: To reference pre-registered entities under any domain or project within your workflow code;
 - **Shareable executions**: To easily share links of your executions with your teammates.
 
-Refer to the :ref:`Getting Started <getting_started_index>` for details on Flyte installation.
+Refer to the :ref:`Getting Started <flyte:getting-started>` for details on Flyte installation.
 
 Build Your Dockerfile
 ^^^^^^^^^^^^^^^^^^^^^^
