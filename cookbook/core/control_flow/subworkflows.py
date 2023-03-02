@@ -114,7 +114,7 @@ if __name__ == "__main__":
 #
 # .. tip::
 #
-#    If your deployment uses :ref:`Using Multiple Kubernetes Clusters <flyte:multicluster-setup>`, then external workflows may allow you to distribute the workload of a workflow to multiple clusters.
+#    If your deployment uses :ref:`multiple Kubernetes clusters <flyte:deployment-deployment-multicluster>`, then external workflows may allow you to distribute the workload of a workflow to multiple clusters.
 #
 # Here's an example demonstrating external workflows:
 
