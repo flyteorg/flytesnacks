@@ -62,4 +62,5 @@ RUN chown -R ${spark_uid}:${spark_uid} /root
 # distribution, also enable the virtualenv for this image.
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
+ENV HOME /root
 USER ${spark_uid}
