@@ -1,19 +1,12 @@
 """
 .. _mlflow:
 
-MLflow
------
+MLflow Example
+-------------
 
 MLflow is a platform to streamline machine learning development, including tracking experiments, packaging code into reproducible runs, and sharing and deploying models.
 
 Flyte provides an easy-to-use interface to log the task's metrics and parameters to either Flyte Deck or MLflow server.
-
-First, install the Flyte MLflow plugin:
-
-.. prompt:: bash $
-
-    pip install flytekitplugins-mlflow
-
 """
 
 

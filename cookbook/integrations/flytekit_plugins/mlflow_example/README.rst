@@ -5,6 +5,12 @@ MLflow
 
 .. tags:: Integration, Data, Metrics, Intermediate
 
+First, install the Flyte MLflow plugin:
+
+.. prompt:: bash $
+    pip install flytekitplugins-mlflow
+
+
 The MLflow Tracking component is an API and UI for logging parameters,
 code versions, metrics, and output files when running your machine learning code and for later visualizing the results
 
@@ -18,7 +24,7 @@ code versions, metrics, and output files when running your machine learning code
   :alt: Model Parameters
   :class: with-shadow
 
-To log the metrics and parameters to Flyte deck, add `@mlflow_autolog` to the task. For example
+To log the metrics and parameters to Flyte deck, add :py:func:`@mlflow_autolog <flytekitplugins.mlflow.mlflow_autolog>` to the task. For example
 
 .. code:: python
 
@@ -27,7 +33,10 @@ To log the metrics and parameters to Flyte deck, add `@mlflow_autolog` to the ta
     def train_model(epochs: int):
     ...
 
-To log the metric and parameters to a remote mlflow server, add default env (`MLFLOW_TRACKING_URI <https://mlflow.org/docs/latest/tracking.html#logging-to-a-tracking-server>`__) to the flytepropeller config map.
+To log the metric and parameters to a remote mlflow server, add default environment variable `MLFLOW_TRACKING_URI <https://mlflow.org/docs/latest/tracking.html#logging-to-a-tracking-server>`__ to the flytepropeller config map.
+
+.. prompt:: bash $
+    kubectl edit cm flyte-propeller-config
 
 .. code:: yaml
 
