@@ -14,16 +14,6 @@ First, install the Flyte MLflow plugin:
 The MLflow Tracking component is an API and UI for logging parameters,
 code versions, metrics, and output files when running your machine learning code and for later visualizing the results
 
-`MLflow <https://mlflow.org/>`__ is used by Flyte to automatically log the task's metrics and parameters to either Flyte Deck or MLflow server.
-
-.. figure:: https://user-images.githubusercontent.com/37936015/200655711-8eb54757-cc08-4591-8f44-787cc4b0af66.png
-  :alt: Model Metrics
-  :class: with-shadow
-
-.. figure:: https://user-images.githubusercontent.com/37936015/200655752-fddfd0cd-26f2-4ccf-914a-08044c7c4dae.png
-  :alt: Model Parameters
-  :class: with-shadow
-
 To log the metrics and parameters to Flyte deck, add :py:func:`@mlflow_autolog <flytekitplugins.mlflow.mlflow_autolog>` to the task. For example
 
 .. code:: python
