@@ -132,7 +132,7 @@ def report_all_calculated_areas(
 
 
 # %%
-# As can be seen in this example, ``ContainerTask``s can be interacted with like normal Python functions, whose inputs
+# As can be seen in this example, ``ContainerTask``\s can be interacted with like normal Python functions, whose inputs
 # correspond to the declared input variables. All data returned by the tasks are consumed and logged by a Flyte task.
 @workflow
 def wf(a: float, b: float):
