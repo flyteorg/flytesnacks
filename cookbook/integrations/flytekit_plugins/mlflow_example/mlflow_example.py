@@ -41,14 +41,13 @@ def train_model(epochs: int):
     model.fit(train_images, train_labels, epochs=epochs)
 
 # %%
-# .. figure:: https://user-images.githubusercontent.com/37936015/200655711-8eb54757-cc08-4591-8f44-787cc4b0af66.png
+# .. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/f4b53a550bed70d9d7722d523e0b7568b781fc7d/flytesnacks/integrations/mlflow/metrics.png
 #   :alt: Model Metrics
 #   :class: with-shadow
 #
-# .. figure:: https://user-images.githubusercontent.com/37936015/200655752-fddfd0cd-26f2-4ccf-914a-08044c7c4dae.png
+# .. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/f4b53a550bed70d9d7722d523e0b7568b781fc7d/flytesnacks/integrations/mlflow/params.png
 #   :alt: Model Parameters
 #   :class: with-shadow
-
 
 
 # %%

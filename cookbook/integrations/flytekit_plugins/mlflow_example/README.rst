@@ -5,14 +5,14 @@ MLflow
 
 .. tags:: Integration, Data, Metrics, Intermediate
 
+The MLflow Tracking component is an API and UI for logging parameters,
+code versions, metrics, and output files when running your machine learning code and for later visualizing the results
+
 First, install the Flyte MLflow plugin:
 
 .. prompt:: bash $
+
     pip install flytekitplugins-mlflow
-
-
-The MLflow Tracking component is an API and UI for logging parameters,
-code versions, metrics, and output files when running your machine learning code and for later visualizing the results
 
 To log the metrics and parameters to Flyte deck, add :py:func:`@mlflow_autolog <flytekitplugins.mlflow.mlflow_autolog>` to the task. For example
 
@@ -36,6 +36,6 @@ To log the metric and parameters to a remote mlflow server, add default environm
         default-env-vars:
         - MLFLOW_TRACKING_URI: postgresql+psycopg2://postgres:@postgres.flyte.svc.cluster.local:5432/flyteadmin
 
-.. figure:: https://user-images.githubusercontent.com/37936015/209251641-02f77a71-b3f5-4efb-a87b-43f283b2de0b.png
+.. figure:: https://raw.githubusercontent.com/flyteorg/static-resources/f4b53a550bed70d9d7722d523e0b7568b781fc7d/flytesnacks/integrations/mlflow/server.png
   :alt: MLflow UI
   :class: with-shadow
