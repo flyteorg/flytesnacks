@@ -71,7 +71,8 @@ t3 = ShellTask(
 # * The ``script`` parameter is the actual bash script that will be executed (``{inputs.x}``, ``{outputs.j}``, etc. will be replaced with the actual input and output values)
 # * The ``debug`` parameter is useful for debugging
 #
-# Next, we define a task to create FlyteFile and FlyteDirectory. An empty file is created within the FlyteDirectory as a placeholder.
+# Next, we define a task to create FlyteFile and FlyteDirectory.
+# A ``.gitkeep`` file is created in the FlyteDirectory as a placeholder to ensure the directory exists.
 @task
 def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
     working_dir = flytekit.current_context().working_directory
