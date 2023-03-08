@@ -26,6 +26,7 @@ To log the metrics and parameters to Flyte deck, add :py:func:`@mlflow_autolog <
 To log the metric and parameters to a remote mlflow server, add default environment variable `MLFLOW_TRACKING_URI <https://mlflow.org/docs/latest/tracking.html#logging-to-a-tracking-server>`__ to the flytepropeller config map.
 
 .. prompt:: bash $
+
     kubectl edit cm flyte-propeller-config
 
 .. code:: yaml
