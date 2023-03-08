@@ -1,5 +1,5 @@
 """
-.. _mlflow:
+.. _mlflow_example:
 
 MLflow Example
 --------------
