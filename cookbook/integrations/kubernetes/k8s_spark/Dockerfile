@@ -34,7 +34,7 @@ COPY k8s_spark/requirements.txt /root
 RUN pip install -r /root/requirements.txt
 
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.2/hadoop-aws-3.2.2.jar -P /opt/spark/jars && \
-    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.563/aws-java-sdk-bundle-1.11.563.jar -P /opt/spark/jars
+    wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar -P /opt/spark/jars
 
 # Copy the makefile targets to expose on the container. This makes it easier to register.
 # Delete this after we update CI
