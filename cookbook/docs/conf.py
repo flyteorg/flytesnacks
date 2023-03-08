@@ -118,6 +118,7 @@ class CustomSorter(FileNameSortKey):
         "knn_classifier.py",
         "sqlite3_integration.py",
         "sql_alchemy.py",
+        "mlflow_example.py",
         "whylogs_example.py",
         ## Kubernetes
         "dask.py",
@@ -310,6 +311,7 @@ examples_dirs = [
     "../integrations/flytekit_plugins/dolt",
     "../integrations/flytekit_plugins/dbt_example",
     "../integrations/flytekit_plugins/whylogs_examples",
+    "../integrations/flytekit_plugins/mlflow_example",
     "../integrations/flytekit_plugins/onnx_examples",
     "../integrations/flytekit_plugins/duckdb_examples",
     "../integrations/kubernetes/pod",
@@ -355,6 +357,7 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/flytekit_plugins/dbt_example",
     "auto/integrations/flytekit_plugins/whylogs_examples",
+    "auto/integrations/flytekit_plugins/mlflow_example",
     "auto/integrations/flytekit_plugins/onnx_examples",
     "auto/integrations/flytekit_plugins/duckdb_examples",
     "auto/integrations/kubernetes/pod",

@@ -87,6 +87,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ``whylogs``: the open standard for data logging.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/mlflow_example/index
+      :type: ref
+      :text: mlflow
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   ``mlflow``: the open standard for model tracking.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/onnx_examples/index
       :type: ref
       :text: ONNX
