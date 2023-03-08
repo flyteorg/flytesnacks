@@ -102,6 +102,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ^^^^^^^^^^^^
    Convert ML models to ONNX models seamlessly.
 
+   ---
+   .. link-button:: auto/integrations/flytekit_plugins/duckdb_examples/index
+      :type: ref
+      :text: DuckDB
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run analytical queries using DuckDB.
+
 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins
    :animate: fade-in-slide-down
