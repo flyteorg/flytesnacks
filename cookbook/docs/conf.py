@@ -490,7 +490,6 @@ intersphinx_mapping = {
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
     ),
     "whylogs": ("https://whylogs.readthedocs.io/en/latest/", None),
-    "mlflow": ("https://mlflow.org/docs/latest/index.html", None),
     "horovod": ("https://horovod.readthedocs.io/en/stable/", None),
     "sklearn": ("https://scikit-learn.org/stable/", None),
     "feast": ("https://rtd.feast.dev/en/latest", None),
