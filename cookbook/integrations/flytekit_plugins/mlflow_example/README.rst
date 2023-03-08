@@ -1,4 +1,4 @@
-.. mlflow:
+.. _mlflow:
 
 MLflow
 ======
