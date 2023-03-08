@@ -2,7 +2,7 @@
 .. _mlflow:
 
 MLflow Example
--------------
+--------------
 
 MLflow is a platform to streamline machine learning development, including tracking experiments, packaging code into reproducible runs, and sharing and deploying models.
 
