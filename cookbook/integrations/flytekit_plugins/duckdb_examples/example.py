@@ -30,6 +30,11 @@ simple_duckdb_query = DuckDBQuery(
 
 
 # %%
+# .. note::
+#
+#   The default output type for the ``DuckDBQuery`` task is ``StructuredDataset``.
+#   Hence, it is possible to retrieve any compatible type of Structured Dataset such as a Pandas dataframe, Vaex dataframe, and others.
+#
 # You can invoke the task from within a :py:func:`~flytekit:flytekit.workflow` and return both a Pandas dataframe and a PyArrow table.
 # The query will be executed on a Pandas dataframe, and the resulting output can belong to any StructuredDataset-compatible type.
 @task
@@ -58,6 +63,9 @@ if __name__ == "__main__":
 # DuckDB enables direct querying of a parquet file without the need for intermediate conversions to a database.
 # If you wish to execute a SQL query on a parquet file stored in a public S3 bucket, you can use the ``httpfs`` library by installing and loading it.
 # Simply send the parquet file as a parameter to the ``SELECT`` query.
+#
+# It is important to note that multiple commands can be executed within a single ``DuckDBQuery``.
+# However, it is essential to ensure that the last command within the query is a "SELECT" query to retrieve data in the end.
 parquet_duckdb_query = DuckDBQuery(
     name="parquet_query",
     query=[
@@ -120,7 +128,11 @@ if __name__ == "__main__":
 #
 #   Sometimes, the annotation of parameter types can be somewhat complicated.
 #   In such situations, you can convert the list to a string using ``json.dumps``.
-#   The string will be automatically loaded into a list under the hood.
+#   The string will be automatically loaded into a list under the hood. 
+#   If the length of the query list is 3 and the length of the parameter list is 2, 
+#   the plugin will search for parameter acceptance symbols ("?" or "$") in each query
+#   to determine whether to include or exclude the parameters before executing the query.
+#   Therefore, it is necessary to provide the query parameters in the same order as the queries listed. 
 duckdb_params_query = DuckDBQuery(
     name="params_query",
     query=[
@@ -151,7 +163,3 @@ def params_wf(
 
 if __name__ == "__main__":
     print(f"Running params_wf()... {params_wf()}")
-
-# %%
-# It is important to note that multiple commands can be executed within a single ``DuckDBQuery``.
-# However, it is essential to ensure that the last command within the query is a "SELECT" query to retrieve data in the end.
