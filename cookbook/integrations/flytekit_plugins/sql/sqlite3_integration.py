@@ -13,7 +13,7 @@ execute it immediately.
 In some cases local execution is not possible - e.g. Snowflake. But for SQLlite3 local execution is also supported.
 """
 import pandas
-from flytekit import kwtypes, task, workflow
+from flytekit import kwtypes, task, workflow, Workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 
 # %%
@@ -49,11 +49,18 @@ def wf() -> int:
     return print_and_count_columns(df=sql_task(limit=100))
 
 
+imperative = Workflow(name="my.imperative.workflow.example")
+node_t1 = imperative.add_entity(sql_task, limit=100)
+node_t2 = imperative.add_entity(print_and_count_columns, df=node_t1.outputs["results"])
+imperative.add_workflow_output("print_output", node_t2.outputs["o0"])
+
+
 # %%
 # It can also be executed locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Running main {wf()}")
+    print(f"Running main {imperative()}")
 
 
 # %%

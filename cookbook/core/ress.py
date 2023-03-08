@@ -8,7 +8,7 @@ logger = logging.getLogger(__file__)
 
 
 # effect=None, key=None, operator=None, toleration_seconds=None, value=None, local_vars_configuration=None)
-ps = V1PodSpec(containers=[], tolerations=[V1Toleration(effect="NoSchedule", key="num-gpus", operator="Equal", value="1")])
+ps = V1PodSpec(containers=[], tolerations=[])
 pt = PodTemplate(pod_spec=ps, labels={"somelabel": "ilovepizza"})
 
 
