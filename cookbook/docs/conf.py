@@ -59,6 +59,7 @@ class CustomSorter(FileNameSortKey):
         "map_task.py",
         "checkpoint.py",
         "merge_sort.py",
+        "gate_nodes.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
