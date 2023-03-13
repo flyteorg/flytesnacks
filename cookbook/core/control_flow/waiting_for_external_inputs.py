@@ -23,8 +23,8 @@ this use case would be:
 These use cases can be achieved in Flyte with the :func:`~flytekit.sleep`,
 :func:`~flytekit.wait_for_input`, and :func:`~flytekit.approve` workflow nodes.
 Although all of the examples above are human-in-the-loop processes, these
-constructs allow you to pass inputs into a workflow from some external process
-(👩 human or 🤖 machine) in order to continue.
+constructs allow you to pass inputs into a workflow from some arbitrary external
+process (👩 human or 🤖 machine) in order to continue.
 
 .. important::
 
