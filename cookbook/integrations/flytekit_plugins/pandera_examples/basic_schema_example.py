@@ -76,12 +76,13 @@ class OutSchema(IntermediateSchema):
 # %%
 # Columns are specified as class attributes with a specified data type using the
 # type-hinting syntax, and you can place additional statistical constraints on the
-# values of each column using :py:func:`~pandera.model_components.Field`. You can also define custom validation functions
-# by decorating methods with :py:func:`~pandera.model_components.check` (column-level checks) or
-# :py:func:`~pandera.model_components.dataframe_check` (dataframe-level checks), which automatically make them
+# values of each column using :py:func:`~pandera.api.pandas.model_components.Field`.
+# You can also define custom validation functions by decorating methods with
+# :py:func:`~pandera.api.pandas.model_components.check` (column-level checks) or
+# :py:func:`~pandera.api.pandas.model_components.dataframe_check` (dataframe-level checks), which automatically make them
 # class methods.
 #
-# Pandera uses inheritance to make sure that :py:class:`~pandera.model.SchemaModel` subclasses contain
+# Pandera uses inheritance to make sure that :py:class:`~pandera.api.pandas.model.SchemaModel` subclasses contain
 # all of the same columns and custom check methods as their base class. Inheritance semantics
 # apply to schema models so you can override column attributes or check methods in subclasses. This has
 # the nice effect of providing an explicit graph of type dependencies as data
