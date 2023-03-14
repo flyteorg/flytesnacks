@@ -2,7 +2,7 @@
 Basic Schema Example
 --------------------
 
-In this example we'll show you how to use :ref:`pandera.SchemaModel <pandera:schema_models>`
+In this example we'll show you how to use :ref:`pandera.SchemaModel <pandera:dataframe_models>`
 to annotate dataframe inputs and outputs in your flyte tasks.
 
 """
