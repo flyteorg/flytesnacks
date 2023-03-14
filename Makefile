@@ -61,7 +61,7 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --source=$(shell pwd)
+	flytectl demo start --source=$(shell pwd)
 	flytectl config init
 
 .PHONY: start
