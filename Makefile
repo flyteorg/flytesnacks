@@ -67,7 +67,7 @@ setup:
 	test -f $(HOME)/.flyte/config.yaml && rm $(HOME)/.flyte/config.yaml || true
 	flytectl config init --host "localhost:30080" --insecure true
 
-PHONY: start
+.PHONY: start
 start: setup fast_register
 	echo "Flyte is ready! Flyte UI is available at http://localhost:$(FLYTE_PROXY_PORT)/console."
 
