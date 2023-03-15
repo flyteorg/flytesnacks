@@ -61,7 +61,7 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	# flytectl demo start --source=$(shell pwd)
+	flytectl demo start --source=$(shell pwd)
 	# Force refreshing of config file. This will be handled better once we are
 	# able to force an update to the config file. Tracked in https://github.com/flyteorg/flyte/issues/3469
 	test -f $(HOME)/.flyte/config.yaml && rm $(HOME)/.flyte/config.yaml || true
