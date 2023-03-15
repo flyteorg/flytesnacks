@@ -38,7 +38,13 @@ running container.
 #
 # .. prompt:: bash $
 #
-#    kubectl create secret generic user-info --from-literal=user_secret=mysecret
+#    kubectl create secret -n <project>-<domain> generic user-info --from-literal=user_secret=mysecret
+#
+# .. note::
+#
+#    We have to create the secret in the same Kubernetes namespace where we plan on executing the workflows the
+#    use them. So, for example, replace the ``-n <project>-<domain>`` flag with ``-n flytesnacks-development``
+#    if you want to use a secret in the ``flytesnacks`` project under the ``development`` domain.
 #
 # .. important::
 #
