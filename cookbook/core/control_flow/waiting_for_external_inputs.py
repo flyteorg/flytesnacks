@@ -227,7 +227,7 @@ def conditional_wf(data: typing.List[float]) -> dict:
 # Sending inputs to ``wait_for_input`` and ``approve`` nodes
 # ==========================================================
 #
-# Assuming that you're registered the above workflows on a Flyte cluster that's
+# Assuming that you've registered the above workflows on a Flyte cluster that's
 # been started with :ref:`flytectl demo start <getting_started_flyte_cluster>`,
 # there are two ways of using ``wait_for_input`` and ``approve`` nodes:
 #
