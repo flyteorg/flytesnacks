@@ -64,7 +64,6 @@ jobs:
       - name: setup sandbox
         run: |
           make setup
-          flytectl config init
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
         with:
