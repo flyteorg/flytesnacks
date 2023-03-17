@@ -72,6 +72,7 @@ t3 = ShellTask(
 # * The ``debug`` parameter is useful for debugging
 #
 # Next, we define a task to create FlyteFile and FlyteDirectory.
+# A ``.gitkeep`` file is created in the FlyteDirectory as a placeholder to ensure the directory exists.
 @task
 def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
     working_dir = flytekit.current_context().working_directory
@@ -79,6 +80,8 @@ def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
     os.open(flytefile, os.O_CREAT)
     flytedir = os.path.join(working_dir, "testdata")
     os.makedirs(flytedir, exist_ok=True)
+    flytedir_file = os.path.join(flytedir, ".gitkeep")
+    os.open(flytedir_file, os.O_CREAT)
     return flytefile, flytedir
 
 

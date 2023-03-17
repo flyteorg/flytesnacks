@@ -61,8 +61,11 @@ endif
 .PHONY: setup
 setup:
 	$(call LOG,Starting Flyte sandbox)
-	flytectl sandbox start --source=$(shell pwd)
-	flytectl config init
+	flytectl demo start --source=$(shell pwd)
+	# Force refreshing of config file. This will be handled better once we are
+	# able to force an update to the config file. Tracked in https://github.com/flyteorg/flyte/issues/3469
+	test -f $(HOME)/.flyte/config.yaml && rm $(HOME)/.flyte/config.yaml || true
+	flytectl config init --host "localhost:30080" --insecure true
 
 .PHONY: start
 start: setup fast_register

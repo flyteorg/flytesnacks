@@ -50,7 +50,7 @@ As you can see, the second call to the `wf` workflow takes less time because
 Flyte simply hits the cache to obtain the result.
 
 ```{note}
-For file-like data types like {py:class}`flytekit.types.FlyteFile` and offloaded
+For file-like data types like {py:class}`flytekit.types.file.FlyteFile` and offloaded
 data types like `pandas.DataFrame` objects, you can provide a hash function that
 represents the cache key. Learn more in the {ref}`User Guide <cache-offloaded-objects>`.
 ```

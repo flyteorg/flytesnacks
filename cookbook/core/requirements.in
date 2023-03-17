@@ -2,5 +2,3 @@
 scikit-learn
 torch
 boto3
-protobuf<4.0.0
-grpcio-status<=1.47.0

@@ -1,5 +1,5 @@
 Databricks
-=========
+==========
 
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
 
@@ -16,7 +16,7 @@ The flytekit Databricks plugin is bundled into its Spark plugin, so to use, simp
     pip install flytekitplugins-spark
 
 How to Build Your Dockerfile for Spark on Databricks
----------------------------------------------------
+----------------------------------------------------
 
 Using Spark on Databricks is extremely easy and provides full versioning using the custom-built Spark container. The built container can also execute regular Spark tasks.
 For Spark, the image must use a base image built by Databricks and the workflow code must copy to ``/databricks/driver``
@@ -28,7 +28,8 @@ For Spark, the image must use a base image built by Databricks and the workflow 
 
 
 Configuring the backend to get Databricks plugin working
--------------------------------------------------
+--------------------------------------------------------
+
 1. Make sure to add "databricks" in ``tasks.task-plugins.enabled-plugin`` in `enabled_plugins.yaml <https://github.com/flyteorg/flyte/blob/master/deployment/sandbox/flyte_generated.yaml#L2296>`_
 
 2. Add Databricks access token to Flytepropeller. `here <https://docs.databricks.com/administration-guide/access-control/tokens.html#enable-or-disable-token-based-authentication-for-the-workspace>`_ to see more detail to create Databricks access token.
