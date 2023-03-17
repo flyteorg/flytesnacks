@@ -102,7 +102,7 @@ For instance, if you're using Helm, use the following config:
     containerCollectUsingFiles: true
 
 
-If using environment variables:
+If you're using environment variables, use the following config:
 
 .. code-block:: yaml
 
