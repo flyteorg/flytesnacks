@@ -114,7 +114,7 @@ If using environment variables:
 
 .. tip:: The boolean values have to be represented as strings, as in this example.
 
-2) In the Datadog `guide <https://docs.datadoghq.com/containers/kubernetes/log/?tab=daemonset>`_ there is a section referred to mounting volumes. From said guide, it is mandatory (and a requirement for this to work) to map the volumes `logpodpath` and `logcontainerpath` mentioned in the linked example. `pointerdir` is optional, and should be mapped in order "to prevent loss of container logs during restarts or network issue" (quoted).
+2) The Datadog `guide <https://docs.datadoghq.com/containers/kubernetes/log/?tab=daemonset>`__ includes a section on mounting volumes. It is essential (and a prerequisite for proper functioning) to map the volumes "logpodpath" and "logcontainerpath" as illustrated in the linked example. While the "pointerdir" volume is optional, it is recommended that you map it to prevent the loss of container logs during restarts or network issues (as stated in the guide).
 
 """
 
