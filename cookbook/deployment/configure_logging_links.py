@@ -92,7 +92,7 @@ In order to send your Flyte Workflows's logs to Datadog, you can follow the next
 
 1) Enable logs, collection of logs from containers and collection of logs using files. This should be enabled in different ways according on how have you set up your Datadog integration. 
 
-For example, if using Helm:
+For instance, if you're using Helm, use the following config:
 
 .. code-block:: yaml
 
