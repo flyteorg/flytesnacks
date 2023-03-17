@@ -1,37 +1,37 @@
-#"""
-#Waiting for External Inputs
-#---------------------------
-#
-#*New in Flyte 1.3.0*
-#
-#There are use cases where we want a workflow execution to pause, only to continue
-#when some time has passed or when it receives some inputs that are external to
-#the workflow execution inputs. You can think of these as execution-time inputs,
-#since they need to be supplied to the workflow after it's launched. Examples of
-#this use case would be:
-#
-#1. **Model Deployment**: A hyperparameter-tuning workflow that
-#   trains ``n`` models, where a human needs to inspect a report before approving
-#   the model for downstream deployment to some serving layer.
-#2. **Data Labeling**: A workflow that iterates through an image dataset,
-#   presenting individual images to a human annotator for them to label.
-#3. **Active Learning**: An `active learning <https://en.wikipedia.org/wiki/Active_learning_(machine_learning)>`__
-#   workflow that trains a model, shows examples for a human annotator to label
-#   based which examples it's least/most certain about or would provide the most
-#   information to the model.
-#
-#These use cases can be achieved in Flyte with the :func:`~flytekit.sleep`,
-#:func:`~flytekit.wait_for_input`, and :func:`~flytekit.approve` workflow nodes.
-#Although all of the examples above are human-in-the-loop processes, these
-#constructs allow you to pass inputs into a workflow from some arbitrary external
-#process (👩 human or 🤖 machine) in order to continue.
-#
-#.. important::
-#
-#   These functions can only be used inside :func:`@workflow <flytekit.workflow>`-decorated
-#   functions, :func:`@dynamic <flytekit.dynamic>`-decorated functions, or
-#   :ref:`imperative workflows <imperative_wf_style>`.
-#"""
+"""
+Waiting for External Inputs
+---------------------------
+
+*New in Flyte 1.3.0*
+
+There are use cases where we want a workflow execution to pause, only to continue
+when some time has passed or when it receives some inputs that are external to
+the workflow execution inputs. You can think of these as execution-time inputs,
+since they need to be supplied to the workflow after it's launched. Examples of
+this use case would be:
+
+1. **Model Deployment**: A hyperparameter-tuning workflow that
+   trains ``n`` models, where a human needs to inspect a report before approving
+   the model for downstream deployment to some serving layer.
+2. **Data Labeling**: A workflow that iterates through an image dataset,
+   presenting individual images to a human annotator for them to label.
+3. **Active Learning**: An `active learning <https://en.wikipedia.org/wiki/Active_learning_(machine_learning)>`__
+   workflow that trains a model, shows examples for a human annotator to label
+   based which examples it's least/most certain about or would provide the most
+   information to the model.
+
+These use cases can be achieved in Flyte with the :func:`~flytekit.sleep`,
+:func:`~flytekit.wait_for_input`, and :func:`~flytekit.approve` workflow nodes.
+Although all of the examples above are human-in-the-loop processes, these
+constructs allow you to pass inputs into a workflow from some arbitrary external
+process (👩 human or 🤖 machine) in order to continue.
+
+.. important::
+
+   These functions can only be used inside :func:`@workflow <flytekit.workflow>`-decorated
+   functions, :func:`@dynamic <flytekit.dynamic>`-decorated functions, or
+   :ref:`imperative workflows <imperative_wf_style>`.
+"""
 #
 ## %%
 ## Pause executions with the ``sleep`` node
