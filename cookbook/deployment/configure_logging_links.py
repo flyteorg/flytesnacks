@@ -90,7 +90,7 @@ Datadog Integration
 
 To send your Flyte workflow logs to Datadog, you can follow these steps:
 
-1) Enable logs, collection of logs from containers and collection of logs using files. This should be enabled in different ways according on how have you set up your Datadog integration. 
+1) Enable collection of logs from containers and collection of logs using files. The precise configuration steps will vary depending on your specific setup.
 
 For instance, if you're using Helm, use the following config:
 
