@@ -88,7 +88,7 @@ However, not all task types use the log plugin; for example, the SageMaker plugi
 Datadog Integration
 ^^^^^^^^^^^^^^^^^^^
 
-In order to send your Flyte Workflows's logs to Datadog, you can follow the next steps:
+To send your Flyte workflow logs to Datadog, you can follow these steps:
 
 1) Enable logs, collection of logs from containers and collection of logs using files. This should be enabled in different ways according on how have you set up your Datadog integration. 
 
