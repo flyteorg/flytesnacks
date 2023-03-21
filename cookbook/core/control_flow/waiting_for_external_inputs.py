@@ -32,7 +32,7 @@ process (👩 human or 🤖 machine) in order to continue.
    functions, :func:`@dynamic <flytekit.dynamic>`-decorated functions, or
    :ref:`imperative workflows <imperative_wf_style>`.
 """
-#
+
 ## %%
 ## Pause executions with the ``sleep`` node
 ## ==============================================
