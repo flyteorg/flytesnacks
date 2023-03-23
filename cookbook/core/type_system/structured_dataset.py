@@ -253,14 +253,13 @@ def pandas_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]
     return to_numpy(ds=ds)
 
 
-# TODO: uncomment this after flyteadmin updates compiler version in https://github.com/flyteorg/flyteadmin/pull/541
-# @workflow
-# def schema_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
-#     df = get_schema_df(a=a)
-#     ds = get_subset_df(
-#         df=df
-#     )  # noqa: shown for demonstration; users should use the same types between tasks
-#     return to_numpy(ds=ds)
+@workflow
+def schema_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
+    df = get_schema_df(a=a)
+    ds = get_subset_df(
+        df=df
+    )  # noqa: shown for demonstration; users should use the same types between tasks
+    return to_numpy(ds=ds)
 
 
 # %%
