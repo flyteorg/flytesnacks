@@ -47,7 +47,7 @@ def process_data(df, worker_id):
 # for the raw, intermediate, and final outputs of our pipeline.
 
 
-class InSchema(pa.SchemaModel):
+class InSchema(pa.DataFrameModel):
     hourly_pay: Series[float] = pa.Field(ge=7)
     hours_worked: Series[float] = pa.Field(ge=10)
 
