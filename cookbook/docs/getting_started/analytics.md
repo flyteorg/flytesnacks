@@ -29,7 +29,6 @@ In this example, we're going to analyze some covid vaccination data:
 import pandas as pd
 import plotly
 import plotly.graph_objects as go
-import pycountry
 from flytekit import Deck, task, workflow, Resources
 
 
@@ -43,10 +42,7 @@ def clean_data() -> pd.DataFrame:
         .first()
         .reset_index()
     )[["location", "people_vaccinated", "population", "date"]]
-    filled_df = filled_df.dropna()
-    countries = [country.name for country in list(pycountry.countries)]
-    country_df = filled_df[filled_df["location"].isin(countries)]
-    return country_df
+    return filled_df
 ```
 
 As you can see, we're using `pandas` for data processing, and in the task
@@ -125,7 +121,7 @@ class DeckFilter(logging.Filter):
         if matches:
             task, filepath = matches.group(1), matches.group(2)
             self.deck_files[task] = re.sub("^file://", "", filepath)
-        return True
+        return False
 
 
 logger = logging.getLogger("flytekit")

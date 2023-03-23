@@ -2,7 +2,6 @@
 flytekit>=1.3.0
 git+https://github.com/flyteorg/furo@main
 pillow
-pycountry
 psycopg2-binary
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
