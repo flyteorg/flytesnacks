@@ -505,3 +505,6 @@ intersphinx_mapping = {
 mermaid_output_format = "raw"
 mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
+
+# Disable warnings from flytekit
+os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
