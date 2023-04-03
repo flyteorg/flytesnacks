@@ -59,6 +59,7 @@ class CustomSorter(FileNameSortKey):
         "map_task.py",
         "checkpoint.py",
         "merge_sort.py",
+        # "waiting_for_external_inputs.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
@@ -118,6 +119,7 @@ class CustomSorter(FileNameSortKey):
         "knn_classifier.py",
         "sqlite3_integration.py",
         "sql_alchemy.py",
+        "mlflow_example.py",
         "whylogs_example.py",
         ## Kubernetes
         "dask.py",
@@ -209,6 +211,8 @@ source_suffix = {
     '.rst': 'restructuredtext',
     '.md': 'myst-nb',
 }
+
+copybutton_exclude = 'style[type="text/css"]'
 
 myst_enable_extensions = ["colon_fence"]
 
@@ -310,7 +314,9 @@ examples_dirs = [
     "../integrations/flytekit_plugins/dolt",
     "../integrations/flytekit_plugins/dbt_example",
     "../integrations/flytekit_plugins/whylogs_examples",
+    "../integrations/flytekit_plugins/mlflow_example",
     "../integrations/flytekit_plugins/onnx_examples",
+    "../integrations/flytekit_plugins/duckdb_examples",
     "../integrations/kubernetes/pod",
     "../integrations/kubernetes/k8s_dask",
     "../integrations/kubernetes/k8s_spark",
@@ -354,7 +360,9 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/dolt",
     "auto/integrations/flytekit_plugins/dbt_example",
     "auto/integrations/flytekit_plugins/whylogs_examples",
+    "auto/integrations/flytekit_plugins/mlflow_example",
     "auto/integrations/flytekit_plugins/onnx_examples",
+    "auto/integrations/flytekit_plugins/duckdb_examples",
     "auto/integrations/kubernetes/pod",
     "auto/integrations/kubernetes/k8s_dask",
     "auto/integrations/kubernetes/k8s_spark",
@@ -499,3 +507,6 @@ intersphinx_mapping = {
 mermaid_output_format = "raw"
 mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
+
+# Disable warnings from flytekit
+os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"

@@ -1,4 +1,4 @@
-.. onnx:
+.. _onnx:
 
 ONNX
 ====

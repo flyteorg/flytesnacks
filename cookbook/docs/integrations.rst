@@ -87,12 +87,28 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ``whylogs``: the open standard for data logging.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/mlflow_example/index
+      :type: ref
+      :text: mlflow
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   ``mlflow``: the open standard for model tracking.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/onnx_examples/index
       :type: ref
       :text: ONNX
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^
    Convert ML models to ONNX models seamlessly.
+
+   ---
+   .. link-button:: auto/integrations/flytekit_plugins/duckdb_examples/index
+      :type: ref
+      :text: DuckDB
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run analytical queries using DuckDB.
 
 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins

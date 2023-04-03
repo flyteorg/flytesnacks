@@ -177,17 +177,6 @@ the explicit equivalent to the default image value would be something like:
 pyflyte register workflows --image ghcr.io/flyteorg/flytekit:py3.9-latest
 ```
 
-```{important}
-`pyflyte register` packages up your code through a mechanism called
-**fast registration**. At a high level, this will:
-
-1. Package and zip up the directory/file that you specify as the argument to
-   `pyflyte register`, which is the `workflows` directory in the example above.
-2. Register the Flyte package to the specified Flyte cluster, which is the
-   local Flyte demo cluster by default.
-
-```
-
 ````{note}
 You can also specify multiple workflow directories, like:
 
@@ -214,6 +203,38 @@ go to the browser at `localhost:30080/console` and do the following:
 In the next guide you'll learn about how to run your workflows programmatically.
 ```
 
+#### Fast Registration
+
+`pyflyte register` packages up your code through a mechanism called
+**fast registration**. Fast registration is useful when you already have a
+container image that's hosted in your container registry of choice and you change
+your workflow/task code *without any changes in your system-level/python
+dependencies*. At a high level, fast registration:
+
+1. 📦 **Packages** and zips up the directory/file that you specify as the argument to
+   `pyflyte register`, along with any files in the root directory of your
+   project. The result of this is a tarball that is packaged into a `.tar.gz`
+   file, which also includes the serialized task and workflow specifications
+   defined in your workflow code.
+2. 🚢 **Registers** the Flyte package to the specified Flyte cluster and uploads the
+   tarball containing the user-defined code into the configured blob store
+   (e.g. `s3`, `gcs`).
+
+At workflow execution time, Flyte knows to automatically inject the zipped up
+task/workflow code into the running container, thereby overriding the user-defined
+tasks/workflows that were originally baked into the image.
+
+```{admonition} Ignoring files during fast registration
+:class: important
+
+In step (1) of the fast registration process, by default Flyte will package up
+all user-defined code at the root of your project. In some cases, your project
+directory may contain datasets, model files, and other potentially large
+artifacts that you want to exclude from the tarball.
+
+You can do so by specifying these files in a `.gitignore` or `.dockerignore`
+file in the root directory of your project.
+```
 
 ### Productionizing your Workflows
 

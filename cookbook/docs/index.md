@@ -451,7 +451,9 @@ auto/integrations/flytekit_plugins/modin_examples/index
 auto/integrations/flytekit_plugins/dolt/index
 auto/integrations/flytekit_plugins/dbt_example/index
 auto/integrations/flytekit_plugins/whylogs_examples/index
+auto/integrations/flytekit_plugins/mlflow_example/index
 auto/integrations/flytekit_plugins/onnx_examples/index
+auto/integrations/flytekit_plugins/duckdb_examples/index
 auto/integrations/kubernetes/pod/index
 auto/integrations/kubernetes/k8s_dask/index
 auto/integrations/kubernetes/k8s_spark/index
