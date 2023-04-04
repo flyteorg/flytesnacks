@@ -138,6 +138,9 @@ logger.addFilter(deck_filter)
 ```
 
 ```{code-cell} ipython3
+---
+tags: [remove-output]
+---
 wf(sample_frac=1.0, random_state=42)
 ```
 
