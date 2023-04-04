@@ -212,7 +212,7 @@ on a Flyte backend.
 
 ```{important}
 You can also configure the container images dynamically. See the
-{ref}`User Guide <hosted_multi_images>` for more details.
+{ref}`User Guide <multi_images>` for more details.
 ```
 
 
