@@ -68,7 +68,7 @@ from flytekit.types.pickle.pickle import BatchSize
 from typing import List, Annotated
 @task
 def greet_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
-    return [People(names) for name in names]
+    return [People(name) for name in names]
 
 
 @workflow
