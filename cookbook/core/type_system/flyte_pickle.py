@@ -57,3 +57,29 @@ if __name__ == "__main__":
     the custom object (People) will be marshalled to and from python pickle.
     """
     welcome(name="Foo")
+
+
+# %%
+# By default, if the list subtype is unrecognized, a single pickle file is generated.
+# To also improve serialization and deserialization performance for cases with millions of items or large list items,
+# users can specify a batch size, processing each batch as a separate pickle file.
+# Example below shows how users can set batch size.
+from flytekit.types.pickle.pickle import BatchSize
+from typing import List, Annotated
+@task
+def greet_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+    return [People(names) for name in names]
+
+
+@workflow
+def welcome_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+    return greet_all(names=names)
+
+
+if __name__ == "__main__":
+    """
+    In this example, two pickle files will be generated:
+    - One containing two People objects
+    - One containing one People object
+    """
+    welcome_all(names=["f","o","o"])
