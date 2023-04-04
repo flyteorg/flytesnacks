@@ -42,6 +42,7 @@ def multi_images_wf() -> np.ndarray:
 
 # %%
 # Observe how the ``sklearn`` library is imported in the context of a Flyte task.
+# This approach is beneficial when creating tasks in a single module, where some tasks have dependencies that others do not require.
 #
 # Configuring image parameters
 # ============================
