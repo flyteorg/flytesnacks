@@ -161,6 +161,13 @@ of the plugin.
    * - Implement once, use in any SDK or language!
      -
 
+
+=======================
+External Plugin Service
+=======================
+
+:std:ref:`External Plugin System <extend-external-plugin-system>` allows users to write a backend plugins in Python.
+
 =======
 Summary
 =======

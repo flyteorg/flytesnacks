@@ -1,5 +1,5 @@
 """
-.. _external-plugin-system
+.. _extend-external-plugin-system:
 
 ##################################
 Writing a Backend Plugin in Python
@@ -9,7 +9,7 @@ Writing a Backend Plugin in Python
 
 Currently, flyteplugins is live in the flytepropeller, which means we have to rebuild flytepropeller if we register a new plugin.
 It is hard to implement backend plugins, especially for data-scientists & MLE’s who do not have working knowledge
- of Golang. Also, performance requirements, maintenance and development is cumbersome
+of Golang. Also, performance requirements, maintenance and development is cumbersome.
 
 We build a new component in flyte called ``external-plugin-system``, some goal behind this,
 - Plugins should be easy to author - no need of code generation, using tools that MLEs and Data Scientists are not accustomed to using.
@@ -35,7 +35,7 @@ Register a new plugin
 =====================
 
 Flytekit Interface Specification
--------------------------------
+--------------------------------
 To register a new backend plugin, user have to extend `BackendPluginBase` in the flytekit backend module.
  Users have to implement below 3 methods, and all the call should be idempotent.
 
