@@ -120,7 +120,7 @@ class DeckFilter(logging.Filter):
             task, filepath = matches.group(1), matches.group(2)
             self.logs.append(self.formatter.format(record))
             self.deck_files[task] = re.sub("^file://", "", filepath)
-        return True
+        return False
 
 def cp_deck(src):
     src = Path(src)
