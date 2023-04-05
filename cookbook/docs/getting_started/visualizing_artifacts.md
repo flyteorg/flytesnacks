@@ -217,6 +217,10 @@ Then we can use the `Annotated` type to override the default renderer of the
 `pandas.DataFrame` type:
 
 ```{code-cell} ipython
+---
+tags: [remove-output]
+---
+
 try:
     from typing import Annotated
 except ImportError:
