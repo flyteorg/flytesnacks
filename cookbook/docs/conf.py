@@ -46,6 +46,7 @@ class CustomSorter(FileNameSortKey):
         "task_cache.py",
         "shell_task.py",
         "reference_task.py",
+        "reference_launch_plan.py",
         "files.py",
         "folders.py",
         "named_outputs.py",
