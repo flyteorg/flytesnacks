@@ -213,6 +213,8 @@ source_suffix = {
     '.md': 'myst-nb',
 }
 
+copybutton_exclude = 'style[type="text/css"]'
+
 myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -509,3 +511,6 @@ mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
 
 # Disable warnings from flytekit
 os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
+
+# Disable warnings from tensorflow
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"

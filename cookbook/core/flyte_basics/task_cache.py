@@ -135,8 +135,7 @@ def wf(a: int, b: str):
 # For example, in order to cache the result of calls to ``bar``, you can rewrite the code above like this:
 
 
-@task
-def hash_pandas_dataframe_function(df: pandas.DataFrame) -> str:
+def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
 
 
@@ -144,7 +143,7 @@ def hash_pandas_dataframe_function(df: pandas.DataFrame) -> str:
 def foo_1(  # noqa: F811
     a: int, b: str  # noqa: F821
 ) -> Annotated[
-    pandas.DataFrame, HashMethod(hash_pandas_dataframe_function)  # noqa: F821
+    pandas.DataFrame, HashMethod(hash_pandas_dataframe)  # noqa: F821
 ]:  # noqa: F821
     df = pandas.DataFrame(...)  # noqa: F821
     ...
