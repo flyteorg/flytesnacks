@@ -14,6 +14,7 @@ The data is written as separate files, one per input variable. The format of the
 Refer to the raw protocol to understand how to leverage this.
 """
 import logging
+import typing
 
 from flytekit import ContainerTask, kwtypes, task, workflow
 
@@ -193,3 +194,17 @@ def wf(a: float, b: float):
 # ^^^^^^^^^^^^^^^^^^^^^^^^^
 # .. literalinclude::  ../../../../core/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
 #    :language: julia
+
+# %%
+# Use Raw Container in the map task
+# =================================
+#
+# To use raw container in the map task, users have to
+# 1. Manually parse the input data. The input is string representation of a list, so we need to convert it to python list.
+# 2. Get array index (BATCH_JOB_ARRAY_INDEX_VAR_NAME), and use it to get the element in the list.
+def main(a: str, output_dir):
+    # convert a to list
+    res = eval(a)
+    # get the job index
+    index = int(os.environ.get(os.environ.get("BATCH_JOB_ARRAY_INDEX_VAR_NAME")))
+    ...
