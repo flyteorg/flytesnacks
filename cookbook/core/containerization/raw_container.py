@@ -14,7 +14,6 @@ The data is written as separate files, one per input variable. The format of the
 Refer to the raw protocol to understand how to leverage this.
 """
 import logging
-import typing
 
 from flytekit import ContainerTask, kwtypes, task, workflow
 
