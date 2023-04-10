@@ -14,6 +14,7 @@ The data is written as separate files, one per input variable. The format of the
 Refer to the raw protocol to understand how to leverage this.
 """
 import logging
+import sys
 
 from flytekit import ContainerTask, kwtypes, task, workflow
 
@@ -207,3 +208,11 @@ def main(a: str, output_dir):
     # get the job index
     index = int(os.environ.get(os.environ.get("BATCH_JOB_ARRAY_INDEX_VAR_NAME")))
     ...
+
+
+if __name__ == "__main__":
+    a = sys.argv[1]
+    b = sys.argv[2]
+    output_dir = sys.argv[3]
+
+    main(a, output_dir)
