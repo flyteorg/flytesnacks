@@ -69,10 +69,6 @@ Kubernetes cluster so that you can interact with it on your machine.
 
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
 
-```{note}
-`flytekit` currently requires Python version `>=3.7, <=3.10`.
-```
-
 ```{prompt} bash $
 pip install flytekit scikit-learn
 ```

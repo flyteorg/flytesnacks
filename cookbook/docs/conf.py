@@ -46,6 +46,7 @@ class CustomSorter(FileNameSortKey):
         "task_cache.py",
         "shell_task.py",
         "reference_task.py",
+        "reference_launch_plan.py",
         "files.py",
         "folders.py",
         "named_outputs.py",
@@ -510,3 +511,6 @@ mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
 
 # Disable warnings from flytekit
 os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
+
+# Disable warnings from tensorflow
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
