@@ -8,15 +8,16 @@ Writing a Backend Plugin in Python
 .. tags:: Extensibility, Contribute, Intermediate
 
 Currently, flyteplugins is live in the flytepropeller, which means we have to rebuild flytepropeller if we register a new plugin.
-It is hard to implement backend plugins, especially for data-scientists & MLE’s who do not have working knowledge
-of Golang. Also, performance requirements, maintenance and development is cumbersome.
+ It is hard to implement backend plugins, especially for data scientists & MLEs who do not have working knowledge of Golang.
+  Also, performance requirements, maintenance, and development are cumbersome.
 
-We build a new component in flyte called ``external-plugin-system``, some goal behind this,
 
-* Plugins should be easy to author - no need of code generation, using tools that MLEs and Data Scientists are not accustomed to using.
-* Most important plugins for Flyte today are plugins that communicate with external services.
+We built a new component in Flyte called the external-plugin-system. Some goals behind this,,
+
+* Plugins should be easy to author - no need for code generation, using tools that MLEs and Data Scientists are not accustomed to using.
+* The most important plugins for Flyte today are plugins that communicate with external services.
 * It should be possible to test these plugins independently and also deploy them privately.
-* It should be possible for users to use backend plugins for local development, especially in flytekit and unionML
+* It should be possible for users to use backend plugins for local development, especially in flytekit and unionML.
 * It should be possible to author plugins in any language.
 * Plugins should be scalable
 * Plugins should have a very simple API
@@ -24,7 +25,7 @@ We build a new component in flyte called ``external-plugin-system``, some goal b
 
 Overview
 ========
-The External Plugin System is a Python-based plugin registry that uses a gRPC server. Users and Propeller can send gRPC requests to this registry to run jobs, such as BigQuery and Databricks. Furthermore, the registry is stateless, which makes it easy to scale the system up or down.
+The External Plugin System is a Python-based plugin registry that uses a gRPC server. Users and Propeller can send gRPC requests to this registry to run jobs like BigQuery and Databricks. Furthermore, the registry is stateless, which makes it easy to scale the system up or down.
 
 .. figure:: https://i.ibb.co/y0MhBfn/Screen-Shot-2023-04-16-at-11-51-17-PM.png
   :alt: External-Plugin-System
@@ -35,7 +36,7 @@ Register a new plugin
 
 Flytekit Interface Specification
 --------------------------------
-To register a new backend plugin, user have to extend `BackendPluginBase` in the flytekit backend module. Users have to implement below 3 methods, and all the call should be idempotent.
+New backend plugins must be registered by extending the BackendPluginBase class in the flytekit backend module. All three methods below must be implemented, and all calls must be idempotent.
 
 - `create` is used to launch a new task. People can use gRPC, REST, or SDK to create a task.
 - `get` is used to get the jobID (like BigQuery Job ID or Databricks task ID).
@@ -74,7 +75,7 @@ To register a new backend plugin, user have to extend `BackendPluginBase` in the
 
 Build a New image
 -----------------
-Here is a sample dockerfile for building a image for external plugin system.
+The following is a sample Dockerfile for building an image for an external plugin system.
 
 .. code-block:: Dockerfile
 
