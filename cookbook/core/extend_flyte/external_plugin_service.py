@@ -12,6 +12,7 @@ It is hard to implement backend plugins, especially for data-scientists & MLE’
 of Golang. Also, performance requirements, maintenance and development is cumbersome.
 
 We build a new component in flyte called ``external-plugin-system``, some goal behind this,
+
 * Plugins should be easy to author - no need of code generation, using tools that MLEs and Data Scientists are not accustomed to using.
 * Most important plugins for Flyte today are plugins that communicate with external services.
 * It should be possible to test these plugins independently and also deploy them privately.
@@ -25,7 +26,7 @@ Overview
 ========
 The External Plugin System is a Python-based plugin registry that uses a gRPC server. Users and Propeller can send gRPC requests to this registry to run jobs, such as BigQuery and Databricks. Furthermore, the registry is stateless, which makes it easy to scale the system up or down.
 
-.. figure:: https://keep.google.com/u/0/media/v2/1mpmXqb-qqPI6HyPypu-AL-2pOgtbCnQwrhIePJN8l8qyChU1jERKHzrvrnE5eA/1pC3cjUR48XV-IvWbVC6V3QrkCfHCiLijC6m41TjoIKxy2D4XGFJZFlVWAAwDOX0?sz=512&accept=image%2Fgif%2Cimage%2Fjpeg%2Cimage%2Fjpg%2Cimage%2Fpng%2Cimage%2Fwebp
+.. figure:: https://i.ibb.co/y0MhBfn/Screen-Shot-2023-04-16-at-11-51-17-PM.png
   :alt: External-Plugin-System
   :class: with-shadow
 
