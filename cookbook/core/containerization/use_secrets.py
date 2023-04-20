@@ -370,6 +370,18 @@ if __name__ == "__main__":
 # By default the Vault secret manager will try to retrieve **version 2** secrets. You can specify the KV version by setting
 # ``webhook.vaultSecretManager.kvVersion`` in the configmap. Note that the version number needs to be an explicit string (e.g. ``"1"``).
 # You can also configure the Vault role under which Flyte will try to read the secret by setting webhook.vaultSecretManager.role (default: ``"flyte"``).
+# 
+# By default, ``flyte-pod-webhook`` injects following annotations to task pod:
+# 1. ``vault.hashicorp.com/agent-inject`` to configures whether injection is explicitly enabled or disabled for a pod.
+# 2. ``vault.hashicorp.com/secret-volume-path`` to configure where on the filesystem a secret will be rendered.
+# 3. ``vault.hashicorp.com/role`` to configures the Vault role used by the Vault Agent auto-auth method.
+# 4. ``vault.hashicorp.com/agent-pre-populate-only`` to configures whether an init container is the only injected container.
+# 5. ``vault.hashicorp.com/agent-inject-secret`` to configure Vault Agent to retrieve the secrets from Vault required by the container.
+# 6. ``vault.hashicorp.com/agent-inject-file`` to configure the filename and path in the secrets volume where a Vault secret will be written.
+# 7. ``vault.hashicorp.com/agent-inject-template`` to configure the template Vault Agent should use for rendering a secret.
+#
+# It is possible to add extra annotations or override the existing ones in Flyte either at the task level using pod annotations or at the installation level. 
+# If Flyte administrator wants to set up annotations for the entire system, they can utilize ``webhook.vaultSecretManager.annotations`` to accomplish this.
 #
 # Scaling the Webhook
 # ===================
