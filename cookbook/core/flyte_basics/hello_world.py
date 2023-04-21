@@ -6,7 +6,7 @@ This simple workflow calls a task that returns "Hello World" and then just sets 
 """
 import typing
 
-from flytekit import task, workflow
+from flytekit import task, workflow, dynamic
 
 
 # You can change the signature of the workflow to take in an argument like this:
@@ -25,16 +25,53 @@ def say_hello() -> str:
     return "hello world"
 
 
-# %%
-# You can treat the outputs of a task as you normally would a Python function. Assign the output to two variables
-# and use them in subsequent tasks as normal. See :py:func:`flytekit.workflow`
-# You can change the signature of the workflow to take in an argument like this:
-# def my_wf(name: str) -> str:
+@task(retries=10)
+def say_hello_error(a: int) -> str:
+    if a == 1:
+        print("Raising Error")
+        raise RuntimeError("my runtime error")
+    if a == 2:
+        print("Raising Error")
+        raise ValueError("my value error")
+
+    return "hi"
+
+
+@dynamic(retries=10)
+def dynamic_wf(a: int) -> str:
+    if a == 1:
+        raise RuntimeError("runtime error")
+    if a == 2:
+        raise ValueError("value error")
+
+    return "hi"
+
+
+@workflow
+def dyn_hello(a: int) -> str:
+    return dynamic_wf(a=a)
+
+
+@dynamic(retries=10)
+def dynamic_wf_nested(a: int) -> str:
+    return dynamic_wf(a=a)
+
+
+@workflow
+def dyn_hello_nested(a: int) -> str:
+    return dynamic_wf_nested(a=a)
+
+
 @workflow
 def my_wf() -> str:
     res = say_hello()
     return res
 
+
+@workflow
+def my_wf_error(a: int) -> str:
+    res = say_hello_error(a=a)
+    return res
 
 # %%
 # Execute the Workflow, simply by invoking it like a function and passing in
