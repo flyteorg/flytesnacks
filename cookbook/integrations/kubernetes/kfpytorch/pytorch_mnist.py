@@ -346,6 +346,7 @@ if __name__ == "__main__":
 # Flyte supports distributed training using `torch elastic <https://pytorch.org/docs/stable/elastic/run.html>`_ (``torchrun``).
 # In Flytekit, you can for instance perform elastic training on a single node with a local worker group of size 4, which is 
 # equivalent to ``torchrun --nproc-per-node=4 --nnodes=1 ...``, as follows:
+#
 # .. code-block:: python
 # 
 #   from flytekitplugins.kfpytorch import Elastic
@@ -359,7 +360,8 @@ if __name__ == "__main__":
 #   def task():
 #
 # This starts 4 worker processes, both when running locally and when running remotely in a Kubernetes pod in a Flyte cluster.
-# To perform distrbuted elastic training on multiple nodes, you can use the ``Elastic`` task config as follows:
+# To perform distributed elastic training on multiple nodes, you can use the ``Elastic`` task config as follows:
+#
 # .. code-block:: python
 #   
 #   from flytekitplugins.kfpytorch import Elastic
