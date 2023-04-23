@@ -341,6 +341,39 @@ if __name__ == "__main__":
 # You can retrieve the outputs - which will be a path to a blob store like S3, GCS, minio, etc. Tensorboad can be
 # pointed to on your local laptop to visualize the results.
 #
+# Pytorch elastic training (torchrun)
+# ===================================
+# Flyte supports distributed training using `torch elastic <https://pytorch.org/docs/stable/elastic/run.html>`_ (``torchrun``).
+# In Flytekit, you can for instance perform elastic training on a single node with a local worker group of size 4, which is 
+# equivalent to ``torchrun --nproc-per-node=4 --nnodes=1 ...``, as follows:
+# .. code-block:: python
+# 
+#   from flytekitplugins.kfpytorch import Elastic
+#   
+#   @task(
+#     task_config=Elastic(
+#       replicas=1,
+#       nproc_per_node=4,
+#     )
+#   )
+#   def task():
+#
+# This starts 4 worker processes, both when running locally and when running remotely in a Kubernetes pod in a Flyte cluster.
+# To perform distrbuted elastic training on multiple nodes, you can use the ``Elastic`` task config as follows:
+# .. code-block:: python
+#   
+#   from flytekitplugins.kfpytorch import Elastic
+#     
+#   @task(
+#     task_config=Elastic(
+#       replicas=2,
+#       nproc_per_node=4,
+#     ),
+#   )
+#   def train():
+#
+# This configuration runs distributed training on 2 nodes, each with 4 worker processes.
+#
 # Control which rank returns its value
 # ====================================
 # In distributed training, the return values from different workers might differ.
