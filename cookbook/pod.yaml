@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    project: spring_pricing_review
+  name: training_data_gather_1
+  namespace: pricing-dev
+spec:
+  containers:
+  - args:
+    - python
+    - gather_data.py
+    env:
+    - name: USER
+      value: ytong
+    - name: TOKEN
+      value: abc123
+    image: ghcr.io/corpA/pricingmodels:v3.0.5b0
+    imagePullPolicy: Always
+    name: container_name
+    resources:
+      limits:
+        cpu: "3"
+      requests:
+        cpu: "2"
+        memory: 500Mi
