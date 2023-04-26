@@ -54,7 +54,7 @@ def t2():
 
 
 # %%
-# t3 don't specify image_spec, so it will use the default image.
+# t3 doesn't specify image_spec, so it will use the default image.
 # You can also pass imageSpec yaml file to the ``pyflyte run`` or ``pyflyte register`` command to override it.
 # For instance:
 #
