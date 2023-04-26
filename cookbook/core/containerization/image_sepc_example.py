@@ -18,9 +18,9 @@ the `default Docker image <https://ghcr.io/flyteorg/flytekit>`__, to all tasks. 
 use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator, and pass an
 `ImageSpec`.
 
- Flytekit checks the container registry first to see if the image already exists. By doing so, it avoids having to
- rebuild the image over and over again. If the image does not exist, flytekit will build the image before registering
- the workflow, and replace the image name in the workflow spec with the newly built image name.
+Before building the image, Flytekit checks the container registry first to see if the image already exists. By doing
+so, it avoids having to rebuild the image over and over again. If the image does not exist, flytekit will build the
+image before registering the workflow, and replace the image name in the workflow spec with the newly built image name.
 
 """
 
@@ -41,7 +41,7 @@ image_spec = ImageSpec(packages=["pandas", "numpy"], python_version="3.9", apt_p
 
 
 # %%
-# Both t1 and t2 will use the image built from the image spec.
+# Both `t1` and `t2` will use the image built from the image spec.
 @task(image_spec=image_spec)
 def t1():
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
@@ -54,7 +54,7 @@ def t2():
 
 
 # %%
-# t3 doesn't specify image_spec, so it will use the default image.
+# `t3` doesn't specify image_spec, so it will use the default image.
 # You can also pass imageSpec yaml file to the ``pyflyte run`` or ``pyflyte register`` command to override it.
 # For instance:
 #
