@@ -24,10 +24,8 @@ image before registering the workflow, and replace the image name in the workflo
 
 """
 
-from flytekit import task, workflow
-from flytekit import ImageSpec
 import pandas as pd
-
+from flytekit import ImageSpec, task, workflow
 
 # %%
 # Image Spec
@@ -36,8 +34,13 @@ import pandas as pd
 # People can specify python packages, apt packages, and environment variables. Those packages will be added on top of
 # the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__. You can also override the
 # default image by passing ``base_image`` parameter to the ``ImageSpec``.
-image_spec = ImageSpec(packages=["pandas", "numpy"], python_version="3.9", apt_packages=["git"],
-                       env={"Debug": "True"}, registry="pingsutw")
+image_spec = ImageSpec(
+    packages=["pandas", "numpy"],
+    python_version="3.9",
+    apt_packages=["git"],
+    env={"Debug": "True"},
+    registry="pingsutw",
+)
 
 
 # %%
@@ -60,6 +63,7 @@ def t2():
 #
 # .. code-block:: yaml
 #
+#    # imageSpec.yaml
 #    python_version: 3.11
 #    packages:
 #      - pandas
@@ -72,6 +76,7 @@ def t2():
 #
 # .. code-block::
 #
+#    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec_example.py wf
 #
 @task()
@@ -86,6 +91,5 @@ def wf():
     t3()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     wf()
-
