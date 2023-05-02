@@ -65,7 +65,9 @@ if __name__ == "__main__":
 # users can specify a batch size, processing each batch as a separate pickle file.
 # Example below shows how users can set batch size.
 from flytekit.types.pickle.pickle import BatchSize
-from typing import List, Annotated
+from typing import List
+from typing_extensions import Annotated
+
 @task
 def greet_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
     return [People(name) for name in names]
