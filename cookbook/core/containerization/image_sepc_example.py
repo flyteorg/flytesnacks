@@ -23,7 +23,13 @@ so, it avoids having to rebuild the image over and over again. If the image does
 image before registering the workflow, and replace the image name in the workflow spec with the newly built image name.
 
 """
-
+# %%
+# .. admonition:: Prerequisites
+#    :class: important
+#
+#    Install `flytekitplugins-envd <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-envd>`__ to build
+#    the image spec.
+#
 import pandas as pd
 from flytekit import ImageSpec, task, workflow
 
@@ -45,13 +51,13 @@ image_spec = ImageSpec(
 
 # %%
 # Both ``t1`` and ``t2`` will use the image built from the image spec.
-@task(image_spec=image_spec)
+@task(container_image=image_spec)
 def t1():
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
     print(df)
 
 
-@task(image_spec=image_spec)
+@task(container_image=image_spec)
 def t2():
     print("hello")
 
