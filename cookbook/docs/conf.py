@@ -202,7 +202,7 @@ extensions = [
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
     "sphinxcontrib.mermaid",
-    "sphinxcontrib.yt",
+    "sphinxcontrib.youtube",
     "sphinx_tabs.tabs",
     "sphinx_tags",
     "myst_nb",
