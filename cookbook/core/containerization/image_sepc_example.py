@@ -20,15 +20,16 @@ use the ``container_image`` parameter available in the :py:func:`flytekit.task` 
 
 Before building the image, Flytekit checks the container registry first to see if the image already exists. By doing
 so, it avoids having to rebuild the image over and over again. If the image does not exist, flytekit will build the
-image before registering the workflow, and replace the image name in the workflow spec with the newly built image name.
+image before registering the workflow, and replace the image name in the task template with the newly built image name.
 
 """
 # %%
 # .. admonition:: Prerequisites
 #    :class: important
 #
-#    Install `flytekitplugins-envd <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-envd>`__ to build
-#    the image spec.
+#    - Install `flytekitplugins-envd <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-envd>`__ to build the image spec.
+#    - To build the image on remote machine, check this `doc <https://envd.tensorchord.ai/teams/context.html#start-remote-buildkitd-on-builder-machine>`__
+#
 #
 import pandas as pd
 from flytekit import ImageSpec, task, workflow

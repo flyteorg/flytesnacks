@@ -3,3 +3,4 @@ wheel
 matplotlib
 flytekitplugins-deck-standard
 flytekitplugins-envd
+fsspec>=2023.3.0
