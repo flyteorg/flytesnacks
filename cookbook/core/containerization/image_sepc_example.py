@@ -32,7 +32,7 @@ image before registering the workflow, and replace the image name in the task te
 #
 #
 import pandas as pd
-from flytekit import ImageSpec, task, workflow
+from flytekit import ImageSpec, task, workflow, Resources
 
 # %%
 # Image Spec
@@ -50,14 +50,18 @@ pandas_image_spec = ImageSpec(
     registry="pingsutw",
 )
 
-tensorflow_image_spec = ImageSpec(base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1", packages=["tensorflow"], registry="pingsutw")
+sklearn_image_spec = ImageSpec(
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1",
+    packages=["tensorflow"],
+    registry="pingsutw"
+)
 
 # %%
 # ``is_container`` is used to check if the task is using the image built from the image spec.
 # If the task is using the image built from the image spec, then the task will import tensorflow.
 # It can reduce module loading time and avoid unnecessary dependency installation in the single image.
-# if tensorflow_image_spec.is_container():  # TODO: cut a beta release
-import tensorflow as tf
+if sklearn_image_spec.is_container():
+    from sklearn.linear_model import LogisticRegression
 
 
 # %%
@@ -71,23 +75,9 @@ def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
 
 # %%
 # Get a basic model to train.
-@task(container_image=tensorflow_image_spec)
-def get_model(layers: int, feature: pd.DataFrame) -> tf.keras.Model:
-    normalizer = tf.keras.layers.Normalization(axis=-1)
-    normalizer.adapt(feature)
-
-    model = tf.keras.Sequential([
-        normalizer,
-        tf.keras.layers.Dense(layers, activation='relu'),
-        tf.keras.layers.Dense(layers, activation='relu'),
-        tf.keras.layers.Dense(1)
-    ])
-
-    model.compile(optimizer='adam',
-                  loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
-                  metrics=['accuracy'])
-
-    return model
+@task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
+def get_model(max_iter: int, multi_class: str) -> LogisticRegression:
+    return LogisticRegression(max_iter=max_iter, multi_class=multi_class)
 
 
 # %%
@@ -100,7 +90,7 @@ def get_model(layers: int, feature: pd.DataFrame) -> tf.keras.Model:
 #    python_version: 3.11
 #    registry: pingsutw
 #    packages:
-#      - tensorflow
+#      - sklearn
 #    env:
 #      Debug: "True"
 #
@@ -110,9 +100,9 @@ def get_model(layers: int, feature: pd.DataFrame) -> tf.keras.Model:
 #    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec_example.py wf
 #
-@task(container_image=tensorflow_image_spec)
-def train_model(model: tf.keras.Model, feature: pd.DataFrame, target: pd.Series) -> tf.keras.Model:
-    model.fit(feature, target, epochs=3, batch_size=100)
+@task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
+def train_model(model: LogisticRegression, feature: pd.DataFrame, target: pd.Series) -> LogisticRegression:
+    model.fit(feature, target)
     return model
 
 
@@ -121,7 +111,7 @@ def train_model(model: tf.keras.Model, feature: pd.DataFrame, target: pd.Series)
 @workflow()
 def wf():
     feature, target = get_pandas_dataframe()
-    model = get_model(layers=10, feature=feature)
+    model = get_model(max_iter=3000, multi_class="auto")
     train_model(model=model, feature=feature, target=target)
 
 
