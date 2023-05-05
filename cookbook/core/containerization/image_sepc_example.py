@@ -41,7 +41,8 @@ from flytekit import ImageSpec, task, workflow
 # People can specify python packages, apt packages, and environment variables. Those packages will be added on top of
 # the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__. You can also override the
 # default image by passing ``base_image`` parameter to the ``ImageSpec``.
-image_spec = ImageSpec(
+pandas_image_spec = ImageSpec(
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1",
     packages=["pandas", "numpy"],
     python_version="3.9",
     apt_packages=["git"],
@@ -49,34 +50,57 @@ image_spec = ImageSpec(
     registry="pingsutw",
 )
 
+tensorflow_image_spec = ImageSpec(base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1", packages=["tensorflow"], registry="pingsutw")
 
 # %%
-# Both ``t1`` and ``t2`` will use the image built from the image spec.
-@task(container_image=image_spec)
-def t1():
-    df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
-    print(df)
-
-
-@task(container_image=image_spec)
-def t2():
-    print("hello")
+# ``is_container`` is used to check if the task is using the image built from the image spec.
+# If the task is using the image built from the image spec, then the task will import tensorflow.
+# It can reduce module loading time and avoid unnecessary dependency installation in the single image.
+# if tensorflow_image_spec.is_container():  # TODO: cut a beta release
+import tensorflow as tf
 
 
 # %%
-# ``t3`` doesn't specify image_spec, so it will use the default image.
-# You can also pass imageSpec yaml file to the ``pyflyte run`` or ``pyflyte register`` command to override it.
-# For instance:
+# Both ``get_pandas_dataframe`` and ``train_model`` will use the image built from the image spec.
+@task(container_image=pandas_image_spec)
+def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
+    df = pd.read_csv("https://storage.googleapis.com/download.tensorflow.org/data/heart.csv")
+    print(df.head())
+    return df[['age', 'thalach', 'trestbps',  'chol', 'oldpeak']], df.pop('target')
+
+
+# %%
+# Get a basic model to train.
+@task(container_image=tensorflow_image_spec)
+def get_model(layers: int, feature: pd.DataFrame) -> tf.keras.Model:
+    normalizer = tf.keras.layers.Normalization(axis=-1)
+    normalizer.adapt(feature)
+
+    model = tf.keras.Sequential([
+        normalizer,
+        tf.keras.layers.Dense(layers, activation='relu'),
+        tf.keras.layers.Dense(layers, activation='relu'),
+        tf.keras.layers.Dense(1)
+    ])
+
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
+
+    return model
+
+
+# %%
+# Users can also pass imageSpec yaml file to the ``pyflyte run`` or ``pyflyte register`` command to override the
+# container_image. For instance:
 #
 # .. code-block:: yaml
 #
 #    # imageSpec.yaml
 #    python_version: 3.11
+#    registry: pingsutw
 #    packages:
-#      - pandas
-#      - numpy
-#    apt_packages:
-#      - git
+#      - tensorflow
 #    env:
 #      Debug: "True"
 #
@@ -86,16 +110,19 @@ def t2():
 #    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec_example.py wf
 #
-@task()
-def t3():
-    print("flyte")
+@task(container_image=tensorflow_image_spec)
+def train_model(model: tf.keras.Model, feature: pd.DataFrame, target: pd.Series) -> tf.keras.Model:
+    model.fit(feature, target, epochs=3, batch_size=100)
+    return model
 
 
+# %%
+# A simple pipeline to train a model.
 @workflow()
 def wf():
-    t1()
-    t2()
-    t3()
+    feature, target = get_pandas_dataframe()
+    model = get_model(layers=10, feature=feature)
+    train_model(model=model, feature=feature, target=target)
 
 
 if __name__ == "__main__":
