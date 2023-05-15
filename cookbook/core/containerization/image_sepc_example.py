@@ -42,7 +42,7 @@ from flytekit import ImageSpec, task, workflow, Resources
 # the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__. You can also override the
 # default image by passing ``base_image`` parameter to the ``ImageSpec``.
 pandas_image_spec = ImageSpec(
-    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1",
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["pandas", "numpy"],
     python_version="3.9",
     apt_packages=["git"],
@@ -51,7 +51,7 @@ pandas_image_spec = ImageSpec(
 )
 
 sklearn_image_spec = ImageSpec(
-    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0a1",
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["tensorflow"],
     registry="pingsutw"
 )
