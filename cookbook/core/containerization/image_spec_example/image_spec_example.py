@@ -1,8 +1,8 @@
 """
 .. _image_spec_example:
 
-Building Image without Dockerfile
----------------------------------
+Building Docker Images without a Dockerfile
+-------------------------------------------
 
 .. tags:: Containerization, Intermediate
 
@@ -16,13 +16,16 @@ For every :py:class:`flytekit.PythonFunctionTask` task or a task decorated with 
 you can specify rules for binding container images. By default, flytekit binds a single container image, i.e.,
 the `default Docker image <https://ghcr.io/flyteorg/flytekit>`__, to all tasks. To modify this behavior,
 use the ``container_image`` parameter available in the :py:func:`flytekit.task` decorator, and pass an
-`ImageSpec`.
+``ImageSpec``.
 
 Before building the image, Flytekit checks the container registry first to see if the image already exists. By doing
 so, it avoids having to rebuild the image over and over again. If the image does not exist, flytekit will build the
 image before registering the workflow, and replace the image name in the task template with the newly built image name.
 
 """
+
+import pandas as pd
+from flytekit import ImageSpec, task, workflow, Resources
 # %%
 # .. admonition:: Prerequisites
 #    :class: important
@@ -30,40 +33,37 @@ image before registering the workflow, and replace the image name in the task te
 #    - Install `flytekitplugins-envd <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-envd>`__ to build the image spec.
 #    - To build the image on remote machine, check this `doc <https://envd.tensorchord.ai/teams/context.html#start-remote-buildkitd-on-builder-machine>`__
 #
-#
-import pandas as pd
-from flytekit import ImageSpec, task, workflow, Resources
+
 
 # %%
-# Image Spec
-# ==========
-#
-# People can specify python packages, apt packages, and environment variables. Those packages will be added on top of
-# the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__. You can also override the
-# default image by passing ``base_image`` parameter to the ``ImageSpec``.
+# You can specify python packages, apt packages, and environment variables in the ``ImageSpec``.
+# These specified packages will be added on top of the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__, which can be found in the Flytekit Dockerfile.
+# If desired, you can also override the default image by providing a custom ``base_image`` parameter when using the ``ImageSpec``.
 pandas_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["pandas", "numpy"],
     python_version="3.9",
     apt_packages=["git"],
     env={"Debug": "True"},
+    registry="pingsutw",
 )
 
 sklearn_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["tensorflow"],
+    registry="pingsutw"
 )
 
 # %%
-# ``is_container`` is used to check if the task is using the image built from the image spec.
-# If the task is using the image built from the image spec, then the task will import tensorflow.
-# It can reduce module loading time and avoid unnecessary dependency installation in the single image.
+# ``is_container`` is used to determine whether the task is utilizing the image constructed from the ``ImageSpec``.
+# If the task is indeed using the image built from the ``ImageSpec``, it will then import Tensorflow.
+# This approach helps minimize module loading time and prevents unnecessary dependency installation within a single image.
 if sklearn_image_spec.is_container():
     from sklearn.linear_model import LogisticRegression
 
 
 # %%
-# Both ``get_pandas_dataframe`` and ``train_model`` will use the image built from the image spec.
+# To enable tasks to utilize the images built with ImageSpec, you can specify the container_image parameter for those tasks.
 @task(container_image=pandas_image_spec)
 def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
     df = pd.read_csv("https://storage.googleapis.com/download.tensorflow.org/data/heart.csv")
@@ -71,16 +71,28 @@ def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
     return df[['age', 'thalach', 'trestbps',  'chol', 'oldpeak']], df.pop('target')
 
 
-# %%
-# Get a basic model to train.
 @task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
 def get_model(max_iter: int, multi_class: str) -> LogisticRegression:
     return LogisticRegression(max_iter=max_iter, multi_class=multi_class)
 
 
+# Get a basic model to train.
+@task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
+def train_model(model: LogisticRegression, feature: pd.DataFrame, target: pd.Series) -> LogisticRegression:
+    model.fit(feature, target)
+    return model
+
+
+# A simple pipeline to train a model.
+@workflow()
+def wf():
+    feature, target = get_pandas_dataframe()
+    model = get_model(max_iter=3000, multi_class="auto")
+    train_model(model=model, feature=feature, target=target)
+
 # %%
-# Users can also pass imageSpec yaml file to the ``pyflyte run`` or ``pyflyte register`` command to override the
-# container_image. For instance:
+# There exists an option to override the container image by providing an Image Spec YAML file to the ``pyflyte run`` or ``pyflyte register`` command.
+# This allows for greater flexibility in specifying a custom container image. For example:
 #
 # .. code-block:: yaml
 #
@@ -98,19 +110,6 @@ def get_model(max_iter: int, multi_class: str) -> LogisticRegression:
 #    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec_example.py wf
 #
-@task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
-def train_model(model: LogisticRegression, feature: pd.DataFrame, target: pd.Series) -> LogisticRegression:
-    model.fit(feature, target)
-    return model
-
-
-# %%
-# A simple pipeline to train a model.
-@workflow()
-def wf():
-    feature, target = get_pandas_dataframe()
-    model = get_model(max_iter=3000, multi_class="auto")
-    train_model(model=model, feature=feature, target=target)
 
 
 if __name__ == "__main__":
