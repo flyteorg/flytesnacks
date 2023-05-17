@@ -90,6 +90,10 @@ def wf():
     model = get_model(max_iter=3000, multi_class="auto")
     train_model(model=model, feature=feature, target=target)
 
+
+if __name__ == "__main__":
+    wf()
+
 # %%
 # There exists an option to override the container image by providing an Image Spec YAML file to the ``pyflyte run`` or ``pyflyte register`` command.
 # This allows for greater flexibility in specifying a custom container image. For example:
@@ -110,7 +114,3 @@ def wf():
 #    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec_example.py wf
 #
-
-
-if __name__ == "__main__":
-    wf()
