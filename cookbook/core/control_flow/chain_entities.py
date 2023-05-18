@@ -26,6 +26,7 @@ from io import StringIO
 import boto3
 import pandas as pd
 from flytekit import task, workflow
+from flytekit.configuration import S3Config
 
 logger = logging.getLogger(__file__)
 
@@ -33,24 +34,26 @@ CSV_FILE = "iris.csv"
 BUCKET_NAME = "chain-flyte-entities"
 
 
-BOTO3_CLIENT = boto3.client(
-    "s3",
-    aws_access_key_id="minio",
-    aws_secret_access_key="miniostorage",
-    use_ssl=False,
-    endpoint_url="http://minio.flyte:9000",
-)
+def s3_client():
+    cfg = S3Config.auto()
+    return boto3.client(
+        "s3",
+        aws_access_key_id=cfg.access_key_id,
+        aws_secret_access_key=cfg.secret_access_key,
+        use_ssl=False,
+        endpoint_url=cfg.endpoint,
+    )
 
 # %%
 # Create an s3 bucket.
 # This task exists just for the sandbox case.
 @task(cache=True, cache_version="1.0")
 def create_bucket():
+    client = s3_client()
     try:
-        BOTO3_CLIENT.create_bucket(Bucket=BUCKET_NAME)
-    except BOTO3_CLIENT.exceptions.BucketAlreadyOwnedByYou:
+        client.create_bucket(Bucket=BUCKET_NAME)
+    except client.exceptions.BucketAlreadyOwnedByYou:
         logger.info(f"Bucket {BUCKET_NAME} has already been created by you.")
-        pass
 
 
 # %%
@@ -58,7 +61,7 @@ def create_bucket():
 @task
 def read() -> pd.DataFrame:
     data = pd.read_csv(
-        BOTO3_CLIENT.get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"]
+        s3_client().get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"]
     )
     return data
 
@@ -78,7 +81,7 @@ def write():
     )
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
-    BOTO3_CLIENT.put_object(
+    s3_client().put_object(
         Body=csv_buffer.getvalue(), Bucket=BUCKET_NAME, Key=CSV_FILE
     )
 

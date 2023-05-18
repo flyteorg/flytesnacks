@@ -102,7 +102,7 @@ In order to have the whylogs plugin installed, simply run:
 
 .. code-block:: bash
 
-    pip install flytekitplugins.whylogs
+    pip install flytekitplugins-whylogs
 
 And you should then have it available to use on your environment!
 

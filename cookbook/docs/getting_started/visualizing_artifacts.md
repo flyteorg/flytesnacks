@@ -120,7 +120,7 @@ class DeckFilter(logging.Filter):
             task, filepath = matches.group(1), matches.group(2)
             self.logs.append(self.formatter.format(record))
             self.deck_files[task] = re.sub("^file://", "", filepath)
-        return True
+        return False
 
 def cp_deck(src):
     src = Path(src)
@@ -138,6 +138,9 @@ logger.addFilter(deck_filter)
 ```
 
 ```{code-cell} ipython3
+---
+tags: [remove-output]
+---
 wf(sample_frac=1.0, random_state=42)
 ```
 
@@ -214,6 +217,10 @@ Then we can use the `Annotated` type to override the default renderer of the
 `pandas.DataFrame` type:
 
 ```{code-cell} ipython
+---
+tags: [remove-output]
+---
+
 try:
     from typing import Annotated
 except ImportError:
