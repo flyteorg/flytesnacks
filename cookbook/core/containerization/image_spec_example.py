@@ -38,6 +38,8 @@ from flytekit import ImageSpec, task, workflow, Resources
 # %%
 # You can specify python packages, apt packages, and environment variables in the ``ImageSpec``.
 # These specified packages will be added on top of the `default image <https://github.com/flyteorg/flytekit/blob/master/Dockerfile>`__, which can be found in the Flytekit Dockerfile.
+# More specifically, flytekit will call `DefaultImages.default_image() <https://github.com/flyteorg/flytekit/blob/f2cfef0ec098d4ae8f042ab915b0b30d524092c6/flytekit/configuration/default_images.py#L26-L27>`__, this function will
+# return the default image based on the python version and flytekit version. For example, if you are using python 3.8 and flytekit 0.16.0, the default image will be ``ghcr.io/flyteorg/flytekit:py3.8-1.6.0``.
 # If desired, you can also override the default image by providing a custom ``base_image`` parameter when using the ``ImageSpec``.
 pandas_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
