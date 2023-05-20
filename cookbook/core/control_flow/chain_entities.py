@@ -23,7 +23,7 @@ Let's enforce an order for ``read()`` to happen after ``write()``, and for ``wri
 import logging
 from io import StringIO
 
-import boto3
+from botocore import session
 import pandas as pd
 from flytekit import task, workflow
 from flytekit.configuration import S3Config
@@ -36,7 +36,8 @@ BUCKET_NAME = "chain-flyte-entities"
 
 def s3_client():
     cfg = S3Config.auto()
-    return boto3.client(
+    session = session.get_session()
+    return session.create_client(
         "s3",
         aws_access_key_id=cfg.access_key_id,
         aws_secret_access_key=cfg.secret_access_key,
