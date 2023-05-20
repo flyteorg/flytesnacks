@@ -48,7 +48,9 @@ backcall==0.2.0
 binaryornot==0.4.4
     # via cookiecutter
 botocore==1.29.76
-    # via aiobotocore
+    # via
+    #   -r ../common/requirements-common.in
+    #   aiobotocore
 cachetools==5.3.0
     # via google-auth
 certifi==2022.12.7
