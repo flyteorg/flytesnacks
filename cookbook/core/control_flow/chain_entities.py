@@ -23,7 +23,7 @@ Let's enforce an order for ``read()`` to happen after ``write()``, and for ``wri
 import logging
 from io import StringIO
 
-from  botocore import session
+from botocore import session
 import pandas as pd
 from flytekit import task, workflow
 from flytekit.configuration import S3Config
