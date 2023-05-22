@@ -10,13 +10,6 @@ ENV PYTHONPATH /root
 # This is necessary for opencv to work
 RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg build-essential curl
 
-# Install the AWS cli separately to prevent issues with boto being written over
-RUN pip3 install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
 WORKDIR /root
 
 ENV VENV /opt/venv
