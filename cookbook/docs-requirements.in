@@ -16,7 +16,7 @@ sphinxext-remoteliteralinclude
 sphinx_fontawesome
 sphinx-panels
 sphinxcontrib-mermaid
-sphinxcontrib-yt
+sphinxcontrib-youtube
 sphinx-tabs
 astroid
 grpcio
