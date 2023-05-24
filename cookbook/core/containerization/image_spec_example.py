@@ -47,13 +47,11 @@ pandas_image_spec = ImageSpec(
     python_version="3.9",
     apt_packages=["git"],
     env={"Debug": "True"},
-    registry="pingsutw",
 )
 
 sklearn_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["tensorflow"],
-    registry="pingsutw"
 )
 
 # %%

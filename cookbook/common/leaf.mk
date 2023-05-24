@@ -90,6 +90,7 @@ fast_serialize: clean _pb_output
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
+		-v /var/run/docker.sock:/var/run/docker.sock \
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
@@ -131,6 +132,7 @@ serialize: clean _pb_output docker_build
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
+		-v /var/run/docker.sock:/var/run/docker.sock \
 		${TAGGED_IMAGE} make serialize
 
 
