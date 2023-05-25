@@ -41,34 +41,31 @@ To register new backend plugins, you can extend the ``BackendPluginBase`` class 
 
 .. code-block:: python
 
-    class BackendPluginBase:
-    def __init__(self, task_type: str):
-        self._task_type = task_type
+    from flytekit.extend.backend.base_plugin import BackendPluginBase, BackendPluginRegistry
 
-    @property
-    def task_type(self) -> str:
-        return self._task_type
+    class CustomPlugin(BackendPluginBase):
+        def __init__(self, task_type: str):
+            self._task_type = task_type
 
-    @abstractmethod
-    def create(
-        self,
-        context: grpc.ServicerContext,
-        output_prefix: str,
-        task_template: TaskTemplate,
-        inputs: typing.Optional[LiteralMap] = None,
-    ) -> TaskCreateResponse:
-        pass
+        def create(
+            self,
+            context: grpc.ServicerContext,
+            output_prefix: str,
+            task_template: TaskTemplate,
+            inputs: typing.Optional[LiteralMap] = None,
+        ) -> TaskCreateResponse:
+            pass
 
-    @abstractmethod
-    def get(self, context: grpc.ServicerContext, job_id: str) -> TaskGetResponse:
-        pass
+        def get(self, context: grpc.ServicerContext, job_id: str) -> TaskGetResponse:
+            pass
 
-    @abstractmethod
-    def delete(self, context: grpc.ServicerContext, job_id: str) -> TaskDeleteResponse:
-        pass
+        def delete(self, context: grpc.ServicerContext, job_id: str) -> TaskDeleteResponse:
+            pass
 
     # To register the custom plugin
     BackendPluginRegistry.register(CustomPlugin())
+
+Here is an example of `BigQuery backend plugin <https://github.com/flyteorg/flytekit/blob/eafcc820303367749e63edc62190b9153fd6be5e/plugins/flytekit-bigquery/flytekitplugins/bigquery/backend_plugin.py#LL94C32-L94C48>`__ implementation.
 
 Build a New image
 -----------------
@@ -84,7 +81,7 @@ The following is a sample Dockerfile for building an image for an external plugi
     WORKDIR /root
     ENV PYTHONPATH /root
 
-    # flytekit will auto load the plugin if package is installed.
+    # flytekit will autoload the plugin if package is installed.
     RUN pip install flytekitplugins-bigquery
     CMD pyflyte serve --port 80
 
@@ -113,4 +110,9 @@ Update Helm Chart
         - bigquery_query_job_task: "dns:///external-plugin-service-development.flyte.svc.cluster.local:80"
 
 3. Restart the FlytePropeller
+
+.. code-block::
+
+    kubectl rollout restart deployment flytepropeller -n flyte
+
 """
