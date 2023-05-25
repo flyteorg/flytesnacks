@@ -12,16 +12,15 @@ Currently, flyteplugins is live in the flytepropeller, which means we have to re
   Also, performance requirements, maintenance, and development are cumbersome.
 
 
-We built a new component in Flyte called the external-plugin-system. Some goals behind this,,
-
-* Plugins should be easy to author - no need for code generation, using tools that MLEs and Data Scientists are not accustomed to using.
-* The most important plugins for Flyte today are plugins that communicate with external services.
-* It should be possible to test these plugins independently and also deploy them privately.
-* It should be possible for users to use backend plugins for local development, especially in flytekit and unionML.
-* It should be possible to author plugins in any language.
-* Plugins should be scalable
-* Plugins should have a very simple API
-* Plugins should show up in the UI (extra details)
+Key goals of the external plugin system include:
+- Easy plugin authoring: Plugins can be authored without the need for code generation or unfamiliar tools.
+- Support for communication with external services: The focus is on enabling plugins that seamlessly interact with external services.
+- Independent testing and private deployment: Plugins can be tested independently and deployed privately, providing flexibility and control over plugin development.
+- Backend plugin usage in local development: Users, especially in flytekit and unionML, can leverage backend plugins for local development, streamlining the development process.
+- Language-agnostic plugin authoring: Plugins can be authored in any programming language, allowing users to work with their preferred language and tools.
+- Scalability: Plugins are designed to be scalable, ensuring they can handle large-scale workloads effectively.
+- Simple API: Plugins offer a straightforward API, making integration and usage straightforward for developers.
+- UI integration: Plugins are visible in the Flyte UI, providing additional details and enhancing the user experience.
 
 Overview
 ========
