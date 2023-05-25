@@ -29,7 +29,7 @@ The External Plugin System serves as a Python-based plugin registry powered by a
   :class: with-shadow
 
 How to register a new plugin
-=====================
+============================
 
 Flytekit interface specification
 --------------------------------
