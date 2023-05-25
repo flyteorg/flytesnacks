@@ -366,10 +366,42 @@ if __name__ == "__main__":
 # `step-by-step tutorial <https://learn.hashicorp.com/tutorials/vault/kubernetes-sidecar>`__.
 # Vault secrets can only be mounted as files and will become available under ``"/etc/flyte/secrets/SECRET_GROUP/SECRET_NAME"``.
 #
-# Vault comes with `two versions <https://www.vaultproject.io/docs/secrets/kv>`__ of the key-value secret store.
-# By default the Vault secret manager will try to retrieve **version 2** secrets. You can specify the KV version by setting
-# ``webhook.vaultSecretManager.kvVersion`` in the configmap. Note that the version number needs to be an explicit string (e.g. ``"1"``).
-# You can also configure the Vault role under which Flyte will try to read the secret by setting webhook.vaultSecretManager.role (default: ``"flyte"``).
+# Vault comes with various secrets engines. Currently Flyte supports working with both version 1 and 2 of the `Key Vault engine <https://developer.hashicorp.com/vault/docs/secrets/kv>` as well as the `databases secrets engine <https://developer.hashicorp.com/vault/docs/secrets/databases>`.
+# You can use use the `group_version` parameter to specify which secret backend engine to use. Available choices are: "kv1", "kv2", "db":
+
+# %%
+# How to request secrets with the Vault secret manager
+secret = Secret(
+    group="<Vault path>",
+    key="<Secret key for KV engine>",
+    group_version="<kv1|kv2|db>",
+)
+
+# %%
+# The group parameter is used to specify the path to the secret in the Vault backend. For example, if you have a secret stored in Vault at ``"secret/data/flyte/secret"`` then the group parameter should be ``"secret/data/flyte"``.
+# When using either of the Key Vault engine versions, the secret key is the name of a specific secret entry to be retrieved from the group path.
+# When using the database secrets engine, the secret key itself is arbitrary but is required by Flyte to name and identify the secret file. It is arbitray because the database secrets engine returns always two keys, ``username`` and ``password`` and we need to retrieve a matching pair in one request.
+#
+# **Configuration**
+#
+# You can configure the Vault role under which Flyte will try to read the secret by setting webhook.vaultSecretManager.role (default: ``"flyte"``).
+# There is also a deprecated ``webhook.vaultSecretManager.kvVersion`` setting in the configmap that can be used to specify the version but only for the Key Vault backend engine. 
+# Available choices are: "1", "2". Note that the version number needs to be an explicit string (e.g. ``"1"``).
+#
+# **Annotations**
+# 
+# By default, ``flyte-pod-webhook`` injects following annotations to task pod:
+#
+# 1. ``vault.hashicorp.com/agent-inject`` to configure whether injection is explicitly enabled or disabled for a pod.
+# 2. ``vault.hashicorp.com/secret-volume-path`` to configure where on the filesystem a secret will be rendered.
+# 3. ``vault.hashicorp.com/role`` to configure the Vault role used by the Vault Agent auto-auth method.
+# 4. ``vault.hashicorp.com/agent-pre-populate-only`` to configure whether an init container is the only injected container.
+# 5. ``vault.hashicorp.com/agent-inject-secret`` to configure Vault Agent to retrieve the secrets from Vault required by the container.
+# 6. ``vault.hashicorp.com/agent-inject-file`` to configure the filename and path in the secrets volume where a Vault secret will be written.
+# 7. ``vault.hashicorp.com/agent-inject-template`` to configure the template Vault Agent should use for rendering a secret.
+#
+# It is possible to add extra annotations or override the existing ones in Flyte either at the task level using pod annotations or at the installation level. 
+# If Flyte administrator wants to set up annotations for the entire system, they can utilize ``webhook.vaultSecretManager.annotations`` to accomplish this.
 #
 # Scaling the Webhook
 # ===================
