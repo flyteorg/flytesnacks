@@ -2,7 +2,7 @@
 .. _extend-external-plugin-system:
 
 ##################################
-Writing a Backend Plugin in Python
+Writing Backend Plugins in Python
 ##################################
 
 .. tags:: Extensibility, Contribute, Intermediate
