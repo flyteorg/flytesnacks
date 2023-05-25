@@ -34,7 +34,7 @@ The External Plugin System is a Python-based plugin registry that uses a gRPC se
 Register a new plugin
 =====================
 
-Flytekit Interface Specification
+Flytekit interface specification
 --------------------------------
 To register new backend plugins, you can extend the ``BackendPluginBase`` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
 
