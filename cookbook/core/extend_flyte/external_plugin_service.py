@@ -25,7 +25,7 @@ We built a new component in Flyte called the external-plugin-system. Some goals 
 
 Overview
 ========
-The External Plugin System is a Python-based plugin registry that uses a gRPC server. Users and Propeller can send gRPC requests to this registry to run jobs like BigQuery and Databricks. Furthermore, the registry is stateless, which makes it easy to scale the system up or down.
+The External Plugin System serves as a Python-based plugin registry powered by a gRPC server. It allows users and Propeller to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Notably, the registry is designed to be stateless, ensuring effortless scalability of the system as needed.
 
 .. figure:: https://i.ibb.co/y0MhBfn/Screen-Shot-2023-04-16-at-11-51-17-PM.png
   :alt: External-Plugin-System
