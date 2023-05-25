@@ -32,7 +32,7 @@ from flytekit import ImageSpec, task, workflow, Resources
 #
 #    - Install `flytekitplugins-envd <https://github.com/flyteorg/flytekit/tree/master/plugins/flytekit-envd>`__ to build the image spec.
 #    - To build the image on remote machine, check this `doc <https://envd.tensorchord.ai/teams/context.html#start-remote-buildkitd-on-builder-machine>`__.
-#
+#    - When using a registry in ImageSpec, ``docker login`` is required to push the image
 
 
 # %%
