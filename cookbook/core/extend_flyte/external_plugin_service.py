@@ -7,9 +7,7 @@ Writing Backend Plugins in Python
 
 .. tags:: Extensibility, Contribute, Intermediate
 
-Currently, flyteplugins is live in the flytepropeller, which means we have to rebuild flytepropeller if we register a new plugin.
- It is hard to implement backend plugins, especially for data scientists & MLEs who do not have working knowledge of Golang.
-  Also, performance requirements, maintenance, and development are cumbersome.
+Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome. To address these issues, we introduced the "external plugin system" in Flyte. This system enables rapid plugin development while decoupling them from the core flytepropeller engine.
 
 
 Key goals of the external plugin system include:
