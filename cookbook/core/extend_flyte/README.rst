@@ -166,7 +166,7 @@ of the plugin.
 External Plugin Service
 =======================
 
-:std:ref:`External Plugin System <extend-external-plugin-system>` allows users to write a backend plugins in Python.
+:std:ref:`External Plugin System <extend-external-plugin-system>` allows you to write backend plugins in Python.
 
 =======
 Summary
