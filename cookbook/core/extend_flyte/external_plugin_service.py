@@ -36,11 +36,11 @@ Register a new plugin
 
 Flytekit Interface Specification
 --------------------------------
-New backend plugins must be registered by extending the BackendPluginBase class in the flytekit backend module. All three methods below must be implemented, and all calls must be idempotent.
+To register new backend plugins, you can extend the ``BackendPluginBase`` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
 
-- `create` is used to launch a new task. People can use gRPC, REST, or SDK to create a task.
-- `get` is used to get the jobID (like BigQuery Job ID or Databricks task ID).
-- `delete` Will send a request to delete the job.
+- ``create``: This method is used to initiate a new task. Users have the flexibility to use gRPC, REST, or SDK to create a task.
+- ``get``: This method allows retrieving the job ID associated with the task, such as a BigQuery Job ID or Databricks task ID.
+- ``delete``: Invoking this method will send a request to delete the corresponding job.
 
 .. code-block:: python
 
