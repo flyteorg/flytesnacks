@@ -31,7 +31,7 @@ The External Plugin System is a Python-based plugin registry that uses a gRPC se
   :alt: External-Plugin-System
   :class: with-shadow
 
-Register a new plugin
+How to register a new plugin
 =====================
 
 Flytekit interface specification
