@@ -100,7 +100,7 @@ Update Helm Chart
           - bigquery_query_job_task: external-plugin-service
           - custom_task: external-plugin-service
 
-    flyteplugins-service:
+    external-plugin-service:
       # By default, all the request will be sent to the default endpoint.
       defaultGrpcEndpoint: "dns:///external-plugin-service-production.flyte.svc.cluster.local:80"
       supportedTaskTypes:
