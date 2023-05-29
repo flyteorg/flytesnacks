@@ -1,16 +1,19 @@
 """
-.. _extend-external-plugin-system:
+.. _extend-agent-service:
 
-##################################
-Writing Backend Plugins in Python
-##################################
+########################
+Writing Agents in Python
+########################
 
 .. tags:: Extensibility, Contribute, Intermediate
 
-Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome. To address these issues, we introduced the "external plugin system" in Flyte. This system enables rapid plugin development while decoupling them from the core flytepropeller engine.
+Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
+ Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
+  To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
+   development while decoupling them from the core flytepropeller engine.
 
 
-Key goals of the external plugin system include:
+Key goals of the agent service include:
 - Easy plugin authoring: Plugins can be authored without the need for code generation or unfamiliar tools.
 - Support for communication with external services: The focus is on enabling plugins that seamlessly interact with external services.
 - Independent testing and private deployment: Plugins can be tested independently and deployed privately, providing flexibility and control over plugin development.
@@ -22,10 +25,12 @@ Key goals of the external plugin system include:
 
 Overview
 ========
-The External Plugin System serves as a Python-based plugin registry powered by a gRPC server. It allows users and Propeller to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Notably, the registry is designed to be stateless, ensuring effortless scalability of the system as needed.
+The Flyte Agent Service serves as a Python-based plugin registry powered by a gRPC server. It allows users and Propeller
+ to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Notably, the registry is
+  designed to be stateless, ensuring effortless scalability of the system as needed.
 
-.. figure:: https://i.ibb.co/y0MhBfn/Screen-Shot-2023-04-16-at-11-51-17-PM.png
-  :alt: External-Plugin-System
+.. figure:: https://i.ibb.co/vXhBDjP/Screen-Shot-2023-05-29-at-2-54-14-PM.png
+  :alt: Agent Service
   :class: with-shadow
 
 How to register a new plugin
@@ -69,7 +74,7 @@ Here is an example of `BigQuery backend plugin <https://github.com/flyteorg/flyt
 
 Build a New image
 -----------------
-The following is a sample Dockerfile for building an image for an external plugin system.
+The following is a sample Dockerfile for building an image for a flyte agent service.
 
 .. code-block:: Dockerfile
 
@@ -95,19 +100,19 @@ Update Helm Chart
     tasks:
       task-plugins:
         enabled-plugins:
-          - external-plugin-service
+          - agent-service
         default-for-task-types:
-          - bigquery_query_job_task: external-plugin-service
-          - custom_task: external-plugin-service
+          - bigquery_query_job_task: agent-service
+          - custom_task: agent-service
 
-    external-plugin-service:
+    agent-service:
       # By default, all the request will be sent to the default endpoint.
-      defaultGrpcEndpoint: "dns:///external-plugin-service-production.flyte.svc.cluster.local:80"
+      defaultGrpcEndpoint: "dns:///agent-service-production.flyte.svc.cluster.local:80"
       supportedTaskTypes:
         - custom_task
       endpointForTaskTypes:
         # It will override the default grpc endpoint for bigquery endpoint, which means propeller will send create request to this endpoint.
-        - bigquery_query_job_task: "dns:///external-plugin-service-development.flyte.svc.cluster.local:80"
+        - bigquery_query_job_task: "dns:///agent-service-development.flyte.svc.cluster.local:80"
 
 3. Restart the FlytePropeller
 
