@@ -110,14 +110,14 @@ fast_register: ## Packages code and registers without building docker images.
 docker_build:
 	echo "Tagged Image: "
 	echo ${TAGGED_IMAGE}
-	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
+	docker build ../ --build-arg tag="${TAGGED_IMAGE}" --build-arg DOCKER_USERNAME="${DOCKER_USERNAME}" --build-arg DOCKER_PASSWORD="${DOCKER_PASSWORD}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: serialize
 serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -i --rm \
-                -u $(id -u ${USER}):$(id -g ${USER}) \
+        -u $(id -u ${USER}):$(id -g ${USER}) \
 		-e SANDBOX=${SANDBOX} \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \

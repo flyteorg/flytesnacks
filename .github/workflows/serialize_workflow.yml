@@ -36,6 +36,8 @@ jobs:
       - name: Serialize Examples
         env:
           SANDBOX: "1"
+          DOCKER_USERNAME: ${{ secrets.FLYTE_BOT_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.FLYTE_BOT_PAT }}
         run: |
           REGISTRY=ghcr.io/flyteorg make -C ${{ matrix.directory }} serialize
       - name: Upload artifacts
