@@ -116,7 +116,7 @@ serialize: clean _pb_output docker_build
 	@echo ${VERSION}
 	@echo ${CURDIR}
 	docker run -i --rm \
-               -u $(id -u ${USER}):$(id -g ${USER}) \
+                -u $(id -u ${USER}):$(id -g ${USER}) \
 		-e SANDBOX=${SANDBOX} \
 		-e REGISTRY=${REGISTRY} \
 		-e MAKEFLAGS=${MAKEFLAGS} \
