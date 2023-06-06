@@ -73,6 +73,7 @@ class CustomSorter(FileNameSortKey):
         # Testing
         "mocking.py",
         # Containerization
+        "image_spec_example.py"
         "raw_container.py",
         "private_images.py",
         "multi_images.py",

@@ -90,7 +90,6 @@ fast_serialize: clean _pb_output
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
 		-v ${CURDIR}:/root/$(shell basename $(CURDIR)) \
-		-v /var/run/docker.sock:/var/run/docker.sock \
 		${TAGGED_IMAGE} make fast_serialize
 
 .PHONY: fast_register
@@ -110,7 +109,7 @@ fast_register: ## Packages code and registers without building docker images.
 docker_build:
 	echo "Tagged Image: "
 	echo ${TAGGED_IMAGE}
-	docker build ../ --build-arg tag="${TAGGED_IMAGE}" --build-arg DOCKER_USERNAME="${DOCKER_USERNAME}" --build-arg DOCKER_PASSWORD="${DOCKER_PASSWORD}" -t "${TAGGED_IMAGE}" -f Dockerfile
+	docker build ../ --build-arg tag="${TAGGED_IMAGE}" -t "${TAGGED_IMAGE}" -f Dockerfile
 
 .PHONY: serialize
 serialize: clean _pb_output docker_build
@@ -132,7 +131,6 @@ serialize: clean _pb_output docker_build
 		-e SERVICE_ACCOUNT=$(SERVICE_ACCOUNT) \
 		-e VERSION=${VERSION} \
 		-v ${CURDIR}/_pb_output:/tmp/output \
-		-v /var/run/docker.sock:/var/run/docker.sock \
 		${TAGGED_IMAGE} make serialize
 
 
