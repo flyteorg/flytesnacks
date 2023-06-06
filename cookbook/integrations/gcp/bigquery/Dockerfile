@@ -7,8 +7,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
-# This is necessary for opencv to work
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg build-essential curl
+RUN apt-get update && apt-get install -y build-essential curl
 
 WORKDIR /opt
 RUN curl https://sdk.cloud.google.com > install.sh
