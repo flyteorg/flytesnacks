@@ -62,7 +62,7 @@ The parameterization engine uses Golangs native templating format and hence uses
             templateUris:
               - "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logEventViewer:group=/flyte-production/kubernetes;stream=var.log.containers.{{.podName}}_{{.namespace}}_{{.containerName}}-{{.containerId}}.log"
               - "https://some-other-source/home?region=us-east-1#logEventViewer:group=/flyte-production/kubernetes;stream=var.log.containers.{{.podName}}_{{.namespace}}_{{.containerName}}-{{.containerId}}.log"
-            messageFormat: "json" # "unknown" | "csv" | "json"
+            messageFormat: 0 # this parameter is optional, but use 0 for "unknown", 1 for "csv", or 2 for "json"
 
 .. tip::
 
