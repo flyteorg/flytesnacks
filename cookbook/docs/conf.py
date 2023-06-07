@@ -73,13 +73,14 @@ class CustomSorter(FileNameSortKey):
         # Testing
         "mocking.py",
         # Containerization
-        "image_spec_example.py"
         "raw_container.py",
         "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Image Spec
+        "image_spec.py",
         # Remote Access
         "register_project.py",
         "remote_task.py",
@@ -306,6 +307,7 @@ examples_dirs = [
     "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
+    "../core/image_spec",
     "../deployment",
     "../remote_access",
     "../integrations/flytekit_plugins/sql",
@@ -352,6 +354,7 @@ gallery_dirs = [
     "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
+    "auto/core/image_spec",
     "auto/deployment",
     "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",

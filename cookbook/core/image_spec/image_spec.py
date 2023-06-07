@@ -47,13 +47,13 @@ pandas_image_spec = ImageSpec(
     python_version="3.9",
     apt_packages=["git"],
     env={"Debug": "True"},
-    registry="ghcr.io/flyteorg",
+    registry="ghcr.io/unionai-oss",
 )
 
 sklearn_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
     packages=["tensorflow"],
-    registry="ghcr.io/flyteorg",
+    registry="ghcr.io/unionai-oss",
 )
 
 # %%
@@ -114,5 +114,5 @@ if __name__ == "__main__":
 # .. code-block::
 #
 #    # Use pyflyte to register the workflow
-#    pyflyte run --remote --image image.yaml image_spec_example.py wf
+#    pyflyte run --remote --image image.yaml image_spec.py wf
 #
