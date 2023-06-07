@@ -23,6 +23,7 @@ so, it avoids having to rebuild the image over and over again. If the image does
 image before registering the workflow, and replace the image name in the task template with the newly built image name.
 
 """
+import typing
 
 import pandas as pd
 from flytekit import ImageSpec, task, workflow, Resources
@@ -42,7 +43,7 @@ from flytekit import ImageSpec, task, workflow, Resources
 # This function determines and returns the default image based on the Python version and flytekit version. For example, if you are using python 3.8 and flytekit 0.16.0, the default image assigned will be ``ghcr.io/flyteorg/flytekit:py3.8-1.6.0``.
 # If desired, you can also override the default image by providing a custom ``base_image`` parameter when using the ``ImageSpec``.
 pandas_image_spec = ImageSpec(
-    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.2",
     packages=["pandas", "numpy"],
     python_version="3.9",
     apt_packages=["git"],
@@ -51,7 +52,7 @@ pandas_image_spec = ImageSpec(
 )
 
 sklearn_image_spec = ImageSpec(
-    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
+    base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.2",
     packages=["scikit-learn"],
     registry="ghcr.io/unionai-oss",
 )
@@ -74,13 +75,13 @@ def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
 
 
 @task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
-def get_model(max_iter: int, multi_class: str) -> LogisticRegression:
+def get_model(max_iter: int, multi_class: str) -> typing.Any:
     return LogisticRegression(max_iter=max_iter, multi_class=multi_class)
 
 
 # Get a basic model to train.
 @task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))
-def train_model(model: LogisticRegression, feature: pd.DataFrame, target: pd.Series) -> LogisticRegression:
+def train_model(model: typing.Any, feature: pd.DataFrame, target: pd.Series) -> typing.Any:
     model.fit(feature, target)
     return model
 
