@@ -52,7 +52,7 @@ pandas_image_spec = ImageSpec(
 
 sklearn_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.0",
-    packages=["tensorflow"],
+    packages=["scikit-learn"],
     registry="ghcr.io/unionai-oss",
 )
 
