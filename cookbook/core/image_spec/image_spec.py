@@ -117,3 +117,11 @@ if __name__ == "__main__":
 #    # Use pyflyte to register the workflow
 #    pyflyte run --remote --image image.yaml image_spec.py wf
 #
+
+# %%
+# If you are only want to build the image without registering the workflow, you can use the ``pyflyte build`` command.
+#
+# .. code-block::
+#
+#    pyflyte build --remote image_spec.py wf
+#
