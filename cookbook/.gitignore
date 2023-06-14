@@ -14,3 +14,5 @@ docs/_rsts/
 .hypothesis
 .config/
 test.ipynb
+jupyter_execute
+_flyte_decks

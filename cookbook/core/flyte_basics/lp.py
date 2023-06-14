@@ -1,6 +1,10 @@
 """
+.. _launchplans:
+
 Launch Plans
--------------
+------------
+
+.. tags:: Basic
 
 Launch plans bind a partial or complete list of inputs necessary to launch a workflow, along
 with optional run-time overrides such as notifications, schedules and more.

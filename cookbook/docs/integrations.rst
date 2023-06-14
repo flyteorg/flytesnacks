@@ -71,6 +71,14 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Version your SQL database with ``dolt``.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/dbt_example/index
+      :type: ref
+      :text: dbt
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run and test your ``dbt`` pipelines in Flyte.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/whylogs_examples/index
       :type: ref
       :text: whylogs
@@ -79,12 +87,28 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ``whylogs``: the open standard for data logging.
 
    ---
+   .. link-button:: auto/integrations/flytekit_plugins/mlflow_example/index
+      :type: ref
+      :text: mlflow
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   ``mlflow``: the open standard for model tracking.
+
+   ---
    .. link-button:: auto/integrations/flytekit_plugins/onnx_examples/index
       :type: ref
       :text: ONNX
       :classes: btn-block stretched-link
    ^^^^^^^^^^^^
    Convert ML models to ONNX models seamlessly.
+
+   ---
+   .. link-button:: auto/integrations/flytekit_plugins/duckdb_examples/index
+      :type: ref
+      :text: DuckDB
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^^^
+   Run analytical queries using DuckDB.
 
 
 .. dropdown:: :fa:`info-circle` Using flytekit plugins
@@ -117,6 +141,15 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     Execute K8s pods for arbitrary workloads.
+
+    ---
+
+    .. link-button:: auto/integrations/kubernetes/k8s_dask/index
+       :type: ref
+       :text: K8s Cluster Dask Jobs
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Dask jobs on a K8s Cluster.
 
     ---
 
@@ -232,6 +265,15 @@ the Flyte task that use the respective plugin.
 
     ---
 
+    .. link-button:: auto/integrations/external_services/databricks/index
+       :type: ref
+       :text: Databricks
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    Run Databricks jobs in your workflows.
+
+    ---
+
     .. link-button:: auto/integrations/gcp/bigquery/index
        :type: ref
        :text: BigQuery
@@ -251,12 +293,10 @@ the Flyte task that use the respective plugin.
    .. rli:: https://raw.githubusercontent.com/flyteorg/flyte/master/kustomize/overlays/sandbox/flyte/config/propeller/enabled_plugins.yaml
        :language: yaml
 
-   Finding the ``ID`` of the Backend Plugin
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   **Finding the ``ID`` of the Backend Plugin**
    This is a little tricky since you have to look at the source code of the plugin to figure out the ``ID``. In the case of Spark, for example, the value of ``ID`` is `used <https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L424>`_ here, defined as `spark <https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L41>`_.
 
-   Enabling a Specific Backend Plugin in Your Own Kustomize Generator
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   **Enabling a Specific Backend Plugin in Your Own Kustomize Generator**
    Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to `kustomize your own deployment <https://github.com/flyteorg/flyte/tree/master/kustomize>`_.
 
 **********************

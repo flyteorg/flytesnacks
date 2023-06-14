@@ -3,6 +3,8 @@
 Great Expectations
 ==================
 
+.. tags:: Integration, Data, DataFrame, Intermediate
+
 **Great Expectations** is a Python-based open-source library for validating, documenting, and profiling your data.
 It helps maintain data quality and improve communication about data between teams.
 
@@ -13,22 +15,22 @@ ensure that everything is as you expected and hence, data will not crash your pi
 How to Define the Integration
 -----------------------------
 
-Great Expectations supports native execution of expectations against various `Datasources <https://docs.greatexpectations.io/docs/reference/datasources>`__,
+Great Expectations supports native execution of expectations against various `Datasources <https://docs.greatexpectations.io/docs/terms/datasource/>`__,
 such as Pandas dataframes, Spark dataframes, and SQL databases via SQLAlchemy.
 
 We're supporting two Flyte types that should suit Great Expectations' ``Datasources``:
 
 - :py:class:`flytekit.types.file.FlyteFile`: ``FlyteFile`` represents an automatic persistence object in Flyte.
   It can represent files in remote storage and Flyte transparently materializes them in every task execution.
-- :py:class:`flytekit.types.schema.FlyteSchema`: ``FlyteSchema`` supports tabular data, which the plugin will convert into a parquet file and validate the data using Great Expectations.
+- :py:class:`flytekit.types.structured.StructuredDataset`: ``StructuredDataset`` supports pandas dataframes, which the plugin will convert into a parquet file and validate the data using Great Expectations.
 
 .. note::
   Flyte types are added because, in Great Expectations, we have the privilege to give a non-string (Pandas/Spark DataFrame) when using a
   :py:class:`RuntimeDataConnector <greatexpectations:great_expectations.datasource.data_connector.runtime_data_connector.RuntimeDataConnector>`
   but not when using an
-  :py:class:`InferredAssetFilesystemDataConnector <great_expectations.datasource.data_connector.inferred_asset_filesystem_data_connector.InferredAssetFilesystemDataConnector>`
+  :py:class:`InferredAssetFilesystemDataConnector <greatexpectations:great_expectations.datasource.data_connector.inferred_asset_filesystem_data_connector.InferredAssetFilesystemDataConnector>`
   or a
-  :py:class:`ConfiguredAssetFilesystemDataConnector <great_expectations.datasource.data_connector.configured_asset_filesystem_data_connector.ConfiguredAssetFilesystemDataConnector>`.
+  :py:class:`ConfiguredAssetFilesystemDataConnector <greatexpectations:great_expectations.datasource.data_connector.configured_asset_filesystem_data_connector.ConfiguredAssetFilesystemDataConnector>`.
   For the latter case, with the integration of Flyte types, we can give a Pandas/Spark DataFrame or a remote URI as the dataset.
 
 The datasources can be well-integrated with the plugin using the following two modes:
@@ -42,7 +44,8 @@ The datasources can be well-integrated with the plugin using the following two m
 Data Validation Failure
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-If the data validation fails, the plugin will raise a Great Expectations' :py:obj:`ValidationError <great_expectations.exceptions.ValidationError>`.
+If the data validation fails, the plugin will raise a 
+:py:class:`GreatExpectationsValidationError <greatexpectations:great_expectations.exceptions.GreatExpectationsValidationError>`.
 
 For example, this is how the error message looks on the Flyte UI:
 
@@ -104,3 +107,21 @@ To use the Great Expectations Flyte plugin, run the following command:
 
 .. note::
     Make sure to run workflows from the "flytekit_plugins" directory.
+
+.. panels::
+    :header: text-center
+    :column: col-lg-12 p-2
+
+    .. link-button:: https://blog.flyte.org/data-quality-enforcement-using-great-expectations-and-flyte
+       :type: url
+       :text: Blog Post
+       :classes: btn-block stretched-link
+    ^^^^^^^^^^^^
+    An article detailing Great Expectations and Flyte integration.
+
+.. toctree::
+    :maxdepth: -1
+    :caption: Contents
+    :hidden:
+
+    Blog Post <https://blog.flyte.org/data-quality-enforcement-using-great-expectations-and-flyte>

@@ -1,0 +1,12 @@
+jaffle_shop: # this needs to match the profile in your dbt_project.yml file
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: sandbox-postgresql.flyte.svc.cluster.local
+      user: postgres
+      password: postgres
+      port: 5432
+      dbname: jaffle_shop
+      schema: dbt_demo
+      threads: 4

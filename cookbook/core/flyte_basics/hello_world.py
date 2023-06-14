@@ -1,7 +1,10 @@
 """
 
 Hello World
-------------
+-----------
+
+.. tags:: Basic
+
 This simple workflow calls a task that returns "Hello World" and then just sets that as the final output of the workflow.
 """
 import typing
@@ -43,6 +46,3 @@ if __name__ == "__main__":
 # %%
 # In the next few examples you'll learn more about the core ideas of Flyte, which are tasks, workflows, and launch
 # plans.
-
-# %%
-# .. run-example-cmds::

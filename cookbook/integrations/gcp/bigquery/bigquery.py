@@ -1,6 +1,6 @@
 """
 BigQuery Query
-############
+##############
 
 This example shows how to use a Flyte BigQueryTask to execute a query.
 """
@@ -20,7 +20,7 @@ bigquery_task_no_io = BigQueryTask(
     name="sql.bigquery.no_io",
     inputs={},
     query_template="SELECT 1",
-    task_config=BigQueryConfig(ProjectID="flyte", Location="us-west1-b"),
+    task_config=BigQueryConfig(ProjectID="flyte"),
 )
 
 
@@ -46,8 +46,8 @@ bigquery_task_templatized_query = BigQueryTask(
     # Define inputs as well as their types that can be used to customize the query.
     inputs=kwtypes(version=int),
     output_structured_dataset_type=DogeCoinDataset,
-    task_config=BigQueryConfig(ProjectID="flyte", Location="us-west1-b"),
-    query_template="SELECT * FROM `bigquery-public-data.crypto_dogecoin.transactions` WHERE @version = 1 LIMIT 10;",
+    task_config=BigQueryConfig(ProjectID="flyte"),
+    query_template="SELECT * FROM `bigquery-public-data.crypto_dogecoin.transactions` WHERE version = 1 LIMIT 10;",
 )
 
 

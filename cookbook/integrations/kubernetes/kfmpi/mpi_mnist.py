@@ -163,3 +163,9 @@ def horovod_training_wf(
 if __name__ == "__main__":
     model, plot, logs = horovod_training_wf()
     print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
+
+# %%
+# Control which rank returns its value
+# ====================================
+# In distributed training, the return values from different workers might differ.
+# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a `IgnoreOutputs <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html>`_ exception for all other ranks.
