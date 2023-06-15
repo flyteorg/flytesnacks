@@ -26,8 +26,8 @@ Why do we need an Agent Service?
 ================================
 Without Agents, people need to implement a backend plugin in the propeller. The backend plugin is responsible for
 creating a CRD and submitting a http request to the external service. However, it increases the complexity of flytepropeller, and
-it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile the
-propeller, and it's hard to test the backend plugin. In addition, the backend plugin is running in the propeller, so it
+it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile 
+flytepropeller, and it's also hard to test. In addition, the backend plugin is running in flytepropeller itself, so it
 increases the load of the propeller.
 
 Furthermore, Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
