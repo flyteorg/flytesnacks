@@ -30,7 +30,7 @@ it's hard to maintain the backend plugin. For example, if we want to add a new p
 flytepropeller, and it's also hard to test. In addition, the backend plugin is running in flytepropeller itself, so it
 increases the load of the flytepropeller engine.
 
-Furthermore, Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
+Furthermore, implementing backend plugins can be challenging, particularly for data scientists and ML engineers who may lack proficiency in
 Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
 To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
 development while decoupling them from the core flytepropeller engine.
