@@ -414,6 +414,7 @@ Control Flow <auto/core/control_flow/index>
 Type System <auto/core/type_system/index>
 Testing <auto/testing/index>
 Containerization <auto/core/containerization/index>
+Image Spec <auto/core/image_spec/index>
 Remote Access <auto/remote_access/index>
 Production Config <auto/deployment/index>
 Scheduling Workflows <auto/core/scheduled_workflows/index>
