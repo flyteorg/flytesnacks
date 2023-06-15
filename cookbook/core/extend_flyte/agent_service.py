@@ -125,7 +125,8 @@ Agent can be tested locally without running backend server. It makes the develop
 
 The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the propeller's behavior to call the agent.
 In some cases, you should store credentials in your local environment when testing locally.
-For example, you need to set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable when testing the BigQuery agent.
+For example, you need to set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable when testing the BigQuery task.
+After setting up the CREDENTIALS, you can run the task locally. Flytekit will automatically call the agent to create, get, or delete the task.
 
 Build a New image
 -----------------
