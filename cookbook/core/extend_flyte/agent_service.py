@@ -7,25 +7,38 @@ Writing Agents in Python
 
 .. tags:: Extensibility, Contribute, Intermediate
 
-Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
- Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
-  To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
-   development while decoupling them from the core flytepropeller engine.
-
+What is an Agent?
+=================
+Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of create a pod for each task.
+In addition, it's easy to scale up and down the agent service based on the workload. Agent service is designed to be language-agnostic.
+For now, we only support Python agent, but we may support other languages in the future.
 
 Key goals of the agent service include:
 - Easy plugin authoring: Plugins can be authored without the need for code generation or unfamiliar tools.
 - Support for communication with external services: The focus is on enabling plugins that seamlessly interact with external services.
 - Independent testing and private deployment: Plugins can be tested independently and deployed privately, providing flexibility and control over plugin development.
-- Backend plugin usage in local development: Users, especially in flytekit and unionML, can leverage backend plugins for local development, streamlining the development process.
+- Flyte Agent usage in local development: Users, especially in flytekit and unionML, can leverage backend plugins for local development, streamlining the development process.
 - Language-agnostic plugin authoring: Plugins can be authored in any programming language, allowing users to work with their preferred language and tools.
 - Scalability: Plugins are designed to be scalable, ensuring they can handle large-scale workloads effectively.
-- Simple API: Plugins offer a straightforward API, making integration and usage straightforward for developers.
-- UI integration: Plugins are visible in the Flyte UI, providing additional details and enhancing the user experience.
+- Simple API: Agent offer a straightforward API, making integration and usage straightforward for developers.
+
+
+Why do we need an Agent Service?
+================================
+Without agent service, people need to implement a backend plugin in the propeller. The backend plugin is responsible for
+creating a CRD, submitting a http request to the external service. However, it increases the complexity of the propeller, and
+it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile the
+propeller, and it's hard to test the backend plugin. In addition, the backend plugin is running in the propeller, so it
+increases the load of the propeller.
+
+Furthermore, Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
+ Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
+  To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
+   development while decoupling them from the core flytepropeller engine.
 
 Overview
 ========
-The Flyte Agent Service serves as a Python-based plugin registry powered by a gRPC server. It allows users and Propeller
+The Flyte Agent Service serves as a Python-based agent registry powered by a gRPC server. It allows users and Propeller
  to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Notably, the registry is
   designed to be stateless, ensuring effortless scalability of the system as needed.
 
@@ -33,22 +46,30 @@ The Flyte Agent Service serves as a Python-based plugin registry powered by a gR
   :alt: Agent Service
   :class: with-shadow
 
-How to register a new plugin
+How to register a new agent
 ============================
 
 Flytekit interface specification
 --------------------------------
-To register new backend plugins, you can extend the ``BackendPluginBase`` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
+To register a new agent, you can extend the ``AgentBase`` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
 
 - ``create``: This method is used to initiate a new task. Users have the flexibility to use gRPC, REST, or SDK to create a task.
-- ``get``: This method allows retrieving the job ID associated with the task, such as a BigQuery Job ID or Databricks task ID.
+- ``get``: This method allows retrieving the job Resource (jobID or output literal) associated with the task, such as a BigQuery Job ID or Databricks task ID.
 - ``delete``: Invoking this method will send a request to delete the corresponding job.
 
 .. code-block:: python
 
-    from flytekit.extend.backend.base_plugin import BackendPluginBase, BackendPluginRegistry
+    from flytekit.extend.backend.base_agent import AgentBase, AgentRegistry
+    from dataclasses import dataclass
 
-    class CustomPlugin(BackendPluginBase):
+    @dataclass
+    class Metadata:
+        # you can add any metadata you want, propeller will pass the metadata to the agent to get the job status.
+        # For example, you can add the job_id to the metadata, and the agent will use the job_id to get the job status.
+        # You could also add the s3 file path, and the agent can check if file exists.
+        job_id: str
+
+    class CustomAgent(AgentBase):
         def __init__(self, task_type: str):
             self._task_type = task_type
 
@@ -59,22 +80,33 @@ To register new backend plugins, you can extend the ``BackendPluginBase`` class 
             task_template: TaskTemplate,
             inputs: typing.Optional[LiteralMap] = None,
         ) -> TaskCreateResponse:
+            # 1. Submit the task to the external service (BigQuery, DataBricks, etc.)
+            # 2. Create a task metadata such as jobID.
+            # 3. Return the task metadata, and keep in mind that the metadata should be serialized to bytes.
             pass
 
-        def get(self, context: grpc.ServicerContext, job_id: str) -> TaskGetResponse:
+        def get(self, context: grpc.ServicerContext, resource_meta: bytes) -> TaskGetResponse:
+            # 1. Deserialize the metadata.
+            # 2. Use the metadata to get the job status.
+            # 3. Return the job status.
             pass
 
-        def delete(self, context: grpc.ServicerContext, job_id: str) -> TaskDeleteResponse:
+        def delete(self, context: grpc.ServicerContext, resource_meta: bytes) -> TaskDeleteResponse:
+            # 1. Deserialize the metadata.
+            # 2. Use the metadata to delete the job.
+            # 3. If failed to delete the job, add the error message to the grpc context.
+            #   context.set_code(grpc.StatusCode.INTERNAL)
+            #   context.set_details(f"failed to create task with error {e}")
             pass
 
-    # To register the custom plugin
-    BackendPluginRegistry.register(CustomPlugin())
+    # To register the custom agent
+    AgentRegistry.register(CustomAgent())
 
-Here is an example of `BigQuery backend plugin <https://github.com/flyteorg/flytekit/blob/eafcc820303367749e63edc62190b9153fd6be5e/plugins/flytekit-bigquery/flytekitplugins/bigquery/backend_plugin.py#LL94C32-L94C48>`__ implementation.
+Here is an example of `BigQuery Agent <https://github.com/flyteorg/flytekit/blob/9977aac26242ebbede8e00d476c2fbc59ac5487a/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py#L35>`__ implementation.
 
 Build a New image
 -----------------
-The following is a sample Dockerfile for building an image for a flyte agent service.
+The following is a sample Dockerfile for building an image for a flyte agent.
 
 .. code-block:: Dockerfile
 
@@ -86,13 +118,13 @@ The following is a sample Dockerfile for building an image for a flyte agent ser
     WORKDIR /root
     ENV PYTHONPATH /root
 
-    # flytekit will autoload the plugin if package is installed.
+    # flytekit will autoload the agent if package is installed.
     RUN pip install flytekitplugins-bigquery
-    CMD pyflyte serve --port 80
+    CMD pyflyte serve --port 8000
 
-Update Helm Chart
+Update FlyteAgent
 -----------------
-1. Update the `images <https://github.com/flyteorg/flyte/pull/3454/files#diff-cbcadfa3abd9e4771deaab1b0f28d2c7f6a67f3ebd9b1b1ec6a0eebb38a718e4R142-R146>`__
+1. Update the FlyteAgent deployment's `image <https://github.com/flyteorg/flyte/blob/201a8e1450d86b72a67be938ce7502ee2621cadb/charts/flyte-core/templates/agent/deployment.yaml#L27>`__
 2. Update the FlytePropeller configmap.
 
 .. code-block:: YAML
@@ -107,12 +139,12 @@ Update Helm Chart
 
     agent-service:
       # By default, all the request will be sent to the default endpoint.
-      defaultGrpcEndpoint: "dns:///agent-service-production.flyte.svc.cluster.local:80"
+      defaultGrpcEndpoint: "dns:///flyteagent.flyte.svc.cluster.local:80"
       supportedTaskTypes:
         - custom_task
       endpointForTaskTypes:
-        # It will override the default grpc endpoint for bigquery endpoint, which means propeller will send create request to this endpoint.
-        - bigquery_query_job_task: "dns:///agent-service-development.flyte.svc.cluster.local:80"
+        # It will override the default grpc endpoint for custom_task, which means propeller will send the request to this endpoint.
+        - custom_task: "dns:///your-agent.flyte.svc.cluster.local:80"
 
 3. Restart the FlytePropeller
 

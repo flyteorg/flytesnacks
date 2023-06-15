@@ -162,11 +162,11 @@ of the plugin.
      -
 
 
-=======================
-External Plugin Service
-=======================
+===================
+Flyte Agent Service
+===================
 
-:std:ref:`External Plugin System <extend-external-plugin-system>` allows you to write backend plugins in Python.
+:std:ref:`Flyte Agent Service <extend-agent-service>` allows you to write backend plugins in Python.
 
 =======
 Summary
