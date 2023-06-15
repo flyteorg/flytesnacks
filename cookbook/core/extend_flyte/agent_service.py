@@ -28,7 +28,7 @@ Without Agents, people need to implement a backend plugin in the propeller. The 
 creating a CRD and submitting a http request to the external service. However, it increases the complexity of flytepropeller, and
 it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile 
 flytepropeller, and it's also hard to test. In addition, the backend plugin is running in flytepropeller itself, so it
-increases the load of the propeller.
+increases the load of the flytepropeller engine.
 
 Furthermore, Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
 Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
