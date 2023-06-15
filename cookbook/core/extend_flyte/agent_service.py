@@ -30,9 +30,9 @@ propeller, and it's hard to test the backend plugin. In addition, the backend pl
 increases the load of the propeller.
 
 Furthermore, Implementing backend plugins can be challenging, particularly for data scientists and MLEs who lack proficiency in
- Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
-  To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
-   development while decoupling them from the core flytepropeller engine.
+Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
+To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
+development while decoupling them from the core flytepropeller engine.
 
 Overview
 ========
@@ -70,6 +70,7 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
 
     class CustomAgent(AgentBase):
         def __init__(self, task_type: str):
+            # Each agent should have a unique task type. Agent service will use the task type to find the corresponding agent.
             self._task_type = task_type
 
         def create(
@@ -102,6 +103,13 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
     AgentRegistry.register(CustomAgent())
 
 Here is an example of `BigQuery Agent <https://github.com/flyteorg/flytekit/blob/9977aac26242ebbede8e00d476c2fbc59ac5487a/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py#L35>`__ implementation.
+
+How to test the agent
+---------------------
+Agent can be tested locally without running backend server. It makes the development of the agent easier.
+This task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the propeller's behavior to call the agent.
+In some cases, you should store credentials in your local environment when testing locally.
+For example, you need to set the GOOGLE_APPLICATION_CREDENTIALS environment variable when testing the BigQuery agent.
 
 Build a New image
 -----------------
