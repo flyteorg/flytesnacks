@@ -13,6 +13,9 @@ In Flyte, an Agent is a long-running stateless service that can be used to execu
 In addition, it's easy to scale up and down the agent service based on the workload. Agent services are designed to be language-agnostic.
 For now, we only support Python agent, but we may support other languages in the future.
 
+Agent is designed to run a specific type of task. For example, you can create a BigQuery agent to run BigQuery task. Therefore, if you create a new type of task, you can
+either run the task in the pod, or you can create a new agent to run it. You can determine how the task will be executed in the FlytePropeller configMap.
+
 Key goals of the agent service include:
 
 - Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
@@ -61,6 +64,7 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
 
     from flytekit.extend.backend.base_agent import AgentBase, AgentRegistry
     from dataclasses import dataclass
+    import requests
 
     @dataclass
     class Metadata:
@@ -84,13 +88,16 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
             # 1. Submit the task to the external service (BigQuery, DataBricks, etc.)
             # 2. Create a task metadata such as jobID.
             # 3. Return the task metadata, and keep in mind that the metadata should be serialized to bytes.
-            pass
+            res = requests.post(url, json=data)
+            return CreateTaskResponse(resource_meta=json.dumps(asdict(Metadata(job_id=str(res.job_id)))).encode("utf-8"))
 
         def get(self, context: grpc.ServicerContext, resource_meta: bytes) -> TaskGetResponse:
             # 1. Deserialize the metadata.
             # 2. Use the metadata to get the job status.
             # 3. Return the job status.
-            pass
+            metadata = Metadata(**json.loads(resource_meta.decode("utf-8")))
+            res = requests.get(url, json={"job_id": metadata.job_id})
+            return GetTaskResponse(resource=Resource(state=res.state)
 
         def delete(self, context: grpc.ServicerContext, resource_meta: bytes) -> TaskDeleteResponse:
             # 1. Deserialize the metadata.
@@ -98,7 +105,14 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
             # 3. If failed to delete the job, add the error message to the grpc context.
             #   context.set_code(grpc.StatusCode.INTERNAL)
             #   context.set_details(f"failed to create task with error {e}")
-            pass
+            try:
+                metadata = Metadata(**json.loads(resource_meta.decode("utf-8")))
+                requests.delete(url, json={"job_id": metadata.job_id})
+            except Exception as e:
+                logger.error(f"failed to delete task with error {e}")
+                context.set_code(grpc.StatusCode.INTERNAL)
+                context.set_details(f"failed to delete task with error {e}")
+            return DeleteTaskResponse()
 
     # To register the custom agent
     AgentRegistry.register(CustomAgent())
