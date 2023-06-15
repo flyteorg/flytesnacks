@@ -20,7 +20,7 @@ Key goals of the agent service include:
 - Flyte Agent usage in local development: Users, especially in flytekit and unionML, can leverage backend agents for local development, streamlining the development process.
 - Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
 - Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
-- Simple API: Agent offer a straightforward API, making integration and usage straightforward for developers.
+- Simple API: Agents offer a straightforward API, making integration and usage straightforward for developers.
 
 Why do we need an Agent Service?
 ================================
