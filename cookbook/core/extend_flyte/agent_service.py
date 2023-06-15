@@ -14,14 +14,12 @@ In addition, it's easy to scale up and down the agent service based on the workl
 For now, we only support Python agent, but we may support other languages in the future.
 
 Key goals of the agent service include:
-- Easy plugin authoring: Plugins can be authored without the need for code generation or unfamiliar tools.
-- Support for communication with external services: The focus is on enabling plugins that seamlessly interact with external services.
-- Independent testing and private deployment: Plugins can be tested independently and deployed privately, providing flexibility and control over plugin development.
-- Flyte Agent usage in local development: Users, especially in flytekit and unionML, can leverage backend plugins for local development, streamlining the development process.
-- Language-agnostic plugin authoring: Plugins can be authored in any programming language, allowing users to work with their preferred language and tools.
-- Scalability: Plugins are designed to be scalable, ensuring they can handle large-scale workloads effectively.
+- Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
+- Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
+- Flyte Agent usage in local development: Users, especially in flytekit and unionML, can leverage backend agents for local development, streamlining the development process.
+- Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
+- Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
 - Simple API: Agent offer a straightforward API, making integration and usage straightforward for developers.
-
 
 Why do we need an Agent Service?
 ================================
@@ -39,8 +37,9 @@ Furthermore, Implementing backend plugins can be challenging, particularly for d
 Overview
 ========
 The Flyte Agent Service serves as a Python-based agent registry powered by a gRPC server. It allows users and Propeller
- to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Notably, the registry is
-  designed to be stateless, ensuring effortless scalability of the system as needed.
+to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Each agent service is a Kubernetes
+deployment. you can create two different agent services hosting different agents. For example, you can create one production
+agent service and one development agent service.
 
 .. figure:: https://i.ibb.co/vXhBDjP/Screen-Shot-2023-05-29-at-2-54-14-PM.png
   :alt: Agent Service
