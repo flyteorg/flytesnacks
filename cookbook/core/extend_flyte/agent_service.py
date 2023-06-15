@@ -14,6 +14,7 @@ In addition, it's easy to scale up and down the agent service based on the workl
 For now, we only support Python agent, but we may support other languages in the future.
 
 Key goals of the agent service include:
+
 - Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
 - Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
 - Flyte Agent usage in local development: Users, especially in flytekit and unionML, can leverage backend agents for local development, streamlining the development process.
@@ -107,9 +108,10 @@ Here is an example of `BigQuery Agent <https://github.com/flyteorg/flytekit/blob
 How to test the agent
 ---------------------
 Agent can be tested locally without running backend server. It makes the development of the agent easier.
-This task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the propeller's behavior to call the agent.
+
+The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the propeller's behavior to call the agent.
 In some cases, you should store credentials in your local environment when testing locally.
-For example, you need to set the GOOGLE_APPLICATION_CREDENTIALS environment variable when testing the BigQuery agent.
+For example, you need to set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable when testing the BigQuery agent.
 
 Build a New image
 -----------------
@@ -146,12 +148,12 @@ Update FlyteAgent
 
     agent-service:
       # By default, all the request will be sent to the default endpoint.
-      defaultGrpcEndpoint: "dns:///flyteagent.flyte.svc.cluster.local:80"
+      defaultGrpcEndpoint: "dns:///flyteagent.flyte.svc.cluster.local:8000"
       supportedTaskTypes:
         - custom_task
       endpointForTaskTypes:
         # It will override the default grpc endpoint for custom_task, which means propeller will send the request to this endpoint.
-        - custom_task: "dns:///your-agent.flyte.svc.cluster.local:80"
+        - custom_task: "dns:///your-agent.flyte.svc.cluster.local:8000"
 
 3. Restart the FlytePropeller
 
