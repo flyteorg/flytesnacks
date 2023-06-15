@@ -53,7 +53,7 @@ Flytekit interface specification
 --------------------------------
 To register a new agent, you can extend the ``AgentBase`` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
 
-- ``create``: This method is used to initiate a new task. Users have the flexibility to use gRPC, REST, or SDK to create a task.
+- ``create``: This method is used to initiate a new task. Users have the flexibility to use gRPC, REST, or an SDK to create a task.
 - ``get``: This method allows retrieving the job Resource (jobID or output literal) associated with the task, such as a BigQuery Job ID or Databricks task ID.
 - ``delete``: Invoking this method will send a request to delete the corresponding job.
 
