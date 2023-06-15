@@ -9,7 +9,7 @@ Writing Agents in Python
 
 What is an Agent?
 =================
-Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of creating a pod for each task.
+In Flyte, an Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of creating a pod for each task.
 In addition, it's easy to scale up and down the agent service based on the workload. Agent services are designed to be language-agnostic.
 For now, we only support Python agent, but we may support other languages in the future.
 
