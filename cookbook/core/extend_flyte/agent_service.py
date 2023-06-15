@@ -24,7 +24,7 @@ Key goals of the agent service include:
 
 Why do we need an Agent Service?
 ================================
-Without agent service, people need to implement a backend plugin in the propeller. The backend plugin is responsible for
+Without Agents, people need to implement a backend plugin in the propeller. The backend plugin is responsible for
 creating a CRD, submitting a http request to the external service. However, it increases the complexity of the propeller, and
 it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile the
 propeller, and it's hard to test the backend plugin. In addition, the backend plugin is running in the propeller, so it
