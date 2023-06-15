@@ -66,7 +66,7 @@ To register a new agent, you can extend the ``AgentBase`` class in the flytekit 
     class Metadata:
         # you can add any metadata you want, propeller will pass the metadata to the agent to get the job status.
         # For example, you can add the job_id to the metadata, and the agent will use the job_id to get the job status.
-        # You could also add the s3 file path, and the agent can check if file exists.
+        # You could also add the s3 file path, and the agent can check if the file exists.
         job_id: str
 
     class CustomAgent(AgentBase):
