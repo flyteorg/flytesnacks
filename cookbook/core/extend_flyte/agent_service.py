@@ -39,7 +39,7 @@ Overview
 ========
 The Flyte Agent Service serves as a Python-based agent registry powered by a gRPC server. It allows users and Propeller
 to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Each agent service is a Kubernetes
-deployment. you can create two different agent services hosting different agents. For example, you can create one production
+deployment. You can create two different Agent services hosting different Agents. For example, you can create one production
 agent service and one development agent service.
 
 .. figure:: https://i.ibb.co/vXhBDjP/Screen-Shot-2023-05-29-at-2-54-14-PM.png
