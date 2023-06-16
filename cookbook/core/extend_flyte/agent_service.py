@@ -128,6 +128,23 @@ In some cases, you should store credentials in your local environment when testi
 For example, you need to set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable when testing the BigQuery task.
 After setting up the CREDENTIALS, you can run the task locally. Flytekit will automatically call the agent to create, get, or delete the task.
 
+.. code-block:: python
+
+    bigquery_doge_coin = BigQueryTask(
+        name=f"bigquery.doge_coin",
+        inputs=kwtypes(version=int),
+        query_template="SELECT * FROM `bigquery-public-data.crypto_dogecoin.transactions` WHERE version = @version LIMIT 10;",
+        output_structured_dataset_type=StructuredDataset,
+        task_config=BigQueryConfig(ProjectID="flyte-test-340607")
+    )
+
+Task above task as an example, you can run the task locally and test agent with the following command:
+
+.. code-block:: bash
+
+    pyflyte run wf.py bigquery_doge_coin --version 10
+
+
 Build a New image
 -----------------
 The following is a sample Dockerfile for building an image for a flyte agent.
