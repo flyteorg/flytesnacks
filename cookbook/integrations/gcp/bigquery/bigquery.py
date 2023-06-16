@@ -47,7 +47,7 @@ bigquery_task_templatized_query = BigQueryTask(
     inputs=kwtypes(version=int),
     output_structured_dataset_type=DogeCoinDataset,
     task_config=BigQueryConfig(ProjectID="flyte"),
-    query_template="SELECT * FROM `bigquery-public-data.crypto_dogecoin.transactions` WHERE version = 1 LIMIT 10;",
+    query_template="SELECT * FROM `bigquery-public-data.crypto_dogecoin.transactions` WHERE version = @version LIMIT 10;",
 )
 
 
