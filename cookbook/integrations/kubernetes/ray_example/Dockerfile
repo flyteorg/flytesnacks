@@ -18,11 +18,6 @@ RUN bash /opt/install.sh --install-dir=/opt
 ENV PATH $PATH:/opt/google-cloud-sdk/bin
 WORKDIR /root
 
-ENV VENV /opt/venv
-# Virtual environment
-RUN python3 -m venv ${VENV}
-ENV PATH="${VENV}/bin:$PATH"
-
 # Install Python dependencies
 COPY ray_example/requirements.txt /root
 RUN pip install -r /root/requirements.txt
