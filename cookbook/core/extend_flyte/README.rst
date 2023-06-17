@@ -161,6 +161,13 @@ of the plugin.
    * - Implement once, use in any SDK or language!
      -
 
+
+===================
+Flyte Agent Service
+===================
+
+:std:ref:`Flyte Agent Service <extend-agent-service>` allows you to write backend plugins in Python.
+
 =======
 Summary
 =======
