@@ -42,7 +42,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/flyte_basics/index
+   .. link-button:: examples/basics
       :type: ref
       :text: 🔤 Flyte Basics
       :classes: btn-block stretched-link

@@ -409,7 +409,7 @@ getting_started/core_use_cases
 
 User Guide <userguide>
 Environment Setup <userguide_setup>
-Basics <auto/core/flyte_basics/index>
+Basics <examples/basics>
 Control Flow <auto/core/control_flow/index>
 Type System <auto/core/type_system/index>
 Testing <auto/testing/index>
