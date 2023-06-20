@@ -5,12 +5,12 @@ KubeRay
 
 .. tags:: Integration, DistributedComputing, KubernetesOperator, Advanced
 
-`KubeRay <https://github.com/ray-project/kuberay>`__ is an open source toolkit to run Ray applications on Kubernetes. It provides tools to improve running and managing Ray on Kubernetes.
+`KubeRay <https://github.com/ray-project/kuberay>`__ is an open-source toolkit designed for running Ray applications on Kubernetes. It offers various tools to enhance the execution and management of Ray on Kubernetes.
 
 - Ray Operator
-- Backend services to create/delete cluster resources
-- Kubectl plugin/CLI to operate CRD objects
-- Native Job and Serving integration with Clusters
+- Backend services for creating and deleting cluster resources
+- Kubectl plugin/CLI for interacting with CRD objects
+- Native integration with Clusters for Job and Serving functionalities
 
 Installation
 ------------
@@ -21,10 +21,14 @@ To install the Ray plugin, run the following command:
 
     pip install flytekitplugins-ray
 
-To enable the plugin in the backend, follow instructions outlined in the :std:ref:`flyte:deployment-plugin-setup-k8s` guide.
+To enable the plugin in the backend, refer to the instructions provided in the :std:ref:`flyte:deployment-plugin-setup-k8s` guide.
 
-Submit a Ray Job to Existing Cluster
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Here are two quick examples that give you an overview of the integration.
+If you're interested in a more detailed exploration, please refer to the example page for further details.
+
+Submitting a Ray job to an existing cluster
+-------------------------------------------
+
 .. testcode:: ray-quickstart-1
     import ray
     from flytekit import task
@@ -43,8 +47,9 @@ Submit a Ray Job to Existing Cluster
         return ray.get(futures)
 
 
-Create a Ray Cluster Managed by Flyte and Run a Ray Job on This Cluster
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Creating a Ray cluster managed by Flyte and running a Ray job on it
+-------------------------------------------------------------------
+
 .. testcode:: ray-quickstart-2
     import ray
     from flytekit import task
@@ -65,10 +70,3 @@ Create a Ray Cluster Managed by Flyte and Run a Ray Job on This Cluster
        :classes: btn-block stretched-link
     ^^^^^^^^^^^^
     An article detailing Ray and Flyte integration.
-
-.. toctree::
-    :maxdepth: -1
-    :caption: Contents
-    :hidden:
-
-    Blog Post <https://blog.flyte.org/ray-and-flyte>
