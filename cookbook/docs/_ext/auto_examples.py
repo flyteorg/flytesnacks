@@ -62,7 +62,7 @@ class AutoExamplesTOC(SphinxDirective):
         toc, rows = "", ""
         for filename in self.content:
             toc += f"\n{filename}"
-            rows += f"\n* - {{fa}}`code` {{doc}}`/{root_fp}/{filename}`"
+            rows += f"\n* - {{fa}}`file` {{doc}}`/{root_fp}/{filename}`"
         
         container = nodes.container("")
         toc = inspect.cleandoc(TOC_TEMPLATE.format(toc=toc))

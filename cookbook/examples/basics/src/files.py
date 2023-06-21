@@ -1,4 +1,6 @@
 """
+.. _files:
+
 Working With Files
 ------------------
 
