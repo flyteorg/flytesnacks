@@ -8,3 +8,9 @@ some advanced backend functionality like starting a distributed spark cluster.
 
 In this section we’ll take a look at how to write flyte tasks, compose them
 together to form a workflow, and then read, manipulate and cache data.
+
+
+```{auto-examples-toc}
+hello_world
+task
+```

@@ -52,3 +52,13 @@ a.try-hosted-flyte {
     text-decoration: none;
     background: #fada78;
 }
+
+div.table-wrapper table {
+    width: 100%;
+}
+
+div.table-wrapper span.fa {
+    color: var(--color-link);
+    margin-right: 10px;
+    opacity: 0.5;
+}

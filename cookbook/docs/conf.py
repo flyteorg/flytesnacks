@@ -24,6 +24,7 @@ from sphinx.errors import ConfigError
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
+sys.path.append(os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
@@ -212,6 +213,8 @@ extensions = [
     "sphinx_tabs.tabs",
     "sphinx_tags",
     "myst_nb",
+    # custom extensions
+    "auto_examples",
 ]
 
 source_suffix = {
@@ -244,10 +247,15 @@ exclude_patterns = [
     "auto/**/*.ipynb",
     "auto/**/*.py",
     "auto/**/*.md",
-    "auto_md/**/*.ipynb",
-    "auto_md/**/*.py",
+    "auto_examples/**/*.ipynb",
+    "auto_examples/**/*.py",
+    # "auto_examples/**/*.md",
     "jupyter_execute/**",
     "README.md",
+]
+
+include_patterns = [
+    "auto_examples/**/index.md",
 ]
 
 # The master toctree document.
@@ -486,73 +494,13 @@ with Path("_static/sphx_gallery_autogen.css").open("w") as f:
 
 nb_execution_mode = "off"
 nb_execution_excludepatterns = [
-    "auto_md/**/*",
+    "auto_examples/**/*",
 ]
-
-md_notebook_metadata = {
-    "jupytext": {
-        "notebook_metadata_filter": "all",
-        "cell_metadata_filter": "all",
-        "formats": "md:myst",
-        "text_representation": {
-            "extension": ".md",
-            "format_name": "myst",
-        }
-    },
-    "kernelspec": {
-        "display_name": "Python 3",
-        "language": "python",
-        "name": "python3"
-    }
-}
-
 
 # myst notebook docs customization
-myst_example_dirs = [
+auto_examples_dirs = [
     "../examples/basics",
 ]
-
-# Mock sphinx gallery configuration
-from sphinx_gallery import gen_gallery
-from unittest.mock import Mock
-from sphinx.application import Sphinx
-
-app = Mock(
-    spec=Sphinx,
-    config=dict(source_suffix={".rst": None}, default_role=None),
-    extensions=[],
-)
-gallery_conf = gen_gallery._fill_gallery_conf_defaults(sphinx_gallery_conf, app=app)
-
-# copy files over to docs directory
-for source_dir in myst_example_dirs:
-    source_dir = Path(source_dir)
-    dest_dir = Path("auto_md", *source_dir.parts[1:])
-    dest_dir.mkdir(exist_ok=True, parents=True)
-    for f in (source_dir / "src").glob("*.py"):
-        if f.name == "__init__.py":
-            continue
-
-        # converts sphinx-gallery file to rst
-        gen_gallery._update_gallery_conf_builder_inited(
-            gallery_conf, str(f.parent.absolute())
-        )
-        try:
-            # assume sphinx-gallery py format
-            sphinx_gallery.gen_rst.generate_file_rst(
-                f.name,
-                target_dir=str(dest_dir.absolute()),
-                src_dir=str(f.parent.absolute()),
-                gallery_conf=gallery_conf,
-            )
-        except sphinx.errors.ExtensionError:
-            # handle myst notebooks
-            notebook = jupytext.read(f, fmt="py:percent")
-            jupytext.header.recursive_update(
-                notebook.metadata, md_notebook_metadata
-            )
-            jupytext.write(notebook, dest_dir / f"{f.stem}.md", fmt="md:myst")
-
 
 # intersphinx configuration
 intersphinx_mapping = {
@@ -595,8 +543,3 @@ os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
 
 # Disable warnings from tensorflow
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
-
-
-# def setup(app):
-#     # Ignore .ipynb files
-#     app.registry.source_suffix.pop(".ipynb", None)

@@ -4,7 +4,7 @@ rsts:
 
 .PHONY: html
 html:
-	sphinx-build ${SPHINXOPTS} -n -b html . _build
+	sphinx-build ${SPHINXOPTS} -n -vvv -b html . _build
 
 .PHONY: linkcheck
 linkcheck:
@@ -23,5 +23,5 @@ clean: clear-cache
 	rm -rf _build
 	rm -rf auto_*
 	rm -rf auto/*
-	rm -rf auto_md/*
+	rm -rf auto_examples/*
 	rm -rf _tags/*
