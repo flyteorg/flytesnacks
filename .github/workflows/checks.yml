@@ -73,16 +73,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-example-list
-        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)"
+        run: echo "PACKAGES=$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
     outputs:
-      packages: "${{ steps.create-example-list.outputs.packages }}"
+      packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
   
   trigger_serialize_register_examples:
     name: Serialize & Register Flytesnacks workflow
     needs: [list_examples]
     uses: ./.github/workflows/serialize_example.yml
     with:
-      packages: ${{ needs.list_examples.outputs.packages }}
+      packages: ${{ needs.list_examples.outputs.PACKAGES }}
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
 
