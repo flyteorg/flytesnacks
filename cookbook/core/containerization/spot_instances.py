@@ -2,6 +2,8 @@
 Using Spot/Preemptible Instances
 --------------------------------
 
+.. tags:: AWS, GCP, Intermediate
+
 """
 # %%
 # What Are Spot/Preemptible Instances?
@@ -38,11 +40,11 @@ Using Spot/Preemptible Instances
 #
 # Setting Interruptible
 # ^^^^^^^^^^^^^^^^^^^^^
-# To run your workload on a spot/preemptible instance, you can set interruptible to ``True``. For example:
+# To run your workload on a spot/preemptible instance, you can set interruptible to ``True``. In case you would like to automatically retry in case the node gets preemted, please also make sure to set at least one retry. For example:
 #
 # .. code-block:: python
 #
-#    @task(cache_version='1', interruptible=True)
+#    @task(cache_version='1', interruptible=True, retries=1)
 #    def add_one_and_print(value_to_print: int) -> int:
 #        return value_to_print + 1
 
@@ -50,7 +52,7 @@ Using Spot/Preemptible Instances
 # By setting this value, Flyte will schedule your task on an auto-scaling group (ASG) with only spot instances.
 #
 # .. note::
-#   If your task gets preempted, Flyte will retry your task on a non-spot (regular) instance. This retry will not count towards a retry that a user sets.
+#   If you set `retries=n`, for instance, and the task gets preempted repeatedly, Flyte will retry on a preemptible/spot instance `n-1` times and for the last attempt will retry your task on a non-spot (regular) instance. Please note that tasks will only be retried if at least one retry is allowed using the `retries` parameter in the `task` decorator.
 #
 # Which Tasks Should Be Set To Interruptible?
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

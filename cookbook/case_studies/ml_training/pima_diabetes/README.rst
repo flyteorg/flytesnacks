@@ -1,5 +1,7 @@
 Diabetes Classification
-------------------------
+-----------------------
+
+.. tags:: MachineLearning, Intermediate
 
 The workflow demonstrates how to train an XGBoost model. The workflow is designed for the `Pima Indian Diabetes dataset <https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names>`__.
 
@@ -46,4 +48,4 @@ Run workflows in this directory with the custom-built base image:
 
 .. prompt:: bash $
 
-     pyflyte run --remote diabetes.py:diabetes_xgboost_model --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest
+     pyflyte run --remote --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest diabetes.py diabetes_xgboost_model

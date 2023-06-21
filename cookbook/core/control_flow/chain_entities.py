@@ -1,6 +1,10 @@
 """
+.. _chain_flyte_entities:
+
 Chain Flyte Entities
 --------------------
+
+.. tags:: Basic
 
 Data passing between tasks or workflows need not necessarily happen through parameters.
 In such a case, if you want to explicitly construct the dependency, flytekit provides a mechanism to chain Flyte entities using the ``>>`` operator.
@@ -19,9 +23,10 @@ Let's enforce an order for ``read()`` to happen after ``write()``, and for ``wri
 import logging
 from io import StringIO
 
-import boto3
+from botocore import session
 import pandas as pd
 from flytekit import task, workflow
+from flytekit.configuration import S3Config
 
 logger = logging.getLogger(__file__)
 
@@ -29,24 +34,28 @@ CSV_FILE = "iris.csv"
 BUCKET_NAME = "chain-flyte-entities"
 
 
-BOTO3_CLIENT = boto3.client(
-    "s3",
-    aws_access_key_id="minio",
-    aws_secret_access_key="miniostorage",
-    use_ssl=False,
-    endpoint_url="http://minio.flyte:9000",
-)
+def s3_client():
+    cfg = S3Config.auto()
+    sess = session.get_session()
+    return sess.create_client(
+        "s3",
+        aws_access_key_id=cfg.access_key_id,
+        aws_secret_access_key=cfg.secret_access_key,
+        use_ssl=False,
+        endpoint_url=cfg.endpoint,
+    )
+
 
 # %%
 # Create an s3 bucket.
 # This task exists just for the sandbox case.
 @task(cache=True, cache_version="1.0")
 def create_bucket():
+    client = s3_client()
     try:
-        BOTO3_CLIENT.create_bucket(Bucket=BUCKET_NAME)
-    except BOTO3_CLIENT.exceptions.BucketAlreadyOwnedByYou:
+        client.create_bucket(Bucket=BUCKET_NAME)
+    except client.exceptions.BucketAlreadyOwnedByYou:
         logger.info(f"Bucket {BUCKET_NAME} has already been created by you.")
-        pass
 
 
 # %%
@@ -54,7 +63,7 @@ def create_bucket():
 @task
 def read() -> pd.DataFrame:
     data = pd.read_csv(
-        BOTO3_CLIENT.get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"]
+        s3_client().get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"]
     )
     return data
 
@@ -74,7 +83,7 @@ def write():
     )
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
-    BOTO3_CLIENT.put_object(
+    s3_client().put_object(
         Body=csv_buffer.getvalue(), Bucket=BUCKET_NAME, Key=CSV_FILE
     )
 
@@ -95,8 +104,8 @@ def chain_tasks_wf() -> pd.DataFrame:
 
 
 # %%
-# SubWorkflows
-# ^^^^^^^^^^^^
+# Chain SubWorkflows
+# ^^^^^^^^^^^^^^^^^^
 #
 # Similar to tasks, you can chain :ref:`subworkflows <subworkflows>`.
 @workflow
@@ -123,12 +132,9 @@ def chain_workflows_wf() -> pd.DataFrame:
     return read_sub_wf
 
 
-#%%
+# %%
 # Run the workflows locally.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Running chain_tasks_wf()... {chain_tasks_wf()}")
     print(f"Running chain_workflows_wf()... {chain_workflows_wf()}")
-
-# %%
-# .. run-example-cmds::

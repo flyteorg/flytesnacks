@@ -2,26 +2,24 @@
 Reference Task
 --------------
 
+.. tags:: Intermediate
+
 A :py:func:`flytekit.reference_task` references the Flyte tasks that have already been defined, serialized, and registered.
-You can reference tasks from other projects and create a workflow that uses tasks declared by others.
+You can reference tasks from other projects and create workflows that use tasks declared by others.
 These tasks can be in their own containers, python runtimes, flytekit versions, and even different languages.
 
-This example demonstrates the usage of reference tasks.
+The following example illustrates how to use reference tasks.
 
 .. note::
     Reference tasks cannot be run locally. You must mock them out.
 """
 
-# %%
-# First, let's import the dependencies.
 from typing import List
 
 from flytekit import reference_task, workflow
 from flytekit.types.file import FlyteFile
 
 
-# %%
-# We define a ``reference_task`` by importing the ``normalize_columns()`` function.
 @reference_task(
     project="flytesnacks",
     domain="development",
@@ -37,27 +35,6 @@ def normalize_columns(
     ...
 
 
-# %%
-# .. note::
-#     The Macro ``{{ registration.version }}`` is filled during the registration time by `flytectl register`. This is usually not required for reference tasks; you should
-#     ideally bind to a specific version of the entity -- task / launchplan. But in the case of this example, we are registering both the actual task ``core.flyte_basics.files.rotate`` and
-#     the workflow that references it. Thus we want it to actually be updated to the version of a specific release of Flytesnacks. This is why we use the ``{{ registration.version }}`` macro.
-#
-#     A typical example of reference task would look more like this:
-#
-#     .. code-block:: python
-#
-#          @reference_task(
-#               project="flytesnacks",
-#               domain="development",
-#               name="core.flyte_basics.files.normalize_columns",
-#               version="d06cebcfbeabc02b545eefa13a01c6ca992940c8", # If using GIT for versioning OR 0.16.0, if semver
-#           )
-#           def normalize_columns(...):
-#               ...
-
-# %%
-# Next, we define a workflow to call the ``rotate()`` task.
 @workflow
 def wf() -> FlyteFile:
     return normalize_columns(
@@ -69,4 +46,22 @@ def wf() -> FlyteFile:
 
 
 # %%
-# Lastly, we can trigger the workflow in a sandbox environment.
+# .. note::
+#   The macro ``{{ registration.version }}`` is populated by ``flytectl register`` during registration.
+#   Generally, it is unnecessary for reference tasks, as it is preferable to bind to a specific version of the task or launch plan.
+#   However, in this example, we are registering both the task ``core.flyte_basics.files.normalize_columns`` and the workflow that references it.
+#   Therefore, we need the macro to be updated to the version of a specific Flytesnacks release.
+#   This is why ``{{ registration.version }}`` is used.
+#
+#   A typical reference task would resemble the following:
+#
+#     .. code-block:: python
+#
+#          @reference_task(
+#               project="flytesnacks",
+#               domain="development",
+#               name="core.flyte_basics.files.normalize_columns",
+#               version="d06cebcfbeabc02b545eefa13a01c6ca992940c8", # If using GIT for versioning OR 0.16.0, if semver
+#           )
+#           def normalize_columns(...):
+#               ...

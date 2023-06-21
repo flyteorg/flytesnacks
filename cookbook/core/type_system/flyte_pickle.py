@@ -2,7 +2,9 @@
 .. _flyte_pickle:
 
 Using Flyte Pickle
-----------------------------
+------------------
+
+.. tags:: Basic
 
 Flyte enforces type safety by leveraging type information to be able to compile
 tasks/workflows, which enables all sorts of nice features (like static analysis of tasks/workflows, conditional branching, etc.)
@@ -24,12 +26,12 @@ from flytekit import task, workflow
 
 
 # %%
-# This People is a user defined complex type, which can be used to pass complex data between tasks.
+# ``People`` is a user defined complex type, which can be used to pass complex data between tasks.
 # We will serialize this class to a pickle file and pass it between different tasks.
 #
 # .. Note::
 #
-#   Here we can also `turn this object to dataclass <custom_objects.html>`_ to have better performance.
+#   Here we can also :ref:`turn this object to dataclass <dataclass_type>` to have better performance.
 #   We use simple object here for demo purpose.
 #   You may have some object that can't turn into a dataclass, e.g. NumPy, Tensor.
 class People:
@@ -55,3 +57,31 @@ if __name__ == "__main__":
     the custom object (People) will be marshalled to and from python pickle.
     """
     welcome(name="Foo")
+
+
+# %%
+# By default, if the list subtype is unrecognized, a single pickle file is generated.
+# To also improve serialization and deserialization performance for cases with millions of items or large list items,
+# users can specify a batch size, processing each batch as a separate pickle file.
+# Example below shows how users can set batch size.
+from flytekit.types.pickle.pickle import BatchSize
+from typing import List
+from typing_extensions import Annotated
+
+@task
+def greet_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+    return [People(name) for name in names]
+
+
+@workflow
+def welcome_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+    return greet_all(names=names)
+
+
+if __name__ == "__main__":
+    """
+    In this example, two pickle files will be generated:
+    - One containing two People objects
+    - One containing one People object
+    """
+    welcome_all(names=["f","o","o"])

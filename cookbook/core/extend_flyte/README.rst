@@ -149,8 +149,8 @@ of the plugin.
    * - Pros
      - Cons
    * - Service oriented way of deploying new plugins - strong contracts. Maintainers can deploy new versions of the backend plugin, fix bugs, without needing the users to upgrade libraries, etc.
-     - Need to be implemented in GOlang.
-   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in GOlang and uses an event loop model. Each process of FlytePropeller can execute thousands of tasks concurrently.
+     - Need to be implemented in Golang.
+   * - Drastically cheaper and more efficient to execute. FlytePropeller is written in Golang and uses an event loop model. Each process of FlytePropeller can execute thousands of tasks concurrently.
      - Needs a FlytePropeller build (*currently*).
    * - Flyte guarantees resource cleanup.
      - Need to implement contract in a spec language like protobuf, OpenAPI, etc.
@@ -160,6 +160,13 @@ of the plugin.
      -
    * - Implement once, use in any SDK or language!
      -
+
+
+===================
+Flyte Agent Service
+===================
+
+:std:ref:`Flyte Agent Service <extend-agent-service>` allows you to write backend plugins in Python.
 
 =======
 Summary

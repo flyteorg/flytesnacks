@@ -1,6 +1,8 @@
 Example Contribution Guide
 ###########################
 
+.. tags:: Contribute, Basic
+
 The examples documentation provides an easy way for the community to learn about the rich set of
 features that Flyte offers, and we are constantly improving them with your help!
 
@@ -40,7 +42,6 @@ follows:
    cookbook
    ├── core          # User Guide Basics features
    ├── deployment    # User Guide Production Config guides
-   ├── larger_apps   # User Guide Building Large Apps
    ├── remote_access # User Guide Remote Access guides
    ├── testing       # User Guide Testing guides
    ├── case_studies  # Tutorials live here
@@ -109,109 +110,6 @@ interleave explanations in the ``*.py`` files containing the code example.
 Explanations don't have to be this detailed for such a simple example, but you can imagine how this makes for a better
 reading experience for more complicated examples.
 
-Add Run Commands (Optional)
-============================
-
-For each example, you can also create *run commands*, which specify how to run the example using
-``pyflyte run`` or ``FlyteRemote``. To do so, create a ``_run`` subdirectory in the same directory
-as the example script.
-
-.. prompt:: bash
-
-   mkdir _run
-
-Let's suppose our example script is called ``my_example.py`` with the following contents:
-
-.. code-block:: python
-   
-   from flytekit import task, workflow
-
-   @task
-   def example_task(input: str) -> str:
-       return f"hello {input}"
-
-   @workflow
-   def wf(input: str) -> str:
-       return example_task(input=input)
-
-
-In the ``_run`` subdirectory, create a
-bash and python script with the same name, but with a ``run_`` prefix:
-
-.. prompt:: bash
-
-   touch _run/run_my_example.sh
-   touch _run/run_my_example.py
-
-The ``run_my_example.sh.sh`` script should contain the terminal command that users need to invoke to run the script with
-``pyflyte run``, for example:
-
-.. code-block:: bash
-   
-   pyflyte run --remote my_example.py:wf --input there
-
-Similarly, the ``run_my_example.py`` script should contain the python code that users need to invoke to run the script
-with ``FlyteRemote``, for example:
-
-.. code-block:: python
-
-   from flytekit.configuration import Config
-   from flytekit.remote import FlyteRemote
-
-   from my_example import wf
-
-   remote = FlyteRemote(
-       config=Config.auto(),
-       default_project="flytesnacks",
-       default_domain="development",
-   )
-
-   registered_workflow = remote.register_script(wf)
-
-   execution = remote.execute(registered_workflow, inputs={"input": "there"})
-   print(f"Execution successfully started: {execution.id.name}")
-
-Finally, in the ``my_example.py`` example script, place the following custom sphinx directive:
-
-.. code-block::
-
-   .. run-example-cmds::
-
-This will insert a dropdown in the rendered documentation page with instructions on how to run the example
-you just created:
-
-.. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/flyte/contribution_guide/run_commands.png
-   :alt: Example run commands
-
-Finally, to test the run commands in CI, add an ``ExampleTestCase`` entry to
-the ``test_example_suite`` function in ``cookbook/tests/run_cmds/test_run_examples.py``. For
-example:
-
-.. code-block:: python
-
-   @pytest.mark.parametrize(
-       "example_test_case",
-       [
-           ExampleTestCase("hello-world", "core/flyte_basics/hello_world.py", {"o0": "hello world"}),
-           ExampleTestCase("task", "core/flyte_basics/task.py", {"o0": 16}),
-           ExampleTestCase("basic-workflow", "core/flyte_basics/basic_workflow.py", {"o0": 102, "o1": "helloworld"}),
-
-           # add a new example test case
-           ExampleTestCase(
-               id="my-example",
-               script_rel_path="path/to/my_example.py",
-               expected_output={"o0": "hello there"},
-           )
-       ],
-       ids=lambda x: x.id
-   )
-   @pytest.mark.parametrize(
-       "run_type", ["pyflyte_run", "flytekit_remote"], ids=lambda x: x.replace("_", "-")
-   )
-   def test_example_suite(flyte_remote: FlyteRemote, example_test_case: ExampleTestCase, run_type: str):
-       ...
-
-
 Test your code
 ===============
 
@@ -245,12 +143,13 @@ Build Docker container:
 Package the examples by running
 
 .. prompt:: bash
-   
+
    pyflyte --pkgs core package --image core:v1 -f
 
 Register the examples by running
 
 .. prompt:: bash
+
    flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1
 
 Visit ``https://localhost:30081/console`` to view the Flyte console, which consists of the examples present in the
@@ -264,7 +163,7 @@ To fetch new dependencies and rebuild the image, run
    pyflyte --pkgs core package --image core:v2 -f
    flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2
 
-Refer to `this guide <https://docs.flyte.org/projects/cookbook/en/latest/auto/larger_apps/larger_apps_iterate.html#quickly-re-deploy-your-application>`__
+Refer to :ref:`this guide <getting_started_package_register>`
 if the code in itself is updated and requirements.txt is the same.
 
 
@@ -340,7 +239,7 @@ Create a Pull request
 
 Create the pull request, then ensure that the docs are rendered correctly by clicking on the documentation check. 
    
-   .. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
-       :alt: Docs link in a PR
+.. image:: https://raw.githubusercontent.com/flyteorg/static-resources/main/common/test_docs_link.png
+   :alt: Docs link in a PR
 
 You can refer to `this PR <https://github.com/flyteorg/flytesnacks/pull/332>`__ for the exact changes required.

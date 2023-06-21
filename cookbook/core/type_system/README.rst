@@ -1,11 +1,9 @@
-.. _type system:
+.. _flyte_type_system:
 
 Type System
 ------------
 
 .. currentmodule:: core
-
-.. _flyte_type_system:
 
 Flyte is a data-aware DAG scheduling system. The Graph itself is derived automatically from the flow of data and this
 closely resembles how a functional programming language passes data between methods.

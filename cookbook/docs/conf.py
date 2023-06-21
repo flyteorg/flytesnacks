@@ -20,7 +20,6 @@ from sphinx.errors import ConfigError
 from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
-sys.path.append(os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
@@ -47,6 +46,7 @@ class CustomSorter(FileNameSortKey):
         "task_cache.py",
         "shell_task.py",
         "reference_task.py",
+        "reference_launch_plan.py",
         "files.py",
         "folders.py",
         "named_outputs.py",
@@ -60,6 +60,7 @@ class CustomSorter(FileNameSortKey):
         "map_task.py",
         "checkpoint.py",
         "merge_sort.py",
+        # "waiting_for_external_inputs.py",
         # Type System
         "flyte_python_types.py",
         "schema.py",
@@ -73,10 +74,13 @@ class CustomSorter(FileNameSortKey):
         "mocking.py",
         # Containerization
         "raw_container.py",
+        "private_images.py",
         "multi_images.py",
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Image Spec
+        "image_spec.py",
         # Remote Access
         "register_project.py",
         "remote_task.py",
@@ -86,7 +90,6 @@ class CustomSorter(FileNameSortKey):
         "debugging_workflows_tasks.py",
         # Deployment
         ## Workflow
-        "deploying_workflows.py",
         "customizing_resources.py",
         "lp_notifications.py",
         "multiple_k8s.py",
@@ -111,6 +114,7 @@ class CustomSorter(FileNameSortKey):
         "basic_schema_example.py",
         "branch_example.py",
         "quickstart_example.py",
+        "dbt_example.py",
         "dolt_quickstart_example.py",
         "dolt_branch_example.py",
         "task_example.py",
@@ -118,9 +122,12 @@ class CustomSorter(FileNameSortKey):
         "knn_classifier.py",
         "sqlite3_integration.py",
         "sql_alchemy.py",
+        "mlflow_example.py",
         "whylogs_example.py",
         ## Kubernetes
+        "dask.py",
         "pod.py",
+        "dask_example.py",
         "pyspark_pi.py",
         "dataframe_passing.py",
         "pytorch_mnist.py",
@@ -133,22 +140,22 @@ class CustomSorter(FileNameSortKey):
         "bigquery.py",
         ## External Services
         "hive.py",
-        "snowflake.py",
+        "snowflake",
+        "databricks_job.py",
         "airflow.py",
         # Extending Flyte
-        "backend_plugins.py",  # NOTE: for some reason this needs to be listed first here to show up last on the TOC
         "custom_types.py",
         "custom_task_plugin.py",
-        # Repo-based Projects
-        "larger_apps_setup.py",
-        "larger_apps_deploy.py",
-        "larger_apps_iterate.py",
+        "prebuilt_container.py",
+        "user_container.py",
+        "backend_plugins.py",
         # Tutorials
         ## ML Training
         "diabetes.py",
         "house_price_predictor.py",
         "multiregion_house_price_predictor.py",
         "keras_spark_rossmann_estimator.py",
+        "word2vec_and_lda.py",
         ## Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
@@ -197,10 +204,20 @@ extensions = [
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
     "sphinxcontrib.mermaid",
-    "sphinxcontrib.yt",
+    "sphinxcontrib.youtube",
     "sphinx_tabs.tabs",
-    "run_example_cmds_extension",
+    "sphinx_tags",
+    "myst_nb",
 ]
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'myst-nb',
+}
+
+copybutton_exclude = 'style[type="text/css"]'
+
+myst_enable_extensions = ["colon_fence"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -208,19 +225,32 @@ templates_path = ["_templates"]
 html_static_path = ["_static"]
 html_css_files = ["sphx_gallery_autogen.css", "custom.css"]
 
+suppress_warnings = ["autosectionlabel.*"]
+
 # generate autosummary even if no references
 autosummary_generate = True
-
-# The suffix of source filenames.
-source_suffix = ".rst"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "auto/**/*.ipynb",
+    "auto/**/*.py",
+    "auto/**/*.md",
+    "jupyter_execute/**",
+    "README.md",
+]
 
 # The master toctree document.
 master_doc = "index"
+
+# Tags config
+tags_create_tags = True
+tags_page_title = "Tag"
+tags_overview_title = "All Tags"
 
 pygments_style = "tango"
 pygments_dark_style = "monokai"
@@ -270,12 +300,14 @@ examples_dirs = [
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
+    "../case_studies/ml_training/nlp_processing",
     "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
     "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
+    "../core/image_spec",
     "../deployment",
     "../remote_access",
     "../integrations/flytekit_plugins/sql",
@@ -284,9 +316,13 @@ examples_dirs = [
     "../integrations/flytekit_plugins/pandera_examples",
     "../integrations/flytekit_plugins/modin_examples",
     "../integrations/flytekit_plugins/dolt",
+    "../integrations/flytekit_plugins/dbt_example",
     "../integrations/flytekit_plugins/whylogs_examples",
+    "../integrations/flytekit_plugins/mlflow_example",
     "../integrations/flytekit_plugins/onnx_examples",
+    "../integrations/flytekit_plugins/duckdb_examples",
     "../integrations/kubernetes/pod",
+    "../integrations/kubernetes/k8s_dask",
     "../integrations/kubernetes/k8s_spark",
     "../integrations/kubernetes/kftensorflow",
     "../integrations/kubernetes/kfpytorch",
@@ -299,9 +335,9 @@ examples_dirs = [
     "../integrations/gcp/bigquery",
     "../integrations/external_services/hive",
     "../integrations/external_services/snowflake",
+    "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
     "../core/extend_flyte",
-    "../larger_apps",
 ]
 gallery_dirs = [
     "auto/core/flyte_basics",
@@ -311,12 +347,14 @@ gallery_dirs = [
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
+    "auto/case_studies/ml_training/nlp_processing",
     "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
     "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
+    "auto/core/image_spec",
     "auto/deployment",
     "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",
@@ -325,9 +363,13 @@ gallery_dirs = [
     "auto/integrations/flytekit_plugins/pandera_examples",
     "auto/integrations/flytekit_plugins/modin_examples",
     "auto/integrations/flytekit_plugins/dolt",
+    "auto/integrations/flytekit_plugins/dbt_example",
     "auto/integrations/flytekit_plugins/whylogs_examples",
+    "auto/integrations/flytekit_plugins/mlflow_example",
     "auto/integrations/flytekit_plugins/onnx_examples",
+    "auto/integrations/flytekit_plugins/duckdb_examples",
     "auto/integrations/kubernetes/pod",
+    "auto/integrations/kubernetes/k8s_dask",
     "auto/integrations/kubernetes/k8s_spark",
     "auto/integrations/kubernetes/kftensorflow",
     "auto/integrations/kubernetes/kfpytorch",
@@ -340,9 +382,9 @@ gallery_dirs = [
     "auto/integrations/gcp/bigquery",
     "auto/integrations/external_services/hive",
     "auto/integrations/external_services/snowflake",
+    "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
     "auto/core/extend_flyte",
-    "auto/larger_apps",
 ]
 
 # image_scrapers = ('matplotlib',)
@@ -355,7 +397,6 @@ ignore_py_files = [
     r"__init__\.py",
     r"config_resource_mgr\.py",
     r"optimize_perf\.py",
-    r"^run_.+\.py",
 ]
 
 sphinx_gallery_conf = {
@@ -443,7 +484,6 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
     "pandera": ("https://pandera.readthedocs.io/en/stable/", None),
     "modin": ("https://modin.readthedocs.io/en/stable/", None),
-    "torch": ("https://pytorch.org/docs/master/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "matplotlib": ("https://matplotlib.org", None),
     "flytekit": ("https://flyte.readthedocs.io/projects/flytekit/en/latest/", None),
@@ -453,13 +493,16 @@ intersphinx_mapping = {
     # "flytekit": ("/Users/ytong/go/src/github.com/lyft/flytekit/docs/build/html", None),
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
-    "pytorch": ("https://pytorch.org/docs/stable/", None),
+    "torch": ("https://pytorch.org/docs/stable/", None),
     "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
     "tensorflow": (
         "https://www.tensorflow.org/api_docs/python",
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",
     ),
-    "whylogs": ("https://whylogs.readthedocs.io/", None),
+    "whylogs": ("https://whylogs.readthedocs.io/en/latest/", None),
+    "horovod": ("https://horovod.readthedocs.io/en/stable/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "feast": ("https://rtd.feast.dev/en/latest", None),
 }
 
 # Sphinx-tabs config
@@ -469,3 +512,9 @@ intersphinx_mapping = {
 mermaid_output_format = "raw"
 mermaid_version = "latest"
 mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
+
+# Disable warnings from flytekit
+os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
+
+# Disable warnings from tensorflow
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
