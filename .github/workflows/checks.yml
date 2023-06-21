@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-list
-        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)"
+        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep -v "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)"
     outputs:
       packages: "${{ steps.create-list.outputs.packages }}"
 
