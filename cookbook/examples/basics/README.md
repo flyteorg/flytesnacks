@@ -27,4 +27,5 @@ folders
 named_outputs
 decorating_tasks
 decorating_workflows
+task_cache_serialize
 ```
