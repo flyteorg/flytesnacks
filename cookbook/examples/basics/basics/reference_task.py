@@ -23,7 +23,7 @@ from flytekit.types.file import FlyteFile
 @reference_task(
     project="flytesnacks",
     domain="development",
-    name="core.flyte_basics.files.normalize_columns",
+    name="basics.files.normalize_columns",
     version="{{ registration.version }}",
 )
 def normalize_columns(

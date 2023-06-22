@@ -1,4 +1,6 @@
 """
+.. _named_outputs:
+
 Named Outputs
 -------------
 

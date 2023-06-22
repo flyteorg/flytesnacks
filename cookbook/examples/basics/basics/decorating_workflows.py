@@ -9,7 +9,7 @@ Decorating Workflows
 
 The behavior of workflows can be modified in a light-weight fashion by using the built-in :py:func:`~functools.wraps`
 decorator pattern, similar to using decorators to
-:ref:`customize task behavior <sphx_glr_auto_core_flyte_basics_decorating_tasks.py>`. However, unlike in the case of
+:ref:`customize task behavior <decorating_tasks>`. However, unlike in the case of
 tasks, we need to do a little extra work to make sure that the DAG underlying the workflow executes tasks in the
 correct order.
 
@@ -149,6 +149,6 @@ if __name__ == "__main__":
 # like `wandb <https://wandb.ai/site>`__ or `clearml <https://clear.ml/>`__, which enable you to track metrics of model
 # training runs.
 #
-# To define workflows imperatively, refer to :ref:`this example <sphx_glr_auto_core_flyte_basics_imperative_wf_style.py>`,
+# To define workflows imperatively, refer to :ref:`this example <imperative_wf_style>`,
 # and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks, or
 # backend plugins, see :ref:`Extending Flyte <plugins_extend>`.

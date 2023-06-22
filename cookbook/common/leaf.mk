@@ -6,7 +6,7 @@ IMAGE_NAME=flytecookbook
 export VERSION ?= $(shell git rev-parse HEAD)
 
 define PIP_COMPILE
-pip-compile $(1) ${PIP_ARGS} --upgrade --verbose
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose --resolver=backtracking
 endef
 
 # Set SANDBOX=1 to automatically fill in sandbox config

@@ -5,6 +5,7 @@ pillow
 psycopg2-binary
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
+jupytext
 sphinx
 sphinx_rtd_theme
 sphinx-gallery
