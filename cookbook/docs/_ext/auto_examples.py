@@ -138,7 +138,7 @@ def generate_auto_examples(app, config):
         shutil.copy(source_dir / "README.md", dest_dir / "index.md")
 
         for f in (
-            x for x in (source_dir / "src").glob("*.py")
+            x for x in source_dir.glob("**/*.py")
             if x.name != "__init__.py"
         ):
             # converts sphinx-gallery file to rst

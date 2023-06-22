@@ -23,7 +23,7 @@ RUN pip install -r /root/requirements.txt
 RUN pip freeze
 
 # Copy the actual code
-COPY src /root/src
+COPY basics /root/basics
 
 # This tag is supplied by the build script and will be used to determine the version
 # when registering tasks, workflows, and launch plans
