@@ -55,8 +55,8 @@ class Datum(object):
 #   All variables in a data class should be **annotated with their type**. Failure to do should will result in an error.
 
 # %%
-# Next, we define a data class that accepts :std:ref:`FlyteSchema <typed_schema>`, :std:ref:`FlyteFile <sphx_glr_auto_core_flyte_basics_files.py>`,
-# and :std:ref:`FlyteDirectory <sphx_glr_auto_core_flyte_basics_folders.py>`.
+# Next, we define a data class that accepts :std:ref:`FlyteSchema <typed_schema>`, :std:ref:`FlyteFile <files>`,
+# and :std:ref:`FlyteDirectory <folders>`.
 @dataclass_json
 @dataclass
 class Result:

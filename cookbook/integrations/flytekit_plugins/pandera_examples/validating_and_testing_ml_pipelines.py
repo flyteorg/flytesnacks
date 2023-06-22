@@ -218,7 +218,7 @@ def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
 # ^^^^^^^^^^^^^^^^^^
 #
 # Now it's time to split the data into a training and test set. Here we'll showcase the utility of
-# :ref:`named outputs <sphx_glr_auto_core_flyte_basics_named_outputs.py>` combined with pandera schemas.
+# :ref:`named outputs <named_outputs>` combined with pandera schemas.
 
 
 DataSplits = typing.NamedTuple(

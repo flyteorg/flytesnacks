@@ -1,4 +1,6 @@
 """
+.. _shell_task:
+
 Run Bash Scripts Using ShellTask
 --------------------------------
 

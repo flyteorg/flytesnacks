@@ -10,7 +10,7 @@ The focus will be on searching a nucleotide sequence against a local protein dat
 The steps include:
 
 - Data loading
-- Creation of a :ref:`ShellTask <sphx_glr_auto_core_flyte_basics_shell_task.py>` to execute the BLASTX search command
+- Creation of a :ref:`ShellTask <shell_task>` to execute the BLASTX search command
 - Loading of BLASTX results and plotting a graph of "e-value" vs "pc identity"
 
 This tutorial is based on the reference guide `"Using BLAST+ Programmatically with Biopython" <https://widdowquinn.github.io/2018-03-06-ibioic/02-sequence_databases/03-programming_for_blast.html>`__.
