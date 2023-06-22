@@ -51,7 +51,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/control_flow/index
+   .. link-button:: auto_examples/control_flow/index
       :type: ref
       :text: 🚰 Control Flow
       :classes: btn-block stretched-link

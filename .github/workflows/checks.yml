@@ -11,59 +11,59 @@ on:
       - 'cookbook/docs/**'
 jobs:
 
-  # Lists all directories that have Dockerfile in them...
-  list:
-    runs-on: ubuntu-latest
-    name: "Create a list of packages"
-    steps:
-      - uses: actions/checkout@v2
-      - name: "Provide the list"
-        id: create-list
-        run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep -v "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)"
-    outputs:
-      packages: "${{ steps.create-list.outputs.packages }}"
+  # # Lists all directories that have Dockerfile in them...
+  # list:
+  #   runs-on: ubuntu-latest
+  #   name: "Create a list of packages"
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: "Provide the list"
+  #       id: create-list
+  #       run: echo "::set-output name=packages::$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep -v "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)"
+  #   outputs:
+  #     packages: "${{ steps.create-list.outputs.packages }}"
 
-  trigger_serialize_register_workflow:
-    name: Serialize & Register Flytesnacks workflow
-    needs: [list]
-    uses: ./.github/workflows/serialize_workflow.yml
-    with:
-      packages: ${{ needs.list.outputs.packages }}
-    secrets:
-      FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
+  # trigger_serialize_register_workflow:
+  #   name: Serialize & Register Flytesnacks workflow
+  #   needs: [list]
+  #   uses: ./.github/workflows/serialize_workflow.yml
+  #   with:
+  #     packages: ${{ needs.list.outputs.packages }}
+  #   secrets:
+  #     FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
 
-  push_github:
-    name: Build & Push to GHCR
-    runs-on: ubuntu-latest
-    needs: [list]
-    strategy:
-      matrix:
-        directory: "${{ fromJson(needs.list.outputs.packages) }}"
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: "0"
-      - name: 'Set example name'
-        id: example_id
-        # add a step output `steps.build_id.outputs.id` as the unique id
-        run: |
-          echo "::set-output name=id::$(basename -- ${{ matrix.directory }})"
-          temp=${{ matrix.directory }}
-          echo "::set-output name=path::$(echo "./${temp%/*}")"
-      - name: Build & Push Docker Image to Github Registry
-        uses: whoan/docker-build-with-cache-action@v5
-        with:
-          # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
-          username: "${{ secrets.FLYTE_BOT_USERNAME }}"
-          password: "${{ secrets.FLYTE_BOT_PAT }}"
-          image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: ${{ steps.example_id.outputs.id }}-latest,${{ steps.example_id.outputs.id }}-${{ github.sha }}
-          registry: ghcr.io
-          push_git_tag: ${{ github.event_name != 'pull_request' }}
-          push_image_and_stages: ${{ github.event_name != 'pull_request' }}
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-          context: ${{ steps.example_id.outputs.path }}
-          dockerfile: ${{ steps.example_id.outputs.id }}/Dockerfile
+  # push_github:
+  #   name: Build & Push to GHCR
+  #   runs-on: ubuntu-latest
+  #   needs: [list]
+  #   strategy:
+  #     matrix:
+  #       directory: "${{ fromJson(needs.list.outputs.packages) }}"
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: "0"
+  #     - name: 'Set example name'
+  #       id: example_id
+  #       # add a step output `steps.build_id.outputs.id` as the unique id
+  #       run: |
+  #         echo "::set-output name=id::$(basename -- ${{ matrix.directory }})"
+  #         temp=${{ matrix.directory }}
+  #         echo "::set-output name=path::$(echo "./${temp%/*}")"
+  #     - name: Build & Push Docker Image to Github Registry
+  #       uses: whoan/docker-build-with-cache-action@v5
+  #       with:
+  #         # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
+  #         username: "${{ secrets.FLYTE_BOT_USERNAME }}"
+  #         password: "${{ secrets.FLYTE_BOT_PAT }}"
+  #         image_name: ${{ github.repository_owner }}/flytecookbook
+  #         image_tag: ${{ steps.example_id.outputs.id }}-latest,${{ steps.example_id.outputs.id }}-${{ github.sha }}
+  #         registry: ghcr.io
+  #         push_git_tag: ${{ github.event_name != 'pull_request' }}
+  #         push_image_and_stages: ${{ github.event_name != 'pull_request' }}
+  #         build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
+  #         context: ${{ steps.example_id.outputs.path }}
+  #         dockerfile: ${{ steps.example_id.outputs.id }}/Dockerfile
 
   # This is the build system for the new example directory structure
   list_examples:

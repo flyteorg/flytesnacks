@@ -19,7 +19,7 @@ House price prediction pipeline for one region doesn't require a :py:func:`~flyt
 
 .. tip::
 
-    Refer to :ref:`sphx_glr_auto_core_control_flow_dynamics.py` section to learn more about dynamic workflows.
+    Refer to :ref:`dynamic_workflows` section to learn more about dynamic workflows.
 
 Dataset
 ========

@@ -128,7 +128,7 @@ def is_batchx_success(stdout: FlyteFile) -> bool:
 
 # %%
 # Create a workflow that calls the previously defined tasks.
-# A :ref:`conditional <sphx_glr_auto_core_control_flow_conditions.py>` statement is used to check the success of the BLASTX command.
+# A :ref:`conditional <conditional>` statement is used to check the success of the BLASTX command.
 @workflow
 def blast_wf(
     datadir: str = "kitasatospora",
