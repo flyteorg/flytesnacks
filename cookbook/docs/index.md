@@ -411,7 +411,7 @@ User Guide <userguide>
 Environment Setup <userguide_setup>
 Basics <auto_examples/basics/index>
 Control Flow <auto_examples/control_flow/index>
-Type System <auto/core/type_system/index>
+Type System <auto_examples/type_system/index>
 Testing <auto/testing/index>
 Containerization <auto/core/containerization/index>
 Image Spec <auto/core/image_spec/index>

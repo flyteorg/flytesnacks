@@ -1,8 +1,8 @@
 """
 .. _launchplan_schedules:
 
-Scheduling Workflows Example
-----------------------------
+Scheduling Workflows
+--------------------
 
 .. tags:: Basic
 

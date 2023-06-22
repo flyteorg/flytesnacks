@@ -38,15 +38,6 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
-        # Type System
-        "flyte_python_types.py",
-        "schema.py",
-        "structured_dataset.py",
-        "typed_schema.py",
-        "pytorch_types.py",
-        "custom_objects.py",
-        "enums.py",
-        "lp_schedules.py",
         # Testing
         "mocking.py",
         # Containerization
@@ -280,7 +271,6 @@ html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
 examples_dirs = [
     "../core/scheduled_workflows",
-    "../core/type_system",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
@@ -325,7 +315,6 @@ examples_dirs = [
 ]
 gallery_dirs = [
     "auto/core/scheduled_workflows",
-    "auto/core/type_system",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
@@ -404,10 +393,7 @@ nb_execution_excludepatterns = [
 ]
 
 # myst notebook docs customization
-auto_examples_dirs = [
-    "../examples/basics",
-    "../examples/control_flow",
-]
+auto_examples_dir_root = "../examples"
 
 # intersphinx configuration
 intersphinx_mapping = {

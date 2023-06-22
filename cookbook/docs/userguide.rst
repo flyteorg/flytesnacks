@@ -60,7 +60,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/type_system/index
+   .. link-button:: auto_examples/type_system/index
       :type: ref
       :text: ⌨️ Type System
       :classes: btn-block stretched-link
