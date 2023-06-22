@@ -86,37 +86,34 @@ jobs:
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
 
-  # push_example_image_to_github:
-  #   name: Build & Push Example Image to GHCR
-  #   runs-on: ubuntu-latest
-  #   needs: [list]
-  #   strategy:
-  #     matrix:
-  #       directory: "${{ fromJson(needs.list.outputs.packages) }}"
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: "0"
-  #     - name: 'Set example name'
-  #       id: example_id
-  #       run: |
-  #         echo "ID=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
-  #         temp=${{ matrix.directory }}
-  #         echo "PATH=$(echo "./${temp%/*}")" >> "$GITHUB_OUTPUT"
-  #     - name: Build & Push Docker Image to Github Registry
-  #       uses: whoan/docker-build-with-cache-action@v5
-  #       with:
-  #         # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
-  #         username: "${{ secrets.FLYTE_BOT_USERNAME }}"
-  #         password: "${{ secrets.FLYTE_BOT_PAT }}"
-  #         image_name: ${{ github.repository_owner }}/flytecookbook
-  #         image_tag: ${{ steps.example_id.outputs.ID }}-latest,${{ steps.example_id.outputs.ID }}-${{ github.sha }}
-  #         registry: ghcr.io
-  #         push_git_tag: ${{ github.event_name != 'pull_request' }}
-  #         push_image_and_stages: ${{ github.event_name != 'pull_request' }}
-  #         build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-  #         context: ${{ steps.example_id.outputs.path }}
-  #         dockerfile: ${{ steps.example_id.outputs.ID }}/Dockerfile
+  push_example_image_to_github:
+    name: Build & Push Example Image to GHCR
+    runs-on: ubuntu-latest
+    needs: [list_examples]
+    strategy:
+      matrix:
+        directory: "${{ fromJson(needs.list_examples.outputs.packages) }}"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+      - name: 'Set example name'
+        id: example_id
+        run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
+      - name: Build & Push Docker Image to Github Registry
+        uses: whoan/docker-build-with-cache-action@v5
+        with:
+          # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
+          username: "${{ secrets.FLYTE_BOT_USERNAME }}"
+          password: "${{ secrets.FLYTE_BOT_PAT }}"
+          image_name: ${{ github.repository_owner }}/flytecookbook
+          image_tag: ${{ steps.example_id.outputs.EXAMPLE_NAME }}-latest,${{ steps.example_id.outputs.EXAMPLE_NAME }}-${{ github.sha }}
+          registry: ghcr.io
+          push_git_tag: ${{ github.event_name != 'pull_request' }}
+          push_image_and_stages: ${{ github.event_name != 'pull_request' }}
+          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
+          context: ${{ matrix.directory }}
+          dockerfile: Dockerfile
 
   # bump_version:
   #   name: Bump Version

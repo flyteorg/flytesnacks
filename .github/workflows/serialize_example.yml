@@ -33,22 +33,21 @@ jobs:
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
       - name: 'Image version'
-        id: image_version
-        run: echo "VERSION_PREFIX=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
+        id: example_name
+        run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
         run: |
           cd ${{ matrix.directory }}
-          image_uri=ghcr.io/flyte-examples:${{ steps.image_version.outputs.VERSION_PREFIX }}-${{ github.sha }}
+          image_uri=ghcr.io/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
           docker build . -t $image_uri
-          mkdir ./o
+          mkdir ./flyte_proto
           docker run -i --rm -v $(pwd):/root $image_uri \
-            pyflyte --pkgs ${{ steps.example_id.outputs.EXAMPLE_ID }} \
-            serialize --image $image_uri --output flyte-package.tgz
+            pyflyte --pkgs ${{ steps.example_name.outputs.EXAMPLE_NAME }} serialize --image $image_uri workflows --folder ./flyte_proto
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
-          path: ${{ matrix.directory }}/flyte-package.tgz
+          path: ${{ matrix.directory }}/flyte_proto/*
 
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
@@ -72,12 +71,10 @@ jobs:
         run: |
           make setup
       - name: Register examples
-        run: |
-          for file in ./download-artifact/**/*.tgz
-          do
-            flytectl register files \
-              --project flytesnacks \
-              --domain development \
-              --version latest \
-              --archive $file
-          done
+        uses: unionai/flyte-register-action@v0.0.2
+        with:
+          flytesnacks: false
+          proto: ./download-artifact/**/*
+          project: flytesnacks
+          domain: development
+          version: latest
