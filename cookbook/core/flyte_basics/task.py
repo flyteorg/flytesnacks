@@ -1,139 +1,132 @@
 """
 .. _basics_of_tasks:
 
+=====
 Tasks
------
+=====
 
 .. tags:: Basic
 
-Task is a fundamental building block and an extension point of Flyte, which encapsulates the users' code. They possess the following properties:
+Tasks are fundamental building blocks and extension points in Flyte. They possess the following properties:
 
-#. Versioned (usually tied to the ``git sha``)
-#. Strong interfaces (specified inputs and outputs)
-#. Declarative
-#. Independently executable
-#. Unit testable
+#. Versioned: Tasks are typically associated with a specific version, often tied to the git sha.
+#. Strong Interfaces: Tasks have well-defined inputs and outputs.
+#. Declarative: Tasks are defined in a declarative manner.
+#. Independently Executable: Tasks can be executed independently.
+#. Unit Testable: Tasks can be tested at a unit level.
 
-A task in Flytekit can be of two types:
+In Flytekit, tasks can be classified into two types:
 
-#. A task that has a Python function associated with it. The execution of the task is equivalent to the execution of this function.
-#. A task that doesn't have a Python function, e.g., an SQL query or any portable task like Sagemaker prebuilt algorithms, or a service that invokes an API.
+- Tasks with an associated Python function: The execution of these tasks is equivalent to executing the associated Python function.
+- Tasks without a Python function: These tasks include non-Python functionalities, such as SQL queries, portable tasks like Sagemaker prebuilt algorithms, or services that invoke APIs.
 
-Flyte provides multiple plugins for tasks, which can be a backend plugin as well (`Athena <https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-aws-athena/flytekitplugins/athena/task.py>`__).
+Flyte provides various plugins for tasks, including backend plugins like `Athena <https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-aws-athena/flytekitplugins/athena/task.py>`__.
 
-In this example, you will learn how to write and execute a ``Python function task``. Other types of tasks will be covered in the later sections.
+In this example, we will focus on writing and executing a Python function task.
+Additional task types will be addressed in upcoming sections of the integrations guide.
 """
 # %%
-# For any task in Flyte, there is one necessary import, which is:
+# Importing the necessary module for any task in Flyte:
 from flytekit import task
 
+# %%
+# Importing additional modules.
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
 
 # %%
-# A ``PythonFunctionTask`` must always be decorated with the ``@task`` :py:func:`flytekit.task` decorator.
-# The task in itself is a regular Python function, although with one exception: it needs all the inputs and outputs to be clearly
-# annotated with the types. The types are regular Python types; we'll go over more on this in the :ref:`type-system section <sphx_glr_auto_core_type_system_flyte_python_types.py>`.
+# The use of the :py:func:`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
+# A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
+# These types are standard Python types, which will be further explained in the :ref:`type-system section <flytekit_to_flyte_type_mapping>`.
 @task
-def square(n: int) -> int:
+def train_model(
+    hyperparameters: dict, test_size: float, random_state: int
+) -> LogisticRegression:
     """
-     Parameters:
-        n (int): name of the parameter for the task will be derived from the name of the input variable
-               the type will be automatically deduced to be Types.Integer
+    Parameters:
+        hyperparameters (dict): A dictionary containing the hyperparameters for the model.
+        test_size (float): The proportion of the data to be used for testing.
+        random_state (int): The random seed for reproducibility.
 
     Return:
-        int: The label for the output will be automatically assigned and type will be deduced from the annotation
-
+        LogisticRegression: The trained logistic regression model.
     """
-    return n * n
+    # Loading the Iris dataset
+    iris = load_iris()
+
+    # Splitting the data into train and test sets
+    X_train, _, y_train, _ = train_test_split(
+        iris.data, iris.target, test_size=test_size, random_state=random_state
+    )
+
+    # Creating and training the logistic regression model with the given hyperparameters
+    clf = LogisticRegression(**hyperparameters)
+    clf.fit(X_train, y_train)
+
+    return clf
 
 
 # %%
-# In this task, one input is ``n`` which has type ``int``.
-# The task ``square`` takes the number ``n`` and returns a new integer (squared value).
-#
 # .. note::
+#    Flytekit automatically assigns a default name to the output variable, such as ``out0``.
+#    If there are multiple outputs, each output will be numbered starting from 0, for example, ``out0, out1, out2, ...``.
 #
-#   Flytekit will assign a default name to the output variable like ``out0``.
-#   In case of multiple outputs, each output will be numbered in the order
-#   starting with 0, e.g., -> ``out0, out1, out2, ...``.
-#
-# You can execute a Flyte task as any normal function.
+# You can execute a Flyte task just like any normal function.
 if __name__ == "__main__":
-    print(square(n=10))
+    print(train_model(hyperparameters={"C": 0.1}, test_size=0.2, random_state=42))
 
 # %%
-#
-# Invoke a Task within a Workflow
+# Invoke a task within a workflow
 # ===============================
 #
 # The primary way to use Flyte tasks is to invoke them in the context of a workflow.
-
 from flytekit import workflow
 
 
 @workflow
-def wf(n: int) -> int:
-    return square(n=square(n=n))
+def train_model_wf(
+    hyperparameters: dict = {"C": 0.1}, test_size: float = 0.2, random_state: int = 42
+) -> LogisticRegression:
+    """
+    This workflow invokes the train_model task with the given hyperparameters, test size and random state.
+    """
+    return train_model(
+        hyperparameters=hyperparameters, test_size=test_size, random_state=random_state
+    )
+
 
 # %%
-# In this toy example, we're calling the ``square`` task twice and returning the result.
+# .. note::
+#   When invoking the ``train_model`` task, you need to use keyword arguments to specify the values for the corresponding parameters.
+#
+# Use ``partial`` to provide default arguments to tasks
+# =====================================================
+#
+# You can use the :py:func:`functools.partial` function to assign default or constant values to the parameters of your tasks.
+import functools
+
+
+@workflow
+def train_model_wf_with_partial(
+    test_size: float = 0.2, random_state: int = 42
+) -> LogisticRegression:
+    partial_task = functools.partial(train_model, hyperparameters={"C": 0.1})
+    return partial_task(test_size=test_size, random_state=random_state)
 
 
 # %%
 # .. _single_task_execution:
 #
-# .. dropdown:: Execute a Single Task without a Workflow
+# .. dropdown:: Execute a single task *without* a workflow
 #
-#    Although workflows are traditionally composed of multiple tasks with dependencies defined by shared inputs and outputs,
-#    it can be helpful to execute a single task during the process of iterating on its definition.
-#    It can be tedious to write a new workflow definition every time you want to execute a single task under development
-#    but "single task executions" can be used to iterate on task logic easily.
+#    While workflows are typically composed of multiple tasks with dependencies defined by shared inputs and outputs,
+#    there are cases where it can be beneficial to execute a single task in isolation during the process of developing and iterating on its logic.
+#    Writing a new workflow definition every time for this purpose can be cumbersome, but executing a single task without a workflow provides a convenient way to iterate on task logic easily.
 #
-#    You can launch a task on Flyte console by providing a Kubernetes service account.
+#    To run a task without a workflow, use the following command:
 #
-#    Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``cookbook`` directory.
+#    .. code-block::
 #
-#    .. note::
-#      This example is building a Docker image and pushing it only for the demo sandbox
-#      environment. For a production cluster, you will have to push the image to a Docker registry.
-#      For the next command to work make sure that you start the sandbox from
-#      the ``flytesnacks/cookbook`` directory with ``flytectl demo start --source .``
-#
-#    Build a Docker image to package the task.
-#
-#    .. prompt:: bash $
-#
-#      flytectl demo exec -- docker build . --tag "flytebasics:v1" -f core/Dockerfile
-#
-#    Package the task.
-#
-#    .. prompt:: bash $
-#
-#      pyflyte --pkgs core.flyte_basics package --image flytebasics:v1
-#
-#    Register the task.
-#
-#    .. prompt:: bash $
-#
-#      flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1
-#
-#    Generate an execution spec file.
-#
-#    .. prompt:: bash $
-#
-#      flytectl get task --domain development --project flytesnacks core.flyte_basics.task.square --version v1 --execFile exec_spec.yaml
-#
-#    Create an execution using the exec spec file.
-#
-#    .. prompt:: bash $
-#
-#      flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
-#
-#    .. note::
-#      For subsequent executions, you can simply run ``flytectl create execution ...`` and skip the previous commands.
-#      Alternatively, you can launch the task from the Flyte console.
-#
-#    Monitor the execution by providing the execution name from the create execution command.
-#
-#    .. prompt:: bash $
-#
-#      flytectl get execution --project flytesnacks --domain development <execname>
+#       pyflyte run task.py train_model --hyperparameters '{"C": 0.1}' --test_size 0.2 --random_state 42
