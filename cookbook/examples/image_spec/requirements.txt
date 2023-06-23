@@ -218,6 +218,7 @@ joblib==1.2.0
     # via
     #   flytekit
     #   phik
+    #   scikit-learn
 jupyter-client==8.3.0
     # via ipykernel
 jupyter-core==5.3.1
@@ -296,6 +297,7 @@ numpy==1.23.5
     #   phik
     #   pyarrow
     #   pywavelets
+    #   scikit-learn
     #   scipy
     #   seaborn
     #   statsmodels
@@ -447,10 +449,13 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+scikit-learn==1.2.2
+    # via -r requirements.in
 scipy==1.10.1
     # via
     #   imagehash
     #   phik
+    #   scikit-learn
     #   statsmodels
     #   ydata-profiling
 seaborn==0.12.2
@@ -481,6 +486,8 @@ tenacity==8.2.2
     # via plotly
 text-unidecode==1.3
     # via python-slugify
+threadpoolctl==3.1.0
+    # via scikit-learn
 tornado==6.3.2
     # via
     #   ipykernel
