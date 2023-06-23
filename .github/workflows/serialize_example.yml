@@ -44,16 +44,16 @@ jobs:
           mkdir ./flyte_proto
           docker run -i --rm -v $(pwd):/root $image_uri \
             pyflyte --pkgs ${{ steps.example_name.outputs.EXAMPLE_NAME }} \
-            serialize \
+            package \
             --image $image_uri \
             --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
             --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
-            workflows --folder ./flyte_proto
+            --output ./flyte-package.tgz
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
-          path: ${{ matrix.directory }}/flyte_proto/*
+          path: ${{ matrix.directory }}/flyte-package.tgz
 
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
@@ -78,9 +78,11 @@ jobs:
           make setup
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
-        with:
-          flytesnacks: false
-          proto: ./download-artifact/**/*
-          project: flytesnacks
-          domain: development
-          version: latest
+        run: |
+          for file in ./download-artifact/**/*; do
+            flytectl register files \
+              --project flytesnacks \
+              --domain development \
+              --version latest \
+              --archive $file
+          done
