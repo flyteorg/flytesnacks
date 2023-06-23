@@ -38,13 +38,6 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
-        # Containerization
-        "raw_container.py",
-        "private_images.py",
-        "multi_images.py",
-        "use_secrets.py",
-        "spot_instances.py",
-        "workflow_labels_annotations.py",
         # Image Spec
         "image_spec.py",
         # Remote Access
@@ -276,7 +269,6 @@ examples_dirs = [
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
     "../case_studies/bioinformatics/blast",
-    "../core/containerization",
     "../core/image_spec",
     "../deployment",
     "../remote_access",
@@ -318,7 +310,6 @@ gallery_dirs = [
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
     "auto/case_studies/bioinformatics/blast",
-    "auto/core/containerization",
     "auto/core/image_spec",
     "auto/deployment",
     "auto/remote_access",

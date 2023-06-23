@@ -78,7 +78,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/containerization/index
+   .. link-button:: auto_examples/containerization/index
       :type: ref
       :text: 📦  Containerization
       :classes: btn-block stretched-link

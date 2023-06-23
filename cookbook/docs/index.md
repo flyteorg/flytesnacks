@@ -413,7 +413,7 @@ Basics <auto_examples/basics/index>
 Control Flow <auto_examples/control_flow/index>
 Type System <auto_examples/type_system/index>
 Testing <auto_examples/testing/index>
-Containerization <auto/core/containerization/index>
+Containerization <auto_examples/containerization/index>
 Image Spec <auto/core/image_spec/index>
 Remote Access <auto/remote_access/index>
 Production Config <auto/deployment/index>

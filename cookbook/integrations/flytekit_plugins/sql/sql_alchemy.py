@@ -37,7 +37,7 @@ from flytekitplugins.sqlalchemy import SQLAlchemyConfig, SQLAlchemyTask
 # .. caution::
 #
 #    **Never** store passwords for proprietary or sensitive databases! If you need to store and access secrets in a task,
-#    Flyte provides a convenient API. See :ref:`sphx_glr_auto_core_containerization_use_secrets.py` for more details.
+#    Flyte provides a convenient API. See :ref:`secrets` for more details.
 
 DATABASE_URI = (
     "postgresql://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs"

@@ -140,8 +140,15 @@ def generate_auto_examples(app, config):
         # copy README.md file for root project content and table of contents
         shutil.copy(source_dir / "README.md", dest_dir / "index.md")
 
+        # assume that the python source files are in a directory with the same
+        # name as the project directory
+        project_name = source_dir.name
+        assert (source_dir / project_name).exists(), \
+            "Python example files must be the same name as the project " \
+            f"directory name {project_name}"
+
         for f in (
-            x for x in source_dir.glob("**/*.py")
+            x for x in source_dir.glob(f"{project_name}/*.py")
             if x.name != "__init__.py"
         ):
             # converts sphinx-gallery file to rst
