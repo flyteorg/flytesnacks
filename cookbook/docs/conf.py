@@ -38,8 +38,6 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
-        # Testing
-        "mocking.py",
         # Containerization
         "raw_container.py",
         "private_images.py",
@@ -270,7 +268,6 @@ html_favicon = "_static/flyte_circle_gradient_1_4x4.png"
 html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
 examples_dirs = [
-    "../core/scheduled_workflows",
     "../case_studies/ml_training/pima_diabetes",
     "../case_studies/ml_training/house_price_prediction",
     "../case_studies/ml_training/mnist_classifier",
@@ -279,7 +276,6 @@ examples_dirs = [
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
     "../case_studies/bioinformatics/blast",
-    "../testing",
     "../core/containerization",
     "../core/image_spec",
     "../deployment",
@@ -314,7 +310,6 @@ examples_dirs = [
     "../core/extend_flyte",
 ]
 gallery_dirs = [
-    "auto/core/scheduled_workflows",
     "auto/case_studies/ml_training/pima_diabetes",
     "auto/case_studies/ml_training/house_price_prediction",
     "auto/case_studies/ml_training/mnist_classifier",
@@ -323,7 +318,6 @@ gallery_dirs = [
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
     "auto/case_studies/bioinformatics/blast",
-    "auto/testing",
     "auto/core/containerization",
     "auto/core/image_spec",
     "auto/deployment",

@@ -4,6 +4,10 @@ Map Tasks
 
 .. tags:: Intermediate
 
+.. image:: https://img.shields.io/badge/Blog%20Post-blue?style=for-the-badge
+    :target: https://blog.flyte.org/map-tasks-in-flyte
+    :alt: Map Task Blog Post
+
 A map task lets you run a pod task or a regular task over a list of inputs within a single workflow node.
 This means you can run thousands of instances of the task without creating a node for every instance, providing valuable performance gains!
 
@@ -147,22 +151,3 @@ def multiple_workflow(list_q: List[float], p: float, s: float) -> List[float]:
 if __name__ == "__main__":
     result = multiple_workflow(list_q=[1.0, 2.0, 3.0, 4.0, 5.0], p=6.0, s=7.0)
     print(f"{result}")
-
-# %%
-# .. panels::
-#     :header: text-center
-#     :column: col-lg-12 p-2
-#
-#     .. link-button:: https://blog.flyte.org/map-tasks-in-flyte
-#        :type: url
-#        :text: Blog Post
-#        :classes: btn-block stretched-link
-#     ^^^^^^^^^^^^
-#     An article on how to use Map Taks in Flyte.
-#
-# .. toctree::
-#     :maxdepth: -1
-#     :caption: Contents
-#     :hidden:
-#
-#     Blog Post <https://blog.flyte.org/map-tasks-in-flyte>

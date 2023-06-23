@@ -7,6 +7,10 @@ Dynamic Workflows
 
 .. tags:: Intermediate
 
+.. image:: https://img.shields.io/badge/Blog%20Post-blue?style=for-the-badge
+    :target: https://flyte.org/blog/dynamic-workflows-in-flyte
+    :alt: Dynamic Workflows Blog Post
+
 A workflow is typically static when the directed acyclic graph's (DAG) structure is known at compile-time.
 However, in cases where a run-time parameter (for example, the output of an earlier task) determines the full DAG structure, you can use dynamic workflows by decorating a function with ``@dynamic``.
 
@@ -210,22 +214,3 @@ if __name__ == "__main__":
 #
 # Dynamic tasks have overhead for large fan-out tasks because they store metadata for the entire workflow. In contrast, map tasks are efficient for these large fan-out tasks since they don’t store the metadata, as a consequence of which overhead is less apparent.
 #
-
-# %%
-# .. panels::
-#     :header: text-center
-#     :column: col-lg-12 p-2
-#
-#     .. link-button:: https://blog.flyte.org/dynamic-workflows-in-flyte
-#        :type: url
-#        :text: Blog Post
-#        :classes: btn-block stretched-link
-#     ^^^^^^^^^^^^
-#     An article on how to use Dynamic Workflows in Flyte.
-#
-# .. toctree::
-#     :maxdepth: -1
-#     :caption: Contents
-#     :hidden:
-#
-#     Blog Post <https://blog.flyte.org/dynamic-workflows-in-flyte>
