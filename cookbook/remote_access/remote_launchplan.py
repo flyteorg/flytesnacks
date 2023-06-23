@@ -43,7 +43,7 @@ A launch plan can be launched via FlyteRemote programmatically.
 
     # FlyteRemote object is the main entrypoint to API
     remote = FlyteRemote(
-        config=Config.for_endpoint(endpoint="flyte.example.net"),
+        config=Config.auto(),
         default_project="flytesnacks",
         default_domain="development",
     )
