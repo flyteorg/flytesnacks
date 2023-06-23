@@ -38,25 +38,6 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
-        ## Workflow
-        "customizing_resources.py",
-        "lp_notifications.py",
-        "multiple_k8s.py",
-        ## Cluster
-        "config_flyte_deploy.py",
-        "productionize_cluster.py",
-        "auth_setup.py",
-        "auth_migration.py",
-        "config_resource_mgr.py",
-        "monitoring.py",
-        "notifications.py",
-        "optimize_perf.py",
-        "access_cloud_resources.py",
-        "auth_setup_appendix.py",
-        ## Guides
-        "kubernetes.py",
-        "aws.py",
-        "gcp.py",
         # Integrations
         ## Flytekit Plugins
         "simple.py",
@@ -99,12 +80,6 @@ class CustomSorter(FileNameSortKey):
         "user_container.py",
         "backend_plugins.py",
         # Tutorials
-        ## ML Training
-        "diabetes.py",
-        "house_price_predictor.py",
-        "multiregion_house_price_predictor.py",
-        "keras_spark_rossmann_estimator.py",
-        "word2vec_and_lda.py",
         ## Feature Engineering
         "pytorch_single_node_and_gpu.py",
         "pytorch_single_node_multi_gpu.py",
@@ -251,11 +226,6 @@ html_favicon = "_static/flyte_circle_gradient_1_4x4.png"
 html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
 examples_dirs = [
-    "../case_studies/ml_training/pima_diabetes",
-    "../case_studies/ml_training/house_price_prediction",
-    "../case_studies/ml_training/mnist_classifier",
-    "../case_studies/ml_training/nlp_processing",
-    "../case_studies/ml_training/spark_horovod",
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
     "../case_studies/bioinformatics/blast",
@@ -288,11 +258,6 @@ examples_dirs = [
     "../integrations/external_services/airflow",
 ]
 gallery_dirs = [
-    "auto/case_studies/ml_training/pima_diabetes",
-    "auto/case_studies/ml_training/house_price_prediction",
-    "auto/case_studies/ml_training/mnist_classifier",
-    "auto/case_studies/ml_training/nlp_processing",
-    "auto/case_studies/ml_training/spark_horovod",
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
     "auto/case_studies/bioinformatics/blast",

@@ -80,7 +80,7 @@ def wandb_setup():
 # ================================================
 #
 # We'll use the same neural network architecture as the one we define in the
-# :ref:`single node and gpu tutorial <sphx_glr_auto_case_studies_ml_training_mnist_classifier_pytorch_single_node_and_gpu.py>`.
+# :ref:`single node and gpu tutorial <pytorch_single_node_and_gpu>`.
 
 
 # %%

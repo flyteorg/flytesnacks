@@ -8,7 +8,7 @@ Understand how machine learning models can be trained from within Flyte, with an
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto/case_studies/ml_training/pima_diabetes/index
+    .. link-button:: auto_examples/pima_diabetes/index
        :type: ref
        :text: Diabetes Classification
        :classes: btn-block stretched-link
@@ -17,7 +17,7 @@ Understand how machine learning models can be trained from within Flyte, with an
 
     ---
 
-    .. link-button:: auto/case_studies/ml_training/house_price_prediction/index
+    .. link-button:: auto_examples/house_price_prediction/index
        :type: ref
        :text: House Price Regression
        :classes: btn-block stretched-link
@@ -26,7 +26,7 @@ Understand how machine learning models can be trained from within Flyte, with an
 
     ---
 
-    .. link-button:: auto/case_studies/ml_training/mnist_classifier/index
+    .. link-button:: auto_examples/mnist_classifier/index
        :type: ref
        :text: MNIST Classification
        :classes: btn-block stretched-link
@@ -35,7 +35,7 @@ Understand how machine learning models can be trained from within Flyte, with an
 
     ---
 
-    .. link-button:: auto/case_studies/ml_training/nlp_processing/index
+    .. link-button:: auto_examples/nlp_processing/index
        :type: ref
        :text: NLP Processing with Gensim
        :classes: btn-block stretched-link
@@ -44,7 +44,7 @@ Understand how machine learning models can be trained from within Flyte, with an
 
     ---
 
-    .. link-button:: auto/case_studies/ml_training/spark_horovod/index
+    .. link-button:: auto_examples/forecasting_sales/index
        :type: ref
        :text: Forecast Sales Using Rossmann Store Sales Data with Horovod and Spark
        :classes: btn-block stretched-link
@@ -57,11 +57,8 @@ Understand how machine learning models can be trained from within Flyte, with an
     :caption: Contents
     :hidden:
 
-    auto/case_studies/ml_training/pima_diabetes/index
-    auto/case_studies/ml_training/house_price_prediction/index
-    auto/case_studies/ml_training/mnist_classifier/index
-    auto/case_studies/ml_training/nlp_processing/index
-    auto/case_studies/ml_training/spark_horovod/index
-
-
-.. TODO: write tutorials for data parallel training, distributed training, and single node training
+    auto_examples/pima_diabetes/index
+    auto_examples/house_price_prediction/index
+    auto_examples/mnist_classifier/index
+    auto_examples/nlp_processing/index
+    auto_examples/forecasting_sales/index

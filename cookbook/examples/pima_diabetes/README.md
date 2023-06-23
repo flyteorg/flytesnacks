@@ -1,18 +1,17 @@
-Diabetes Classification
------------------------
+# Diabetes Classification
 
-.. tags:: MachineLearning, Intermediate
+```{tags} MachineLearning, Intermediate
+```
 
-The workflow demonstrates how to train an XGBoost model. The workflow is designed for the `Pima Indian Diabetes dataset <https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names>`__.
+The workflow demonstrates how to train an XGBoost model. The workflow is designed for the [Pima Indian Diabetes dataset](https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names). 
 
-An example dataset is available `here <https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv>`__.
+An example dataset is available [here](https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv).
 
-Why a Workflow?
-================
+## Why a Workflow?
+
 One common question when you read through the example would be whether it is really required to split the training of XGBoost into multiple steps. The answer is complicated, but let us try and understand the pros and cons of doing so.
 
-Pros:
-^^^^^
+### Pros:
 
 - Each task/step is standalone and can be used for other pipelines
 - Each step can be unit tested
@@ -20,13 +19,11 @@ Pros:
 - State is always saved between steps, so it is cheap to recover from failures, especially if ``caching=True``
 - High visibility
 
-Cons:
-^^^^^
+### Cons:
 
 - Performance for small datasets is a concern because the intermediate data is durably stored and the state is recorded, and each step is essentially a checkpoint
 
-Steps of the Pipeline
-======================
+## Steps of the Pipeline
 
 1. Gather data and split it into training and validation sets
 2. Fit the actual model
@@ -34,18 +31,19 @@ Steps of the Pipeline
 4. Calculate the accuracy score for the predictions
 
 
-Takeaways
-===========
+## Takeaways
 
 - Usage of FlyteSchema Type. Schema type allows passing a type safe vector from one task to task. The vector is directly loaded into a pandas dataframe. We could use an unstructured Schema (By simply omitting the column types). This will allow any data to be accepted by the training algorithm.
 - We pass the file (that is auto-loaded) as a CSV input.
 
-
-Walkthrough
-====================
-
 Run workflows in this directory with the custom-built base image:
 
-.. prompt:: bash $
+```{prompt} bash $
+pyflyte run --remote --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest diabetes.py diabetes_xgboost_model
+```
 
-     pyflyte run --remote --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest diabetes.py diabetes_xgboost_model
+## Code Examples
+
+```{auto-examples-toc}
+diabetes
+```
