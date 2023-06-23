@@ -39,7 +39,7 @@ jobs:
         # NOTE: the additional images are for the multi-image containerization examples
         run: |
           cd ${{ matrix.directory }}
-          image_uri=ghcr.io/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
+          image_uri=ghcr.io/flyteorg/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
           docker build . -t $image_uri
           mkdir ./flyte_proto
           docker run -i --rm -v $(pwd):/root $image_uri \
