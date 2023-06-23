@@ -79,6 +79,8 @@ class CustomSorter(FileNameSortKey):
         "use_secrets.py",
         "spot_instances.py",
         "workflow_labels_annotations.py",
+        # Image Spec
+        "image_spec.py",
         # Remote Access
         "register_project.py",
         "remote_task.py",
@@ -202,7 +204,7 @@ extensions = [
     "sphinxext.remoteliteralinclude",
     "sphinx_panels",
     "sphinxcontrib.mermaid",
-    "sphinxcontrib.yt",
+    "sphinxcontrib.youtube",
     "sphinx_tabs.tabs",
     "sphinx_tags",
     "myst_nb",
@@ -305,6 +307,7 @@ examples_dirs = [
     "../case_studies/bioinformatics/blast",
     "../testing",
     "../core/containerization",
+    "../core/image_spec",
     "../deployment",
     "../remote_access",
     "../integrations/flytekit_plugins/sql",
@@ -351,6 +354,7 @@ gallery_dirs = [
     "auto/case_studies/bioinformatics/blast",
     "auto/testing",
     "auto/core/containerization",
+    "auto/core/image_spec",
     "auto/deployment",
     "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",
