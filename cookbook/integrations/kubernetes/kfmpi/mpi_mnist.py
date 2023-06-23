@@ -68,7 +68,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     retries=3,
     cache=True,
     cache_version="0.1",
-    requests=Resources(cpu="1", mem="600Mi"),
+    requests=Resources(cpu="1", mem="2000Mi"),
     limits=Resources(cpu="2"),
 )
 def horovod_train_task(
