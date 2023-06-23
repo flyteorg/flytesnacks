@@ -35,8 +35,7 @@ Before that, let's look at the compute setup and Dockerfile.
 
 The example uses TensorFlow-GPU image.
 
-```{literalinclude} ../../../../../integrations/kubernetes/kftensorflow/Dockerfile
-:emphasize-lines: 1-3
+```{literalinclude} ../../../examples/kftensorflow/Dockerfile
 :language: docker
 ```
 

@@ -46,3 +46,7 @@ metadata:
     meta.helm.sh/release-namespace: flyte
 ...
 ```
+
+```{auto-examples-toc}
+snowflake
+```

@@ -1,4 +1,6 @@
 """
+.. _pandera_basic_schema_example:
+
 Basic Schema Example
 --------------------
 

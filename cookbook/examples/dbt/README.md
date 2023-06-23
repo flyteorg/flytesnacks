@@ -84,17 +84,18 @@ This image is built using the following `Dockerfile` and contains:
 - The `jaffle-shop` example.
 - A postgres database.
 
-```{eval-rst}
-.. dropdown:: See Dockerfile
-   :title: text-muted
+````{dropdown} See Dockerfile
+:title: text-muted
 
-   This Dockerfile can be found in the ``flytesnacks/cookbook`` directory under
-   the filepath listed in the code block title below.
+This Dockerfile can be found in the ``flytesnacks/cookbook`` directory under
+the filepath listed in the code block title below.
 
-   .. literalinclude:: ../../../../../integrations/flytekit_plugins/dbt_example/Dockerfile
-      :caption: integrations/flytekit_plugins/dbt_example/Dockerfile
-      :language: docker
+```{literalinclude} ../../../examples/dbt/Dockerfile
+:caption: examples/dbt/Dockerfile
+:language: docker
 ```
+
+````
 
 To run this example, copy the code in the **dbt example** below into a file
 called `dbt_example.py`, then run it on your local container using the

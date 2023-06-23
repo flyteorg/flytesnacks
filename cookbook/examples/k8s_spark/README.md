@@ -88,8 +88,7 @@ Refer to [this](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blo
 Using Spark on K8s is extremely easy and provides full versioning using the custom-built Spark container. The built container can also execute regular Spark tasks.
 For Spark, the image must contain Spark dependencies and the correct entry point for the Spark driver/executors.
 
-```{literalinclude} ../../../../../integrations/kubernetes/k8s_spark/Dockerfile
-:emphasize-lines: 26-38
+```{literalinclude} ../../../examples/k8s_spark/Dockerfile
 :language: docker
 :linenos: true
 ```

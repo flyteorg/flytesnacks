@@ -22,8 +22,8 @@ The flytekit Databricks plugin is bundled into its Spark plugin, so to use, simp
 Using Spark on Databricks is extremely easy and provides full versioning using the custom-built Spark container. The built container can also execute regular Spark tasks.
 For Spark, the image must use a base image built by Databricks and the workflow code must copy to `/databricks/driver`
 
-```{literalinclude} ../../../../../integrations/external_services/databricks/Dockerfile
-:emphasize-lines: 26-38
+```{literalinclude} ../../../examples/databricks/Dockerfile
+:emphasize-lines: 20-32
 :language: docker
 :linenos: true
 ```

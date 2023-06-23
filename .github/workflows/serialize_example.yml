@@ -25,6 +25,7 @@ jobs:
     strategy:
       matrix:
         directory: "${{ fromJson(inputs.packages) }}"
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
         with:

@@ -33,12 +33,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY house_price_prediction/requirements.txt /root
+COPY requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
-
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY house_price_prediction/sandbox.config /root
 
 # Copy the actual code
 COPY house_price_prediction/ /root/house_price_prediction/

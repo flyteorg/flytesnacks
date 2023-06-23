@@ -105,4 +105,4 @@ def wf() -> Tuple[DBTRunOutput, DBTTestOutput, DBTFreshnessOutput]:
 
 # %%
 # To run this example workflow, follow the instructions in the
-# :ref:`dbt integrations page <dbt_integration_run>`.
+# :ref:`dbt integrations page <dbt-integration>`.

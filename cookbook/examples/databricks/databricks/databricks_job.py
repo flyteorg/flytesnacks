@@ -12,21 +12,20 @@ Spark in Flytekit
 
 #. Ensure you have ``flytekit`` installed.
 #. Enable Spark in the backend by following the :ref:`flyte:deployment-plugin-setup-k8s` guide.
-#. Install the `flytekit spark plugin <https://pypi.org/project/flytekitplugins-spark/>`__. ::
+#. Install the `flytekit spark plugin <https://pypi.org/project/flytekitplugins-spark/>`__.
 
-    pip install flytekitplugins-spark
+   .. code-block:: bash
 
-#. Run remotely
-# To correctly kick off an execution of this task, you'll need to use the following command.
-#
-# .. code::
-#
-#   pyflyte --config ~/.flyte/your-config.yaml run --destination-dir /app --remote --image ghcr.io/flyteorg/flytekit:py3.8-sqlalchemy-latest integrations/flytekit_plugins/sql/sql_alchemy.py my_wf --min_length 3 --max_length 100 --limit 50
-#
-# Note also we added the ``destination-dir`` argument, since by default ``pyflyte run`` copies code into ``/root`` which
-# is not what that image's workdir is set to.
+      pip install flytekitplugins-spark
 
+#. Run remotely: to correctly kick off an execution of this task, you'll need to use the following command.
 
+   .. code-block:: bash
+
+      pyflyte --config ~/.flyte/your-config.yaml run --destination-dir /app --remote --image ghcr.io/flyteorg/flytekit:py3.8-sqlalchemy-latest integrations/flytekit_plugins/sql/sql_alchemy.py my_wf --min_length 3 --max_length 100 --limit 50
+
+Note also we added the ``destination-dir`` argument, since by default ``pyflyte run`` copies code into ``/root`` which
+is not what that image's workdir is set to.
 
 How Flytekit Simplifies Usage of Pyspark
 ========================================

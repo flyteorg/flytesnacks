@@ -21,7 +21,7 @@ class to enable the translation of type from user type to Flyte-understood type.
 
 As an example, instead of using {py:class}`pandas.DataFrame` directly, you may want to use
 `Pandera <https://pandera.readthedocs.io/en/stable/>`__ to perform validation of an input or output dataframe
-(see {ref}`Basic Schema Example <sphx_glr_auto_integrations_flytekit_plugins_pandera_examples_basic_schema_example.py>`).
+(see {ref}`Basic Schema Example <pandera_basic_schema_example>`).
 
 To extend the type system, refer to {ref}`advanced_custom_types`.
 

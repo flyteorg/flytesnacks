@@ -36,66 +36,6 @@ author = "Flyte"
 release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
-class CustomSorter(FileNameSortKey):
-    CUSTOM_FILE_SORT_ORDER = [
-        # Integrations
-        ## Flytekit Plugins
-        "simple.py",
-        "basic_schema_example.py",
-        "branch_example.py",
-        "quickstart_example.py",
-        "dbt_example.py",
-        "dolt_quickstart_example.py",
-        "dolt_branch_example.py",
-        "task_example.py",
-        "type_example.py",
-        "knn_classifier.py",
-        "sqlite3_integration.py",
-        "sql_alchemy.py",
-        "mlflow_example.py",
-        "whylogs_example.py",
-        ## Kubernetes
-        "dask.py",
-        "pod.py",
-        "dask_example.py",
-        "pyspark_pi.py",
-        "dataframe_passing.py",
-        "pytorch_mnist.py",
-        "tf_mnist.py",
-        ## AWS
-        "sagemaker_builtin_algo_training.py",
-        "sagemaker_custom_training.py",
-        "sagemaker_pytorch_distributed_training.py",
-        ## GCP
-        "bigquery.py",
-        ## External Services
-        "hive.py",
-        "snowflake",
-        "databricks_job.py",
-        "airflow.py",
-        # Extending Flyte
-        "custom_types.py",
-        "custom_task_plugin.py",
-        "prebuilt_container.py",
-        "user_container.py",
-        "backend_plugins.py",
-    ]
-    """
-    Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
-    """
-
-    def __call__(self, filename):
-        src_file = os.path.normpath(os.path.join(self.src_dir, filename))
-        if filename in self.CUSTOM_FILE_SORT_ORDER:
-            return f"{self.CUSTOM_FILE_SORT_ORDER.index(filename):03d}"
-        else:
-            logging.warning(
-                f"File {filename} not found in static ordering list, temporarily adding to the end"
-            )
-            self.CUSTOM_FILE_SORT_ORDER.append(src_file)
-            return f"{len(self.CUSTOM_FILE_SORT_ORDER) - 1:03d}"
-
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -214,93 +154,16 @@ html_theme_options = {
 html_favicon = "_static/flyte_circle_gradient_1_4x4.png"
 html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
-examples_dirs = [
-    "../integrations/flytekit_plugins/sql",
-    "../integrations/flytekit_plugins/greatexpectations",
-    "../integrations/flytekit_plugins/papermilltasks",
-    "../integrations/flytekit_plugins/pandera_examples",
-    "../integrations/flytekit_plugins/modin_examples",
-    "../integrations/flytekit_plugins/dolt",
-    "../integrations/flytekit_plugins/dbt_example",
-    "../integrations/flytekit_plugins/whylogs_examples",
-    "../integrations/flytekit_plugins/mlflow_example",
-    "../integrations/flytekit_plugins/onnx_examples",
-    "../integrations/flytekit_plugins/duckdb_examples",
-    "../integrations/kubernetes/pod",
-    "../integrations/kubernetes/k8s_dask",
-    "../integrations/kubernetes/k8s_spark",
-    "../integrations/kubernetes/kftensorflow",
-    "../integrations/kubernetes/kfpytorch",
-    "../integrations/kubernetes/kfmpi",
-    "../integrations/kubernetes/ray_example",
-    "../integrations/aws/athena",
-    "../integrations/aws/batch",
-    "../integrations/aws/sagemaker_training",
-    "../integrations/aws/sagemaker_pytorch",
-    "../integrations/gcp/bigquery",
-    "../integrations/external_services/hive",
-    "../integrations/external_services/snowflake",
-    "../integrations/external_services/databricks",
-    "../integrations/external_services/airflow",
-]
-gallery_dirs = [
-    "auto/integrations/flytekit_plugins/sql",
-    "auto/integrations/flytekit_plugins/greatexpectations",
-    "auto/integrations/flytekit_plugins/papermilltasks",
-    "auto/integrations/flytekit_plugins/pandera_examples",
-    "auto/integrations/flytekit_plugins/modin_examples",
-    "auto/integrations/flytekit_plugins/dolt",
-    "auto/integrations/flytekit_plugins/dbt_example",
-    "auto/integrations/flytekit_plugins/whylogs_examples",
-    "auto/integrations/flytekit_plugins/mlflow_example",
-    "auto/integrations/flytekit_plugins/onnx_examples",
-    "auto/integrations/flytekit_plugins/duckdb_examples",
-    "auto/integrations/kubernetes/pod",
-    "auto/integrations/kubernetes/k8s_dask",
-    "auto/integrations/kubernetes/k8s_spark",
-    "auto/integrations/kubernetes/kftensorflow",
-    "auto/integrations/kubernetes/kfpytorch",
-    "auto/integrations/kubernetes/kfmpi",
-    "auto/integrations/kubernetes/ray_example",
-    "auto/integrations/aws/athena",
-    "auto/integrations/aws/batch",
-    "auto/integrations/aws/sagemaker_training",
-    "auto/integrations/aws/sagemaker_pytorch",
-    "auto/integrations/gcp/bigquery",
-    "auto/integrations/external_services/hive",
-    "auto/integrations/external_services/snowflake",
-    "auto/integrations/external_services/databricks",
-    "auto/integrations/external_services/airflow",
-]
-
-# image_scrapers = ('matplotlib',)
-image_scrapers = ()
-
 min_reported_time = 0
 
-# hide example pages with empty content
-ignore_py_files = [
-    r"__init__\.py",
-    r"config_resource_mgr\.py",
-    r"optimize_perf\.py",
-]
-
 sphinx_gallery_conf = {
-    "examples_dirs": examples_dirs,
-    "gallery_dirs": gallery_dirs,
-    "ignore_pattern": f"{'|'.join(ignore_py_files)}",
+    "examples_dirs": [],
+    "gallery_dirs": [],
     # specify the order of examples to be according to filename
-    "within_subsection_order": CustomSorter,
     "min_reported_time": min_reported_time,
-    "capture_repr": (),
-    "image_scrapers": image_scrapers,
     "default_thumb_file": "_static/code-example-icon.png",
     "thumbnail_size": (350, 350),
 }
-
-if len(examples_dirs) != len(gallery_dirs):
-    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
-
 
 nb_execution_mode = "off"
 nb_execution_excludepatterns = [
