@@ -111,6 +111,8 @@ docstring-parser==0.15
     # via flytekit
 executing==1.2.0
     # via stack-data
+filelock==3.12.2
+    # via torch
 flyteidl==1.5.11
     # via flytekit
 flytekit==1.7.0
@@ -165,11 +167,11 @@ googleapis-common-protos==1.59.1
     #   flytekit
     #   google-api-core
     #   grpcio-status
-grpcio==1.54.2
+grpcio==1.56.0
     # via
     #   flytekit
     #   grpcio-status
-grpcio-status==1.54.2
+grpcio-status==1.56.0
     # via flytekit
 htmlmin==0.1.12
     # via ydata-profiling
@@ -191,7 +193,7 @@ importlib-resources==5.12.0
     # via
     #   keyring
     #   matplotlib
-ipykernel==6.23.2
+ipykernel==6.23.3
     # via ipywidgets
 ipython==8.12.2
     # via
@@ -209,6 +211,7 @@ jinja2==3.1.2
     # via
     #   cookiecutter
     #   jinja2-time
+    #   torch
     #   ydata-profiling
 jinja2-time==0.2.0
     # via cookiecutter
@@ -218,7 +221,8 @@ joblib==1.2.0
     # via
     #   flytekit
     #   phik
-jupyter-client==8.2.0
+    #   scikit-learn
+jupyter-client==8.3.0
     # via ipykernel
 jupyter-core==5.3.1
     # via
@@ -226,7 +230,7 @@ jupyter-core==5.3.1
     #   jupyter-client
 jupyterlab-widgets==3.0.7
     # via ipywidgets
-keyring==24.0.1
+keyring==24.1.0
     # via flytekit
 kiwisolver==1.4.4
     # via matplotlib
@@ -262,6 +266,8 @@ mdurl==0.1.2
     # via markdown-it-py
 more-itertools==9.1.0
     # via jaraco-classes
+mpmath==1.3.0
+    # via sympy
 msal==1.22.0
     # via
     #   azure-datalake-store
@@ -284,7 +290,9 @@ natsort==8.4.0
 nest-asyncio==1.5.6
     # via ipykernel
 networkx==3.1
-    # via visions
+    # via
+    #   torch
+    #   visions
 numpy==1.23.5
     # via
     #   contourpy
@@ -296,6 +304,7 @@ numpy==1.23.5
     #   phik
     #   pyarrow
     #   pywavelets
+    #   scikit-learn
     #   scipy
     #   seaborn
     #   statsmodels
@@ -336,7 +345,7 @@ pillow==9.5.0
     #   matplotlib
     #   visions
     #   wordcloud
-platformdirs==3.7.0
+platformdirs==3.8.0
     # via jupyter-core
 plotly==5.15.0
     # via flytekitplugins-deck-standard
@@ -447,10 +456,13 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+scikit-learn==1.2.2
+    # via -r requirements.in
 scipy==1.10.1
     # via
     #   imagehash
     #   phik
+    #   scikit-learn
     #   statsmodels
     #   ydata-profiling
 seaborn==0.12.2
@@ -475,12 +487,18 @@ statsd==3.3.0
     # via flytekit
 statsmodels==0.14.0
     # via ydata-profiling
+sympy==1.12
+    # via torch
 tangled-up-in-unicode==0.2.0
     # via visions
 tenacity==8.2.2
     # via plotly
 text-unidecode==1.3
     # via python-slugify
+threadpoolctl==3.1.0
+    # via scikit-learn
+torch==2.0.1
+    # via -r requirements.in
 tornado==6.3.2
     # via
     #   ipykernel
@@ -509,6 +527,7 @@ typing-extensions==4.6.3
     #   ipython
     #   pydantic
     #   rich
+    #   torch
     #   typing-inspect
 typing-inspect==0.9.0
     # via dataclasses-json
@@ -525,7 +544,7 @@ visions[type_image_path]==0.7.5
     # via ydata-profiling
 wcwidth==0.2.6
     # via prompt-toolkit
-websocket-client==1.6.0
+websocket-client==1.6.1
     # via
     #   docker
     #   kubernetes
