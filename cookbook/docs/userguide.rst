@@ -87,7 +87,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/image_spec/index
+   .. link-button:: auto_examples/image_spec/index
       :type: ref
       :text: 🐳  Image Spec
       :classes: btn-block stretched-link
@@ -96,16 +96,7 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/deployment/index
-      :type: ref
-      :text: 🚢  Production Config
-      :classes: btn-block stretched-link
-   ^^^^^^^^^^
-   Ship and configure your machine learning pipelines on a production Flyte installation.
-
-   ---
-
-   .. link-button:: auto/remote_access/index
+   .. link-button:: auto_examples/remote_access/index
       :type: ref
       :text: 🎮 Remote Access
       :classes: btn-block stretched-link
@@ -114,7 +105,16 @@ Table of Contents
 
    ---
 
-   .. link-button:: auto/core/extend_flyte/index
+   .. link-button:: auto_examples/deployment/index
+      :type: ref
+      :text: 🚢  Production Config
+      :classes: btn-block stretched-link
+   ^^^^^^^^^^
+   Ship and configure your machine learning pipelines on a production Flyte installation.
+
+   ---
+
+   .. link-button:: auto_examples/extend_flyte/index
       :type: ref
       :text: 🏗 Extending Flyte
       :classes: btn-block stretched-link

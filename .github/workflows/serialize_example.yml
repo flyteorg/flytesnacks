@@ -36,13 +36,19 @@ jobs:
         id: example_name
         run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
+        # NOTE: the additional images are for the multi-image containerization examples
         run: |
           cd ${{ matrix.directory }}
           image_uri=ghcr.io/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
           docker build . -t $image_uri
           mkdir ./flyte_proto
           docker run -i --rm -v $(pwd):/root $image_uri \
-            pyflyte --pkgs ${{ steps.example_name.outputs.EXAMPLE_NAME }} serialize --image $image_uri workflows --folder ./flyte_proto
+            pyflyte --pkgs ${{ steps.example_name.outputs.EXAMPLE_NAME }} \
+            serialize \
+            --image $image_uri \
+            --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
+            --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
+            workflows --folder ./flyte_proto
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:

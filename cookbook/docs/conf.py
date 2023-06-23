@@ -38,16 +38,6 @@ release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 class CustomSorter(FileNameSortKey):
     CUSTOM_FILE_SORT_ORDER = [
-        # Image Spec
-        "image_spec.py",
-        # Remote Access
-        "register_project.py",
-        "remote_task.py",
-        "remote_workflow.py",
-        "remote_launchplan.py",
-        "inspecting_executions.py",
-        "debugging_workflows_tasks.py",
-        # Deployment
         ## Workflow
         "customizing_resources.py",
         "lp_notifications.py",
@@ -269,9 +259,6 @@ examples_dirs = [
     "../case_studies/feature_engineering/eda",
     "../case_studies/feature_engineering/feast_integration",
     "../case_studies/bioinformatics/blast",
-    "../core/image_spec",
-    "../deployment",
-    "../remote_access",
     "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/greatexpectations",
     "../integrations/flytekit_plugins/papermilltasks",
@@ -299,7 +286,6 @@ examples_dirs = [
     "../integrations/external_services/snowflake",
     "../integrations/external_services/databricks",
     "../integrations/external_services/airflow",
-    "../core/extend_flyte",
 ]
 gallery_dirs = [
     "auto/case_studies/ml_training/pima_diabetes",
@@ -310,9 +296,6 @@ gallery_dirs = [
     "auto/case_studies/feature_engineering/eda",
     "auto/case_studies/feature_engineering/feast_integration",
     "auto/case_studies/bioinformatics/blast",
-    "auto/core/image_spec",
-    "auto/deployment",
-    "auto/remote_access",
     "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/greatexpectations",
     "auto/integrations/flytekit_plugins/papermilltasks",
@@ -340,7 +323,6 @@ gallery_dirs = [
     "auto/integrations/external_services/snowflake",
     "auto/integrations/external_services/databricks",
     "auto/integrations/external_services/airflow",
-    "auto/core/extend_flyte",
 ]
 
 # image_scrapers = ('matplotlib',)
