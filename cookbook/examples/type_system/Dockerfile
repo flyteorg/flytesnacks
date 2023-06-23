@@ -19,7 +19,7 @@ ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
 COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+RUN pip install --no-cache-dir -r /root/requirements.txt
 RUN pip freeze
 
 # Copy the actual code
