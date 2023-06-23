@@ -98,7 +98,7 @@ athena_task_templatized_query = AthenaTask(
 @task
 def manipulate_athena_schema(s: FlyteSchema) -> FlyteSchema:
     df = s.open().all()
-    return df[df.total_vaccinations.notnull()]
+    return df
 
 
 @workflow
