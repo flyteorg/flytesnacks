@@ -77,7 +77,6 @@ jobs:
         run: |
           make setup
       - name: Register examples
-        uses: unionai/flyte-register-action@v0.0.2
         run: |
           for file in ./download-artifact/**/*; do
             flytectl register files \
