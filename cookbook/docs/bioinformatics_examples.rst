@@ -12,7 +12,7 @@ Flyte very much supports running your bioinformatics applications. Dive deeper i
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto/case_studies/bioinformatics/blast/index
+    .. link-button:: auto_examples/blast/index
        :type: ref
        :text: Nucleotide Sequence Querying with BLASTX
        :classes: btn-block stretched-link
@@ -25,4 +25,4 @@ Flyte very much supports running your bioinformatics applications. Dive deeper i
     :caption: Contents
     :hidden:
 
-    auto/case_studies/bioinformatics/blast/index
+    auto_examples/blast/index

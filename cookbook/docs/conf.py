@@ -79,17 +79,6 @@ class CustomSorter(FileNameSortKey):
         "prebuilt_container.py",
         "user_container.py",
         "backend_plugins.py",
-        # Tutorials
-        ## Feature Engineering
-        "pytorch_single_node_and_gpu.py",
-        "pytorch_single_node_multi_gpu.py",
-        "notebook.py",
-        "notebook_and_task.py",
-        "notebook_as_tasks.py",
-        "feature_eng_tasks.py",
-        "feast_workflow.py",
-        ## Bioinformatics
-        "blastx_example.py",
     ]
     """
     Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
@@ -226,9 +215,6 @@ html_favicon = "_static/flyte_circle_gradient_1_4x4.png"
 html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
 examples_dirs = [
-    "../case_studies/feature_engineering/eda",
-    "../case_studies/feature_engineering/feast_integration",
-    "../case_studies/bioinformatics/blast",
     "../integrations/flytekit_plugins/sql",
     "../integrations/flytekit_plugins/greatexpectations",
     "../integrations/flytekit_plugins/papermilltasks",
@@ -258,9 +244,6 @@ examples_dirs = [
     "../integrations/external_services/airflow",
 ]
 gallery_dirs = [
-    "auto/case_studies/feature_engineering/eda",
-    "auto/case_studies/feature_engineering/feast_integration",
-    "auto/case_studies/bioinformatics/blast",
     "auto/integrations/flytekit_plugins/sql",
     "auto/integrations/flytekit_plugins/greatexpectations",
     "auto/integrations/flytekit_plugins/papermilltasks",

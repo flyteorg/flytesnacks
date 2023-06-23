@@ -11,7 +11,7 @@ Explore how features can be engineered with the power of Flyte.
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto/case_studies/feature_engineering/eda/index
+    .. link-button:: auto_examples/exploratory_data_analysis/index
        :type: ref
        :text: EDA, Feature Engineering, and Modeling With Papermill
        :classes: btn-block stretched-link
@@ -20,7 +20,7 @@ Explore how features can be engineered with the power of Flyte.
 
     ---
 
-    .. link-button:: auto/case_studies/feature_engineering/feast_integration/index
+    .. link-button:: auto_examples/feast_integration/index
        :type: ref
        :text: Data Cleaning and Feature Serving With Feast
        :classes: btn-block stretched-link
@@ -32,5 +32,5 @@ Explore how features can be engineered with the power of Flyte.
     :caption: Contents
     :hidden:
 
-    auto/case_studies/feature_engineering/eda/index
-    auto/case_studies/feature_engineering/feast_integration/index
+    auto_examples/exploratory_data_analysis/index
+    auto_examples/feast_integration/index
