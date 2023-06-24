@@ -33,18 +33,16 @@ jobs:
       - name: 'Set example id'
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
-      - name: 'Image version'
-        id: example_name
-        run: echo "PACKAGE_NAME=$(basename -- ${{ matrix.directory }} )" >> "$GITHUB_OUTPUT"
-        run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }} | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
         # NOTE: the additional images are for the multi-image containerization examples
         run: |
           cd ${{ matrix.directory }}
-          image_uri=ghcr.io/flyteorg/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
+          package_name=$(basename -- ${{ matrix.directory }})
+          example_name=$(basename -- ${{ matrix.directory }} | sed 's@_@-@g' )
+          image_uri=ghcr.io/flyteorg/flyte-examples:$example_name-${{ github.sha }}
           docker build . -t $image_uri
           docker run -i --rm -v $(pwd):/root $image_uri \
-            pyflyte --pkgs ${{ steps.example_name.outputs.PACKAGE_NAME }} \
+            pyflyte --pkgs $package_name \
             package \
             --image $image_uri \
             --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
