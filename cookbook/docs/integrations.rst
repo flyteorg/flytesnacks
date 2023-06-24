@@ -19,7 +19,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    :header: text-center
    :column: col-lg-12 p-2
 
-   .. link-button:: auto_examples/sql/index
+   .. link-button:: auto_examples/sql_plugin/index
       :type: ref
       :text: SQL
       :classes: btn-block stretched-link
@@ -28,7 +28,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
    ---
 
-   .. link-button:: auto_examples/greatexpectations/index
+   .. link-button:: auto_examples/greatexpectations_plugin/index
       :type: ref
       :text: Great Expectations
       :classes: btn-block stretched-link
@@ -37,7 +37,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
    ---
 
-   .. link-button:: auto_examples/papermilltasks/index
+   .. link-button:: auto_examples/papermill_plugin/index
       :type: ref
       :text: Papermill
       :classes: btn-block stretched-link
@@ -46,7 +46,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
    ---
 
-   .. link-button:: auto_examples/pandera/index
+   .. link-button:: auto_examples/pandera_plugin/index
       :type: ref
       :text: Pandera
       :classes: btn-block stretched-link
@@ -55,7 +55,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 
    ---
 
-   .. link-button:: auto_examples/modin/index
+   .. link-button:: auto_examples/modin_plugin/index
       :type: ref
       :text: Modin
       :classes: btn-block stretched-link
@@ -63,7 +63,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Scale pandas workflows with ``modin``.
 
    ---
-   .. link-button:: auto_examples/dolt/index
+   .. link-button:: auto_examples/dolt_plugin/index
       :type: ref
       :text: Dolt
       :classes: btn-block stretched-link
@@ -71,7 +71,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Version your SQL database with ``dolt``.
 
    ---
-   .. link-button:: auto_examples/dbt/index
+   .. link-button:: auto_examples/dbt_plugin/index
       :type: ref
       :text: dbt
       :classes: btn-block stretched-link
@@ -79,7 +79,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Run and test your ``dbt`` pipelines in Flyte.
 
    ---
-   .. link-button:: auto_examples/whylogs/index
+   .. link-button:: auto_examples/whylogs_plugin/index
       :type: ref
       :text: whylogs
       :classes: btn-block stretched-link
@@ -87,7 +87,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ``whylogs``: the open standard for data logging.
 
    ---
-   .. link-button:: auto_examples/mlflow/index
+   .. link-button:: auto_examples/mlflow_plugin/index
       :type: ref
       :text: mlflow
       :classes: btn-block stretched-link
@@ -95,7 +95,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    ``mlflow``: the open standard for model tracking.
 
    ---
-   .. link-button:: auto_examples/onnx/index
+   .. link-button:: auto_examples/onnx_plugin/index
       :type: ref
       :text: ONNX
       :classes: btn-block stretched-link
@@ -103,7 +103,7 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
    Convert ML models to ONNX models seamlessly.
 
    ---
-   .. link-button:: auto_examples/duckdb/index
+   .. link-button:: auto_examples/duckdb_plugin/index
       :type: ref
       :text: DuckDB
       :classes: btn-block stretched-link
@@ -135,7 +135,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto_examples/k8s_pod/index
+    .. link-button:: auto_examples/k8s_pod_plugin/index
        :type: ref
        :text: K8s Pods
        :classes: btn-block stretched-link
@@ -144,7 +144,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/k8s_dask/index
+    .. link-button:: auto_examples/k8s_dask_plugin/index
        :type: ref
        :text: K8s Cluster Dask Jobs
        :classes: btn-block stretched-link
@@ -153,7 +153,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/k8s_spark/index
+    .. link-button:: auto_examples/k8s_spark_plugin/index
        :type: ref
        :text: K8s Cluster Spark Jobs
        :classes: btn-block stretched-link
@@ -162,7 +162,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/kfpytorch/index
+    .. link-button:: auto_examples/kfpytorch_plugin/index
        :type: ref
        :text: Kubeflow PyTorch
        :classes: btn-block stretched-link
@@ -171,7 +171,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/kftensorflow/index
+    .. link-button:: auto_examples/kftensorflow_plugin/index
        :type: ref
        :text: Kubeflow TensorFlow
        :classes: btn-block stretched-link
@@ -180,7 +180,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/kfmpi/index
+    .. link-button:: auto_examples/kfmpi_plugin/index
        :type: ref
        :text: MPI Operator
        :classes: btn-block stretched-link
@@ -189,7 +189,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
     ---
 
-    .. link-button:: auto_examples/ray/index
+    .. link-button:: auto_examples/ray_plugin/index
        :type: ref
        :text: Ray Task
        :classes: btn-block stretched-link
@@ -211,7 +211,7 @@ the Flyte task that use the respective plugin.
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto_examples/sagemaker_training/index
+    .. link-button:: auto_examples/sagemaker_training_plugin/index
        :type: ref
        :text: AWS Sagemaker: Model Training
        :classes: btn-block stretched-link
@@ -220,7 +220,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/sagemaker_pytorch/index
+    .. link-button:: auto_examples/sagemaker_pytorch_plugin/index
        :type: ref
        :text: AWS Sagemaker: Pytorch Training
        :classes: btn-block stretched-link
@@ -229,7 +229,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/athena/index
+    .. link-button:: auto_examples/athena_plugin/index
        :type: ref
        :text: AWS Athena
        :classes: btn-block stretched-link
@@ -238,7 +238,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/aws_batch/index
+    .. link-button:: auto_examples/aws_batch_plugin/index
        :type: ref
        :text: AWS Batch
        :classes: btn-block stretched-link
@@ -247,7 +247,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/hive/index
+    .. link-button:: auto_examples/hive_plugin/index
        :type: ref
        :text: Hive
        :classes: btn-block stretched-link
@@ -256,7 +256,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/snowflake/index
+    .. link-button:: auto_examples/snowflake_plugin/index
        :type: ref
        :text: Snowflake
        :classes: btn-block stretched-link
@@ -265,7 +265,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/databricks/index
+    .. link-button:: auto_examples/databricks_plugin/index
        :type: ref
        :text: Databricks
        :classes: btn-block stretched-link
@@ -274,7 +274,7 @@ the Flyte task that use the respective plugin.
 
     ---
 
-    .. link-button:: auto_examples/bigquery/index
+    .. link-button:: auto_examples/bigquery_plugin/index
        :type: ref
        :text: BigQuery
        :classes: btn-block streteched-link
@@ -354,7 +354,7 @@ The Flyte Airflow Provider is helpful to call Flyte tasks/workflows from within 
     :header: text-center
     :column: col-lg-12 p-2
 
-    .. link-button:: auto_examples/airflow/index
+    .. link-button:: auto_examples/airflow_plugin/index
        :type: ref
        :text: Airflow
        :classes: btn-block stretched-link

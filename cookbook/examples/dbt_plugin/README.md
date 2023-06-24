@@ -90,7 +90,7 @@ This image is built using the following `Dockerfile` and contains:
 This Dockerfile can be found in the ``flytesnacks/cookbook`` directory under
 the filepath listed in the code block title below.
 
-```{literalinclude} ../../../examples/dbt/Dockerfile
+```{literalinclude} ../../../examples/dbt_plugin/Dockerfile
 :caption: examples/dbt/Dockerfile
 :language: docker
 ```

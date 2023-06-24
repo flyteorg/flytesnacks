@@ -35,7 +35,7 @@ Before that, let's look at the compute setup and Dockerfile.
 
 The example uses TensorFlow-GPU image.
 
-```{literalinclude} ../../../examples/kftensorflow/Dockerfile
+```{literalinclude} ../../../examples/kftensorflow_plugin/Dockerfile
 :language: docker
 ```
 
