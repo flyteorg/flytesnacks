@@ -50,15 +50,11 @@ WORKDIR /root
 COPY requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY blast/sandbox.config /root
-
 # Copy data
 # COPY blast/kitasatospora /root/kitasatospora
 
 # Copy the actual code
-COPY blast/ /root/bioinformatics/blast/
+COPY . /root/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/

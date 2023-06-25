@@ -68,7 +68,7 @@ if sklearn_image_spec.is_container():
 # %%
 # To enable tasks to utilize the images built with ``ImageSpec``, you can specify the ``container_image`` parameter for those tasks.
 @task(container_image=pandas_image_spec)
-def get_pandas_dataframe() -> (pd.DataFrame, pd.Series):
+def get_pandas_dataframe() -> typing.Tuple[pd.DataFrame, pd.Series]:
     df = pd.read_csv("https://storage.googleapis.com/download.tensorflow.org/data/heart.csv")
     print(df.head())
     return df[['age', 'thalach', 'trestbps',  'chol', 'oldpeak']], df.pop('target')

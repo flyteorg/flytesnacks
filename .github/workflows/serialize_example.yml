@@ -47,6 +47,7 @@ jobs:
             --image $image_uri \
             --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
             --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
+            --force \
             --output ./flyte-package.tgz
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
