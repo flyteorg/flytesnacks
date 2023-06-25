@@ -32,8 +32,8 @@ Train machine learning models from using your framework of choice.
   - Train a neural network on MNIST with PyTorch and W&B
 * - {doc}`NLP Processing with Gensim <auto_examples/nlp_processing/index>`
   - Word embedding and topic modelling on lee background corpus with Gensim
-* - {doc}`Forecast Sales Using Rossmann Store Sales <auto_examples/forecasting_sales/index>`
-  - Forecast sales data with data-parallel distributed training using Horovod on Spark.
+* - {doc}`Sales Forecasting <auto_examples/forecasting_sales/index>`
+  - Use the Rossmann Store data to forecast sales with distributed training using Horovod on Spark.
 ```
 
 ## 🛠 Feature Engineering
