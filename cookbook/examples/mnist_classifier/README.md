@@ -86,7 +86,7 @@ The example in this section uses a simple `nvidia-supplied GPU Docker image` as 
 Run your code in the `ml_training` directory, both locally and within the sandbox.
 ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 pytorch_single_node_and_gpu

@@ -54,7 +54,7 @@ pyflyte --pkgs blast package --image ghcr.io/flyteorg/flytecookbook:blast-latest
 flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1
 ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 blastx_example

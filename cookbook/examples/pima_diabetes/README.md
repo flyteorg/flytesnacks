@@ -42,7 +42,7 @@ Run workflows in this directory with the custom-built base image:
 pyflyte run --remote --image ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest diabetes.py diabetes_xgboost_model
 ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 diabetes

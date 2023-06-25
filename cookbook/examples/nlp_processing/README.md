@@ -34,7 +34,7 @@ The following points outline the modelling process:
 
 Let's dive into the code!
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 word2vec_and_lda

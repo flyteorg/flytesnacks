@@ -40,7 +40,7 @@ The dataset will have the following columns:
 - An in-depth dive into dynamic workflows
 - How the Flyte type-system works
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 house_price_predictor

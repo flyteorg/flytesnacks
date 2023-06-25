@@ -2,5 +2,6 @@ flytekit>=1.7.0
 wheel
 matplotlib
 flytekitplugins-deck-standard
+flytekitplugins-envd
 pandas
 scikit-learn

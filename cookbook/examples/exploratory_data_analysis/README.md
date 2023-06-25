@@ -60,7 +60,7 @@ You will see three outputs on running the Python code files, although a single o
 One output is the executed notebook, and the other is the rendered HTML of the notebook.
 ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 notebook

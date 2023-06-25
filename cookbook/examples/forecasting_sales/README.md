@@ -88,7 +88,7 @@ Run workflows in this directory with the custom-built base image like so:
 pyflyte run --remote keras_spark_rossmann_estimator.py horovod_spark_wf --image ghcr.io/flyteorg/flytecookbook:spark_horovod-latest
 ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 keras_spark_rossmann_estimator

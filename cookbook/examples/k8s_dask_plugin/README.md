@@ -192,7 +192,7 @@ scheduler will not be run on interruptible nodes.
 >    ...
 > ```
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 dask_example

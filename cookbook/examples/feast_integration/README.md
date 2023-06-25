@@ -66,18 +66,7 @@ like Snowflake, Athena, Hive, BigQuery, or Spark, all of which are supported by 
 2. Procreated feature transforms
 3. Serve features to production using Feast
 
-```{eval-rst}
-.. panels::
-    :header: text-center
-    :column: col-lg-12 p-2
-
-    .. link-button:: https://blog.flyte.org/bring-ml-close-to-data-using-feast-and-flyte
-       :type: url
-       :text: Blog Post
-       :classes: btn-block stretched-link
-    ^^^^^^^^^^^^
-    An article detailing Feast and Flyte integration.
-```
+## Examples
 
 ```{auto-examples-toc}
 feature_eng_tasks

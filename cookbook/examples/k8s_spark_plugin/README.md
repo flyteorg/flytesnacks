@@ -159,7 +159,7 @@ Refer to the [configuration structure](https://github.com/flyteorg/flyteplugins/
 
 (spark-examples)=
 
-## Code Examples
+## Examples
 
 ```{auto-examples-toc}
 pyspark_pi
