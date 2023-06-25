@@ -33,15 +33,11 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY nlp_processing/requirements.txt /root
+COPY requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY nlp_processing/sandbox.config /root
-
 # Copy the actual code
-COPY nlp_processing/ /root/nlp_processing/
+COPY . /root/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
