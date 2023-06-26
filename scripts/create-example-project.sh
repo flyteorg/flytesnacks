@@ -20,3 +20,5 @@ if [ requires_deps = "1" ]
 then
     rm ./examples/$project_name/Dockerfile ./examples/$project_name/requirements.*
 fi
+
+echo created a new project "./examples/$project_name"

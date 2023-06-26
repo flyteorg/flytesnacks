@@ -106,7 +106,7 @@ provided image:
 
    pyflyte run --remote \
        --image ghcr.io/flyteorg/flytecookbook:dbt_example-latest \
-       dbt_example.py wf
+       dbt_plugin/dbt_example.py wf
 ```
 
 Alternatively, you can clone the `flytesnacks` repo and run the example directly:
@@ -118,7 +118,7 @@ Alternatively, you can clone the `flytesnacks` repo and run the example directly
    cd flytesnacks/examples/dbt_example
    pyflyte run --remote \
        --image ghcr.io/flyteorg/flytecookbook:dbt_example-latest \
-       dbt_example.py wf
+       dbt_plugin/dbt_example.py wf
 ```
 
 ```{auto-examples-toc}

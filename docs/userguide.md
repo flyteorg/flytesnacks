@@ -1,5 +1,5 @@
 ---
-:next-page: userguide_setup
+:next-page: environment_setup
 :next-page-title: Environment Setup
 :prev-page: getting_started/analytics
 :prev-page-title: Analytics
@@ -18,7 +18,7 @@ of the examples can be found in the [flytesnacks repo](https://github.com/flyteo
 
 It comes with a specific environment to make running, documenting
 and contributing samples easy. If this is your first time running these examples, follow the
-{doc}`environment setup guide <userguide_setup>` to get started.
+{doc}`environment setup guide <environment_setup>` to get started.
 
 ```{tip}
 To learn about how to spin up and manage a Flyte cluster in the cloud, see the
@@ -31,7 +31,7 @@ To learn about how to spin up and manage a Flyte cluster in the cloud, see the
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`🌳 Environment Setup <userguide_setup>`
+* - {doc}`🌳 Environment Setup <environment_setup>`
   - Setup your development environment to run the User Guide examples.
 * - {doc}`🔤 Flyte Basics <auto_examples/basics/index>`
   - Learn about tasks, workflows, launch plans, caching, and working with files and directories.

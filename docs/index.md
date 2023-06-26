@@ -408,7 +408,7 @@ getting_started/core_use_cases
 :hidden:
 
 User Guide <userguide>
-Environment Setup <userguide_setup>
+Environment Setup <environment_setup>
 Basics <auto_examples/basics/index>
 Control Flow <auto_examples/control_flow/index>
 Type System <auto_examples/type_system/index>

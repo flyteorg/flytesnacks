@@ -85,7 +85,7 @@ Flyte can stitch the former two pieces together, e.g., by connecting the data ou
 Run workflows in this directory with the custom-built base image like so:
 
 ```{prompt} bash $
-pyflyte run --remote keras_spark_rossmann_estimator.py horovod_spark_wf --image ghcr.io/flyteorg/flytecookbook:spark_horovod-latest
+pyflyte run --remote forecasting_sales/keras_spark_rossmann_estimator.py horovod_spark_wf --image ghcr.io/flyteorg/flytecookbook:spark_horovod-latest
 ```
 
 ## Examples
