@@ -34,18 +34,20 @@ Creating an Example
 
    Follow the :ref:`env_setup` guide to get your development environment ready.
 
-The ``flytesnacks`` repo examples live in the ``cookbook`` directory, and are organized as
-follows:
+The ``flytesnacks`` repo examples live in the ``examples`` directory, where each
+subdirectory contains a self-contained flyte project that covers a particular
+feature, integration, or use case.
 
 .. code-block::
 
-   cookbook
-   ├── core          # User Guide Basics features
-   ├── deployment    # User Guide Production Config guides
-   ├── remote_access # User Guide Remote Access guides
-   ├── testing       # User Guide Testing guides
-   ├── case_studies  # Tutorials live here
-   └── integrations  # Integrations live here
+   examples
+   ├── README.md
+   ├── airflow_plugin
+   ├── athena_plugin
+   ├── aws_batch_plugin
+   ├── basics
+   ├── bigquery_plugin
+   ...
 
 .. important::
 
@@ -86,7 +88,7 @@ The ``README.md`` file needs to capture the *what*, *why*, and *how* of the exam
 * How to install the plugin?
   
 .. tip::
-   Refer to any subdirectory in the ``cookbook`` directory for examples
+   Refer to any subdirectory in the ``examples`` directory
 
 Explain What the Code Does
 ===========================
@@ -153,7 +155,7 @@ Register the examples by running
    flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1
 
 Visit ``https://localhost:30081/console`` to view the Flyte console, which consists of the examples present in the
-``flytesnacks/cookbook/core`` directory.
+``flytesnacks/core`` directory.
 
 To fetch new dependencies and rebuild the image, run 
 
@@ -195,7 +197,7 @@ We use `codespell <https://github.com/codespell-project/codespell>`__ to catch c
 Update Documentation Pages
 ==========================
 
-The ``cookbook/docs/conf.py`` contains the sphinx configuration for building the ``flytesnacks`` documentation.
+The ``docs/conf.py`` contains the sphinx configuration for building the ``flytesnacks`` documentation.
 
 For example, if you added the ``snowflake`` directory to the ``integrations/external_services`` folder, you then need
 to:
@@ -226,7 +228,7 @@ QA your Changes
 Verify that the code and documentation look as expected:
    
 - Learn about the documentation tools `here <https://docs.flyte.org/en/latest/community/contribute.html#documentation>`__
-- Install the requirements by running ``pip install -r docs-requirements.txt`` in the ``cookbook`` folder
+- Install the requirements by running ``pip install -r docs-requirements.txt``.
 - Run ``make html`` in the ``docs`` folder
 
    .. tip::

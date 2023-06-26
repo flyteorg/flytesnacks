@@ -5,10 +5,10 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'cookbook/docs/**'
+      - 'docs/**'
   pull_request:
     paths-ignore:
-      - 'cookbook/docs/**'
+      - 'docs/**'
 jobs:
 
   # This is the build system for the new example directory structure
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-example-list
-        run: echo "PACKAGES=$(find cookbook -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | grep "cookbook/examples"  | sort | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
+        run: echo "PACKAGES=$(find ./examples -mindepth 1 -maxdepth 5 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
     outputs:
       packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
   
@@ -109,11 +109,11 @@ jobs:
           path: ./download-artifact/
       - name: Package Examples
         run: |
-          mkdir -p cookbook/release-snacks
+          mkdir -p release-snacks
           cd download-artifact
-          for i in */; do tar -czvf "../cookbook/release-snacks/${i%/}.tar.gz" "$i" & done; wait
+          for i in */; do tar -czvf "../release-snacks/${i%/}.tar.gz" "$i" & done; wait
           cd .. && sudo rm -rf download-artifact/
-          cp cookbook/flyte_tests_manifest.json cookbook/release-snacks/flyte_tests_manifest.json
+          cp flyte_tests_manifest.json release-snacks/flyte_tests_manifest.json
       - name: Release test manifest
         uses: goreleaser/goreleaser-action@v2
         with:

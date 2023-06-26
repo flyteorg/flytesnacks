@@ -71,7 +71,7 @@ Register Flyte Code
 ===================
 
 At the Flyte end, we'll train an XGBoost model on Pima Indians Diabetes Dataset.
-The source code is available `here <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/ml_training/pima_diabetes/diabetes.py>`__.
+The source code is available `here <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/pima_diabetes/diabetes.py>`__.
 
 Register the example on the Flyte backend before proceeding with running the Airflow DAG.
 
@@ -84,18 +84,18 @@ Register the example on the Flyte backend before proceeding with running the Air
       insecure: true # Set to false to enable TLS/SSL connection.
       authType: Pkce # authType: Pkce # if using authentication or just drop this.
 
-- Clone the `flytesnacks repository <https://github.com/flyteorg/flytesnacks>`__ and go into the ``cookbook/case_studies`` directory.
+- Clone the `flytesnacks repository <https://github.com/flyteorg/flytesnacks>`__ and go into the ``examples`` directory.
 
   .. code-block::
 
     git clone https://github.com/flyteorg/flytesnacks
-    cd flytesnacks/cookbook/case_studies
+    cd flytesnacks/examples
 
 - Serialize the workflow.
 
   .. code-block::
 
-    pyflyte --pkgs ml_training.pima_diabetes package --image "ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest" -f
+    pyflyte --pkgs pima_diabetes package --image "ghcr.io/flyteorg/flytecookbook:pima_diabetes-latest" -f
 
 - Register the workflow.
 

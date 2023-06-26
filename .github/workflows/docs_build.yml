@@ -20,7 +20,6 @@ jobs:
         # NOTE: myst-nb build warnings are logged in docs/_build/reports/*.err.log
         run: |
           sudo apt-get install python3-sphinx
-          cd cookbook
           pip install -r docs-requirements.txt
           SPHINXOPTS="-W" cd docs && make html
           cat _build/reports/**/*.err.log || echo 'no error reports'

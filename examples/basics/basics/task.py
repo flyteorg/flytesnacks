@@ -90,13 +90,13 @@ def wf(n: int) -> int:
 #
 #    You can launch a task on Flyte console by providing a Kubernetes service account.
 #
-#    Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``cookbook`` directory.
+#    Alternatively, you can use ``flytectl`` to launch the task. Run the following commands in the ``examples`` directory.
 #
 #    .. note::
 #      This example is building a Docker image and pushing it only for the demo sandbox
 #      environment. For a production cluster, you will have to push the image to a Docker registry.
 #      For the next command to work make sure that you start the sandbox from
-#      the ``flytesnacks/cookbook`` directory with ``flytectl demo start --source .``
+#      the ``flytesnacks/examples`` directory with ``flytectl demo start --source .``
 #
 #    Build a Docker image to package the task.
 #

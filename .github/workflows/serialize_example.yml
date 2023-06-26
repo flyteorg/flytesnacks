@@ -38,14 +38,13 @@ jobs:
         run: |
           cd ${{ matrix.directory }}
           package_name=$(basename -- ${{ matrix.directory }})
-          example_name=$(basename -- ${{ matrix.directory }} | sed 's@_@-@g' )
-          image_uri=ghcr.io/flyteorg/flyte-examples:$example_name-${{ github.sha }}
+          image_uri=ghcr.io/flyteorg/flytecookbook:${package_name}-${{ github.sha }}
           docker build . -t $image_uri
           docker run -i --rm -v $(pwd):/root $image_uri \
             pyflyte --pkgs $package_name \
             package \
             --image $image_uri \
-            --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
+            --image mindmeld="ghcr.io/flyteorg/flytecookbook:type-system-latest" \
             --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
             --force \
             --output ./flyte-package.tgz

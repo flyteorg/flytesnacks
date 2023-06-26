@@ -27,7 +27,7 @@ EXAMPLE_DB = "https://www.sqlitetutorial.net/wp-content/uploads/2018/03/chinook.
 # the task is declared as a regular task. Alternatively it can be declared within a workflow just at the point of using
 # it (example later)
 sql_task = SQLite3Task(
-    name="cookbook.sqlite3.sample",
+    name="sqlite3.sample",
     query_template="select TrackId, Name from tracks limit {{.inputs.limit}}",
     inputs=kwtypes(limit=int),
     output_schema_type=FlyteSchema[kwtypes(TrackId=int, Name=str)],
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 @workflow
 def query_wf() -> int:
     df = SQLite3Task(
-        name="cookbook.sqlite3.sample_inline",
+        name="sqlite3.sample_inline",
         query_template="select TrackId, Name from tracks limit {{.inputs.limit}}",
         inputs=kwtypes(limit=int),
         output_schema_type=FlyteSchema[kwtypes(TrackId=int, Name=str)],

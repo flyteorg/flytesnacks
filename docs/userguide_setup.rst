@@ -23,14 +23,14 @@ Clone the ``flytesnacks`` repo and install its dependencies, which includes :doc
 .. prompt:: bash
 
     git clone https://github.com/flyteorg/flytesnacks
-    cd flytesnacks/cookbook
-    pip install -r core/requirements.txt
+    cd flytesnacks
+    pip install -r examples/basics/requirements.txt
 
 To make sure everything is working in your virtual environment, run ``hello_world.py`` locally:
 
 .. prompt:: bash
 
-    python core/flyte_basics/hello_world.py
+    python examples/basics/hello_world.py
 
 Expected output:
 

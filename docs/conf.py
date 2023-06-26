@@ -142,9 +142,7 @@ html_theme_options = {
     "github_repo": "flytesnacks",
     "github_username": "flyteorg",
     "github_commit": "master",
-    "docs_path": "cookbook/docs",  # path to documentation source
-    "sphinx_gallery_src_dir": "cookbook",  # path to directory of sphinx gallery source files relative to repo root
-    "sphinx_gallery_dest_dir": "auto",  # path to root directory containing auto-generated sphinx gallery examples
+    "docs_path": "docs",  # path to documentation source
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
