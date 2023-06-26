@@ -36,139 +36,6 @@ author = "Flyte"
 release = re.sub("^v", "", os.popen("git describe").read().strip())
 
 
-class CustomSorter(FileNameSortKey):
-    CUSTOM_FILE_SORT_ORDER = [
-        # Control Flow
-        "conditions.py",
-        "chain_entities.py",
-        "subworkflows.py",
-        "dynamics.py",
-        "map_task.py",
-        "checkpoint.py",
-        "merge_sort.py",
-        # "waiting_for_external_inputs.py",
-        # Type System
-        "flyte_python_types.py",
-        "schema.py",
-        "structured_dataset.py",
-        "typed_schema.py",
-        "pytorch_types.py",
-        "custom_objects.py",
-        "enums.py",
-        "lp_schedules.py",
-        # Testing
-        "mocking.py",
-        # Containerization
-        "raw_container.py",
-        "private_images.py",
-        "multi_images.py",
-        "use_secrets.py",
-        "spot_instances.py",
-        "workflow_labels_annotations.py",
-        # Image Spec
-        "image_spec.py",
-        # Remote Access
-        "register_project.py",
-        "remote_task.py",
-        "remote_workflow.py",
-        "remote_launchplan.py",
-        "inspecting_executions.py",
-        "debugging_workflows_tasks.py",
-        # Deployment
-        ## Workflow
-        "customizing_resources.py",
-        "lp_notifications.py",
-        "multiple_k8s.py",
-        ## Cluster
-        "config_flyte_deploy.py",
-        "productionize_cluster.py",
-        "auth_setup.py",
-        "auth_migration.py",
-        "config_resource_mgr.py",
-        "monitoring.py",
-        "notifications.py",
-        "optimize_perf.py",
-        "access_cloud_resources.py",
-        "auth_setup_appendix.py",
-        ## Guides
-        "kubernetes.py",
-        "aws.py",
-        "gcp.py",
-        # Integrations
-        ## Flytekit Plugins
-        "simple.py",
-        "basic_schema_example.py",
-        "branch_example.py",
-        "quickstart_example.py",
-        "dbt_example.py",
-        "dolt_quickstart_example.py",
-        "dolt_branch_example.py",
-        "task_example.py",
-        "type_example.py",
-        "knn_classifier.py",
-        "sqlite3_integration.py",
-        "sql_alchemy.py",
-        "mlflow_example.py",
-        "whylogs_example.py",
-        ## Kubernetes
-        "dask.py",
-        "pod.py",
-        "dask_example.py",
-        "pyspark_pi.py",
-        "dataframe_passing.py",
-        "pytorch_mnist.py",
-        "tf_mnist.py",
-        ## AWS
-        "sagemaker_builtin_algo_training.py",
-        "sagemaker_custom_training.py",
-        "sagemaker_pytorch_distributed_training.py",
-        ## GCP
-        "bigquery.py",
-        ## External Services
-        "hive.py",
-        "snowflake",
-        "databricks_job.py",
-        "airflow.py",
-        # Extending Flyte
-        "custom_types.py",
-        "custom_task_plugin.py",
-        "prebuilt_container.py",
-        "user_container.py",
-        "backend_plugins.py",
-        # Tutorials
-        ## ML Training
-        "diabetes.py",
-        "house_price_predictor.py",
-        "multiregion_house_price_predictor.py",
-        "keras_spark_rossmann_estimator.py",
-        "word2vec_and_lda.py",
-        ## Feature Engineering
-        "pytorch_single_node_and_gpu.py",
-        "pytorch_single_node_multi_gpu.py",
-        "notebook.py",
-        "notebook_and_task.py",
-        "notebook_as_tasks.py",
-        "feature_eng_tasks.py",
-        "feast_workflow.py",
-        ## Bioinformatics
-        "blastx_example.py",
-    ]
-    """
-    Take a look at the code for the default sorter included in the sphinx_gallery to see how this works.
-    """
-
-    def __call__(self, filename):
-        src_file = os.path.normpath(os.path.join(self.src_dir, filename))
-        if filename in self.CUSTOM_FILE_SORT_ORDER:
-            return f"{self.CUSTOM_FILE_SORT_ORDER.index(filename):03d}"
-        else:
-            logging.warning(
-                f"File {filename} not found in static ordering list, temporarily adding to the end"
-            )
-            self.CUSTOM_FILE_SORT_ORDER.append(src_file)
-            return f"{len(self.CUSTOM_FILE_SORT_ORDER) - 1:03d}"
-
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -287,127 +154,16 @@ html_theme_options = {
 html_favicon = "_static/flyte_circle_gradient_1_4x4.png"
 html_logo = "_static/flyte_circle_gradient_1_4x4.png"
 
-examples_dirs = [
-    "../core/control_flow",
-    "../core/scheduled_workflows",
-    "../core/type_system",
-    "../case_studies/ml_training/pima_diabetes",
-    "../case_studies/ml_training/house_price_prediction",
-    "../case_studies/ml_training/mnist_classifier",
-    "../case_studies/ml_training/nlp_processing",
-    "../case_studies/ml_training/spark_horovod",
-    "../case_studies/feature_engineering/eda",
-    "../case_studies/feature_engineering/feast_integration",
-    "../case_studies/bioinformatics/blast",
-    "../testing",
-    "../core/containerization",
-    "../core/image_spec",
-    "../deployment",
-    "../remote_access",
-    "../integrations/flytekit_plugins/sql",
-    "../integrations/flytekit_plugins/greatexpectations",
-    "../integrations/flytekit_plugins/papermilltasks",
-    "../integrations/flytekit_plugins/pandera_examples",
-    "../integrations/flytekit_plugins/modin_examples",
-    "../integrations/flytekit_plugins/dolt",
-    "../integrations/flytekit_plugins/dbt_example",
-    "../integrations/flytekit_plugins/whylogs_examples",
-    "../integrations/flytekit_plugins/mlflow_example",
-    "../integrations/flytekit_plugins/onnx_examples",
-    "../integrations/flytekit_plugins/duckdb_examples",
-    "../integrations/kubernetes/pod",
-    "../integrations/kubernetes/k8s_dask",
-    "../integrations/kubernetes/k8s_spark",
-    "../integrations/kubernetes/kftensorflow",
-    "../integrations/kubernetes/kfpytorch",
-    "../integrations/kubernetes/kfmpi",
-    "../integrations/kubernetes/ray_example",
-    "../integrations/aws/athena",
-    "../integrations/aws/batch",
-    "../integrations/aws/sagemaker_training",
-    "../integrations/aws/sagemaker_pytorch",
-    "../integrations/gcp/bigquery",
-    "../integrations/external_services/hive",
-    "../integrations/external_services/snowflake",
-    "../integrations/external_services/databricks",
-    "../integrations/external_services/airflow",
-    "../core/extend_flyte",
-]
-gallery_dirs = [
-    "auto/core/control_flow",
-    "auto/core/scheduled_workflows",
-    "auto/core/type_system",
-    "auto/case_studies/ml_training/pima_diabetes",
-    "auto/case_studies/ml_training/house_price_prediction",
-    "auto/case_studies/ml_training/mnist_classifier",
-    "auto/case_studies/ml_training/nlp_processing",
-    "auto/case_studies/ml_training/spark_horovod",
-    "auto/case_studies/feature_engineering/eda",
-    "auto/case_studies/feature_engineering/feast_integration",
-    "auto/case_studies/bioinformatics/blast",
-    "auto/testing",
-    "auto/core/containerization",
-    "auto/core/image_spec",
-    "auto/deployment",
-    "auto/remote_access",
-    "auto/integrations/flytekit_plugins/sql",
-    "auto/integrations/flytekit_plugins/greatexpectations",
-    "auto/integrations/flytekit_plugins/papermilltasks",
-    "auto/integrations/flytekit_plugins/pandera_examples",
-    "auto/integrations/flytekit_plugins/modin_examples",
-    "auto/integrations/flytekit_plugins/dolt",
-    "auto/integrations/flytekit_plugins/dbt_example",
-    "auto/integrations/flytekit_plugins/whylogs_examples",
-    "auto/integrations/flytekit_plugins/mlflow_example",
-    "auto/integrations/flytekit_plugins/onnx_examples",
-    "auto/integrations/flytekit_plugins/duckdb_examples",
-    "auto/integrations/kubernetes/pod",
-    "auto/integrations/kubernetes/k8s_dask",
-    "auto/integrations/kubernetes/k8s_spark",
-    "auto/integrations/kubernetes/kftensorflow",
-    "auto/integrations/kubernetes/kfpytorch",
-    "auto/integrations/kubernetes/kfmpi",
-    "auto/integrations/kubernetes/ray_example",
-    "auto/integrations/aws/athena",
-    "auto/integrations/aws/batch",
-    "auto/integrations/aws/sagemaker_training",
-    "auto/integrations/aws/sagemaker_pytorch",
-    "auto/integrations/gcp/bigquery",
-    "auto/integrations/external_services/hive",
-    "auto/integrations/external_services/snowflake",
-    "auto/integrations/external_services/databricks",
-    "auto/integrations/external_services/airflow",
-    "auto/core/extend_flyte",
-]
-
-# image_scrapers = ('matplotlib',)
-image_scrapers = ()
-
 min_reported_time = 0
 
-# hide example pages with empty content
-ignore_py_files = [
-    r"__init__\.py",
-    r"config_resource_mgr\.py",
-    r"optimize_perf\.py",
-]
-
 sphinx_gallery_conf = {
-    "examples_dirs": examples_dirs,
-    "gallery_dirs": gallery_dirs,
-    "ignore_pattern": f"{'|'.join(ignore_py_files)}",
+    "examples_dirs": [],
+    "gallery_dirs": [],
     # specify the order of examples to be according to filename
-    "within_subsection_order": CustomSorter,
     "min_reported_time": min_reported_time,
-    "capture_repr": (),
-    "image_scrapers": image_scrapers,
     "default_thumb_file": "_static/code-example-icon.png",
     "thumbnail_size": (350, 350),
 }
-
-if len(examples_dirs) != len(gallery_dirs):
-    raise ConfigError("examples_dirs and gallery_dirs aren't of the same length")
-
 
 nb_execution_mode = "off"
 nb_execution_excludepatterns = [
@@ -415,9 +171,7 @@ nb_execution_excludepatterns = [
 ]
 
 # myst notebook docs customization
-auto_examples_dirs = [
-    "../examples/basics",
-]
+auto_examples_dir_root = "../examples"
 
 # intersphinx configuration
 intersphinx_mapping = {

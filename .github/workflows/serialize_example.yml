@@ -25,6 +25,7 @@ jobs:
     strategy:
       matrix:
         directory: "${{ fromJson(inputs.packages) }}"
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,22 +33,27 @@ jobs:
       - name: 'Set example id'
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
-      - name: 'Image version'
-        id: example_name
-        run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
+        # NOTE: the additional images are for the multi-image containerization examples
         run: |
           cd ${{ matrix.directory }}
-          image_uri=ghcr.io/flyte-examples:${{ steps.example_name.outputs.EXAMPLE_NAME }}-${{ github.sha }}
+          package_name=$(basename -- ${{ matrix.directory }})
+          example_name=$(basename -- ${{ matrix.directory }} | sed 's@_@-@g' )
+          image_uri=ghcr.io/flyteorg/flyte-examples:$example_name-${{ github.sha }}
           docker build . -t $image_uri
-          mkdir ./flyte_proto
           docker run -i --rm -v $(pwd):/root $image_uri \
-            pyflyte --pkgs ${{ steps.example_name.outputs.EXAMPLE_NAME }} serialize --image $image_uri workflows --folder ./flyte_proto
+            pyflyte --pkgs $package_name \
+            package \
+            --image $image_uri \
+            --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
+            --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
+            --force \
+            --output ./flyte-package.tgz
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
-          path: ${{ matrix.directory }}/flyte_proto/*
+          path: ${{ matrix.directory }}/flyte-package.tgz
 
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
@@ -71,10 +77,11 @@ jobs:
         run: |
           make setup
       - name: Register examples
-        uses: unionai/flyte-register-action@v0.0.2
-        with:
-          flytesnacks: false
-          proto: ./download-artifact/**/*
-          project: flytesnacks
-          domain: development
-          version: latest
+        run: |
+          for file in ./download-artifact/**/*; do
+            flytectl register files \
+              --project flytesnacks \
+              --domain development \
+              --version latest \
+              --archive $file
+          done

@@ -114,7 +114,7 @@ There are many ways to extend your workloads:
     optimization, all orchestrated by Flyte as ephemerally-provisioned Ray clusters.
 * - **📦 Ephemeral Cluster Resources**
   - Use the {ref}`MPI Operator <kf-mpi-op>`, {ref}`Sagemaker <aws-sagemaker>`,
-    {ref}`Kubeflow Tensorflow <kftensorflow_plugin>`, {ref}`Kubeflow Pytorch<kf-pytorch-op>`
+    {ref}`Kubeflow Tensorflow <kftensorflow-plugin>`, {ref}`Kubeflow Pytorch<kf-pytorch-op>`
     and {doc}`more <_tags/DistributedComputing>` to do distributed training.
 * - **🔎 Experiment Tracking**
   - Auto-capture training logs with the {py:func}`~flytekitplugins.mlflow.mlflow_autolog`
