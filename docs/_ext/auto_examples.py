@@ -93,6 +93,18 @@ MYST_NOTEBOOK_METADATA = {
 }
 
 
+def convert_to_mdmyst(file: Path, dest_dir: Path, from_format: str):
+    notebook = jupytext.read(file, fmt=from_format)
+    jupytext.header.recursive_update(
+        notebook.metadata, MYST_NOTEBOOK_METADATA
+    )
+    jupytext.write(
+        notebook,
+        dest_dir / f"{file.stem}.md",
+        fmt="md:myst",
+    )
+
+
 def convert_py_example(file: Path, dest_dir: Path, app: Sphinx, config: Config):
     """
     Converts a python file in the specified auto examples directory.
@@ -115,15 +127,7 @@ def convert_py_example(file: Path, dest_dir: Path, app: Sphinx, config: Config):
         )
     except sphinx.errors.ExtensionError:
         # otherwise assume py:percent format, convert to myst markdown
-        notebook = jupytext.read(file, fmt="py:percent")
-        jupytext.header.recursive_update(
-            notebook.metadata, MYST_NOTEBOOK_METADATA
-        )
-        jupytext.write(
-            notebook,
-            dest_dir / f"{file.stem}.md",
-            fmt="md:myst",
-        )
+        convert_to_mdmyst(file, dest_dir, "py:percent")
 
 
 def generate_auto_examples(app, config):
@@ -153,6 +157,12 @@ def generate_auto_examples(app, config):
         ):
             # converts sphinx-gallery file to rst
             convert_py_example(f, dest_dir, app, config)
+
+        for f in (x for x in source_dir.glob(f"{project_name}/*.ipynb")):
+            convert_to_mdmyst(f, dest_dir, from_format="ipynb")
+
+        for f in (x for x in source_dir.glob(f"{project_name}/*.md")):
+            convert_to_mdmyst(f, dest_dir, from_format="md")
 
 
 

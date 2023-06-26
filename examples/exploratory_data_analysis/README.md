@@ -66,4 +66,7 @@ One output is the executed notebook, and the other is the rendered HTML of the n
 notebook
 notebook_and_task
 notebooks_as_tasks
+supermarket_regression
+supermarket_regression_1
+supermarket_regression_2
 ```

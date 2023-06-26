@@ -1,6 +1,6 @@
 (mlflow)=
 
-# MLflow
+# MLFlow
 
 ```{eval-rst}
 .. tags:: Integration, Data, Metrics, Intermediate

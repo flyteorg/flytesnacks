@@ -29,4 +29,5 @@ To use the flytekit papermill plugin simply run the following:
 
 ```{auto-examples-toc}
 simple
+nb_simple
 ```

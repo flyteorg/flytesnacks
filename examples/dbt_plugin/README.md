@@ -1,6 +1,6 @@
 (dbt-integration)=
 
-# dbt
+# DBT
 
 ```{eval-rst}
 .. tags:: Integration, Data, SQL, Intermediate
@@ -87,7 +87,7 @@ This image is built using the following `Dockerfile` and contains:
 ````{dropdown} See Dockerfile
 :title: text-muted
 
-This Dockerfile can be found in the ``flytesnacks/cookbook`` directory under
+This Dockerfile can be found in the ``flytesnacks/examples`` directory under
 the filepath listed in the code block title below.
 
 ```{literalinclude} ../../../examples/dbt_plugin/Dockerfile
@@ -115,7 +115,7 @@ Alternatively, you can clone the `flytesnacks` repo and run the example directly
 .. prompt:: bash $
 
    git clone https://github.com/flyteorg/flytesnacks
-   cd flytesnacks/cookbook/integrations/flytekit_plugins/dbt_example
+   cd flytesnacks/examples/dbt_example
    pyflyte run --remote \
        --image ghcr.io/flyteorg/flytecookbook:dbt_example-latest \
        dbt_example.py wf

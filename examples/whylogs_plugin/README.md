@@ -1,4 +1,4 @@
-# whylogs
+# WhyLogs
 
 ```{eval-rst}
 .. tags:: Intermediate, Data, DataFrame, Intermediate
