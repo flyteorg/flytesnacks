@@ -1,8 +1,5 @@
 .SILENT:
 
-include common/common.mk
-include common/parent.mk
-
 define PIP_COMPILE
 pip-compile $(1) ${PIP_ARGS} --upgrade --verbose --resolver=backtracking
 endef
@@ -20,15 +17,3 @@ docs-requirements.txt: docs-requirements.in install-piptools
 
 .PHONY: docs-requirements
 docs-requirements: docs-requirements.txt
-
-.PHONY: enter_sandbox
-enter_sandbox: docker_build
-	docker run -e PROJECT=${PROJECT} -v `pwd`:/root -it ${FULL_IMAGE_NAME}:${VERSION} bash
-
-.PHONE: run-all-examples
-run-examples: ## Runs all examples
-	sh scripts/run-all-examples.sh
-
-.PHONY: archive
-archive: # archive directories (e.g. _pb_output/)
-	bash scripts/ci_helper.sh
