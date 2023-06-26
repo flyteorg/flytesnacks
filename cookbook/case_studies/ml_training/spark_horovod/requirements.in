@@ -1,3 +1,0 @@
-flytekitplugins-spark>=0.16.0
-pyspark==3.0.1
-s3fs

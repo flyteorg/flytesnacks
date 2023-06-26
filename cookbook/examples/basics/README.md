@@ -17,6 +17,7 @@ basic_workflow
 imperative_wf_style
 documented_workflow
 lp
+lp_schedules
 deck
 task_cache
 shell_task

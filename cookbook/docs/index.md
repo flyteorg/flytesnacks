@@ -410,15 +410,14 @@ getting_started/core_use_cases
 User Guide <userguide>
 Environment Setup <userguide_setup>
 Basics <auto_examples/basics/index>
-Control Flow <auto/core/control_flow/index>
-Type System <auto/core/type_system/index>
-Testing <auto/testing/index>
-Containerization <auto/core/containerization/index>
-Image Spec <auto/core/image_spec/index>
-Remote Access <auto/remote_access/index>
-Production Config <auto/deployment/index>
-Scheduling Workflows <auto/core/scheduled_workflows/index>
-Extending Flyte <auto/core/extend_flyte/index>
+Control Flow <auto_examples/control_flow/index>
+Type System <auto_examples/type_system/index>
+Testing <auto_examples/testing/index>
+Containerization <auto_examples/containerization/index>
+Image Spec <auto_examples/image_spec/index>
+Remote Access <auto_examples/remote_access/index>
+Production Config <auto_examples/deployment/index>
+Extending Flyte <auto_examples/extend_flyte/index>
 Example Contribution Guide <contribute>
 ```
 
@@ -440,31 +439,31 @@ flyte_lab
 :hidden:
 
 Integrations <integrations>
-auto/integrations/flytekit_plugins/sql/index
-auto/integrations/flytekit_plugins/greatexpectations/index
-auto/integrations/flytekit_plugins/papermilltasks/index
-auto/integrations/flytekit_plugins/pandera_examples/index
-auto/integrations/flytekit_plugins/modin_examples/index
-auto/integrations/flytekit_plugins/dolt/index
-auto/integrations/flytekit_plugins/dbt_example/index
-auto/integrations/flytekit_plugins/whylogs_examples/index
-auto/integrations/flytekit_plugins/mlflow_example/index
-auto/integrations/flytekit_plugins/onnx_examples/index
-auto/integrations/flytekit_plugins/duckdb_examples/index
-auto/integrations/kubernetes/pod/index
-auto/integrations/kubernetes/k8s_dask/index
-auto/integrations/kubernetes/k8s_spark/index
-auto/integrations/kubernetes/kfpytorch/index
-auto/integrations/kubernetes/kftensorflow/index
-auto/integrations/kubernetes/kfmpi/index
-auto/integrations/kubernetes/ray_example/index
-auto/integrations/aws/sagemaker_training/index
-auto/integrations/aws/sagemaker_pytorch/index
-auto/integrations/aws/athena/index
-auto/integrations/aws/batch/index
-auto/integrations/external_services/hive/index
-auto/integrations/external_services/snowflake/index
-auto/integrations/external_services/databricks/index
-auto/integrations/gcp/bigquery/index
-auto/integrations/external_services/airflow/index
+auto_examples/sql_plugin/index
+auto_examples/greatexpectations_plugin/index
+auto_examples/papermill_plugin/index
+auto_examples/pandera_plugin/index
+auto_examples/modin_plugin/index
+auto_examples/dolt_plugin/index
+auto_examples/dbt_plugin/index
+auto_examples/whylogs_plugin/index
+auto_examples/mlflow_plugin/index
+auto_examples/onnx_plugin/index
+auto_examples/duckdb_plugin/index
+auto_examples/k8s_pod_plugin/index
+auto_examples/k8s_dask_plugin/index
+auto_examples/k8s_spark_plugin/index
+auto_examples/kfpytorch_plugin/index
+auto_examples/kftensorflow_plugin/index
+auto_examples/kfmpi_plugin/index
+auto_examples/ray_plugin/index
+auto_examples/sagemaker_training_plugin/index
+auto_examples/sagemaker_pytorch_plugin/index
+auto_examples/athena_plugin/index
+auto_examples/aws_batch_plugin/index
+auto_examples/hive_plugin/index
+auto_examples/snowflake_plugin/index
+auto_examples/databricks_plugin/index
+auto_examples/bigquery_plugin/index
+auto_examples/airflow_plugin/index
 ```
