@@ -1,12 +1,11 @@
-"""
-Feature Engineering Tasks
--------------------------
+# %% [markdown]
+# # Feature Engineering Tasks
+#
+# Let's define some feature engineering tasks to be used in conjunction with the Flyte workflow.
 
-Let's define some feature engineering tasks to be used in conjunction with the Flyte workflow.
-"""
-
-# %%
+# %% [markdown]
 # Import the necessary libraries.
+# %%
 import numpy as np
 import pandas as pd
 from flytekit import task
@@ -14,8 +13,9 @@ from numpy.core.fromnumeric import sort
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.impute import SimpleImputer
 
-# %%
+# %% [markdown]
 # There are a specific set of columns for which imputation isn't required. Ignore them.
+# %%
 NO_IMPUTATION_COLS = [
     "Hospital Number",
     "surgery",
@@ -25,9 +25,10 @@ NO_IMPUTATION_COLS = [
     "timestamp",
 ]
 
-# %%
-# Use the `SimpleImputer <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`__ class from the ``scikit-learn`` library
+# %% [markdown]
+# Use the [SimpleImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html) class from the `scikit-learn` library
 # to fill in the missing values of the dataset.
+# %%
 @task
 def mean_median_imputer(
     dataframe: pd.DataFrame,
@@ -50,9 +51,11 @@ def mean_median_imputer(
     return dataframe
 
 
-# %%
-# The `SelectKBest <https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest>`__ method
+# %% [markdown]
+# The [SelectKBest](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html#sklearn.feature_selection.SelectKBest) method
 # removes all but the highest scoring features.
+#
+# %%
 @task
 def univariate_selection(
     dataframe: pd.DataFrame, num_features: int, data_class: str

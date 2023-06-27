@@ -1,23 +1,23 @@
-"""
-.. _pytorch_types:
+# %% [markdown]
+# (pytorch_types)=
+#
+# # PyTorch Types
+#
+# ```{eval-rst}
+# .. tags:: MachineLearning, Basic
+# ```
+#
+# Flyte promotes the use of strongly-typed data to make it easier to write pipelines that are more robust and easier to test.
+# Flyte is primarily used for machine learning besides data engineering. To simplify the communication between Flyte tasks, especially when passing
+# around tensors and models, we added support for the PyTorch types.
 
-PyTorch Types
-=============
-
-.. tags:: MachineLearning, Basic
-
-Flyte promotes the use of strongly-typed data to make it easier to write pipelines that are more robust and easier to test.
-Flyte is primarily used for machine learning besides data engineering. To simplify the communication between Flyte tasks, especially when passing
-around tensors and models, we added support for the PyTorch types.
-"""
-
-# %%
-# Tensors & Modules
-# -----------------
+# %% [markdown]
+# ## Tensors & Modules
 #
 # Many a times, you may need to pass around tensors and modules (aka models). In the absence of native type support for PyTorch tensors and modules,
 # Flytekit resorts to using pickle to serialize and deserialize the entities; in fact, pickle is used for any unknown type.
 # This is not very efficient, and hence, we added PyTorch's serialization and deserialization support to the Flyte type system.
+# %%
 import torch
 
 from flytekit import task, workflow
@@ -71,19 +71,19 @@ def pytorch_native_wf():
     get_l1()
 
 
-# %%
+# %% [markdown]
 # Passing around tensors and modules is no more a hassle!
 
-# %%
-# Checkpoint
-# ----------
+# %% [markdown]
+# ## Checkpoint
 #
-# ``PyTorchCheckpoint`` is a special type of checkpoint to serialize and deserialize PyTorch models.
-# It checkpoints ``torch.nn.Module``'s state, hyperparameters, and optimizer state.
-# The module checkpoint differs from the standard checkpoint in that it checkpoints the module's ``state_dict``.
-# Hence, when restoring the module, the module's ``state_dict`` needs to be used in conjunction with the actual module.
-# As per PyTorch `docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#save-load-entire-model>`__, it is recommended to
-# store the module's ``state_dict`` rather than the module itself. However, the serialization should work either way.
+# `PyTorchCheckpoint` is a special type of checkpoint to serialize and deserialize PyTorch models.
+# It checkpoints `torch.nn.Module`'s state, hyperparameters, and optimizer state.
+# The module checkpoint differs from the standard checkpoint in that it checkpoints the module's `state_dict`.
+# Hence, when restoring the module, the module's `state_dict` needs to be used in conjunction with the actual module.
+# As per PyTorch [docs](https://pytorch.org/tutorials/beginner/saving_loading_models.html#save-load-entire-model), it is recommended to
+# store the module's `state_dict` rather than the module itself. However, the serialization should work either way.
+# %%
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
@@ -143,53 +143,54 @@ def pytorch_checkpoint_wf():
     load(checkpoint=checkpoint)
 
 
-# %%
-# .. note::
-#   ``PyTorchCheckpoint`` supports serializing hyperparameters of types ``dict``, ``NamedTuple``, and ``dataclass``.
+# %% [markdown]
+# :::{note}
+# `PyTorchCheckpoint` supports serializing hyperparameters of types `dict`, `NamedTuple`, and `dataclass`.
+# :::
 #
-# Auto GPU to CPU & CPU to GPU Conversion
-# ---------------------------------------
+# ## Auto GPU to CPU & CPU to GPU Conversion
 #
 # Not all PyTorch computations require a GPU to run. There are some cases where it is beneficial to move the computation to the CPU after, say,
-# the model is trained on a GPU. To avail the GPU power, we do ``to(torch.device("cuda"))``.
-# To use the GPU-variables on a CPU, we need to move the variables to a CPU using ``to(torch.device("cpu"))`` construct.
+# the model is trained on a GPU. To avail the GPU power, we do `to(torch.device("cuda"))`.
+# To use the GPU-variables on a CPU, we need to move the variables to a CPU using `to(torch.device("cpu"))` construct.
 # This manual conversion proposed by PyTorch is not very user friendly, and hence,
 # we added support for automatic GPU to CPU conversion (and vice versa) for the PyTorch types.
 #
-# .. code-block:: python
+# ```python
+# from flytekit import Resources
+# from typing import Tuple
 #
-#   from flytekit import Resources
-#   from typing import Tuple
 #
+# @task(requests=Resources(gpu="1"))
+# def train() -> Tuple[PyTorchCheckpoint, torch.Tensor, torch.Tensor, torch.Tensor]:
+#     ...
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     model = Model(X_train.shape[1])
+#     model.to(device)
+#     ...
+#     X_train, X_test = X_train.to(device), X_test.to(device)
+#     y_train, y_test = y_train.to(device), y_test.to(device)
+#     ...
+#     return PyTorchCheckpoint(module=model), X_train, X_test, y_test
 #
-#   @task(requests=Resources(gpu="1"))
-#   def train() -> Tuple[PyTorchCheckpoint, torch.Tensor, torch.Tensor, torch.Tensor]:
-#       ...
-#       device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#       model = Model(X_train.shape[1])
-#       model.to(device)
-#       ...
-#       X_train, X_test = X_train.to(device), X_test.to(device)
-#       y_train, y_test = y_train.to(device), y_test.to(device)
-#       ...
-#       return PyTorchCheckpoint(module=model), X_train, X_test, y_test
+# @task
+# def predict(
+#   checkpoint: PyTorchCheckpoint,
+#   X_train: torch.Tensor,
+#   X_test: torch.Tensor,
+#   y_test: torch.Tensor,
+# ):
+#     new_bn = Model(X_train.shape[1])
+#     new_bn.load_state_dict(checkpoint["module_state_dict"])
 #
-#   @task
-#   def predict(
-#     checkpoint: PyTorchCheckpoint,
-#     X_train: torch.Tensor,
-#     X_test: torch.Tensor,
-#     y_test: torch.Tensor,
-#   ):
-#       new_bn = Model(X_train.shape[1])
-#       new_bn.load_state_dict(checkpoint["module_state_dict"])
+#     accuracy_list = np.zeros((5,))
 #
-#       accuracy_list = np.zeros((5,))
+#     with torch.no_grad():
+#         y_pred = new_bn(X_test)
+#         correct = (torch.argmax(y_pred, dim=1) == y_test).type(torch.FloatTensor)
+#         accuracy_list = correct.mean()
+# ```
 #
-#       with torch.no_grad():
-#           y_pred = new_bn(X_test)
-#           correct = (torch.argmax(y_pred, dim=1) == y_test).type(torch.FloatTensor)
-#           accuracy_list = correct.mean()
+# The `predict` task here runs on a CPU.
+# As can be seen, you need not do the device conversion from GPU to CPU in the `predict` task as that's handled automatically by Flytekit!
 #
-# The ``predict`` task here runs on a CPU.
-# As can be seen, you need not do the device conversion from GPU to CPU in the ``predict`` task as that's handled automatically by Flytekit!

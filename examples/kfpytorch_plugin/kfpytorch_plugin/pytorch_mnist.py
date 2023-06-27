@@ -1,14 +1,12 @@
-"""
-Distributed Pytorch
--------------------
-
-This example is adapted from the default example available on Kubeflow's pytorch site
-`here <https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py>`_.
-(The kubeflow pytorch operator has been deprecated in favor of the new `kubeflow training operator <https://github.com/kubeflow/training-operator>`_
-which can simply be deployed instead of the pytorch operator in a Flyte cluster.)
-The example has been modified to show how to integrate it with Flyte and can be probably simplified and cleaned up.
-
-"""
+# %% [markdown]
+# # Distributed Pytorch
+#
+# This example is adapted from the default example available on Kubeflow's pytorch site
+# [here](https://github.com/kubeflow/pytorch-operator/blob/b7fef224fef1ef0117f6e74961b557270fcf4b04/examples/mnist/mnist.py).
+# (The kubeflow pytorch operator has been deprecated in favor of the new [kubeflow training operator](https://github.com/kubeflow/training-operator)
+# which can simply be deployed instead of the pytorch operator in a Flyte cluster.)
+# The example has been modified to show how to integrate it with Flyte and can be probably simplified and cleaned up.
+# %%
 import os
 import typing
 from dataclasses import dataclass
@@ -29,8 +27,9 @@ from torchvision import datasets, transforms
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
-# %%
+# %% [markdown]
 # Set memory, gpu and storage depending on whether we are trying to register against sandbox or not...
+# %%
 if os.getenv("SANDBOX") != "":
     cpu_request = "500m"
     mem_request = "500Mi"
@@ -45,9 +44,9 @@ else:
     gpu_limit = "1"
 
 
+# %% [markdown]
+# ## Actual model
 # %%
-# Actual model
-# ============
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -67,9 +66,9 @@ class Net(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
+# %% [markdown]
+# ## Trainer
 # %%
-# Trainer
-# =======
 def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -93,9 +92,9 @@ def train(model, device, train_loader, optimizer, epoch, writer, log_interval):
             writer.add_scalar("loss", loss.item(), niter)
 
 
+# %% [markdown]
+# ## Test the model
 # %%
-# Test the model
-# ==============
 def test(model, device, test_loader, writer, epoch):
     model.eval()
     test_loss = 0
@@ -134,10 +133,9 @@ def is_distributed():
     return dist.is_available() and dist.is_initialized()
 
 
+# %% [markdown]
+# ## Training Hyperparameters
 # %%
-# Training Hyperparameters
-# ========================
-#
 @dataclass_json
 @dataclass
 class Hyperparameters(object):
@@ -163,16 +161,17 @@ class Hyperparameters(object):
     learning_rate: float = 0.01
 
 
-# %%
-# Actual Training algorithm
-# =========================
+# %% [markdown]
+# ## Actual Training algorithm
+#
 # The output model using `torch.save` saves the `state_dict` as described
-# `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
-# A common convention is to have the ``.pt`` extension for the file
+# [in pytorch docs](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models).
+# A common convention is to have the `.pt` extension for the file
 #
 # Notice we are also generating an output variable called logs, these logs can be used to visualize the training in
 # Tensorboard and are the output of the `SummaryWriter` interface
-# Refer to section :ref:`pytorch_tensorboard` to visualize the outputs of this example.
+# Refer to section {ref}`pytorch_tensorboard` to visualize the outputs of this example.
+# %%
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs",
     epoch_accuracies=typing.List[float],
@@ -275,10 +274,11 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     )
 
 
-# %%
-# Let us plot the accuracy
-# ========================
+# %% [markdown]
+# ## Let us plot the accuracy
+#
 # We will output the accuracy plot as a PNG image
+# %%
 @task
 def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
     # summarize history for accuracy
@@ -292,12 +292,13 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
     return PNGImageFile(accuracy_plot)
 
 
-# %%
-# Create a pipeline
-# =================
+# %% [markdown]
+# ## Create a pipeline
+#
 # now the training and the plotting can be together put into a pipeline, in which case the training is performed first
 # followed by the plotting of the accuracy. Data is passed between them and the workflow itself outputs the image and
 # the serialize model
+# %%
 @workflow
 def pytorch_training_wf(
     hp: Hyperparameters = Hyperparameters(epochs=2, batch_size=128),
@@ -307,78 +308,81 @@ def pytorch_training_wf(
     return model, plot, logs
 
 
-# %%
-# Run the model locally
-# =====================
+# %% [markdown]
+# ## Run the model locally
+#
 # It is possible to run the model locally with almost no modifications (as long as the code takes care of the resolving
 # if distributed or not)
+# %%
 if __name__ == "__main__":
     model, plot, logs = pytorch_training_wf(
         hp=Hyperparameters(epochs=2, batch_size=128)
     )
     print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
 
-# %%
+# %% [markdown]
+# (pytorch_tensorboard)=
 #
-# .. _pytorch_tensorboard:
+# ## Rendering the output logs in tensorboard
 #
-# Rendering the output logs in tensorboard
-# ========================================
 # When running locally, the output of execution looks like
 #
-# .. code-block::
+# ```
+# Model: /tmp/flyte/20210110_214129/mock_remote/8421ae4d041f76488e245edf3f4360d5/my_model.h5, plot PNG: /tmp/flyte/20210110_214129/mock_remote/cf6a2cd9d3ded89ed814278a8fb3678c/accuracy.png, Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
+# ```
 #
-#   Model: /tmp/flyte/20210110_214129/mock_remote/8421ae4d041f76488e245edf3f4360d5/my_model.h5, plot PNG: /tmp/flyte/20210110_214129/mock_remote/cf6a2cd9d3ded89ed814278a8fb3678c/accuracy.png, Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
-#
-# You can use the ``Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/`` as
+# You can use the `Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/` as
 # an input to tensorboard to visualize the training as follows
 #
+# ```{eval-rst}
 # .. prompt:: bash
 #
 #   tensorboard --logdir /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
 #
+# ```
 #
 # If running remotely (executing on Flyte hosted environment), the workflow execution outputs can be retrieved.
 # Refer to .. TODO.
 # You can retrieve the outputs - which will be a path to a blob store like S3, GCS, minio, etc. Tensorboad can be
 # pointed to on your local laptop to visualize the results.
 #
-# Pytorch elastic training (torchrun)
-# ===================================
-# Flyte supports distributed training using `torch elastic <https://pytorch.org/docs/stable/elastic/run.html>`_ (``torchrun``).
-# In Flytekit, you can for instance perform elastic training on a single node with a local worker group of size 4, which is 
-# equivalent to ``torchrun --nproc-per-node=4 --nnodes=1 ...``, as follows:
+# ## Pytorch elastic training (torchrun)
 #
-# .. code-block:: python
-# 
-#   from flytekitplugins.kfpytorch import Elastic
-#   
-#   @task(
-#     task_config=Elastic(
-#       nnodes=1,
-#       nproc_per_node=4,
-#     )
+# Flyte supports distributed training using [torch elastic](https://pytorch.org/docs/stable/elastic/run.html) (`torchrun`).
+# In Flytekit, you can for instance perform elastic training on a single node with a local worker group of size 4, which is
+# equivalent to `torchrun --nproc-per-node=4 --nnodes=1 ...`, as follows:
+#
+# ```python
+# from flytekitplugins.kfpytorch import Elastic
+#
+# @task(
+#   task_config=Elastic(
+#     nnodes=1,
+#     nproc_per_node=4,
 #   )
-#   def task():
+# )
+# def task():
+# ```
 #
 # This starts 4 worker processes, both when running locally and when running remotely in a Kubernetes pod in a Flyte cluster.
-# To perform distributed elastic training on multiple nodes, you can use the ``Elastic`` task config as follows:
+# To perform distributed elastic training on multiple nodes, you can use the `Elastic` task config as follows:
 #
-# .. code-block:: python
-#   
-#   from flytekitplugins.kfpytorch import Elastic
-#     
-#   @task(
-#     task_config=Elastic(
-#       nnodes=2,
-#       nproc_per_node=4,
-#     ),
-#   )
-#   def train():
+# ```python
+# from flytekitplugins.kfpytorch import Elastic
+#
+# @task(
+#   task_config=Elastic(
+#     nnodes=2,
+#     nproc_per_node=4,
+#   ),
+# )
+# def train():
+# ```
 #
 # This configuration runs distributed training on 2 nodes, each with 4 worker processes.
 #
-# Control which rank returns its value
-# ====================================
+# ## Control which rank returns its value
+#
 # In distributed training, the return values from different workers might differ.
-# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a `IgnoreOutputs <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html>`_ exception for all other ranks.
+# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a [IgnoreOutputs](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html) exception for all other ranks.
+#

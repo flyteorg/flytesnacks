@@ -1,37 +1,39 @@
-"""
-.. _basics_of_tasks:
-
-Tasks
------
-
-.. tags:: Basic
-
-Task is a fundamental building block and an extension point of Flyte, which encapsulates the users' code. They possess the following properties:
-
-#. Versioned (usually tied to the ``git sha``)
-#. Strong interfaces (specified inputs and outputs)
-#. Declarative
-#. Independently executable
-#. Unit testable
-
-A task in Flytekit can be of two types:
-
-#. A task that has a Python function associated with it. The execution of the task is equivalent to the execution of this function.
-#. A task that doesn't have a Python function, e.g., an SQL query or any portable task like Sagemaker prebuilt algorithms, or a service that invokes an API.
-
-Flyte provides multiple plugins for tasks, which can be a backend plugin as well (`Athena <https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-aws-athena/flytekitplugins/athena/task.py>`__).
-
-In this example, you will learn how to write and execute a ``Python function task``. Other types of tasks will be covered in the later sections.
-"""
-# %%
+# %% [markdown]
+# (basics_of_tasks)=
+#
+# # Tasks
+#
+# ```{eval-rst}
+# .. tags:: Basic
+# ```
+#
+# Task is a fundamental building block and an extension point of Flyte, which encapsulates the users' code. They possess the following properties:
+#
+# 1. Versioned (usually tied to the `git sha`)
+# 2. Strong interfaces (specified inputs and outputs)
+# 3. Declarative
+# 4. Independently executable
+# 5. Unit testable
+#
+# A task in Flytekit can be of two types:
+#
+# 1. A task that has a Python function associated with it. The execution of the task is equivalent to the execution of this function.
+# 2. A task that doesn't have a Python function, e.g., an SQL query or any portable task like Sagemaker prebuilt algorithms, or a service that invokes an API.
+#
+# Flyte provides multiple plugins for tasks, which can be a backend plugin as well ([Athena](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-aws-athena/flytekitplugins/athena/task.py)).
+#
+# In this example, you will learn how to write and execute a `Python function task`. Other types of tasks will be covered in the later sections.
+# %% [markdown]
 # For any task in Flyte, there is one necessary import, which is:
+# %%
 from flytekit import task
 
 
-# %%
-# A ``PythonFunctionTask`` must always be decorated with the ``@task`` :py:func:`flytekit.task` decorator.
+# %% [markdown]
+# A `PythonFunctionTask` must always be decorated with the `@task` {py:func}`flytekit.task` decorator.
 # The task in itself is a regular Python function, although with one exception: it needs all the inputs and outputs to be clearly
-# annotated with the types. The types are regular Python types; we'll go over more on this in the :ref:`type-system section <flytekit_to_flyte_type_mapping>`.
+# annotated with the types. The types are regular Python types; we'll go over more on this in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
+# %%
 @task
 def square(n: int) -> int:
     """
@@ -46,27 +48,27 @@ def square(n: int) -> int:
     return n * n
 
 
-# %%
-# In this task, one input is ``n`` which has type ``int``.
-# The task ``square`` takes the number ``n`` and returns a new integer (squared value).
+# %% [markdown]
+# In this task, one input is `n` which has type `int`.
+# The task `square` takes the number `n` and returns a new integer (squared value).
 #
-# .. note::
-#
-#   Flytekit will assign a default name to the output variable like ``out0``.
-#   In case of multiple outputs, each output will be numbered in the order
-#   starting with 0, e.g., -> ``out0, out1, out2, ...``.
+# :::{note}
+# Flytekit will assign a default name to the output variable like `out0`.
+# In case of multiple outputs, each output will be numbered in the order
+# starting with 0, e.g., -> `out0, out1, out2, ...`.
+# :::
 #
 # You can execute a Flyte task as any normal function.
+# %%
 if __name__ == "__main__":
     print(square(n=10))
 
-# %%
-#
-# Invoke a Task within a Workflow
-# ===============================
+# %% [markdown]
+# ## Invoke a Task within a Workflow
 #
 # The primary way to use Flyte tasks is to invoke them in the context of a workflow.
 
+# %%
 from flytekit import workflow
 
 
@@ -74,13 +76,15 @@ from flytekit import workflow
 def wf(n: int) -> int:
     return square(n=square(n=n))
 
-# %%
-# In this toy example, we're calling the ``square`` task twice and returning the result.
+# %% [markdown]
+# In this toy example, we're calling the `square` task twice and returning the result.
 
-
 # %%
-# .. _single_task_execution:
+
+# %% [markdown]
+# (single_task_execution)=
 #
+# ```{eval-rst}
 # .. dropdown:: Execute a Single Task without a Workflow
 #
 #    Although workflows are traditionally composed of multiple tasks with dependencies defined by shared inputs and outputs,
@@ -137,3 +141,5 @@ def wf(n: int) -> int:
 #    .. prompt:: bash $
 #
 #      flytectl get execution --project flytesnacks --domain development <execname>
+# ```
+#

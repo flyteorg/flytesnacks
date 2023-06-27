@@ -1,29 +1,29 @@
-"""
-Cache Serializing
------------------
-
-.. tags:: Intermediate
-
-Serializing means only executing a single instance of a unique cacheable task (determined by the cache_version parameter and task signature) at a time. Using this mechanism, Flyte ensures that during multiple concurrent executions of a task only a single instance is evaluated and all others wait until completion and reuse the resulting cached outputs.
-
-Ensuring serialized evaluation requires a small degree of overhead to coordinate executions using a lightweight artifact reservation system. Therefore, this should be viewed as an extension to rather than a replacement for non-serialized cacheable tasks. It is particularly well fit for long running or otherwise computationally expensive tasks executed in scenarios similar to the following examples:
-
-- Periodically scheduled workflow where a single task evaluation duration may span multiple scheduled executions.
-- Running a commonly shared task within different workflows (which receive the same inputs).
-
-"""
-
-# %%
+# %% [markdown]
+# # Cache Serializing
 #
-# For any :py:func:`flytekit.task` in Flyte, there is always one required import, which is:
+# ```{eval-rst}
+# .. tags:: Intermediate
+# ```
+#
+# Serializing means only executing a single instance of a unique cacheable task (determined by the cache_version parameter and task signature) at a time. Using this mechanism, Flyte ensures that during multiple concurrent executions of a task only a single instance is evaluated and all others wait until completion and reuse the resulting cached outputs.
+#
+# Ensuring serialized evaluation requires a small degree of overhead to coordinate executions using a lightweight artifact reservation system. Therefore, this should be viewed as an extension to rather than a replacement for non-serialized cacheable tasks. It is particularly well fit for long running or otherwise computationally expensive tasks executed in scenarios similar to the following examples:
+#
+# - Periodically scheduled workflow where a single task evaluation duration may span multiple scheduled executions.
+# - Running a commonly shared task within different workflows (which receive the same inputs).
+
+# %% [markdown]
+# For any {py:func}`flytekit.task` in Flyte, there is always one required import, which is:
+# %%
 from flytekit import task
 
 
+# %% [markdown]
+# Task cache serializing is disabled by default to avoid unexpected behavior for task executions. To enable use the `cache_serialize` parameter.
+# `cache_serialize` is a switch to enable or disable serialization of the task
+# This operation is only useful for cacheable tasks, where one may reuse output from a previous execution. Flyte requires implicitly enabling the `cache` parameter on all cache serializable tasks.
+# Cache key definitions follow the same rules as non-serialized cache tasks. It is important to understand the implications of the task signature and `cache_version` parameter in defining cached results.
 # %%
-# Task cache serializing is disabled by default to avoid unexpected behavior for task executions. To enable use the ``cache_serialize`` parameter.
-# ``cache_serialize`` is a switch to enable or disable serialization of the task
-# This operation is only useful for cacheable tasks, where one may reuse output from a previous execution. Flyte requires implicitly enabling the ``cache`` parameter on all cache serializable tasks.
-# Cache key definitions follow the same rules as non-serialized cache tasks. It is important to understand the implications of the task signature and ``cache_version`` parameter in defining cached results.
 @task(cache=True, cache_serialize=True, cache_version="1.0")
 def square(n: int) -> int:
     """
@@ -38,13 +38,12 @@ def square(n: int) -> int:
     return n * n
 
 
-# %%
+# %% [markdown]
 # In the above example calling `square(n=2)` multiple times concurrently (even in different executions or workflows) will only execute the multiplication operation once.
 # Concurrently evaluated tasks will wait for completion of the first instance before reusing the cached results and subsequent evaluations will instantly reuse existing cache results.
 
-# %%
-# How Does Serializing Caches Work?
-# #################################
+# %% [markdown]
+# ## How Does Serializing Caches Work?
 #
 # The cache serialize paradigm introduces a new artifact reservation system. Tasks may use this reservation system to acquire an artifact reservation, indicating that they are actively evaluating the task, and release the reservation, once the execution is completed. Flyte uses a clock-skew algorithm to define reservation timeouts. Therefore, tasks are required to periodically extend the reservation during execution.
 #

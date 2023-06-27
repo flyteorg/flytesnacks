@@ -1,10 +1,9 @@
-"""
-Custom Sagemaker Algorithms
-###########################
-
-This script shows an example of how to simply convert your tensorflow training scripts to run on Amazon Sagemaker
-with very few modifications.
-"""
+# %% [markdown]
+# # Custom Sagemaker Algorithms
+#
+# This script shows an example of how to simply convert your tensorflow training scripts to run on Amazon Sagemaker
+# with very few modifications.
+# %%
 import typing
 from typing import Tuple
 
@@ -14,32 +13,32 @@ import tensorflow_datasets as tfds
 from flytekit import task, workflow
 from flytekit.types.directory import TensorboardLogs
 
-# %%
-# Training Algorithm
-# -------------------
+# %% [markdown]
+# ## Training Algorithm
+#
 # In this custom algorithm, we will train MNIST using tensorflow.
 # The Training will produce 3 outputs:
 #
-# #. The serialized model in HDF5 format
-# #. A log dictionary which is the Keras - `History.history`. This contains the accuracies and loss values
-# #. Tensorboard Logs: We will also output a directory that contains Tensorboard compatible logs. Flyte will collect
+# 1. The serialized model in HDF5 format
+# 2. A log dictionary which is the Keras - `History.history`. This contains the accuracies and loss values
+# 3. Tensorboard Logs: We will also output a directory that contains Tensorboard compatible logs. Flyte will collect
 #    these logs and make them available for visualization in tensorboard - locally or if running remote.
 #
-# Refer to section :ref:`sagemaker_tensorboard` to visualize the outputs of this example.
+# Refer to section {ref}`sagemaker_tensorboard` to visualize the outputs of this example.
 #
+# ## \[Optional\]: Create Specialized Type Aliases for Files in Specific Formats
 #
-# [Optional]: Create Specialized Type Aliases for Files in Specific Formats
-# --------------------------------------------------------------------------
 # The trained model will be serialized using HDF5 encoding. We can create a type for such a file. This type is simply
 # an informative way of understanding what type of file is generated and later on helps in matching up tasks that can
 # work on similar files. This completely optional.
 #
-# .. code-block:: python
-#
-#       HDF5EncodedModelFile = FlyteFile[typing.TypeVar("hdf5")]
+# ```python
+# HDF5EncodedModelFile = FlyteFile[typing.TypeVar("hdf5")]
+# ```
 #
 # But this type alias is already available from Flytekit's type engine, so it can just be imported.
-# We will also import ``PNGImageFile`` which will be used in the next task:
+# We will also import `PNGImageFile` which will be used in the next task:
+# %%
 from flytekit.types.file import HDF5EncodedFile, PNGImageFile
 from flytekitplugins.awssagemaker import (
     AlgorithmName,
@@ -50,20 +49,22 @@ from flytekitplugins.awssagemaker import (
     TrainingJobResourceConfig,
 )
 
-# %%
+# %% [markdown]
 # We can create a named tuple to name the specific outputs from the training. This is optional as well, but
 # is useful to have human readable names for the outputs. In the absence of this, flytekit will name all outputs as
-# ``o0, o1, ...``
+# `o0, o1, ...`
+# %%
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs", model=HDF5EncodedFile, epoch_logs=dict, logs=TensorboardLogs
 )
 
 
-# %%
-# Actual Algorithm
-# ------------------
+# %% [markdown]
+# ## Actual Algorithm
+#
 # To ensure that the code runs on Sagemaker, create a Sagemaker task config using the class
-# ``SagemakerTrainingJobConfig``
+# `SagemakerTrainingJobConfig`
+# %%
 @task(
     task_config=SagemakerTrainingJobConfig(
         algorithm_specification=...,
@@ -149,11 +150,12 @@ def custom_training_task(epochs: int, batch_size: int) -> TrainingOutputs:
     )
 
 
-# %%
-# Plot the Metrics
-# -----------------
+# %% [markdown]
+# ## Plot the Metrics
+#
 # In the following task we will use the history logs from the training in the previous step and plot the curves using
 # matplotlib. Images will be output as png.
+# %%
 PlotOutputs = typing.NamedTuple("PlotOutputs", accuracy=PNGImageFile, loss=PNGImageFile)
 
 
@@ -183,9 +185,10 @@ def plot_loss_and_accuracy(epoch_logs: dict) -> PlotOutputs:
     )
 
 
-# %%
+# %% [markdown]
 # The workflow takes in the hyperparams, in this case the epochs and the batch_size, and outputs the trained model
 # and the plotted curves:
+# %%
 @workflow
 def mnist_trainer(
     epochs: int = 5, batch_size: int = 128
@@ -195,35 +198,38 @@ def mnist_trainer(
     return model, accuracy, loss, logs
 
 
-# %%
+# %% [markdown]
 # As long as you have tensorflow setup locally, it will run like a regular python script.
+# %%
 if __name__ == "__main__":
     model, accuracy, loss, logs = mnist_trainer()
     print(
         f"Model: {model}, Accuracy PNG: {accuracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}"
     )
 
-# %%
+# %% [markdown]
+# (sagemaker_tensorboard)=
 #
-# .. _sagemaker_tensorboard:
+# ## Rendering the Output Logs in Tensorboard
 #
-# Rendering the Output Logs in Tensorboard
-# -----------------------------------------
 # When running locally, the output of execution looks like:
 #
-# .. code-block::
+# ```
+# Model: /tmp/flyte/20210110_214129/mock_remote/8421ae4d041f76488e245edf3f4360d5/my_model.h5, Accuracy PNG: /tmp/flyte/20210110_214129/mock_remote/cf6a2cd9d3ded89ed814278a8fb3678c/accuracy.png, loss PNG: /tmp/flyte/20210110_214129/mock_remote/267c9dd17d4d4e7c9c8bb8b12ef1e3d2/loss.png, Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
+# ```
 #
-#   Model: /tmp/flyte/20210110_214129/mock_remote/8421ae4d041f76488e245edf3f4360d5/my_model.h5, Accuracy PNG: /tmp/flyte/20210110_214129/mock_remote/cf6a2cd9d3ded89ed814278a8fb3678c/accuracy.png, loss PNG: /tmp/flyte/20210110_214129/mock_remote/267c9dd17d4d4e7c9c8bb8b12ef1e3d2/loss.png, Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
-#
-# You can use the ``Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/`` as
+# You can use the `Tensorboard Log Dir: /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/` as
 # an input to tensorboard to visualize the training as follows:
 #
+# ```{eval-rst}
 # .. prompt:: bash
 #
 #   tensorboard --logdir /tmp/flyte/20210110_214129/mock_remote/a4b04e58e21f26f08f81df24094d6446/
 #
+# ```
 #
 # If running remotely (executing on Flyte hosted environment), the workflow execution outputs can be retrieved.
 #
 # You can retrieve the outputs - which will be a path to a blob store like S3, GCS, minio, etc. Tensorboad can be
 # pointed to on your local laptop to visualize the results.
+#

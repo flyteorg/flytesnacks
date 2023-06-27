@@ -1,24 +1,25 @@
-"""
-.. _dataclass_type:
+# %% [markdown]
+# (dataclass_type)=
+#
+# # Using Custom Python Objects
+#
+# ```{eval-rst}
+# .. tags:: Basic
+# ```
+#
+# Flyte supports passing JSON between tasks. But to simplify the usage for the users and introduce type-safety,
+# Flytekit supports passing custom data objects between tasks.
+#
+# Currently, data classes decorated with `@dataclass_json` are supported.
+# One good use case of a data class would be when you want to wrap all input in a data class in the case of a map task
+# which can only accept one input and produce one output.
+#
+# This example shows how users can serialize custom JSON-compatible dataclasses between successive tasks using the
+# excellent [dataclasses_json](https://pypi.org/project/dataclasses-json/) library.
 
-Using Custom Python Objects
----------------------------
-
-.. tags:: Basic
-
-Flyte supports passing JSON between tasks. But to simplify the usage for the users and introduce type-safety,
-Flytekit supports passing custom data objects between tasks.
-
-Currently, data classes decorated with ``@dataclass_json`` are supported.
-One good use case of a data class would be when you want to wrap all input in a data class in the case of a map task
-which can only accept one input and produce one output.
-
-This example shows how users can serialize custom JSON-compatible dataclasses between successive tasks using the
-excellent `dataclasses_json <https://pypi.org/project/dataclasses-json/>`__ library.
-"""
-
-# %%
+# %% [markdown]
 # To get started, let's import the necessary libraries.
+# %%
 import os
 import tempfile
 import typing
@@ -32,8 +33,9 @@ from flytekit.types.file import FlyteFile
 from flytekit.types.schema import FlyteSchema
 
 
-# %%
+# %% [markdown]
 # We define a simple data class that can be sent between tasks.
+# %%
 @dataclass_json
 @dataclass
 class Datum(object):
@@ -46,17 +48,18 @@ class Datum(object):
     z: typing.Dict[int, str]
 
 
-# %%
-# ``Datum`` is a user defined complex type that can be used to pass complex data between tasks.
+# %% [markdown]
+# `Datum` is a user defined complex type that can be used to pass complex data between tasks.
 # Interestingly, users can send this data between different tasks written in different languages and input it through the Flyte Console as raw JSON.
 #
-# .. note::
-#
-#   All variables in a data class should be **annotated with their type**. Failure to do should will result in an error.
+# :::{note}
+# All variables in a data class should be **annotated with their type**. Failure to do should will result in an error.
+# :::
 
+# %% [markdown]
+# Next, we define a data class that accepts {std:ref}`FlyteSchema <typed_schema>`, {std:ref}`FlyteFile <files>`,
+# and {std:ref}`FlyteDirectory <folders>`.
 # %%
-# Next, we define a data class that accepts :std:ref:`FlyteSchema <typed_schema>`, :std:ref:`FlyteFile <files>`,
-# and :std:ref:`FlyteDirectory <folders>`.
 @dataclass_json
 @dataclass
 class Result:
@@ -65,14 +68,15 @@ class Result:
     directory: FlyteDirectory
 
 
-# %%
-# .. note::
-#
-#   A data class supports the usage of data associated with Python types, data classes, FlyteFile, FlyteDirectory, and FlyteSchema.
+# %% [markdown]
+# :::{note}
+# A data class supports the usage of data associated with Python types, data classes, FlyteFile, FlyteDirectory, and FlyteSchema.
+# :::
 #
 # Once declared, dataclasses can be returned as outputs or accepted as inputs.
 #
 # 1. Datum Data Class
+# %%
 @task
 def stringify(x: int) -> Datum:
     """
@@ -91,10 +95,11 @@ def add(x: Datum, y: Datum) -> Datum:
     return Datum(x=x.x + y.x, y=x.y + y.y, z=x.z)
 
 
-# %%
-# The ``stringify`` task outputs a data class, and the ``add`` task accepts data classes as inputs.
+# %% [markdown]
+# The `stringify` task outputs a data class, and the `add` task accepts data classes as inputs.
 #
 # 2. Result Data Class
+# %%
 @task
 def upload_result() -> Result:
     """
@@ -129,11 +134,12 @@ def download_result(res: Result):
     assert os.listdir(res.directory) == ["schema.parquet"]
 
 
-# %%
-# The ``upload_result`` task outputs a data class, and the ``download_result`` task accepts data classes as inputs.
+# %% [markdown]
+# The `upload_result` task outputs a data class, and the `download_result` task accepts data classes as inputs.
 
-# %%
+# %% [markdown]
 # Lastly, we create a workflow.
+# %%
 @workflow
 def wf(x: int, y: int) -> (Datum, Result):
     """
@@ -144,8 +150,10 @@ def wf(x: int, y: int) -> (Datum, Result):
     return add(x=stringify(x=x), y=stringify(x=y)), res
 
 
-# %%
+# %% [markdown]
 # We can run the workflow locally.
+#
+# %%
 if __name__ == "__main__":
     """
     This workflow can be run locally. During local execution also, the dataclasses will be marshalled to and from json.

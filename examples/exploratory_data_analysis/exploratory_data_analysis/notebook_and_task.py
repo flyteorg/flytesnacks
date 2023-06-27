@@ -1,14 +1,13 @@
-"""
-EDA and Feature Engineering in Jupyter Notebook and Modeling in a Flyte Task
-============================================================================
+# %% [markdown]
+# # EDA and Feature Engineering in Jupyter Notebook and Modeling in a Flyte Task
+#
+# In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering
+# (step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performance using mean absolute error (MAE)
+# (step 2: Modeling in a Flyte Task).
 
-In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering
-(step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performance using mean absolute error (MAE)
-(step 2: Modeling in a Flyte Task).
-"""
-
-# %%
+# %% [markdown]
 # First, let's import the libraries we will use in this example.
+# %%
 import os
 import pathlib
 from dataclasses import dataclass
@@ -23,8 +22,9 @@ from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.preprocessing import RobustScaler
 
 
+# %% [markdown]
+# We define a `dataclass` to store the hyperparameters of the Gradient Boosting Regressor.
 # %%
-# We define a ``dataclass`` to store the hyperparameters of the Gradient Boosting Regressor.
 @dataclass_json
 @dataclass
 class Hyperparameters(object):
@@ -36,13 +36,14 @@ class Hyperparameters(object):
     nfolds: int = 10
 
 
-# %%
-# We define a ``NotebookTask`` to run the `Jupyter notebook
-# <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb>`__.
-# This notebook returns ``dummified_data`` and ``dataset`` as the outputs.
+# %% [markdown]
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb).
+# This notebook returns `dummified_data` and `dataset` as the outputs.
 #
-# .. note::
-#   ``dummified_data`` is used in this example, and ``dataset`` is used in the upcoming example.
+# :::{note}
+# `dummified_data` is used in this example, and `dataset` is used in the upcoming example.
+# :::
+# %%
 nb = NotebookTask(
     name="eda-feature-eng-nb",
     notebook_path=os.path.join(
@@ -52,10 +53,12 @@ nb = NotebookTask(
     requests=Resources(mem="500Mi"),
 )
 
-# %%
-# Next, we define a ``cross_validate`` function and a ``modeling`` task to compute the MAE score of the data against
+
+# %% [markdown]
+# Next, we define a `cross_validate` function and a `modeling` task to compute the MAE score of the data against
 # the Gradient Boosting Regressor.
 
+# %%
 
 def cross_validate(model, nfolds, feats, targets):
     score = -1 * (
@@ -94,8 +97,9 @@ def modeling(
     return cross_validate(gb_model, hyperparams.nfolds, X_train, y_train)
 
 
+# %% [markdown]
+# We define a `workflow` to run the notebook and the `modeling` task.
 # %%
-# We define a ``workflow`` to run the notebook and the ``modeling`` task.
 @workflow
 def notebook_wf(hyperparams: Hyperparameters = Hyperparameters()) -> float:
     output = nb()
@@ -103,7 +107,9 @@ def notebook_wf(hyperparams: Hyperparameters = Hyperparameters()) -> float:
     return mae_score
 
 
-# %%
+# %% [markdown]
 # We can now run the notebook and the modeling task locally.
+#
+# %%
 if __name__ == "__main__":
     print(notebook_wf())

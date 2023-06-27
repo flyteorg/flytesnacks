@@ -1,12 +1,11 @@
-"""
-DuckDB Example
---------------
+# %% [markdown]
+# # DuckDB Example
+#
+# In this example, we will see how to run SQL queries using DuckDB.
+#
+# First, import the necessary libraries.
 
-In this example, we will see how to run SQL queries using DuckDB. 
-
-First, import the necessary libraries.
-"""
-
+# %%
 import json
 from typing import List
 
@@ -17,11 +16,11 @@ from flytekit.types.structured.structured_dataset import StructuredDataset
 from flytekitplugins.duckdb import DuckDBQuery
 from typing_extensions import Annotated
 
-# %%
-# A simple ``SELECT`` query
-# =========================
+# %% [markdown]
+# ## A simple `SELECT` query
 #
-# To run a simple ``SELECT`` query, initialize a ``DuckDBQuery`` task.
+# To run a simple `SELECT` query, initialize a `DuckDBQuery` task.
+# %%
 simple_duckdb_query = DuckDBQuery(
     name="simple_task",
     query="SELECT SUM(a) FROM mydf",
@@ -29,14 +28,15 @@ simple_duckdb_query = DuckDBQuery(
 )
 
 
-# %%
-# .. note::
+# %% [markdown]
+# :::{note}
+# The default output type for the `DuckDBQuery` task is `StructuredDataset`.
+# Hence, it is possible to retrieve any compatible type of Structured Dataset such as a Pandas dataframe, Vaex dataframe, and others.
+# :::
 #
-#   The default output type for the ``DuckDBQuery`` task is ``StructuredDataset``.
-#   Hence, it is possible to retrieve any compatible type of Structured Dataset such as a Pandas dataframe, Vaex dataframe, and others.
-#
-# You can invoke the task from within a :py:func:`~flytekit:flytekit.workflow` and return both a Pandas dataframe and a PyArrow table.
+# You can invoke the task from within a {py:func}`~flytekit:flytekit.workflow` and return both a Pandas dataframe and a PyArrow table.
 # The query will be executed on a Pandas dataframe, and the resulting output can belong to any StructuredDataset-compatible type.
+# %%
 @task
 def get_pandas_df() -> pd.DataFrame:
     return pd.DataFrame({"a": [1, 2, 3]})
@@ -56,16 +56,16 @@ if __name__ == "__main__":
     print(f"Running pandas_wf()... {pandas_wf()}")
     print(f"Running arrow_wf()... {arrow_wf()}")
 
-# %%
-# SQL query on Parquet file
-# =========================
+# %% [markdown]
+# ## SQL query on Parquet file
 #
 # DuckDB enables direct querying of a parquet file without the need for intermediate conversions to a database.
-# If you wish to execute a SQL query on a parquet file stored in a public S3 bucket, you can use the ``httpfs`` library by installing and loading it.
-# Simply send the parquet file as a parameter to the ``SELECT`` query.
+# If you wish to execute a SQL query on a parquet file stored in a public S3 bucket, you can use the `httpfs` library by installing and loading it.
+# Simply send the parquet file as a parameter to the `SELECT` query.
 #
-# It is important to note that multiple commands can be executed within a single ``DuckDBQuery``.
+# It is important to note that multiple commands can be executed within a single `DuckDBQuery`.
 # However, it is essential to ensure that the last command within the query is a "SELECT" query to retrieve data in the end.
+# %%
 parquet_duckdb_query = DuckDBQuery(
     name="parquet_query",
     query=[
@@ -88,11 +88,11 @@ if __name__ == "__main__":
     )
     print(f"Running parquet_wf()... {parquet_wf(parquet_file=parquet_file)}")
 
-# %%
-# SQL query on StructuredDataset
-# ===============================
+# %% [markdown]
+# ## SQL query on StructuredDataset
 #
 # To execute a SQL query on a structured dataset, you can simply run a query just like any other query on a Pandas dataframe or PyArrow table.
+# %%
 sd_duckdb_query = DuckDBQuery(
     name="sd_query",
     query="SELECT * FROM sd_df WHERE i = 2",
@@ -118,21 +118,22 @@ def sd_wf() -> pd.DataFrame:
 if __name__ == "__main__":
     print(f"Running sd_wf()... {sd_wf()}")
 
-# %%
-# Send parameters to multiple queries
-# ===================================
+# %% [markdown]
+# ## Send parameters to multiple queries
 #
 # To send parameters to multiple queries, use list of lists.
 #
-# .. note::
+# :::{note}
+# Sometimes, the annotation of parameter types can be somewhat complicated.
+# In such situations, you can convert the list to a string using `json.dumps`.
+# The string will be automatically loaded into a list under the hood.
+# If the length of the query list is 3 and the length of the parameter list is 2,
+# the plugin will search for parameter acceptance symbols ("?" or "\$") in each query
+# to determine whether to include or exclude the parameters before executing the query.
+# Therefore, it is necessary to provide the query parameters in the same order as the queries listed.
+# :::
 #
-#   Sometimes, the annotation of parameter types can be somewhat complicated.
-#   In such situations, you can convert the list to a string using ``json.dumps``.
-#   The string will be automatically loaded into a list under the hood. 
-#   If the length of the query list is 3 and the length of the parameter list is 2, 
-#   the plugin will search for parameter acceptance symbols ("?" or "$") in each query
-#   to determine whether to include or exclude the parameters before executing the query.
-#   Therefore, it is necessary to provide the query parameters in the same order as the queries listed. 
+# %%
 duckdb_params_query = DuckDBQuery(
     name="params_query",
     query=[

@@ -1,25 +1,26 @@
-"""
-.. _chain_flyte_entities:
+# %% [markdown]
+# (chain_flyte_entities)=
+#
+# # Chain Flyte Entities
+#
+# ```{eval-rst}
+# .. tags:: Basic
+# ```
+#
+# Data passing between tasks or workflows need not necessarily happen through parameters.
+# In such a case, if you want to explicitly construct the dependency, flytekit provides a mechanism to chain Flyte entities using the `>>` operator.
+#
+# ## Tasks
+#
+# Let's enforce an order for `read()` to happen after `write()`, and for `write()` to happen after `create_bucket()`.
+#
+# :::{note}
+# To run the example locally, spin up the demo cluster using `flytectl demo start`.
+# :::
 
-Chain Flyte Entities
---------------------
-
-.. tags:: Basic
-
-Data passing between tasks or workflows need not necessarily happen through parameters.
-In such a case, if you want to explicitly construct the dependency, flytekit provides a mechanism to chain Flyte entities using the ``>>`` operator.
-
-Tasks
-^^^^^
-
-Let's enforce an order for ``read()`` to happen after ``write()``, and for ``write()`` to happen after ``create_bucket()``.
-
-.. note::
-    To run the example locally, spin up the demo cluster using ``flytectl demo start``.
-"""
-
-# %%
+# %% [markdown]
 # Import the necessary dependencies.
+# %%
 import logging
 from io import StringIO
 
@@ -46,9 +47,10 @@ def s3_client():
     )
 
 
-# %%
+# %% [markdown]
 # Create an s3 bucket.
 # This task exists just for the sandbox case.
+# %%
 @task(cache=True, cache_version="1.0")
 def create_bucket():
     client = s3_client()
@@ -58,8 +60,9 @@ def create_bucket():
         logger.info(f"Bucket {BUCKET_NAME} has already been created by you.")
 
 
+# %% [markdown]
+# Define a `read()` task to read from the s3 bucket.
 # %%
-# Define a ``read()`` task to read from the s3 bucket.
 @task
 def read() -> pd.DataFrame:
     data = pd.read_csv(
@@ -68,8 +71,9 @@ def read() -> pd.DataFrame:
     return data
 
 
+# %% [markdown]
+# Define a `write()` task to write the dataframe to a CSV file in the s3 bucket.
 # %%
-# Define a ``write()`` task to write the dataframe to a CSV file in the s3 bucket.
 @task(cache=True, cache_version="1.0")
 def write():
     df = pd.DataFrame(  # noqa : F841
@@ -88,9 +92,10 @@ def write():
     )
 
 
+# %% [markdown]
+# We want to enforce an order here: `create_bucket()` followed by `write()` followed by `read()`.
+# Since no data-passing happens between the tasks, use `>>` operator on the tasks.
 # %%
-# We want to enforce an order here: ``create_bucket()`` followed by ``write()`` followed by ``read()``.
-# Since no data-passing happens between the tasks, use ``>>`` operator on the tasks.
 @workflow
 def chain_tasks_wf() -> pd.DataFrame:
     create_bucket_promise = create_bucket()
@@ -103,11 +108,11 @@ def chain_tasks_wf() -> pd.DataFrame:
     return read_promise
 
 
-# %%
-# Chain SubWorkflows
-# ^^^^^^^^^^^^^^^^^^
+# %% [markdown]
+# ## Chain SubWorkflows
 #
-# Similar to tasks, you can chain :ref:`subworkflows <subworkflows>`.
+# Similar to tasks, you can chain {ref}`subworkflows <subworkflows>`.
+# %%
 @workflow
 def write_sub_workflow():
     write()
@@ -118,8 +123,9 @@ def read_sub_workflow() -> pd.DataFrame:
     return read()
 
 
+# %% [markdown]
+# Use `>>` to chain the subworkflows.
 # %%
-# Use ``>>`` to chain the subworkflows.
 @workflow
 def chain_workflows_wf() -> pd.DataFrame:
     create_bucket_promise = create_bucket()
@@ -132,8 +138,10 @@ def chain_workflows_wf() -> pd.DataFrame:
     return read_sub_wf
 
 
-# %%
+# %% [markdown]
 # Run the workflows locally.
+#
+# %%
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(f"Running chain_tasks_wf()... {chain_tasks_wf()}")

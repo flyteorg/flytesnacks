@@ -1,12 +1,11 @@
-"""
-TensorFlow Example
-------------------
+# %% [markdown]
+# # TensorFlow Example
+#
+# In this example, we will see how to convert a tensorflow model to an ONNX model.
+#
+# First import the necessary libraries.
 
-In this example, we will see how to convert a tensorflow model to an ONNX model.
-
-First import the necessary libraries.
-"""
-
+# %%
 from typing import List, NamedTuple
 
 import numpy as np
@@ -18,8 +17,9 @@ from flytekitplugins.onnxtensorflow import TensorFlow2ONNX, TensorFlow2ONNXConfi
 from tensorflow.keras import datasets, layers, models
 from typing_extensions import Annotated
 
+# %% [markdown]
+# Define a `NamedTuple` to define the data schema.
 # %%
-# Define a ``NamedTuple`` to define the data schema.
 DataOutput = NamedTuple(
     "DataOutput",
     [
@@ -29,8 +29,9 @@ DataOutput = NamedTuple(
     ],
 )
 
+# %% [markdown]
+# Define a `load_data` task to load CIFAR10 data.
 # %%
-# Define a ``load_data`` task to load CIFAR10 data.
 @task(cache=True, cache_version="0.0.2", requests=Resources(mem="1000Mi", cpu="2"))
 def load_data() -> DataOutput:
     (train_images, train_labels), (test_images, _) = datasets.cifar10.load_data()
@@ -44,10 +45,11 @@ def load_data() -> DataOutput:
     )
 
 
-# %%
-# Define a ``train`` task to train a CNN model on the CIFAR10 dataset.
+# %% [markdown]
+# Define a `train` task to train a CNN model on the CIFAR10 dataset.
 # Note the annotated output type.
 # This is a special annotation that tells Flytekit that this parameter is to be converted to an ONNX model with the given metadata.
+# %%
 @task(requests=Resources(mem="1000Mi", cpu="2"))
 def train(
     train_images: np.ndarray, train_labels: np.ndarray
@@ -77,8 +79,9 @@ def train(
     return TensorFlow2ONNX(model=model)
 
 
+# %% [markdown]
+# Define an `onnx_predict` task to generate predictions for the test data using the ONNX model.
 # %%
-# Define an ``onnx_predict`` task to generate predictions for the test data using the ONNX model.
 @task(requests=Resources(mem="1000Mi", cpu="2"))
 def onnx_predict(
     model: ONNXFile,
@@ -90,8 +93,9 @@ def onnx_predict(
     return onnx_pred
 
 
-# %%
+# %% [markdown]
 # Define a workflow to run the tasks.
+# %%
 @workflow
 def wf() -> List[np.ndarray]:
     load_data_output = load_data()
@@ -103,7 +107,9 @@ def wf() -> List[np.ndarray]:
     return onnx_preds
 
 
-# %%
+# %% [markdown]
 # Run the workflow locally.
+#
+# %%
 if __name__ == "__main__":
     print(f"Predictions: {wf()}")

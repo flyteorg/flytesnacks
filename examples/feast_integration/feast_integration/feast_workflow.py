@@ -1,37 +1,36 @@
-"""
-Flyte Pipeline with Feast
--------------------------
+# %% [markdown]
+# # Flyte Pipeline with Feast
+#
+# In this example, let's build a Flyte pipeline with Feast as the feature store.
+#
+# Here's the step-by-step process:
+#
+# - Fetch SQLite3 data as a Pandas DataFrame
+# - Perform mean-median-imputation
+# - Build a feature store
+# - Store the features in an offline store
+# - Retrieve the features from an offline store
+# - Perform univariate-feature-selection
+# - Train a Naive Bayes model
+# - Load features into an online store
+# - Fetch a random feature vector for inference
+# - Generate a prediction
+#
+# :::{note}
+# Run `flytectl demo start` before running the workflow locally.
+# :::
 
-In this example, let's build a Flyte pipeline with Feast as the feature store.
-
-Here's the step-by-step process:
-
-* Fetch SQLite3 data as a Pandas DataFrame
-* Perform mean-median-imputation
-* Build a feature store
-* Store the features in an offline store
-* Retrieve the features from an offline store
-* Perform univariate-feature-selection
-* Train a Naive Bayes model
-* Load features into an online store
-* Fetch a random feature vector for inference
-* Generate a prediction
-
-.. note::
-
-    Run ``flytectl demo start`` before running the workflow locally.
-"""
-
-# %%
+# %% [markdown]
 # Import the necessary dependencies.
 #
-# .. note::
+# :::{note}
+# If running the workflow locally, do an absolute import of the feature engineering tasks.
 #
-#   If running the workflow locally, do an absolute import of the feature engineering tasks.
-#
-#   .. code-block::
-#
-#       from feature_eng_tasks import mean_median_imputer, univariate_selection
+# ```
+# from feature_eng_tasks import mean_median_imputer, univariate_selection
+# ```
+# :::
+# %%
 import logging
 import os
 from datetime import datetime, timedelta
@@ -58,8 +57,9 @@ from .feature_eng_tasks import mean_median_imputer, univariate_selection
 logger = logging.getLogger(__file__)
 
 
-# %%
+# %% [markdown]
 # Set the endpoint, import the feature engineering tasks, and initialize the AWS environment variables.
+# %%
 if os.getenv("DEMO") is None:
     # local execution
     os.environ["FEAST_S3_ENDPOINT_URL"] = ENDPOINT = "http://localhost:30084"
@@ -70,10 +70,11 @@ else:
 os.environ["AWS_ACCESS_KEY_ID"] = "minio"
 os.environ["AWS_SECRET_ACCESS_KEY"] = "miniostorage"
 
-# %%
+# %% [markdown]
 # Define the necessary data holders.
 #
 # TODO: find a better way to define these features.
+# %%
 FEAST_FEATURES = [
     "horse_colic_stats:rectal temperature",
     "horse_colic_stats:total protein",
@@ -89,9 +90,10 @@ DATABASE_URI = "https://cdn.discordapp.com/attachments/545481172399030272/861575
 DATA_CLASS = "surgical lesion"
 
 
-# %%
+# %% [markdown]
 # This task exists just for the demo cluster case as Feast needs an explicit S3 bucket and path.
 # This unfortunately makes the workflow less portable.
+# %%
 @task
 def create_bucket(
     bucket_name: str, registry_path: str, online_store_path: str
@@ -120,8 +122,9 @@ def create_bucket(
     )
 
 
+# %% [markdown]
+# Define a `SQLite3Task` that fetches data from a data source for feature ingestion.
 # %%
-# Define a ``SQLite3Task`` that fetches data from a data source for feature ingestion.
 load_horse_colic_sql = SQLite3Task(
     name="sqlite3.load_horse_colic",
     query_template="select * from data",
@@ -133,8 +136,9 @@ load_horse_colic_sql = SQLite3Task(
 )
 
 
+# %% [markdown]
+# Set the datatype of the timestamp column in the underlying DataFrane to `datetime`, which would otherwise be a string.
 # %%
-# Set the datatype of the timestamp column in the underlying DataFrane to ``datetime``, which would otherwise be a string.
 @task
 def convert_timestamp_column(
     dataframe: pd.DataFrame, timestamp_column: str
@@ -143,9 +147,10 @@ def convert_timestamp_column(
     return dataframe
 
 
-# %%
-# Define ``store_offline`` and ``load_historical_features`` tasks to store and retrieve the historial features, respectively.
+# %% [markdown]
+# Define `store_offline` and `load_historical_features` tasks to store and retrieve the historial features, respectively.
 #
+# ```{eval-rst}
 # .. list-table:: Decoding the ``Feast`` Jargon
 #    :widths: 25 25
 #
@@ -161,11 +166,13 @@ def convert_timestamp_column(
 #      - Registers objects to metadata store and updates the related infrastructure.
 #    * - ``get_historical_features()``
 #      - Enriches an entity dataframe with historical feature values for either training or batch scoring.
+# ```
 #
-# .. note::
-#
-#   The Feast feature store is mutable, so be careful, as Flyte workflows can be highly concurrent!
-#   TODO: use postgres db as the registry to support concurrent writes.
+# :::{note}
+# The Feast feature store is mutable, so be careful, as Flyte workflows can be highly concurrent!
+# TODO: use postgres db as the registry to support concurrent writes.
+# :::
+# %%
 @task(limits=Resources(mem="400Mi"))
 def store_offline(repo_config: RepoConfig, dataframe: StructuredDataset) -> FlyteFile:
     horse_colic_entity = Entity(name="Hospital Number")
@@ -247,8 +254,9 @@ def load_historical_features(repo_config: RepoConfig) -> pd.DataFrame:
     return historical_features
 
 
-# %%
+# %% [markdown]
 # Train a Naive Bayes model by fetching features from the offline store and the corresponding data from the parquet file.
+# %%
 @task
 def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     x_train, _, y_train, _ = train_test_split(
@@ -265,9 +273,10 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
     return fname
 
 
-# %%
-# To generate predictions, define ``store_online`` and ``retrieve_online`` tasks.
+# %% [markdown]
+# To generate predictions, define `store_online` and `retrieve_online` tasks.
 #
+# ```{eval-rst}
 # .. list-table:: Decoding the ``Feast`` Jargon
 #    :widths: 25 25
 #
@@ -275,13 +284,15 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 #      - Materializes data from offline to an online store.
 #    * - ``get_online_features()``
 #      - Retrieves the latest online feature data.
+# ```
 #
-# .. note::
-#
-#   One key difference between an online and offline store is that only the latest feature values are stored per entity
-#   key in an online store, unlike an offline store where all feature values are stored.
-#   Our dataset has two such entries with the same ``Hospital Number`` but different time stamps.
-#   Only data point with the latest timestamp will be stored in the online store.
+# :::{note}
+# One key difference between an online and offline store is that only the latest feature values are stored per entity
+# key in an online store, unlike an offline store where all feature values are stored.
+# Our dataset has two such entries with the same `Hospital Number` but different time stamps.
+# Only data point with the latest timestamp will be stored in the online store.
+# :::
+# %%
 @task(limits=Resources(mem="400Mi"))
 def store_online(repo_config: RepoConfig, online_store: FlyteFile) -> FlyteFile:
     # download the online store file and copy the content to the actual online store path
@@ -297,8 +308,9 @@ def store_online(repo_config: RepoConfig, online_store: FlyteFile) -> FlyteFile:
     return FlyteFile(path=repo_config.online_store.path)
 
 
-# %%
+# %% [markdown]
 # Retrieve a feature vector from the online store.
+# %%
 @task
 def retrieve_online(
     repo_config: RepoConfig,
@@ -323,8 +335,9 @@ def retrieve_online(
     return feature_vector
 
 
-# %%
+# %% [markdown]
 # Use the inference data point fetched earlier to generate the prediction.
+# %%
 @task
 def predict(model_ser: JoblibSerializedFile, features: dict) -> np.ndarray:
     model = joblib.load(model_ser)
@@ -341,8 +354,9 @@ def predict(model_ser: JoblibSerializedFile, features: dict) -> np.ndarray:
     return prediction
 
 
-# %%
+# %% [markdown]
 # Define a workflow that loads the data from SQLite3 database, does feature engineering, and stores the offline features in a feature store.
+# %%
 @workflow
 def featurize(
     repo_config: RepoConfig, imputation_method: str = "mean"
@@ -364,8 +378,9 @@ def featurize(
     return df, online_store
 
 
-# %%
+# %% [markdown]
 # Define a workflow that trains a Naive Bayes model.
+# %%
 @workflow
 def trainer(
     df: StructuredDataset, num_features_univariate: int = 7
@@ -386,8 +401,9 @@ def trainer(
     return trained_model
 
 
-# %%
+# %% [markdown]
 # Lastly, define a workflow to encapsulate and run the previously defined tasks and workflows.
+# %%
 @workflow
 def feast_workflow(
     s3_bucket: str = "feast-integration",
@@ -441,5 +457,6 @@ def feast_workflow(
 if __name__ == "__main__":
     print(f"{feast_workflow()}")
 
-# %%
+# %% [markdown]
 # You should see prediction against the test input as the workflow output.
+#

@@ -1,29 +1,30 @@
-"""
-Single Node, Multi GPU Training
--------------------------------
+# %% [markdown]
+# # Single Node, Multi GPU Training
+#
+# When you need to scale up model training in pytorch, you can use the {py:class}`~torch:torch.nn.DataParallel` for
+# single node, multi-gpu/cpu training or {py:class}`~torch:torch.nn.parallel.DistributedDataParallel` for multi-node,
+# multi-gpu training.
+#
+# This tutorial will cover how to write a simple training script on the MNIST dataset that uses
+# `DistributedDataParallel` since its functionality is a superset of `DataParallel`, supporting both single- and
+# multi-node training, and this is the [recommended way](https://pytorch.org/docs/stable/notes/cuda.html#cuda-nn-ddp-instead)
+# of distributing your training workload. Note, however, that this tutorial will only work for single-node, multi-gpu
+# settings.
+#
+# For training on a single node and gpu see
+# {ref}`this tutorial <pytorch_single_node_and_gpu>`, and for more
+# information on distributed training, check out the
+# [pytorch documentation](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html).
+#
+# The following video has further explanation:
+#
+# ```{eval-rst}
+# ..  youtube:: nTMFb7TmArI
+# ```
 
-When you need to scale up model training in pytorch, you can use the :py:class:`~torch:torch.nn.DataParallel` for
-single node, multi-gpu/cpu training or :py:class:`~torch:torch.nn.parallel.DistributedDataParallel` for multi-node,
-multi-gpu training.
-
-This tutorial will cover how to write a simple training script on the MNIST dataset that uses
-``DistributedDataParallel`` since its functionality is a superset of ``DataParallel``, supporting both single- and
-multi-node training, and this is the `recommended way <https://pytorch.org/docs/stable/notes/cuda.html#cuda-nn-ddp-instead>`__
-of distributing your training workload. Note, however, that this tutorial will only work for single-node, multi-gpu
-settings.
-
-For training on a single node and gpu see
-:ref:`this tutorial <pytorch_single_node_and_gpu>`, and for more
-information on distributed training, check out the
-`pytorch documentation <https://pytorch.org/tutorials/intermediate/ddp_tutorial.html>`__.
-
-The following video has further explanation:
-
-..  youtube:: nTMFb7TmArI
-"""
-
-# %%
+# %% [markdown]
 # Import the required libraries.
+# %%
 import json
 import os
 import typing
@@ -34,39 +35,43 @@ import wandb
 from flytekit import Resources, task, workflow
 from flytekit.types.file import PythonPickledFile
 
-# %%
+# %% [markdown]
 # We'll re-use certain classes and functions from the
-# :ref:`single node and gpu tutorial <pytorch_single_node_and_gpu>`
-# such as the ``Net`` model architecture, ``Hyperparameters``, and ``log_test_predictions``\.
+# {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`
+# such as the `Net` model architecture, `Hyperparameters`, and `log_test_predictions`.
+# %%
 from mnist_classifier.pytorch_single_node_and_gpu import Hyperparameters, Net, log_test_predictions
 from torch import distributed as dist
 from torch import multiprocessing as mp
 from torch import nn, optim
 from torchvision import datasets, transforms
 
-# %%
+# %% [markdown]
 # Let's define some variables to be used later.
 #
-# ``WORLD_SIZE`` defines the total number of GPUs we want to use to distribute our training job and ``DATA_DIR``
+# `WORLD_SIZE` defines the total number of GPUs we want to use to distribute our training job and `DATA_DIR`
 # specifies where the downloaded data should be written to.
+# %%
 WORLD_SIZE = 2
 DATA_DIR = "./data"
 
-# %%
-# The following variables are specific to ``wandb``\:
+# %% [markdown]
+# The following variables are specific to `wandb`:
 #
-# - ``NUM_BATCHES_TO_LOG``\: Number of batches to log from the test data for each test step
-# - ``LOG_IMAGES_PER_BATCH``\: Number of images to log per test batch
+# - `NUM_BATCHES_TO_LOG`: Number of batches to log from the test data for each test step
+# - `LOG_IMAGES_PER_BATCH`: Number of images to log per test batch
+# %%
 NUM_BATCHES_TO_LOG = 10
 LOG_IMAGES_PER_BATCH = 32
 
 
-# %%
-# If running remotely, copy your ``wandb`` API key to the Dockerfile under the environment variable ``WANDB_API_KEY``\.
-# This function logs into ``wandb`` and initializes the project. If you built your Docker image with the
-# ``WANDB_USERNAME``\, this will work. Otherwise, replace ``my-user-name`` with your ``wandb`` user name.
+# %% [markdown]
+# If running remotely, copy your `wandb` API key to the Dockerfile under the environment variable `WANDB_API_KEY`.
+# This function logs into `wandb` and initializes the project. If you built your Docker image with the
+# `WANDB_USERNAME`, this will work. Otherwise, replace `my-user-name` with your `wandb` user name.
 #
-# We'll call this function in the ``pytorch_mnist_task`` defined below.
+# We'll call this function in the `pytorch_mnist_task` defined below.
+# %%
 def wandb_setup():
     wandb.login()
     wandb.init(
@@ -75,31 +80,32 @@ def wandb_setup():
     )
 
 
-# %%
-# Re-Using the Network From the Single GPU Example
-# ================================================
+
+# %% [markdown]
+# ## Re-Using the Network From the Single GPU Example
 #
 # We'll use the same neural network architecture as the one we define in the
-# :ref:`single node and gpu tutorial <pytorch_single_node_and_gpu>`.
-
+# {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`.
 
 # %%
-# Data Downloader
-# ===============
+
+# %% [markdown]
+# ## Data Downloader
 #
 # We'll use this helper function to download the training and test sets before-hand to avoid race conditions when
 # initializing the train and test dataloaders during training.
+# %%
 def download_mnist(data_dir):
     for train in [True, False]:
         datasets.MNIST(data_dir, train=train, download=True)
 
 
-# %%
-# The Data Loader
-# ===============
+# %% [markdown]
+# ## The Data Loader
 #
 # This function will be called in the training function to be distributed across all available GPUs. Note that
-# we set ``download=False`` here to avoid race conditions as mentioned above.
+# we set `download=False` here to avoid race conditions as mentioned above.
+# %%
 def mnist_dataloader(
     data_dir,
     batch_size,
@@ -138,12 +144,12 @@ def mnist_dataloader(
     )
 
 
-# %%
-# Training
-# ========
+# %% [markdown]
+# ## Training
 #
-# We define a ``train`` function to enclose the training loop per epoch, and  we log the loss and epoch progression,
-# which can later be visualized in a ``wandb`` dashboard.
+# We define a `train` function to enclose the training loop per epoch, and  we log the loss and epoch progression,
+# which can later be visualized in a `wandb` dashboard.
+# %%
 def train(model, rank, train_loader, optimizer, epoch, log_interval):
     model.train()
 
@@ -174,13 +180,13 @@ def train(model, rank, train_loader, optimizer, epoch, log_interval):
             wandb.log({"loss": loss, "epoch": epoch})
 
 
-# %%
-# Evaluation
-# ==========
+# %% [markdown]
+# ## Evaluation
 #
-# We define a ``test`` function to test the model on the test dataset, logging ``accuracy``\, and ``test_loss`` to a
-# ``wandb`` `table <https://docs.wandb.ai/guides/data-vis/log-tables>`__, which helps us visualize the model's
+# We define a `test` function to test the model on the test dataset, logging `accuracy`, and `test_loss` to a
+# `wandb` [table](https://docs.wandb.ai/guides/data-vis/log-tables), which helps us visualize the model's
 # performance in a structured format.
+# %%
 def test(model, rank, test_loader):
     model.eval()
 
@@ -239,10 +245,10 @@ def test(model, rank, test_loader):
     return accuracy
 
 
-# %%
-# Training and Evaluating
-# =======================
+# %% [markdown]
+# ## Training and Evaluating
 
+# %%
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs",
     epoch_accuracies=typing.List[float],
@@ -250,13 +256,13 @@ TrainingOutputs = typing.NamedTuple(
 )
 
 
-# %%
-# Setting up Distributed Training
-# ===============================
+# %% [markdown]
+# ## Setting up Distributed Training
 #
-# ``dist_setup`` is a helper function that instantiates a distributed environment. We're pointing all of the
+# `dist_setup` is a helper function that instantiates a distributed environment. We're pointing all of the
 # processes across all available GPUs to the address of the main process.
 
+# %%
 
 def dist_setup(rank, world_size, backend):
     os.environ["MASTER_ADDR"] = "localhost"
@@ -264,21 +270,23 @@ def dist_setup(rank, world_size, backend):
     dist.init_process_group(backend, rank=rank, world_size=world_size)
 
 
-# %%
+# %% [markdown]
 # These global variables point to the location of where to save the model and validation accuracies.
+# %%
 MODEL_FILE = "./mnist_cnn.pt"
 ACCURACIES_FILE = "./mnist_cnn_accuracies.json"
 
 
-# %%
-# Then we define the ``train_mnist`` function. Note the conditionals that check for ``rank == 0``\. These parts of the
-# functions are only called in the main process, which is the ``0``\th rank. The reason for this is that we only want the
+# %% [markdown]
+# Then we define the `train_mnist` function. Note the conditionals that check for `rank == 0`. These parts of the
+# functions are only called in the main process, which is the `0`th rank. The reason for this is that we only want the
 # main process to perform certain actions such as:
 #
-# - log metrics via ``wandb``
+# - log metrics via `wandb`
 # - save the trained model to disk
 # - keep track of validation metrics
 
+# %%
 
 def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
     # store the hyperparameters' config in ``wandb``
@@ -354,31 +362,34 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
     dist.destroy_process_group()  # clean up
 
 
-# %%
-# The output model using :py:func:`torch:torch.save` saves the `state_dict` as described
-# `in pytorch docs <https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models>`_.
-# A common convention is to have the ``.pt`` extension for the model file.
-#
-# .. note::
-#    Note the usage of ``requests=Resources(gpu=WORLD_SIZE)``\. This will force Flyte to allocate this task onto a
-#    machine with GPU(s), which in our case is 2 gpus. The task will be queued up until a machine with GPU(s) can be
-#    procured. Also, for the GPU Training to work, the Dockerfile needs to be built as explained in the
-#    :ref:`pytorch-dockerfile` section.
 
-# %%
-# Defining the ``task``
-# =====================
+# %% [markdown]
+# The output model using {py:func}`torch:torch.save` saves the `state_dict` as described
+# [in pytorch docs](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-and-loading-models).
+# A common convention is to have the `.pt` extension for the model file.
+#
+# :::{note}
+# Note the usage of `requests=Resources(gpu=WORLD_SIZE)`. This will force Flyte to allocate this task onto a
+# machine with GPU(s), which in our case is 2 gpus. The task will be queued up until a machine with GPU(s) can be
+# procured. Also, for the GPU Training to work, the Dockerfile needs to be built as explained in the
+# {ref}`pytorch-dockerfile` section.
+# :::
+
+# %% [markdown]
+# ## Defining the `task`
 #
 # Next we define the flyte task that kicks off the distributed training process. Here we call the
-# pytorch :py:func:`multiprocessing <torch:torch.multiprocessing.spawn>` function to initiate a process on each
+# pytorch {py:func}`multiprocessing <torch:torch.multiprocessing.spawn>` function to initiate a process on each
 # available GPU. Since we're parallelizing the data, each process will contain a copy of the model and pytorch
-# will handle syncing the weights across all processes on ``optimizer.step()`` calls.
+# will handle syncing the weights across all processes on `optimizer.step()` calls.
 #
-# Read more about pytorch distributed training `here <https://pytorch.org/tutorials/beginner/dist_overview.html>`__.
-
+# Read more about pytorch distributed training [here](https://pytorch.org/tutorials/beginner/dist_overview.html).
 
 # %%
+
+# %% [markdown]
 # Set memory, gpu and storage depending on whether we are trying to register against sandbox or not:
+# %%
 if os.getenv("SANDBOX") != "":
     mem = "100Mi"
     gpu = "0"
@@ -422,8 +433,9 @@ def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     )
 
 
-# %%
+# %% [markdown]
 # Finally, we define a workflow to run the training algorithm. We return the model and accuracies.
+# %%
 @workflow
 def pytorch_training_wf(
     hp: Hyperparameters = Hyperparameters(epochs=10, batch_size=128)
@@ -431,23 +443,24 @@ def pytorch_training_wf(
     return pytorch_mnist_task(hp=hp)
 
 
-# %%
-# Running the Model Locally
-# =========================
+# %% [markdown]
+# ## Running the Model Locally
 #
 # It is possible to run the model locally with almost no modifications (as long as the code takes care of resolving
 # if the code is distributed or not). This is how to do it:
+# %%
 if __name__ == "__main__":
     model, accuracies = pytorch_training_wf(
         hp=Hyperparameters(epochs=10, batch_size=128)
     )
     print(f"Model: {model}, Accuracies: {accuracies}")
 
-# %%
-# Weights & Biases Report
-# =======================
+# %% [markdown]
+# ## Weights & Biases Report
 #
-# You can refer to the complete ``wandb`` report `here <https://wandb.ai/niels-bantilan/mnist-single-node-multi-gpu/reports/Pytorch-Single-node-Multi-GPU-Report--Vmlldzo5Mjk4Nzk>`__.
+# You can refer to the complete `wandb` report [here](https://wandb.ai/niels-bantilan/mnist-single-node-multi-gpu/reports/Pytorch-Single-node-Multi-GPU-Report--Vmlldzo5Mjk4Nzk).
 #
-# .. tip::
-#   Many more customizations can be done to the report according to your requirements!
+# :::{tip}
+# Many more customizations can be done to the report according to your requirements!
+# :::
+#

@@ -1,36 +1,37 @@
-"""
-.. _raw_container:
-
-Using Raw Containers
---------------------
-
-.. tags:: Containerization, Advanced
-
-This example demonstrates how to use arbitrary containers in 5 different languages, all orchestrated in flytekit seamlessly.
-Flyte mounts an input data volume where all the data needed by the container is available, and an output data volume
-for the container to write all the data which will be stored away.
-
-The data is written as separate files, one per input variable. The format of the file is serialized strings.
-Refer to the raw protocol to understand how to leverage this.
-"""
+# %% [markdown]
+# (raw_container)=
+#
+# # Using Raw Containers
+#
+# ```{eval-rst}
+# .. tags:: Containerization, Advanced
+# ```
+#
+# This example demonstrates how to use arbitrary containers in 5 different languages, all orchestrated in flytekit seamlessly.
+# Flyte mounts an input data volume where all the data needed by the container is available, and an output data volume
+# for the container to write all the data which will be stored away.
+#
+# The data is written as separate files, one per input variable. The format of the file is serialized strings.
+# Refer to the raw protocol to understand how to leverage this.
+# %%
 import logging
 
 from flytekit import ContainerTask, kwtypes, task, workflow
 
 logger = logging.getLogger(__file__)
 
-# %%
-# Container Tasks
-# ===============
+# %% [markdown]
+# ## Container Tasks
 #
-# A :py:class:`flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
-# is ``calculate_ellipse_area_shell``. This name has to be unique in the entire project. Users can specify:
+# A {py:class}`flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
+# is `calculate_ellipse_area_shell`. This name has to be unique in the entire project. Users can specify:
 #
-# - ``input_data_dir`` -> where inputs will be written to.
-# - ``output_data_dir`` -> where Flyte will expect the outputs to exist.
+# - `input_data_dir` -> where inputs will be written to.
+# - `output_data_dir` -> where Flyte will expect the outputs to exist.
 #
-# ``inputs`` and ``outputs`` specify the interface for the task; thus it should be an ordered dictionary of typed input and
+# `inputs` and `outputs` specify the interface for the task; thus it should be an ordered dictionary of typed input and
 # output variables.
+# %%
 calculate_ellipse_area_shell = ContainerTask(
     name="ellipse-area-metadata-shell",
     input_data_dir="/var/inputs",
@@ -131,9 +132,10 @@ def report_all_calculated_areas(
     logger.info(f"julia: area={area_julia}, metadata={metadata_julia}")
 
 
-# %%
-# As can be seen in this example, ``ContainerTask``\s can be interacted with like normal Python functions, whose inputs
+# %% [markdown]
+# As can be seen in this example, `ContainerTask`s can be interacted with like normal Python functions, whose inputs
 # correspond to the declared input variables. All data returned by the tasks are consumed and logged by a Flyte task.
+# %%
 @workflow
 def wf(a: float, b: float):
     # Calculate area in all languages
@@ -158,38 +160,44 @@ def wf(a: float, b: float):
     )
 
 
-# %%
+# %% [markdown]
 # One of the benefits of raw container tasks is that Flytekit does not need to be installed in the target container.
 #
-# .. note::
-#   Raw containers cannot be run locally at the moment.
+# :::{note}
+# Raw containers cannot be run locally at the moment.
+# :::
 #
-# Scripts
-# =======
+# ## Scripts
 #
-# The contents of each script specified in the ``ContainerTask`` is as follows:
+# The contents of each script specified in the `ContainerTask` is as follows:
 #
-# calculate-ellipse-area.sh
-# ^^^^^^^^^^^^^^^^^^^^^^^^^
-# .. literalinclude::  ../../../examples/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
-#    :language: shell
+# ### calculate-ellipse-area.sh
 #
-# calculate-ellipse-area.py
-# ^^^^^^^^^^^^^^^^^^^^^^^^^
-# .. literalinclude::  ../../../examples/containerization/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
-#    :language: python
+# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
+# :language: shell
+# ```
 #
-# calculate-ellipse-area.R
-# ^^^^^^^^^^^^^^^^^^^^^^^^^
-# .. literalinclude::  ../../../examples/containerization/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
-#    :language: r
+# ### calculate-ellipse-area.py
 #
-# calculate-ellipse-area.hs
-# ^^^^^^^^^^^^^^^^^^^^^^^^^
-# .. literalinclude::  ../../../examples/containerization/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
-#    :language: haskell
+# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
+# :language: python
+# ```
 #
-# calculate-ellipse-area.jl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^
-# .. literalinclude::  ../../../examples/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
-#    :language: julia
+# ### calculate-ellipse-area.R
+#
+# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
+# :language: r
+# ```
+#
+# ### calculate-ellipse-area.hs
+#
+# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
+# :language: haskell
+# ```
+#
+# ### calculate-ellipse-area.jl
+#
+# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
+# :language: julia
+# ```
+#

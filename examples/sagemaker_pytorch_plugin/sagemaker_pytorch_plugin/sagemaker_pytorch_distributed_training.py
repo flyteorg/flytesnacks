@@ -1,17 +1,16 @@
-"""
-Distributed Pytorch on Sagemaker
-################################
-
-This example is adapted from
-`this sagemaker example <https://github.com/aws/amazon-sagemaker-examples/blob/89831fcf99ea3110f52794db0f6433a4013a5bca/sagemaker-python-sdk/pytorch_mnist/mnist.py>`__:
-
-It shows how distributed training can be completely performed on the user side with minimal changes using Flyte.
-
-.. NOTE::
-
-    Flytekit will be adding further simplifications to make writing a distributed training algorithm even simpler, but
-    this example basically provides the full details.
-"""
+# %% [markdown]
+# # Distributed Pytorch on Sagemaker
+#
+# This example is adapted from
+# [this sagemaker example](https://github.com/aws/amazon-sagemaker-examples/blob/89831fcf99ea3110f52794db0f6433a4013a5bca/sagemaker-python-sdk/pytorch_mnist/mnist.py):
+#
+# It shows how distributed training can be completely performed on the user side with minimal changes using Flyte.
+#
+# :::{NOTE}
+# Flytekit will be adding further simplifications to make writing a distributed training algorithm even simpler, but
+# this example basically provides the full details.
+# :::
+# %%
 import logging
 import os
 import typing
@@ -163,8 +162,9 @@ def configure_model(model, is_distributed, gpu):
     return model
 
 
-# %%
+# %% [markdown]
 # The Actual Trainer
+# %%
 def train(gpu: int, args: TrainingArgs):
     logging.basicConfig(level="INFO")
     is_distributed = args.is_distributed()
@@ -267,8 +267,9 @@ def train(gpu: int, args: TrainingArgs):
         save_model(model, args.model_dir)
 
 
-# %%
+# %% [markdown]
 # Lets test the trained model
+# %%
 def test(model, test_loader, device):
     model.eval()
     test_loss = 0
@@ -308,8 +309,9 @@ def model_fn(model_dir):
     return model.to(device)
 
 
-# %%
+# %% [markdown]
 # Save the model to a local path
+# %%
 def save_model(model, model_dir) -> PythonPickledFile:
     logging.info("Saving the model.")
     path = os.path.join(model_dir, "model.pth")
@@ -416,12 +418,14 @@ def mnist_pytorch_job(hp: Hyperparameters) -> PythonPickledFile:
     return pth
 
 
-# %%
-# Create a Pipeline
-# ------------------
+# %% [markdown]
+# ## Create a Pipeline
+#
 # Now the training and the plotting can be put together into a pipeline, where the training is performed first
 # followed by the plotting of the accuracy. Data is passed between them and the workflow itself outputs the image and
 # the serialize model:
+#
+# %%
 @workflow
 def pytorch_training_wf(hp: Hyperparameters) -> PythonPickledFile:
     return mnist_pytorch_job(hp=hp)

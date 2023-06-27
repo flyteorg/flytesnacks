@@ -1,17 +1,18 @@
-"""
-.. _folders:
+# %% [markdown]
+# (folders)=
+#
+# # Working With Folders
+#
+# ```{eval-rst}
+# .. tags:: Data, Basic
+# ```
+#
+# In addition to files, folders are another fundamental operating system primitive users often work with. Flyte supports folders
+# in the form of [multi-part blobs](https://github.com/flyteorg/flyteidl/blob/237f025a15c0102675ad41d2d1e66869afa80822/protos/flyteidl/core/types.proto#L73).
 
-Working With Folders
---------------------
-
-.. tags:: Data, Basic
-
-In addition to files, folders are another fundamental operating system primitive users often work with. Flyte supports folders
-in the form of `multi-part blobs <https://github.com/flyteorg/flyteidl/blob/237f025a15c0102675ad41d2d1e66869afa80822/protos/flyteidl/core/types.proto#L73>`__.
-"""
-
-# %%
+# %% [markdown]
 # First, let's import the libraries we need in this example.
+# %%
 import csv
 import os
 import urllib.request
@@ -24,11 +25,12 @@ from flytekit import task, workflow
 from flytekit.types.directory import FlyteDirectory
 
 
-# %%
+# %% [markdown]
 # Extending the same use case that we used in the File example, which is to normalize columns in a csv file.
 #
 # The following task downloads a list of urls pointing to csv files and returns the path to the folder, in a
-# ``FlyteDirectory`` object.
+# `FlyteDirectory` object.
+# %%
 @task
 def download_files(csv_urls: List[str]) -> FlyteDirectory:
     working_dir = flytekit.current_context().working_directory
@@ -47,14 +49,17 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
     return FlyteDirectory(path=str(local_dir))
 
 
-# %%
+
+# %% [markdown]
 # Next, we define a helper function to normalize the columns in-place.
 #
-# .. note::
-#    This is a plain python function that will be called in a subsequent Flyte task. This example
-#    demonstrates how Flyte tasks are simply entrypoints of execution, which can themselves call
-#    other functions and routines that are written in pure python.
+# :::{note}
+# This is a plain python function that will be called in a subsequent Flyte task. This example
+# demonstrates how Flyte tasks are simply entrypoints of execution, which can themselves call
+# other functions and routines that are written in pure python.
+# :::
 
+# %%
 
 def normalize_columns(
     local_csv_file: str,
@@ -84,10 +89,12 @@ def normalize_columns(
             writer.writerow({k: row[i] for i, k in enumerate(columns_to_normalize)})
 
 
-# %%
+
+# %% [markdown]
 # Now we define a task that accepts the previously downloaded folder, along with some metadata about the
 # column names of each file in the directory and the column names that we want to normalize.
 
+# %%
 
 @task
 def normalize_all_files(
@@ -105,11 +112,13 @@ def normalize_all_files(
     return FlyteDirectory(path=csv_files_dir.path)
 
 
-# %%
+
+# %% [markdown]
 # Then we compose all of the above tasks into a workflow. This workflow accepts a list
 # of url strings pointing to a remote location containing a csv file, a list of column names
 # associated with each csv file, and a list of columns that we want to normalize.
 
+# %%
 
 @workflow
 def download_and_normalize_csv_files(
@@ -125,8 +134,10 @@ def download_and_normalize_csv_files(
     )
 
 
-# %%
+# %% [markdown]
 # Finally, we can run the workflow locally.
+#
+# %%
 if __name__ == "__main__":
     csv_urls = [
         "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",

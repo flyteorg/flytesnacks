@@ -1,63 +1,65 @@
-"""
-.. _intermediate_using_spark_tasks:
+# %% [markdown]
+# (intermediate_using_spark_tasks)=
+#
+# # Writing a PySpark Task
+#
+# The Spark plugin makes it extremely easy to run your PySpark code as a task.
+# The plugin creates a new ephemeral cluster for the Spark execution dynamically, and Flyte manages the execution and auto-scaling.
+#
+# ## Spark in Flytekit
+#
+# 1. Ensure you have `flytekit` installed.
+#
+# 2. Enable Spark in the backend by following the {ref}`flyte:deployment-plugin-setup-k8s` guide.
+#
+# 3. Install the [flytekit spark plugin](https://pypi.org/project/flytekitplugins-spark/).
+#
+#    ```
+#    pip install flytekitplugins-spark
+#    ```
+#
+# 4. Write regular PySpark code.
+#
+#    ```python
+#    @task(
+#        task_config=Spark(
+#            # this configuration is applied to the spark cluster
+#            spark_conf={
+#                "spark.driver.memory": "1000M",
+#                "spark.executor.instances": "2",
+#                "spark.driver.cores": "1",
+#            }
+#        ),
+#        cache_version="1",
+#        cache=True,
+#    )
+#    def hello_spark(partitions: int) -> float:
+#        ...
+#        sess = flytekit.current_context().spark_session
+#        # Regular PySpark code
+#        ...
+#    ```
+#
+# 5. Run it locally.
+#
+#    ```python
+#    hello_spark(partitions=10)
+#    ```
+#
+# 6. Use it in a Flyte workflow.
+#
+# 7. Run it on a remote cluster by building a Docker image using the Dockerfile in the README.
+#
+# (example-spark)=
+#
+# ## How Flytekit Simplifies Usage of Pyspark
+#
+# The task `hello_spark` runs a new Spark cluster, which when run locally runs a single node client only cluster,
+# but when run remotely spins up an arbitrarily-sized cluster depending on the specified spark configuration.
 
-Writing a PySpark Task
-----------------------
-
-The Spark plugin makes it extremely easy to run your PySpark code as a task.
-The plugin creates a new ephemeral cluster for the Spark execution dynamically, and Flyte manages the execution and auto-scaling.
-
-Spark in Flytekit
-=================
-
-#. Ensure you have ``flytekit`` installed.
-#. Enable Spark in the backend by following the :ref:`flyte:deployment-plugin-setup-k8s` guide.
-#. Install the `flytekit spark plugin <https://pypi.org/project/flytekitplugins-spark/>`__. ::
-
-    pip install flytekitplugins-spark
-
-#. Write regular PySpark code.
-
-   .. code-block:: python
-
-       @task(
-           task_config=Spark(
-               # this configuration is applied to the spark cluster
-               spark_conf={
-                   "spark.driver.memory": "1000M",
-                   "spark.executor.instances": "2",
-                   "spark.driver.cores": "1",
-               }
-           ),
-           cache_version="1",
-           cache=True,
-       )
-       def hello_spark(partitions: int) -> float:
-           ...
-           sess = flytekit.current_context().spark_session
-           # Regular PySpark code
-           ...
-
-#. Run it locally.
-
-   .. code-block:: python
-
-       hello_spark(partitions=10)
-
-#. Use it in a Flyte workflow.
-#. Run it on a remote cluster by building a Docker image using the Dockerfile in the README.
-
-.. _example-spark:
-
-How Flytekit Simplifies Usage of Pyspark
-========================================
-
-The task ``hello_spark`` runs a new Spark cluster, which when run locally runs a single node client only cluster,
-but when run remotely spins up an arbitrarily-sized cluster depending on the specified spark configuration.
-"""
-
-# %%
+# %% [markdown]
 # Let's get started by importing the libraries.
+# %%
 import datetime
 import random
 from operator import add
@@ -67,10 +69,11 @@ from flytekit import Resources, task, workflow
 from flytekitplugins.spark import Spark
 
 
+# %% [markdown]
+# You can create a Spark task by adding a `@task(task_config=Spark(...)...)` decorator.
+# `spark_conf` can have configuration options that are typically used when configuring a Spark cluster.
+# `hadoop_conf` can also be given as an input if required.
 # %%
-# You can create a Spark task by adding a ``@task(task_config=Spark(...)...)`` decorator.
-# ``spark_conf`` can have configuration options that are typically used when configuring a Spark cluster.
-# ``hadoop_conf`` can also be given as an input if required.
 @task(
     task_config=Spark(
         # this configuration is applied to the spark cluster
@@ -98,24 +101,27 @@ def hello_spark(partitions: int) -> float:
     return pi_val
 
 
-# %%
+# %% [markdown]
 # Let's define a function on which the map-reduce operation is called within the Spark cluster.
+# %%
 def f(_):
     x = random.random() * 2 - 1
     y = random.random() * 2 - 1
     return 1 if x**2 + y**2 <= 1 else 0
 
 
-# %%
+# %% [markdown]
 # Next, we define a regular Flyte task which will not execute on the Spark cluster.
+# %%
 @task(cache_version="1")
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1
 
 
-# %%
+# %% [markdown]
 # This workflow shows that a spark task and any python function (or a Flyte task) can be chained together as long as they match the parameter specifications.
+# %%
 @workflow
 def my_spark(triggered_date: datetime.datetime) -> float:
     """
@@ -127,8 +133,10 @@ def my_spark(triggered_date: datetime.datetime) -> float:
     return pi
 
 
+# %% [markdown]
+# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to {ref}`Hive <Hive>` metastores may not work, but these are limitations of using Spark and are not introduced by Flyte.
+#
 # %%
-# Workflows with spark tasks can be executed locally. Some aspects of spark, like links to :ref:`Hive <Hive>` metastores may not work, but these are limitations of using Spark and are not introduced by Flyte.
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     print(

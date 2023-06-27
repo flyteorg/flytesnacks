@@ -1,18 +1,17 @@
-"""
-Distributed TensorFlow Training
--------------------------------
+# %% [markdown]
+# # Distributed TensorFlow Training
+#
+# When you need to scale up model training using TensorFlow, you can use {py:class}`~tensorflow:tf.distribute.Strategy` to distribute your training across multiple devices.
+# There are various strategies available under this API and you can use any of them. In this example, we will use {py:class}`~tensorflow:tf.distribute.MirroredStrategy` to train an MNIST model using a convolutional network.
+#
+# {py:class}`~tensorflow:tf.distribute.MirroredStrategy` supports synchronous distributed training on multiple GPUs on one machine.
+# To learn more about distributed training with TensorFlow, refer to the [Distributed training with TensorFlow](https://www.tensorflow.org/guide/distributed_training) in the TensorFlow documentation.
+#
+# Let's get started with an example!
 
-When you need to scale up model training using TensorFlow, you can use :py:class:`~tensorflow:tf.distribute.Strategy` to distribute your training across multiple devices.
-There are various strategies available under this API and you can use any of them. In this example, we will use :py:class:`~tensorflow:tf.distribute.MirroredStrategy` to train an MNIST model using a convolutional network.
-
-:py:class:`~tensorflow:tf.distribute.MirroredStrategy` supports synchronous distributed training on multiple GPUs on one machine.
-To learn more about distributed training with TensorFlow, refer to the `Distributed training with TensorFlow <https://www.tensorflow.org/guide/distributed_training>`__ in the TensorFlow documentation.
-
-Let's get started with an example!
-"""
-
-# %%
+# %% [markdown]
 # First, we load the libraries.
+# %%
 import os
 from dataclasses import dataclass
 from typing import NamedTuple, Tuple
@@ -24,13 +23,16 @@ from flytekit import Resources, task, workflow
 from flytekit.types.directory import FlyteDirectory
 from flytekitplugins.kftensorflow import TfJob
 
+# %% [markdown]
+# We define `MODEL_FILE_PATH` indicating where to store the model file.
 # %%
-# We define ``MODEL_FILE_PATH`` indicating where to store the model file.
 MODEL_FILE_PATH = "saved_model/"
 
-# %%
+
+# %% [markdown]
 # We initialize a data class to store the hyperparameters.
 
+# %%
 
 @dataclass_json
 @dataclass
@@ -40,11 +42,11 @@ class Hyperparameters(object):
     epochs: int = 10
 
 
-# %%
-# Loading the Data
-# ================
+# %% [markdown]
+# ## Loading the Data
 #
-# We use the `MNIST <https://www.tensorflow.org/datasets/catalog/mnist>`__ dataset to train our model.
+# We use the [MNIST](https://www.tensorflow.org/datasets/catalog/mnist) dataset to train our model.
+# %%
 def load_data(
     hyperparameters: Hyperparameters,
 ) -> Tuple[tf.data.Dataset, tf.data.Dataset, tf.distribute.Strategy]:
@@ -72,11 +74,11 @@ def load_data(
     return train_dataset, eval_dataset, strategy
 
 
-# %%
-# Compiling the Model
-# ===================
+# %% [markdown]
+# ## Compiling the Model
 #
-# We create and compile a model in the context of `Strategy.scope <https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy#scope>`__.
+# We create and compile a model in the context of [Strategy.scope](https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy#scope).
+# %%
 def get_compiled_model(strategy: tf.distribute.Strategy) -> tf.keras.Model:
     with strategy.scope():
         model = tf.keras.Sequential(
@@ -100,11 +102,11 @@ def get_compiled_model(strategy: tf.distribute.Strategy) -> tf.keras.Model:
     return model
 
 
-# %%
-# Training
-# ========
+# %% [markdown]
+# ## Training
 #
 # We define a function for decaying the learning rate.
+# %%
 def decay(epoch: int):
     if epoch < 3:
         return 1e-3
@@ -114,12 +116,13 @@ def decay(epoch: int):
         return 1e-5
 
 
-# %%
-# Next, we define ``train_model`` to train the model with three callbacks:
+# %% [markdown]
+# Next, we define `train_model` to train the model with three callbacks:
 #
-# * :py:class:`~tensorflow:tf.keras.callbacks.TensorBoard` to log the training metrics
-# * :py:class:`~tensorflow:tf.keras.callbacks.ModelCheckpoint` to save the model after every epoch
-# * :py:class:`~tensorflow:tf.keras.callbacks.LearningRateScheduler` to decay the learning rate
+# - {py:class}`~tensorflow:tf.keras.callbacks.TensorBoard` to log the training metrics
+# - {py:class}`~tensorflow:tf.keras.callbacks.ModelCheckpoint` to save the model after every epoch
+# - {py:class}`~tensorflow:tf.keras.callbacks.LearningRateScheduler` to decay the learning rate
+# %%
 def train_model(
     model: tf.keras.Model,
     train_dataset: tf.data.Dataset,
@@ -159,11 +162,11 @@ def train_model(
     return model, checkpoint_dir
 
 
-# %%
-# Evaluation
-# ==========
+# %% [markdown]
+# ## Evaluation
 #
-# We define ``test_model`` to evaluate loss and accuracy on the test dataset.
+# We define `test_model` to evaluate loss and accuracy on the test dataset.
+# %%
 def test_model(
     model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data.Dataset
 ) -> Tuple[float, float]:
@@ -174,22 +177,23 @@ def test_model(
     return eval_loss, eval_acc
 
 
-# %%
-# Defining an MNIST TensorFlow Task
-# ==================================
+# %% [markdown]
+# ## Defining an MNIST TensorFlow Task
 #
-# We initialize compute requirements and task output signature. Next, we define a ``mnist_tensorflow_job`` to kick off the training and evaluation process.
-# The task is initialized with ``TFJob`` with certain values set:
+# We initialize compute requirements and task output signature. Next, we define a `mnist_tensorflow_job` to kick off the training and evaluation process.
+# The task is initialized with `TFJob` with certain values set:
 #
-# * ``num_workers``: integer determining the number of worker replicas to be spawned in the cluster for this job
-# * ``num_ps_replicas``: number of parameter server replicas to use
-# * ``num_chief_replicas``: number of chief replicas to use
+# - `num_workers`: integer determining the number of worker replicas to be spawned in the cluster for this job
+# - `num_ps_replicas`: number of parameter server replicas to use
+# - `num_chief_replicas`: number of chief replicas to use
 #
 # MirroredStrategy uses an all-reduce algorithm to communicate the variable updates across the devices.
-# Hence, ``num_ps_replicas`` is not useful in our example.
+# Hence, `num_ps_replicas` is not useful in our example.
 #
-# .. note::
-#   If you'd like to understand the various Tensorflow strategies in distributed training, refer to the `Types of strategies <https://www.tensorflow.org/guide/distributed_training#types_of_strategies>`__ section in the TensorFlow documentation.
+# :::{note}
+# If you'd like to understand the various Tensorflow strategies in distributed training, refer to the [Types of strategies](https://www.tensorflow.org/guide/distributed_training#types_of_strategies) section in the TensorFlow documentation.
+# :::
+# %%
 training_outputs = NamedTuple(
     "TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory
 )
@@ -226,11 +230,11 @@ def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
     )
 
 
-# %%
-# Workflow
-# ========
+# %% [markdown]
+# ## Workflow
 #
-# Finally we define a workflow to call the ``mnist_tensorflow_job`` task.
+# Finally we define a workflow to call the `mnist_tensorflow_job` task.
+# %%
 @workflow
 def mnist_tensorflow_workflow(
     hyperparameters: Hyperparameters = Hyperparameters(),
@@ -238,13 +242,15 @@ def mnist_tensorflow_workflow(
     return mnist_tensorflow_job(hyperparameters=hyperparameters)
 
 
-# %%
+# %% [markdown]
 # We can also run the code locally.
+# %%
 if __name__ == "__main__":
     print(mnist_tensorflow_workflow())
 
-# %%
-# Control which rank returns its value
-# ====================================
+# %% [markdown]
+# ## Control which rank returns its value
+#
 # In distributed training, the return values from different workers might differ.
-# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a `IgnoreOutputs <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html>`_ exception for all other ranks.
+# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a [IgnoreOutputs](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html) exception for all other ranks.
+#

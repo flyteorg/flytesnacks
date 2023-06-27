@@ -1,12 +1,11 @@
-"""
-MPIJob Example
---------------
+# %% [markdown]
+# # MPIJob Example
+#
+# This example showcases how to perform distributed convolutional neural network training on MNIST data.
 
-This example showcases how to perform distributed convolutional neural network training on MNIST data.
-"""
-
-# %%
+# %% [markdown]
 # First, let's import the necessary dependencies.
+# %%
 import os
 import pathlib
 
@@ -19,10 +18,11 @@ from flytekit.types.directory import FlyteDirectory
 from flytekitplugins.kfmpi import MPIJob
 
 
-# %%
+# %% [markdown]
 # We define a training step that will be called from the training loop.
 # This step captures the training loss and updates the model weights through gradients.
 # The all reduce algorithm comes into the picture in this function.
+# %%
 @tf.function
 def training_step(images, labels, first_batch, mnist_model, loss, opt):
     with tf.GradientTape() as tape:
@@ -49,16 +49,17 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     return loss_value
 
 
-# %%
+# %% [markdown]
 # We define an MPIJob-enabled task. The configuration given in the MPIJob constructor will be used to set up the distributed training environment.
 #
 # In general, this task executes the following operations:
 #
-# #. Loads the MNIST data
-# #. Prepares the data for training
-# #. Initializes a convnet model
-# #. Calls the `training_step()` function to train the model
-# #. Saves the model and checkpoint history and returns the result
+# 1. Loads the MNIST data
+# 2. Prepares the data for training
+# 3. Initializes a convnet model
+# 4. Calls the `training_step()` function to train the model
+# 5. Saves the model and checkpoint history and returns the result
+# %%
 @task(
     task_config=MPIJob(
         num_workers=2,
@@ -143,8 +144,9 @@ def horovod_train_task(
     return FlyteDirectory(path=str(working_dir))
 
 
-# %%
+# %% [markdown]
 # Lastly, we can call the workflow and run the example.
+# %%
 @workflow
 def horovod_training_wf(
     batch_size: int = 128, buffer_size: int = 10000, dataset_size: int = 10000
@@ -164,8 +166,9 @@ if __name__ == "__main__":
     model, plot, logs = horovod_training_wf()
     print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
 
-# %%
-# Control which rank returns its value
-# ====================================
+# %% [markdown]
+# ## Control which rank returns its value
+#
 # In distributed training, the return values from different workers might differ.
-# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a `IgnoreOutputs <https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html>`_ exception for all other ranks.
+# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a [IgnoreOutputs](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html) exception for all other ranks.
+#

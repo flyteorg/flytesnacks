@@ -1,14 +1,13 @@
-"""
-EDA and Feature Engineering in One Jupyter Notebook and Modeling in the Other
-=============================================================================
+# %% [markdown]
+# # EDA and Feature Engineering in One Jupyter Notebook and Modeling in the Other
+#
+# In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering
+# (step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performance using mean absolute error
+# (MAE) (step 2: Modeling in notebook).
 
-In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering
-(step 1: EDA and feature engineering in notebook), and measures the Gradient Boosting model's performance using mean absolute error
-(MAE) (step 2: Modeling in notebook).
-"""
-
-# %%
+# %% [markdown]
 # First, let's import the libraries we will use in this example.
+# %%
 import os
 import pathlib
 
@@ -16,15 +15,16 @@ import pandas as pd
 from flytekit import Resources, kwtypes, workflow
 from flytekitplugins.papermill import NotebookTask
 
-# %%
-# We define a ``NotebookTask`` to run the `Jupyter notebook
-# <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb>`__ (EDA).
-# This notebook returns ``dummified_data`` and ``dataset`` as the outputs.
+# %% [markdown]
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb) (EDA).
+# This notebook returns `dummified_data` and `dataset` as the outputs.
 #
-# .. note::
-#   ``dataset`` is used in this example, and ``dummified_data`` is used in the previous example.
-#   ``dataset`` lets us send the DataFrame as a JSON string to the subsequent notebook because DataFrame input cannot be sent
-#   directly to the notebook as per Papermill.
+# :::{note}
+# `dataset` is used in this example, and `dummified_data` is used in the previous example.
+# `dataset` lets us send the DataFrame as a JSON string to the subsequent notebook because DataFrame input cannot be sent
+# directly to the notebook as per Papermill.
+# :::
+# %%
 nb_1 = NotebookTask(
     name="eda-featureeng-nb",
     notebook_path=os.path.join(
@@ -34,12 +34,12 @@ nb_1 = NotebookTask(
     requests=Resources(mem="500Mi"),
 )
 
-# %%
-# We define a ``NotebookTask`` to run the `Jupyter notebook
-# <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_2.ipynb>`__
+# %% [markdown]
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_2.ipynb)
 # (Modeling).
 #
-# This notebook returns ``mae_score`` as the output.
+# This notebook returns `mae_score` as the output.
+# %%
 nb_2 = NotebookTask(
     name="regression-nb",
     notebook_path=os.path.join(
@@ -58,9 +58,11 @@ nb_2 = NotebookTask(
     requests=Resources(mem="500Mi"),
 )
 
-# %%
-# We define a ``Workflow`` to run the notebook tasks.
 
+# %% [markdown]
+# We define a `Workflow` to run the notebook tasks.
+
+# %%
 
 @workflow
 def notebook_wf(
@@ -82,7 +84,9 @@ def notebook_wf(
     return regression_output.mae_score
 
 
-# %%
+# %% [markdown]
 # We can now run the two notebooks locally.
+#
+# %%
 if __name__ == "__main__":
     print(notebook_wf())

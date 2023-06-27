@@ -1,23 +1,22 @@
-"""
-Flyte Pipeline in One Jupyter Notebook
-======================================
+# %% [markdown]
+# # Flyte Pipeline in One Jupyter Notebook
+#
+# In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering, and measures the Gradient
+# Boosting model's performance using mean absolute error (MAE), all in one notebook.
 
-In this example, we will implement a simple pipeline that takes hyperparameters, does EDA, feature engineering, and measures the Gradient
-Boosting model's performance using mean absolute error (MAE), all in one notebook.
-"""
-
-# %%
+# %% [markdown]
 # First, let's import the libraries we will use in this example.
+# %%
 import os
 import pathlib
 
 from flytekit import Resources, kwtypes, workflow
 from flytekitplugins.papermill import NotebookTask
 
-# %%
-# We define a ``NotebookTask`` to run the `Jupyter notebook
-# <https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression.ipynb>`__.
+# %% [markdown]
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression.ipynb).
 #
+# ```{eval-rst}
 # .. list-table:: ``NotebookTask`` Parameters
 #    :widths: 25 25
 #
@@ -29,8 +28,10 @@ from flytekitplugins.papermill import NotebookTask
 #      - Outputs to be returned from the notebook
 #    * - ``requests``
 #      - Specify compute resource requests for your task.
+# ```
 #
-# This notebook returns ``mae_score`` as the output.
+# This notebook returns `mae_score` as the output.
+# %%
 nb = NotebookTask(
     name="pipeline-nb",
     notebook_path=os.path.join(
@@ -47,9 +48,11 @@ nb = NotebookTask(
     requests=Resources(mem="500Mi"),
 )
 
-# %%
-# Since a task need not be defined, we create a ``workflow`` and return the MAE score.
 
+# %% [markdown]
+# Since a task need not be defined, we create a `workflow` and return the MAE score.
+
+# %%
 
 @workflow
 def notebook_wf(
@@ -69,7 +72,9 @@ def notebook_wf(
     return output.mae_score
 
 
-# %%
+# %% [markdown]
 # We can now run the notebook locally.
+#
+# %%
 if __name__ == "__main__":
     print(notebook_wf())

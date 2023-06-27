@@ -1,11 +1,10 @@
-"""
-PyTorch Example
----------------
-
-In this example, we will see how to convert a pytorch model to an ONNX model.
-
-First import the necessary libraries.
-"""
+# %% [markdown]
+# # PyTorch Example
+#
+# In this example, we will see how to convert a pytorch model to an ONNX model.
+#
+# First import the necessary libraries.
+# %%
 from pathlib import Path
 
 import flytekit
@@ -24,8 +23,9 @@ from torch import nn
 from typing_extensions import Annotated
 
 
-# %%
+# %% [markdown]
 # Define a conv super resolution model.
+# %%
 class SuperResolutionNet(nn.Module):
     def __init__(self, upscale_factor, inplace=False):
         super(SuperResolutionNet, self).__init__()
@@ -53,10 +53,11 @@ class SuperResolutionNet(nn.Module):
         init.orthogonal_(self.conv4.weight)
 
 
-# %%
-# Define a ``train`` task to train the model.
+# %% [markdown]
+# Define a `train` task to train the model.
 # Note the annotated output put.
 # This is a special annotation that tells Flytekit that this parameter is to be converted to an ONNX model with the given config.
+# %%
 @task
 def train() -> Annotated[
     PyTorch2ONNX,
@@ -90,8 +91,9 @@ def train() -> Annotated[
     return PyTorch2ONNX(model=torch_model)
 
 
+# %% [markdown]
+# Define an `onnx_predict` task to generate a super resolution image from the model, given an input image.
 # %%
-# Define an ``onnx_predict`` task to generate a super resolution image from the model, given an input image.
 @task
 def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
     ort_session = onnxruntime.InferenceSession(model_file.download())
@@ -143,15 +145,18 @@ def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
     return JPEGImageFile(path=str(img_path))
 
 
-# %%
+# %% [markdown]
 # Define a workflow to run the above tasks.
+# %%
 @workflow
 def wf() -> JPEGImageFile:
     model = train()
     return onnx_predict(model_file=model)
 
 
-# %%
+# %% [markdown]
 # Run the workflow locally.
+#
+# %%
 if __name__ == "__main__":
     print(f"Prediction: {wf()}")
