@@ -132,7 +132,7 @@ def generate_inputs(numbers_count: int) -> typing.List[int]:
 
 
 # %% [markdown]
-# The entire workflow can be executed locally as follows...
+# The entire workflow can be executed locally as follows:
 #
 # %%
 if __name__ == "__main__":

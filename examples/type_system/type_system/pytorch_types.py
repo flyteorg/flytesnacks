@@ -175,10 +175,10 @@ def pytorch_checkpoint_wf():
 #
 # @task
 # def predict(
-#   checkpoint: PyTorchCheckpoint,
-#   X_train: torch.Tensor,
-#   X_test: torch.Tensor,
-#   y_test: torch.Tensor,
+#     checkpoint: PyTorchCheckpoint,
+#     X_train: torch.Tensor,
+#     X_test: torch.Tensor,
+#     y_test: torch.Tensor,
 # ):
 #     new_bn = Model(X_train.shape[1])
 #     new_bn.load_state_dict(checkpoint["module_state_dict"])

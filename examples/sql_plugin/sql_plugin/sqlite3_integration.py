@@ -16,8 +16,8 @@ from flytekit import kwtypes, task, workflow
 from flytekit.extras.sqlite3.task import SQLite3Config, SQLite3Task
 
 # %% [markdown]
-# SQLite3 queries in flyte produce a Schema output.
-# <https://www.sqlitetutorial.net/sqlite-sample-database/>
+# SQLite3 queries in flyte produce a Schema output. The data in this example is
+# taken from [here](https://www.sqlitetutorial.net/sqlite-sample-database/).
 # %%
 from flytekit.types.schema import FlyteSchema
 

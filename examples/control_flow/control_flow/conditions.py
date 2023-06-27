@@ -21,7 +21,7 @@ from flytekit import conditional, task, workflow
 
 
 # %% [markdown]
-# ## Example 1
+# ## Conditional with simple branch
 #
 # In this example, we define two tasks `square` and `double`. Depending on whether the workflow input is a
 # fraction (0-1) or not, the respective task is executed.
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ## Example 2
+# ## Conditional with multiple branches
 #
 # In this example, we define an `if` condition with multiple branches. It fails if none of the conditions is met. Flyte
 # expects any `conditional()` statement to be **complete**. This means all possible branches should be handled.
@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ## Example 3
+# ## Consuming the output of a conditional
 #
 # In this example, we consume the output returned by the `conditional()` in the subsequent task.
 # %%
@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ## Example 4
+# ## Using the output of a previous task in a conditional
 #
 # It is possible to test if a boolean returned from the previous task is True. But unary operations are not
 # supported. Use the `is_true`, `is_false` or `is_` on the result instead.
@@ -168,7 +168,7 @@ def basic_boolean_wf(seed: int = 5) -> int:
 
 
 # %% [markdown]
-# ## Example 5
+# ## Using boolean workflow inputs in a conditional
 #
 # It is possible to pass a boolean directly to a workflow.
 #
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ## Example 6
+# ## Nested conditionals
 #
 # It is possible to arbitrarily nest conditional sections inside other conditional sections. The conditional sections can only be in the
 # `then` part of the previous conditional block.
@@ -231,12 +231,12 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ## Example 7
+# ## Using the output of a task in the conditional and consuming its output
 #
-# It is possible to consume the outputs from conditional nodes.
-# In the case of conditionals, the outputs are computed
-# as a subset of outputs produced by `then` nodes. In this example, we call `square()` in one condition
-# and `double()` in another.
+# Finally, we specify an output of an upstream task in the conditional and
+# then consume its output in a downstream task, `double`.
+# Outputs are computed as a subset of outputs produced by `then` nodes. In this
+# example, we call `square()` in one condition and `calc_sum()` in another.
 # %%
 @task
 def calc_sum(a: float, b: float) -> float:
@@ -251,7 +251,7 @@ def calc_sum(a: float, b: float) -> float:
 #
 # :::{tip}
 # A useful mental model to consume outputs of conditions is to think of them as ternary operators in programming
-# languages. The only difference is that they can be n-ary. In Python, this is equivalent to
+# languages. The only difference is that they can be `n`-ary. In Python, this is equivalent to
 #
 # ```python
 # x = 0 if m < 0 else 1
@@ -280,8 +280,10 @@ def consume_outputs(my_input: float, seed: int = 5) -> float:
 # %%
 if __name__ == "__main__":
     print(
-        f"consume_outputs(0.4) with default seed=5. This should return output of calc_sum => {consume_outputs(my_input=0.4)}"
+        "consume_outputs(0.4) with default seed=5. This should "
+        f"return output of calc_sum => {consume_outputs(my_input=0.4)}"
     )
     print(
-        f"consume_outputs(0.4, seed=7), this should return output of square => {consume_outputs(my_input=0.4, seed=7)}"
+        "consume_outputs(0.4, seed=7), this should return "
+        f"output of square => {consume_outputs(my_input=0.4, seed=7)}"
     )

@@ -12,7 +12,7 @@ from flytekitplugins.awsbatch import AWSBatchConfig
 # %% [markdown]
 # Use this to configure SubmitJobInput for a AWS batch job. Task's marked with this will automatically execute
 # natively onto AWS batch service.
-# Refer to AWS SubmitJobInput for more detail: <https://docs.aws.amazon.com/sdk-for-go/api/service/batch/#SubmitJobInput>
+# Refer to the official [AWS SubmitJobInput documentation](https://docs.aws.amazon.com/sdk-for-go/api/service/batch/#SubmitJobInput) for more detail.
 #
 # %%
 config = AWSBatchConfig(

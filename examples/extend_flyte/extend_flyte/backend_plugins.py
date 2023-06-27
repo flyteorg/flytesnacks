@@ -22,7 +22,7 @@
 #
 # ## Basics
 #
-# We will try to understand the components of a backend plugin using an example plugin - {ref}`plugins-spark-k8s` A Flyte backend extension consists of 3 parts
+# In this section we'll go through the components of a backend plugin using the {ref}`K8s Spark plugin<plugins-spark-k8s>` as a reference. A Flyte backend extension consists of 3 parts:
 #
 # ### Interface specification
 #
@@ -46,16 +46,15 @@
 #
 # ### FlytePropeller backend Plugin
 #
-# The backend plugin is where the actual logic of the execution is implemented. The backend plugin uses Flyte - PluginMachinery interface to implement a plugin which can be one of the following supported types
+# The backend plugin is where the actual logic of the execution is implemented. The backend plugin uses Flyte - PluginMachinery interface to implement a plugin which can be one of the following supported types:
 #
 # 1. A [Kubernetes operator Plugin](https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.26/go/tasks/pluginmachinery/k8s#Plugin). The following demo shows 2 examples of K8s backend plugins: Flytekit Athena & Spark, and Flyte K8s Pod & Spark:
 #
-# ```{eval-rst}
-# .. youtube:: oK2RGQuP94k
-# ```
+#    ```{youtube} oK2RGQuP94k
+#    ```
 #
-# 1. A Web API plugin - [Async](https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.26/go/tasks/pluginmachinery/webapi#AsyncPlugin) or [Sync](https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.26/go/tasks/pluginmachinery/webapi#SyncPlugin).
-# 2. Or if none of the above fits then - a [Core Plugin](https://pkg.go.dev/github.com/lyft/flyteplugins/go/tasks/pluginmachinery/core#Plugin)
+# 2. A Web API plugin - [Async](https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.26/go/tasks/pluginmachinery/webapi#AsyncPlugin) or [Sync](https://pkg.go.dev/github.com/lyft/flyteplugins@v0.5.26/go/tasks/pluginmachinery/webapi#SyncPlugin).
+# 3. Or if none of the above fits then - a [Core Plugin](https://pkg.go.dev/github.com/lyft/flyteplugins/go/tasks/pluginmachinery/core#Plugin)
 #
 # % TODO: write content for Kubernetes operator Plugin
 #

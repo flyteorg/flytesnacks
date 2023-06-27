@@ -7,7 +7,7 @@
 # .. tags:: Intermediate
 # ```
 #
-# ```{image} https://img.shields.io/badge/Blog%20Post-blue?style=for-the-badge
+# ```{image} https://img.shields.io/badge/Blog%20Post-Dynamic%20Workflows-blue?style=for-the-badge
 # :alt: Dynamic Workflows Blog Post
 # :target: https://flyte.org/blog/dynamic-workflows-in-flyte
 # ```

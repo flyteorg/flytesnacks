@@ -130,8 +130,7 @@ A Flytekit-only task plugin can be a {ref}`user container <user_container>` or {
 
 ### Backend Plugin
 
-{ref}`Writing a Backend plugin <extend-plugin-flyte-backend>` makes it possible for users to write extensions for
-FlytePropeller - Flyte's scheduling engine. This enables complete control of the visualization and availability
+{ref}`Writing a Backend plugin <extend-plugin-flyte-backend>` makes it possible for users to write extensions for FlytePropeller - Flyte's scheduling engine. This enables complete control of the visualization and availability
 of the plugin.
 
 ```{list-table}
@@ -154,10 +153,13 @@ of the plugin.
   -
 ```
 
+#### Flyte Agent Service
 
-### Flyte Agent Service
+*New in Flyte 1.7.0*
 
-{ref}`Flyte Agent Service <extend-agent-service>` allows you to write backend plugins in Python.
+{ref}`Flyte Agent Service <extend-agent-service>` allows you to write backend
+plugins in Python.
+
 
 ### Summary
 

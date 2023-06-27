@@ -2,8 +2,12 @@
 
 # KubeRay
 
-```{eval-rst}
-.. tags:: Integration, DistributedComputing, KubernetesOperator, Advanced
+```{tags} Integration, DistributedComputing, KubernetesOperator, Advanced
+```
+
+```{image} https://img.shields.io/badge/Blog-Ray-blue?style=for-the-badge
+:target: https://blog.flyte.org/ray-and-flyte
+:alt: Ray Blog Post
 ```
 
 [KubeRay](https://github.com/ray-project/kuberay) is an open source toolkit to run Ray applications on Kubernetes. It provides tools to improve running and managing Ray on Kubernetes.
@@ -57,27 +61,6 @@ To enable the plugin in the backend, follow instructions outlined in the {std:re
     def ray_task() -> typing.List[int]:
         futures = [f.remote(i) for i in range(5)]
         return ray.get(futures)
-```
-
-```{eval-rst}
-.. panels::
-    :header: text-center
-    :column: col-lg-12 p-2
-
-    .. link-button:: https://blog.flyte.org/ray-and-flyte
-       :type: url
-       :text: Blog Post
-       :classes: btn-block stretched-link
-    ^^^^^^^^^^^^
-    An article detailing Ray and Flyte integration.
-```
-
-```{toctree}
-:caption: Contents
-:hidden: true
-:maxdepth: '-1'
-
-Blog Post <https://blog.flyte.org/ray-and-flyte>
 ```
 
 ```{auto-examples-toc}

@@ -53,14 +53,14 @@ If you're adding a new example to an existing project, you can simply create a
 new `.py` file in the appropriate directory. For example, if you want to add a new
 example in the ``examples/basics`` project, simply do:
 
-.. prompt:: bash
-
-   touch examples/basics/my_new_example.py
+```{prompt} bash
+touch examples/basics/my_new_example.py
+```
 
 Once you're done creating your example, add it to the ``README.md`` file of the
 example project as an entry in the ``auto-examples-toc`` directive:
 
-````{raw} text
+````{code-block}
 ```{auto-examples-toc}
 ...
 my_new_example
@@ -165,7 +165,7 @@ The `README.md` file needs to capture the *what*, *why*, and *how* of the exampl
 
 Finally, write a ``auto-examples-toc`` directive at the bottom of the file:
 
-````{raw} text
+````{code-block}
 ```{auto-examples-toc}
 example_01
 example_02
@@ -174,7 +174,8 @@ example_03
 ````
 
 Where ``example_01``, ``example_02``, and ``example_03`` are the python module
-names of 
+names of the examples under the `new_example_project` directory. These can also
+be the names of the `.ipynb` or `.md` files (but without the file extension).
 
 :::{tip}
 Refer to any subdirectory in the `examples` directory
@@ -182,7 +183,7 @@ Refer to any subdirectory in the `examples` directory
 
 ## Test your code
 
-If the example code can be run locally, just use `python <my file>.py` to run it.
+If the example code can be run locally, just use `python <my_file>.py` to run it.
 
 ### Testing on a cluster
 
@@ -301,9 +302,9 @@ Verify that the code and documentation look as expected:
 
 - Run `make html` in the `docs` folder
 
-  > :::{tip}
-  > For implicit targets, run `make -C docs html`.
-  > :::
+  ```{tip}
+  For implicit targets, run `make -C docs clean html`.
+  ```
 
 - Open the HTML pages present in the `docs/_build` directory in the browser
 

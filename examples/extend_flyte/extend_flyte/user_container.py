@@ -25,7 +25,8 @@
 #
 # @workflow
 # def wait_and_run(path: str) -> int:
-#     # To demonstrate how to create outputs, we will also return the output from the sensor. The output will be the
+#     # To demonstrate how to create outputs, we will also
+#     # return the output from the sensor. The output will be the
 #     # same as the path
 #     path = sensor(path=path)
 #     return do_next(path=path)

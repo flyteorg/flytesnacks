@@ -201,5 +201,12 @@ def execute():
 
 # %% [markdown]
 # Register and launch the task standalone.
-# hpo_exc = xgboost_hpo_task.register_and_launch("flyteexamples", "development", inputs=hpo_inputs)
+#
+# ```python
+# hpo_exc = xgboost_hpo_task.register_and_launch(
+#     "flyteexamples",
+#     "development",
+#     inputs=hpo_inputs,
+# )
+# ```
 #

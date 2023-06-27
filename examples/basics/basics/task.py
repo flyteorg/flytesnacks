@@ -118,19 +118,31 @@ def wf(n: int) -> int:
 #
 #    .. prompt:: bash $
 #
-#      flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1
+#      flytectl register files \
+#         --project flytesnacks \
+#         --domain development \
+#         --archive flyte-package.tgz \
+#         --version v1
 #
 #    Generate an execution spec file.
 #
 #    .. prompt:: bash $
 #
-#      flytectl get task --domain development --project flytesnacks core.flyte_basics.task.square --version v1 --execFile exec_spec.yaml
+#      flytectl get task \
+#          --domain development \
+#          --project flytesnacks \
+#          core.flyte_basics.task.square \
+#          --version v1 \
+#          --execFile exec_spec.yaml
 #
 #    Create an execution using the exec spec file.
 #
 #    .. prompt:: bash $
 #
-#      flytectl create execution --project flytesnacks --domain development --execFile exec_spec.yaml
+#      flytectl create execution \
+#          --project flytesnacks \
+#          --domain development \
+#          --execFile exec_spec.yaml
 #
 #    .. note::
 #      For subsequent executions, you can simply run ``flytectl create execution ...`` and skip the previous commands.
@@ -140,6 +152,9 @@ def wf(n: int) -> int:
 #
 #    .. prompt:: bash $
 #
-#      flytectl get execution --project flytesnacks --domain development <execname>
+#      flytectl get execution \
+#          --project flytesnacks \
+#          --domain development \
+#          <execname>
 # ```
 #

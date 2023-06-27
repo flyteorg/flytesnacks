@@ -57,15 +57,15 @@ def reference_lp_wf() -> FlyteFile:
 #
 # A typical reference launch plan would resemble the following:
 #
-# > ```python
-# > @reference_task(
-# >      project="flytesnacks",
-# >      domain="development",
-# >      name="core.flyte_basics.files.normalize_csv_file",
-# >      version="d06cebcfbeabc02b545eefa13a01c6ca992940c8", # If using GIT for versioning OR 0.16.0, if semver
-# >  )
-# >  def normalize_csv_file(...):
-# >      ...
-# > ```
+# ```python
+# @reference_launch_plan(
+#     project="flytesnacks",
+#     domain="development",
+#     name="core.flyte_basics.files.normalize_csv_file",
+#     version="d06cebcfbeabc02b545eefa13a01c6ca992940c8", # If using GIT for versioning OR 0.16.0, if semver
+# )
+# def normalize_csv_file(...):
+#     ...
+# ```
 # :::
 #

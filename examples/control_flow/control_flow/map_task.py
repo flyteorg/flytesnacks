@@ -5,7 +5,7 @@
 # .. tags:: Intermediate
 # ```
 #
-# ```{image} https://img.shields.io/badge/Blog%20Post-blue?style=for-the-badge
+# ```{image} https://img.shields.io/badge/Blog%20Post-Map%20Tasks-blue?style=for-the-badge
 # :alt: Map Task Blog Post
 # :target: https://blog.flyte.org/map-tasks-in-flyte
 # ```
