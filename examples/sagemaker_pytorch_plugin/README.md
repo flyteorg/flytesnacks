@@ -17,7 +17,7 @@ To use the Flytekit AWS Sagemaker plugin, simply run the following:
 
 ```
 
-## Creating a Dockerfile for Sagemaker Custom Training \[Required\]
+## Creating a Dockerfile for Sagemaker Custom Training [Required]
 
 The dockerfile for Sagemaker custom training is similar to any regular dockerfile, except for the difference in using the Nvidia cuda base to use GPU's.
 

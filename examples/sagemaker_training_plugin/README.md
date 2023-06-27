@@ -45,11 +45,11 @@ When a remote execution is triggered, the Sagemaker API is invoked to launch a j
 ## Prerequisites
 
 Before following this example, make sure that
-\- SageMaker plugins are [enabled in flytepropeller's config](https://github.com/flyteorg/flytepropeller/blob/fe1981b1f10e19f0a189509c3826f2d8f5a75da0/propeller-config.yaml#L36-L39)
-\- You have your [AWS role set up correctly for SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
-\- [AWS SageMaker k8s operator](https://github.com/aws/amazon-sagemaker-operator-for-k8s) is installed in your k8s cluster
+- SageMaker plugins are [enabled in flytepropeller's config](https://github.com/flyteorg/flytepropeller/blob/fe1981b1f10e19f0a189509c3826f2d8f5a75da0/propeller-config.yaml#L36-L39)
+- You have your [AWS role set up correctly for SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+- [AWS SageMaker k8s operator](https://github.com/aws/amazon-sagemaker-operator-for-k8s) is installed in your k8s cluster
 
-### Creating a Dockerfile for Sagemaker Custom Training \[Required\]
+### Creating a Dockerfile for Sagemaker Custom Training [Required]
 
 ```{code-block} docker
 :emphasize-lines: 22-23

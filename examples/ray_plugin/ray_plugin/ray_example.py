@@ -77,7 +77,7 @@ if __name__ == "__main__":
 # %% [markdown]
 # ## Troubleshooting
 #
-# If you notice that the head and worker pods aren't being created. You need to make sure that ray\[default\] is installed since that supports the cluster and dashboard launcher
+# If you notice that the head and worker pods aren't being created. You need to make sure that ray[default] is installed since that supports the cluster and dashboard launcher
 #
 # Another error you might run into is an ingress errors in the kuberay-operator logs
 # If you see an error along the lines of
