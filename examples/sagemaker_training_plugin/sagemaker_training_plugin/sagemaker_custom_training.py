@@ -64,14 +64,12 @@ TrainingOutputs = typing.NamedTuple(
 # ------------------
 # To ensure that the code runs on Sagemaker, create a Sagemaker task config using the class
 # ``SagemakerTrainingJobConfig``
-#
-#  .. code::python
-#
-#       @task(
-#        task_config=SagemakerTrainingJobConfig(
-#         algorithm_specification=...,
-#         training_job_resource_config=...,
-#        )
+@task(
+    task_config=SagemakerTrainingJobConfig(
+        algorithm_specification=...,
+        training_job_resource_config=...,
+    )
+)
 def normalize_img(image, label):
     """Normalizes images: `uint8` -> `float32`."""
     return tf.cast(image, tf.float32) / 255.0, label

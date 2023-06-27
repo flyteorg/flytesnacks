@@ -171,7 +171,7 @@ def wf_1(a: int, b: str):  # noqa: F811
 # This is done by turning the literal representation into a string and using that string as part of the cache key. In the case of dataframes annotated with ``HashMethod`` we use the hash as the representation of the Literal. In other words, the literal hash is used in the cache key.
 #
 # This feature also works in local execution.
-#
+
 # %%
 # Here's a complete example of the feature:
 
