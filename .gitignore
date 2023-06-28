@@ -42,4 +42,4 @@ test.ipynb
 jupyter_execute
 _flyte_decks
 .keras
-.flyte-package.tgz
+**/flyte-package.tgz

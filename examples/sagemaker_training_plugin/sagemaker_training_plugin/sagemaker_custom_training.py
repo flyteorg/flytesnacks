@@ -63,7 +63,6 @@ TrainingOutputs = typing.NamedTuple("TrainingOutputs", model=HDF5EncodedFile, ep
 # To ensure that the code runs on Sagemaker, create a Sagemaker task config using the class
 # `SagemakerTrainingJobConfig`
 # %%
-@task
 def normalize_img(image, label):
     """Normalizes images: `uint8` -> `float32`."""
     return tf.cast(image, tf.float32) / 255.0, label
