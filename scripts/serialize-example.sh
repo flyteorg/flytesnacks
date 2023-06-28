@@ -9,6 +9,7 @@ build() {
     docker build . -t "$1"
 }
 
+# NOTE: the additional images are for the multi-image containerization examples
 serialize() {
     docker run -i --rm -v "$(pwd)":/root "$2" \
         pyflyte --pkgs "$1" \

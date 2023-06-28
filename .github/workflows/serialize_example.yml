@@ -34,21 +34,7 @@ jobs:
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
-        # NOTE: the additional images are for the multi-image containerization examples
-        run: |
-          ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
-          cd ${{ matrix.directory }}
-          package_name=$(basename -- ${{ matrix.directory }})
-          image_uri=ghcr.io/flyteorg/flytecookbook:${package_name}-${{ github.sha }}
-          docker build . -t $image_uri
-          docker run -i --rm -v $(pwd):/root $image_uri \
-            pyflyte --pkgs $package_name \
-            package \
-            --image $image_uri \
-            --image mindmeld="ghcr.io/flyteorg/flytecookbook:type-system-latest" \
-            --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
-            --force \
-            --output ./flyte-package.tgz
+        run: ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -75,8 +61,8 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl sandbox start --source=$(shell pwd)
-          flytectl config init
+          flytectl demo start --source=$(shell pwd)
+          flytectl config init --host localhost:30080
       - name: Register examples
         run: |
           for file in ./download-artifact/**/*; do
