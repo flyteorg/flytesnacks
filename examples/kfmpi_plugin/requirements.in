@@ -1,3 +1,6 @@
--r ../../../common/requirements-common.in
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
 flytekitplugins-kfmpi>=0.24.0b0
 tensorflow==2.8.0

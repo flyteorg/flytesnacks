@@ -1,2 +1,5 @@
--r ../../../common/requirements-common.in
+flytekit>=0.32.3
+wheel
+matplotlib
+flytekitplugins-deck-standard
 flytekitplugins-awsbatch>=0.31.0b1

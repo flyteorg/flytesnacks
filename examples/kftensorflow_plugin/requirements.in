@@ -1,4 +1,7 @@
--r ../../../common/requirements-common.in
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
 flytekitplugins-kftensorflow>=0.24.0
 tensorflow
 tensorflow-datasets

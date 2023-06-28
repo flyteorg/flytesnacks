@@ -1,2 +1,5 @@
--r ../../../common/requirements-common.in
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
 flytekitplugins-duckdb

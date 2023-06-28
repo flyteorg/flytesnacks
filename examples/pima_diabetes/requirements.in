@@ -4,6 +4,6 @@ matplotlib
 flytekitplugins-deck-standard
 xgboost
 joblib
-sklearn
+scikit-learn
 tabulate
 matplotlib
