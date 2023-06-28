@@ -1,15 +1,4 @@
--r ./examples/sagemaker_training_plugin/requirements.in
--r ./examples/sagemaker_pytorch_plugin/requirements.in
--r ./examples/dolt_plugin/requirements.in
--r ./examples/pandera_plugin/requirements.in
--r ./examples/whylogs_plugin/requirements.in
--r ./examples/k8s_pod_plugin/requirements.in
--r ./examples/k8s_spark_plugin/requirements.in
--r ./examples/kfpytorch_plugin/requirements.in
--r ./examples/house_price_prediction/requirements.in
--r ./examples/mnist_classifier/requirements.in
--r ./examples/pima_diabetes/requirements.in
-
+flytekit>=1.7.0
 black==22.3.0
 coverage
 flake8
@@ -21,7 +10,3 @@ isort
 mock
 pytest
 mypy
-google-cloud-bigquery
-google-cloud-bigquery-storage
-grpcio < 1.49.0
-grpcio-status < 1.49.0
