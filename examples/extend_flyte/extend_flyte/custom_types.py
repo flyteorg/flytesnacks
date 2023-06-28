@@ -84,14 +84,10 @@ class MyDataset(object):
 # :::
 # %%
 class MyDatasetTransformer(TypeTransformer[MyDataset]):
-    _TYPE_INFO = BlobType(
-        format="binary", dimensionality=BlobType.BlobDimensionality.MULTIPART
-    )
+    _TYPE_INFO = BlobType(format="binary", dimensionality=BlobType.BlobDimensionality.MULTIPART)
 
     def __init__(self):
-        super(MyDatasetTransformer, self).__init__(
-            name="mydataset-transform", t=MyDataset
-        )
+        super(MyDatasetTransformer, self).__init__(name="mydataset-transform", t=MyDataset)
 
     def get_literal_type(self, t: Type[MyDataset]) -> LiteralType:
         """
@@ -114,15 +110,9 @@ class MyDatasetTransformer(TypeTransformer[MyDataset]):
         remote_dir = ctx.file_access.get_random_remote_directory()
         ctx.file_access.upload_directory(python_val.base_dir, remote_dir)
         # Step 2: Return a pointer to this remote_dir in the form of a Literal
-        return Literal(
-            scalar=Scalar(
-                blob=Blob(uri=remote_dir, metadata=BlobMetadata(type=self._TYPE_INFO))
-            )
-        )
+        return Literal(scalar=Scalar(blob=Blob(uri=remote_dir, metadata=BlobMetadata(type=self._TYPE_INFO))))
 
-    def to_python_value(
-        self, ctx: FlyteContext, lv: Literal, expected_python_type: Type[MyDataset]
-    ) -> MyDataset:
+    def to_python_value(self, ctx: FlyteContext, lv: Literal, expected_python_type: Type[MyDataset]) -> MyDataset:
         """
         In this method, we want to be able to re-hydrate the custom object from Flyte Literal value.
         """

@@ -185,9 +185,7 @@ class LDAModelHyperparams(object):
 # We initialize and train a Word2Vec model on the preprocessed corpus.
 # %%
 @task
-def train_word2vec_model(
-    training_data: List[List[str]], hyperparams: Word2VecModelHyperparams
-) -> model_file:
+def train_word2vec_model(training_data: List[List[str]], hyperparams: Word2VecModelHyperparams) -> model_file:
 
     model = Word2Vec(
         training_data,
@@ -198,9 +196,7 @@ def train_word2vec_model(
     )
     training_loss = model.get_latest_training_loss()
     logger.info(f"training loss: {training_loss}")
-    out_path = os.path.join(
-        flytekit.current_context().working_directory, "word2vec.model"
-    )
+    out_path = os.path.join(flytekit.current_context().working_directory, "word2vec.model")
     model.save(out_path)
     return (out_path,)
 
@@ -211,9 +207,7 @@ def train_word2vec_model(
 # the LDA model for training.
 # %%
 @task
-def train_lda_model(
-    corpus: List[List[str]], hyperparams: LDAModelHyperparams
-) -> Dict[int, List[str]]:
+def train_lda_model(corpus: List[List[str]], hyperparams: LDAModelHyperparams) -> Dict[int, List[str]]:
     id2word = Dictionary(corpus)
     bow_corpus = [id2word.doc2bow(doc) for doc in corpus]
     id_words = [[(id2word[id], count) for id, count in line] for line in bow_corpus]
@@ -240,9 +234,7 @@ def train_lda_model(
 # on a small corpus, some of the relations might not be clear.
 # %%
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def word_similarities(
-    model_ser: FlyteFile[MODELSER_NLP], word: str
-) -> Dict[str, float]:
+def word_similarities(model_ser: FlyteFile[MODELSER_NLP], word: str) -> Dict[str, float]:
     model = Word2Vec.load(model_ser.download())
     wv = model.wv
     logger.info(f"Word vector for {word}:{wv[word]}")
@@ -294,9 +286,7 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     return x_vals, y_vals, labels
 
 
-@task(
-    cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), disable_deck=False
-)
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), disable_deck=False)
 def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
     layout = go.Layout(height=600, width=800)
     fig = go.Figure(
@@ -327,16 +317,12 @@ def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
 @workflow
 def nlp_workflow(target_word: str = "computer") -> workflow_outputs:
     corpus = generate_processed_corpus()
-    model_wv = train_word2vec_model(
-        training_data=corpus, hyperparams=Word2VecModelHyperparams()
-    )
+    model_wv = train_word2vec_model(training_data=corpus, hyperparams=Word2VecModelHyperparams())
     lda_topics = train_lda_model(corpus=corpus, hyperparams=LDAModelHyperparams())
     similar_words = word_similarities(model_ser=model_wv.model, word=target_word)
     distance = word_movers_distance(model_ser=model_wv.model)
     axis_labels = dimensionality_reduction(model_ser=model_wv.model)
-    plot_with_plotly(
-        x=axis_labels.x_values, y=axis_labels.y_values, labels=axis_labels.labels
-    )
+    plot_with_plotly(x=axis_labels.x_values, y=axis_labels.y_values, labels=axis_labels.labels)
     return similar_words, distance, lda_topics
 
 

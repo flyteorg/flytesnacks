@@ -162,9 +162,7 @@ def success() -> int:
 @workflow
 def basic_boolean_wf(seed: int = 5) -> int:
     result = coin_toss(seed=seed)
-    return (
-        conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
-    )
+    return conditional("test").if_(result.is_true()).then(success()).else_().then(failed())
 
 
 # %% [markdown]
@@ -190,9 +188,7 @@ if __name__ == "__main__":
     print("Running basic_boolean_wf a few times")
     for i in range(0, 5):
         print(f"Basic boolean wf output {basic_boolean_wf()}")
-        print(
-            f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}"
-        )
+        print(f"Boolean input {True if i < 2 else False}, workflow output {bool_input_wf(b=True if i < 2 else False)}")
 
 
 # %% [markdown]

@@ -40,12 +40,8 @@ def mean_median_imputer(
 
     imputer = SimpleImputer(missing_values=np.nan, strategy=imputation_method)
 
-    imputer = imputer.fit(
-        dataframe[dataframe.columns[~dataframe.columns.isin(NO_IMPUTATION_COLS)]]
-    )
-    dataframe[
-        dataframe.columns[~dataframe.columns.isin(NO_IMPUTATION_COLS)]
-    ] = imputer.transform(
+    imputer = imputer.fit(dataframe[dataframe.columns[~dataframe.columns.isin(NO_IMPUTATION_COLS)]])
+    dataframe[dataframe.columns[~dataframe.columns.isin(NO_IMPUTATION_COLS)]] = imputer.transform(
         dataframe[dataframe.columns[~dataframe.columns.isin(NO_IMPUTATION_COLS)]]
     )
     return dataframe
@@ -57,16 +53,12 @@ def mean_median_imputer(
 #
 # %%
 @task
-def univariate_selection(
-    dataframe: pd.DataFrame, num_features: int, data_class: str
-) -> pd.DataFrame:
+def univariate_selection(dataframe: pd.DataFrame, num_features: int, data_class: str) -> pd.DataFrame:
     # remove ``timestamp`` and ``Hospital Number`` columns as they ought to be present in the dataset
     dataframe = dataframe.drop(["event_timestamp", "Hospital Number"], axis=1)
 
     if num_features > 9:
-        raise ValueError(
-            f"Number of features must be <= 9; you've given {num_features}"
-        )
+        raise ValueError(f"Number of features must be <= 9; you've given {num_features}")
 
     X = dataframe.iloc[:, dataframe.columns != data_class]
     y = dataframe.loc[:, data_class]

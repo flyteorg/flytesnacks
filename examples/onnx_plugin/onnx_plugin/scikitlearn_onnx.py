@@ -67,9 +67,7 @@ def predict(
     sess = rt.InferenceSession(model.download())
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
-    pred_onx = sess.run(
-        [label_name], {input_name: X_test.to_numpy(dtype=numpy.float32)}
-    )[0]
+    pred_onx = sess.run([label_name], {input_name: X_test.to_numpy(dtype=numpy.float32)})[0]
     return pred_onx.tolist()
 
 

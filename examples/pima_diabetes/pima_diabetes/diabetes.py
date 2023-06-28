@@ -58,9 +58,7 @@ DATASET_COLUMNS = OrderedDict(
 # %% [markdown]
 # The first 8 columns are features
 # %%
-FEATURE_COLUMNS = OrderedDict(
-    {k: v for k, v in DATASET_COLUMNS.items() if k != "class"}
-)
+FEATURE_COLUMNS = OrderedDict({k: v for k, v in DATASET_COLUMNS.items() if k != "class"})
 # %% [markdown]
 # The last column is the class
 # %%
@@ -128,9 +126,7 @@ class XGBoostModelHyperparams(object):
 
 
 model_file = typing.NamedTuple("Model", model=FlyteFile[MODELSER_JOBLIB])
-workflow_outputs = typing.NamedTuple(
-    "WorkflowOutputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float
-)
+workflow_outputs = typing.NamedTuple("WorkflowOutputs", model=FlyteFile[MODELSER_JOBLIB], accuracy=float)
 
 
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
@@ -184,9 +180,7 @@ def predict(
 
 
 @task(cache_version="1.0", cache=True, limits=Resources(mem="200Mi"))
-def score(
-    predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]
-) -> float:
+def score(predictions: FlyteSchema[CLASSES_COLUMNS], y: FlyteSchema[CLASSES_COLUMNS]) -> float:
     """
     Compares the predictions with the actuals and returns the accuracy score.
     """

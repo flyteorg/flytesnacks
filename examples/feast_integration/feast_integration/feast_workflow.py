@@ -95,9 +95,7 @@ DATA_CLASS = "surgical lesion"
 # This unfortunately makes the workflow less portable.
 # %%
 @task
-def create_bucket(
-    bucket_name: str, registry_path: str, online_store_path: str
-) -> RepoConfig:
+def create_bucket(bucket_name: str, registry_path: str, online_store_path: str) -> RepoConfig:
     client = boto3.client(
         "s3",
         aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
@@ -140,9 +138,7 @@ load_horse_colic_sql = SQLite3Task(
 # Set the datatype of the timestamp column in the underlying DataFrane to `datetime`, which would otherwise be a string.
 # %%
 @task
-def convert_timestamp_column(
-    dataframe: pd.DataFrame, timestamp_column: str
-) -> pd.DataFrame:
+def convert_timestamp_column(dataframe: pd.DataFrame, timestamp_column: str) -> pd.DataFrame:
     dataframe[timestamp_column] = pd.to_datetime(dataframe[timestamp_column])
     return dataframe
 
@@ -209,9 +205,7 @@ def store_offline(repo_config: RepoConfig, dataframe: StructuredDataset) -> Flyt
     )
 
     # ingest the data into Feast
-    FeatureStore(config=repo_config).apply(
-        [horse_colic_entity, horse_colic_feature_view]
-    )
+    FeatureStore(config=repo_config).apply([horse_colic_entity, horse_colic_feature_view])
 
     return FlyteFile(path=repo_config.online_store.path)
 
@@ -246,9 +240,7 @@ def load_historical_features(repo_config: RepoConfig) -> pd.DataFrame:
     )
 
     historical_features = (
-        FeatureStore(config=repo_config)
-        .get_historical_features(entity_df=entity_df, features=FEAST_FEATURES)
-        .to_df()
+        FeatureStore(config=repo_config).get_historical_features(entity_df=entity_df, features=FEAST_FEATURES).to_df()
     )  # noqa
 
     return historical_features
@@ -296,9 +288,7 @@ def train_model(dataset: pd.DataFrame, data_class: str) -> JoblibSerializedFile:
 @task(limits=Resources(mem="400Mi"))
 def store_online(repo_config: RepoConfig, online_store: FlyteFile) -> FlyteFile:
     # download the online store file and copy the content to the actual online store path
-    FlyteContext.current_context().file_access.get_data(
-        online_store.download(), repo_config.online_store.path
-    )
+    FlyteContext.current_context().file_access.get_data(online_store.download(), repo_config.online_store.path)
 
     FeatureStore(config=repo_config).materialize(
         start_date=datetime.utcnow() - timedelta(days=2000),
@@ -322,16 +312,10 @@ def retrieve_online(
     entity_rows = [{"Hospital Number": data_point}]
 
     # download the online store file and copy the content to the actual online store path
-    FlyteContext.current_context().file_access.get_data(
-        online_store.download(), repo_config.online_store.path
-    )
+    FlyteContext.current_context().file_access.get_data(online_store.download(), repo_config.online_store.path)
 
     # get the feature vector
-    feature_vector = (
-        FeatureStore(config=repo_config)
-        .get_online_features(FEAST_FEATURES, entity_rows)
-        .to_dict()
-    )
+    feature_vector = FeatureStore(config=repo_config).get_online_features(FEAST_FEATURES, entity_rows).to_dict()
     return feature_vector
 
 
@@ -358,9 +342,7 @@ def predict(model_ser: JoblibSerializedFile, features: dict) -> np.ndarray:
 # Define a workflow that loads the data from SQLite3 database, does feature engineering, and stores the offline features in a feature store.
 # %%
 @workflow
-def featurize(
-    repo_config: RepoConfig, imputation_method: str = "mean"
-) -> (StructuredDataset, FlyteFile):
+def featurize(repo_config: RepoConfig, imputation_method: str = "mean") -> (StructuredDataset, FlyteFile):
     # load parquet file from sqlite task
     df = load_horse_colic_sql()
 
@@ -382,9 +364,7 @@ def featurize(
 # Define a workflow that trains a Naive Bayes model.
 # %%
 @workflow
-def trainer(
-    df: StructuredDataset, num_features_univariate: int = 7
-) -> JoblibSerializedFile:
+def trainer(df: StructuredDataset, num_features_univariate: int = 7) -> JoblibSerializedFile:
     # perform univariate feature selection
     selected_features_dataset = univariate_selection(
         dataframe=df,  # noqa
@@ -431,9 +411,7 @@ def feast_workflow(
     df >> historical_features
 
     # train a Naive Bayes model
-    model = trainer(
-        df=historical_features, num_features_univariate=num_features_univariate
-    )
+    model = trainer(df=historical_features, num_features_univariate=num_features_univariate)
 
     # materialize features into an online store
     loaded_online_store = store_online(

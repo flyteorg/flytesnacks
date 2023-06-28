@@ -121,9 +121,7 @@ def square_1(x: int) -> int:
 # %%
 @workflow
 def my_pipeline(x: typing.List[int]) -> int:
-    return square_1(x=count_unique_numbers_1(x=x)).with_overrides(
-        limits=Resources(cpu="6", mem="500Mi")
-    )
+    return square_1(x=count_unique_numbers_1(x=x)).with_overrides(limits=Resources(cpu="6", mem="500Mi"))
 
 
 # %% [markdown]

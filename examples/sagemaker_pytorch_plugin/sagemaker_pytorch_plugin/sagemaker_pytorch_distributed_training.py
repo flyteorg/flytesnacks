@@ -105,16 +105,10 @@ def _get_train_data_loader(batch_size, training_dir, is_distributed, **kwargs):
         training_dir,
         train=True,
         download=False,
-        transform=transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-        ),
+        transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
     )
     logging.info("Dataset is downloaded. Creating a train_sampler")
-    train_sampler = (
-        torch.utils.data.distributed.DistributedSampler(dataset)
-        if is_distributed
-        else None
-    )
+    train_sampler = torch.utils.data.distributed.DistributedSampler(dataset) if is_distributed else None
     logging.info("Train_sampler is successfully created. Creating a DataLoader")
     return torch.utils.data.DataLoader(
         dataset,
@@ -132,9 +126,7 @@ def _get_test_data_loader(test_batch_size, training_dir, **kwargs):
             training_dir,
             train=False,
             download=False,
-            transform=transforms.Compose(
-                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-            ),
+            transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
         batch_size=test_batch_size,
         shuffle=True,
@@ -153,9 +145,7 @@ def _average_gradients(model):
 def configure_model(model, is_distributed, gpu):
     if is_distributed:
         # multi-machine multi-gpu case
-        model = torch.nn.parallel.DistributedDataParallel(
-            model, device_ids=[gpu], output_device=gpu
-        )
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[gpu], output_device=gpu)
     else:
         # single-machine multi-gpu case or single-machine or multi-machine cpu case
         model = torch.nn.DataParallel(model)
@@ -182,16 +172,12 @@ def train(gpu: int, args: TrainingArgs):
         os.environ["WORLD_SIZE"] = str(world_size)
         rank = args.hosts.index(args.current_host) * args.num_gpus + gpu
         os.environ["RANK"] = str(rank)
-        dist.init_process_group(
-            backend=args.backend, init_method="env://", rank=rank, world_size=world_size
-        )
+        dist.init_process_group(backend=args.backend, init_method="env://", rank=rank, world_size=world_size)
         logging.info(
             "Initialized the distributed environment: '{}' backend on {} nodes. ".format(
                 args.backend, dist.get_world_size()
             )
-            + "Current host rank is {}. Number of gpus: {}".format(
-                dist.get_rank(), args.num_gpus
-            )
+            + "Current host rank is {}. Number of gpus: {}".format(dist.get_rank(), args.num_gpus)
         )
         torch.cuda.set_device(gpu)
 
@@ -200,9 +186,7 @@ def train(gpu: int, args: TrainingArgs):
     if use_cuda:
         torch.cuda.manual_seed(args.seed)
 
-    train_loader = _get_train_data_loader(
-        args.batch_size, args.data_dir, is_distributed, **kwargs
-    )
+    train_loader = _get_train_data_loader(args.batch_size, args.data_dir, is_distributed, **kwargs)
     test_loader = _get_test_data_loader(args.test_batch_size, args.data_dir, **kwargs)
 
     logging.info(
@@ -225,13 +209,9 @@ def train(gpu: int, args: TrainingArgs):
 
     model = configure_model(model, is_distributed, gpu)
 
-    optimizer = optim.SGD(
-        model.parameters(), lr=args.learning_rate, momentum=args.sgd_momentum
-    )
+    optimizer = optim.SGD(model.parameters(), lr=args.learning_rate, momentum=args.sgd_momentum)
 
-    logging.info(
-        "[rank {}|local-rank {}] Totally {} epochs".format(rank, gpu, args.epochs + 1)
-    )
+    logging.info("[rank {}|local-rank {}] Totally {} epochs".format(rank, gpu, args.epochs + 1))
     for epoch in range(1, args.epochs + 1):
         model.train()
         for batch_idx, (data, target) in enumerate(train_loader, 1):
@@ -282,12 +262,8 @@ def test(model, test_loader, device):
                     target.cuda(non_blocking=True),
                 )
             output = model(data)
-            test_loss += functional.nll_loss(
-                output, target, size_average=False
-            ).item()  # sum up batch loss
-            pred = output.max(1, keepdim=True)[
-                1
-            ]  # get the index of the max log-probability
+            test_loss += functional.nll_loss(output, target, size_average=False).item()  # sum up batch loss
+            pred = output.max(1, keepdim=True)[1]  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -327,9 +303,7 @@ def download_training_data(training_dir):
         training_dir,
         train=True,
         download=True,
-        transform=transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-        ),
+        transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
     )
 
 
@@ -339,9 +313,7 @@ def download_test_data(training_dir):
         training_dir,
         train=False,
         download=True,
-        transform=transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-        ),
+        transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
     )
 
 
@@ -398,9 +370,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> PythonPickledFile:
         # Config MASTER_ADDR and MASTER_PORT for PyTorch Distributed Training
         os.environ["MASTER_ADDR"] = args.hosts[0]
         os.environ["MASTER_PORT"] = "29500"
-        os.environ[
-            "NCCL_SOCKET_IFNAME"
-        ] = ctx.distributed_training_context.network_interface_name
+        os.environ["NCCL_SOCKET_IFNAME"] = ctx.distributed_training_context.network_interface_name
         os.environ["NCCL_DEBUG"] = "INFO"
         # The function is called as fn(i, *args), where i is the process index and args is the passed
         # through tuple of arguments.

@@ -16,7 +16,7 @@ import pandas as pd
 import whylogs as why
 from flytekit import conditional, task, workflow
 from flytekitplugins.whylogs.renderer import WhylogsConstraintsRenderer, WhylogsSummaryDriftRenderer
-from flytekitplugins.whylogs.schema import WhylogsDatasetProfileTransformer
+from flytekitplugins.whylogs.schema import WhylogsDatasetProfileTransformer  # noqa
 from sklearn.datasets import load_diabetes
 from whylogs.core import DatasetProfileView
 from whylogs.core.constraints import ConstraintsBuilder

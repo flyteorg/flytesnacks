@@ -63,6 +63,7 @@ def simple_task(csv_file: str) -> int:
     # You can print the result to know more about the data within it.
     # If the data validation fails, this will return a ValidationError.
     result = simple_task_object(dataset=csv_file)
+    print(result)
     df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
     return df.shape[0]
 

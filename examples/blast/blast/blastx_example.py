@@ -27,9 +27,7 @@ from flytekit.types.file import FlyteFile, PNGImageFile
 # %%
 def download_dataset():
     Path("kitasatospora").mkdir(exist_ok=True)
-    r = requests.get(
-        "https://api.github.com/repos/flyteorg/flytesnacks/contents/blast/kitasatospora?ref=datasets"
-    )
+    r = requests.get("https://api.github.com/repos/flyteorg/flytesnacks/contents/blast/kitasatospora?ref=datasets")
     for each_file in r.json():
         download_url = each_file["download_url"]
         file_name = f"kitasatospora/{Path(download_url).name}"
@@ -143,9 +141,7 @@ def blast_wf(
     db: str = "kitasatospora_proteins.faa",
     blast_output: str = "AMK19_00175_blastx_kitasatospora.tab",
 ) -> BLASTXOutput:
-    stdout, blastout = blastx_on_shell(
-        datadir=datadir, outdir=outdir, query=query, db=db, blast_output=blast_output
-    )
+    stdout, blastout = blastx_on_shell(datadir=datadir, outdir=outdir, query=query, db=db, blast_output=blast_output)
     result = is_batchx_success(stdout=stdout)
     final_result, plot = (
         conditional("blastx_output")

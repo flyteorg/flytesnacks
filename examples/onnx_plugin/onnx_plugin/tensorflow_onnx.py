@@ -40,9 +40,7 @@ def load_data() -> DataOutput:
     train_images, test_images = train_images[:1000] / 255.0, test_images[:100] / 255.0
     train_labels = train_labels[:1000]
 
-    return DataOutput(
-        train_images=train_images, train_labels=train_labels, test_images=test_images
-    )
+    return DataOutput(train_images=train_images, train_labels=train_labels, test_images=test_images)
 
 
 # %% [markdown]

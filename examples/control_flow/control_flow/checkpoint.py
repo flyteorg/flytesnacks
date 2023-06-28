@@ -75,9 +75,7 @@ def use_checkpoint(n_iterations: int) -> int:
         # simulate a deterministic failure, for demonstration. We want to show how it eventually completes within
         # the given retries
         if i > start and i % failure_interval == 0:
-            raise FlyteRecoverableException(
-                f"Failed at iteration {i}, failure_interval {failure_interval}"
-            )
+            raise FlyteRecoverableException(f"Failed at iteration {i}, failure_interval {failure_interval}")
         # save progress state. It is also entirely possible save state every few intervals.
         cp.write(f"{i + 1}".encode())
 

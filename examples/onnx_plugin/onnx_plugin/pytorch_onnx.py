@@ -84,9 +84,7 @@ def train() -> Annotated[
     map_location = lambda storage, loc: storage  # noqa: E731
     if torch.cuda.is_available():
         map_location = None
-    torch_model.load_state_dict(
-        model_zoo.load_url(model_url, map_location=map_location)
-    )
+    torch_model.load_state_dict(model_zoo.load_url(model_url, map_location=map_location))
 
     return PyTorch2ONNX(model=torch_model)
 
@@ -116,16 +114,12 @@ def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
 
     # compute ONNX Runtime output prediction
     ort_inputs = {
-        ort_session.get_inputs()[0].name: img_y.detach().cpu().numpy()
-        if img_y.requires_grad
-        else img_y.cpu().numpy()
+        ort_session.get_inputs()[0].name: img_y.detach().cpu().numpy() if img_y.requires_grad else img_y.cpu().numpy()
     }
     ort_outs = ort_session.run(None, ort_inputs)
     img_out_y = ort_outs[0]
 
-    img_out_y = Image.fromarray(
-        np.uint8((img_out_y[0] * 255.0).clip(0, 255)[0]), mode="L"
-    )
+    img_out_y = Image.fromarray(np.uint8((img_out_y[0] * 255.0).clip(0, 255)[0]), mode="L")
 
     # get the output image follow post-processing step from PyTorch implementation
     final_img = Image.merge(
@@ -137,9 +131,7 @@ def onnx_predict(model_file: ONNXFile) -> JPEGImageFile:
         ],
     ).convert("RGB")
 
-    img_path = (
-        Path(flytekit.current_context().working_directory) / "cat_superres_with_ort.jpg"
-    )
+    img_path = Path(flytekit.current_context().working_directory) / "cat_superres_with_ort.jpg"
     final_img.save(img_path)
 
     return JPEGImageFile(path=str(img_path))

@@ -126,9 +126,7 @@ def download_result(res: Result):
     """
     Flytekit will lazily load FlyteSchema. We download the schema only when users invoke open().
     """
-    assert pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]}).equals(
-        res.schema.open().all()
-    )
+    assert pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]}).equals(res.schema.open().all())
     f = open(res.file, "r")
     assert f.read() == "Hello world!"
     assert os.listdir(res.directory) == ["schema.parquet"]

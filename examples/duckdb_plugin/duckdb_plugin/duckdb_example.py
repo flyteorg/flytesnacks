@@ -83,9 +83,7 @@ def parquet_wf(parquet_file: str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    parquet_file = (
-        "https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2022-02.parquet"
-    )
+    parquet_file = "https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2022-02.parquet"
     print(f"Running parquet_wf()... {parquet_wf(parquet_file=parquet_file)}")
 
 # %% [markdown]
@@ -103,9 +101,7 @@ sd_duckdb_query = DuckDBQuery(
 @task
 def get_sd() -> StructuredDataset:
     return StructuredDataset(
-        dataframe=pd.DataFrame.from_dict(
-            {"i": [1, 2, 3, 4], "j": ["one", "two", "three", "four"]}
-        )
+        dataframe=pd.DataFrame.from_dict({"i": [1, 2, 3, 4], "j": ["one", "two", "three", "four"]})
     )
 
 

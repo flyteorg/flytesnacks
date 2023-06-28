@@ -38,9 +38,7 @@ def no_io_wf():
 # specifying a version.
 
 # %%
-DogeCoinDataset = Annotated[
-    StructuredDataset, kwtypes(hash=str, size=int, block_number=int)
-]
+DogeCoinDataset = Annotated[StructuredDataset, kwtypes(hash=str, size=int, block_number=int)]
 
 bigquery_task_templatized_query = BigQueryTask(
     name="sql.bigquery.w_io",

@@ -93,9 +93,7 @@ def hello_spark(partitions: int) -> float:
 
     n = 100000 * partitions
     sess = flytekit.current_context().spark_session
-    count = (
-        sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
-    )
+    count = sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
     pi_val = 4.0 * count / n
     print("Pi val is :{}".format(pi_val))
     return pi_val
@@ -139,6 +137,4 @@ def my_spark(triggered_date: datetime.datetime) -> float:
 # %%
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(
-        f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}"
-    )
+    print(f"Running my_spark(triggered_date=datetime.datetime.now()){my_spark(triggered_date=datetime.datetime.now())}")

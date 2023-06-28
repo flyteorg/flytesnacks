@@ -41,9 +41,7 @@ from flytekitplugins.sqlalchemy import SQLAlchemyConfig, SQLAlchemyTask
 # :::
 
 # %%
-DATABASE_URI = (
-    "postgresql://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs"
-)
+DATABASE_URI = "postgresql://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs"
 
 # Here we define the schema of the expected output of the query, which we then re-use in the `get_mean_length` task.
 DataSchema = FlyteSchema[kwtypes(sequence_length=int)]
@@ -88,9 +86,7 @@ def get_mean_length(data: DataSchema) -> float:
 # %%
 @workflow
 def my_wf(min_length: int, max_length: int, limit: int) -> float:
-    return get_mean_length(
-        data=sql_task(min_length=min_length, max_length=max_length, limit=limit)
-    )
+    return get_mean_length(data=sql_task(min_length=min_length, max_length=max_length, limit=limit))
 
 
 if __name__ == "__main__":

@@ -72,9 +72,7 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
     requests=Resources(cpu="1", mem="600Mi"),
     limits=Resources(cpu="2"),
 )
-def horovod_train_task(
-    batch_size: int, buffer_size: int, dataset_size: int
-) -> FlyteDirectory:
+def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
     """
     :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
     :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.
@@ -83,9 +81,7 @@ def horovod_train_task(
     """
     hvd.init()
 
-    (mnist_images, mnist_labels), _ = tf.keras.datasets.mnist.load_data(
-        path="mnist-%d.npz" % hvd.rank()
-    )
+    (mnist_images, mnist_labels), _ = tf.keras.datasets.mnist.load_data(path="mnist-%d.npz" % hvd.rank())
 
     dataset = tf.data.Dataset.from_tensor_slices(
         (
@@ -148,18 +144,14 @@ def horovod_train_task(
 # Lastly, we can call the workflow and run the example.
 # %%
 @workflow
-def horovod_training_wf(
-    batch_size: int = 128, buffer_size: int = 10000, dataset_size: int = 10000
-) -> FlyteDirectory:
+def horovod_training_wf(batch_size: int = 128, buffer_size: int = 10000, dataset_size: int = 10000) -> FlyteDirectory:
     """
     :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
     :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.
     :param dataset_size: The number of elements of this dataset that should be taken to form the new dataset when
         running batched training.
     """
-    return horovod_train_task(
-        batch_size=batch_size, buffer_size=buffer_size, dataset_size=dataset_size
-    )
+    return horovod_train_task(batch_size=batch_size, buffer_size=buffer_size, dataset_size=dataset_size)
 
 
 if __name__ == "__main__":

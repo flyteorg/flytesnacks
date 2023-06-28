@@ -103,12 +103,8 @@ def test(model, device, test_loader, writer, epoch):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.nll_loss(
-                output, target, reduction="sum"
-            ).item()  # sum up batch loss
-            pred = output.max(1, keepdim=True)[
-                1
-            ]  # get the index of the max log-probability
+            test_loss += F.nll_loss(output, target, reduction="sum").item()  # sum up batch loss
+            pred = output.max(1, keepdim=True)[1]  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -118,9 +114,7 @@ def test(model, device, test_loader, writer, epoch):
     return accuracy
 
 
-def epoch_step(
-    model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval
-):
+def epoch_step(model, device, train_loader, test_loader, optimizer, epoch, writer, log_interval):
     train(model, device, train_loader, optimizer, epoch, writer, log_interval)
     return test(model, device, test_loader, writer, epoch)
 
@@ -213,9 +207,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
             "../data",
             train=True,
             download=True,
-            transform=transforms.Compose(
-                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-            ),
+            transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
         batch_size=hp.batch_size,
         shuffle=True,
@@ -225,9 +217,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
         datasets.MNIST(
             "../data",
             train=False,
-            transform=transforms.Compose(
-                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-            ),
+            transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
         batch_size=hp.test_batch_size,
         shuffle=False,
@@ -238,16 +228,10 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     model = Net().to(device)
 
     if is_distributed():
-        Distributor = (
-            nn.parallel.DistributedDataParallel
-            if use_cuda
-            else nn.parallel.DistributedDataParallelCPU
-        )
+        Distributor = nn.parallel.DistributedDataParallel if use_cuda else nn.parallel.DistributedDataParallelCPU
         model = Distributor(model)
 
-    optimizer = optim.SGD(
-        model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum
-    )
+    optimizer = optim.SGD(model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum)
 
     accuracies = [
         epoch_step(
@@ -315,9 +299,7 @@ def pytorch_training_wf(
 # if distributed or not)
 # %%
 if __name__ == "__main__":
-    model, plot, logs = pytorch_training_wf(
-        hp=Hyperparameters(epochs=2, batch_size=128)
-    )
+    model, plot, logs = pytorch_training_wf(hp=Hyperparameters(epochs=2, batch_size=128))
     print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
 
 # %% [markdown]

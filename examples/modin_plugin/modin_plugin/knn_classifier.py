@@ -58,9 +58,7 @@ def preprocess_data() -> split_data:
     wine_target = modin.pandas.DataFrame(data=wine.target, columns=["target"])
 
     # split the dataset
-    X_train, X_test, y_train, y_test = train_test_split(
-        wine_features, wine_target, test_size=0.33, random_state=101
-    )
+    X_train, X_test, y_train, y_test = train_test_split(wine_features, wine_target, test_size=0.33, random_state=101)
 
     return split_data(
         train_features=X_train,
@@ -93,9 +91,7 @@ def fit_and_predict(
 # We compute accuracy of the model.
 # %%
 @task
-def calc_accuracy(
-    y_test: modin.pandas.DataFrame, predicted_vals_list: List[int]
-) -> float:
+def calc_accuracy(y_test: modin.pandas.DataFrame, predicted_vals_list: List[int]) -> float:
     return accuracy_score(y_test, predicted_vals_list)
 
 
@@ -111,9 +107,7 @@ def pipeline() -> float:
         X_test=split_data_vals.test_features,
         y_train=split_data_vals.train_labels,
     )
-    return calc_accuracy(
-        y_test=split_data_vals.test_labels, predicted_vals_list=predicted_vals_output
-    )
+    return calc_accuracy(y_test=split_data_vals.test_labels, predicted_vals_list=predicted_vals_output)
 
 
 if __name__ == "__main__":

@@ -64,9 +64,7 @@ class WaitForObjectStoreFile(PythonTask):
             task_type="object-store-sensor",
             name=name,
             task_config=None,
-            interface=Interface(
-                inputs={self._VAR_NAME: str}, outputs={self._VAR_NAME: str}
-            ),
+            interface=Interface(inputs={self._VAR_NAME: str}, outputs={self._VAR_NAME: str}),
             **kwargs,
         )
         self._poll_interval = poll_interval
