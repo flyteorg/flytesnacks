@@ -29,3 +29,4 @@ fi
 example_name=$(basename -- "$dir")
 image_uri=ghcr.io/flyteorg/flytecookbook:"$example_name"-"$version"
 (cd "$dir" && build "$image_uri" && serialize "$example_name" "$image_uri")
+echo "$image_uri"
