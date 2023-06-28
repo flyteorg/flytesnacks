@@ -51,14 +51,14 @@ examples
 
 If you're adding a new example to an existing project, you can simply create a
 new `.py` file in the appropriate directory. For example, if you want to add a new
-example in the ``examples/basics`` project, simply do:
+example in the `examples/basics` project, simply do:
 
 ```{prompt} bash
 touch examples/basics/my_new_example.py
 ```
 
-Once you're done creating your example, add it to the ``README.md`` file of the
-example project as an entry in the ``auto-examples-toc`` directive:
+Once you're done creating your example, add it to the `README.md` file of the
+example project as an entry in the `auto-examples-toc` directive:
 
 ````{code-block}
 ```{auto-examples-toc}
@@ -74,13 +74,13 @@ If you're creating a new example in the User Guide, Tutorials, or Integrations
 that doesn't fit into any of the existing subdirectories, you'll need to setup a
 new example project.
 
-In the ``flytesnacks`` root directory, create one with:
+In the `flytesnacks` root directory, create one with:
 
 ```{prompt} bash
 ./scripts/create-example-project new_example_project
 ```
 
-This will create a new directory under ``examples``:
+This will create a new directory under `examples`:
 
 ```{code-block} bash
 examples/new_example_project
@@ -113,9 +113,10 @@ print("Hello World!")
 print("This is another code cell")
 ```
 
-Markdown cells have access to sphinx directives through the MyST markdown format,
+Markdown cells have access to sphinx directives through the
+[myst markdown](https://myst-parser.readthedocs.io/en/latest/) format,
 which is a flavor of markdown that makes it easier to write documentation while
-giving you the utilities of sphinx. ``flytesnacks`` uses the
+giving you the utilities of sphinx. `flytesnacks` uses the
 [myst-nb](https://myst-nb.readthedocs.io/en/latest/) and
 [jupytext](https://github.com/mwouts/jupytext) packages to interpret the
 python files as rst-compatible files.
@@ -145,14 +146,14 @@ reading experience for more complicated examples.
 ### Creating examples in other formats
 
 Writing examples in `.py` files is preferred since they are easily tested and
-packaged, but ``flytesnacks`` also supports examples written in `.ipynb` and
-`.md` files in [myst markdown format](https://myst-parser.readthedocs.io/en/latest/).
-This is useful in the following cases:
+packaged, but `flytesnacks` also supports examples written in `.ipynb` and
+`.md` files in myst markdown format. This is useful in the following cases:
 
-- `.ipynb`: When a `.py` example needs a jupyter notebook as a task, e.g.
-  to illustrate the use of {py:class}`~flytekitplugins.papermill.NotebookTask`s.
+- `.ipynb`: When a `.py` example needs a companion jupyter notebook as a task, e.g.
+  to illustrate the use of {py:class}`~flytekitplugins.papermill.NotebookTask`s,
+  or when an example is intended to be run from a notebook.
 - `.md`: When a piece of documentation doesn't require testable or packaged
-  flyte tasks/workflows, an example page can be written in myst-markdown.
+  flyte tasks/workflows, an example page can be written as a myst markdown file.
 
 ## Writing a README
 
@@ -163,7 +164,7 @@ The `README.md` file needs to capture the *what*, *why*, and *how* of the exampl
 - Showcase the uniqueness of the integration
 - How to install the plugin?
 
-Finally, write a ``auto-examples-toc`` directive at the bottom of the file:
+Finally, write a `auto-examples-toc` directive at the bottom of the file:
 
 ````{code-block}
 ```{auto-examples-toc}
@@ -173,7 +174,7 @@ example_03
 ```
 ````
 
-Where ``example_01``, ``example_02``, and ``example_03`` are the python module
+Where `example_01`, `example_02`, and `example_03` are the python module
 names of the examples under the `new_example_project` directory. These can also
 be the names of the `.ipynb` or `.md` files (but without the file extension).
 
@@ -208,13 +209,13 @@ In this example, we'll build the `basics` project:
 cd examples/basics
 ```
 
-Build Docker container:
+Build the container:
 
 ```{prompt} bash
-flytectl demo exec -- docker build . --tag "basics:v1" -f Dockerfile
+docker build . --tag "basics:v1" -f Dockerfile
 ```
 
-Package the examples by running
+Package the examples by running:
 
 ```{prompt} bash
 pyflyte --pkgs basics package --image basics:v1 -f
@@ -223,18 +224,47 @@ pyflyte --pkgs basics package --image basics:v1 -f
 Register the examples by running
 
 ```{prompt} bash
-flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v1
+flytectl register files \
+   -p flytesnacks \
+   -d development \
+   --archive flyte-package.tgz \
+   --version v1
 ```
 
-Visit `https://localhost:30081/console` to view the Flyte console, which consists of the examples present in the
-`flytesnacks/core` directory.
+Visit `https://localhost:30081/console` to view the Flyte console, which consists
+of the examples present in the `flytesnacks/core` directory.
 
-To fetch new dependencies and rebuild the image, run
+### Updating dependencies
+
+:::{admonition} Prerequisites
+Install [pip-tools](https://pypi.org/project/pip-tools/) in your development
+environment with:
 
 ```{prompt} bash
-flytectl demo exec -- docker build . --tag "basics:v2" -f core/Dockerfile
+pip install pip-tools
+```
+:::
+
+If you've updated the dependencies of the project, update the `requirements.txt`
+file by running:
+
+```{prompt} bash
+pip-compile requirements.in --upgrade --verbose --resolver=backtracking
+```
+
+### Rebuild the image
+
+If you've updated the source code or dependencies of the project, and rebuild
+the image with:
+
+```{prompt} bash
+docker build . --tag "basics:v2" -f core/Dockerfile
 pyflyte --pkgs basics package --image basics:v2 -f
-flytectl register files --archive -p flytesnacks -d development --archive flyte-package.tgz --version v2
+flytectl register files \
+    -p flytesnacks \
+    -d development \
+    --archive flyte-package.tgz \
+    --version v2
 ```
 
 Refer to {ref}`this guide <getting_started_package_register>`
@@ -266,7 +296,7 @@ We use [codespell](https://github.com/codespell-project/codespell) to catch comm
 The `docs/conf.py` contains the sphinx configuration for building the
 `flytesnacks` documentation.
 
-At build-time, the `flytesnacks` sphinx build system will convert all the
+At build-time, the `flytesnacks` sphinx build system will convert all of the
 projects in the `examples` directory into `docs/auto_examples`, and will be
 available in the documentation.
 
@@ -277,7 +307,7 @@ project into a `index.md` file, so you can reference the root page of each
 example project, e.g., in myst markdown format, you can write a table-of-content
 directive like so:
 
-:::{raw} text
+:::{code-block}
 ```{toc}
 auto_examples/basics/index
 ```

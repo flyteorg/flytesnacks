@@ -6,7 +6,7 @@
 #
 adlfs==2023.4.0
     # via flytekit
-aiobotocore==2.5.0
+aiobotocore==2.5.1
     # via s3fs
 aiohttp==3.8.4
     # via
@@ -47,7 +47,7 @@ backcall==0.2.0
     # via ipython
 binaryornot==0.4.4
     # via cookiecutter
-botocore==1.29.76
+botocore==1.29.161
     # via aiobotocore
 cachetools==5.3.1
     # via google-auth
@@ -111,7 +111,7 @@ docstring-parser==0.15
     # via flytekit
 executing==1.2.0
     # via stack-data
-flyteidl==1.5.11
+flyteidl==1.5.12
     # via flytekit
 flytekit==1.7.0
     # via
@@ -141,7 +141,7 @@ google-api-core==2.11.1
     # via
     #   google-cloud-core
     #   google-cloud-storage
-google-auth==2.20.0
+google-auth==2.21.0
     # via
     #   gcsfs
     #   google-api-core
@@ -153,7 +153,7 @@ google-auth-oauthlib==1.0.0
     # via gcsfs
 google-cloud-core==2.3.2
     # via google-cloud-storage
-google-cloud-storage==2.9.0
+google-cloud-storage==2.10.0
     # via gcsfs
 google-crc32c==1.5.0
     # via google-resumable-media
@@ -226,7 +226,7 @@ jupyter-core==5.3.1
     #   jupyter-client
 jupyterlab-widgets==3.0.7
     # via ipywidgets
-keyring==24.1.0
+keyring==24.2.0
     # via flytekit
 kiwisolver==1.4.4
     # via matplotlib

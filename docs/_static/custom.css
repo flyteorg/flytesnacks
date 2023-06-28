@@ -67,3 +67,20 @@ div.sphx-glr-footer {
     height: 0px;
     visibility: hidden;
 }
+
+p.tags span {
+    font-weight: bold
+}
+
+p.tags a {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-background-border);
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+p.tags span:not(:first-child) {
+    display: none;
+}

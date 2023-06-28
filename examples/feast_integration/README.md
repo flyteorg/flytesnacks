@@ -71,5 +71,5 @@ like Snowflake, Athena, Hive, BigQuery, or Spark, all of which are supported by 
 ```{auto-examples-toc}
 feature_eng_tasks
 feast_workflow
-feast_flyte_demo
+feast_flyte_remote
 ```
