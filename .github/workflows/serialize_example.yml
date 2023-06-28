@@ -75,7 +75,8 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          make setup
+          flytectl demo start --source=$(shell pwd)
+          flytectl config init
       - name: Register examples
         run: |
           for file in ./download-artifact/**/*; do
