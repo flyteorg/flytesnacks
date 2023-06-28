@@ -4,6 +4,10 @@
 
 Flyte is designed to be highly extensible and can be customized in multiple ways.
 
+```{note}
+Want to contribute an example? Check out the {doc}`Example Contribution Guide <contribute>`.
+```
+
 ## Flytekit Plugins
 
 Flytekit plugins are simple plugins that can be implemented purely in python, unit tested locally and allow extending

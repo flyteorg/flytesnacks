@@ -25,6 +25,10 @@ To learn about how to spin up and manage a Flyte cluster in the cloud, see the
 {doc}`Deployment Guides <flyte:deployment/index>`.
 ```
 
+```{note}
+Want to contribute an example? Check out the {doc}`Example Contribution Guide <contribute>`.
+```
+
 ## Table of Contents
 
 ```{list-table}

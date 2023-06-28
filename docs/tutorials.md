@@ -16,6 +16,10 @@ It comes with a highly customized environment to make running, documenting and
 contributing samples easy. If this is your first time running these examples, follow the
 {ref}`setup guide <env_setup>` to get started.
 
+```{note}
+Want to contribute an example? Check out the {doc}`Example Contribution Guide <contribute>`.
+```
+
 ## 🤖 Model Training
 
 Train machine learning models from using your framework of choice.

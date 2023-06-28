@@ -327,16 +327,14 @@ documentation.
 Verify that the code and documentation look as expected:
 
 - Learn about the documentation tools [here](https://docs.flyte.org/en/latest/community/contribute.html#documentation)
-
 - Install the requirements by running `pip install -r docs-requirements.txt`.
-
-- Run `make html` in the `docs` folder
+- Run `make -C docs html`
 
   ```{tip}
-  For implicit targets, run `make -C docs clean html`.
+  To run a fresh build, run `make -C docs clean html`.
   ```
-
-- Open the HTML pages present in the `docs/_build` directory in the browser
+- Open the HTML pages present in the `docs/_build` directory in the browser with
+  `open docs/_build/index.html`
 
 ## Create a pull request
 

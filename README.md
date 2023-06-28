@@ -30,11 +30,13 @@
 
 > To get the hang of Python SDK, refer to the [Getting Started](https://docs.flyte.org/en/latest/getting_started.html) tutorial before exploring the examples.
 
-[User Guide](https://docs.flyte.org/projects/cookbook/en/latest/index.html) section has code examples, tips, and tricks that showcase the usage of Flyte features and integrations.
+The [User Guide](https://docs.flyte.org/projects/cookbook/en/latest/index.html) section has code examples, tips, and tricks that showcase the usage of Flyte features and integrations.
 
-[Tutorials](https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
+The [Tutorials](https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
 
-> Flytesnacks currently has all examples in Python (Flytekit Python SDK). In the future, Java examples employing Flytekit Java will be added.
+the [Integrations](https://docs.flyte.org/projects/cookbook/en/latest/integrations.html) section demonstrates how to use Flyte with other tools and frameworks.
+
+> Flytesnacks currently has all examples in Python (Flytekit Python SDK).
 
 <html>
     <h2 id="contribution-guide">
@@ -42,7 +44,7 @@
     </h2>
 </html>
 
-You can find the detailed contribution guide [here](cookbook/docs/contribute.rst).
+You can find the detailed contribution guide [here](docs/contribute.md).
 
 <html>
     <h2 id="file-an-issue">
@@ -50,4 +52,4 @@ You can find the detailed contribution guide [here](cookbook/docs/contribute.rst
     </h2>
 </html>
 
-Refer to the [issues](https://docs.flyte.org/en/latest/community/contribute.html#issues) section in the contribution guide if you'd like to file an issue.
+Refer to the [issues](https://docs.flyte.org/en/latest/community/contribute.html##file-an-issue) section in the contribution guide if you'd like to file an issue.
