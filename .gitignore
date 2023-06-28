@@ -41,3 +41,5 @@ docs/_rsts/
 test.ipynb
 jupyter_execute
 _flyte_decks
+.keras
+.flyte-package.tgz

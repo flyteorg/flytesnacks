@@ -54,9 +54,7 @@ from flytekitplugins.awssagemaker import (
 # is useful to have human readable names for the outputs. In the absence of this, flytekit will name all outputs as
 # `o0, o1, ...`
 # %%
-TrainingOutputs = typing.NamedTuple(
-    "TrainingOutputs", model=HDF5EncodedFile, epoch_logs=dict, logs=TensorboardLogs
-)
+TrainingOutputs = typing.NamedTuple("TrainingOutputs", model=HDF5EncodedFile, epoch_logs=dict, logs=TensorboardLogs)
 
 
 # %% [markdown]
@@ -65,12 +63,7 @@ TrainingOutputs = typing.NamedTuple(
 # To ensure that the code runs on Sagemaker, create a Sagemaker task config using the class
 # `SagemakerTrainingJobConfig`
 # %%
-@task(
-    task_config=SagemakerTrainingJobConfig(
-        algorithm_specification=...,
-        training_job_resource_config=...,
-    )
-)
+@task
 def normalize_img(image, label):
     """Normalizes images: `uint8` -> `float32`."""
     return tf.cast(image, tf.float32) / 255.0, label
@@ -102,17 +95,13 @@ def custom_training_task(epochs: int, batch_size: int) -> TrainingOutputs:
         with_info=True,
     )
 
-    ds_train = ds_train.map(
-        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE
-    )
+    ds_train = ds_train.map(normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_train = ds_train.cache()
     ds_train = ds_train.shuffle(ds_info.splits["train"].num_examples)
     ds_train = ds_train.batch(batch_size)
     ds_train = ds_train.prefetch(tf.data.experimental.AUTOTUNE)
 
-    ds_test = ds_test.map(
-        normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE
-    )
+    ds_test = ds_test.map(normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     ds_test = ds_test.batch(batch_size)
     ds_test = ds_test.cache()
     ds_test = ds_test.prefetch(tf.data.experimental.AUTOTUNE)
@@ -180,9 +169,7 @@ def plot_loss_and_accuracy(epoch_logs: dict) -> PlotOutputs:
     loss_plot = "loss.png"
     plt.savefig(loss_plot)
 
-    return PlotOutputs(
-        accuracy=PNGImageFile(accuracy_plot), loss=PNGImageFile(loss_plot)
-    )
+    return PlotOutputs(accuracy=PNGImageFile(accuracy_plot), loss=PNGImageFile(loss_plot))
 
 
 # %% [markdown]
@@ -203,9 +190,7 @@ def mnist_trainer(
 # %%
 if __name__ == "__main__":
     model, accuracy, loss, logs = mnist_trainer()
-    print(
-        f"Model: {model}, Accuracy PNG: {accuracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}"
-    )
+    print(f"Model: {model}, Accuracy PNG: {accuracy}, loss PNG: {loss}, Tensorboard Log Dir: {logs}")
 
 # %% [markdown]
 # (sagemaker_tensorboard)=

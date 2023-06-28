@@ -31,9 +31,7 @@ from flytekitplugins.papermill import NotebookTask
 # %%
 nb = NotebookTask(
     name="simple-nb",
-    notebook_path=os.path.join(
-        pathlib.Path(__file__).parent.absolute(), "nb-simple.ipynb"
-    ),
+    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "nb_simple.ipynb"),
     render_deck=True,
     inputs=kwtypes(v=float),
     outputs=kwtypes(square=float),

@@ -36,6 +36,7 @@ jobs:
       - name: Build docker image and serialize examples
         # NOTE: the additional images are for the multi-image containerization examples
         run: |
+          ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
           cd ${{ matrix.directory }}
           package_name=$(basename -- ${{ matrix.directory }})
           image_uri=ghcr.io/flyteorg/flytecookbook:${package_name}-${{ github.sha }}

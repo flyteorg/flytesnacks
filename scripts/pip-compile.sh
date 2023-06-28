@@ -1,4 +1,13 @@
 #!/bin/sh
+#
+# Usage for simple directory:
+#
+# ./scripts/pip-compile.sh <example-dir>
+#
+# Compile all examples:
+#
+# ./scripts/pip-compile.sh
+
 examples=$1
 
 if [ -z "$examples" ]
