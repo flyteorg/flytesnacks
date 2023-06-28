@@ -95,4 +95,3 @@
 #      - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
 # ```
 #
-

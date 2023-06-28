@@ -30,7 +30,6 @@ import flytekit
 from flytekit import task, workflow
 from flytekit.types.file import FlyteFile
 
-
 # %% [markdown]
 # Next, we write a task that accepts a `FlyteFile`, a list of column names,
 # and a list of column names to normalize, then outputs a csv file of only
@@ -45,6 +44,7 @@ from flytekit.types.file import FlyteFile
 # :::
 
 # %%
+
 
 @task
 def normalize_columns(
@@ -85,7 +85,6 @@ def normalize_columns(
         return FlyteFile(path=out_path)
 
 
-
 # %% [markdown]
 # When the image URL is sent to the task, the Flytekit engine translates it into a `FlyteFile` object on the local
 # drive (but doesn't download it). The act of calling `download` method should trigger the download, and the `path`
@@ -103,6 +102,7 @@ def normalize_columns(
 # upload its file to that location.
 
 # %%
+
 
 @workflow
 def normalize_csv_file(
@@ -137,15 +137,10 @@ if __name__ == "__main__":
         ),
     ]
     print(f"Running {__file__} main...")
-    for index, (csv_url, column_names, columns_to_normalize) in enumerate(
-        default_files
-    ):
+    for index, (csv_url, column_names, columns_to_normalize) in enumerate(default_files):
         normalized_columns = normalize_csv_file(
             csv_url=csv_url,
             column_names=column_names,
             columns_to_normalize=columns_to_normalize,
         )
-        print(
-            f"Running normalize_csv_file workflow on {default_files}: "
-            f"{normalized_columns}"
-        )
+        print(f"Running normalize_csv_file workflow on {default_files}: " f"{normalized_columns}")

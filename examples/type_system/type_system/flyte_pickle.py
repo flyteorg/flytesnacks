@@ -62,6 +62,8 @@ if __name__ == "__main__":
     welcome(name="Foo")
 
 
+from typing import List
+
 # %% [markdown]
 # By default, if the list subtype is unrecognized, a single pickle file is generated.
 # To also improve serialization and deserialization performance for cases with millions of items or large list items,
@@ -70,16 +72,16 @@ if __name__ == "__main__":
 #
 # %%
 from flytekit.types.pickle.pickle import BatchSize
-from typing import List
 from typing_extensions import Annotated
 
+
 @task
-def greet_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+def greet_all(names: List[str]) -> Annotated[List[People], BatchSize(2)]:
     return [People(name) for name in names]
 
 
 @workflow
-def welcome_all(names: List[str]) -> Annotated[List[People],BatchSize(2)]:
+def welcome_all(names: List[str]) -> Annotated[List[People], BatchSize(2)]:
     return greet_all(names=names)
 
 
@@ -89,4 +91,4 @@ if __name__ == "__main__":
     - One containing two People objects
     - One containing one People object
     """
-    welcome_all(names=["f","o","o"])
+    welcome_all(names=["f", "o", "o"])

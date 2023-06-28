@@ -30,6 +30,7 @@ from kubernetes.client.models import (
     V1VolumeMount,
 )
 
+
 # %% [markdown]
 # ## Add additional properties to the task container
 #
@@ -55,6 +56,7 @@ def pod_task() -> str:
 @workflow
 def pod_workflow() -> str:
     return pod_task()
+
 
 # %% [markdown]
 # :::{note}
@@ -186,9 +188,7 @@ def coalesce(list_of_strings: List[str]) -> str:
 
 @workflow
 def map_pod_workflow(list_of_ints: List[int]) -> str:
-    mapped_out = map_task(map_pod_task, metadata=TaskMetadata(retries=1))(
-        int_val=list_of_ints
-    )
+    mapped_out = map_task(map_pod_task, metadata=TaskMetadata(retries=1))(int_val=list_of_ints)
     coalesced = coalesce(list_of_strings=mapped_out)
     return coalesced
 
@@ -235,8 +235,6 @@ def dynamic_pod_workflow(val: int = 6) -> str:
 if __name__ == "__main__":
     print(f"Running {__file__}...")
     print(f"Calling pod_workflow()... {pod_workflow()}")
-    print(
-        f"Calling multiple_containers_pod_workflow()... {multiple_containers_pod_workflow()}"
-    )
+    print(f"Calling multiple_containers_pod_workflow()... {multiple_containers_pod_workflow()}")
     print(f"Calling map_pod_workflow()... {map_pod_workflow()}")
     print(f"Calling dynamic_pod_workflow()... {dynamic_pod_workflow()}")

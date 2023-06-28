@@ -114,7 +114,7 @@ class DeckFilter(logging.Filter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.deck_files = {}
-    
+
     def filter(self, record):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
         matches = re.match(patt, record.getMessage())

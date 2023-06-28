@@ -27,9 +27,7 @@ from flytekitplugins.papermill import NotebookTask
 # %%
 nb_1 = NotebookTask(
     name="eda-featureeng-nb",
-    notebook_path=os.path.join(
-        pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"
-    ),
+    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"),
     outputs=kwtypes(dummified_data=pd.DataFrame, dataset=str),
     requests=Resources(mem="500Mi"),
 )
@@ -63,6 +61,7 @@ nb_2 = NotebookTask(
 # We define a `Workflow` to run the notebook tasks.
 
 # %%
+
 
 @workflow
 def notebook_wf(

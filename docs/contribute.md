@@ -92,7 +92,7 @@ examples/new_example_project
 ├── requirements.in
 └── requirements.txt
 ```
- 
+
 ````
 
 ### Creating python examples
@@ -314,7 +314,7 @@ auto_examples/basics/index
 :::
 
 ::::
-   
+
 If you've created a new example project, you'll need to add the `index` page
 in the table of contents in `docs/index.md` to make sure the project
 shows up in the documentation. Additonally, you'll need to update the appropriate

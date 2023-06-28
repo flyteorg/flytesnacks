@@ -49,7 +49,6 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
     return FlyteDirectory(path=str(local_dir))
 
 
-
 # %% [markdown]
 # Next, we define a helper function to normalize the columns in-place.
 #
@@ -60,6 +59,7 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
 # :::
 
 # %%
+
 
 def normalize_columns(
     local_csv_file: str,
@@ -89,12 +89,12 @@ def normalize_columns(
             writer.writerow({k: row[i] for i, k in enumerate(columns_to_normalize)})
 
 
-
 # %% [markdown]
 # Now we define a task that accepts the previously downloaded folder, along with some metadata about the
 # column names of each file in the directory and the column names that we want to normalize.
 
 # %%
+
 
 @task
 def normalize_all_files(
@@ -112,13 +112,13 @@ def normalize_all_files(
     return FlyteDirectory(path=csv_files_dir.path)
 
 
-
 # %% [markdown]
 # Then we compose all of the above tasks into a workflow. This workflow accepts a list
 # of url strings pointing to a remote location containing a csv file, a list of column names
 # associated with each csv file, and a list of columns that we want to normalize.
 
 # %%
+
 
 @workflow
 def download_and_normalize_csv_files(

@@ -117,7 +117,6 @@ def execute_training():
     )
 
 
-
 # %% [markdown]
 # ## Optimizing the Hyper-Parameters
 #
@@ -180,14 +179,10 @@ def execute():
         # The following parameters are tunable parameters are specified during the configuration of the task
         # this section provides the ranges to be sweeped
         num_round=ParameterRangeOneOf(
-            param=IntegerParameterRange(
-                min_value=3, max_value=10, scaling_type=HyperparameterScalingType.LINEAR
-            )
+            param=IntegerParameterRange(min_value=3, max_value=10, scaling_type=HyperparameterScalingType.LINEAR)
         ),
         max_depth=ParameterRangeOneOf(
-            param=IntegerParameterRange(
-                min_value=5, max_value=7, scaling_type=HyperparameterScalingType.LINEAR
-            )
+            param=IntegerParameterRange(min_value=5, max_value=7, scaling_type=HyperparameterScalingType.LINEAR)
         ),
         gamma=ParameterRangeOneOf(
             param=ContinuousParameterRange(

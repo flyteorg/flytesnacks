@@ -136,7 +136,7 @@ def reduce(results: List[List[float]]) -> float:
         length += sub_length
     return total / length
 
-  
+
 @workflow
 def parallelized_compute_mean(data: List[float], n_partitions: int = 10) -> float:
     """An embarrassingly parallel implementation to compute the mean from data."""

@@ -43,7 +43,6 @@ def my_wf(a: int, b: str) -> Tuple[int, str]:
     return x, d
 
 
-
 # %% [markdown]
 # `my_wf` is the Flyte workflow that accepts two inputs and calls two tasks from within it.
 #

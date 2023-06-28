@@ -70,7 +70,6 @@ from flytekit import Resources, task
 # %%
 from flytekitplugins.dask import Dask, WorkerGroup
 
-
 # %% [markdown]
 # ### Dask Task Sample
 #
@@ -79,6 +78,7 @@ from flytekitplugins.dask import Dask, WorkerGroup
 # class to understand the various configuration options.
 
 # %%
+
 
 @task(
     task_config=Dask(

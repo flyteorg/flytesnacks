@@ -64,4 +64,3 @@
 # | {{.PerRetryUniqueKey}}   | (random characters)        | This is a random string that allows the task to differentiate between different executions of a task. Values will be unique per retry as well.                                                                                                                    |
 # | {{.TaskTemplatePath}}    | `s3://my-bucket/task.pb`   | For tasks that need the full task definition, use this template to access the full TaskTemplate IDL message. To ensure performance, propeller will not upload this file if this template was not requested by the task.                                           |
 #
-

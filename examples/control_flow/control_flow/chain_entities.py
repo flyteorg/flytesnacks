@@ -24,8 +24,8 @@
 import logging
 from io import StringIO
 
-from botocore import session
 import pandas as pd
+from botocore import session
 from flytekit import task, workflow
 from flytekit.configuration import S3Config
 
@@ -65,9 +65,7 @@ def create_bucket():
 # %%
 @task
 def read() -> pd.DataFrame:
-    data = pd.read_csv(
-        s3_client().get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"]
-    )
+    data = pd.read_csv(s3_client().get_object(Bucket=BUCKET_NAME, Key=CSV_FILE)["Body"])
     return data
 
 
@@ -87,9 +85,7 @@ def write():
     )
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
-    s3_client().put_object(
-        Body=csv_buffer.getvalue(), Bucket=BUCKET_NAME, Key=CSV_FILE
-    )
+    s3_client().put_object(Body=csv_buffer.getvalue(), Bucket=BUCKET_NAME, Key=CSV_FILE)
 
 
 # %% [markdown]

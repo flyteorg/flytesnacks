@@ -29,4 +29,3 @@
 #
 # So here the investigation can move ahead by describing the pod and checking the issue with Image pull.
 #
-

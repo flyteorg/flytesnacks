@@ -9,13 +9,14 @@
 
 # %%
 
+import mlflow.keras
+import tensorflow as tf
+
 # %% [markdown]
 # Let's first import the libraries.
 # %%
 from flytekit import task, workflow
 from flytekitplugins.mlflow import mlflow_autolog
-import mlflow.keras
-import tensorflow as tf
 
 
 # %% [markdown]
@@ -30,15 +31,19 @@ def train_model(epochs: int):
     (train_images, train_labels), (_, _) = fashion_mnist.load_data()
     train_images = train_images / 255.0
 
-    model = tf.keras.Sequential([
-        tf.keras.layers.Flatten(input_shape=(28, 28)),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dense(10)
-    ])
+    model = tf.keras.Sequential(
+        [
+            tf.keras.layers.Flatten(input_shape=(28, 28)),
+            tf.keras.layers.Dense(128, activation="relu"),
+            tf.keras.layers.Dense(10),
+        ]
+    )
 
-    model.compile(optimizer='adam',
-                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-                  metrics=['accuracy'])
+    model.compile(
+        optimizer="adam",
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        metrics=["accuracy"],
+    )
     model.fit(train_images, train_labels, epochs=epochs)
 
 

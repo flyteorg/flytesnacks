@@ -8,21 +8,17 @@
 # %%
 import subprocess
 from typing import Tuple
-from flytekit import task, workflow
 
+from flytekit import task, workflow
 from flytekitplugins.dbt.schema import (
+    DBTFreshnessInput,
+    DBTFreshnessOutput,
     DBTRunInput,
     DBTRunOutput,
     DBTTestInput,
     DBTTestOutput,
-    DBTFreshnessInput,
-    DBTFreshnessOutput,
 )
-from flytekitplugins.dbt.task import (
-    DBTRun,
-    DBTTest,
-    DBTFreshness,
-)
+from flytekitplugins.dbt.task import DBTFreshness, DBTRun, DBTTest
 
 # %% [markdown]
 # We're going to use the well-known jaffle shop example, which can be found
@@ -42,19 +38,26 @@ def prepare_and_seed_database():
     subprocess.run(
         [
             "psql",
-            "-h", "sandbox-postgresql.flyte.svc.cluster.local",
-            "-p", "5432",
-            "-U", "postgres",
-            "-c", "CREATE DATABASE jaffle_shop;",
+            "-h",
+            "sandbox-postgresql.flyte.svc.cluster.local",
+            "-p",
+            "5432",
+            "-U",
+            "postgres",
+            "-c",
+            "CREATE DATABASE jaffle_shop;",
         ],
         env={"PGPASSWORD": "postgres"},
     )
     # Seed the database with some data
     subprocess.run(
         [
-            "dbt", "seed",
-            "--project-dir", DBT_PROJECT_DIR,
-            "--profiles-dir", DBT_PROFILES_DIR,
+            "dbt",
+            "seed",
+            "--project-dir",
+            DBT_PROJECT_DIR,
+            "--profiles-dir",
+            DBT_PROFILES_DIR,
         ]
     )
 
@@ -105,6 +108,7 @@ def wf() -> Tuple[DBTRunOutput, DBTTestOutput, DBTFreshnessOutput]:
     dbt_test_output >> dbt_freshness_output
 
     return dbt_run_output, dbt_test_output, dbt_freshness_output
+
 
 # %% [markdown]
 # To run this example workflow, follow the instructions in the

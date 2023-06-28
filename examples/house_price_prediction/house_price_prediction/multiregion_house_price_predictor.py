@@ -74,6 +74,7 @@ dataset = typing.NamedTuple(
 
 # %%
 
+
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],
@@ -84,9 +85,7 @@ def generate_and_split_data_multiloc(
     val_sets = []
     test_sets = []
     for _ in locations:
-        _train, _val, _test = generate_and_split_data(
-            number_of_houses=number_of_houses_per_location, seed=seed
-        )
+        _train, _val, _test = generate_and_split_data(number_of_houses=number_of_houses_per_location, seed=seed)
         train_sets.append(
             _train,
         )

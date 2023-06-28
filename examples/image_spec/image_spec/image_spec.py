@@ -24,7 +24,8 @@
 import typing
 
 import pandas as pd
-from flytekit import ImageSpec, task, workflow, Resources
+from flytekit import ImageSpec, Resources, task, workflow
+
 # %% [markdown]
 # :::{admonition} Prerequisites
 # :class: important
@@ -74,7 +75,7 @@ if sklearn_image_spec.is_container():
 def get_pandas_dataframe() -> typing.Tuple[pd.DataFrame, pd.Series]:
     df = pd.read_csv("https://storage.googleapis.com/download.tensorflow.org/data/heart.csv")
     print(df.head())
-    return df[['age', 'thalach', 'trestbps',  'chol', 'oldpeak']], df.pop('target')
+    return df[["age", "thalach", "trestbps", "chol", "oldpeak"]], df.pop("target")
 
 
 @task(container_image=sklearn_image_spec, requests=Resources(cpu="1", mem="1Gi"))

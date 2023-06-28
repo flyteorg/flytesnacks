@@ -33,7 +33,9 @@ from flytekitplugins.great_expectations import BatchRequestConfig, GreatExpectat
 # Next, we define variables that we use throughout the code.
 # %%
 DATASET_LOCAL = "yellow_tripdata_sample_2019-01.csv"
-DATASET_REMOTE = "https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/yellow_tripdata_sample_2019-01.csv"
+DATASET_REMOTE = (
+    "https://raw.githubusercontent.com/superconductive/ge_tutorials/main/data/yellow_tripdata_sample_2019-01.csv"
+)
 CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 
 
@@ -46,6 +48,7 @@ CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 # The parameters within the `data_connector_query` convey that we're fetching all those files that have "2019" and "01" in the file names.
 
 # %%
+
 
 @task(limits=Resources(mem="500Mi"))
 def simple_task(
@@ -103,10 +106,9 @@ great_expectations_config = GreatExpectationsFlyteConfig(
 
 # %%
 
+
 @task(limits=Resources(mem="500Mi"))
-def file_task(
-    dataset: GreatExpectationsType[CSVFile, great_expectations_config]
-) -> pd.DataFrame:
+def file_task(dataset: GreatExpectationsType[CSVFile, great_expectations_config]) -> pd.DataFrame:
     return pd.read_csv(dataset)
 
 
@@ -135,9 +137,7 @@ def schema_task(
             datasource_name="data",  # noqa: F821
             expectation_suite_name="test.demo",  # noqa: F821
             data_connector_name="data_flytetype_data_connector",  # noqa: F821
-            batch_request_config=BatchRequestConfig(
-                data_connector_query={"limit": 10}  # noqa : F841
-            ),  # noqa: F821
+            batch_request_config=BatchRequestConfig(data_connector_query={"limit": 10}),  # noqa : F841  # noqa: F821
             local_file_path="/tmp/test.parquet",  # noqa: F722
             context_root_dir=CONTEXT_ROOT_DIR,
         ),
@@ -201,9 +201,7 @@ def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
 # We define a task to validate the DataFrame.
 # %%
 @task
-def runtime_validation(
-    dataframe: GreatExpectationsType[FlyteSchema, runtime_ge_config]
-) -> int:
+def runtime_validation(dataframe: GreatExpectationsType[FlyteSchema, runtime_ge_config]) -> int:
     return len(dataframe)
 
 

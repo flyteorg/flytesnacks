@@ -80,7 +80,6 @@ def wandb_setup():
     )
 
 
-
 # %% [markdown]
 # ## Re-Using the Network From the Single GPU Example
 #
@@ -119,14 +118,10 @@ def mnist_dataloader(
         data_dir,
         train=train,
         download=False,
-        transform=transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307), (0.3081))]
-        ),
+        transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307), (0.3081))]),
     )
     if distributed:
-        assert (
-            rank is not None
-        ), "rank needs to be specified when doing distributed training."
+        assert rank is not None, "rank needs to be specified when doing distributed training."
         sampler = torch.utils.data.distributed.DistributedSampler(
             dataset,
             rank=rank,
@@ -209,22 +204,14 @@ def test(model, rank, test_loader):
             total += len(targets)
             images, targets = images.to(rank), targets.to(rank)  # device conversion
             outputs = model(images)  # forward pass -- generate predictions
-            test_loss += F.nll_loss(
-                outputs, targets, reduction="sum"
-            ).item()  # sum up batch loss
-            _, predicted = torch.max(
-                outputs.data, 1
-            )  # get the index of the max log-probability
-            correct += (
-                (predicted == targets).sum().item()
-            )  # compare predictions to true label
+            test_loss += F.nll_loss(outputs, targets, reduction="sum").item()  # sum up batch loss
+            _, predicted = torch.max(outputs.data, 1)  # get the index of the max log-probability
+            correct += (predicted == targets).sum().item()  # compare predictions to true label
 
             # log predictions to the ``wandb`` table
             if log_counter < NUM_BATCHES_TO_LOG:
                 if rank == 0:
-                    log_test_predictions(
-                        images, targets, outputs, predicted, my_table, log_counter
-                    )
+                    log_test_predictions(images, targets, outputs, predicted, my_table, log_counter)
                 log_counter += 1
 
     # compute the average loss
@@ -264,6 +251,7 @@ TrainingOutputs = typing.NamedTuple(
 
 # %%
 
+
 def dist_setup(rank, world_size, backend):
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = "8888"
@@ -287,6 +275,7 @@ ACCURACIES_FILE = "./mnist_cnn_accuracies.json"
 # - keep track of validation metrics
 
 # %%
+
 
 def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
     # store the hyperparameters' config in ``wandb``
@@ -316,18 +305,14 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
         world_size=world_size,
         **kwargs,
     )
-    test_data_loader = mnist_dataloader(
-        DATA_DIR, hp.test_batch_size, train=False, **kwargs
-    )
+    test_data_loader = mnist_dataloader(DATA_DIR, hp.test_batch_size, train=False, **kwargs)
 
     # define the distributed model and optimizer
     print("Defining model")
     model = Net().cuda(rank)
     model = nn.parallel.DistributedDataParallel(model, device_ids=[rank])
 
-    optimizer = optim.SGD(
-        model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum
-    )
+    optimizer = optim.SGD(model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum)
 
     # train the model: run multiple epochs and capture the accuracies for each epoch
     print(f"Training for {hp.epochs} epochs")
@@ -360,7 +345,6 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 
     print(f"Rank {rank + 1}/{world_size} process complete.\n")
     dist.destroy_process_group()  # clean up
-
 
 
 # %% [markdown]
@@ -406,12 +390,8 @@ else:
     retries=2,
     cache=True,
     cache_version="1.2",
-    requests=Resources(
-        gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage
-    ),
-    limits=Resources(
-        gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage
-    ),
+    requests=Resources(gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage),
+    limits=Resources(gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage),
 )
 def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     print("Start MNIST training:")
@@ -428,18 +408,14 @@ def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     print("Training Complete")
     with open(ACCURACIES_FILE) as fp:
         accuracies = json.load(fp)
-    return TrainingOutputs(
-        epoch_accuracies=accuracies, model_state=PythonPickledFile(MODEL_FILE)
-    )
+    return TrainingOutputs(epoch_accuracies=accuracies, model_state=PythonPickledFile(MODEL_FILE))
 
 
 # %% [markdown]
 # Finally, we define a workflow to run the training algorithm. We return the model and accuracies.
 # %%
 @workflow
-def pytorch_training_wf(
-    hp: Hyperparameters = Hyperparameters(epochs=10, batch_size=128)
-) -> TrainingOutputs:
+def pytorch_training_wf(hp: Hyperparameters = Hyperparameters(epochs=10, batch_size=128)) -> TrainingOutputs:
     return pytorch_mnist_task(hp=hp)
 
 
@@ -450,9 +426,7 @@ def pytorch_training_wf(
 # if the code is distributed or not). This is how to do it:
 # %%
 if __name__ == "__main__":
-    model, accuracies = pytorch_training_wf(
-        hp=Hyperparameters(epochs=10, batch_size=128)
-    )
+    model, accuracies = pytorch_training_wf(hp=Hyperparameters(epochs=10, batch_size=128))
     print(f"Model: {model}, Accuracies: {accuracies}")
 
 # %% [markdown]

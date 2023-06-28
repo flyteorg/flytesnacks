@@ -107,7 +107,7 @@ class DeckFilter(logging.Filter):
         )
         self.logs = []
         self.deck_files = {}
-    
+
     def filter(self, record):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
         msg = record.getMessage()

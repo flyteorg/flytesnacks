@@ -22,7 +22,7 @@ jobs:
         run: echo "PACKAGES=$(find ./examples -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
     outputs:
       packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
-  
+
   trigger_serialize_register_examples:
     name: Serialize & Register Flytesnacks workflow
     needs: [list_examples]

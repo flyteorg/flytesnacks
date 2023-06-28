@@ -52,7 +52,6 @@ from pandera.typing import DataFrame, Index, Series  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-
 # %% [markdown]
 # We also need to import the `pandera` flytekit plugin to enable dataframe runtime type-checking:
 
@@ -119,6 +118,7 @@ from sklearn.metrics import accuracy_score
 
 # %%
 
+
 class RawData(pa.SchemaModel):
     age: Series[int] = pa.Field(in_range={"min_value": 0, "max_value": 200})
     sex: Series[int] = pa.Field(isin=[0, 1])
@@ -164,7 +164,6 @@ class RawData(pa.SchemaModel):
         coerce = True
 
 
-
 # %% [markdown]
 # As we can see, the `RawData` schema serves as both documentation and a means of enforcing some minimal quality
 # checks relating to the data type of each variable as well as additional constraints about their allowable values.
@@ -174,6 +173,7 @@ class RawData(pa.SchemaModel):
 # Now we're ready to write our first Flyte task:
 
 # %%
+
 
 @task
 def fetch_raw_data() -> DataFrame[RawData]:
@@ -185,7 +185,6 @@ def fetch_raw_data() -> DataFrame[RawData]:
         .dropna(subset=["ca", "thal"])
         .astype({"ca": float, "thal": float})
     )
-
 
 
 # %% [markdown]
@@ -208,6 +207,7 @@ def fetch_raw_data() -> DataFrame[RawData]:
 
 # %%
 
+
 class ParsedData(RawData):
     target: Series[int] = pa.Field(isin=[0, 1])
 
@@ -215,7 +215,6 @@ class ParsedData(RawData):
 @task
 def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
     return raw_data.assign(target=lambda _: (_.target > 0).astype(int))
-
 
 
 # %% [markdown]
@@ -232,19 +231,14 @@ def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
 
 # %%
 
-DataSplits = typing.NamedTuple(
-    "DataSplits", training_set=DataFrame[ParsedData], test_set=DataFrame[ParsedData]
-)
+DataSplits = typing.NamedTuple("DataSplits", training_set=DataFrame[ParsedData], test_set=DataFrame[ParsedData])
 
 
 @task
-def split_data(
-    parsed_data: DataFrame[ParsedData], test_size: float, random_state: int
-) -> DataSplits:
+def split_data(parsed_data: DataFrame[ParsedData], test_size: float, random_state: int) -> DataSplits:
     training_set = parsed_data.sample(frac=test_size, random_state=random_state)
     test_set = parsed_data[~parsed_data.index.isin(training_set.index)]
     return training_set, test_set
-
 
 
 # %% [markdown]
@@ -258,6 +252,7 @@ def split_data(
 
 # %%
 
+
 def get_features_and_target(dataset):
     """Helper function for separating feature and target data."""
     X = dataset[[x for x in dataset if x != "target"]]
@@ -266,16 +261,13 @@ def get_features_and_target(dataset):
 
 
 @task
-def train_model(
-    training_set: DataFrame[ParsedData], random_state: int
-) -> JoblibSerializedFile:
+def train_model(training_set: DataFrame[ParsedData], random_state: int) -> JoblibSerializedFile:
     model = RandomForestClassifier(n_estimators=100, random_state=random_state)
     X, y = get_features_and_target(training_set)
     model.fit(X, y)
     model_fp = "/tmp/model.joblib"
     joblib.dump(model, model_fp)
     return JoblibSerializedFile(path=model_fp)
-
 
 
 # %% [markdown]
@@ -289,10 +281,9 @@ def train_model(
 
 # %%
 
+
 @task
-def evaluate_model(
-    model: JoblibSerializedFile, test_set: DataFrame[ParsedData]
-) -> float:
+def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData]) -> float:
     with open(model, "rb") as f:
         model = joblib.load(f)
     X, y = get_features_and_target(test_set)
@@ -300,19 +291,17 @@ def evaluate_model(
     return accuracy_score(y, preds)
 
 
-
 # %% [markdown]
 # Finally, we put all of the pieces together in a Flyte workflow:
 
 # %%
 
+
 @workflow
 def pipeline(data_random_state: int, model_random_state: int) -> float:
     raw_data = fetch_raw_data()
     parsed_data = parse_raw_data(raw_data=raw_data)
-    training_set, test_set = split_data(
-        parsed_data=parsed_data, test_size=0.2, random_state=data_random_state
-    )
+    training_set, test_set = split_data(parsed_data=parsed_data, test_size=0.2, random_state=data_random_state)
     model = train_model(training_set=training_set, random_state=model_random_state)
     return evaluate_model(model=model, test_set=test_set)
 

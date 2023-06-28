@@ -59,9 +59,7 @@ square_5 = my_lp(val=5)
 # %% [markdown]
 # It is possible to **fix** launch plan inputs, so that they can't be overridden at execution call time.
 # %%
-my_fixed_lp = LaunchPlan.get_or_create(
-    name="always_2_lp", workflow=my_wf, fixed_inputs={"val": 2}
-)
+my_fixed_lp = LaunchPlan.get_or_create(name="always_2_lp", workflow=my_wf, fixed_inputs={"val": 2})
 square_2 = my_fixed_lp()
 # error:
 # square_1 = my_fixed_lp(val=1)
@@ -75,6 +73,7 @@ square_2 = my_fixed_lp()
 #
 
 # %%
+
 
 @task
 def greet(day_of_week: str, number: int, am: bool) -> str:

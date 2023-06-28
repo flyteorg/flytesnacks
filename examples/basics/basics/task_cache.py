@@ -34,7 +34,6 @@ from flytekit import HashMethod, task, workflow
 from flytekit.core.node_creation import create_node
 from typing_extensions import Annotated
 
-
 # %% [markdown]
 # Task caching is disabled by default to avoid unintended consequences of caching tasks with side effects. To enable caching and control its behavior, use the `cache` and `cache_version` parameters when constructing a task.
 # `cache` is a switch to enable or disable the cache, and `cache_version` pertains to the version of the cache.
@@ -43,6 +42,7 @@ from typing_extensions import Annotated
 # You can manually update this version and Flyte caches the next execution instead of relying on the old cache.
 
 # %%
+
 
 @task(cache=True, cache_version="1.0")  # noqa: F841
 def square(n: int) -> int:
@@ -56,7 +56,6 @@ def square(n: int) -> int:
 
     """
     return n * n
-
 
 
 # %% [markdown]
@@ -118,6 +117,7 @@ def square(n: int) -> int:
 
 # %%
 
+
 @task
 def foo(a: int, b: str) -> pandas.DataFrame:
     df = pandas.DataFrame(...)
@@ -136,13 +136,13 @@ def wf(a: int, b: str):
     v = bar(df=df)  # noqa: F841
 
 
-
 # %% [markdown]
 # If run twice with the same inputs, one would expect that `bar` would trigger a cache hit, but it turns out that's not the case because of how dataframes are represented in Flyte.
 # However, with release 1.2.0, Flyte provides a new way to control memoization behavior of literals. This is done via a `typing.Annotated` call on the task signature.
 # For example, in order to cache the result of calls to `bar`, you can rewrite the code above like this:
 
 # %%
+
 
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
@@ -151,9 +151,7 @@ def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
 @task
 def foo_1(  # noqa: F811
     a: int, b: str  # noqa: F821
-) -> Annotated[
-    pandas.DataFrame, HashMethod(hash_pandas_dataframe)  # noqa: F821
-]:  # noqa: F821
+) -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe)]:  # noqa: F821  # noqa: F821
     df = pandas.DataFrame(...)  # noqa: F821
     ...
     return df
@@ -168,7 +166,6 @@ def bar_1(df: pandas.DataFrame) -> int:  # noqa: F811
 def wf_1(a: int, b: str):  # noqa: F811
     df = foo(a=a, b=b)  # noqa: F811
     v = bar(df=df)  # noqa: F841
-
 
 
 # %% [markdown]
@@ -187,14 +184,13 @@ def wf_1(a: int, b: str):  # noqa: F811
 
 # %%
 
+
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
 
 
 @task
-def uncached_data_reading_task() -> Annotated[
-    pandas.DataFrame, HashMethod(hash_pandas_dataframe)
-]:
+def uncached_data_reading_task() -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe)]:
     return pandas.DataFrame({"column_1": [1, 2, 3]})
 
 

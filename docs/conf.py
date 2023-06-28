@@ -10,18 +10,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import logging
 import os
 import re
-import shutil
 import sys
-from pathlib import Path
-
-import jupytext
-import sphinx
-import sphinx_gallery.gen_rst
-from sphinx.errors import ConfigError
-from sphinx_gallery.sorting import FileNameSortKey
 
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.append(os.path.abspath("./_ext"))
@@ -66,8 +57,8 @@ extensions = [
 ]
 
 source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'myst-nb',
+    ".rst": "restructuredtext",
+    ".md": "myst-nb",
 }
 
 copybutton_exclude = 'style[type="text/css"]'
@@ -211,4 +202,4 @@ mermaid_init_js = "mermaid.initialize({startOnLoad:false});"
 os.environ["FLYTE_SDK_LOGGING_LEVEL_ROOT"] = "50"
 
 # Disable warnings from tensorflow
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"

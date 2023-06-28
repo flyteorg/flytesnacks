@@ -50,7 +50,6 @@ def teardown():
     external_service.complete(id=flytekit.current_context().execution_id)
 
 
-
 # %% [markdown]
 # As you can see, you can even use Flytekit's current context to access the `execution_id` of the current workflow
 # if you need to link Flyte with the external service so that you reference the same unique identifier in both the
@@ -61,6 +60,7 @@ def teardown():
 # Next we create the decorator that we'll use to wrap our workflow function.
 
 # %%
+
 
 def setup_teardown(fn=None, *, before, after):
     @wraps(fn)
@@ -99,7 +99,6 @@ def setup_teardown(fn=None, *, before, after):
     return wrapper
 
 
-
 # %% [markdown]
 # There are a few key pieces to note in the `setup_teardown` decorator above:
 #
@@ -120,6 +119,7 @@ def setup_teardown(fn=None, *, before, after):
 
 # %%
 
+
 @task
 def t1(x: float) -> float:
     return x - 1
@@ -130,11 +130,11 @@ def t2(x: float) -> float:
     return x**2
 
 
-
 # %% [markdown]
 # And then create our decorated workflow:
 
 # %%
+
 
 @workflow
 @setup_teardown(before=setup, after=teardown)

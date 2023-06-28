@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 examples=$1
 
 if [ -z "$examples" ]
@@ -7,10 +7,10 @@ then
 fi
 
 build_requirements() {
-    pip-compile requirements.in --upgrade --verbose --resolver=backtracking 
+    pip-compile requirements.in --upgrade --verbose --resolver=backtracking
 }
 
 for dir in $examples
 do
-    (cd $dir && build_requirements)
+    (cd "$dir" && build_requirements)
 done

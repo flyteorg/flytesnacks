@@ -76,6 +76,7 @@ from flytekit import workflow
 def wf(n: int) -> int:
     return square(n=square(n=n))
 
+
 # %% [markdown]
 # In this toy example, we're calling the `square` task twice and returning the result.
 

@@ -46,9 +46,7 @@ class Hyperparameters(object):
 # %%
 nb = NotebookTask(
     name="eda-feature-eng-nb",
-    notebook_path=os.path.join(
-        pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"
-    ),
+    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"),
     outputs=kwtypes(dummified_data=pd.DataFrame, dataset=str),
     requests=Resources(mem="500Mi"),
 )
@@ -60,12 +58,9 @@ nb = NotebookTask(
 
 # %%
 
+
 def cross_validate(model, nfolds, feats, targets):
-    score = -1 * (
-        cross_val_score(
-            model, feats, targets, cv=nfolds, scoring="neg_mean_absolute_error"
-        )
-    )
+    score = -1 * (cross_val_score(model, feats, targets, cv=nfolds, scoring="neg_mean_absolute_error"))
     return np.mean(score)
 
 

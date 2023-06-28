@@ -136,6 +136,7 @@ from typing import Dict, Tuple  # noqa: E402
 
 from flytekit import LaunchPlan, task, workflow  # noqa: E402
 
+
 # %% [markdown]
 # Define a task that computes the frequency of each word in a string, and returns a dictionary mapping every word to its count.
 # %%
@@ -190,4 +191,3 @@ def parent_workflow(my_input1: str) -> typing.List[str]:
 if __name__ == "__main__":
     print("Running parent workflow...")
     print(parent_workflow(my_input1="the cat took the apple and ate the apple"))
-

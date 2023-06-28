@@ -70,6 +70,7 @@ SPLIT_RATIOS = [0.6, 0.3, 0.1]
 
 # %%
 
+
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
     _price = int(
@@ -138,9 +139,7 @@ def split_data(
     y1 = df.values[:num_samples, :1]
 
     # divide the features and target column into random train and test subsets, based on `test_size`
-    x_train, x_test, y_train, y_test = train_test_split(
-        x1, y1, test_size=test_size, random_state=seed
-    )
+    x_train, x_test, y_train, y_test = train_test_split(x1, y1, test_size=test_size, random_state=seed)
     # divide the train data into train and validation subsets, based on `test_size`
     x_train, x_val, y_train, y_val = train_test_split(
         x_train,
@@ -186,6 +185,7 @@ dataset = typing.NamedTuple(
 # We define a task to call the aforementioned functions.
 
 # %%
+
 
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
@@ -249,19 +249,13 @@ def predict(
 # Lastly, we define a workflow to run the pipeline.
 # %%
 @workflow
-def house_price_predictor_trainer(
-    seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
-) -> typing.List[float]:
+def house_price_predictor_trainer(seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION) -> typing.List[float]:
 
     # generate the data and split it into train test, and validation data
-    split_data_vals = generate_and_split_data(
-        number_of_houses=number_of_houses, seed=seed
-    )
+    split_data_vals = generate_and_split_data(number_of_houses=number_of_houses, seed=seed)
 
     # fit the XGBoost model
-    model = fit(
-        loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data
-    )
+    model = fit(loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data)
 
     # generate predictions
     predictions = predict(model_ser=model, test=split_data_vals.test_data)

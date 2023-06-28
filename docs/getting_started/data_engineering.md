@@ -147,7 +147,7 @@ CSV file that's then consumed by downstream tasks or subworkflows:
 @task
 def aggregate(file: CSVFile) -> pd.DataFrame:
     data = pd.read_csv(file)
-    ... # process the data further 
+    ... # process the data further
 
 
 @task

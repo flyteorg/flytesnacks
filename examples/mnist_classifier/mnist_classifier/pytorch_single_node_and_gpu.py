@@ -86,11 +86,11 @@ class Net(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-
 # %% [markdown]
 # ## The Data Loader
 
 # %%
+
 
 def mnist_dataloader(batch_size, train=True, **kwargs):
     return torch.utils.data.DataLoader(
@@ -98,9 +98,7 @@ def mnist_dataloader(batch_size, train=True, **kwargs):
             "./data",
             train=train,
             download=True,
-            transform=transforms.Compose(
-                [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-            ),
+            transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
         batch_size=batch_size,
         shuffle=True,
@@ -196,21 +194,13 @@ def test(model, device, test_loader):
         for images, targets in test_loader:
             images, targets = images.to(device), targets.to(device)  # device conversion
             outputs = model(images)  # forward pass -- generate predictions
-            test_loss += F.nll_loss(
-                outputs, targets, reduction="sum"
-            ).item()  # sum up batch loss
-            _, predicted = torch.max(
-                outputs.data, 1
-            )  # get the index of the max log-probability
-            correct += (
-                (predicted == targets).sum().item()
-            )  # compare predictions to true label
+            test_loss += F.nll_loss(outputs, targets, reduction="sum").item()  # sum up batch loss
+            _, predicted = torch.max(outputs.data, 1)  # get the index of the max log-probability
+            correct += (predicted == targets).sum().item()  # compare predictions to true label
 
             # log predictions to the ``wandb`` table
             if log_counter < NUM_BATCHES_TO_LOG:
-                log_test_predictions(
-                    images, targets, outputs, predicted, my_table, log_counter
-                )
+                log_test_predictions(images, targets, outputs, predicted, my_table, log_counter)
                 log_counter += 1
 
     # compute the average loss
@@ -220,9 +210,7 @@ def test(model, device, test_loader):
     accuracy = float(correct) / len(test_loader.dataset)
 
     # log the average loss, accuracy, and table
-    wandb.log(
-        {"test_loss": test_loss, "accuracy": accuracy, "mnist_predictions": my_table}
-    )
+    wandb.log({"test_loss": test_loss, "accuracy": accuracy, "mnist_predictions": my_table})
 
     return accuracy
 
@@ -323,9 +311,7 @@ def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     # train the model
     model = Net().to(device)
 
-    optimizer = optim.SGD(
-        model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum
-    )
+    optimizer = optim.SGD(model.parameters(), lr=hp.learning_rate, momentum=hp.sgd_momentum)
 
     # run multiple epochs and capture the accuracies for each epoch
     # train the model: run multiple epochs and capture the accuracies for each epoch
@@ -340,18 +326,14 @@ def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     model_file = "mnist_cnn.pt"
     torch.save(model.state_dict(), model_file)
 
-    return TrainingOutputs(
-        epoch_accuracies=accuracies, model_state=PythonPickledFile(model_file)
-    )
+    return TrainingOutputs(epoch_accuracies=accuracies, model_state=PythonPickledFile(model_file))
 
 
 # %% [markdown]
 # Finally, we define a workflow to run the training algorithm. We return the model and accuracies.
 # %%
 @workflow
-def pytorch_training_wf(
-    hp: Hyperparameters = Hyperparameters(epochs=10, batch_size=128)
-) -> TrainingOutputs:
+def pytorch_training_wf(hp: Hyperparameters = Hyperparameters(epochs=10, batch_size=128)) -> TrainingOutputs:
     return pytorch_mnist_task(hp=hp)
 
 
@@ -362,9 +344,7 @@ def pytorch_training_wf(
 # if the code is distributed or not). This is how we can do it:
 # %%
 if __name__ == "__main__":
-    model, accuracies = pytorch_training_wf(
-        hp=Hyperparameters(epochs=10, batch_size=128)
-    )
+    model, accuracies = pytorch_training_wf(hp=Hyperparameters(epochs=10, batch_size=128))
     print(f"Model: {model}, Accuracies: {accuracies}")
 
 # %% [markdown]

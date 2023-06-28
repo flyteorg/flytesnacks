@@ -45,6 +45,7 @@ def reference_lp_wf() -> FlyteFile:
         output_location="",
     )
 
+
 # %% [markdown]
 # It's important to verify that the workflow interface corresponds to that of the referenced workflow.
 #

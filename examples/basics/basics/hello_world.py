@@ -1,7 +1,7 @@
 # %% [markdown]
 #
 # # Hello World
-# 
+#
 #
 # ```{tags} Basic
 # ```

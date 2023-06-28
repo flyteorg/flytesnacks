@@ -91,6 +91,7 @@ def my_smart_structured_dataset() -> int:
     df = create_spark_df()
     return sum_of_all_ages(s=df)
 
+
 # %% [markdown]
 # You can execute the code locally!
 # %%
@@ -108,4 +109,3 @@ if __name__ == "__main__":
 # - [Vaex](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-vaex/README.md)
 # - [Polars](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-polars/README.md)
 #
-

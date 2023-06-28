@@ -15,13 +15,13 @@ import pandera as pa
 from flytekit import task, workflow
 from pandera.typing import DataFrame, Series
 
-
 # %% [markdown]
 # ## A Simple Data Processing Pipeline
 #
 # Let's first define a simple data processing pipeline in pure python.
 
 # %%
+
 
 def total_pay(df):
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
@@ -33,7 +33,6 @@ def add_id(df, worker_id):
 
 def process_data(df, worker_id):
     return add_id(df=total_pay(df=df), worker_id=worker_id)
-
 
 
 # %% [markdown]
@@ -48,6 +47,7 @@ def process_data(df, worker_id):
 # for the raw, intermediate, and final outputs of our pipeline.
 
 # %%
+
 
 class InSchema(pa.DataFrameModel):
     hourly_pay: Series[float] = pa.Field(ge=7)
@@ -73,7 +73,6 @@ class IntermediateSchema(InSchema):
 
 class OutSchema(IntermediateSchema):
     worker_id: Series[str] = pa.Field()
-
 
 
 # %% [markdown]
@@ -102,6 +101,7 @@ class OutSchema(IntermediateSchema):
 
 # %%
 
+
 @task
 def dict_to_dataframe(data: dict) -> DataFrame[InSchema]:
     """Helper task to convert a dictionary input to a dataframe."""
@@ -114,9 +114,7 @@ def total_pay(df: DataFrame[InSchema]) -> DataFrame[IntermediateSchema]:  # noqa
 
 
 @task
-def add_ids(
-    df: DataFrame[IntermediateSchema], worker_ids: typing.List[str]
-) -> DataFrame[OutSchema]:
+def add_ids(df: DataFrame[IntermediateSchema], worker_ids: typing.List[str]) -> DataFrame[OutSchema]:
     return df.assign(worker_id=worker_ids)
 
 

@@ -34,6 +34,7 @@ MODEL_FILE_PATH = "saved_model/"
 
 # %%
 
+
 @dataclass_json
 @dataclass
 class Hyperparameters(object):
@@ -66,9 +67,7 @@ def load_data(
         return image, label
 
     # fetch train and evaluation datasets
-    train_dataset = (
-        mnist_train.map(scale).shuffle(hyperparameters.buffer_size).batch(BATCH_SIZE)
-    )
+    train_dataset = mnist_train.map(scale).shuffle(hyperparameters.buffer_size).batch(BATCH_SIZE)
     eval_dataset = mnist_test.map(scale).batch(BATCH_SIZE)
 
     return train_dataset, eval_dataset, strategy
@@ -83,9 +82,7 @@ def get_compiled_model(strategy: tf.distribute.Strategy) -> tf.keras.Model:
     with strategy.scope():
         model = tf.keras.Sequential(
             [
-                tf.keras.layers.Conv2D(
-                    32, 3, activation="relu", input_shape=(28, 28, 1)
-                ),
+                tf.keras.layers.Conv2D(32, 3, activation="relu", input_shape=(28, 28, 1)),
                 tf.keras.layers.MaxPooling2D(),
                 tf.keras.layers.Flatten(),
                 tf.keras.layers.Dense(64, activation="relu"),
@@ -137,18 +134,12 @@ def train_model(
     # define a callback for printing the learning rate at the end of each epoch
     class PrintLR(tf.keras.callbacks.Callback):
         def on_epoch_end(self, epoch, logs=None):
-            print(
-                "\nLearning rate for epoch {} is {}".format(
-                    epoch + 1, model.optimizer.lr.numpy()
-                )
-            )
+            print("\nLearning rate for epoch {} is {}".format(epoch + 1, model.optimizer.lr.numpy()))
 
     # put all the callbacks together
     callbacks = [
         tf.keras.callbacks.TensorBoard(log_dir="./logs"),
-        tf.keras.callbacks.ModelCheckpoint(
-            filepath=checkpoint_prefix, save_weights_only=True
-        ),
+        tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_prefix, save_weights_only=True),
         tf.keras.callbacks.LearningRateScheduler(decay),
         PrintLR(),
     ]
@@ -167,9 +158,7 @@ def train_model(
 #
 # We define `test_model` to evaluate loss and accuracy on the test dataset.
 # %%
-def test_model(
-    model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data.Dataset
-) -> Tuple[float, float]:
+def test_model(model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data.Dataset) -> Tuple[float, float]:
     model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
 
     eval_loss, eval_acc = model.evaluate(eval_dataset)
@@ -194,18 +183,12 @@ def test_model(
 # If you'd like to understand the various Tensorflow strategies in distributed training, refer to the [Types of strategies](https://www.tensorflow.org/guide/distributed_training#types_of_strategies) section in the TensorFlow documentation.
 # :::
 # %%
-training_outputs = NamedTuple(
-    "TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory
-)
+training_outputs = NamedTuple("TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory)
 
 if os.getenv("SANDBOX") != "":
-    resources = Resources(
-        gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi"
-    )
+    resources = Resources(gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi")
 else:
-    resources = Resources(
-        gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi"
-    )
+    resources = Resources(gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi")
 
 
 @task(
@@ -219,15 +202,9 @@ else:
 def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
     train_dataset, eval_dataset, strategy = load_data(hyperparameters=hyperparameters)
     model = get_compiled_model(strategy=strategy)
-    model, checkpoint_dir = train_model(
-        model=model, train_dataset=train_dataset, hyperparameters=hyperparameters
-    )
-    eval_loss, eval_accuracy = test_model(
-        model=model, checkpoint_dir=checkpoint_dir, eval_dataset=eval_dataset
-    )
-    return training_outputs(
-        accuracy=eval_accuracy, loss=eval_loss, model_state=MODEL_FILE_PATH
-    )
+    model, checkpoint_dir = train_model(model=model, train_dataset=train_dataset, hyperparameters=hyperparameters)
+    eval_loss, eval_accuracy = test_model(model=model, checkpoint_dir=checkpoint_dir, eval_dataset=eval_dataset)
+    return training_outputs(accuracy=eval_accuracy, loss=eval_loss, model_state=MODEL_FILE_PATH)
 
 
 # %% [markdown]

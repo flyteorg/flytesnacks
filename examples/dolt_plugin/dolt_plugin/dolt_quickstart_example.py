@@ -33,6 +33,7 @@ rabbits_conf = DoltConfig(
 
 # %%
 
+
 @task
 def populate_rabbits(a: int) -> DoltTable:
     rabbits = [("George", a), ("Alice", a * 2), ("Sugar Maple", a * 3)]

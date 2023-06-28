@@ -55,9 +55,7 @@ def get_df(a: int) -> Annotated[pd.DataFrame, superset_cols]:
     """
     Generate a sample dataframe
     """
-    return pd.DataFrame(
-        {"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]}
-    )
+    return pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]})
 
 
 @task
@@ -66,9 +64,7 @@ def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
     Generate a sample dataframe
     """
     s = FlyteSchema()
-    s.open().write(
-        pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]})
-    )
+    s.open().write(pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]}))
     return s
 
 
@@ -82,14 +78,11 @@ def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
 # :::
 # %%
 @task
-def get_subset_df(
-    df: Annotated[StructuredDataset, subset_cols]
-) -> Annotated[StructuredDataset, subset_cols]:
+def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[StructuredDataset, subset_cols]:
     df = df.open(pd.DataFrame).all()
     df = pd.concat([df, pd.DataFrame([[30]], columns=["Age"])])
     # On specifying BigQuery uri for StructuredDataset, flytekit writes a pandas dataframe to a BigQuery table
     return StructuredDataset(dataframe=df)
-
 
 
 # %% [markdown]
@@ -124,10 +117,7 @@ def pandas_to_bq() -> StructuredDataset:
     # create a pandas dataframe
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
     # convert the dataframe to StructuredDataset
-    return StructuredDataset(
-        dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1"
-    )
-
+    return StructuredDataset(dataframe=df, uri="bq://sample-project-1-352610.sample_352610.test1")
 
 
 # %% [markdown]
@@ -146,7 +136,6 @@ def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
     return sd.open(pd.DataFrame).all()
 
 
-
 # %% [markdown]
 # :::{note}
 # Flyte creates the table inside the dataset in the project upon BigQuery query execution.
@@ -158,9 +147,7 @@ def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
 # Trigger the tasks locally.
 # %%
 if __name__ == "__main__":
-    o1 = bq_to_pandas(
-        sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1")
-    )
+    o1 = bq_to_pandas(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
     o2 = pandas_to_bq()
 
 
@@ -195,9 +182,7 @@ class NumpyEncodingHandlers(StructuredDatasetEncoder):
         ctx.file_access.upload_directory(local_dir, path)
         return literals.StructuredDataset(
             uri=path,
-            metadata=StructuredDatasetMetadata(
-                structured_dataset_type=StructuredDatasetType(format=PARQUET)
-            ),
+            metadata=StructuredDatasetMetadata(structured_dataset_type=StructuredDatasetType(format=PARQUET)),
         )
 
 
@@ -255,10 +240,9 @@ StructuredDatasetTransformerEngine.register_renderer(np.ndarray, NumpyRenderer()
 
 # %%
 
+
 @task
-def to_numpy(
-    ds: Annotated[StructuredDataset, subset_cols]
-) -> Annotated[StructuredDataset, subset_cols, PARQUET]:
+def to_numpy(ds: Annotated[StructuredDataset, subset_cols]) -> Annotated[StructuredDataset, subset_cols, PARQUET]:
     numpy_array = ds.open(np.ndarray).all()
     return StructuredDataset(dataframe=numpy_array)
 
@@ -269,18 +253,14 @@ def to_numpy(
 @workflow
 def pandas_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
     df = get_df(a=a)
-    ds = get_subset_df(
-        df=df
-    )  # noqa: shown for demonstration; users should use the same types between tasks
+    ds = get_subset_df(df=df)  # noqa: shown for demonstration; users should use the same types between tasks
     return to_numpy(ds=ds)
 
 
 @workflow
 def schema_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
     df = get_schema_df(a=a)
-    ds = get_subset_df(
-        df=df
-    )  # noqa: shown for demonstration; users should use the same types between tasks
+    ds = get_subset_df(df=df)  # noqa: shown for demonstration; users should use the same types between tasks
     return to_numpy(ds=ds)
 
 

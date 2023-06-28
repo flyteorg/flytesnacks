@@ -55,4 +55,3 @@
 #          Once you set up the token to authenticate with the private registry, you can pull images from them.
 # ```
 #
-

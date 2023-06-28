@@ -192,4 +192,3 @@
 # kubectl rollout restart deployment flytepropeller -n flyte
 # ```
 #
-

@@ -110,6 +110,7 @@ def secret_task() -> str:
     print(secret_val)
     return secret_val
 
+
 # %% [markdown]
 # :::{warning}
 # Never print secret values! The example above is just for demonstration purposes.

@@ -34,9 +34,7 @@ doltdb_path = os.path.join(os.path.dirname(__file__), "foo")
 
 
 def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:
-    users_conf = DoltConfig(
-        db_path=doltdb_path, tablename="users", branch_conf=NewBranch(f"run/a_is_{a}")
-    )
+    users_conf = DoltConfig(db_path=doltdb_path, tablename="users", branch_conf=NewBranch(f"run/a_is_{a}"))
 
     query_users = DoltTable(
         config=DoltConfig(
@@ -53,7 +51,6 @@ def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:
     )
 
     return users_conf, query_users, big_users_conf
-
 
 
 # %% [markdown]
@@ -76,6 +73,7 @@ def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:
 
 # %%
 
+
 @task
 def get_confs(a: int) -> typing.Tuple[DoltConfig, DoltTable, DoltConfig]:
     return generate_confs(a)
@@ -89,9 +87,7 @@ def populate_users(a: int, conf: DoltConfig) -> DoltTable:
 
 
 @task
-def filter_users(
-    a: int, all_users: DoltTable, filtered_users: DoltTable, conf: DoltConfig
-) -> DoltTable:
+def filter_users(a: int, all_users: DoltTable, filtered_users: DoltTable, conf: DoltConfig) -> DoltTable:
     usernames = filtered_users.data[["name"]]
     return DoltTable(data=usernames, config=conf)
 
@@ -105,9 +101,7 @@ def count_users(users: DoltTable) -> int:
 def wf(a: int) -> int:
     user_conf, query_conf, big_user_conf = get_confs(a=a)
     users = populate_users(a=a, conf=user_conf)
-    big_users = filter_users(
-        a=a, all_users=users, filtered_users=query_conf, conf=big_user_conf
-    )
+    big_users = filter_users(a=a, all_users=users, filtered_users=query_conf, conf=big_user_conf)
     big_user_cnt = count_users(users=big_users)
     return big_user_cnt
 

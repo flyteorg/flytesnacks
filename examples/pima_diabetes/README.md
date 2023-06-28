@@ -3,7 +3,7 @@
 ```{tags} MachineLearning, Intermediate
 ```
 
-The workflow demonstrates how to train an XGBoost model. The workflow is designed for the [Pima Indian Diabetes dataset](https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names). 
+The workflow demonstrates how to train an XGBoost model. The workflow is designed for the [Pima Indian Diabetes dataset](https://github.com/jbrownlee/Datasets/blob/master/pima-indians-diabetes.names).
 
 An example dataset is available [here](https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv).
 

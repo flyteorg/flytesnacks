@@ -124,7 +124,7 @@ that's decorated with {py:func}`@workflow <flytekit.workflow>`:
 def standard_scale_workflow(values: List[float]) -> List[float]:
     mu = mean(values=values)
     sigma = standard_deviation(values=values, mu=mu)
-    return standard_scale(values=values, mu=mu, sigma=sigma) 
+    return standard_scale(values=values, mu=mu, sigma=sigma)
 ```
 
 Just like tasks, workflows are executable in a regular Python runtime:
@@ -148,7 +148,7 @@ semantics:
 - In workflows, you shouldn't use non-deterministic operations like
   `rand.random`, `time.now()`, etc. These functions will be invoked at compile
   time and your workflows will not behave as you expect them to.
-- Within workflows, the inputs of workflow and the outputs of tasks function as promises under the hood, 
+- Within workflows, the inputs of workflow and the outputs of tasks function as promises under the hood,
   so you can't access and operate on them like typical Python function outputs.
   *You can only pass promises into tasks, workflows, and other Flyte constructs*.
 - Regular Python conditionals won't work as intended in workflows: you need to
@@ -170,7 +170,7 @@ def standard_scale_workflow_with_print(values: List[float]) -> List[float]:
     mu = mean(values=values)
     print(mu)  # this is not the actual float value!
     sigma = standard_deviation(values=values, mu=mu)
-    return standard_scale(values=values, mu=mu, sigma=sigma) 
+    return standard_scale(values=values, mu=mu, sigma=sigma)
 ```
 
 We didn't even execute the workflow and we're already seeing the value of `mu`,
@@ -205,7 +205,7 @@ def buggy_standard_scale(values: List[float], mu: float, sigma: float) -> float:
 def buggy_standard_scale_workflow(values: List[float]) -> List[float]:
     mu = mean(values=values)
     sigma = standard_deviation(values=values, mu=mu)
-    return buggy_standard_scale(values=values, mu=mu, sigma=sigma) 
+    return buggy_standard_scale(values=values, mu=mu, sigma=sigma)
 
 try:
     buggy_standard_scale_workflow(values=[float(i) for i in range(1, 11)])

@@ -95,6 +95,7 @@ CONTINUOUS_COLS = [
 
 # %%
 
+
 @dataclass_json
 @dataclass
 class Hyperparameters:
@@ -161,16 +162,12 @@ def prepare_google_trend(
 ) -> pyspark.sql.DataFrame:
     google_trend_all = google_trend_csv.withColumn(
         "Date", F.regexp_extract(google_trend_csv.week, "(.*?) -", 1)
-    ).withColumn(
-        "State", F.regexp_extract(google_trend_csv.file, "Rossmann_DE_(.*)", 1)
-    )
+    ).withColumn("State", F.regexp_extract(google_trend_csv.file, "Rossmann_DE_(.*)", 1))
 
     # map state NI -> HB,NI to align with other data sources
     google_trend_all = google_trend_all.withColumn(
         "State",
-        F.when(google_trend_all.State == "NI", "HB,NI").otherwise(
-            google_trend_all.State
-        ),
+        F.when(google_trend_all.State == "NI", "HB,NI").otherwise(google_trend_all.State),
     )
 
     # expand dates
@@ -252,22 +249,14 @@ def prepare_df(
 
     # merge Google Trend information
     google_trend_all = prepare_google_trend(google_trend_csv)
-    df = df.join(google_trend_all, ["State", "Year", "Week"]).select(
-        df["*"], google_trend_all.trend
-    )
+    df = df.join(google_trend_all, ["State", "Year", "Week"]).select(df["*"], google_trend_all.trend)
 
     # merge in Google Trend for whole Germany
-    google_trend_de = google_trend_all[
-        google_trend_all.file == "Rossmann_DE"
-    ].withColumnRenamed("trend", "trend_de")
-    df = df.join(google_trend_de, ["Year", "Week"]).select(
-        df["*"], google_trend_de.trend_de
-    )
+    google_trend_de = google_trend_all[google_trend_all.file == "Rossmann_DE"].withColumnRenamed("trend", "trend_de")
+    df = df.join(google_trend_de, ["Year", "Week"]).select(df["*"], google_trend_de.trend_de)
 
     # merge weather
-    weather = weather_csv.join(
-        state_names_csv, weather_csv.file == state_names_csv.StateName
-    )
+    weather = weather_csv.join(state_names_csv, weather_csv.file == state_names_csv.StateName)
     df = df.join(weather, ["State", "Date"])
 
     # fix null values
@@ -287,11 +276,7 @@ def prepare_df(
     # days and months since the competition has been open, cap it to 2 years
     df = df.withColumn(
         "CompetitionOpenSince",
-        F.to_date(
-            F.format_string(
-                "%s-%s-15", df.CompetitionOpenSinceYear, df.CompetitionOpenSinceMonth
-            )
-        ),
+        F.to_date(F.format_string("%s-%s-15", df.CompetitionOpenSinceYear, df.CompetitionOpenSinceMonth)),
     )
     df = df.withColumn(
         "CompetitionDaysOpen",
@@ -303,24 +288,18 @@ def prepare_df(
             ),
         ).otherwise(0),
     )
-    df = df.withColumn(
-        "CompetitionMonthsOpen", (df.CompetitionDaysOpen / 30).cast(T.IntegerType())
-    )
+    df = df.withColumn("CompetitionMonthsOpen", (df.CompetitionDaysOpen / 30).cast(T.IntegerType()))
 
     # days and weeks of promotion, cap it to 25 weeks
     df = df.withColumn(
         "Promo2Since",
-        F.expr(
-            'date_add(format_string("%s-01-01", Promo2SinceYear), (cast(Promo2SinceWeek as int) - 1) * 7)'
-        ),
+        F.expr('date_add(format_string("%s-01-01", Promo2SinceYear), (cast(Promo2SinceWeek as int) - 1) * 7)'),
     )
     df = df.withColumn(
         "Promo2Days",
         F.when(
             df.Promo2SinceYear > 1900,
-            F.greatest(
-                F.lit(0), F.least(F.lit(25 * 7), F.datediff(df.Date, df.Promo2Since))
-            ),
+            F.greatest(F.lit(0), F.least(F.lit(25 * 7), F.datediff(df.Date, df.Promo2Since))),
         ).otherwise(0),
     )
     df = df.withColumn("Promo2Weeks", (df.Promo2Days / 7).cast(T.IntegerType()))
@@ -355,9 +334,7 @@ def cast_columns(df: pyspark.sql.DataFrame, cols: List[str]) -> pyspark.sql.Data
 # %% [markdown]
 # 7. Lastly, define a function that returns a list of values based on a key.
 # %%
-def lookup_columns(
-    df: pyspark.sql.DataFrame, vocab: Dict[str, List[Any]]
-) -> pyspark.sql.DataFrame:
+def lookup_columns(df: pyspark.sql.DataFrame, vocab: Dict[str, List[Any]]) -> pyspark.sql.DataFrame:
     def lookup(mapping):
         def fn(v):
             return mapping.index(v)
@@ -387,9 +364,7 @@ def data_preparation(
     test_csv = spark.read.csv("%s/test.csv" % data_dir_path, header=True)
 
     store_csv = spark.read.csv("%s/store.csv" % data_dir_path, header=True)
-    store_states_csv = spark.read.csv(
-        "%s/store_states.csv" % data_dir_path, header=True
-    )
+    store_states_csv = spark.read.csv("%s/store_states.csv" % data_dir_path, header=True)
     state_names_csv = spark.read.csv("%s/state_names.csv" % data_dir_path, header=True)
     google_trend_csv = spark.read.csv("%s/googletrend.csv" % data_dir_path, header=True)
     weather_csv = spark.read.csv("%s/weather.csv" % data_dir_path, header=True)
@@ -420,9 +395,7 @@ def data_preparation(
     # add elapsed times from the data spanning training & test datasets
     elapsed_cols = ["Promo", "StateHoliday", "SchoolHoliday"]
     elapsed = add_elapsed(
-        train_df.select("Date", "Store", *elapsed_cols).unionAll(
-            test_df.select("Date", "Store", *elapsed_cols)
-        ),
+        train_df.select("Date", "Store", *elapsed_cols).unionAll(test_df.select("Date", "Store", *elapsed_cols)),
         elapsed_cols,
     )
 
@@ -452,9 +425,7 @@ def data_preparation(
 
     # build a vocabulary of categorical columns
     vocab = build_vocabulary(
-        train_df.select(*CATEGORICAL_COLS)
-        .unionAll(test_df.select(*CATEGORICAL_COLS))
-        .cache(),
+        train_df.select(*CATEGORICAL_COLS).unionAll(test_df.select(*CATEGORICAL_COLS)).cache(),
     )
 
     # cast continuous columns to float
@@ -471,8 +442,7 @@ def data_preparation(
     one_year = datetime.timedelta(365)
     train_df = train_df.withColumn(
         "Validation",
-        (train_df.Date > test_min_date - one_year)
-        & (train_df.Date <= test_max_date - one_year),
+        (train_df.Date > test_min_date - one_year) & (train_df.Date <= test_max_date - one_year),
     )
 
     # determine max Sales number
@@ -528,9 +498,7 @@ def train(
 
         # compute mean excluding stores with zero denominator
         x = tf.reduce_sum(tf.where(y_true > 0.001, pct, tf.zeros_like(pct)))
-        y = tf.reduce_sum(
-            tf.where(y_true > 0.001, tf.ones_like(pct), tf.zeros_like(pct))
-        )
+        y = tf.reduce_sum(tf.where(y_true > 0.001, tf.ones_like(pct), tf.zeros_like(pct)))
         return tf.sqrt(x / y)
 
     def act_sigmoid_scaled(x):
@@ -554,27 +522,16 @@ def train(
     # build the Keras model
     inputs = {col: Input(shape=(1,), name=col) for col in all_cols}
     embeddings = [
-        Embedding(len(vocab[col]), 10, input_length=1, name="emb_" + col)(inputs[col])
-        for col in CATEGORICAL_COLS
+        Embedding(len(vocab[col]), 10, input_length=1, name="emb_" + col)(inputs[col]) for col in CATEGORICAL_COLS
     ]
-    continuous_bn = Concatenate()(
-        [Reshape((1, 1), name="reshape_" + col)(inputs[col]) for col in CONTINUOUS_COLS]
-    )
+    continuous_bn = Concatenate()([Reshape((1, 1), name="reshape_" + col)(inputs[col]) for col in CONTINUOUS_COLS])
     continuous_bn = BatchNormalization()(continuous_bn)
     x = Concatenate()(embeddings + [continuous_bn])
     x = Flatten()(x)
-    x = Dense(
-        1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
-    )(x)
-    x = Dense(
-        1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
-    )(x)
-    x = Dense(
-        1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
-    )(x)
-    x = Dense(
-        500, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005)
-    )(x)
+    x = Dense(1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005))(x)
+    x = Dense(1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005))(x)
+    x = Dense(1000, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005))(x)
+    x = Dense(500, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(0.00005))(x)
     x = Dropout(0.5)(x)
     # specify element-wise activation
     output = Dense(1, activation=act_sigmoid_scaled)(x)
@@ -585,9 +542,7 @@ def train(
     opt = tf.keras.optimizers.Adam(lr=hp.learning_rate, epsilon=1e-3)
 
     # checkpoint callback to specify the options for the returned Keras model
-    ckpt_callback = BestModelCheckpoint(
-        monitor="val_loss", mode="auto", save_freq="epoch"
-    )
+    ckpt_callback = BestModelCheckpoint(monitor="val_loss", mode="auto", save_freq="epoch")
 
     # create an object of Store class
     store = Store.create(work_dir.remote_source)
@@ -631,9 +586,7 @@ def train(
 
     # save the trained model
     keras_model.save(os.path.join(working_dir, hp.local_checkpoint_file))
-    print(
-        "Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file)
-    )
+    print("Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file))
     # the Estimator returns a Transformer representation of the trained model once training is complete
     return keras_model
 
@@ -660,12 +613,8 @@ def test(
     # convert from log domain to real Sales numbers
     pred_df = pred_df.withColumn("Sales_pred", F.exp(pred_df.Sales_output))
 
-    submission_df = pred_df.select(
-        pred_df.Id.cast(T.IntegerType()), pred_df.Sales_pred
-    ).toPandas()
-    submission_df.sort_values(by=["Id"]).to_csv(
-        os.path.join(working_dir, hp.local_submission_csv), index=False
-    )
+    submission_df = pred_df.select(pred_df.Id.cast(T.IntegerType()), pred_df.Sales_pred).toPandas()
+    submission_df.sort_values(by=["Id"]).to_csv(os.path.join(working_dir, hp.local_submission_csv), index=False)
     # predictions are saved to a CSV file.
     print("Saved predictions to %s" % hp.local_submission_csv)
 
@@ -701,9 +650,7 @@ def test(
     requests=Resources(mem="1Gi"),
     limits=Resources(mem="1Gi"),
 )
-def horovod_spark_task(
-    data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory
-) -> FlyteDirectory:
+def horovod_spark_task(data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory) -> FlyteDirectory:
 
     max_sales, vocab, train_df, test_df = data_preparation(data_dir, hp)
 

@@ -11,4 +11,3 @@
 #   flytectl create project --id "my-flyte-project-name" --labels "my-label=my-project-label"  --description "my-flyte-project-name" --name "my-flyte-project-name"
 # ```
 #
-

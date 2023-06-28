@@ -28,6 +28,7 @@ logger = logging.getLogger(__file__)
 
 # %%
 
+
 def log_io(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -39,7 +40,6 @@ def log_io(fn):
     return wrapper
 
 
-
 # %% [markdown]
 # Next, we define a task called `t1` which is decorated with `log_io`.
 #
@@ -49,11 +49,11 @@ def log_io(fn):
 
 # %%
 
+
 @task
 @log_io
 def t1(x: int) -> int:
     return x + 1
-
 
 
 # %% [markdown]
@@ -72,14 +72,13 @@ def t1(x: int) -> int:
 
 # %%
 
+
 def validate_output(fn=None, *, floor=0):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         out = fn(*args, **kwargs)
         if out <= floor:
-            raise ValueError(
-                f"output of task {fn.__name__} must be a positive number, found {out}"
-            )
+            raise ValueError(f"output of task {fn.__name__} must be a positive number, found {out}")
         return out
 
     if fn is None:
@@ -88,11 +87,11 @@ def validate_output(fn=None, *, floor=0):
     return wrapper
 
 
-
 # %% [markdown]
 # Now let's define a function that uses both the logging and validator decorators:
 
 # %%
+
 
 @task
 @log_io
@@ -101,11 +100,11 @@ def t2(x: int) -> int:
     return x + 10
 
 
-
 # %% [markdown]
 # Finally, we compose a workflow that calls `t1` and `t2`.
 
 # %%
+
 
 @workflow
 def wf(x: int) -> int:

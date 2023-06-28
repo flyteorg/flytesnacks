@@ -19,7 +19,6 @@
 # This is not very efficient, and hence, we added PyTorch's serialization and deserialization support to the Flyte type system.
 # %%
 import torch
-
 from flytekit import task, workflow
 
 
@@ -74,6 +73,8 @@ def pytorch_native_wf():
 # %% [markdown]
 # Passing around tensors and modules is no more a hassle!
 
+from dataclasses import dataclass
+
 # %% [markdown]
 # ## Checkpoint
 #
@@ -87,8 +88,6 @@ def pytorch_native_wf():
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from dataclasses import dataclass
-
 from dataclasses_json import dataclass_json
 from flytekit.extras.pytorch import PyTorchCheckpoint
 
@@ -124,9 +123,7 @@ class Net(nn.Module):
 def generate_model(hyperparameters: Hyperparameters) -> PyTorchCheckpoint:
     bn = Net()
     optimizer = optim.SGD(bn.parameters(), lr=0.001, momentum=0.9)
-    return PyTorchCheckpoint(
-        module=bn, hyperparameters=hyperparameters, optimizer=optimizer
-    )
+    return PyTorchCheckpoint(module=bn, hyperparameters=hyperparameters, optimizer=optimizer)
 
 
 @task

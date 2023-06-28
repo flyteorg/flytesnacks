@@ -50,7 +50,6 @@ def t1() -> str:
     return md_text
 
 
-
 # %% [markdown]
 # :::{note}
 # To see the log output, the `FLYTE_SDK_LOGGING_LEVEL` environment variable should be set to 20.

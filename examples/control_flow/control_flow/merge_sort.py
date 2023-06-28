@@ -31,6 +31,7 @@ seed(datetime.now().microsecond)
 
 # %%
 
+
 @task
 def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int], int]:
     return (
@@ -45,9 +46,7 @@ def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int]
 # chunks into the memory.
 # %%
 @task
-def merge(
-    sorted_list1: typing.List[int], sorted_list2: typing.List[int]
-) -> typing.List[int]:
+def merge(sorted_list1: typing.List[int], sorted_list2: typing.List[int]) -> typing.List[int]:
     result = []
     while len(sorted_list1) > 0 and len(sorted_list2) > 0:
         # Check if current element of first array is smaller than current element of second array. If yes,
@@ -82,16 +81,10 @@ def sort_locally(numbers: typing.List[int]) -> typing.List[int]:
 # of data are properly passed around and order of execution is maintained with maximum possible parallelism.
 # %%
 @dynamic
-def merge_sort_remotely(
-    numbers: typing.List[int], run_local_at_count: int
-) -> typing.List[int]:
+def merge_sort_remotely(numbers: typing.List[int], run_local_at_count: int) -> typing.List[int]:
     split1, split2, new_count = split(numbers=numbers)
-    sorted1 = merge_sort(
-        numbers=split1, numbers_count=new_count, run_local_at_count=run_local_at_count
-    )
-    sorted2 = merge_sort(
-        numbers=split2, numbers_count=new_count, run_local_at_count=run_local_at_count
-    )
+    sorted1 = merge_sort(numbers=split1, numbers_count=new_count, run_local_at_count=run_local_at_count)
+    sorted2 = merge_sort(numbers=split2, numbers_count=new_count, run_local_at_count=run_local_at_count)
     return merge(sorted_list1=sorted1, sorted_list2=sorted2)
 
 
@@ -104,17 +97,13 @@ def merge_sort_remotely(
 # that recurse down the list.
 # %%
 @workflow
-def merge_sort(
-    numbers: typing.List[int], numbers_count: int, run_local_at_count: int = 10
-) -> typing.List[int]:
+def merge_sort(numbers: typing.List[int], numbers_count: int, run_local_at_count: int = 10) -> typing.List[int]:
     return (
         conditional("terminal_case")
         .if_(numbers_count <= run_local_at_count)
         .then(sort_locally(numbers=numbers))
         .else_()
-        .then(
-            merge_sort_remotely(numbers=numbers, run_local_at_count=run_local_at_count)
-        )
+        .then(merge_sort_remotely(numbers=numbers, run_local_at_count=run_local_at_count))
     )
 
 
