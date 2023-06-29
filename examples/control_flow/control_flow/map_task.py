@@ -55,7 +55,7 @@ def coalesce(b: List[str]) -> str:
 # To repeat the execution of the `a_mappable_task` across a collection of inputs, use the {py:func}`~flytekit:flytekit.map_task` function from flytekit.
 # In this example, the input `a` is of type `List[int]`.
 # The `a_mappable_task` is executed for each element in the list.
-# 
+#
 # You can utilize the `with_overrides` function to set resources specifically for individual map tasks.
 # This allows you to customize resource allocations such as memory usage.
 
@@ -129,10 +129,9 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 # %%
 import functools
 
+
 @workflow
-def multiple_workflow(
-    list_q: List[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0
-) -> List[float]:
+def multiple_workflow(list_q: List[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0) -> List[float]:
     partial_task = functools.partial(multi_input_task, price=p, shipping=s)
     return map_task(partial_task)(quantity=list_q)
 
@@ -147,9 +146,7 @@ def get_price() -> float:
 
 
 @workflow
-def multiple_workflow_with_task_output(
-    list_q: List[int] = [1, 2, 3, 4, 5], s: float = 6.0
-) -> List[float]:
+def multiple_workflow_with_task_output(list_q: List[int] = [1, 2, 3, 4, 5], s: float = 6.0) -> List[float]:
     p = get_price()
     partial_task = functools.partial(multi_input_task, price=p, shipping=s)
     return map_task(partial_task)(quantity=list_q)
@@ -160,9 +157,12 @@ def multiple_workflow_with_task_output(
 
 # %%
 @workflow
-def multiple_workflow_with_lists(list_q: List[int] = [1, 2, 3, 4, 5], list_p: List[float] = [6.0, 9.0, 8.7, 6.5, 1.2], s: float = 6.0) -> List[float]:
+def multiple_workflow_with_lists(
+    list_q: List[int] = [1, 2, 3, 4, 5], list_p: List[float] = [6.0, 9.0, 8.7, 6.5, 1.2], s: float = 6.0
+) -> List[float]:
     partial_task = functools.partial(multi_input_task, shipping=s)
     return map_task(partial_task)(quantity=list_q, price=list_p)
+
 
 # %% [markdown]
 # ```{note}

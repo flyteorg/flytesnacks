@@ -34,7 +34,6 @@ from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-
 # %% [markdown]
 # The use of the :py:func:`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
@@ -42,9 +41,7 @@ from sklearn.model_selection import train_test_split
 
 # %%
 @task
-def train_model(
-    hyperparameters: dict, test_size: float, random_state: int
-) -> LogisticRegression:
+def train_model(hyperparameters: dict, test_size: float, random_state: int) -> LogisticRegression:
     """
     Parameters:
         hyperparameters (dict): A dictionary containing the hyperparameters for the model.
@@ -58,9 +55,7 @@ def train_model(
     iris = load_iris()
 
     # Splitting the data into train and test sets
-    X_train, _, y_train, _ = train_test_split(
-        iris.data, iris.target, test_size=test_size, random_state=random_state
-    )
+    X_train, _, y_train, _ = train_test_split(iris.data, iris.target, test_size=test_size, random_state=random_state)
 
     # Creating and training the logistic regression model with the given hyperparameters
     clf = LogisticRegression(**hyperparameters)
@@ -97,12 +92,10 @@ def train_model_wf(
     """
     This workflow invokes the train_model task with the given hyperparameters, test size and random state.
     """
-    return train_model(
-        hyperparameters=hyperparameters, test_size=test_size, random_state=random_state
-    )
+    return train_model(hyperparameters=hyperparameters, test_size=test_size, random_state=random_state)
 
 
-# %%
+# %% [markdown]
 # ```{note}
 # When invoking the `train_model` task, you need to use keyword arguments to specify the values for the corresponding parameters.
 # ````
@@ -110,15 +103,16 @@ def train_model_wf(
 # ## Use `partial` to provide default arguments to tasks
 #
 # You can use the {py:func}`functools.partial` function to assign default or constant values to the parameters of your tasks.
+
+# %%
 import functools
 
 
 @workflow
-def train_model_wf_with_partial(
-    test_size: float = 0.2, random_state: int = 42
-) -> LogisticRegression:
+def train_model_wf_with_partial(test_size: float = 0.2, random_state: int = 42) -> LogisticRegression:
     partial_task = functools.partial(train_model, hyperparameters={"C": 0.1})
     return partial_task(test_size=test_size, random_state=random_state)
+
 
 # %% [markdown]
 # In this toy example, we're calling the `square` task twice and returning the result.
