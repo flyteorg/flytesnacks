@@ -125,3 +125,13 @@ if __name__ == "__main__":
 #
 #    pyflyte build --remote image_spec.py wf
 #
+
+# %%
+# To push the image to the local registry in the sandbox, the configuration of buildkitd needs to be changed. you can follow the steps below:
+#
+#  1. Stop existing buildkitd if it is running. ``docker stop buildkitd-demo``
+#  2. Get the local registry IP address. ``docker inspect flyte-sandbox | grep IPAddress``
+#  3. Start buildkitd with the new configuration. ``envd bootstrap --registry 172.17.0.2:30000 --use-http``
+#  4. Replace the ``registry`` field in the ``ImageSpec`` with the local registry IP address.
+#  5. Run ``pyflyte build --remote image_spec.py wf`` to build the image and push it to the local registry.
+#
