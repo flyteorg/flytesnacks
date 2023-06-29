@@ -1,0 +1,9 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-whylogs>=1.1.1b0
+scikit-learn
+whylogs[s3]
+whylogs[mlflow]
+whylogs[whylabs]

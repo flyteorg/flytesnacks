@@ -1,0 +1,5 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-papermill>=0.16.0

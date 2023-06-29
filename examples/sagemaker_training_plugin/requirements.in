@@ -1,0 +1,7 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-awssagemaker>=0.16.0
+tensorflow
+tensorflow-datasets
