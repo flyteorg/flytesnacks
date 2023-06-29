@@ -60,12 +60,13 @@ jobs:
         with:
           path: ./download-artifact/
       - name: setup sandbox
-        run: flytectl demo start
+        run: |
+          flytectl sandbox start
+          flytectl config init
       - name: Register examples
         run: |
           for file in ./download-artifact/**/*; do
-            flytectl --config ~/.flyte/config-sandbox.yaml \
-              register files \
+            flytectl register files \
               --project flytesnacks \
               --domain development \
               --version latest \
