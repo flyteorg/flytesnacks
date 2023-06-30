@@ -44,8 +44,6 @@ from flytekit.types.file import FlyteFile
 # :::
 
 # %%
-
-
 @task
 def normalize_columns(
     csv_url: FlyteFile,
@@ -102,8 +100,6 @@ def normalize_columns(
 # upload its file to that location.
 
 # %%
-
-
 @workflow
 def normalize_csv_file(
     csv_url: FlyteFile,

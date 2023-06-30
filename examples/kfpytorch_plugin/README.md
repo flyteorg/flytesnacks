@@ -27,12 +27,6 @@ The checked in version of docker file uses python:3.8-slim-buster for faster CI 
 Additionally the requirements.in uses the cpu version of pytorch. Remove the + cpu for torch and torchvision in requirements.in and make all requirements as shown below
 :::
 
-```{eval-rst}
-.. prompt:: bash
-
-   make -C integrations/kubernetes/kfpytorch requirements
-```
-
 ```{code-block} docker
 :emphasize-lines: 1
 :linenos: true

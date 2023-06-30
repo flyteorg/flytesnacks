@@ -79,8 +79,6 @@ def t1() -> str:
 # :class: with-shadow
 # :::
 
-# %%
-
 # %% [markdown]
 # Use `Annotated` to override the default renderer, and display top 10 rows of dataframe.
 # %%

@@ -117,8 +117,6 @@ def train_model_wf_with_partial(test_size: float = 0.2, random_state: int = 42) 
 # %% [markdown]
 # In this toy example, we're calling the `square` task twice and returning the result.
 
-# %%
-
 # %% [markdown]
 # (single_task_execution)=
 #

@@ -51,8 +51,6 @@ nb = NotebookTask(
 # Since a task need not be defined, we create a `workflow` and return the MAE score.
 
 # %%
-
-
 @workflow
 def notebook_wf(
     n_estimators: int = 150,

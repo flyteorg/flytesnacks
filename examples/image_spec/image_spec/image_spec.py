@@ -35,8 +35,6 @@ from flytekit import ImageSpec, Resources, task, workflow
 # - When using a registry in ImageSpec, `docker login` is required to push the image
 # :::
 
-# %%
-
 # %% [markdown]
 # You can specify python packages, apt packages, and environment variables in the `ImageSpec`.
 # These specified packages will be added on top of the [default image](https://github.com/flyteorg/flytekit/blob/master/Dockerfile), which can be found in the Flytekit Dockerfile.

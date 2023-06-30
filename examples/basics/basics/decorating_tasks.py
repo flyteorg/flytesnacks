@@ -27,8 +27,6 @@ logger = logging.getLogger(__file__)
 # Here we define decorator that logs the input and output information of a decorated task.
 
 # %%
-
-
 def log_io(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -48,8 +46,6 @@ def log_io(fn):
 # :::
 
 # %%
-
-
 @task
 @log_io
 def t1(x: int) -> int:
@@ -71,8 +67,6 @@ def t1(x: int) -> int:
 # :::
 
 # %%
-
-
 def validate_output(fn=None, *, floor=0):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -91,8 +85,6 @@ def validate_output(fn=None, *, floor=0):
 # Now let's define a function that uses both the logging and validator decorators:
 
 # %%
-
-
 @task
 @log_io
 @validate_output(floor=10)
@@ -104,8 +96,6 @@ def t2(x: int) -> int:
 # Finally, we compose a workflow that calls `t1` and `t2`.
 
 # %%
-
-
 @workflow
 def wf(x: int) -> int:
     return t2(x=t1(x=x))

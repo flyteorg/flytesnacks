@@ -59,8 +59,6 @@ wf_outputs = typing.NamedTuple("OP2", greet1=str, greet2=str)
 # :::
 
 # %%
-
-
 @workflow
 def my_wf() -> wf_outputs:
     return wf_outputs(say_hello().greet, say_hello().greet)

@@ -94,8 +94,6 @@ CONTINUOUS_COLS = [
 # Next, let's initialize a data class to store the hyperparameters that will be used with the model (`epochs`, `learning_rate`, `batch_size`, etc.).
 
 # %%
-
-
 @dataclass_json
 @dataclass
 class Hyperparameters:

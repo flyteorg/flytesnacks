@@ -69,8 +69,6 @@ SPLIT_RATIOS = [0.6, 0.3, 0.1]
 # We define a function to compute the price of a house based on multiple factors (`number of bedrooms`, `number of bathrooms`, `area`, `garage space`, and `year built`).
 
 # %%
-
-
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
     _price = int(
@@ -185,8 +183,6 @@ dataset = typing.NamedTuple(
 # We define a task to call the aforementioned functions.
 
 # %%
-
-
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
     _houses = gen_houses(number_of_houses)

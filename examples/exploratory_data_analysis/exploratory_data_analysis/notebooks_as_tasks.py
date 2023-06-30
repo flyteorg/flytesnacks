@@ -61,8 +61,6 @@ nb_2 = NotebookTask(
 # We define a `Workflow` to run the notebook tasks.
 
 # %%
-
-
 @workflow
 def notebook_wf(
     n_estimators: int = 150,

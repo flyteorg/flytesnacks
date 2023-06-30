@@ -48,8 +48,6 @@ CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 # The parameters within the `data_connector_query` convey that we're fetching all those files that have "2019" and "01" in the file names.
 
 # %%
-
-
 @task(limits=Resources(mem="500Mi"))
 def simple_task(
     directory: GreatExpectationsType[
@@ -105,8 +103,6 @@ great_expectations_config = GreatExpectationsFlyteConfig(
 # This means that we want to validate the `FlyteFile` data.
 
 # %%
-
-
 @task(limits=Resources(mem="500Mi"))
 def file_task(dataset: GreatExpectationsType[CSVFile, great_expectations_config]) -> pd.DataFrame:
     return pd.read_csv(dataset)

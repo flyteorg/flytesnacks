@@ -21,8 +21,6 @@ from pandera.typing import DataFrame, Series
 # Let's first define a simple data processing pipeline in pure python.
 
 # %%
-
-
 def total_pay(df):
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
 
@@ -47,8 +45,6 @@ def process_data(df, worker_id):
 # for the raw, intermediate, and final outputs of our pipeline.
 
 # %%
-
-
 class InSchema(pa.DataFrameModel):
     hourly_pay: Series[float] = pa.Field(ge=7)
     hours_worked: Series[float] = pa.Field(ge=10)
@@ -90,8 +86,6 @@ class OutSchema(IntermediateSchema):
 # the nice effect of providing an explicit graph of type dependencies as data
 # flows through the various tasks in your workflow.
 
-# %%
-
 # %% [markdown]
 # ## Type Annotating Tasks and Workflows
 #
@@ -100,8 +94,6 @@ class OutSchema(IntermediateSchema):
 # annotating the inputs and outputs of those functions with the pandera schemas:
 
 # %%
-
-
 @task
 def dict_to_dataframe(data: dict) -> DataFrame[InSchema]:
     """Helper task to convert a dictionary input to a dataframe."""

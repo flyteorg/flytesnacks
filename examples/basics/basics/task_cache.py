@@ -42,8 +42,6 @@ from typing_extensions import Annotated
 # You can manually update this version and Flyte caches the next execution instead of relying on the old cache.
 
 # %%
-
-
 @task(cache=True, cache_version="1.0")  # noqa: F841
 def square(n: int) -> int:
     """
@@ -67,7 +65,7 @@ def square(n: int) -> int:
 #
 # ```python
 # @task(cache=True, cache_version="1.0")
-# def square(n: int) -> (int, int):
+# def square(n: int) -> Tuple[int, int]:
 #     ...
 # ```
 
@@ -116,8 +114,6 @@ def square(n: int) -> int:
 # The default behavior displayed by Flyte's memoization feature might not match the user intuition. For example, this code makes use of pandas dataframes:
 
 # %%
-
-
 @task
 def foo(a: int, b: str) -> pandas.DataFrame:
     df = pandas.DataFrame(...)
@@ -142,8 +138,6 @@ def wf(a: int, b: str):
 # For example, in order to cache the result of calls to `bar`, you can rewrite the code above like this:
 
 # %%
-
-
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
 
@@ -183,8 +177,6 @@ def wf_1(a: int, b: str):  # noqa: F811
 #
 
 # %%
-
-
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
 

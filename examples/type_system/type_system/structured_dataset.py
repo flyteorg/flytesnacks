@@ -99,8 +99,6 @@ def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[St
 # 2. Create a project and add the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to your .bashrc file.
 # 3. Create a dataset in your project.
 
-# %%
-
 # %% [markdown]
 # Import the dependencies.
 # %%
@@ -125,8 +123,6 @@ def pandas_to_bq() -> StructuredDataset:
 # The BigQuery uri's format is `bq://<project_name>.<dataset_name>.<table_name>`.
 # :::
 
-# %%
-
 # %% [markdown]
 # Define a task that converts the BigQuery table to a pandas DataFrame.
 # %%
@@ -141,8 +137,6 @@ def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
 # Flyte creates the table inside the dataset in the project upon BigQuery query execution.
 # :::
 
-# %%
-
 # %% [markdown]
 # Trigger the tasks locally.
 # %%
@@ -156,8 +150,6 @@ if __name__ == "__main__":
 #
 # `StructuredDataset` ships with an encoder and a decoder that handles the conversion of a Python value to a Flyte literal and vice-versa, respectively.
 # Let's understand how to write them by defining a NumPy encoder and decoder, which helps use NumPy array as a valid type within structured datasets.
-
-# %%
 
 # %% [markdown]
 # ### NumPy Encoder
@@ -239,8 +231,6 @@ StructuredDatasetTransformerEngine.register_renderer(np.ndarray, NumpyRenderer()
 # We open a structured dataset of type `numpy.ndarray` and serialize it again.
 
 # %%
-
-
 @task
 def to_numpy(ds: Annotated[StructuredDataset, subset_cols]) -> Annotated[StructuredDataset, subset_cols, PARQUET]:
     numpy_array = ds.open(np.ndarray).all()

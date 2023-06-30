@@ -65,8 +65,6 @@ def my_wf(a: int, b: str) -> Tuple[int, str]:
 # results in a promise to be evaluated lazily.
 # :::
 
-# %%
-
 # %% [markdown]
 # Now, we can execute the workflow by invoking it like a function and sending in the required inputs.
 #

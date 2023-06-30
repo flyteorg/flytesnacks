@@ -73,8 +73,6 @@ square_2 = my_fixed_lp()
 #
 
 # %%
-
-
 @task
 def greet(day_of_week: str, number: int, am: bool) -> str:
     greeting = "Have a great " + day_of_week + " "

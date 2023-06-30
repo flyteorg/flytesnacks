@@ -62,7 +62,6 @@ int_doubler_wf_lp = LaunchPlan.get_or_create(
 # 2. Notifications shine when used for scheduled workflows to alert for failures.
 
 # %%
-
 int_doubler_wf_scheduled_lp = LaunchPlan.get_or_create(
     name="int_doubler_wf_scheduled",
     workflow=int_doubler_wf,

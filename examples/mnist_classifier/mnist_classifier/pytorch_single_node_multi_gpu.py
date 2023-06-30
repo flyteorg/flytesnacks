@@ -86,8 +86,6 @@ def wandb_setup():
 # We'll use the same neural network architecture as the one we define in the
 # {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`.
 
-# %%
-
 # %% [markdown]
 # ## Data Downloader
 #
@@ -250,8 +248,6 @@ TrainingOutputs = typing.NamedTuple(
 # processes across all available GPUs to the address of the main process.
 
 # %%
-
-
 def dist_setup(rank, world_size, backend):
     os.environ["MASTER_ADDR"] = "localhost"
     os.environ["MASTER_PORT"] = "8888"
@@ -275,8 +271,6 @@ ACCURACIES_FILE = "./mnist_cnn_accuracies.json"
 # - keep track of validation metrics
 
 # %%
-
-
 def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
     # store the hyperparameters' config in ``wandb``
     if rank == 0:
@@ -368,8 +362,6 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 # will handle syncing the weights across all processes on `optimizer.step()` calls.
 #
 # Read more about pytorch distributed training [here](https://pytorch.org/tutorials/beginner/dist_overview.html).
-
-# %%
 
 # %% [markdown]
 # Set memory, gpu and storage depending on whether we are trying to register against sandbox or not:

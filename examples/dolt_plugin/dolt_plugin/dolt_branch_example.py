@@ -72,8 +72,6 @@ def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:
 # Dolt database given a connection configuration.
 
 # %%
-
-
 @task
 def get_confs(a: int) -> typing.Tuple[DoltConfig, DoltTable, DoltConfig]:
     return generate_confs(a)

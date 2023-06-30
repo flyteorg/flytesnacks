@@ -59,8 +59,6 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
 # :::
 
 # %%
-
-
 def normalize_columns(
     local_csv_file: str,
     column_names: List[str],
@@ -94,8 +92,6 @@ def normalize_columns(
 # column names of each file in the directory and the column names that we want to normalize.
 
 # %%
-
-
 @task
 def normalize_all_files(
     csv_files_dir: FlyteDirectory,
@@ -118,8 +114,6 @@ def normalize_all_files(
 # associated with each csv file, and a list of columns that we want to normalize.
 
 # %%
-
-
 @workflow
 def download_and_normalize_csv_files(
     csv_urls: List[str],

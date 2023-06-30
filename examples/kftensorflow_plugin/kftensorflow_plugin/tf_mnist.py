@@ -33,8 +33,6 @@ MODEL_FILE_PATH = "saved_model/"
 # We initialize a data class to store the hyperparameters.
 
 # %%
-
-
 @dataclass_json
 @dataclass
 class Hyperparameters(object):

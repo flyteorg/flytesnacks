@@ -132,7 +132,6 @@ def execute_training():
 # SagemakerHPOTask as follows:
 
 # %%
-
 xgboost_hpo_task = SagemakerHPOTask(
     name="xgboost_hpo",
     task_config=HPOJob(

@@ -30,8 +30,6 @@ seed(datetime.now().microsecond)
 # A simple split function that divides a list into two halves.
 
 # %%
-
-
 @task
 def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int], int]:
     return (

@@ -106,8 +106,6 @@ def suboptimal_mappable_task(a: int) -> str:
 # For example, you can configure the map task to run on [AWS Batch](https://docs.flyte.org/en/latest/deployment/plugin_setup/aws/batch.html#deployment-plugin-setup-aws-array),
 # a provisioned service that offers scalability for handling large-scale tasks.
 
-# %%
-
 # %% [markdown]
 # ## Map a Task with Multiple Inputs
 #

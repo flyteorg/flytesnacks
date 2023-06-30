@@ -8,7 +8,6 @@
 # Flyte provides an easy-to-use interface to log the task's metrics and parameters to either Flyte Deck or MLflow server.
 
 # %%
-
 import mlflow.keras
 import tensorflow as tf
 
@@ -57,8 +56,6 @@ def train_model(epochs: int):
 # :alt: Model Parameters
 # :class: with-shadow
 # :::
-
-# %%
 
 # %% [markdown]
 # Finally, we put everything together into a workflow:

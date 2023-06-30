@@ -55,8 +55,6 @@ from sklearn.metrics import accuracy_score
 # %% [markdown]
 # We also need to import the `pandera` flytekit plugin to enable dataframe runtime type-checking:
 
-# %%
-
 # %% [markdown]
 # ## The Dataset: UCI Heart Disease
 #
@@ -117,8 +115,6 @@ from sklearn.metrics import accuracy_score
 # a pandera schema:
 
 # %%
-
-
 class RawData(pa.SchemaModel):
     age: Series[int] = pa.Field(in_range={"min_value": 0, "max_value": 200})
     sex: Series[int] = pa.Field(isin=[0, 1])
@@ -173,8 +169,6 @@ class RawData(pa.SchemaModel):
 # Now we're ready to write our first Flyte task:
 
 # %%
-
-
 @task
 def fetch_raw_data() -> DataFrame[RawData]:
     data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
@@ -206,8 +200,6 @@ def fetch_raw_data() -> DataFrame[RawData]:
 # Here we can use inheritance to define a `ParsedData` schema by overriding just the `target` attribute:
 
 # %%
-
-
 class ParsedData(RawData):
     target: Series[int] = pa.Field(isin=[0, 1])
 
@@ -230,7 +222,6 @@ def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
 # {ref}`named outputs <named_outputs>` combined with pandera schemas.
 
 # %%
-
 DataSplits = typing.NamedTuple("DataSplits", training_set=DataFrame[ParsedData], test_set=DataFrame[ParsedData])
 
 
@@ -251,8 +242,6 @@ def split_data(parsed_data: DataFrame[ParsedData], test_size: float, random_stat
 # Next we'll train a `RandomForestClassifier` to predict the absence/presence of heart disease:
 
 # %%
-
-
 def get_features_and_target(dataset):
     """Helper function for separating feature and target data."""
     X = dataset[[x for x in dataset if x != "target"]]
@@ -280,8 +269,6 @@ def train_model(training_set: DataFrame[ParsedData], random_state: int) -> Jobli
 # Next we assess the accuracy score of the model on the test set:
 
 # %%
-
-
 @task
 def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData]) -> float:
     with open(model, "rb") as f:
@@ -295,8 +282,6 @@ def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData])
 # Finally, we put all of the pieces together in a Flyte workflow:
 
 # %%
-
-
 @workflow
 def pipeline(data_random_state: int, model_random_state: int) -> float:
     raw_data = fetch_raw_data()

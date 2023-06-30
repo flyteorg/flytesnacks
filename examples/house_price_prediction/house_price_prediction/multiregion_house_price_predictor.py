@@ -73,8 +73,6 @@ dataset = typing.NamedTuple(
 # Next, we create a {py:func}`~flytekit:flytekit.dynamic` workflow to generate and split the data for multiple regions.
 
 # %%
-
-
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
     locations: typing.List[str],

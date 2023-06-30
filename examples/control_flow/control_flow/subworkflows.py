@@ -109,8 +109,6 @@ if __name__ == "__main__":
 # You can {ref}`chain and execute subworkflows <Chain SubWorkflows>` similar to chained flyte tasks.
 # :::
 
-# %%
-
 # %% [markdown]
 # ## External Workflow
 #

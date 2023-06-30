@@ -78,8 +78,6 @@ from flytekitplugins.dask import Dask, WorkerGroup
 # class to understand the various configuration options.
 
 # %%
-
-
 @task(
     task_config=Dask(
         workers=WorkerGroup(

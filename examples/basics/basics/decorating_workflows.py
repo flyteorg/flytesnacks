@@ -34,7 +34,6 @@ from flytekit.core.node_creation import create_node
 # beginning of our workflow and finish at the end.
 
 # %%
-
 external_service = MagicMock()
 
 
@@ -60,8 +59,6 @@ def teardown():
 # Next we create the decorator that we'll use to wrap our workflow function.
 
 # %%
-
-
 def setup_teardown(fn=None, *, before, after):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -118,8 +115,6 @@ def setup_teardown(fn=None, *, before, after):
 # Now let's define two tasks that will constitute the workflow
 
 # %%
-
-
 @task
 def t1(x: float) -> float:
     return x - 1
@@ -134,8 +129,6 @@ def t2(x: float) -> float:
 # And then create our decorated workflow:
 
 # %%
-
-
 @workflow
 @setup_teardown(before=setup, after=teardown)
 def wf(x: float) -> float:

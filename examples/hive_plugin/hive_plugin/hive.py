@@ -68,8 +68,6 @@ hive_task_w_out = HiveTask(
 # :::
 
 # %%
-
-
 @workflow
 def with_output_wf() -> FlyteSchema:
     return hive_task_w_out()
