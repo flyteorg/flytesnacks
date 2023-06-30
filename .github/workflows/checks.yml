@@ -2,13 +2,13 @@ name: Master
 
 on:
   push:
-  #   branches:
-  #     - master
-  #   paths-ignore:
-  #     - 'docs/**'
-  # pull_request:
-  #   paths-ignore:
-  #     - 'docs/**'
+    branches:
+      - master
+    paths-ignore:
+      - 'docs/**'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
 jobs:
 
   lint:
