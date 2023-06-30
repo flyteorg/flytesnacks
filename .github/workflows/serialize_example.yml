@@ -34,12 +34,14 @@ jobs:
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
-        run: ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
+        run: |
+          ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
+          tar -xvf ${{ matrix.directory }}/flyte-package.tgz -C ${{ matrix.directory }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
-          path: ${{ matrix.directory }}/flyte-package.tgz
+          path: ${{ matrix.directory }}/
 
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
