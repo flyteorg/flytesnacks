@@ -55,7 +55,7 @@ flytekit_pr = ImageSpec(
    bindings:<scalar:<primitive:<string_value:\"b\" > > > > > > bindings:<key:\"preprocess\" value:<scalar:<primitive:<boolean:false > > > > 
    bindings:<key:\"region\" value:<scalar:<primitive:<string_value:\"us-west-3\" > > > > ]\n\tError 1: Code: MismatchingTypes, Node Id: n1, 
    Description: Variable [o0] (type [structured_dataset_type:<columns:<name:\"column\" literal_type:<simple:STRING > > > ]) doesn\'t match expected type [].\n\tError 2: Code: ParameterNotBound, Node Id: n1, Description: Parameter not bound [a].\n", grpc_status:13, created_time:"2023-06-21T15:49:42.971189-07:00"}
-
+   dddd
 """
 
 
