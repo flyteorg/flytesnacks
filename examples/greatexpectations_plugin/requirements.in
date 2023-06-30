@@ -1,0 +1,5 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-great_expectations>=0.22.0

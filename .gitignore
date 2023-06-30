@@ -7,7 +7,6 @@ __pycache__/
 *.dat
 .DS_Store
 gen_modules
-cookbook*.pb
 *.h5
 data/
 *.pt
@@ -23,7 +22,7 @@ _build/
 *-out.html
 *-out.ipynb
 .python-version
-cookbook/release-snacks
+release-snacks
 .kube/
 .docker/
 .cache/
@@ -31,5 +30,16 @@ download-artifact/
 typescript
 .bash_history
 .venv/
-cookbook/docs/_tags/
-cookbook/docs/_flyte_decks/
+docs/_tags/
+docs/_flyte_decks/
+.ipython/
+auto_*/
+docs/auto/*
+docs/_rsts/
+.hypothesis
+.config/
+test.ipynb
+jupyter_execute
+_flyte_decks
+.keras
+**/flyte-package.tgz
