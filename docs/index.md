@@ -18,7 +18,7 @@ next-page-title: Flyte Fundamentals
 
 # Getting Started
 
-[Flytesnacks Tags](_tags/tagsindex)
+{doc}`Example Tags <_tags/tagsindex>`
 
 ## Introduction to Flyte
 
@@ -466,4 +466,12 @@ auto_examples/snowflake_plugin/index
 auto_examples/databricks_plugin/index
 auto_examples/bigquery_plugin/index
 auto_examples/airflow_plugin/index
+```
+
+```{toctree}
+:maxdepth: -1
+:caption: Tags
+:hidden:
+
+_tags/tagsindex
 ```

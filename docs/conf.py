@@ -103,7 +103,8 @@ master_doc = "index"
 # Tags config
 tags_create_tags = True
 tags_page_title = "Tag"
-tags_overview_title = "All Tags"
+tags_extension = ["md"]
+tags_overview_title = "Example Tags"
 
 pygments_style = "tango"
 pygments_dark_style = "monokai"
