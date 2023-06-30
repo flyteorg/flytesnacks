@@ -61,8 +61,8 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl sandbox start
-          flytectl config init
+          flytectl demo start
+          echo "FLYTECTL_CONFIG=${HOME}/.flyte/config-sandbox.yaml" >> ${GITHUB_ENV}
       - name: Register examples
         run: |
           for file in ./download-artifact/**/*; do
