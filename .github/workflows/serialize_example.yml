@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
-          path: ${{ matrix.directory }}/
+          path: ${{ matrix.directory }}/**/*.pb
 
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
