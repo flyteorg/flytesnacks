@@ -1,3 +1,0 @@
--r ../../../common/requirements-common.in
-flytekitplugins-kfmpi>=0.24.0b0
-tensorflow==2.8.0

@@ -1,0 +1,7 @@
+flytekit>=0.32.3
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-spark>=0.16.0
+pyspark==3.0.1
+s3fs

@@ -1,5 +1,0 @@
--r ../../../common/requirements-common.in
-flytekitplugins-ray
-ray[default]==1.13.0
-grpcio-status==1.43.0
-

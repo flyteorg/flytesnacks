@@ -1,0 +1,5 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-awsbatch>=0.31.0b1
