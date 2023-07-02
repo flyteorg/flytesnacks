@@ -56,6 +56,8 @@ text: Try Hosted Flyte Sandbox
 ```{admonition} Prerequisites
 :class: important
 
+This installation setup guide works well for Linux and MacOS. However for Windows user, You can set up a Linux Virtual Machine with [VMwareWorkstation](https://www.vmware.com/in/products/workstation-player/workstation-player-evaluation.html) or [Oracle VirtualBox](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
+
 [Install Docker](https://docs.docker.com/get-docker/) and ensure that you
 have the Docker daemon running.
 
@@ -67,7 +69,21 @@ for the purpose of this guide, `flytectl` uses Docker to spin up a local
 Kubernetes cluster so that you can interact with it on your machine.
 ```
 
-First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
+First, You need to have Python 3 installed, then set up a virtual environment in your desired folder, and activate it.
+
+```{prompt} bash $
+python3 _-V # This checks if python is installed
+
+mkdir flyte_getting_started # This created a folder for our project
+
+cd flyte_getting_started
+
+Python3 -m venv venv # This create a virtual environment in the current folder
+
+source venv/bin/activate # This activates the virtual environment
+```
+
+Second, install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
 
 ```{prompt} bash $
 pip install flytekit scikit-learn
@@ -321,6 +337,13 @@ Where ``<execution_name>`` is a unique identifier for the workflow execution.
 Navigate to the URL produced by `pyflyte run`. This will take you to
 FlyteConsole, the web UI used to manage Flyte entities such as tasks,
 workflows, and executions.
+
+For first time setup, you will be directed to the authentication page, the credentials is shown below
+
+``` {prompt} bash $
+minio  # username
+miniostorage # password
+```
 
 ![getting started console](https://github.com/flyteorg/static-resources/raw/main/flytesnacks/getting_started/getting_started_console.gif)
 
