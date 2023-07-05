@@ -83,7 +83,7 @@ athena_task_templatized_query = AthenaTask(
     inputs=kwtypes(iso_code=str),
     task_config=AthenaConfig(workgroup="primary", catalog="AwsDataCatalog", database="vaccinations"),
     query_template="""
-    SELECT * FROM vaccinations where iso_code like  '{{ .inputs.iso_code }}'
+    SELECT * FROM vaccinations where iso_code like  '{{ .Inputs.iso_code }}'
     """,
     # While we define a generic schema as the output here, Flyte supports more strongly typed schemas to provide
     # better compile-time checks for task compatibility. Refer to :py:class:`flytekit.FlyteSchema` for more details
