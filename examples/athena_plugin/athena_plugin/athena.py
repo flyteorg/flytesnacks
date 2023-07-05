@@ -81,7 +81,7 @@ athena_task_templatized_query = AthenaTask(
     name="sql.athena.w_io",
     # Define inputs as well as their types that can be used to customize the query.
     inputs=kwtypes(iso_code=str),
-    task_config=AthenaConfig(database="vaccinations"),
+    task_config=AthenaConfig(workgroup="primary", catalog="AwsDataCatalog", database="vaccinations"),
     query_template="""
     SELECT * FROM vaccinations where iso_code like  '{{ .inputs.iso_code }}'
     """,
