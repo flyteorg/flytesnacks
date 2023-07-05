@@ -122,7 +122,7 @@ def multi_input_task(quantity: int, price: float, shipping: float) -> float:
 # %% [markdown]
 # In some cases, you may want to map this task with only the ``quantity`` input, while keeping the other inputs unchanged.
 # Since a map task accepts only one input, you can achieve this by partially binding values to the map task.
-# This can be done using the :py:func:`functools.partial` function.
+# This can be done using the {py:func}`functools.partial` function.
 
 # %%
 import functools

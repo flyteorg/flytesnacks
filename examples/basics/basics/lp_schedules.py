@@ -42,6 +42,8 @@ def date_formatter_wf(kickoff_time: datetime):
 # %% [markdown]
 # The `date_formatter_wf` workflow can be scheduled using either the `CronSchedule` or the `FixedRate` object.
 #
+# (cron-schedules)=
+#
 # ## Cron Schedules
 #
 # [Cron](https://en.wikipedia.org/wiki/Cron) expression strings use this {ref}`syntax <concepts-schedules>`.
@@ -102,6 +104,8 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 
 # %% [markdown]
 # This fixed-rate scheduler runs every ten minutes. Similar to a cron scheduler, a fixed-rate scheduler also accepts `kickoff_time_input_arg` (which is omitted in this example).
+#
+# (activating-schedules)=
 #
 # ## Activating a Schedule
 #

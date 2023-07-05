@@ -92,6 +92,6 @@
 #    * - User defined types
 #      - Any
 #      - Custom Transformers
-#      - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
+#      - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to {ref}`advanced_custom_types`.
 # ```
 #
