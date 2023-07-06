@@ -86,7 +86,7 @@ athena_task_templatized_query = AthenaTask(
     SELECT * FROM vaccinations where iso_code like  {{ .inputs.iso_code }}
     """,
     # While we define a generic schema as the output here, Flyte supports more strongly typed schemas to provide
-    # better compile-time checks for task compatibility. Refer to :py:class:`flytekit.FlyteSchema` for more details
+    # better compile-time checks for task compatibility. Refer to {py:class}`flytekit.FlyteSchema` for more details
     output_schema_type=FlyteSchema,
     # Cache the output data so we don't have to re-run the query in future workflow iterations
     # should we decide to change how we manipulate data downstream.
