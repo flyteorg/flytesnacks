@@ -1,0 +1,3 @@
+flytekitplugins-mlflow
+tensorflow
+protobuf==3.20.1
