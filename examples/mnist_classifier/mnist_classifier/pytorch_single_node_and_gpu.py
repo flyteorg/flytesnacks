@@ -318,7 +318,7 @@ def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
         train(model, device, training_data_loader, optimizer, epoch, hp.log_interval)
         accuracies.append(test(model, device, test_data_loader))
 
-    # after training the model, we can simply save it to disk and return it from the Flyte task as a :py:class:`flytekit.types.file.FlyteFile`
+    # after training the model, we can simply save it to disk and return it from the Flyte task as a {py:class}`flytekit.types.file.FlyteFile`
     # type, which is the ``PythonPickledFile``. ``PythonPickledFile`` is simply a decorator on the ``FlyteFile`` that records the format
     # of the serialized model as ``pickled``
     model_file = "mnist_cnn.pt"
