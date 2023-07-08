@@ -214,6 +214,42 @@ def my_secret_workflow() -> Tuple[str, str, str, str, str]:
     f, s = secret_file_task()
     return x, y, z, f, s
 
+# %% [markdown]
+# By default, Secrets injected as environment variables get the name `_FSEC_{GROUP}_{KEY}`.
+# Secrets mounted as files are located by default at `/etc/flyte/secrets/{group}/{key}`.
+# The `env_var` and `file` fields allow you to specify an override. In that case, you do
+# not need to specify `mount_requirement`:
+
+# %%
+
+from flytekit import task, workflow, Secret
+import flytekit
+import os
+
+@task(
+    secret_requests=[
+        Secret(
+            group="user-info",
+            key="user_secret",
+            env_var=Secret.MountEnvVar(name="foo"),
+        ),
+        Secret(
+            group="user-info",
+            key="user_secret",
+            file=Secret.MountFile(path="/foo"),
+        ),
+    ]
+)
+def secret_task() -> None:
+    context = flytekit.current_context()
+
+    # retrieve env_var
+    print(context.secrets.get(env_name="foo"))
+
+    # retrieve file
+    with open('/foo/user_secret', 'r') as infile:
+        print(infile.readlines())
+
 
 # %% [markdown]
 # ### Testing with Mock Secrets
