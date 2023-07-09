@@ -82,7 +82,7 @@ def sort_locally(numbers: typing.List[int]) -> typing.List[int]:
 def merge_sort_remotely(numbers: typing.List[int], run_local_at_count: int) -> typing.List[int]:
     split1, split2, new_count = split(numbers=numbers)
     sorted1 = merge_sort(numbers=split1, numbers_count=new_count, run_local_at_count=run_local_at_count)
-    sorted2 = merge_sort(numbers=split2, numbers_count=new_count, run_local_at_count=run_local_at_count)
+    sorted2 = merge_sort(numbers=split2, numbers_count=len(numbers) - new_count, run_local_at_count=run_local_at_count)
     return merge(sorted_list1=sorted1, sorted_list2=sorted2)
 
 
