@@ -31,11 +31,12 @@ seed(datetime.now().microsecond)
 
 # %%
 @task
-def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int], int]:
+def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int], int, int]:
     return (
         numbers[0 : int(len(numbers) / 2)],
         numbers[int(len(numbers) / 2) :],
         int(len(numbers) / 2),
+        len(numbers) - int(len(numbers) / 2)
     )
 
 
@@ -80,9 +81,9 @@ def sort_locally(numbers: typing.List[int]) -> typing.List[int]:
 # %%
 @dynamic
 def merge_sort_remotely(numbers: typing.List[int], run_local_at_count: int) -> typing.List[int]:
-    split1, split2, new_count = split(numbers=numbers)
-    sorted1 = merge_sort(numbers=split1, numbers_count=new_count, run_local_at_count=run_local_at_count)
-    sorted2 = merge_sort(numbers=split2, numbers_count=len(numbers) - new_count, run_local_at_count=run_local_at_count)
+    split1, split2, new_count1, new_count2 = split(numbers=numbers)
+    sorted1 = merge_sort(numbers=split1, numbers_count=new_count1, run_local_at_count=run_local_at_count)
+    sorted2 = merge_sort(numbers=split2, numbers_count=new_count2, run_local_at_count=run_local_at_count)
     return merge(sorted_list1=sorted1, sorted_list2=sorted2)
 
 
