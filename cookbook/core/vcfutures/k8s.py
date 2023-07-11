@@ -1,7 +1,7 @@
 from typing import List
+
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
-    V1PodSpec,
     V1Container,
     V1EmptyDirVolumeSource,
     V1PodSpec,
@@ -15,14 +15,18 @@ from kubernetes.client.models import (
     V1Toleration,
 )
 
+
 def k8s_env(env_dict) -> List[V1EnvVar]:
     return [V1EnvVar(name=k, value=v) for k, v in env_dict.items()]
+
 
 def k8s_env_from_configmap(cms) -> List[V1EnvFromSource]:
     return [V1EnvFromSource(config_map_ref=V1ConfigMapEnvSource(name=cm)) for cm in cms]
 
+
 def k8s_env_from_secret(secrets) -> List[V1EnvFromSource]:
     return [V1EnvFromSource(secret_ref=V1SecretEnvSource(name=secret)) for secret in secrets]
+
 
 def task_config(image: str, **kwargs):
     cache = kwargs.get("cache", False)
@@ -100,8 +104,8 @@ def task_config(image: str, **kwargs):
 
     return {
         'task_config': pod,
-        'container_image': image, # Must match pod spec's image
+        'container_image': image,  # Must match pod spec's image
         'cache': cache,
         'cache_serialize': cache,
-        'cache_version': "xyz", # Change this string to invalidate all existing cache, it can be set to  any string
+        'cache_version': "xyz",  # Change this string to invalidate all existing cache, it can be set to  any string
     }

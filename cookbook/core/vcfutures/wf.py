@@ -1,6 +1,3 @@
-import os
-import uuid
-
 from algopipelines.flytedatapipeline.kubes import (
     slack_notify,
     parse_session_info,
@@ -16,9 +13,9 @@ from algopipelines.flytedatapipeline.subworkflows.shape_fit_flow import shape_fi
 from algopipelines.flytedatapipeline.subworkflows.evaluation_flow import evaluation_flow
 from flytekit import workflow, conditional
 
+
 @workflow
 def smplx_proccess_pipeline(dummy: bool):
-
     pipeline_params = get_parameters(dummy=dummy)
     parsed_session_info = parse_session_info(dummy=dummy)
     parsed_takes_status = parse_takes_status(dummy=dummy)
@@ -34,20 +31,19 @@ def smplx_proccess_pipeline(dummy: bool):
     (common_algo_repo := git_clone(dummy=dummy).with_overrides(name="Clone CommonAlgo")) >> run_fit
 
     conditional_fit = conditional("dummy_condition_1").if_(run_fit.is_true()
-    ).then(shape_fit_flow(
+                                                           ).then(shape_fit_flow(
         dummy=dummy
     )).else_().then(skip())
 
     conditional_train_qt = conditional("should_train_qt").if_(dummy == True
-    ).then(qt_texture_training(
+                                                              ).then(qt_texture_training(
         dummy=dummy
     )).else_().then(skip())
 
     conditional_evaluation = conditional("should_run_evaluation").if_(dummy == True
-    ).then(evaluation_flow(
+                                                                      ).then(evaluation_flow(
         dummy=dummy
     )).else_().then(skip())
-
 
     # Dependencies that were handled by flyte before dummying the workflow:
 

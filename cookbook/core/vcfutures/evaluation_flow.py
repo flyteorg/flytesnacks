@@ -10,13 +10,12 @@ from algopipelines.flytedatapipeline.kubes import (
 )
 
 from flytekit import dynamic
-from flytekit.types.directory import FlyteDirectory
+
 
 @dynamic(**task_config(
     image='algopipelines-generic:v1',
     cpu='400m', memory='400Mi'))
-def evaluation_flow(dummy: bool,):
-
+def evaluation_flow(dummy: bool, ):
     evaluation_inputs = download_evaluation_inputs(dummy=dummy)
     evaluation_output = evaluation(dummy=dummy)
 

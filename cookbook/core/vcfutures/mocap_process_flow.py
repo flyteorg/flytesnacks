@@ -1,4 +1,4 @@
-from algopipelines.flytedatapipeline.kubes import (
+from . import (
     mocap_expression_process,
     upload_folder,
 )
