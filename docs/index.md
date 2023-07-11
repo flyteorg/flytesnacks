@@ -108,6 +108,7 @@ curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
 
 ````
 
+
 ## Creating a Workflow
 
 The first workflow we'll create is a simple model training workflow that consists
