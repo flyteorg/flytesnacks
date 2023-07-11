@@ -35,9 +35,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 # %% [markdown]
-# The use of the :py:func:`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
+# The use of the {py:func}`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
-# These types are standard Python types, which will be further explained in the :ref:`type-system section <flytekit_to_flyte_type_mapping>`.
+# These types are standard Python types, which will be further explained in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
 
 # %%
 @task

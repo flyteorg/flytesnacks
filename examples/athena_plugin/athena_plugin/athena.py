@@ -81,16 +81,16 @@ athena_task_templatized_query = AthenaTask(
     name="sql.athena.w_io",
     # Define inputs as well as their types that can be used to customize the query.
     inputs=kwtypes(iso_code=str),
-    task_config=AthenaConfig(database="vaccinations"),
+    task_config=AthenaConfig(workgroup="primary", catalog="AwsDataCatalog", database="vaccinations"),
     query_template="""
-    SELECT * FROM vaccinations where iso_code like  {{ .inputs.iso_code }}
+    SELECT * FROM vaccinations where iso_code like  '{{ .Inputs.iso_code }}'
     """,
     # While we define a generic schema as the output here, Flyte supports more strongly typed schemas to provide
-    # better compile-time checks for task compatibility. Refer to :py:class:`flytekit.FlyteSchema` for more details
+    # better compile-time checks for task compatibility. Refer to {py:class}`flytekit.FlyteSchema` for more details
     output_schema_type=FlyteSchema,
     # Cache the output data so we don't have to re-run the query in future workflow iterations
     # should we decide to change how we manipulate data downstream.
-    # For more information about caching, visit :ref:`Task Caching <task_cache>`
+    # For more information about caching, visit {ref}`Task Caching <task_cache>`
     cache=True,
     cache_version="1.0",
 )
@@ -103,7 +103,7 @@ athena_task_templatized_query = AthenaTask(
 @task
 def manipulate_athena_schema(s: FlyteSchema) -> FlyteSchema:
     df = s.open().all()
-    return df[df.total_vaccinations.notnull()]
+    return df
 
 
 @workflow

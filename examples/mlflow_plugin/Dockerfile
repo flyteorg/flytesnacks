@@ -24,7 +24,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-RUN pip install flytekitplugins-mlflow tensorflow protobuf==3.20.1
+COPY requirements.txt /root
+RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
 COPY . /root/
