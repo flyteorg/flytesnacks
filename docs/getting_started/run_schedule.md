@@ -50,7 +50,11 @@ object:
 from flytekit.remote import FlyteRemote
 from flytekit.configuration import Config
 
-remote = FlyteRemote(config=Config.auto())
+remote = FlyteRemote(
+    config=Config.auto(),
+    default_project="flytesnacks",
+    default_domain="development",
+)
 ```
 
 ## Running a Workflow
@@ -58,6 +62,11 @@ remote = FlyteRemote(config=Config.auto())
 You can run workflows using the `FlyteRemote` {py:meth}`~flytekit.remote.remote.FlyteRemote.execute`
 method, where you need to pass in a dictionary of `inputs` that adhere to the
 interface defined by the workflow.
+The Image below here has include workflows directory from 
+```{prompt} bash $
+pyflyte init my_project
+```
+and build the docker image from the DockerFile in the directory.
 
 `````{tabs}
 
@@ -70,7 +79,10 @@ environment, you can import and execute it directly:
 
 from workflows.example import wf
 
-execution = remote.execute(wf, inputs={"name": "Kermit"})
+execution = remote.execute(wf,
+    inputs={"name": "Kermit"},
+    image_config=ImageConfig.auto(img_name="futureoutlier/flyte-practice:latest"),
+)
 ```
 
 ````
