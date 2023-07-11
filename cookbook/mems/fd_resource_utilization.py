@@ -35,16 +35,19 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import psutil
-import structlog
+import logging
 from dataclasses_json import DataClassJsonMixin
-from flytekit import Resources, current_context, dynamic, task, workflow
-from flytekit.core.context_manager import FlyteContextManager
+from flytekit import Resources, current_context, dynamic, task, workflow, ImageSpec
 from flytekit.types.directory import FlyteDirectory
 
-logger = structlog.get_logger()
+logger = logging.getLogger()
 
-# ==============================================================================================
-# Config for the workflow defined below
+ps_image_spec = ImageSpec(
+    base_image="ghcr.io/flyteorg/flytekit:py3.10-1.8.0",
+    packages=["psutil"],
+    env={"Debug": "True"},
+    registry="ghcr.io/unionai-oss",
+)
 
 
 @dataclass
@@ -104,16 +107,13 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
     # many small files.
 
     logger.info(
-        "BEGIN upload_files",
-        folder=folder,
-        size=size,
-        many_files=many_files,
-        resident=mem_res(),
+        f"BEGIN upload_files " 
+        f"{folder=}, size={size}, {many_files=}, resident={mem_res()}"
     )
 
     # create or clean folder to write to
     folder = init_working_dir(folder)
-    logger.info("initialized working_dir", folder=folder, resident=mem_res())
+    logger.info(f"initialized working_dir {folder=}, resident={mem_res()}")
 
     if many_files:
         # if size is e.g. 2, write 1000 2MB files == 2GB total
@@ -125,12 +125,12 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
                 write_file(
                     subfolder + f"/big_file_{j}.bin", size * 1024 * 1024
                 )  # size in MBs
-        logger.info(
-            "wrote many files to folder",
-            size=du(folder),
-            folder=folder,
-            resident=mem_res(),
-        )
+        # logger.info(
+        #     "wrote many files to folder",
+        #     size=du(folder),
+        #     folder=folder,
+        #     resident=mem_res(),
+        # )
 
     else:
         # if size is e.g. 2, write a single 2GB file
@@ -159,7 +159,7 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
 # task to write files and upload them via FlyteDirectory
 
 
-@task
+@task(container_image=ps_image_spec)
 def write_files_and_upload(config: Config) -> FlyteDirectory:
     logger.info("BEGIN @task write_files_and_upload", config=config, resident=mem_res())
     fd = upload_files(
@@ -181,7 +181,7 @@ def write_files_and_upload(config: Config) -> FlyteDirectory:
 # task to download files to local folder via FlyteDirectory
 
 
-@task
+@task(container_image=ps_image_spec)
 def download_data_from_flyte_directory(fd: FlyteDirectory) -> str:
     logger.info("BEGIN @task download_data_from_flyte_directory", resident=mem_res())
     downloaded_path = fd.download()
@@ -200,8 +200,8 @@ def download_data_from_flyte_directory(fd: FlyteDirectory) -> str:
 # workflow; dynamic is used to allow with_overrides to specify configurable mem request for pod
 
 
-@dynamic
-def test_flytedirectory_resources_dyn(config: Config) -> str:
+@dynamic(container_image=ps_image_spec)
+def flytedirectory_resources_dyn(config: Config) -> str:
     o = {"requests": Resources(mem=f"{config.mem}Gi")}
     logger.info("begin dynamic", overrides=o, config=config)
     fd = write_files_and_upload(config=config).with_overrides(**o)
@@ -209,5 +209,5 @@ def test_flytedirectory_resources_dyn(config: Config) -> str:
 
 
 @workflow
-def test_flytedirectory_resources(config: Config) -> str:
-    return test_flytedirectory_resources_dyn(config=config)
+def flytedirectory_resources(config: Config) -> str:
+    return flytedirectory_resources_dyn(config=config)
