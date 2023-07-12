@@ -44,18 +44,19 @@ logger = logging.getLogger()
 
 ps_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.10-1.8.0",
-    packages=["psutil"],
+    packages=["psutil", "memray"],
     env={"Debug": "True"},
+    apt_packages=["git"],
     registry="ghcr.io/unionai-oss",
 )
 
 
 @dataclass
 class Config(DataClassJsonMixin):
-    folder: str  # name of the folder to write files to
     size: int  # total size in GB of file(s) to write and upload
     mem: int  # how much memory the pod should request, in GB
-    many_files: bool  # write one large file or many smaller files?
+    many_files: bool = False  # write one large file or many smaller files?
+    folder: str = ""  # name of the folder to write files to
 
 
 # ==============================================================================================
@@ -68,13 +69,18 @@ def du(path):
 
 # create/clean the folder into which the file(s) will be written for upload
 def init_working_dir(path):
-    if path:
+    if path and path != '""':
+        logger.error(f"Path was detected {path} {type(path)} {len(path)}")
         path = Path(path)
         if path.exists():
             shutil.rmtree(path)
     else:
+        logger.error(f"EAttempting to create working directory in {current_context().working_directory}")
+        print(f"Attempting to create working directory in {current_context().working_directory}")
+        logger.warning(f"Attempting to create working directory in {current_context().working_directory}")
         path = Path(current_context().working_directory) / "test"
 
+    logger.error(f"About to mkdir on {path}")
     path.mkdir(parents=True, exist_ok=True)
     return str(path)
 
@@ -107,7 +113,7 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
     # many small files.
 
     logger.info(
-        f"BEGIN upload_files " 
+        f"BEGIN upload_files "
         f"{folder=}, size={size}, {many_files=}, resident={mem_res()}"
     )
 
@@ -136,12 +142,7 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
         # if size is e.g. 2, write a single 2GB file
         fname = folder + "/big_file.bin"
         write_file(fname, size * 1024 * 1024 * 1024)  # size in GBs
-        logger.info(
-            "wrote single file to folder",
-            size=du(folder),
-            folder=folder,
-            resident=mem_res(),
-        )
+        logger.info(f"wrote single file to folder size={du(folder)}, {folder=}, resident={mem_res()}")
 
     # FlyteDirectory will cause folder to get uploaded to s3.  This call will return
     # immediately and resident memory will show low memory use.  In the case of 2GB pod-mem request
@@ -151,53 +152,35 @@ def upload_files(folder: str, size: int, many_files: bool) -> FlyteDirectory:
     # fsspec is consuming too much memory during the upload?
 
     fd = FlyteDirectory(folder)
-    logger.info("END upload_files", resident=mem_res())
+    logger.info(f"END upload_files resident={mem_res()}")
     return fd
-
-
-# ==============================================================================================
-# task to write files and upload them via FlyteDirectory
 
 
 @task(container_image=ps_image_spec)
 def write_files_and_upload(config: Config) -> FlyteDirectory:
+    import fsspec.config
+    fsspec.config.conf["gather_batch_size"] = 100
     logger.info("BEGIN @task write_files_and_upload", config=config, resident=mem_res())
     fd = upload_files(
         folder=config.folder, size=config.size, many_files=config.many_files
     )
 
-    logger.info(
-        "upload returned FlyteDirectory",
-        fd=fd,
-        remote_source=fd.remote_source,
-        resident=mem_res(),
-    )
-
-    logger.info("END @task write_files_and_upload", resident=mem_res())
+    logger.info(f"upload returned FlyteDirectory fd={fd}, remote_source={fd.remote_source}, resident={mem_res()}")
+    logger.info("END @task write_files_and_upload resident=mem_res()")
+    # import time; time.sleep(50000)
     return fd
-
-
-# ==============================================================================================
-# task to download files to local folder via FlyteDirectory
 
 
 @task(container_image=ps_image_spec)
 def download_data_from_flyte_directory(fd: FlyteDirectory) -> str:
-    logger.info("BEGIN @task download_data_from_flyte_directory", resident=mem_res())
+    logger.info("BEGIN @task download_data_from_flyte_directory, resident=mem_res()")
     downloaded_path = fd.download()
-    logger.info(
-        "fd.download() returned",
-        size=du(downloaded_path),
-        remote=fd.remote_source,
-        local=downloaded_path,
-        resident=mem_res(),
-    )
+    # logger.info(
+    #     "fd.download() returned", size=du(downloaded_path), remote=fd.remote_source, local=downloaded_path,
+    #     resident=mem_res(),
+    # )
     logger.info("END @task download_data_from_flyte_directory")
     return downloaded_path
-
-
-# ==============================================================================================
-# workflow; dynamic is used to allow with_overrides to specify configurable mem request for pod
 
 
 @dynamic(container_image=ps_image_spec)
@@ -211,3 +194,9 @@ def flytedirectory_resources_dyn(config: Config) -> str:
 @workflow
 def flytedirectory_resources(config: Config) -> str:
     return flytedirectory_resources_dyn(config=config)
+
+
+if __name__ == "__main__":
+    res = flytedirectory_resources(config=Config(folder="/Users/ytong/temp/large_files", size=1, many_files=True,
+                                                 mem=2))
+    print(res)

@@ -1,7 +1,7 @@
 import typing
 from datetime import timedelta
 
-from flytekit.core.gate import signal
+from flytekit.core.gate import approve, wait_for_input
 from flytekit.core.task import task
 from flytekit.core.workflow import workflow
 
@@ -19,10 +19,12 @@ def t2(a: int) -> int:
 @workflow
 def wf(a: int) -> typing.Tuple[int, int]:
     x = t1(a=a)
-    s1 = signal("my-signal-name", timeout=timedelta(hours=1), expected_type=bool)
-    s2 = signal("my-signal-name-2", timeout=timedelta(hours=2), expected_type=int)
+    s1 = wait_for_input("my-signal-name", timeout=timedelta(hours=1), expected_type=bool)
+    s2 = wait_for_input("my-signal-name-2", timeout=timedelta(hours=2), expected_type=int)
     z = t1(a=5)
     y = t2(a=s2)
+    x2 = t1(a=5)
+    t2(a=approve(x2, "approvetest", timeout=timedelta(hours=1)))
     x >> s1
     s1 >> z
 
