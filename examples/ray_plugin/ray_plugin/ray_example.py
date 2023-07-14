@@ -1,12 +1,21 @@
 # %% [markdown]
 # # Ray Tasks
 #
-# Ray task allows you to run a Ray job on an existing Ray cluster or create a Ray cluster by using the Ray operator.
+# The Ray task offers the capability to execute a Ray job either on a pre-existing Ray cluster or by creating a new Ray cluster using the Ray operator.
 #
-# Let's get started with an example!
+# Let's begin with an example to demonstrate the usage of the Ray task.
+#
+# :::{Warning}
+# **Known Bugs and Compatibility Issue with Kuberay Operator Versions**
+# Please note that there have been reports of various bugs and compatibility issues with recent versions of the Kuberay operator.
+# - Kuberay Operator Version 0.4: In this version, the reconcile logic of the operator was changed. As a result, when running a Ray job, the status of the job will always remain "pending." It is important to note that this change was not thoroughly tested by the Kuberay community before its release.
+# - Kuberay Operator Version 0.5: In this version, an init container is injected into the worker nodes. However, the operator failed to set the required resource limits (CPU, memory) for this init container. Consequently, running Ray jobs becomes problematic in Flyte because Kubernetes imposes resource quotas in every project-domain namespace, and these quotas necessitate that every container sets the CPU and memory limits.
+#
+# **Given these issues, it is crucial to be aware that the current Ray extension is compatible only with version 0.3.0 of the Kuberay operator.** It is recommended to use this specific version to ensure the proper functioning of the Ray extension.
+# :::
 
 # %% [markdown]
-# First, we load the libraries.
+# First, import the required libraries.
 # %%
 import typing
 
@@ -16,9 +25,7 @@ from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
 # %% [markdown]
-# ## Ray Task
-#
-# We define a ray_example [remote function](https://docs.ray.io/en/latest/ray-core/tasks.html#tasks) that will be executed asynchronously in the Ray cluster.
+# Create a Ray example where a [remote function](https://docs.ray.io/en/latest/ray-core/tasks.html#tasks) is defined, which will be executed asynchronously in the Ray cluster.
 # %%
 @ray.remote
 def f(x):
@@ -26,14 +33,11 @@ def f(x):
 
 
 # %% [markdown]
-# ## Defining a Ray Config
-#
-# We create a HeadNodeConfig and WorkerNodeConfig for the Ray job, and these config will be used by Ray operator to launch a Ray cluster before running the task.
-#
-# - `ray_start_params`: [RayStartParams](https://docs.ray.io/en/latest/ray-core/package-ref.html#ray-start) are the params of the start command: address, object-store-memory
-# - `replicas`: Desired replicas of the worker group. Defaults to 1.
-# - `group_name`: RayCluster can have multiple worker groups, and it distinguishes them by name
-# - `runtime_env`: A [runtime environment](https://docs.ray.io/en/latest/ray-core/handling-dependencies.html#runtime-environments) describes the dependencies your Ray application needs to run, and it's installed dynamically on the cluster at runtime.
+# Prepare a `HeadNodeConfig` and `WorkerNodeConfig` for the Ray job, which will be utilized by the Ray operator to launch a Ray cluster prior to executing the task.
+# * `ray_start_params`: [RayStartParams](https://docs.ray.io/en/latest/ray-core/package-ref.html#ray-start) are the parameters used in the start command, such as the address and object-store-memory.
+# * `replicas`: Specifies the desired number of replicas for the worker group. The default value is 1.
+# * `group_name`: A Ray cluster can consist of multiple worker groups, distinguished by their respective names.
+# * `runtime_env`: A [runtime environment](https://docs.ray.io/en/latest/ray-core/handling-dependencies.html#runtime-environments) defines the dependencies necessary for your Ray application to run. These dependencies are dynamically installed on the cluster at runtime.
 # %%
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}),
@@ -43,13 +47,11 @@ ray_config = RayJobConfig(
 
 
 # %% [markdown]
-# ## Defining a Ray Task
-#
-# We use [Ray job submission](https://docs.ray.io/en/latest/cluster/job-submission.html#job-submission-architecture) to run our ray_example tasks.
-# ray_task will be called in the Ray head node, and f.remote(i) will be executed asynchronously on separate Ray workers
+# To execute the Ray tasks, utilize [Ray job submission](https://docs.ray.io/en/latest/cluster/job-submission.html#job-submission-architecture) architecture.
+# The `ray_task` function will be invoked on the Ray head node, while `f.remote(i)` will be asynchronously executed on individual Ray workers.
 #
 # :::{note}
-# The Resources here is used to define the resource of worker nodes
+# `Resources` configuration is employed to specify the resource requirements for the worker nodes.
 # :::
 # %%
 @task(task_config=ray_config, limits=Resources(mem="2000Mi", cpu="1"))
@@ -59,9 +61,7 @@ def ray_task(n: int) -> typing.List[int]:
 
 
 # %% [markdown]
-# ## Workflow
-#
-# Finally we define a workflow to call the `ray_workflow` task.
+# Finally establish a workflow to call the `ray_task`.
 # %%
 @workflow
 def ray_workflow(n: int) -> typing.List[int]:
@@ -69,7 +69,7 @@ def ray_workflow(n: int) -> typing.List[int]:
 
 
 # %% [markdown]
-# We can run the code locally wherein Flyte creates a standalone Ray cluster locally.
+# Execute the code locally, wherein Flyte generates a self-contained Ray cluster locally.
 # %%
 if __name__ == "__main__":
     print(ray_workflow(n=10))
@@ -77,10 +77,9 @@ if __name__ == "__main__":
 # %% [markdown]
 # ## Troubleshooting
 #
-# If you notice that the head and worker pods aren't being created. You need to make sure that ray[default] is installed since that supports the cluster and dashboard launcher
+# If you encounter the situation where the head and worker pods are not being created, ensure that the ``ray[default]`` package is installed since it supports the cluster and dashboard launcher.
 #
-# Another error you might run into is an ingress errors in the kuberay-operator logs
-# If you see an error along the lines of:
+# Another potential error you may come across is related to ingress errors in the kuberay-operator logs. If you observe an error message similar to the following:
 #
 # ````
 # ERROR controllers.RayCluster Ingress create error!
@@ -90,5 +89,4 @@ if __name__ == "__main__":
 # }
 # ````
 #
-# You need to make sure that the ingress controller is [installed](https://docs.flyte.org/en/latest/deployment/gcp/manual.html#ingress)
-#
+# You need to ensure that the ingress controller is properly installed. Refer to the documentation on how to install the ingress controller: [Installation Guide](https://docs.flyte.org/en/latest/deployment/gcp/manual.html#ingress).

@@ -86,7 +86,6 @@ You can also update the {ref}`Dockerfile <getting_started_dockerfile>` if you
 want to use a different base image or if the additional Python dependencies
 require installing binaries or packages from other languages.
 
-
 ## Registration Patterns
 
 There are different methods of registering your workflows to a Flyte cluster
@@ -100,9 +99,9 @@ following use cases:
 
 (getting_started_register_pyflyte_run)=
 
-### Iterating on a Single Workflow Script
+### Iterating on a Single Task or Workflow
 
-The quickest way to register a workflow to a Flyte cluster is with the
+The quickest way to register a task or workflow to a Flyte cluster is with the
 `pyflyte run` CLI command. Assuming that you're inside the `my_project` directory
 that we created in {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>`,
 you can invoke it like so:
@@ -128,10 +127,9 @@ run it with the supplied arguments. As you can see from the expected output, you
 can visit the link to the Flyte console to see the progress of your running
 execution.
 
-```{important}
-Currently, `pyflyte run` only supports Flyte workflows that are in self-contained
-scripts, meaning that it shouldn't import any other user-defined modules that
-contain other tasks or workflows.
+```{note}
+`pyflyte run` supports Flyte workflows that import any other user-defined modules that
+contain additional tasks or workflows.
 ```
 
 (getting_started_pyflyte_register)=
@@ -208,8 +206,8 @@ In the next guide you'll learn about how to run your workflows programmatically.
 `pyflyte register` packages up your code through a mechanism called
 **fast registration**. Fast registration is useful when you already have a
 container image that's hosted in your container registry of choice and you change
-your workflow/task code *without any changes in your system-level/python
-dependencies*. At a high level, fast registration:
+your workflow/task code _without any changes in your system-level/python
+dependencies_. At a high level, fast registration:
 
 1. 📦 **Packages** and zips up the directory/file that you specify as the argument to
    `pyflyte register`, along with any files in the root directory of your
