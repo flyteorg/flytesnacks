@@ -33,8 +33,8 @@ on your local machine.
 :title: text-muted
 :animate: fade-in-slide-down
 
-The introduction below is also available on a hosted sandbox environment, where
-you can get started with Flyte without installing anything locally.
+Union.ai provides a hosted sandbox environment, free of charge, where you can
+get started with Flyte without installing anything locally.
 
 ```{link-button} https://sandbox.union.ai/
 ---
@@ -73,10 +73,10 @@ First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK
 pip install flytekit scikit-learn
 ```
 
-Then install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
+Next install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
 which the command-line interface for interacting with a Flyte backend.
 
-````{tabbed} Homebrew
+````{tabbed} Homebrew (macOS)
 
 ```{prompt} bash $
 brew install flyteorg/homebrew-tap/flytectl
@@ -84,13 +84,22 @@ brew install flyteorg/homebrew-tap/flytectl
 
 ````
 
-````{tabbed} Curl
+````{tabbed} Curl (Unix-like)
 
 ```{prompt} bash $
 curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
 ```
 
 ````
+
+````{tabbed} Windows
+
+```{prompt} C:\>
+TODO
+```
+
+````
+
 
 ## Creating a Workflow
 
@@ -99,13 +108,13 @@ of three steps that will:
 
 1. 🍷 Get the classic [wine dataset](https://scikit-learn.org/stable/datasets/toy_dataset.html#wine-recognition-dataset)
    using [sklearn](https://scikit-learn.org/stable/).
-2. 📊 Process the data that simplifies the 3-class prediction problem into a
-   binary classification problem by consolidating class labels `1` and `2` into
-   a single class.
-3. 🤖 Train a `LogisticRegression` model to learn a binary classifier.
+2. 📊 Process the data by simplifying its 3-class prediction problem into a binary
+   classification problem by consolidating class labels 1 and 2 into a single
+   class.
+3. 🤖 Train a `LogisticRegression` model to create a binary classifier.
 
-First, we'll define three tasks for each of these steps. Create a file called
-`example.py` and copy the following code into it.
+Let's define three tasks, corresponding to each of these steps. Create a
+file called example.py and copy the following code into it.
 
 ```{code-cell} python
 :tags: [remove-output]
@@ -126,7 +135,9 @@ def get_data() -> pd.DataFrame:
 @task
 def process_data(data: pd.DataFrame) -> pd.DataFrame:
     """Simplify the task from a 3-class to a binary classification problem."""
-    return data.assign(target=lambda x: x["target"].where(x["target"] == 0, 1))
+    df = data.copy()
+    df.loc[df.target == 0, "target"] = 1
+    return df
 
 @task
 def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression:
@@ -139,10 +150,11 @@ def train_model(data: pd.DataFrame, hyperparameters: dict) -> LogisticRegression
 As we can see in the code snippet above, we defined three tasks as Python
 functions: `get_data`, `process_data`, and `train_model`.
 
-In Flyte, **tasks** are the most basic unit of compute and serve as the building
-blocks 🧱 for more complex applications. A task is a function that takes some
-inputs and produces an output. We can use these tasks to define a simple model
-training workflow:
+In Flyte, **tasks** are the most basic "unit of compute" (per Kubernetes
+jargon) and serve as the building blocks 🧱 for more complex applications. 
+At its core, a task is simply a function: it takes inputs and produces and 
+output. We can use these tasks to define a simple model training workflow:
+
 
 ```{code-cell} python
 @workflow
@@ -165,7 +177,7 @@ is typically written with inputs and outputs.
 A **workflow** is also defined as a Python function, and it specifies the flow
 of data between tasks and, more generally, the dependencies between tasks 🔀.
 
-::::{dropdown} {fa}`info-circle` The code above looks like Python, but what do `@task` and `@workflow` do exactly?
+::::{dropdown} {fa}`info-circle` This looks like typical Python, but what do `@task` and `@workflow` do?
 :title: text-muted
 :animate: fade-in-slide-down
 
@@ -173,7 +185,7 @@ Flyte `@task` and `@workflow` decorators are designed to work seamlessly with
 your code-base, provided that the *decorated function is at the top-level scope
 of the module*.
 
-This means that you can invoke tasks and workflows as regular Python methods and
+This means that you can invoke tasks and workflows as regular Python functions and
 even import and use them in other Python modules or scripts.
 
 :::{note}
@@ -202,16 +214,19 @@ pyflyte run example.py training_workflow \
 :animate: fade-in-slide-down
 
 If you're using Bash, you can ignore this 🙂
-You may need to add .local/bin to your PATH variable if it's not already set,
-as that's not automatically added for non-bourne shells like fish or xzsh.
-
-To use pyflyte, make sure to set the /.local/bin directory in PATH
+You may need to add .local/bin to your PATH variable if it's not already set;
+it may not automatically get added for non-bourne shells.  For example, if you 
+use `fish` or `csh`, you can set this with:
 
 :::{code-block} fish
-set -gx PATH $PATH ~/.local/bin
+set -gx PATH $PATH ~/.local/bin  # fish
 :::
-:::::
 
+:::{code-block} csh
+set path = ($path $HOME/.local/bin)  # csh/tcsh
+:::
+
+:::::
 
 
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
@@ -223,7 +238,9 @@ set -gx PATH $PATH ~/.local/bin
 
 Keyword arguments can be supplied to ``pyflyte run`` by passing in options in
 the format ``--kwarg value``, and in the case of ``snake_case_arg`` argument
-names, you can pass in options in the form of ``--snake-case-arg value``.
+names, you can optionally spell them as "kebab case," for example as
+``--snake-case-arg value``.
+
 
 ::::{note}
 If you want to run a workflow with `python example.py`, you would have to write
@@ -347,8 +364,8 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 ## What's Next?
 
 Follow the rest of the sections in the documentation to get a better
-understanding of the key constructs that make Flyte such a powerful
-orchestration tool 💪.
+understanding of the key constructs that make Flyte a powerful orchestration
+tool 💪.
 
 ```{admonition} Recommendation
 :class: tip

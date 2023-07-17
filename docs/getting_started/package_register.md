@@ -269,7 +269,7 @@ By default, the `docker_build.sh` script:
 - Uses the `PROJECT_NAME` specified in the `pyflyte init` command, which in
   this case is `my_project`.
 - Will not use any remote registry.
-- Uses the git sha to version your tasks and workflows.
+- Uses the git revision SHA1 to version your tasks and workflows.
 ```
 
 You can override the default values with the following flags:
@@ -367,7 +367,7 @@ Let's break down what each flag is doing here:
 - `--archive`: This argument allows you to pass in a package file, which in
   this case is `flyte-package.tgz`.
 - `--version`: This is a version string that can be any string, but we recommend
-  using the git sha in general, especially in production use cases.
+  using the git revision in general, especially in production use cases.
 
 ### Using `pyflyte register` versus `pyflyte package` + `flytectl register`
 

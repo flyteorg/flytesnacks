@@ -30,6 +30,10 @@ In this setup guide, let's run the `examples/basics` project.
 
 ```{prompt} bash
 git clone https://github.com/flyteorg/flytesnacks
+# ... or if your SSH key is registered on GitHub:
+# git clone git@github.com:flyteorg/flytesnacks.git
+# Or if you use the `gh` tool:
+# gh repo clone flyteorg/flytesnacks
 cd flytesnacks/examples/basics
 pip install -r requirements.txt
 ```
@@ -67,8 +71,9 @@ pyflyte run basics/hello_world.py my_wf
 ```
 
 :::{note}
-The first couple arguments of `pyflyte run` is in the form of `path/to/script.py <workflow_name>`, where
-`<workflow_name>` is the function decorated with `@workflow` that you want to run.
+The first two arguments to `pyflyte run` have the form of 
+`path/to/script.py <workflow_name>`, where `<workflow_name>` is the function 
+decorated with `@workflow` that you want to run.
 :::
 
 To run the workflow on the demo Flyte cluster, all you need to do is supply the `--remote` flag:
@@ -103,7 +108,11 @@ option as `--arg-name`.
 
 ## Visualizing Workflows
 
-Workflows can be visualized as DAGs on the UI. However, you can visualize workflows on the browser and in the terminal by *just* using your terminal.
+Workflows can be visualized as DAGs in the UI. You can also visualize workflows
+from your terminal that will be displayed in your default web browser. This
+visualization uses the service at graph.flyte.org to render Graphviz diagrams,
+and hence shares your DAG (but not your data or code) with an outside party 
+(security hint 🔐).
 
 To view workflow on the browser:
 
@@ -127,15 +136,20 @@ flytectl get workflows \
     basics.basic_workflow.my_wf
 ```
 
-Replace `<version>` with version from console UI, it may look something like `BLrGKJaYsW2ME1PaoirK1g==`
+Replace `<version>` with the base64-encoded version shown in the console UI,
+that looks something like `BLrGKJaYsW2ME1PaoirK1g==`.
 
 :::{tip}
-Running most of the examples in the **User Guide** only requires the default Docker image that ships with Flyte.
-Many examples in the {ref}`tutorials` and {ref}`integrations` section depend on additional libraries, `sklearn`,
-`pytorch`, or `tensorflow`, which will not work with the default docker image used by `pyflyte run`.
 
-These examples will explicitly show you which images to use for running these examples by passing in the docker
-image you want to use with the `--image` option in `pyflyte run`.
+Running most of the examples in the **User Guide** only requires the default
+Docker image that ships with Flyte. Many examples in the {ref}`tutorials` and
+{ref}`integrations` section depend on additional libraries such as `sklearn`,
+`pytorch`, or `tensorflow`, which will not work with the default docker image 
+used by `pyflyte run`.
+
+These examples will explicitly show you which images to use for running these
+examples by passing in the docker image you want to use with the `--image`
+option in `pyflyte run`.
 :::
 
 🎉 Congrats! Now you can run all the examples in the {ref}`userguide` 🎉
