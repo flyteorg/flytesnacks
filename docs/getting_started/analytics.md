@@ -106,6 +106,7 @@ tags: [remove-input]
 import logging
 import os
 import re
+from pythonjsonlogger import jsonlogger
 from IPython.display import HTML
 
 
@@ -149,15 +150,6 @@ analytics_workflow()
 ---
 tags: [remove-input]
 ---
-logger.removeFilter(deck_filter)
-for log in deck_filter.logs:
-    print(log)
-```
-
-```{code-cell} ipython3
----
-tags: [remove-input]
----
 
 import os
 import shutil
@@ -171,6 +163,8 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
+for log in deck_filter.logs:
+    print(log)
 print(deck_filter.deck_files)
 HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 ```
