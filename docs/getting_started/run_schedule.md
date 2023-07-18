@@ -231,7 +231,7 @@ launch_plan = LaunchPlan.get_or_create(
     wf,
     name="wf_launchplan",
     # run this launchplan every minute
-    schedule=CronSchedule(schedule="*/1 * * * *")
+    schedule=CronSchedule(schedule="*/1 * * * *"),
     default_inputs={"name": "Elmo"},
 )
 ```
