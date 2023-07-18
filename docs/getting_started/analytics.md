@@ -113,14 +113,23 @@ class DeckFilter(logging.Filter):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.formatter = jsonlogger.JsonFormatter(
+            fmt="%(asctime)s %(name)s %(levelname)s %(message)s"
+        )
+        self.logs = []
         self.deck_files = {}
 
     def filter(self, record):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
-        matches = re.match(patt, record.getMessage())
+        msg = record.getMessage()
+        matches = re.match(patt, msg)
+
+        if msg == "Connection error. Skip stats collection.":
+            return False
+
         if matches:
             task, filepath = matches.group(1), matches.group(2)
-            import ipdb; ipdb.set_trace()
+            self.logs.append(self.formatter.format(record))
             self.deck_files[task] = re.sub("^file://", "", filepath)
         return False
 
@@ -140,6 +149,15 @@ analytics_workflow()
 ---
 tags: [remove-input]
 ---
+logger.removeFilter(deck_filter)
+for log in deck_filter.logs:
+    print(log)
+```
+
+```{code-cell} ipython3
+---
+tags: [remove-input]
+---
 
 import os
 import shutil
@@ -153,6 +171,7 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
+print(deck_filter.deck_files)
 HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 ```
 
