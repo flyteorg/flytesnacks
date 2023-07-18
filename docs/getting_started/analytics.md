@@ -163,9 +163,6 @@ def cp_deck(src):
     return target / "deck.html"
 
 logger.removeFilter(deck_filter)
-for log in deck_filter.logs:
-    print(log)
-print(deck_filter.deck_files)
 HTML(filename=cp_deck(deck_filter.deck_files["plot"]))
 ```
 
