@@ -120,6 +120,7 @@ class DeckFilter(logging.Filter):
         matches = re.match(patt, record.getMessage())
         if matches:
             task, filepath = matches.group(1), matches.group(2)
+            import ipdb; ipdb.set_trace()
             self.deck_files[task] = re.sub("^file://", "", filepath)
         return False
 
