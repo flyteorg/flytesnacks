@@ -6,11 +6,11 @@
 #
 adlfs==2023.4.0
     # via flytekit
-agate==1.7.0
+agate==1.6.3
     # via dbt-core
 aiobotocore==2.5.2
     # via s3fs
-aiohttp==3.8.4
+aiohttp==3.8.5
     # via
     #   adlfs
     #   aiobotocore
@@ -28,7 +28,6 @@ attrs==23.1.0
     # via
     #   aiohttp
     #   jsonschema
-    #   referencing
 azure-core==1.28.0
     # via
     #   adlfs
@@ -63,7 +62,7 @@ charset-normalizer==3.2.0
     # via
     #   aiohttp
     #   requests
-click==8.1.3
+click==8.1.6
     # via
     #   cookiecutter
     #   dbt-core
@@ -71,7 +70,7 @@ click==8.1.3
     #   rich-click
 cloudpickle==2.2.1
     # via flytekit
-colorama==0.4.6
+colorama==0.4.5
     # via dbt-core
 cookiecutter==2.2.3
     # via flytekit
@@ -84,15 +83,15 @@ cryptography==41.0.2
     #   msal
     #   pyjwt
     #   pyopenssl
-dataclasses-json==0.5.12
+dataclasses-json==0.5.9
     # via flytekit
-dbt-core==1.5.3
+dbt-core==1.2.6
     # via
     #   dbt-postgres
     #   flytekitplugins-dbt
 dbt-extractor==0.4.1
     # via dbt-core
-dbt-postgres==1.5.3
+dbt-postgres==1.2.6
     # via -r requirements.in
 decorator==5.1.1
     # via gcsfs
@@ -108,8 +107,10 @@ docstring-parser==0.15
     # via flytekit
 flyteidl==1.5.13
     # via flytekit
-flytekit==1.8.0
-    # via flytekitplugins-dbt
+flytekit==1.8.1
+    # via
+    #   -r requirements.in
+    #   flytekitplugins-dbt
 flytekitplugins-dbt==1.8.1
     # via -r requirements.in
 frozenlist==1.4.0
@@ -164,7 +165,7 @@ grpcio==1.56.0
     #   grpcio-status
 grpcio-status==1.56.0
     # via flytekit
-hologram==0.0.16
+hologram==0.0.15
     # via dbt-core
 idna==3.4
     # via
@@ -176,10 +177,7 @@ importlib-metadata==6.8.0
     #   flytekit
     #   keyring
 importlib-resources==6.0.0
-    # via
-    #   jsonschema
-    #   jsonschema-specifications
-    #   keyring
+    # via keyring
 isodate==0.6.1
     # via
     #   agate
@@ -187,7 +185,7 @@ isodate==0.6.1
     #   dbt-core
 jaraco-classes==3.3.0
     # via keyring
-jinja2==3.1.2
+jinja2==2.11.3
     # via
     #   cookiecutter
     #   dbt-core
@@ -195,10 +193,8 @@ jmespath==1.0.1
     # via botocore
 joblib==1.3.1
     # via flytekit
-jsonschema==4.18.4
+jsonschema==3.2.0
     # via hologram
-jsonschema-specifications==2023.7.1
-    # via jsonschema
 keyring==24.2.0
     # via flytekit
 kubernetes==27.2.0
@@ -209,17 +205,22 @@ logbook==1.5.3
     # via dbt-core
 markdown-it-py==3.0.0
     # via rich
-markupsafe==2.1.3
+markupsafe==2.0.1
     # via
+    #   dbt-core
     #   jinja2
-    #   werkzeug
 marshmallow==3.19.0
     # via
     #   dataclasses-json
+    #   marshmallow-enum
     #   marshmallow-jsonschema
+marshmallow-enum==1.5.1
+    # via
+    #   dataclasses-json
+    #   flytekit
 marshmallow-jsonschema==0.13.0
     # via flytekit
-mashumaro[msgpack]==3.6
+mashumaro==2.9
     # via dbt-core
 mdurl==0.1.2
     # via markdown-it-py
@@ -255,7 +256,7 @@ oauthlib==3.2.2
     # via
     #   kubernetes
     #   requests-oauthlib
-packaging==23.1
+packaging==21.3
     # via
     #   dbt-core
     #   docker
@@ -264,10 +265,6 @@ pandas==1.5.3
     # via flytekit
 parsedatetime==2.4
     # via agate
-pathspec==0.11.1
-    # via dbt-core
-pkgutil-resolve-name==1.3.10
-    # via jsonschema
 portalocker==2.7.0
     # via msal-extensions
 protobuf==4.23.4
@@ -298,6 +295,10 @@ pyjwt[crypto]==2.8.0
     # via msal
 pyopenssl==23.2.0
     # via flytekit
+pyparsing==3.1.0
+    # via packaging
+pyrsistent==0.19.3
+    # via jsonschema
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -323,17 +324,13 @@ pytz==2023.3
     #   dbt-core
     #   flytekit
     #   pandas
-pyyaml==6.0.1
+pyyaml==5.4.1
     # via
     #   cookiecutter
-    #   dbt-core
     #   flytekit
     #   kubernetes
+    #   mashumaro
     #   responses
-referencing==0.30.0
-    # via
-    #   jsonschema
-    #   jsonschema-specifications
 regex==2023.6.3
     # via docker-image-py
 requests==2.31.0
@@ -364,20 +361,18 @@ rich==13.4.2
     #   rich-click
 rich-click==1.6.1
     # via flytekit
-rpds-py==0.9.2
-    # via
-    #   jsonschema
-    #   referencing
 rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
 six==1.16.0
     # via
+    #   agate
     #   azure-core
     #   azure-identity
     #   google-auth
     #   isodate
+    #   jsonschema
     #   kubernetes
     #   leather
     #   minimal-snowplow-tracker
@@ -386,7 +381,7 @@ smmap==5.0.0
     # via gitdb
 sortedcontainers==2.4.0
     # via flytekit
-sqlparse==0.4.4
+sqlparse==0.4.3
     # via dbt-core
 statsd==3.3.0
     # via flytekit
@@ -419,7 +414,7 @@ websocket-client==1.6.1
     # via
     #   docker
     #   kubernetes
-werkzeug==2.3.6
+werkzeug==2.1.2
     # via dbt-core
 wheel==0.40.0
     # via flytekit
@@ -434,3 +429,6 @@ zipp==3.16.2
     # via
     #   importlib-metadata
     #   importlib-resources
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
