@@ -82,7 +82,7 @@ charset-normalizer==3.2.0
     # via
     #   aiohttp
     #   requests
-click==8.1.5
+click==8.1.6
     # via
     #   cookiecutter
     #   flytekit
@@ -501,7 +501,7 @@ pygments==2.15.1
     #   sphinx
     #   sphinx-prompt
     #   sphinx-tabs
-pyjwt[crypto]==2.7.0
+pyjwt[crypto]==2.8.0
     # via msal
 pyopenssl==23.2.0
     # via flytekit
