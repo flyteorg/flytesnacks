@@ -94,7 +94,7 @@ import os
 import re
 import shutil
 from pythonjsonlogger import jsonlogger
-from IPython.display import HTML, IFrame
+from IPython.display import HTML
 from pathlib import Path
 
 

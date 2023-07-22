@@ -1,0 +1,3 @@
+flytekit>=1.8.1
+flytekitplugins-dbt
+dbt-postgres
