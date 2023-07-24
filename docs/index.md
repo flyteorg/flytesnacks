@@ -70,7 +70,7 @@ Kubernetes cluster so that you can interact with it on your machine.
 First install [flytekit](https://pypi.org/project/flytekit/), Flyte's Python SDK and [Scikit-learn](https://scikit-learn.org/stable).
 
 ```{prompt} bash $
-pip install flytekit flyekitplugins-deck-standard scikit-learn
+pip install flytekit flytekitplugins-deck-standard scikit-learn
 ```
 
 Next install [flytectl](https://docs.flyte.org/projects/flytectl/en/latest/),
