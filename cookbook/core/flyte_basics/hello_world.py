@@ -25,6 +25,8 @@ def say_hello() -> str:
 
     #coooooolstuff, #intro #autonomouscars
     """
+
+    print("this is a print")
     return "hello world"
 
 
