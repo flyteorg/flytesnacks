@@ -192,3 +192,28 @@
 # kubectl rollout restart deployment flytepropeller -n flyte
 # ```
 #
+# ### How to read a secret in the agent
+#
+# To read a secret in the agent, you can either mount secrets as files or environment variables.
+#
+# #### Local Development
+# - Write the secret to a file (/etc/secrets/agent/secret1).
+# - Add the secret to the environment variable (_FSEC_AGENT_SECRET1).
+#
+# ```python
+# def create(
+#     self,
+#     context: grpc.ServicerContext,
+#     output_prefix: str,
+#     task_template: TaskTemplate,
+#     inputs: Optional[LiteralMap] = None,
+# ) -> CreateTaskResponse:
+#   context = flytekit.current_context()
+#   token = context.secrets.get("agent", "secret1")
+#   jobId = job.create(token=token, ...)
+#   ...
+# ```
+#
+# #### Agent in th Cluster
+# When agent is running in the cluster, the secret must be manually mounted to the agent pod or added as an environment variable.
+#
