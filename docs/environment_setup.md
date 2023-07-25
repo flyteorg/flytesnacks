@@ -30,10 +30,12 @@ In this setup guide, let's run the `examples/basics` project.
 
 ```{prompt} bash
 git clone https://github.com/flyteorg/flytesnacks
-# ... or if your SSH key is registered on GitHub:
-# git clone git@github.com:flyteorg/flytesnacks.git
-# Or if you use the `gh` tool:
-# gh repo clone flyteorg/flytesnacks
+
+# or if your SSH key is registered on GitHub:
+git clone git@github.com:flyteorg/flytesnacks.git
+
+# or if you use the `gh` tool:
+gh repo clone flyteorg/flytesnacks
 cd flytesnacks/examples/basics
 pip install -r requirements.txt
 ```
