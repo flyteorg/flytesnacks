@@ -17,7 +17,7 @@ snowflake_task_no_io = SnowflakeTask(
     query_template="SELECT 1",
     output_schema_type=None,
     task_config=SnowflakeConfig(
-        account="gvujfpc-wi00331",
+        account="<>",
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",
@@ -65,7 +65,7 @@ snowflake_task_templatized_query = SnowflakeTask(
     # Define inputs as well as their types that can be used to customize the query.
     inputs=kwtypes(nation_key=int),
     task_config=SnowflakeConfig(
-        account="gvujfpc-wi00331",
+        account="<>",
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",

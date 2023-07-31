@@ -67,7 +67,7 @@ from flytekitplugins.spark import Databricks
                 "node_type_id": "r3.xlarge", 
                 "aws_attributes": {
                     "availability": "ON_DEMAND",
-                    "instance_profile_arn": "arn:aws:iam::590375264460:instance-profile/databricks-flyte-integration",
+                    "instance_profile_arn": "arn:aws:iam::12345678:instance-profile/databricks-flyte-integration",
                 },
                 "num_workers": 4,   
             },
