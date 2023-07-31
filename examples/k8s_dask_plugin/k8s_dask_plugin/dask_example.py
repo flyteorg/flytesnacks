@@ -63,12 +63,14 @@
 
 # %%
 from dask import array as da
-from flytekit import Resources, task
+from flytekit import Resources, task, ImageSpec
 
 # %% [markdown]
 # The following imports are required to configure the Dask cluster in Flyte
 # %%
 from flytekitplugins.dask import Dask, WorkerGroup
+
+custom_image = ImageSpec(name="dask-flyte-example", registry="samhitaalla", packages=["flytekitplugins-dask"])
 
 # %% [markdown]
 # ### Dask Task Sample
@@ -76,6 +78,7 @@ from flytekitplugins.dask import Dask, WorkerGroup
 # This example shows how a Dask task can be written simply by adding a `@task(task_config=Dask(...), ...)` decorator.
 # Refer to the [Dask](https://github.com/flyteorg/flytekit/blob/4b1675ffb85648dc5742e9a6dea98b94714963e1/plugins/flytekit-dask/flytekitplugins/dask/task.py#L54-L63)
 # class to understand the various configuration options.
+
 
 # %%
 @task(
@@ -86,8 +89,7 @@ from flytekitplugins.dask import Dask, WorkerGroup
         ),
     ),
     limits=Resources(cpu="1", mem="2Gi"),
-    cache_version="1",
-    cache=True,
+    container_image=custom_image,
 )
 def hello_dask(size: int) -> float:
     # Dask will implicitly create a Client in the background by calling Client(). When executing

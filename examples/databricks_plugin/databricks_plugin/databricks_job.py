@@ -64,18 +64,18 @@ from flytekitplugins.spark import Databricks
             "run_name": "flytekit databricks plugin example",
             "new_cluster": {
                 "spark_version": "11.0.x-scala2.12",
-                "node_type_id": "r3.xlarge",
+                "node_type_id": "r3.xlarge", 
                 "aws_attributes": {
                     "availability": "ON_DEMAND",
-                    "instance_profile_arn": "arn:aws:iam::1237657460:instance-profile/databricks-s3-role",
+                    "instance_profile_arn": "arn:aws:iam::590375264460:instance-profile/databricks-flyte-integration",
                 },
-                "num_workers": 4,
+                "num_workers": 4,   
             },
-            "timeout_seconds": 3600,
-            "max_retries": 1,
+            "timeout_seconds": 3600,  
+            "max_retries": 1,  
         },
-    ),
-    limits=Resources(mem="2000M"),
+    ), 
+    limits=Resources(mem="2000M"), 
     cache_version="1",
 )
 def hello_spark(partitions: int) -> float:
@@ -111,16 +111,14 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 # This workflow shows that a spark task and any python function (or a Flyte task) can be chained together as long as they match the parameter specifications.
 # %%
 @workflow
-def my_databricks_job(
-    triggered_date: datetime.datetime = datetime.datetime.now(),
-) -> float:
+def my_databricks_job(triggered_date: datetime.datetime = datetime.datetime.now()) -> float:
     """
     Using the workflow is still as any other workflow. As image is a property of the task, the workflow does not care
     about how the image is configured.
     """
-    pi = hello_spark(partitions=50)
+    pi = hello_spark(partitions=1)
     print_every_time(value_to_print=pi, date_triggered=triggered_date)
-    return pi
+    return pi 
 
 
 # %% [markdown]

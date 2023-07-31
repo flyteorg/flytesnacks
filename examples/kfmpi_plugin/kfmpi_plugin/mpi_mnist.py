@@ -10,12 +10,11 @@ import os
 import pathlib
 
 import flytekit
-import horovod.tensorflow as hvd
 import tensorflow as tf
 from flytekit import Resources, task, workflow
 from flytekit.core.base_task import IgnoreOutputs
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.kfmpi import MPIJob
+from flytekitplugins.kfmpi import MPIJob, Launcher, Worker
 
 
 # %% [markdown]
@@ -25,6 +24,8 @@ from flytekitplugins.kfmpi import MPIJob
 # %%
 @tf.function
 def training_step(images, labels, first_batch, mnist_model, loss, opt):
+    import horovod.tensorflow as hvd
+
     with tf.GradientTape() as tape:
         probs = mnist_model(images, training=True)
         loss_value = loss(labels, probs)
@@ -62,17 +63,22 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
 # %%
 @task(
     task_config=MPIJob(
-        num_workers=2,
-        num_launcher_replicas=1,
-        slots=1,
+        launcher=Launcher(
+            replicas=1,
+        ),
+        worker=Worker(
+            replicas=1,
+        ),
     ),
     retries=3,
     cache=True,
-    cache_version="0.1",
-    requests=Resources(cpu="1", mem="2000Mi"),
+    cache_version="0.2",
+    requests=Resources(cpu="1", mem="1000Mi"),
     limits=Resources(cpu="2"),
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
+    import horovod.tensorflow as hvd
+
     """
     :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
     :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.

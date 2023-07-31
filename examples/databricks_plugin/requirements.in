@@ -1,1 +1,2 @@
-flytekitplugins-spark>=v1.3.0b5
+flytekitplugins-spark==1.8.2
+marshmallow_enum

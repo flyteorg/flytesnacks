@@ -2,6 +2,6 @@ flytekit
 wheel
 matplotlib
 flytekitplugins-deck-standard
-flytekitplugins-kftensorflow>=0.24.0
-tensorflow
+flytekitplugins-kftensorflow
 tensorflow-datasets
+protobuf==3.20.*

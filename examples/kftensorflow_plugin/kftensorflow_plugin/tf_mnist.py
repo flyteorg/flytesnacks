@@ -19,9 +19,15 @@ from typing import NamedTuple, Tuple
 import tensorflow as tf
 import tensorflow_datasets as tfds
 from dataclasses_json import dataclass_json
-from flytekit import Resources, task, workflow
+from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.kftensorflow import TfJob
+from flytekitplugins.kftensorflow import PS, Chief, TfJob, Worker
+
+custom_image = ImageSpec(
+    name="kftensorflow-flyte-example",
+    packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow==1.8.1"],
+    registry="samhitaalla",
+)
 
 # %% [markdown]
 # We define `MODEL_FILE_PATH` indicating where to store the model file.
@@ -31,6 +37,7 @@ MODEL_FILE_PATH = "saved_model/"
 
 # %% [markdown]
 # We initialize a data class to store the hyperparameters.
+
 
 # %%
 @dataclass_json
@@ -190,12 +197,13 @@ else:
 
 
 @task(
-    task_config=TfJob(num_workers=2, num_ps_replicas=1, num_chief_replicas=1),
+    task_config=TfJob(worker=Worker(replicas=1), ps=PS(replicas=1), chief=Chief(replicas=1)),
     retries=2,
     cache=True,
-    cache_version="1.0",
+    cache_version="2.2",
     requests=resources,
     limits=resources,
+    container_image=custom_image,
 )
 def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
     train_dataset, eval_dataset, strategy = load_data(hyperparameters=hyperparameters)
@@ -212,7 +220,7 @@ def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
 # %%
 @workflow
 def mnist_tensorflow_workflow(
-    hyperparameters: Hyperparameters = Hyperparameters(),
+    hyperparameters: Hyperparameters = Hyperparameters(batch_size_per_replica=64),
 ) -> training_outputs:
     return mnist_tensorflow_job(hyperparameters=hyperparameters)
 
@@ -228,4 +236,3 @@ if __name__ == "__main__":
 #
 # In distributed training, the return values from different workers might differ.
 # If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a [IgnoreOutputs](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html) exception for all other ranks.
-#

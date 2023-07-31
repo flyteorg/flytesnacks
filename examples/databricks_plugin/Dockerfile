@@ -1,4 +1,4 @@
-FROM databricksruntime/standard:11.3-LTS
+FROM databricksruntime/standard:12.2-LTS
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 # To build this dockerfile, run "make docker_build".
 
@@ -11,15 +11,9 @@ USER 0
 
 RUN sudo apt-get update && sudo apt-get install -y make build-essential libssl-dev git
 
-# Install custom package
-RUN /databricks/python3/bin/pip install awscli
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-
 # Install Python dependencies
-COPY ./requirements.txt /databricks/driver/requirements.txt
-RUN /databricks/python3/bin/pip install -r /databricks/driver/requirements.txt
+COPY ./requirements.in /databricks/driver/requirements.in
+RUN /databricks/python3/bin/pip install -r /databricks/driver/requirements.in
 
 WORKDIR /databricks/driver
 

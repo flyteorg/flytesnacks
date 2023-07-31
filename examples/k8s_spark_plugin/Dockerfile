@@ -13,16 +13,6 @@ ARG spark_uid=1001
 USER 0
 RUN apt-get update && apt-get install -y python3 python3-venv make build-essential libssl-dev python3-pip curl wget
 
-# Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
-# in future versions to make it completely portable
-RUN pip3 install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
-WORKDIR /root
-
 # Virtual environment
 ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}

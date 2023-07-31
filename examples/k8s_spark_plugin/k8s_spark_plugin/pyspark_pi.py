@@ -65,8 +65,10 @@ import random
 from operator import add
 
 import flytekit
-from flytekit import Resources, task, workflow
+from flytekit import Resources, task, workflow, ImageSpec
 from flytekitplugins.spark import Spark
+
+custom_image = ImageSpec(registry="samhitaalla")
 
 
 # %% [markdown]
@@ -87,13 +89,18 @@ from flytekitplugins.spark import Spark
     ),
     limits=Resources(mem="2000M"),
     cache_version="1",
+    container_image=custom_image,
 )
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
 
-    n = 100000 * partitions
+    print("Hello")
+
+    n = 1 * partitions
     sess = flytekit.current_context().spark_session
     count = sess.sparkContext.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
+
+    print("Hello")
     pi_val = 4.0 * count / n
     print("Pi val is :{}".format(pi_val))
     return pi_val
@@ -111,7 +118,7 @@ def f(_):
 # %% [markdown]
 # Next, we define a regular Flyte task which will not execute on the Spark cluster.
 # %%
-@task(cache_version="1")
+@task(cache_version="2")
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1
@@ -121,12 +128,12 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 # This workflow shows that a spark task and any python function (or a Flyte task) can be chained together as long as they match the parameter specifications.
 # %%
 @workflow
-def my_spark(triggered_date: datetime.datetime) -> float:
+def my_spark(triggered_date: datetime.datetime = datetime.datetime.now()) -> float:
     """
     Using the workflow is still as any other workflow. As image is a property of the task, the workflow does not care
     about how the image is configured.
     """
-    pi = hello_spark(partitions=50)
+    pi = hello_spark(partitions=1)
     print_every_time(value_to_print=pi, date_triggered=triggered_date)
     return pi
 

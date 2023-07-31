@@ -16,16 +16,23 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
 from dataclasses_json import dataclass_json
-from flytekit import Resources, task, workflow
+from flytekit import Resources, task, workflow, ImageSpec
 from flytekit.types.directory import TensorboardLogs
 from flytekit.types.file import PNGImageFile, PythonPickledFile
-from flytekitplugins.kfpytorch import PyTorch
+from flytekitplugins.kfpytorch import PyTorch, Worker
 from tensorboardX import SummaryWriter
 from torch import distributed as dist
 from torch import nn, optim
 from torchvision import datasets, transforms
+import flytekit
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
+
+custom_image = ImageSpec(
+    name="kftorch-flyte-example",
+    packages=["torch", "torchvision", "flytekitplugins-kfpytorch==1.8.1", "matplotlib", "tensorboardX"],
+    registry="samhitaalla",
+)
 
 # %% [markdown]
 # Set memory, gpu and storage depending on whether we are trying to register against sandbox or not...
@@ -175,17 +182,16 @@ TrainingOutputs = typing.NamedTuple(
 
 
 @task(
-    task_config=PyTorch(
-        num_workers=2,
-    ),
+    task_config=PyTorch(worker=Worker(replicas=2)),
     retries=2,
     cache=True,
-    cache_version="1.0",
+    cache_version="2.2",
     requests=Resources(cpu=cpu_request, mem=mem_request, gpu=gpu_request),
     limits=Resources(mem=mem_limit, gpu=gpu_limit),
+    container_image=custom_image,
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
-    log_dir = "logs"
+    log_dir = os.path.join(flytekit.current_context().working_directory, "logs")
     writer = SummaryWriter(log_dir)
 
     torch.manual_seed(hp.seed)
@@ -204,7 +210,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            "../data",
+            os.path.join(flytekit.current_context().working_directory, "data"),
             train=True,
             download=True,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
@@ -215,7 +221,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     )
     test_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            "../data",
+            os.path.join(flytekit.current_context().working_directory, "data"),
             train=False,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
@@ -248,7 +254,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     ]
 
     # Save the model
-    model_file = "mnist_cnn.pt"
+    model_file = os.path.join(flytekit.current_context().working_directory, "mnist_cnn.pt")
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(
@@ -263,14 +269,14 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
 #
 # We will output the accuracy plot as a PNG image
 # %%
-@task
+@task(container_image=custom_image)
 def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
     # summarize history for accuracy
     plt.plot(epoch_accuracies)
     plt.title("Accuracy")
     plt.ylabel("accuracy")
     plt.xlabel("epoch")
-    accuracy_plot = "accuracy.png"
+    accuracy_plot = os.path.join(flytekit.current_context().working_directory, "accuracy.png")
     plt.savefig(accuracy_plot)
 
     return PNGImageFile(accuracy_plot)
