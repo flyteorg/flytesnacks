@@ -7,89 +7,115 @@
 # .. tags:: UI, Basic
 # ```
 #
-# The Deck feature enables you to obtain customizable and default visibility into your tasks.
+# Deck enables users to get customizable and default visibility into their tasks.
 #
-# Flytekit contains various renderers such as FrameRenderer and MarkdownRenderer, which generate HTML files.
-# For instance, FrameRenderer renders a DataFrame as an HTML table, while MarkdownRenderer converts Markdown strings to HTML.
+# Flytekit contains various renderers (FrameRenderer, MarkdownRenderer) that
+# generate HTML files. For example, FrameRenderer renders a DataFrame as an HTML table,
+# and MarkdownRenderer converts Markdown string to HTML.
 #
-# Each task has a minimum of three decks: input, output and default.
-# The input/output decks are used to render the input/output data of tasks, while the default deck can be used to render line plots, scatter plots or markdown text.
-# Additionally, you can create new decks to render your data using custom renderers.
-#
-# Now, let's dive into an example.
+# Each task has at least three decks (input, output, and default). Input/output decks are
+# used to render tasks' input/output data, and the default deck is used to render line plots,
+# scatter plots or markdown text. In addition, users can create new decks to render
+# their data with custom renderers.
+# Let's dive into an example.
 # %% [markdown]
 # :::{note}
 # Flyte Decks is an opt-in feature; to enable it, set `disable_deck` to `False` in the task params.
 # :::
 
 # %% [markdown]
-# First, import the dependencies.
+# Import the dependencies.
 # %%
 import flytekit
-from flytekit import ImageSpec, task
-from flytekitplugins.deck.renderer import MarkdownRenderer
-from sklearn.decomposition import PCA
+import pandas as pd
+import plotly.express as px
+from flytekit import task, workflow
+from flytekit.deck.renderer import TopFrameRenderer
+from flytekitplugins.deck.renderer import BoxRenderer, MarkdownRenderer
+from typing_extensions import Annotated
+
+# Fetch iris data.
+iris_df = px.data.iris()
+
 
 # %% [markdown]
-# Create a new deck called `pca` and render markdown content along with the PCA plot.
-#
-# Initialize `ImageSpec` object to capture all the dependencies required.
-# This approach automatically triggers a Docker build, alleviating the need for you to manually create a Docker image.
-#
-# Note the usage of `append` to append the Plotly deck to the markdown deck.
+# Create a new deck called `demo`, and use the box renderer to display the box plot on demo deck.
+# Use MarkdownRenderer to render `md_text`, and append HTML to the default deck.
 # %%
-custom_image = ImageSpec(name="flyte-decks-example", packages=["plotly"])
-
-if custom_image.is_container():
-    import plotly
-    import plotly.express as px
-
-
-@task(disable_deck=False, container_image=custom_image)
-def pca_plot():
-    iris_df = px.data.iris()
-    X = iris_df[["sepal_length", "sepal_width", "petal_length", "petal_width"]]
-    pca = PCA(n_components=3)
-    components = pca.fit_transform(X)
-    total_var = pca.explained_variance_ratio_.sum() * 100
-    fig = px.scatter_3d(
-        components,
-        x=0,
-        y=1,
-        z=2,
-        color=iris_df["species"],
-        title=f"Total Explained Variance: {total_var:.2f}%",
-        labels={"0": "PC 1", "1": "PC 2", "2": "PC 3"},
-    )
-    main_deck = flytekit.Deck("pca", MarkdownRenderer().to_html("### Principal Component Analysis"))
-    main_deck.append(plotly.io.to_html(fig))
+@task(disable_deck=False)
+def t1() -> str:
+    md_text = "#Hello Flyte\n##Hello Flyte\n###Hello Flyte"
+    flytekit.Deck("demo", BoxRenderer("sepal_length").to_html(iris_df))
+    flytekit.current_context().default_deck.append(MarkdownRenderer().to_html(md_text))
+    return md_text
 
 
 # %% [markdown]
-# :::{Important}
-# To view the log output locally, the `FLYTE_SDK_LOGGING_LEVEL` environment variable should be set to 20.
+# :::{note}
+# To see the log output, the `FLYTE_SDK_LOGGING_LEVEL` environment variable should be set to 20.
 # :::
 
 # %% [markdown]
-# The following is the expected output containing the path to the deck.html file:
+# Expected output
 #
 # ```{eval-rst}
 # .. prompt:: text
 #
-# {"asctime": "2023-07-11 13:16:04,558", "name": "flytekit", "levelname": "INFO", "message": "pca_plot task creates flyte deck html to file:///var/folders/6f/xcgm46ds59j7g__gfxmkgdf80000gn/T/flyte-0_8qfjdd/sandbox/local_flytekit/c085853af5a175edb17b11cd338cbd61/deck.html"}
+#   {"asctime": "2022-04-19 23:12:17,266", "name": "flytekit", "levelname": "INFO", "message": "t1 task creates flyte deck html to file:///tmp/flyte/20220419_231216/sandbox/local_flytekit/161e15f8c9331e83237bcf52e604697b/deck.html"}
+#   {"asctime": "2022-04-19 23:12:17,283", "name": "flytekit", "levelname": "INFO", "message": "t2 task creates flyte deck html to file:///tmp/flyte/20220419_231216/sandbox/local_flytekit/6d8d1bafe04769592d7b0e212c50bd0e/deck.html"}
 # ```
 
 # %% [markdown]
-# :::{figure} https://ik.imagekit.io/c8zl7irwkdda/flyte_decks?updatedAt=1689062089902
-# :alt: Deck
+# Open the `deck.html` file.
+
+# %% [markdown]
+# :::{figure} https://i.ibb.co/4Sxts8w/Screen-Shot-2022-04-19-at-11-24-55-PM.png
+# :alt: Demo Deck
 # :class: with-shadow
 # :::
+#
+# :::{figure} https://i.ibb.co/HtH4C4F/Screen-Shot-2022-04-19-at-11-27-17-PM.png
+# :alt: Default Deck
+# :class: with-shadow
+# :::
+
+# %% [markdown]
+# Use `Annotated` to override the default renderer, and display top 10 rows of dataframe.
+# %%
+@task(disable_deck=False)
+def t2() -> Annotated[pd.DataFrame, TopFrameRenderer(10)]:
+    return iris_df
+
+
+# %% [markdown]
+# Open the Flyte Deck on FlyteConsole.
 
 # %% [markdown]
 # :::{figure} https://i.ibb.co/7yCJnSs/flyteconsole.png
 # :alt: FlyteConsole
 # :class: with-shadow
 # :::
+
+# %% [markdown]
+# :::{figure} https://i.ibb.co/vhB8Mnz/dataframe.png
+# :alt: Dataframe
+# :class: with-shadow
+# :::
+
+# %% [markdown]
+# Define the workflow.
+# %%
+@workflow
+def wf():
+    t1()
+    t2()
+
+
+# %% [markdown]
+# Run the code locally.
+# %%
+if __name__ == "__main__":
+    wf()
 
 
 # %% [markdown]
@@ -118,3 +144,4 @@ def pca_plot():
 # ### How to Contribute Your Renderer?
 #
 # We would love any contributions to Flyte Deck. If your deck renderers can improve data visibility, feel free to add a renderer to [renderer.py](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-deck-standard/flytekitplugins/deck/renderer.py). Feel free to open a pull request and help us enrich the Flyte Deck renderer ecosystem!
+#
