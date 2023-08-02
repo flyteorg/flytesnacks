@@ -105,6 +105,19 @@ wacky_int_doubler_lp = LaunchPlan.get_or_create(
 )
 
 # %% [markdown]
+# 4. You can use pyflyte register to register the launch plan and lauch it in flyteconsole to get the notifications.
+#
+# ```
+# pyflyte register lp_notifications.py
+# ```
+#
+# Choose the launch plan with notifications config
+# :::{figure} https://i.ibb.co/cLT5tRX/lp.png
+# :alt: Notifications Launch Plan
+# :class: with-shadow
+# :::
+
+# %% [markdown]
 # ### Future work
 #
 # Work is ongoing to support a generic event egress system that can be used to publish events for tasks, workflows, and
@@ -120,7 +133,29 @@ wacky_int_doubler_lp = LaunchPlan.get_or_create(
 # This is only supported for Flyte instances running on AWS.
 #
 # ### Config
+# #### For Sandbox
+# To publish notifications, you'll need to register a sendgrid api key from [sendgrid](https://sendgrid.com/), it's free for 100 emails per day.
+# You have to add notifications config in your sandbox config file.
 #
+# ```yaml
+# config-sandbox.yaml
+# notifications:
+#   type: sandbox
+#   emailer:
+#     emailServerConfig:
+#       serviceName: sendgrid
+#       apiKeyEnvVar: SENDGRID_API_KEY
+#     subject: "Notice: Execution \"{{ workflow.name }}\" has {{ phase }} in \"{{ domain }}\"."
+#     sender:  "flyte-notifications@company.com"
+#     body: >
+#        Execution \"{{ workflow.name }} [{{ name }}]\" has {{ phase }} in \"{{ domain }}\". View details at
+#        <a href=\http://flyte.company.com/console/projects/{{ project }}/domains/{{ domain }}/executions/{{ name }}>
+#        http://flyte.company.com/console/projects/{{ project }}/domains/{{ domain }}/executions/{{ name }}</a>. {{ error }}
+# ```
+#
+# Note that you should set and export the `SENDGRID_API_KEY` environment variable in your shell.
+#
+# #### For AWS
 # To publish notifications, you'll need to set up an [SNS topic](https://aws.amazon.com/sns/?whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc).
 #
 # To process notifications, you'll need to set up an [AWS SQS](https://aws.amazon.com/sqs/) queue to consume notification events. This queue must be configured as a subscription to your SNS topic you created above.
