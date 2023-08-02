@@ -138,9 +138,9 @@ wacky_int_doubler_lp = LaunchPlan.get_or_create(
 # You have to add notifications config in your sandbox config file.
 #
 # ```yaml
-# config-sandbox.yaml
+# # config-sandbox.yaml
 # notifications:
-#   type: sandbox
+#   type: sandbox  # noqa: F821
 #   emailer:
 #     emailServerConfig:
 #       serviceName: sendgrid
