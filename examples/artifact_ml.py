@@ -61,21 +61,25 @@ lp_gather_data = LaunchPlan.get_or_create(
 # Note:
 # Let's say this launch plan is run for 2023-03-01
 # You should be able to get the output of the task via this URL
-# flyte://project/domain/ride_count_data:<exec-id>
+# flyte://project/domain/ride_count_data@<exec-id>
 # To retrieve a specific partition, you can append params (note the format of the
-# flyte://project/domain/ride_count_data:<exec-id>?region=SEA&ds=23_03-7
+# flyte://project/domain/ride_count_data@<exec-id>?region=SEA&ds=23_03-7
 # flyte://project/domain/ride_count_data?region=SEA&ds=23_03-7 -> gets the latest one
 
 # Note:
-# Users should be able to add additional tags/versions to an existing artifact.
-# Effectively "cp" flyte://project/domain/ride_count_data:<exec-id> flyte://project/domain/ride_count_data:mytstver1
+# Users should be able to add additional versions to an existing artifact.
+# Effectively "cp" flyte://project/domain/ride_count_data@<exec-id> flyte://project/domain/ride_count_data@mytstver1
 
 
-Model = Annotated[FlyteFile, Artifact(name="my-model")]
+Model = Annotated[FlyteFile, Artifact(name="my-model", tag="{{ .inputs.region }}")]
 # Note:
 # Using a file in place of an nn.Module for simplicity
-# This model will be accessible at flyte://project/domain/my-model:<exec-id>
+# This model will be accessible at flyte://project/domain/my-model@<exec-id>
 # If you use flyte://project/domain/my-model, you will get the latest (chronological) artifact.
+# What's a tag? I think we should have both a notion of a tag and a version. A tag is a string that can move
+# and point to different artifacts over time. A version is a fixed immutable field of the Artifact object.
+# To access the latest Model for a given tag, you can use a url like this:
+# flyte://project/domain/my-model:SEA
 
 
 @task
@@ -118,8 +122,12 @@ def predictions(region: str, model: Model):
 
 
 @workflow
-def run_predictions(model: FlyteFile = Artifact.query(name="my-model")):
-    predictions(model=model)
+def run_predictions(region: str, model: FlyteFile = Artifact.query(name="my-model", tag="{{ .inputs.region }}")):
+    predictions(region=region, model=model)
+
+
+# Invoke the workflow
+run_predictions(region="SEA")
 
 
 # Step 4.
@@ -141,4 +149,11 @@ lp_train_model(region="SEA")
 
 # Step 6.
 # Re-running predictions should pick up the new model.
+run_predictions(region="SEA")
 
+# Step 7.
+# Re-running predictions on a different set of inputs, but using the model from step 3.
+run_predictions(region="SEA", model=Artifact.query(uri="flyte://project/domain/my-model@<exec-id>"))
+# Note:
+# You can't use the SEA tag here. You have to find the exec id corresponding to the run_train_model execution for
+# the SEA region that you want. Across regions, they all share a name, but all the execution IDs will be unique.

@@ -23,21 +23,9 @@ One important point from the internal meeting:
 #  - Orchestration of a couple queries, and backfilling of data.
 #  - Users uploading data and then using the data to kick off workflows.
 
-Use Case 1 - Gather data, train models, use models:
-This scenario basically mimics three components:
-
 * Tasks or workflows that produce some well-defined data per region, with some time partition.
 * A workflow that consumes the outputs of the first workflow at some cadence, and trains a model per region/time.
 * A workflow that consumes the model and runs predictions with it.
-
-Scenario:
-1. Run the data gather for SEA, and 1/1/2023.
-2. Run the model
-3. Run predictions off of the model
-4. Data gather step for SEA, 1/1/2023 is re-run.
-5. Re-running the model for SEA, 1/1/2023 should pick up the new changes
-6. Re-running predictions should pick up the new model.
-7. Re-running predictions on a different set of inputs, but using the model from step 3.
 
 Open questions:
 * artifact project/domain, is this separate from the execution
