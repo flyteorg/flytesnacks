@@ -71,8 +71,9 @@ lp_gather_data = LaunchPlan.get_or_create(
 # Effectively "cp" flyte://project/domain/ride_count_data:<exec-id> flyte://project/domain/ride_count_data:mytstver1
 
 
-Model = Annotated[nn.Module, Artifact(name="my-model", version="myver")]
+Model = Annotated[FlyteFile, Artifact(name="my-model")]
 # Note:
+# Using a file in place of an nn.Module for simplicity
 # This model will be accessible at flyte://project/domain/my-model:<exec-id>
 # If you use flyte://project/domain/my-model, you will get the latest (chronological) artifact.
 
@@ -108,25 +109,36 @@ lp_train_model = LaunchPlan.get_or_create(
 
 
 @task
-def predictions(model: FlyteFile):
-    print(f"This is my model {model}")
-
-
-Artifact.query(uri="flyte://...")
-Artifact.query(name="my-model", version="some-exec-id")
-
-
-
-
-def t1 () -> Model:
-  ...
-
-def t2 (a: Artifact):
-    ...
-
+def predictions(region: str, model: Model):
+    print(f"This is my model {model} for {region}")
+# Note:
+# The input to this task takes the Annotated type 'Model'. But this should just be a no-op. An Annotated input doesn't
+# do anything. If you want to use an Artifact as a default input, you have to set it (which of course we don't support
+# for tasks, only workflows).
 
 
 @workflow
 def run_predictions(model: FlyteFile = Artifact.query(name="my-model")):
     predictions(model=model)
+
+
+# Step 4.
+# Rerun data gather step for 1/1/2023:
+#   run_gather_data(run_date=datetime(2023, 1, 1))
+# Note:
+# When this execution completes, the Artifact will change.
+#  * The data_query defined above, if re-queried, will return the new data.
+#  * flyte://project/domain/ride_count_data?region=SEA&ds=23_01-1 returns the new data
+#  * If you want to get the older one, you can still hit
+#       flyte://project/domain/ride_count_data:<older-exec-id>?region=SEA&ds=23_03-7
+
+# Step 5.
+# This isn't really possible... but it's not possible because I intentionally didn't use a date field in order to demo
+# the templating from execution kick off time. So step into your time machine, go back to 1/1/2023, and re-run
+lp_train_model(region="SEA")
+# Note:
+# The default query should now pick up the new data from step 4.
+
+# Step 6.
+# Re-running predictions should pick up the new model.
 
