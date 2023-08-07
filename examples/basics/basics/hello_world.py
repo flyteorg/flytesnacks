@@ -9,13 +9,26 @@
 # This simple workflow calls a task that returns "Hello World" and then just sets that as the final output of the workflow.
 
 # %%
-from flytekit import task, workflow
+from flytekit import task, workflow, ImageSpec
+
+# %% [markdown]
+
+# Defining ImageSpec
+
+image = ImageSpec(
+    name="imagespec",
+    registry="localhost:30000",
+    packages=["smart-open[gcs]"],
+    apt_packages=["git"],
+)
+
 
 # %% [markdown]
 # You can change the signature of the workflow to take in an argument like this:
 
+
 # %%
-@task
+@task(container_image=image)
 def say_hello() -> str:
     return "hello world"
 
@@ -24,6 +37,7 @@ def say_hello() -> str:
 # You can treat the outputs of a task as you normally would a Python function. Assign the output to two variables
 # and use them in subsequent tasks as normal. See {py:func}`flytekit.workflow`
 # You can change the signature of the workflow to take in an argument like this:
+
 
 # %%
 @workflow
