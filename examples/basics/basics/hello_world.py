@@ -13,7 +13,7 @@ from flytekit import task, workflow, ImageSpec
 
 # %% [markdown]
 
-# Defining ImageSpec
+# Defining ImageSpec using `flyteorg/flyte` commit with buildkit, e.g. `flytectl demo start --image=ghcr.io/flyteorg/flyte-sandbox-bundled:sha-<LONG_COMMIT>`
 
 image = ImageSpec(
     name="imagespec",
