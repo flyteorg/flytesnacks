@@ -15,6 +15,7 @@ from flytekit.core.workflow import workflow
 from flytekit.remote.remote import FlyteRemote
 from flytekit.tools.translator import get_serializable
 from flytekit.types.structured.structured_dataset import StructuredDataset
+from examples.artifacts import ml_demo
 
 r = FlyteRemote(
     Config.auto(config_file="/Users/ytong/.flyte/local_admin.yaml"),
@@ -51,3 +52,8 @@ def test_kljkljl():
     a = r.get_artifact(uri="flyte://av0.1/flytesnacks/development/flyteorg.test.yt.test1:v0.1.6")
     print(a)
     r.execute(wf, inputs={"a": a})
+
+
+def test_perm():
+    x = ml_demo.get_permutations("SEA")
+    print(x)
