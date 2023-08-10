@@ -10,7 +10,8 @@ docker push ghcr.io/unionai-oss/artifacts:v7
 Register the workflows
 pyflyte -c ~/.flyte/local_admin.yaml register --image ghcr.io/unionai-oss/artifacts:v7 artifacts/ml_demo.py
 
-
+Activate/Archive Launch Plan
+flytectl -c ~/.flyte/local_admin.yaml update launchplan -p flytesnacks -d development scheduled_gather_data_lp --version JhBCVA_5PRtZ7TeHNoVkFA== --activate
 
 ## Setup
 
