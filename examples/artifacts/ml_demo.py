@@ -32,6 +32,7 @@ Scenario:
 # Also names and partition keys and values all need to be URL sanitized (see below)
 RideCountData = Artifact(name="ride_count_data", partitions={"region": "{{ .inputs.region }}",
                                                              "ds": "{{ .inputs.date }}"})
+# RideCountData = Artifact(name="ride_count_data")
 
 
 def get_permutations(s: str) -> typing.List[str]:
@@ -85,7 +86,7 @@ def run_gather_data(run_date: datetime):
 #
 # # Note:
 # # Users should be able to add additional versions to an existing artifact.
-# # Effectively "cp" flyte://project/domain/ride_count_data@<exec-id> flyte://project/domain/ride_count_data@mytstver1
+# # Effectively "cp" flyte://project/domain/ride_count_data@<exec-id> flyte://project/domain/ride_count_data:mytstver1
 #
 #
 # Model = Annotated[FlyteFile, Artifact(name="my-model", tag="{{ .inputs.region }}")]
@@ -108,7 +109,7 @@ def run_gather_data(run_date: datetime):
 # # Note:
 # # The ds here is templated from a different source.
 # data_query = Artifact.query(name="ride_count_data", partition={"region": "{{ .inputs.region }}",
-#                                                                "ds": "{{ .execution.kickoff_time[%YY_%MM-%dd] }}"})
+#                                                                "ds": "{{ .execution.kickoff_time }}"})
 #
 #
 # @workflow

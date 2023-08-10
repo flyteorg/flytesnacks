@@ -66,6 +66,20 @@ lp_gather_data = LaunchPlan.get_or_create(
 # flyte://project/domain/ride_count_data@<exec-id>?region=SEA&ds=23_03-7
 # flyte://project/domain/ride_count_data?region=SEA&ds=23_03-7 -> gets the latest one
 
+# start with
+# flyte://project/domain/ride_count_data@oldexec1?region=SEA
+# flyte://project/domain/ride_count_data@oldexec2?region=SEA
+
+# <- at this point # flyte://project/domain/ride_count_data?region=SEA -> oldexec2
+
+# then re-run
+# flyte://project/domain/ride_count_data@newexec1?region=SEA
+# flyte://project/domain/ride_count_data@newexec1?region=SEA
+
+# <- at this point # flyte://project/domain/ride_count_data?region=SEA -> newexec2
+
+
+
 # Note:
 # Users should be able to add additional versions to an existing artifact.
 # Effectively "cp" flyte://project/domain/ride_count_data@<exec-id> flyte://project/domain/ride_count_data@mytstver1
