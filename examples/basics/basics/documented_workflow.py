@@ -65,13 +65,13 @@ def sphinx_docstring(df: pd.DataFrame, data: PandasData = PandasData()) -> pd.Da
 
 # %% [markdown]
 # You'll see the short description in the workflow page.
-# :::{figure} https://i.ibb.co/CtJV7Gq/Screenshot-2023-07-22-at-12-16-38-AM.png
+# :::{figure} https://github.com/flyteorg/static-resources/blob/main/flyte/concepts/basics/short_description.png
 # :alt: short description
 # :class: with-shadow
 # :::
 #
 # If you click the workflow, you'll see the long description in the basic information section.
-# :::{figure} https://i.ibb.co/1QPtJNK/Screenshot-2023-07-22-at-12-20-50-AM.png
+# :::{figure} https://github.com/flyteorg/static-resources/blob/main/flyte/concepts/basics/long_description.png
 # :alt: short description
 # :class: with-shadow
 # :::
