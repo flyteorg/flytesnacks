@@ -58,7 +58,7 @@
 #
 # # Execute
 # execution = remote.execute(
-#     flyte_launch_plan, inputs={"mean": 1}, execution_name="lp_execution", wait=True
+#     flyte_lp, inputs={"mean": 1}, execution_name="lp_execution", wait=True
 # )
 # ```
 #
