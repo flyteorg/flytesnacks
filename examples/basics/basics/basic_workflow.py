@@ -23,15 +23,22 @@
 import typing
 from typing import Tuple
 
-from flytekit import task, workflow
+from flytekit import task, workflow, ImageSpec
+
+# %% [markdown]
+# We first define `ImageSpec` to specify the container image that will be used to run the tasks in the workflow.
+image = ImageSpec(
+    name="imagespec",
+    registry="localhost:30000",
+)
 
 
-@task
+@task(container_image=image)
 def t1(a: int) -> typing.NamedTuple("OutputsBC", t1_int_output=int, c=str):
     return a + 2, "world"
 
 
-@task
+@task(container_image=image)
 def t2(a: str, b: str) -> str:
     return b + a
 
