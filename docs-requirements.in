@@ -1,11 +1,10 @@
-flytekit
+flytekit>=1.8.1
+git+https://github.com/flyteorg/furo@main
+pillow
+psycopg2-binary
 flytekitplugins-deck-standard
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
-git+https://github.com/flyteorg/furo@main
-pillow
-pydantic==1.10.11
-psycopg2-binary
 jupytext
 sphinx
 sphinx_rtd_theme
