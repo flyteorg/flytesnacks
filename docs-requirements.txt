@@ -20,8 +20,6 @@ aiosignal==1.3.1
     # via aiohttp
 alabaster==0.7.13
     # via sphinx
-annotated-types==0.5.0
-    # via pydantic
 appnope==0.1.3
     # via
     #   ipykernel
@@ -224,9 +222,7 @@ grpcio-status==1.53.0
     #   -r docs-requirements.in
     #   flytekit
 htmlmin==0.1.12
-    # via
-    #   pandas-profiling
-    #   ydata-profiling
+    # via pandas-profiling
 identify==2.5.26
     # via pre-commit
 idna==3.4
@@ -234,9 +230,7 @@ idna==3.4
     #   requests
     #   yarl
 imagehash==4.3.1
-    # via
-    #   visions
-    #   ydata-profiling
+    # via visions
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==6.8.0
@@ -333,7 +327,6 @@ matplotlib==3.7.2
     #   pandas-profiling
     #   phik
     #   seaborn
-    #   ydata-profiling
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
@@ -432,9 +425,7 @@ parso==0.8.3
 pexpect==4.8.0
     # via ipython
 phik==0.12.3
-    # via
-    #   pandas-profiling
-    #   ydata-profiling
+    # via pandas-profiling
 pickleshare==0.7.5
     # via ipython
 pillow==10.0.0
@@ -482,10 +473,10 @@ pyasn1-modules==0.3.0
     # via google-auth
 pycparser==2.21
     # via cffi
-pydantic==2.1.1
-    # via pandas-profiling
-pydantic-core==2.4.0
-    # via pydantic
+pydantic==1.10.11
+    # via
+    #   -r docs-requirements.in
+    #   pandas-profiling
 pygments==2.16.1
     # via
     #   furo
@@ -592,7 +583,6 @@ seaborn==0.12.2
     # via
     #   missingno
     #   pandas-profiling
-    #   ydata-profiling
 six==1.16.0
     # via
     #   asttokens
@@ -704,9 +694,7 @@ tornado==6.3.3
     #   ipykernel
     #   jupyter-client
 tqdm==4.66.1
-    # via
-    #   pandas-profiling
-    #   ydata-profiling
+    # via pandas-profiling
 traitlets==5.9.0
     # via
     #   comm
@@ -727,7 +715,6 @@ typing-extensions==4.7.1
     #   myst-nb
     #   myst-parser
     #   pydantic
-    #   pydantic-core
     #   sqlalchemy
     #   torch
     #   typing-inspect

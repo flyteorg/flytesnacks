@@ -4,6 +4,7 @@ flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 git+https://github.com/flyteorg/furo@main
 pillow
+pydantic==1.10.11
 psycopg2-binary
 jupytext
 sphinx
