@@ -1,70 +1,32 @@
 (kf-pytorch-op)=
 
-# Kubeflow Pytorch
+# PyTorch Distributed
 
 ```{eval-rst}
 .. tags:: Integration, DistributedComputing, MachineLearning, KubernetesOperator, Advanced
 ```
 
-This plugin uses the Kubeflow Pytorch Operator and provides an extremely simplified interface for executing distributed training using various pytorch backends.
+The Kubeflow PyTorch plugin leverages the [Kubeflow training operator](https://github.com/kubeflow/training-operator)
+to offer a highly streamlined interface for conducting distributed training using different PyTorch backends.
 
-## Installation
+## Install the plugin
 
-To use the flytekit distributed pytorch plugin simply run the following:
-
-```{eval-rst}
-.. prompt:: bash
-
-   pip install flytekitplugins-kfpytorch
+To use the PyTorch plugin, run the following command:
 
 ```
+pip install flytekitplugins-kfpytorch
+```
 
-## How to build your Dockerfile for Pytorch on K8s
+To enable the plugin in the backend, follow instructions outlined in the {std:ref}`flyte:deployment-plugin-setup-k8s` guide.
 
-:::{note}
-If using CPU for training then special dockerfile is NOT REQUIRED. If GPU or TPUs are required then, the dockerfile differs only in the driver setup. The following dockerfile is enabled for GPU accelerated training using CUDA
-The checked in version of docker file uses python:3.8-slim-buster for faster CI but you can use the Dockerfile pasted below which uses cuda base.
-Additionally the requirements.in uses the cpu version of pytorch. Remove the + cpu for torch and torchvision in requirements.in and make all requirements as shown below
-:::
+## Run the example on the Flyte cluster
 
-```{code-block} docker
-:emphasize-lines: 1
-:linenos: true
+To run the provided example on the Flyte cluster, use the following command:
 
-FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime=
-LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
-
-WORKDIR /root
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-ENV PYTHONPATH /root
-
-# Install basics
-RUN apt-get update && apt-get install -y make build-essential libssl-dev curl
-
-# Install the AWS cli separately to prevent issues with boto being written over
-RUN pip install awscli
-
-ENV VENV /opt/venv
-# Virtual environment
-RUN python3 -m venv ${VENV}
-ENV PATH="${VENV}/bin:$PATH"
-
-# Install Python dependencies
-COPY kfpytorch/requirements.txt /root
-RUN pip install -r /root/requirements.txt
-
-# Copy the makefile targets to expose on the container. This makes it easier to register.
-COPY in_container.mk /root/Makefile
-COPY kfpytorch/sandbox.config /root
-
-# Copy the actual code
-COPY kfpytorch/ /root/kfpytorch/
-
-# This tag is supplied by the build script and will be used to determine the version
-# when registering tasks, workflows, and launch plans
-ARG tag
-ENV FLYTE_INTERNAL_IMAGE $tag
+```
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/kfpytorch_plugin/kfpytorch_plugin/pytorch_mnist.py \
+  pytorch_training_wf
 ```
 
 ```{auto-examples-toc}

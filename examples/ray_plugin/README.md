@@ -1,33 +1,35 @@
 (kube-ray-op)=
 
-# KubeRay
+# Ray
 
-```{tags} Integration, DistributedComputing, KubernetesOperator, Advanced
+```{eval-rst}
+.. tags:: Integration, DistributedComputing, KubernetesOperator, Advanced
 ```
 
-```{image} https://img.shields.io/badge/Blog-Ray-blue?style=for-the-badge
-:target: https://blog.flyte.org/ray-and-flyte
-:alt: Ray Blog Post
-```
+[KubeRay](https://github.com/ray-project/kuberay) is an open-source toolkit designed to facilitate the execution of
+Ray applications on Kubernetes. It offers a range of tools that enhance the operational aspects of
+running and overseeing Ray on Kubernetes.
 
-[KubeRay](https://github.com/ray-project/kuberay) is an open source toolkit to run Ray applications on Kubernetes. It provides tools to improve running and managing Ray on Kubernetes.
+Key components include:
 
 - Ray Operator
-- Backend services to create/delete cluster resources
-- Kubectl plugin/CLI to operate CRD objects
-- Native Job and Serving integration with Clusters
+- Backend services for cluster resource creation and deletion
+- Kubectl plugin/CLI for CRD object management
+- Seamless integration of Jobs and Serving functionality with Clusters
 
-## Installation
+## Install the plugin
 
 To install the Ray plugin, run the following command:
 
-```bash
+```
 pip install flytekitplugins-ray
 ```
 
 To enable the plugin in the backend, follow instructions outlined in the {std:ref}`flyte:deployment-plugin-setup-k8s` guide.
 
-### Submit a Ray Job to Existing Cluster
+## Implementation details
+
+### Submit a Ray job to existing cluster
 
 ```{eval-rst}
 .. testcode:: ray-quickstart-1
@@ -39,9 +41,11 @@ To enable the plugin in the backend, follow instructions outlined in the {std:re
     def f(x):
         return x * x
 
-    @task(task_config=RayJobConfig(
-        address=<RAY_CLUSTER_ADDRESS>
-        runtime_env={"pip": ["numpy", "pandas"]})
+    @task(
+        task_config=RayJobConfig(
+            address=<RAY_CLUSTER_ADDRESS>
+            runtime_env={"pip": ["numpy", "pandas"]}
+        )
     )
     def ray_task() -> typing.List[int]:
         futures = [f.remote(i) for i in range(5)]
@@ -49,7 +53,7 @@ To enable the plugin in the backend, follow instructions outlined in the {std:re
 
 ```
 
-### Create a Ray Cluster Managed by Flyte and Run a Ray Job on This Cluster
+### Create a Ray cluster managed by Flyte and run a Ray Job on the cluster
 
 ```{eval-rst}
 .. testcode:: ray-quickstart-2
@@ -57,10 +61,20 @@ To enable the plugin in the backend, follow instructions outlined in the {std:re
     from flytekit import task
     from flytekitplugins.ray import RayJobConfig, WorkerNodeConfig, HeadNodeConfig
 
-    @task(task_config=RayJobConfig(worker_node_config=[WorkerNodeConfig(group_name="test-group", replicas=10)])
+    @task(task_config=RayJobConfig(worker_node_config=[WorkerNodeConfig(group_name="test-group", replicas=10)]))
     def ray_task() -> typing.List[int]:
         futures = [f.remote(i) for i in range(5)]
         return ray.get(futures)
+```
+
+## Run the example on the Flyte cluster
+
+To run the provided example on the Flyte cluster, use the following command:
+
+```
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/ray_plugin/ray_plugin/ray_example.py \
+  ray_workflow --n 10
 ```
 
 ```{auto-examples-toc}

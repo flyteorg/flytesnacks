@@ -1,7 +1,4 @@
-flytekit
-wheel
-matplotlib
-flytekitplugins-deck-standard
-flytekitplugins-kftensorflow
+tensorflow
 tensorflow-datasets
+flytekitplugins-kftensorflow
 protobuf==3.20.*

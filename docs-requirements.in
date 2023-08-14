@@ -1,9 +1,9 @@
-flytekit>=1.3.0
+flytekit==1.8.2
+flytekitplugins-kfpytorch==1.8.2
+flytekitplugins-sqlalchemy==1.8.2
 git+https://github.com/flyteorg/furo@main
 pillow
 psycopg2-binary
-flytekitplugins-kfpytorch
-flytekitplugins-sqlalchemy
 jupytext
 sphinx
 sphinx_rtd_theme

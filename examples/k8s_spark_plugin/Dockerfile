@@ -1,3 +1,6 @@
+# ######################
+# NOTE: For CI/CD only #
+########################
 FROM apache/spark-py:3.3.1
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 

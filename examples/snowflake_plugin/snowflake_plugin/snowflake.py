@@ -1,15 +1,16 @@
 # %% [markdown]
-# # Snowflake Query
+# # Quering data in Snowflake
 #
-# This example shows how to use a Flyte SnowflakeTask to execute a query.
-
+# This example shows how to use the `SnowflakeTask` to execute a query in Snowflake.
+#
+# To begin, import the required libraries.
 # %%
 from flytekit import kwtypes, workflow
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 
 # %% [markdown]
-# This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
-# Snowflake task a name that's unique across your project/domain for your Flyte installation.
+# Instantiate a {py:class}`~flytekitplugins.snowflake.SnowflakeTask` to execute a query.
+# Incorporate {py:class}`~flytekitplugins.snowflake.SnowflakeConfig` within the task to define the appropriate configuration.
 # %%
 snowflake_task_no_io = SnowflakeTask(
     name="sql.snowflake.no_io",
@@ -17,24 +18,23 @@ snowflake_task_no_io = SnowflakeTask(
     query_template="SELECT 1",
     output_schema_type=None,
     task_config=SnowflakeConfig(
-        account="<>",
+        account="<SNOWFLAKE_ACCOUNT_ID>",
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",
     ),
 )
 
-
-@workflow
-def no_io_wf():
-    return snowflake_task_no_io()
-
-
 # %% [markdown]
-# Of course, in real world applications we are usually more interested in using Snowflake to query a dataset.
-# In this case we use SNOWFLAKE_SAMPLE_DATA which is default dataset in snowflake service.
-# [here](https://docs.snowflake.com/en/user-guide/sample-data.html)
-# The data is formatted according to this schema:
+# :::{note}
+# For successful registration, ensure that your Snowflake task is assigned a unique
+# name within your project/domain for your Flyte installation.
+# :::
+#
+# In practical applications, our primary focus is often on utilizing Snowflake to query datasets.
+# Here, we employ the `SNOWFLAKE_SAMPLE_DATA`, a default dataset in the Snowflake service.
+# You can find more details about it [here](https://docs.snowflake.com/en/user-guide/sample-data.html).
+# The data adheres to the following schema:
 #
 # ```{eval-rst}
 # +----------------------------------------------+
@@ -56,9 +56,8 @@ def no_io_wf():
 # +----------------------------------------------+
 # ```
 #
-# Let's look out how we can parameterize our query to filter results for a specific country, provided as a user input
-# specifying a nation key.
-
+# Let us explore how we can parameterize our query to filter results for a specific country.
+# This country will be provided as user input, using a nation key to specify it.
 # %%
 snowflake_task_templatized_query = SnowflakeTask(
     name="sql.snowflake.w_io",
@@ -75,12 +74,16 @@ snowflake_task_templatized_query = SnowflakeTask(
 
 
 @workflow
-def full_snowflake_wf(nation_key: int):
+def snowflake_wf(nation_key: int):
     return snowflake_task_templatized_query(nation_key=nation_key)
 
 
 # %% [markdown]
-# Check query result on snowflake console: `https://<account>.snowflakecomputing.com/console#/monitoring/queries/detail`
+# To review the query results, access the Snowflake console at:
+# `https://<SNOWFLAKE_ACCOUNT_ID>.snowflakecomputing.com/console#/monitoring/queries/detail`.
 #
-# For example, <https://ha63105.us-central1.gcp.snowflakecomputing.com/console#/monitoring/queries/detail>
-#
+# You can also execute the task and workflow locally.
+# %%
+if __name__ == "__main__":
+    print(snowflake_task_no_io())
+    print(snowflake_wf(nation_key=10))

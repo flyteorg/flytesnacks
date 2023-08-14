@@ -1,6 +1,9 @@
-# FROM tensorflow/tensorflow:latest-gpu
-# You can disable GPU support by replacing the above line with:
+# ######################
+# NOTE: For CI/CD only #
+########################
 FROM tensorflow/tensorflow:latest
+# You can enable GPU support by replacing the above line with:
+# FROM tensorflow/tensorflow:latest-gpu
 
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
@@ -11,9 +14,7 @@ ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 
-# Install basics
-# RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
-# Install Python3 and other basics
+# Install Python3.10 and other libraries
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
@@ -39,10 +40,8 @@ ENV PATH="${VENV}/bin:$PATH"
 RUN pip3 install wheel
 
 # Install Python dependencies
-COPY requirements.in /root
-RUN pip install -r /root/requirements.in
-
-RUN wget https://tf.novaal.de/westmere/tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl && pip install tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl
+COPY requirements.txt /root
+RUN pip install -r /root/requirements.txt
 
 # Copy the actual code
 COPY . /root/

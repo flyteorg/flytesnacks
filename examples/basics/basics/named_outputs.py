@@ -58,6 +58,7 @@ wf_outputs = typing.NamedTuple("OP2", greet1=str, greet2=str)
 # which are tuples that need to be de-referenced.
 # :::
 
+
 # %%
 @workflow
 def my_wf() -> wf_outputs:

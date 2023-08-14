@@ -8,7 +8,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python3 and other basics
+# Install Python3.10 and other libraries
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
@@ -29,9 +29,9 @@ RUN apt-get update \
     python3-wheel \
     libuv1
 
-ENV VENV /opt/venv
 # Virtual environment
-RUN python3 -m venv ${VENV}
+ENV VENV /opt/venv
+RUN python3.10 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install wheel after venv is activated
@@ -51,11 +51,15 @@ RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_confi
     mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
 # Install Python dependencies
-COPY requirements.in /root
-RUN pip install -r /root/requirements.in
+COPY requirements.txt /root
+RUN pip install -r /root/requirements.txt
 
 # Install TensorFlow
-RUN wget https://tf.novaal.de/westmere/tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl && pip install tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl
+# In case you encounter the "The TensorFlow library was compiled to use AVX instructions, which are not present on your machine" error,
+# you can resolve it by installing TensorFlow using the following RUN instruction:
+# RUN wget https://tf.novaal.de/westmere/tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl && pip install tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl
+# Otherwise:
+RUN pip install tensorflow
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL

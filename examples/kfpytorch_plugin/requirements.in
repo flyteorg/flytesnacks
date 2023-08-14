@@ -1,6 +1,3 @@
-flytekit
-wheel
-matplotlib
 flytekitplugins-kfpytorch
 tensorboardX
 torch

@@ -1,3 +1,6 @@
+# ######################
+# NOTE: For CI/CD only #
+########################
 FROM rayproject/ray:2.5.1-py310-cpu
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
