@@ -1,6 +1,25 @@
 # %% [markdown]
 # # Running Ray Tasks
 #
+# The Ray task offers the capability to execute a Ray job either on a pre-existing Ray cluster
+# or by creating a new Ray cluster using the Ray operator.
+#
+# :::{Warning}
+# **Known Bugs and Compatibility Issue with Kuberay Operator Versions**
+# Please note that there have been reports of various bugs and compatibility issues with recent versions of the Kuberay operator.
+# - Kuberay Operator Version 0.4: In this version, the reconcile logic of the operator was changed.
+#   As a result, when running a Ray job, the status of the job will always remain "pending."
+#   It is important to note that this change was not thoroughly tested by the Kuberay community before its release.
+# - Kuberay Operator Version 0.5: In this version, an init container is injected into the worker nodes.
+#   However, the operator failed to set the required resource limits (CPU, memory) for this init container.
+#   Consequently, running Ray jobs becomes problematic in Flyte because Kubernetes imposes resource quotas in every project-domain namespace,
+#   and these quotas necessitate that every container sets the CPU and memory limits.
+#
+# **Given these issues, it is crucial to be aware that the current Ray extension is compatible only
+# with version 0.3.0 and 0.5.2+ of the Kuberay operator.** It is recommended to use this specific version to
+# ensure the proper functioning of the Ray extension.
+# :::
+#
 # To begin, load the libraries.
 # %%
 import typing

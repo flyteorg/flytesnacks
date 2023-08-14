@@ -1,4 +1,5 @@
 flytekit
+flytekitplugins-deck-standard
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 git+https://github.com/flyteorg/furo@main

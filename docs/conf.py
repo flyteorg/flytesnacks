@@ -70,6 +70,7 @@ templates_path = ["_templates"]
 
 html_static_path = ["_static"]
 html_css_files = ["sphx_gallery_autogen.css", "custom.css"]
+html_js_files = ["custom.js"]
 
 suppress_warnings = ["autosectionlabel.*"]
 
@@ -155,7 +156,7 @@ sphinx_gallery_conf = {
     "thumbnail_size": (350, 350),
 }
 
-nb_execution_mode = "off"
+nb_execution_mode = "auto"
 nb_execution_excludepatterns = [
     "auto_examples/**/*",
 ]

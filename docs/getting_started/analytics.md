@@ -106,6 +106,7 @@ tags: [remove-input]
 import logging
 import os
 import re
+from pythonjsonlogger import jsonlogger
 from IPython.display import HTML
 
 
@@ -113,13 +114,23 @@ class DeckFilter(logging.Filter):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.formatter = jsonlogger.JsonFormatter(
+            fmt="%(asctime)s %(name)s %(levelname)s %(message)s"
+        )
+        self.logs = []
         self.deck_files = {}
 
     def filter(self, record):
         patt = "(.+) task creates flyte deck html to (.+/deck.html)"
-        matches = re.match(patt, record.getMessage())
+        msg = record.getMessage()
+        matches = re.match(patt, msg)
+
+        if msg == "Connection error. Skip stats collection.":
+            return False
+
         if matches:
             task, filepath = matches.group(1), matches.group(2)
+            self.logs.append(self.formatter.format(record))
             self.deck_files[task] = re.sub("^file://", "", filepath)
         return False
 

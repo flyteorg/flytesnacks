@@ -20,6 +20,8 @@ aiosignal==1.3.1
     # via aiohttp
 alabaster==0.7.13
     # via sphinx
+annotated-types==0.5.0
+    # via pydantic
 appnope==0.1.3
     # via
     #   ipykernel
@@ -40,6 +42,7 @@ attrs==23.1.0
     #   jsonschema
     #   jupyter-cache
     #   referencing
+    #   visions
 azure-core==1.29.1
     # via
     #   adlfs
@@ -63,6 +66,8 @@ binaryornot==0.4.4
     # via cookiecutter
 botocore==1.31.17
     # via aiobotocore
+bottleneck==1.3.7
+    # via visions
 cachetools==5.3.1
     # via google-auth
 certifi==2023.7.22
@@ -92,7 +97,11 @@ cloudpickle==2.2.1
     #   flytekit
     #   flytekitplugins-kfpytorch
 comm==0.1.4
-    # via ipykernel
+    # via
+    #   ipykernel
+    #   ipywidgets
+contourpy==1.1.0
+    # via matplotlib
 cookiecutter==2.3.0
     # via flytekit
 croniter==1.4.1
@@ -104,6 +113,8 @@ cryptography==41.0.3
     #   msal
     #   pyjwt
     #   pyopenssl
+cycler==0.11.0
+    # via matplotlib
 dataclasses-json==0.5.9
     # via flytekit
 debugpy==1.6.7.post1
@@ -146,12 +157,17 @@ flyteidl==1.5.15
 flytekit==1.9.0
     # via
     #   -r docs-requirements.in
+    #   flytekitplugins-deck-standard
     #   flytekitplugins-kfpytorch
     #   flytekitplugins-sqlalchemy
+flytekitplugins-deck-standard==1.4.2
+    # via -r docs-requirements.in
 flytekitplugins-kfpytorch==1.9.0
     # via -r docs-requirements.in
 flytekitplugins-sqlalchemy==1.9.0
     # via -r docs-requirements.in
+fonttools==4.42.0
+    # via matplotlib
 frozenlist==1.4.0
     # via
     #   aiohttp
@@ -207,12 +223,20 @@ grpcio-status==1.53.0
     # via
     #   -r docs-requirements.in
     #   flytekit
+htmlmin==0.1.12
+    # via
+    #   pandas-profiling
+    #   ydata-profiling
 identify==2.5.26
     # via pre-commit
 idna==3.4
     # via
     #   requests
     #   yarl
+imagehash==4.3.1
+    # via
+    #   visions
+    #   ydata-profiling
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==6.8.0
@@ -227,7 +251,10 @@ ipython==8.14.0
     # via
     #   -r docs-requirements.in
     #   ipykernel
+    #   ipywidgets
     #   myst-nb
+ipywidgets==8.1.0
+    # via flytekitplugins-deck-standard
 isodate==0.6.1
     # via azure-storage-blob
 jaraco-classes==3.3.0
@@ -238,6 +265,7 @@ jinja2==3.0.3
     # via
     #   cookiecutter
     #   myst-parser
+    #   pandas-profiling
     #   sphinx
     #   sphinx-autoapi
     #   sphinx-tabs
@@ -247,6 +275,8 @@ jmespath==1.0.1
 joblib==1.3.2
     # via
     #   flytekit
+    #   pandas-profiling
+    #   phik
     #   scikit-learn
 jsonschema==4.19.0
     # via nbformat
@@ -264,14 +294,20 @@ jupyter-core==5.3.1
     #   jupyter-client
     #   nbclient
     #   nbformat
+jupyterlab-widgets==3.0.8
+    # via ipywidgets
 jupytext==1.15.0
     # via -r docs-requirements.in
 keyring==24.2.0
     # via flytekit
+kiwisolver==1.4.4
+    # via matplotlib
 kubernetes==27.2.0
     # via flytekit
 lazy-object-proxy==1.9.0
     # via astroid
+markdown==3.4.4
+    # via flytekitplugins-deck-standard
 markdown-it-py==2.2.0
     # via
     #   jupytext
@@ -291,6 +327,13 @@ marshmallow-enum==1.5.1
     #   flytekit
 marshmallow-jsonschema==0.13.0
     # via flytekit
+matplotlib==3.7.2
+    # via
+    #   missingno
+    #   pandas-profiling
+    #   phik
+    #   seaborn
+    #   ydata-profiling
 matplotlib-inline==0.1.6
     # via
     #   ipykernel
@@ -301,6 +344,8 @@ mdit-py-plugins==0.3.5
     #   myst-parser
 mdurl==0.1.2
     # via markdown-it-py
+missingno==0.5.2
+    # via pandas-profiling
 more-itertools==10.1.0
     # via jaraco-classes
 mpmath==1.3.0
@@ -316,6 +361,8 @@ multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+multimethod==1.4
+    # via visions
 mypy-extensions==1.0.0
     # via typing-inspect
 myst-nb==0.17.2
@@ -337,16 +384,28 @@ nbformat==5.9.2
 nest-asyncio==1.5.7
     # via ipykernel
 networkx==3.1
-    # via torch
+    # via
+    #   torch
+    #   visions
 nodeenv==1.8.0
     # via pre-commit
 numpy==1.25.2
     # via
+    #   bottleneck
+    #   contourpy
     #   flytekit
+    #   imagehash
+    #   matplotlib
+    #   missingno
     #   pandas
+    #   pandas-profiling
+    #   phik
     #   pyarrow
+    #   pywavelets
     #   scikit-learn
     #   scipy
+    #   seaborn
+    #   visions
 oauthlib==3.2.2
     # via
     #   kubernetes
@@ -356,21 +415,40 @@ packaging==23.1
     #   docker
     #   ipykernel
     #   marshmallow
+    #   matplotlib
+    #   plotly
     #   sphinx
 pandas==1.5.3
-    # via flytekit
+    # via
+    #   flytekit
+    #   pandas-profiling
+    #   phik
+    #   seaborn
+    #   visions
+pandas-profiling==3.0.0
+    # via flytekitplugins-deck-standard
 parso==0.8.3
     # via jedi
 pexpect==4.8.0
     # via ipython
+phik==0.12.3
+    # via
+    #   pandas-profiling
+    #   ydata-profiling
 pickleshare==0.7.5
     # via ipython
 pillow==10.0.0
-    # via -r docs-requirements.in
+    # via
+    #   -r docs-requirements.in
+    #   imagehash
+    #   matplotlib
+    #   visions
 platformdirs==3.10.0
     # via
     #   jupyter-core
     #   virtualenv
+plotly==5.16.0
+    # via flytekitplugins-deck-standard
 portalocker==2.7.0
     # via msal-extensions
 pre-commit==3.3.3
@@ -404,6 +482,10 @@ pyasn1-modules==0.3.0
     # via google-auth
 pycparser==2.21
     # via cffi
+pydantic==2.1.1
+    # via pandas-profiling
+pydantic-core==2.4.0
+    # via pydantic
 pygments==2.16.1
     # via
     #   furo
@@ -416,6 +498,8 @@ pyjwt[crypto]==2.8.0
     # via msal
 pyopenssl==23.2.0
     # via flytekit
+pyparsing==3.0.9
+    # via matplotlib
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -424,6 +508,7 @@ python-dateutil==2.8.2
     #   flytekit
     #   jupyter-client
     #   kubernetes
+    #   matplotlib
     #   pandas
 python-json-logger==2.0.7
     # via flytekit
@@ -435,6 +520,8 @@ pytz==2023.3
     # via
     #   flytekit
     #   pandas
+pywavelets==1.4.1
+    # via imagehash
 pyyaml==6.0.1
     # via
     #   cookiecutter
@@ -444,6 +531,7 @@ pyyaml==6.0.1
     #   kubernetes
     #   myst-nb
     #   myst-parser
+    #   pandas-profiling
     #   pre-commit
     #   sphinx-autoapi
 pyzmq==25.1.1
@@ -468,6 +556,7 @@ requests==2.31.0
     #   google-cloud-storage
     #   kubernetes
     #   msal
+    #   pandas-profiling
     #   requests-oauthlib
     #   sphinx
     #   sphinxcontrib-youtube
@@ -493,7 +582,17 @@ s3fs==2023.6.0
 scikit-learn==1.3.0
     # via -r docs-requirements.in
 scipy==1.11.1
-    # via scikit-learn
+    # via
+    #   imagehash
+    #   missingno
+    #   pandas-profiling
+    #   phik
+    #   scikit-learn
+seaborn==0.12.2
+    # via
+    #   missingno
+    #   pandas-profiling
+    #   ydata-profiling
 six==1.16.0
     # via
     #   asttokens
@@ -586,6 +685,12 @@ sympy==1.12
     # via torch
 tabulate==0.9.0
     # via jupyter-cache
+tangled-up-in-unicode==0.1.0
+    # via
+    #   pandas-profiling
+    #   visions
+tenacity==8.2.2
+    # via plotly
 text-unidecode==1.3
     # via python-slugify
 threadpoolctl==3.2.0
@@ -598,11 +703,16 @@ tornado==6.3.3
     # via
     #   ipykernel
     #   jupyter-client
+tqdm==4.66.1
+    # via
+    #   pandas-profiling
+    #   ydata-profiling
 traitlets==5.9.0
     # via
     #   comm
     #   ipykernel
     #   ipython
+    #   ipywidgets
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
@@ -616,6 +726,8 @@ typing-extensions==4.7.1
     #   flytekit
     #   myst-nb
     #   myst-parser
+    #   pydantic
+    #   pydantic-core
     #   sqlalchemy
     #   torch
     #   typing-inspect
@@ -633,6 +745,8 @@ urllib3==1.26.16
     #   requests
 virtualenv==20.24.3
     # via pre-commit
+visions[type_image_path]==0.7.1
+    # via pandas-profiling
 wcwidth==0.2.6
     # via prompt-toolkit
 websocket-client==1.6.1
@@ -641,6 +755,8 @@ websocket-client==1.6.1
     #   kubernetes
 wheel==0.41.1
     # via flytekit
+widgetsnbextension==4.0.8
+    # via ipywidgets
 wrapt==1.15.0
     # via
     #   aiobotocore
