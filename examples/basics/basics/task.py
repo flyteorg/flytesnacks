@@ -26,7 +26,7 @@
 # %% [markdown]
 # For any task in Flyte, there is one necessary import, which is:
 # %%
-from flytekit import task
+from flytekit import task, ImageSpec
 
 # %%
 # Importing additional modules.
@@ -39,8 +39,19 @@ from sklearn.model_selection import train_test_split
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
 # These types are standard Python types, which will be further explained in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
 
+# %% [markdown]
+
+# Defining `ImageSpec` using `flyteorg/flyte` commit with buildkit, e.g. `flytectl demo start --image=ghcr.io/flyteorg/flyte-sandbox-bundled:sha-<LONG_COMMIT>`
+
+image = ImageSpec(
+    name="imagespec",
+    registry="localhost:30000",
+    packages=["scikit-learn"],
+)
+
+
 # %%
-@task
+@task(container_image=image)
 def train_model(hyperparameters: dict, test_size: float, random_state: int) -> LogisticRegression:
     """
     Parameters:
