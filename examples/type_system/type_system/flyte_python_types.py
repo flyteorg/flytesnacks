@@ -53,6 +53,10 @@
 #      - Datetime
 #      - Automatic
 #      - just use python 3 type hints
+#    * - datetime.date
+#      - Datetime
+#      - Automatic
+#      - just use python 3 type hints
 #    * - Univariate List / typing.List
 #      - Collection [ type ]
 #      - Automatic
