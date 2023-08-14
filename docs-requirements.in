@@ -1,6 +1,6 @@
-flytekit==1.8.2
-flytekitplugins-kfpytorch==1.8.2
-flytekitplugins-sqlalchemy==1.8.2
+flytekit
+flytekitplugins-kfpytorch
+flytekitplugins-sqlalchemy
 git+https://github.com/flyteorg/furo@main
 pillow
 psycopg2-binary
