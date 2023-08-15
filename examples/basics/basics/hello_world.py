@@ -12,8 +12,9 @@
 from flytekit import task, workflow
 
 # %% [markdown]
-# You can change the signature of the workflow to take in an argument like this:
-
+# You can change the signature of the task to take in an argument like this:
+# def say_hello(name: str) -> str: 
+#     return f"hello {name}"
 # %%
 @task
 def say_hello() -> str:
@@ -21,10 +22,12 @@ def say_hello() -> str:
 
 
 # %% [markdown]
-# You can treat the outputs of a task as you normally would a Python function. Assign the output to two variables
-# and use them in subsequent tasks as normal. See {py:func}`flytekit.workflow`
+# You can treat the outputs of a task as you normally would a Python function. 
+# Assign the output to two variables and use them in subsequent tasks as normal. 
+# See {py:func}`flytekit.workflow`
 # You can change the signature of the workflow to take in an argument like this:
-
+# def my_wf(name: str) -> str:
+#     ...
 # %%
 @workflow
 def my_wf() -> str:
@@ -49,5 +52,5 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# In the next few examples you'll learn more about the core ideas of Flyte, which are tasks, workflows, and launch
-# plans.
+# In the next few examples you'll learn more about the core ideas of Flyte, 
+# which are tasks, workflows, and launch plans.
