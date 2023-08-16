@@ -1,3 +1,4 @@
 flytekitplugins-kfmpi
+flytekitplugins-envd
 tensorflow==2.8.0
 protobuf==3.20.*

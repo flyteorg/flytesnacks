@@ -1,4 +1,5 @@
 flytekitplugins-kfpytorch
+flytekitplugins-envd
 tensorboardX
 torch
 torchvision

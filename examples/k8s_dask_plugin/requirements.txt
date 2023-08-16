@@ -1,1 +1,2 @@
 flytekitplugins-dask
+flytekitplugins-envd

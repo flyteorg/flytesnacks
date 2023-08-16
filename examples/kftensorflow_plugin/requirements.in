@@ -1,4 +1,0 @@
-tensorflow
-tensorflow-datasets
-flytekitplugins-kftensorflow
-protobuf==3.20.*

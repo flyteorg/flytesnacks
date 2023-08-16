@@ -1,1 +1,2 @@
 flytekitplugins-spark
+flytekitplugins-envd

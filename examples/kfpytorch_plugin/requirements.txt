@@ -24,7 +24,7 @@ async-timeout==4.0.3
     # via aiohttp
 attrs==23.1.0
     # via aiohttp
-azure-core==1.29.1
+azure-core==1.29.2
     # via
     #   adlfs
     #   azure-identity
@@ -89,15 +89,21 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.15
     # via flytekit
+envd==0.3.38
+    # via flytekitplugins-envd
 filelock==3.12.2
     # via torch
-flyteidl==1.5.15
+flyteidl==1.5.16
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
-flytekit==1.8.3
-    # via flytekitplugins-kfpytorch
-flytekitplugins-kfpytorch==1.8.3
+flytekit==1.9.0
+    # via
+    #   flytekitplugins-envd
+    #   flytekitplugins-kfpytorch
+flytekitplugins-envd==1.9.0
+    # via -r requirements.in
+flytekitplugins-kfpytorch==1.9.0
     # via -r requirements.in
 frozenlist==1.4.0
     # via
