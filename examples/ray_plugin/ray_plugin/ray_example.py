@@ -25,7 +25,7 @@
 import typing
 
 import ray
-from flytekit import Resources, task, workflow, ImageSpec
+from flytekit import ImageSpec, Resources, task, workflow
 from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 # %% [markdown]
