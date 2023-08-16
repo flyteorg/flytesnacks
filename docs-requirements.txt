@@ -162,6 +162,8 @@ flytekitplugins-kfpytorch==1.8.1
     # via -r docs-requirements.in
 flytekitplugins-sqlalchemy==1.8.1
     # via -r docs-requirements.in
+flytekitplugins-envd==1.8.1
+    # via -r docs-requirements.in
 fonttools==4.41.0
     # via matplotlib
 frozenlist==1.4.0

@@ -5,6 +5,7 @@ psycopg2-binary
 flytekitplugins-deck-standard
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
+flytekitplugins-envd
 jupytext
 sphinx
 sphinx_rtd_theme
