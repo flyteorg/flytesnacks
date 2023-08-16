@@ -10,7 +10,7 @@ import random
 from operator import add
 
 import flytekit
-from flytekit import Resources, task, workflow, ImageSpec
+from flytekit import ImageSpec, Resources, task, workflow
 from flytekitplugins.spark import Spark
 
 # %% [markdown]

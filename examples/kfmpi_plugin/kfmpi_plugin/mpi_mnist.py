@@ -14,7 +14,7 @@ import tensorflow as tf
 from flytekit import Resources, task, workflow
 from flytekit.core.base_task import IgnoreOutputs
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.kfmpi import MPIJob, Launcher, Worker
+from flytekitplugins.kfmpi import Launcher, MPIJob, Worker
 
 
 # %% [markdown]

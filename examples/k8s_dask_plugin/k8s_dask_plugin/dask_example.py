@@ -7,7 +7,7 @@
 #
 # To begin, import the required dependencies.
 # %%
-from flytekit import Resources, task, ImageSpec
+from flytekit import ImageSpec, Resources, task
 
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the Dask task.
