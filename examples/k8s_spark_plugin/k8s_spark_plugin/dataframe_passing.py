@@ -13,7 +13,6 @@ import flytekit
 import pandas
 from flytekit import ImageSpec, Resources, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
-from flytekitplugins.spark import Spark
 
 try:
     from typing import Annotated
