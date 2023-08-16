@@ -222,7 +222,7 @@ mypy-extensions==1.0.0
     # via typing-inspect
 natsort==8.4.0
     # via flytekit
-numpy==1.25.2
+numpy==1.24.3
     # via
     #   etils
     #   flytekit
