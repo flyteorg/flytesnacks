@@ -24,9 +24,7 @@
 # %%
 import typing
 
-import ray
 from flytekit import ImageSpec, Resources, task, workflow
-from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the Ray task.
@@ -36,6 +34,18 @@ custom_image = ImageSpec(
     registry="localhost:30080",
     packages=["flytekitplugins-ray"],
 )
+
+# %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# The following imports are required to configure the Ray cluster in Flyte.
+# You can load them on demand.
+# %%
+if custom_image.is_container():
+    import ray
+    from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
 # %% [markdown]

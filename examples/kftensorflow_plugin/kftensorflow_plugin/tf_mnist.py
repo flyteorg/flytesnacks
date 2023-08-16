@@ -16,12 +16,9 @@ import os
 from dataclasses import dataclass
 from typing import NamedTuple, Tuple
 
-import tensorflow as tf
-import tensorflow_datasets as tfds
 from dataclasses_json import dataclass_json
 from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.kftensorflow import PS, Chief, TfJob, Worker
 
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the TensorFlow task.
@@ -31,6 +28,19 @@ custom_image = ImageSpec(
     packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow"],
     registry="localhost:30080",
 )
+
+# %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# The following imports are required to configure the TensorFlow cluster in Flyte.
+# You can load them on demand.
+# %%
+if custom_image.is_container():
+    import tensorflow as tf
+    import tensorflow_datasets as tfds
+    from flytekitplugins.kftensorflow import PS, Chief, TfJob, Worker
 
 # %% [markdown]
 # You can activate GPU support by either using the base image that includes the necessary GPU dependencies

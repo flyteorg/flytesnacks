@@ -12,18 +12,10 @@ from dataclasses import dataclass
 from typing import Tuple
 
 import flytekit
-import matplotlib.pyplot as plt
-import torch
-import torch.nn.functional as F
 from dataclasses_json import dataclass_json
 from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import TensorboardLogs
 from flytekit.types.file import PNGImageFile, PythonPickledFile
-from flytekitplugins.kfpytorch import PyTorch, Worker
-from tensorboardX import SummaryWriter
-from torch import distributed as dist
-from torch import nn, optim
-from torchvision import datasets, transforms
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
@@ -35,6 +27,25 @@ custom_image = ImageSpec(
     packages=["torch", "torchvision", "flytekitplugins-kfpytorch", "matplotlib", "tensorboardX", "matplotlib"],
     registry="localhost:30080",
 )
+
+# %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# The following imports are required to configure the PyTorch cluster in Flyte.
+# You can load them on demand.
+# %%
+if custom_image.is_container():
+    import matplotlib.pyplot as plt
+    import torch
+    import torch.nn.functional as F
+    from flytekitplugins.kfpytorch import PyTorch, Worker
+    from tensorboardX import SummaryWriter
+    from torch import distributed as dist
+    from torch import nn, optim
+    from torchvision import datasets, transforms
+
 # %% [markdown]
 # You can activate GPU support by either using the base image that includes the necessary GPU dependencies
 # or by initializing the [CUDA parameters](https://github.com/flyteorg/flytekit/blob/master/flytekit/image_spec/image_spec.py#L34-L35)

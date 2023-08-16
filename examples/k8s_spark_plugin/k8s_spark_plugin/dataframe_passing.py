@@ -23,7 +23,18 @@ except ImportError:
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(name="flyte-spark-plugin", registry="localhost:30000")
+custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
+
+# %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# The following imports are required to configure the Spark cluster in Flyte.
+# You can load them on demand.
+# %%
+if custom_image.is_container():
+    from flytekitplugins.spark import Spark
 
 # %% [markdown]
 # In this particular example,

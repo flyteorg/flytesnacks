@@ -12,9 +12,13 @@ from flytekit import ImageSpec, Resources, task
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the Dask task.
 # %%
-custom_image = ImageSpec(name="flyte-dask-plugin", registry="localhost:30000", packages=["flytekitplugins-dask"])
+custom_image = ImageSpec(name="flyte-dask-plugin", registry="ghcr.io/flyteorg", packages=["flytekitplugins-dask"])
 
 # %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
 # The following imports are required to configure the Dask cluster in Flyte.
 # You can load them on demand.
 # %%
