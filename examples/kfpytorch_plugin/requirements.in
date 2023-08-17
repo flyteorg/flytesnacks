@@ -3,3 +3,4 @@ flytekitplugins-envd
 tensorboardX
 torch
 torchvision
+matplotlib

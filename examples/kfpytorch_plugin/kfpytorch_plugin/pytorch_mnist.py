@@ -24,7 +24,7 @@ WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 # %%
 custom_image = ImageSpec(
     name="flyte-kfpytorch-plugin",
-    packages=["torch", "torchvision", "flytekitplugins-kfpytorch", "matplotlib", "tensorboardX", "matplotlib"],
+    packages=["torch", "torchvision", "flytekitplugins-kfpytorch", "matplotlib", "tensorboardX"],
     registry="ghcr.io/flyteorg",
 )
 

@@ -34,6 +34,8 @@ ENV VENV /opt/venv
 RUN python3.10 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
+ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+
 # Install wheel after venv is activated
 RUN pip3 install wheel
 
