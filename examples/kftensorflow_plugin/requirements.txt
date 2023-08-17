@@ -222,7 +222,7 @@ mypy-extensions==1.0.0
     # via typing-inspect
 natsort==8.4.0
     # via flytekit
-numpy==1.24.3
+numpy==1.25.2
     # via
     #   etils
     #   flytekit
@@ -340,7 +340,6 @@ sortedcontainers==2.4.0
     # via flytekit
 statsd==3.3.0
     # via flytekit
-tensorflow==2.8.0
 tensorflow-datasets==4.9.2
     # via -r requirements.in
 tensorflow-metadata==1.13.1

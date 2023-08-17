@@ -59,7 +59,7 @@ RUN pip install -r /root/requirements.txt
 # you can resolve it by installing TensorFlow using the following RUN instruction:
 # RUN wget https://tf.novaal.de/westmere/tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl && pip install tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl
 # Otherwise:
-RUN pip install tensorflow
+RUN pip install tensorflow==2.8.0
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL

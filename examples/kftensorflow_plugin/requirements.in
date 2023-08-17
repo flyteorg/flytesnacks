@@ -1,4 +1,3 @@
-tensorflow==2.8.0
 tensorflow-datasets
 flytekitplugins-kftensorflow
 flytekitplugins-envd
