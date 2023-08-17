@@ -31,7 +31,7 @@ from flytekit import ImageSpec, Resources, task, workflow
 # %%
 custom_image = ImageSpec(
     name="ray-flyte-plugin",
-    registry="localhost:30080",
+    registry="ghcr.io/flyteorg",
     packages=["flytekitplugins-ray"],
 )
 

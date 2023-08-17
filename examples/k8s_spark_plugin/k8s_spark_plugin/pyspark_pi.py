@@ -15,7 +15,7 @@ from flytekit import ImageSpec, Resources, task, workflow
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(registry="localhost:30000")
+custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
 
 # %% [markdown]
 # :::{note}

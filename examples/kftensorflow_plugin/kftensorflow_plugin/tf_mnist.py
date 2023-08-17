@@ -26,7 +26,7 @@ from flytekit.types.directory import FlyteDirectory
 custom_image = ImageSpec(
     name="kftensorflow-flyte-plugin",
     packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow"],
-    registry="localhost:30080",
+    registry="ghcr.io/flyteorg",
 )
 
 # %% [markdown]
