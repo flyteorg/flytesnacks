@@ -63,6 +63,7 @@ def sphinx_docstring(df: pd.DataFrame, data: PandasData = PandasData()) -> pd.Da
     """
     return add_data(df=df, data=data)
 
+
 # %% [markdown]
 # You'll see the short description in the workflow page.
 # :::{figure} https://github.com/flyteorg/static-resources/blob/main/flyte/concepts/basics/short_description.png
