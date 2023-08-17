@@ -64,7 +64,7 @@ snowflake_task_templatized_query = SnowflakeTask(
     # Define inputs as well as their types that can be used to customize the query.
     inputs=kwtypes(nation_key=int),
     task_config=SnowflakeConfig(
-        account="<>",
+        account="<SNOWFLAKE_ACCOUNT_ID>",
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",
