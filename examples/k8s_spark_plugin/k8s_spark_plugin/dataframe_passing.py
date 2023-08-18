@@ -3,14 +3,15 @@
 #
 # # Converting a Spark DataFrame to a Pandas DataFrame
 #
-# This example shows how a Spark dataset can be returned from a Flyte task and consumed as a pandas DataFrame.
+# This example shows the process of returning a Spark dataset from a Flyte task
+# and then utilizing it as a Pandas DataFrame.
 
 # %% [markdown]
-# First, we import the libraries.
+# To begin, import the libraries.
 # %%
 import flytekit
 import pandas
-from flytekit import Resources, kwtypes, task, workflow
+from flytekit import ImageSpec, Resources, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
 from flytekitplugins.spark import Spark
 
@@ -20,12 +21,29 @@ except ImportError:
     from typing_extensions import Annotated
 
 # %% [markdown]
-# > We define two column types: `name: str` and `age: int`.
+# Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
+# %%
+custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
+
+# %% [markdown]
+# :::{note}
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# In this particular example,
+# we specify two column types: `name: str` and `age: int`
+# that we extract from the Spark DataFrame.
 # %%
 columns = kwtypes(name=str, age=int)
 
+
 # %% [markdown]
-# Next, we define a task that returns a Spark DataFrame.
+# To create a Spark task, add {py:class}`~flytekitplugins.spark.Spark` config to the Flyte task.
+#
+# The `spark_conf` parameter can encompass configuration choices commonly employed when setting up a Spark cluster.
+# Additionally, if necessary, you can provide `hadoop_conf` as an input.
+#
+# Create a task that yields a Spark DataFrame.
 # %%
 @task(
     task_config=Spark(
@@ -38,12 +56,11 @@ columns = kwtypes(name=str, age=int)
         }
     ),
     limits=Resources(mem="2000M"),
-    cache_version="1",
+    container_image=custom_image,
 )
-def create_spark_df() -> Annotated[StructuredDataset, columns]:
+def spark_df() -> Annotated[StructuredDataset, columns]:
     """
-    This task returns a Spark dataset that conforms to the defined schema. Failure to do so should result
-    in a runtime error. TODO: runtime error enforcement
+    This task returns a Spark dataset that conforms to the defined schema.
     """
     sess = flytekit.current_context().spark_session
     return StructuredDataset(
@@ -59,48 +76,47 @@ def create_spark_df() -> Annotated[StructuredDataset, columns]:
 
 
 # %% [markdown]
-# `create_spark_df` is a Spark task that runs within a Spark context (and relies on a Spark cluster that is up and running).
+# `spark_df` represents a Spark task executed within a Spark context, leveraging an active Spark cluster.
 #
-# The task returns a `pyspark.DataFrame` object, even though the return type specifies `StructuredDataset`.
-# The flytekit type-system will automatically convert the `pyspark.DataFrame` to a `StructuredDataset` object.
-# `StructuredDataset` object is an abstract representation of a DataFrame, that can conform to different DataFrame formats.
+# This task yields a `pyspark.DataFrame` object, even though the return type is specified as
+# {ref}`StructuredDataset <structured_dataset_example>`.
+# The Flytekit type system handles the automatic conversion of the `pyspark.DataFrame` into a `StructuredDataset` object.
+# The `StructuredDataset` object serves as an abstract representation of a DataFrame, adaptable to various DataFrame formats.
+
 
 # %% [markdown]
-# We define a task to consume the Spark DataFrame.
+# Create a task to consume the Spark DataFrame.
 # %%
-@task(cache_version="1")
-def sum_of_all_ages(s: Annotated[StructuredDataset, columns]) -> int:
-    df: pandas.DataFrame = s.open(pandas.DataFrame).all()
+@task
+def sum_of_all_ages(sd: Annotated[StructuredDataset, columns]) -> int:
+    df: pandas.DataFrame = sd.open(pandas.DataFrame).all()
     return int(df["age"].sum())
 
 
 # %% [markdown]
-# The task `sum_of_all_ages` receives a parameter of type `StructuredDataset`.
-# We can use the `open` method to specify the DataFrame format, which is `pandas.DataFrame` in our case.
-# On calling `all` on the structured dataset, the executor will load the data into memory (or download if it is run in remote).
+# The `sum_of_all_ages` task accepts a parameter of type `StructuredDataset`.
+# By utilizing the `open` method, you can designate the DataFrame format, which, in our scenario, is `pandas.DataFrame`.
+# When `all` is invoked on the structured dataset, the executor will load the data into memory (or download it if executed remotely).
+
 
 # %% [markdown]
-# Finally, we define a workflow.
+# Lastly, define a workflow.
 # %%
 @workflow
-def my_smart_structured_dataset() -> int:
-    """
-    This workflow shows how a simple schema can be created in Spark and passed to a python function and accessed as a
-    pandas DataFrame. Flyte Schemas are abstract DataFrames and not tied to a specific memory representation.
-    """
-    df = create_spark_df()
-    return sum_of_all_ages(s=df)
+def spark_to_pandas_wf() -> int:
+    df = spark_df()
+    return sum_of_all_ages(sd=df)
 
 
 # %% [markdown]
-# You can execute the code locally!
+# You can execute the code locally.
 # %%
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(f"Running my_smart_schema()-> {my_smart_structured_dataset()}")
+    print(f"Running my_smart_schema()-> {spark_to_pandas_wf()}")
 
 # %% [markdown]
-# New DataFrames can be dynamically loaded in Flytekit's TypeEngine.
+# New DataFrames can be dynamically loaded through the type engine.
 # To register a custom DataFrame type, you can define an encoder and decoder for `StructuredDataset` as outlined in the {ref}`structured_dataset_example` example.
 #
 # Existing DataFrame plugins include:
@@ -108,4 +124,3 @@ if __name__ == "__main__":
 # - {ref}`Modin <Modin>`
 # - [Vaex](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-vaex/README.md)
 # - [Polars](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-polars/README.md)
-#

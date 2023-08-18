@@ -1,46 +1,46 @@
 # %% [markdown]
-# # MPIJob Example
+# # Running Distributed Training Using Horovod and MPI
 #
-# This example showcases how to perform distributed convolutional neural network training on MNIST data.
+# This example demonstrates how to conduct distributed training of a CNN on MNIST data.
 
 # %% [markdown]
-# First, let's import the necessary dependencies.
+# To begin, import the necessary dependencies.
 # %%
 import os
 import pathlib
 
 import flytekit
-import horovod.tensorflow as hvd
 import tensorflow as tf
 from flytekit import Resources, task, workflow
 from flytekit.core.base_task import IgnoreOutputs
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.kfmpi import MPIJob
+from flytekitplugins.kfmpi import Launcher, MPIJob, Worker
 
 
 # %% [markdown]
-# We define a training step that will be called from the training loop.
-# This step captures the training loss and updates the model weights through gradients.
-# The all reduce algorithm comes into the picture in this function.
+# In the context of this example, we define a training step that will be invoked during the training loop.
+# In this step, the training loss is calculated and the model weights are adjusted using gradients.
 # %%
 @tf.function
 def training_step(images, labels, first_batch, mnist_model, loss, opt):
+    import horovod.tensorflow as hvd
+
     with tf.GradientTape() as tape:
         probs = mnist_model(images, training=True)
         loss_value = loss(labels, probs)
 
-    # Horovod: add Horovod Distributed GradientTape — a tape that wraps another tf.GradientTape,
+    # Add Horovod Distributed GradientTape — a tape that wraps another tf.GradientTape,
     # using an allreduce to combine gradient values before applying gradients to model weights.
     tape = hvd.DistributedGradientTape(tape)
 
     grads = tape.gradient(loss_value, mnist_model.trainable_variables)
     opt.apply_gradients(zip(grads, mnist_model.trainable_variables))
 
-    # Horovod: broadcast initial variable states from rank 0 to all other processes.
+    # Broadcast initial variable states from rank 0 to all other processes.
     # This is necessary to ensure consistent initialization of all workers when
     # training is started with random weights or restored from a checkpoint.
     #
-    # Note: broadcast should be done after the first gradient step to ensure optimizer
+    # Note: Broadcast should be done after the first gradient step to ensure optimizer
     # initialization.
     if first_batch:
         hvd.broadcast_variables(mnist_model.variables, root_rank=0)
@@ -50,35 +50,42 @@ def training_step(images, labels, first_batch, mnist_model, loss, opt):
 
 
 # %% [markdown]
-# We define an MPIJob-enabled task. The configuration given in the MPIJob constructor will be used to set up the distributed training environment.
+# To create an MPI task, add {py:class}`~flytekitplugins.kfmpi.MPIJob` config to the Flyte task.
+# The configuration given in the `MPIJob` constructor will be used to set up the distributed training environment.
 #
-# In general, this task executes the following operations:
+# Broadly, let us define a task that executes the following operations:
 #
 # 1. Loads the MNIST data
 # 2. Prepares the data for training
-# 3. Initializes a convnet model
-# 4. Calls the `training_step()` function to train the model
-# 5. Saves the model and checkpoint history and returns the result
+# 3. Initializes a CNN model
+# 4. Invokes the `training_step()` function to train the model
+# 5. Saves the model, checkpoint history, and returns the result
+#
+# :::{note}
+# For running Horovod code specifically, an alternative to using the `MPIJob` configuration is to employ the
+# [`HorovodJob`](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-kf-mpi/flytekitplugins/kfmpi/task.py#L222)
+# configuration. Internally, the `HorovodJob` configuration utilizes the `horovodrun` command,
+# while the `MPIJob` configuration utilizes `mpirun`.
+# :::
 # %%
 @task(
     task_config=MPIJob(
-        num_workers=2,
-        num_launcher_replicas=1,
-        slots=1,
+        launcher=Launcher(
+            replicas=1,
+        ),
+        worker=Worker(
+            replicas=1,
+        ),
     ),
     retries=3,
     cache=True,
     cache_version="0.1",
-    requests=Resources(cpu="1", mem="2000Mi"),
+    requests=Resources(cpu="1", mem="1000Mi"),
     limits=Resources(cpu="2"),
 )
 def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> FlyteDirectory:
-    """
-    :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
-    :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.
-    :param dataset_size: The number of elements of this dataset that should be taken to form the new dataset when
-        running batched training.
-    """
+    import horovod.tensorflow as hvd
+
     hvd.init()
 
     (mnist_images, mnist_labels), _ = tf.keras.datasets.mnist.load_data(path="mnist-%d.npz" % hvd.rank())
@@ -105,7 +112,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
     )
     loss = tf.losses.SparseCategoricalCrossentropy()
 
-    # Horovod: adjust learning rate based on number of GPUs.
+    # Adjust learning rate based on number of GPUs
     opt = tf.optimizers.Adam(0.001 * hvd.size())
 
     checkpoint_dir = ".checkpoint"
@@ -113,7 +120,7 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
 
     checkpoint = tf.train.Checkpoint(model=mnist_model, optimizer=opt)
 
-    # Horovod: adjust number of steps based on number of GPUs.
+    # Adjust number of steps based on number of GPUs
     for batch, (images, labels) in enumerate(dataset.take(dataset_size // hvd.size())):
         loss_value = training_step(images, labels, batch == 0, mnist_model, loss, opt)
 
@@ -141,12 +148,12 @@ def horovod_train_task(batch_size: int, buffer_size: int, dataset_size: int) -> 
 
 
 # %% [markdown]
-# Lastly, we can call the workflow and run the example.
+# Lastly, define a workflow.
 # %%
 @workflow
 def horovod_training_wf(batch_size: int = 128, buffer_size: int = 10000, dataset_size: int = 10000) -> FlyteDirectory:
     """
-    :param batch_size: Represents the number of consecutive elements of this dataset to combine in a single batch.
+    :param batch_size: Represents the number of consecutive elements of the dataset to combine in a single batch.
     :param buffer_size: Defines the size of the buffer used to hold elements of the dataset used for training.
     :param dataset_size: The number of elements of this dataset that should be taken to form the new dataset when
         running batched training.
@@ -154,13 +161,19 @@ def horovod_training_wf(batch_size: int = 128, buffer_size: int = 10000, dataset
     return horovod_train_task(batch_size=batch_size, buffer_size=buffer_size, dataset_size=dataset_size)
 
 
+# %% [markdown]
+# You can execute the workflow locally.
+# %%
 if __name__ == "__main__":
     model, plot, logs = horovod_training_wf()
     print(f"Model: {model}, plot PNG: {plot}, Tensorboard Log Dir: {logs}")
 
 # %% [markdown]
-# ## Control which rank returns its value
-#
-# In distributed training, the return values from different workers might differ.
-# If you want to control which of the workers returns its return value to subsequent tasks in the workflow, you can raise a [IgnoreOutputs](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html) exception for all other ranks.
-#
+# :::{note}
+# In the context of distributed training, it's important to acknowledge that return values from various workers could potentially vary.
+# If you need to regulate which worker's return value gets passed on to subsequent tasks in the workflow,
+# you have the option to raise an
+# [IgnoreOutputs exception](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html)
+# for all remaining ranks.
+# :::
+# %%
