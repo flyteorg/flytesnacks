@@ -11,25 +11,19 @@ from operator import add
 
 import flytekit
 from flytekit import ImageSpec, Resources, task, workflow
+from flytekitplugins.spark import Spark
 
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
 custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
 
+
 # %% [markdown]
 # :::{note}
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #
-# The following imports are required to configure the Spark cluster in Flyte.
-# You can load them on demand.
-# %%
-if custom_image.is_container():
-    from flytekitplugins.spark import Spark
-
-
-# %% [markdown]
 # To create a Spark task, add {py:class}`~flytekitplugins.spark.Spark` config to the Flyte task.
 #
 # The `spark_conf` parameter can encompass configuration choices commonly employed when setting up a Spark cluster.

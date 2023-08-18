@@ -13,6 +13,7 @@ import flytekit
 import pandas
 from flytekit import ImageSpec, Resources, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
+from flytekitplugins.spark import Spark
 
 try:
     from typing import Annotated
@@ -29,13 +30,6 @@ custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #
-# The following imports are required to configure the Spark cluster in Flyte.
-# You can load them on demand.
-# %%
-if custom_image.is_container():
-    from flytekitplugins.spark import Spark
-
-# %% [markdown]
 # In this particular example,
 # we specify two column types: `name: str` and `age: int`
 # that we extract from the Spark DataFrame.

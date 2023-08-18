@@ -228,17 +228,17 @@ If you want to run a workflow with `python example.py`, you would have to write
 a `main` module conditional at the end of the script to actually run the
 workflow:
 
-:::{code-block} python
-if **name** == "**main**":
-training_workflow(hyperparameters={"C": 0.1})
-:::
+```python
+if __name__ == "__main__":
+    training_workflow(hyperparameters={"C": 0.1})
+```
 
 This becomes even more verbose if you want to pass in arguments:
 
-:::{code-block} python
-if **name** == "**main**":
-import json
-from argparse import ArgumentParser
+```python
+if __name__ == "__main__":
+    import json
+    from argparse import ArgumentParser
 
     parser = ArgumentParser()
     parser.add_argument("--hyperparameters", type=json.loads)
@@ -246,8 +246,7 @@ from argparse import ArgumentParser
 
     args = parser.parse_args()
     training_workflow(hyperparameters=args.hyperparameters)
-
-:::
+```
 
 ::::
 
