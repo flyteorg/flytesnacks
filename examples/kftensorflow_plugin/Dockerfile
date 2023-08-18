@@ -1,6 +1,9 @@
-FROM tensorflow/tensorflow:latest-gpu
-# You can disable GPU support by replacing the above line with:
-# FROM tensorflow/tensorflow:latest
+# ######################
+# NOTE: For CI/CD only #
+########################
+FROM tensorflow/tensorflow:latest
+# You can enable GPU support by replacing the above line with:
+# FROM tensorflow/tensorflow:latest-gpu
 
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
@@ -11,22 +14,26 @@ ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 
-# Install basics
-RUN apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/3bf863cc.pub
-RUN apt-get update && apt-get install -y make build-essential libssl-dev curl python3-venv
+# Install Python3.10 and other libraries
+RUN apt-get update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && add-apt-repository -y ppa:deadsnakes/ppa \
+    && apt-get install -y \
+    build-essential \
+    git \
+    wget \
+    python3.10 \
+    python3.10-venv \
+    python3.10-dev \
+    libssl-dev \
+    python3-pip \
+    python3-wheel \
+    libuv1
 
-# Install the AWS cli separately to prevent issues with boto being written over
-RUN pip install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
-WORKDIR /root
-
-ENV VENV /opt/venv
 # Virtual environment
-RUN python3 -m venv ${VENV}
+ENV VENV /opt/venv
+RUN python3.10 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install wheel after venv is activated
@@ -35,6 +42,9 @@ RUN pip3 install wheel
 # Install Python dependencies
 COPY requirements.txt /root
 RUN pip install -r /root/requirements.txt
+
+# Install TensorFlow
+RUN pip install tensorflow
 
 # Copy the actual code
 COPY . /root/

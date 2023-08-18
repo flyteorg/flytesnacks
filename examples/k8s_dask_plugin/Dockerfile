@@ -1,3 +1,6 @@
+# ######################
+# NOTE: For CI/CD only #
+########################
 FROM ubuntu:focal
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
@@ -10,34 +13,22 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Python3 and other basics
 RUN apt-get update \
-    && apt-get install -y \
-    	build-essential \
-    	curl \
-    	git \
-    	libssl-dev \
-    	make \
-    	python3-pip \
-    	python3.8 \
-    	python3.8-venv \
-    && rm -rf /var/lib/apt/lists/* \
-    && :
-
-# Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
-# in future versions to make it completely portable
-RUN pip3 install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
-WORKDIR /root
+	&& apt-get install -y \
+	build-essential \
+	curl \
+	git \
+	libssl-dev \
+	make \
+	python3-pip \
+	python3.8 \
+	python3.8-venv \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& :
 
 ENV VENV /opt/venv
 # Virtual environment
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
-
-RUN pip3 install wheel
 
 # Install Python dependencies
 COPY requirements.txt /root
