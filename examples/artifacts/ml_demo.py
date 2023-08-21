@@ -28,7 +28,7 @@ Scenario:
 """
 
 # Note:
-# the ds partition is formatted as 23_03-7
+# the ds partition will be custom format-able.
 # Also names and partition keys and values all need to be URL sanitized (see below)
 RideCountData = Artifact(name="ride_count_data", partitions={"region": "{{ .inputs.region }}",
                                                              "ds": "{{ .inputs.date }}"})
