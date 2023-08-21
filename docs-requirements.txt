@@ -456,7 +456,7 @@ platformdirs==3.9.1
     # via
     #   jupyter-core
     #   virtualenv
-plotly==5.15.0
+plotly==5.15.0 
     # via flytekitplugins-deck-standard
 portalocker==2.7.0
     # via msal-extensions
@@ -530,7 +530,7 @@ pytz==2023.3
     #   pandas
 pywavelets==1.4.1
     # via imagehash
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   cookiecutter
     #   flytekit

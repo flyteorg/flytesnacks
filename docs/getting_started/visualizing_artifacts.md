@@ -29,7 +29,6 @@ how to generate an HTML report from some Python object.
 
 To enable Flyte Decks, simply set `disable_deck=False` in the `@task` decorator:
 
-
 ```{code-cell} ipython3
 import pandas as pd
 from flytekit import task, workflow
@@ -79,7 +78,6 @@ def wf(
 Then, invoking the workflow containing a deck-enabled task will render the
 following reports for the input and output data in an HTML file, which you can
 see in the logs:
-
 
 ```{code-cell} ipython3
 ---
@@ -153,12 +151,12 @@ for log in deck_filter.logs:
     print(log)
 ```
 
-````{note}
+```{note}
 To see where the HTML file is written to when you run the deck-enabled tasks
 locally, you need to set the `FLYTE_SDK_LOGGING_LEVEL` environment variable
 to `20`. Doing so will emit logs that look like the above print statement,
 where the `deck.html` filepath can be found in the `message` key.
-````
+```
 
 ## Rendering In-line Decks
 
@@ -171,7 +169,7 @@ function. In the following example, we extend the `iris_data` task with:
   which leverages the `plotly` package to auto-generate a set of plots and
   summary statistics from the dataframe.
 
-```{code-cell} ipython
+```{code-cell} ipython3
 import flytekit
 from flytekitplugins.deck.renderer import MarkdownRenderer, BoxRenderer
 
@@ -216,7 +214,7 @@ class DataFrameSummaryRenderer:
 Then we can use the `Annotated` type to override the default renderer of the
 `pandas.DataFrame` type:
 
-```{code-cell} ipython
+```{code-cell} ipython3
 ---
 tags: [remove-output]
 ---
@@ -248,7 +246,7 @@ def iris_data(
 Finally, we can run the workflow and embed the resulting html file by parsing
 out the filepath from logs:
 
-```{code-cell} ipython
+```{code-cell} ipython3
 ---
 tags: [remove-input]
 ---

@@ -83,7 +83,7 @@ invaluable for catching bugs early.
 
 Flyte's type system is also used for caching, data lineage tracking, and
 automatic serialization and deserialization of data as it's passed from one task
-to another. You can learn more about it in the {ref}`User Guide <flyte_type_system>`.
+to another. You can learn more about it in the {ref}`User Guide <data_types_and_io>`.
 
 ## Workflows
 
@@ -150,7 +150,7 @@ semantics:
   time and your workflows will not behave as you expect them to.
 - Within workflows, the inputs of workflow and the outputs of tasks function as promises under the hood,
   so you can't access and operate on them like typical Python function outputs.
-  *You can only pass promises into tasks, workflows, and other Flyte constructs*.
+  _You can only pass promises into tasks, workflows, and other Flyte constructs_.
 - Regular Python conditionals won't work as intended in workflows: you need to
   use the {ref}`conditional <conditional>` construct.
 
@@ -178,7 +178,7 @@ which is a promise. So what's happening here?
 
 When we decorate `standard_scale_workflow_with_print` with `@workflow`, Flyte
 compiles an execution graph that's defined inside the function body, so
-*it doesn't actually run the computations yet*. Therefore, when Flyte compiles a
+_it doesn't actually run the computations yet_. Therefore, when Flyte compiles a
 workflow, the outputs of task calls are actually promises and not regular python
 values.
 
@@ -265,7 +265,6 @@ its data to `task2`. Similarly, `task2` will execute before `subworkflow`.
 ```{important}
 Learn more about chaining flyte entities in the {ref}`User Guide <chain_flyte_entities>`.
 ```
-
 
 ## Launch plans
 

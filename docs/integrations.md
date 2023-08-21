@@ -49,12 +49,11 @@ Data is automatically marshalled and unmarshalled in and out of the plugin. User
 {py:class}`~flytekit.core.base_task.PythonTask` API defined in Flytekit.
 
 Flytekit Plugins are lazily loaded and can be released independently like libraries. We follow a convention to name the
-plugin like `flytekitplugins-*`, where * indicates the package to be integrated into Flytekit. For example
+plugin like `flytekitplugins-*`, where \* indicates the package to be integrated into Flytekit. For example
 `flytekitplugins-papermill` enables users to author Flytekit tasks using [Papermill](https://papermill.readthedocs.io/en/latest/).
 
 You can find the plugins maintained by the core Flyte team [here](https://github.com/flyteorg/flytekit/tree/master/plugins).
 :::
-
 
 ## Native Backend Plugins
 
@@ -82,7 +81,6 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 ```
 
 (external_service_backend_plugins)=
-
 
 ## External Service Backend Plugins
 
@@ -136,7 +134,6 @@ Flyte uses Kustomize to generate the the deployment configuration which can be l
 
 ::::
 
-
 ## Custom Container Tasks
 
 Because Flyte uses executable docker containers as the smallest unit of compute, you can write custom tasks with the
@@ -146,7 +143,7 @@ Because Flyte uses executable docker containers as the smallest unit of compute,
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Raw Container Tasks <auto_examples/containerization/raw_container>`
+* - {doc}`Raw Container Tasks <auto_examples/customizing_dependencies/raw_container>`
   - Execute arbitrary containers: You can write C++ code, bash scripts and any containerized program.
 ```
 

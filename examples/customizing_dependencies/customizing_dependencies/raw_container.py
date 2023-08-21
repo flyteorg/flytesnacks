@@ -173,31 +173,31 @@ def wf(a: float, b: float):
 #
 # ### calculate-ellipse-area.sh
 #
-# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
+# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
 # :language: shell
 # ```
 #
 # ### calculate-ellipse-area.py
 #
-# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
+# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
 # :language: python
 # ```
 #
 # ### calculate-ellipse-area.R
 #
-# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
+# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
 # :language: r
 # ```
 #
 # ### calculate-ellipse-area.hs
 #
-# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
+# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
 # :language: haskell
 # ```
 #
 # ### calculate-ellipse-area.jl
 #
-# ```{literalinclude} ../../../examples/containerization/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
+# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
 # :language: julia
 # ```
 #
