@@ -1,4 +1,4 @@
-flytekit>=1.7.0
+flytekit>=1.8.3
 wheel
 matplotlib
 flytekitplugins-deck-standard
