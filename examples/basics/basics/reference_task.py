@@ -14,7 +14,6 @@
 # :::{note}
 # Reference tasks cannot be run locally. You must mock them out.
 # :::
-
 # %%
 from typing import List
 

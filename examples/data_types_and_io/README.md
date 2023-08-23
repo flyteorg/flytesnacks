@@ -1,6 +1,6 @@
-(flyte_type_system)=
+(data_types_and_io)=
 
-# Type System
+# Data Types and IO
 
 Flyte is a data-aware DAG scheduling system. The graph itself is derived
 automatically from the flow of data and this closely resembles how a functional

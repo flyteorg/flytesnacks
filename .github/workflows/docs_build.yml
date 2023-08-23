@@ -15,10 +15,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-      - name: Set up Python 3.9
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Report Sphinx Warnings
         id: sphinx-warnings
         # NOTE: myst-nb build warnings are logged in docs/_build/reports/*.err.log

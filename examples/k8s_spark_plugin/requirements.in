@@ -1,8 +1,0 @@
-flytekit
-wheel
-matplotlib
-flytekitplugins-deck-standard
-pyspark
-flytekitplugins-spark>=1.0.0
-grpcio-status<1.49.0
-pyspark

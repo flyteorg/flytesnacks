@@ -28,17 +28,18 @@
 # %%
 from flytekit import task
 
+# %% [markdown]
+# Import additional modules.
 # %%
-# Importing additional modules.
 from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+
 
 # %% [markdown]
 # The use of the {py:func}`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
 # These types are standard Python types, which will be further explained in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
-
 # %%
 @task
 def train_model(hyperparameters: dict, test_size: float, random_state: int) -> LogisticRegression:
@@ -80,7 +81,6 @@ if __name__ == "__main__":
 # ## Invoke a Task within a Workflow
 #
 # The primary way to use Flyte tasks is to invoke them in the context of a workflow.
-
 # %%
 from flytekit import workflow
 
@@ -101,9 +101,7 @@ def train_model_wf(
 # ````
 #
 # ## Use `partial` to provide default arguments to tasks
-#
 # You can use the {py:func}`functools.partial` function to assign default or constant values to the parameters of your tasks.
-
 # %%
 import functools
 
@@ -116,8 +114,7 @@ def train_model_wf_with_partial(test_size: float = 0.2, random_state: int = 42) 
 
 # %% [markdown]
 # In this toy example, we're calling the `square` task twice and returning the result.
-
-# %% [markdown]
+#
 # (single_task_execution)=
 #
 # :::{dropdown} Execute a single task *without* a workflow

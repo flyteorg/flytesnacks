@@ -199,4 +199,3 @@ fixed_rate_lp = LaunchPlan.get_or_create(
 # - **region**: this specifies which region AWS clients should use when creating an SQS subscriber client.
 # - **scheduleQueueName**: this is the name of the SQS Queue you've allocated to scheduling workflows.
 # - **accountId**: Your AWS [account id](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId).
-#

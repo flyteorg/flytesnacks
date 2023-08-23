@@ -5,7 +5,7 @@
 The core of Flyte is a container execution engine, where you can write one or more tasks and compose them together to
 form a data dependency DAG, called a `workflow`. If your work involves writing simple Python or Java tasks that can
 either perform operations on their own or call out to {ref}`Supported external services <external_service_backend_plugins>`,
-then there's *no need to extend Flyte*.
+then there's _no need to extend Flyte_.
 
 ## Define a Custom Type
 
@@ -20,7 +20,7 @@ Flytekit allows users to extend Flyte's type system and implement types in Pytho
 class to enable the translation of type from user type to Flyte-understood type.
 
 As an example, instead of using {py:class}`pandas.DataFrame` directly, you may want to use
-`Pandera <https://pandera.readthedocs.io/en/stable/>`__ to perform validation of an input or output dataframe
+[Pandera](https://pandera.readthedocs.io/en/stable/) to perform validation of an input or output dataframe
 (see {ref}`Basic Schema Example <pandera_basic_schema_example>`).
 
 To extend the type system, refer to {ref}`advanced_custom_types`.
@@ -155,11 +155,10 @@ of the plugin.
 
 #### Flyte Agent Service
 
-*New in Flyte 1.7.0*
+_New in Flyte 1.7.0_
 
 {ref}`Flyte Agent Service <extend-agent-service>` allows you to write backend
 plugins in Python.
-
 
 ### Summary
 
@@ -206,12 +205,10 @@ flowchart LR
 
 Use the flow-chart above to point you to one of these examples:
 
-
 ```{auto-examples-toc}
 custom_types
 prebuilt_container
 user_container
 backend_plugins
-agent_service
 container_interface
 ```
