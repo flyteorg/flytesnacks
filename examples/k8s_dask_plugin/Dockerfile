@@ -20,14 +20,14 @@ RUN apt-get update \
 	libssl-dev \
 	make \
 	python3-pip \
-	python3.8 \
-	python3.8-venv \
+	python3.11 \
+	python3.11-venv \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& :
 
 ENV VENV /opt/venv
 # Virtual environment
-RUN python3 -m venv ${VENV}
+RUN python3.11 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
