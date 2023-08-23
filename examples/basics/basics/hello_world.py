@@ -9,6 +9,8 @@
 # This simple workflow calls a task that returns "Hello World" and then just sets that as the final output of the workflow.
 
 # %%
+print("Starting HW")
+
 from flytekit import task, workflow
 
 # %% [markdown]

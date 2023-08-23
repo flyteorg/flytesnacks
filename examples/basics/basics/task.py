@@ -26,6 +26,8 @@
 # %% [markdown]
 # For any task in Flyte, there is one necessary import, which is:
 # %%
+print("Starting TASK")
+
 from flytekit import task
 
 # %%

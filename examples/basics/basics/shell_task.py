@@ -13,6 +13,8 @@
 # The new input/output placeholder syntax of `ShellTask` is available starting Flytekit 0.30.0b8+.
 # :::
 # %%
+print("Starting SHELL TASK")
+
 import os
 from typing import Tuple
 

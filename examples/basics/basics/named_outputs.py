@@ -16,6 +16,7 @@
 #
 # The following example shows how to name outputs of a task and a workflow.
 # %%
+print("Starting NAMED TUPLE")
 import typing
 
 from flytekit import task, workflow

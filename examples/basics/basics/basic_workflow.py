@@ -20,6 +20,8 @@
 #
 # Now, let's get started with a simple workflow.
 # %%
+print("Starting WF")
+
 import typing
 from typing import Tuple
 

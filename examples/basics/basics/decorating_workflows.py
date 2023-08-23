@@ -21,6 +21,8 @@
 # training runs.
 
 # %%
+print("Starting DEC WF")
+
 from functools import partial, wraps
 from unittest.mock import MagicMock
 

@@ -12,6 +12,8 @@
 # Launch plan inputs must only assign inputs already defined in the reference workflow definition.
 
 # %%
+print("Starting LP")
+
 import calendar
 
 # %% [markdown]

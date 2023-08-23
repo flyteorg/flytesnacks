@@ -14,6 +14,7 @@
 # :::{note}
 # Reference tasks cannot be run locally. You must mock them out.
 # :::
+print("Starting REF TASK")
 
 # %%
 from typing import List
