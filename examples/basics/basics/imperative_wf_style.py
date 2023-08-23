@@ -14,8 +14,6 @@
 # For cases where workflows are constructed programmatically, an imperative style makes more sense. For example, when tasks have already been defined, their order and dependencies have
 # been specified in text format of some kind (perhaps you're converting from a legacy system), and your goal is to orchestrate those tasks.
 # %%
-print("Starting IMP")
-
 import typing
 
 from flytekit import Workflow, task

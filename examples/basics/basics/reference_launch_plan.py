@@ -15,8 +15,6 @@
 # :::
 
 # %%
-print("Starting REF LP")
-
 from typing import List
 
 from flytekit import reference_launch_plan, workflow

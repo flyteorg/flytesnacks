@@ -14,8 +14,6 @@
 # %% [markdown]
 # Let's import the libraries.
 # %%
-print("Starting DOC WF")
-
 from dataclasses import dataclass
 
 import pandas as pd

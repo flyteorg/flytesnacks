@@ -26,12 +26,11 @@
 # %% [markdown]
 # For any task in Flyte, there is one necessary import, which is:
 # %%
-print("Starting TASK")
-
 from flytekit import task
 
+# %% [markdown]
+# Import additional modules.
 # %%
-# Importing additional modules.
 from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -40,7 +39,6 @@ from sklearn.model_selection import train_test_split
 # The use of the {py:func}`flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
 # These types are standard Python types, which will be further explained in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
-
 # %%
 @task
 def train_model(hyperparameters: dict, test_size: float, random_state: int) -> LogisticRegression:
@@ -76,6 +74,7 @@ def train_model(hyperparameters: dict, test_size: float, random_state: int) -> L
 # You can execute a Flyte task as any normal function.
 # %%
 if __name__ == "__main__":
+    print("hello")
     print(train_model(hyperparameters={"C": 0.1}, test_size=0.2, random_state=42))
 
 # %% [markdown]
@@ -90,6 +89,7 @@ from flytekit import workflow
 def train_model_wf(
     hyperparameters: dict = {"C": 0.1}, test_size: float = 0.2, random_state: int = 42
 ) -> LogisticRegression:
+    print("YES")
     """
     This workflow invokes the train_model task with the given hyperparameters, test size and random state.
     """
@@ -102,7 +102,6 @@ def train_model_wf(
 # ````
 #
 # ## Use `partial` to provide default arguments to tasks
-#
 # You can use the {py:func}`functools.partial` function to assign default or constant values to the parameters of your tasks.
 # %%
 import functools
@@ -110,14 +109,14 @@ import functools
 
 @workflow
 def train_model_wf_with_partial(test_size: float = 0.2, random_state: int = 42) -> LogisticRegression:
+    print("YES 1")
     partial_task = functools.partial(train_model, hyperparameters={"C": 0.1})
     return partial_task(test_size=test_size, random_state=random_state)
 
 
 # %% [markdown]
 # In this toy example, we're calling the `square` task twice and returning the result.
-
-# %% [markdown]
+#
 # (single_task_execution)=
 #
 # :::{dropdown} Execute a single task *without* a workflow

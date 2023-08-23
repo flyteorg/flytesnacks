@@ -21,8 +21,6 @@
 # %% [markdown]
 # First, let's import the libraries.
 # %%
-print("Starting FILE")
-
 import csv
 import os
 from collections import defaultdict

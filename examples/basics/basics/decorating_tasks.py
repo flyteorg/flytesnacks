@@ -13,8 +13,6 @@
 # information that Flyte needs, you'll need to use the built-in {py:func}`~functools.wraps` decorator.
 
 # %%
-print("Starting DEC TASK")
-
 import logging
 from functools import partial, wraps
 

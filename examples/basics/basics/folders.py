@@ -13,8 +13,6 @@
 # %% [markdown]
 # First, let's import the libraries we need in this example.
 # %%
-print("Starting FOLD")
-
 import csv
 import os
 import urllib.request

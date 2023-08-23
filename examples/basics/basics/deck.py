@@ -26,8 +26,6 @@
 # %% [markdown]
 # Import the dependencies.
 # %%
-print("Starting DECk")
-
 import flytekit
 import pandas as pd
 import plotly.express as px

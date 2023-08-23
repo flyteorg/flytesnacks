@@ -23,8 +23,6 @@
 # %% [markdown]
 # Consider the following example workflow:
 # %%
-print("Starting LP SC")
-
 from datetime import datetime
 
 from flytekit import task, workflow
