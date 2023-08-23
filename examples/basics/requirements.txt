@@ -105,6 +105,8 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.15
     # via flytekit
+envd==0.3.39
+    # via flytekitplugins-envd
 executing==1.2.0
     # via stack-data
 flyteidl==1.5.16
@@ -113,7 +115,10 @@ flytekit==1.9.0
     # via
     #   -r requirements.in
     #   flytekitplugins-deck-standard
+    #   flytekitplugins-envd
 flytekitplugins-deck-standard==1.9.0
+    # via -r requirements.in
+flytekitplugins-envd==1.9.0
     # via -r requirements.in
 fonttools==4.42.1
     # via matplotlib
