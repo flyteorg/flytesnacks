@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath("./_ext"))
 # -- Project information -----------------------------------------------------
 
 project = "Flytesnacks"
-copyright = "2022, Flyte"
+copyright = "2023, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
