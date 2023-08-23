@@ -13,6 +13,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Python3 and other basics
 RUN apt-get update \
+	&& apt-get install -y software-properties-common \
+	&& add-apt-repository ppa:ubuntu-toolchain-r/test \
+	&& add-apt-repository -y ppa:deadsnakes/ppa \
 	&& apt-get install -y \
 	build-essential \
 	curl \

@@ -11,9 +11,7 @@ together to form a workflow, and then read, manipulate and cache data.
 
 ```{auto-examples-toc}
 hello_world
-basic_workflow
-imperative_wf_style
-documented_workflow
+task
 lp
 lp_schedules
 deck
