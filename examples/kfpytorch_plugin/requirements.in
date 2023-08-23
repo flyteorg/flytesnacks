@@ -1,8 +1,6 @@
-flytekit
-wheel
-matplotlib
-flytekitplugins-deck-standard
-flytekitplugins-kfpytorch>=0.16.0
+flytekitplugins-kfpytorch
+flytekitplugins-envd
 tensorboardX
-torch==1.8.1
-torchvision==0.9.1
+torch
+torchvision
+matplotlib
