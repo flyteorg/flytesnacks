@@ -48,6 +48,7 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
         urllib.request.urlretrieve(remote_location, local_image)
     return FlyteDirectory(path=str(local_dir))
 
+
 # :::{note}
 # You can annotate a FlyteDirectory when you want to download/upload the contents of the directory in batches. For example,
 #
