@@ -412,7 +412,7 @@ getting_started/core_use_cases
 ⚗️ Testing <auto_examples/testing/index>
 🚢 Productionizing <auto_examples/productionizing/index>
 🏗 Extending <auto_examples/extending/index>
-📝 Example Contribution Guide <contribute>
+📝 Contributing <contribute>
 ```
 
 ```{toctree}
