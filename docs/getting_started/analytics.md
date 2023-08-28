@@ -51,7 +51,7 @@ population that has received at least one COVID-19 vaccination.
 
 ## Rendering Plots
 
-We can use {ref}`Flyte Decks <flyte-decks>` for rendering a static HTML report
+We can use {ref}`Flyte Decks <decks>` for rendering a static HTML report
 of the map. In this case, we normalize the `people_vaccinated` by the
 `population` count of each country:
 

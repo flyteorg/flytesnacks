@@ -58,6 +58,7 @@ def teardown():
 #
 # Next we create the decorator that we'll use to wrap our workflow function.
 
+
 # %%
 def setup_teardown(fn=None, *, before, after):
     @wraps(fn)
@@ -114,6 +115,7 @@ def setup_teardown(fn=None, *, before, after):
 #
 # Now let's define two tasks that will constitute the workflow
 
+
 # %%
 @task
 def t1(x: float) -> float:
@@ -127,6 +129,7 @@ def t2(x: float) -> float:
 
 # %% [markdown]
 # And then create our decorated workflow:
+
 
 # %%
 @workflow
@@ -145,7 +148,7 @@ if __name__ == "__main__":
 # like [wandb](https://wandb.ai/site) or [clearml](https://clear.ml/), which enable you to track metrics of model
 # training runs.
 #
-# To define workflows imperatively, refer to {ref}`this example <imperative_wf_style>`,
+# To define workflows imperatively, refer to {ref}`this example <imperative_workflow>`,
 # and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks, or
 # backend plugins, see {ref}`Extending Flyte <plugins_extend>`.
 #

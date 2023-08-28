@@ -402,17 +402,17 @@ getting_started/core_use_cases
 :caption: User Guide
 :hidden:
 
-User Guide <userguide>
-Environment Setup <environment_setup>
-Basics <auto_examples/basics/index>
-Data Types and IO <auto_examples/data_types_and_io/index>
-Advanced Composition <auto_examples/advanced_composition/index>
-Customizing Dependencies <auto_examples/customizing_dependencies/index>
-Local Development <auto_examples/local_development/index>
-Testing <auto_examples/testing/index>
-Productionizing <auto_examples/productionizing/index>
-Extending <auto_examples/extending/index>
-Example Contribution Guide <contribute>
+📖 User Guide <userguide>
+🌳 Environment Setup <environment_setup>
+🔤 Basics <auto_examples/basics/index>
+⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
+🔮 Advanced Composition <auto_examples/advanced_composition/index>
+🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
+🏡 Local Development <auto_examples/local_development/index>
+⚗️ Testing <auto_examples/testing/index>
+🚢 Productionizing <auto_examples/productionizing/index>
+🏗 Extending <auto_examples/extending/index>
+📝 Example Contribution Guide <contribute>
 ```
 
 ```{toctree}

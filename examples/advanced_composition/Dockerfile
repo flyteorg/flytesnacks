@@ -1,4 +1,7 @@
-FROM python:3.8-slim-buster
+# ######################
+# NOTE: For CI/CD only #
+########################
+FROM python:3.11-slim-buster
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -12,15 +15,14 @@ RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg b
 
 WORKDIR /root
 
-ENV VENV /opt/venv
 # Virtual environment
+ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
 COPY requirements.txt /root
 RUN pip install -r /root/requirements.txt
-RUN pip freeze
 
 # Copy the actual code
 COPY . /root

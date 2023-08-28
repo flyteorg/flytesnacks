@@ -34,7 +34,7 @@
 #
 # ## Python Library
 #
-# ### Task
+# ### Defining a task
 #
 # New tasks of this type must be created as a subclass of the `PythonCustomizedContainerTask` class.
 #

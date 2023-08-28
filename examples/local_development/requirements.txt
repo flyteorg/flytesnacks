@@ -18,12 +18,18 @@ aioitertools==0.11.0
     # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
+appnope==0.1.3
+    # via ipython
 arrow==1.2.3
     # via cookiecutter
+asttokens==2.2.1
+    # via stack-data
 async-timeout==4.0.3
     # via aiohttp
 attrs==23.1.0
-    # via aiohttp
+    # via
+    #   aiohttp
+    #   visions
 azure-core==1.29.3
     # via
     #   adlfs
@@ -35,6 +41,8 @@ azure-identity==1.14.0
     # via adlfs
 azure-storage-blob==12.17.0
     # via adlfs
+backcall==0.2.0
+    # via ipython
 binaryornot==0.4.4
     # via cookiecutter
 botocore==1.31.17
@@ -62,6 +70,10 @@ click==8.1.7
     #   rich-click
 cloudpickle==2.2.1
     # via flytekit
+comm==0.1.4
+    # via ipywidgets
+contourpy==1.1.0
+    # via matplotlib
 cookiecutter==2.3.0
     # via flytekit
 croniter==1.4.1
@@ -73,10 +85,16 @@ cryptography==41.0.3
     #   msal
     #   pyjwt
     #   pyopenssl
+cycler==0.11.0
+    # via matplotlib
+dacite==1.8.1
+    # via ydata-profiling
 dataclasses-json==0.5.9
     # via flytekit
 decorator==5.1.1
-    # via gcsfs
+    # via
+    #   gcsfs
+    #   ipython
 deprecated==1.2.14
     # via flytekit
 diskcache==5.6.1
@@ -87,10 +105,18 @@ docker-image-py==0.1.12
     # via flytekit
 docstring-parser==0.15
     # via flytekit
+executing==1.2.0
+    # via stack-data
 flyteidl==1.5.17
     # via flytekit
 flytekit==1.9.0
+    # via
+    #   -r requirements.in
+    #   flytekitplugins-deck-standard
+flytekitplugins-deck-standard==1.9.0
     # via -r requirements.in
+fonttools==4.42.1
+    # via matplotlib
 frozenlist==1.4.0
     # via
     #   aiohttp
@@ -141,28 +167,50 @@ grpcio==1.53.0
     #   grpcio-status
 grpcio-status==1.53.0
     # via flytekit
+htmlmin==0.1.12
+    # via ydata-profiling
 idna==3.4
     # via
     #   requests
     #   yarl
+imagehash==4.3.1
+    # via
+    #   visions
+    #   ydata-profiling
 importlib-metadata==6.8.0
     # via
     #   flytekit
     #   keyring
+ipython==8.14.0
+    # via ipywidgets
+ipywidgets==8.1.0
+    # via flytekitplugins-deck-standard
 isodate==0.6.1
     # via azure-storage-blob
 jaraco-classes==3.3.0
     # via keyring
+jedi==0.19.0
+    # via ipython
 jinja2==3.1.2
-    # via cookiecutter
+    # via
+    #   cookiecutter
+    #   ydata-profiling
 jmespath==1.0.1
     # via botocore
 joblib==1.3.2
-    # via flytekit
+    # via
+    #   flytekit
+    #   phik
+jupyterlab-widgets==3.0.8
+    # via ipywidgets
 keyring==24.2.0
     # via flytekit
+kiwisolver==1.4.5
+    # via matplotlib
 kubernetes==27.2.0
     # via flytekit
+markdown==3.4.4
+    # via flytekitplugins-deck-standard
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.3
@@ -178,6 +226,14 @@ marshmallow-enum==1.5.1
     #   flytekit
 marshmallow-jsonschema==0.13.0
     # via flytekit
+matplotlib==3.7.2
+    # via
+    #   phik
+    #   seaborn
+    #   wordcloud
+    #   ydata-profiling
+matplotlib-inline==0.1.6
+    # via ipython
 mdurl==0.1.2
     # via markdown-it-py
 more-itertools==10.1.0
@@ -193,15 +249,33 @@ multidict==6.0.4
     # via
     #   aiohttp
     #   yarl
+multimethod==1.9.1
+    # via
+    #   visions
+    #   ydata-profiling
 mypy-extensions==1.0.0
     # via typing-inspect
 natsort==8.4.0
     # via flytekit
-numpy==1.25.2
+networkx==3.1
+    # via visions
+numpy==1.23.5
     # via
+    #   contourpy
     #   flytekit
+    #   imagehash
+    #   matplotlib
     #   pandas
+    #   patsy
+    #   phik
     #   pyarrow
+    #   pywavelets
+    #   scipy
+    #   seaborn
+    #   statsmodels
+    #   visions
+    #   wordcloud
+    #   ydata-profiling
 oauthlib==3.2.2
     # via
     #   kubernetes
@@ -210,10 +284,41 @@ packaging==23.1
     # via
     #   docker
     #   marshmallow
+    #   matplotlib
+    #   plotly
+    #   statsmodels
 pandas==1.5.3
-    # via flytekit
+    # via
+    #   flytekit
+    #   phik
+    #   seaborn
+    #   statsmodels
+    #   visions
+    #   ydata-profiling
+parso==0.8.3
+    # via jedi
+patsy==0.5.3
+    # via statsmodels
+pexpect==4.8.0
+    # via ipython
+phik==0.12.3
+    # via ydata-profiling
+pickleshare==0.7.5
+    # via ipython
+pillow==10.0.0
+    # via
+    #   imagehash
+    #   matplotlib
+    #   visions
+    #   wordcloud
+plotly==5.16.1
+    # via
+    #   -r requirements.in
+    #   flytekitplugins-deck-standard
 portalocker==2.7.0
     # via msal-extensions
+prompt-toolkit==3.0.39
+    # via ipython
 protobuf==4.24.2
     # via
     #   flyteidl
@@ -223,6 +328,10 @@ protobuf==4.24.2
     #   protoc-gen-swagger
 protoc-gen-swagger==0.1.0
     # via flyteidl
+ptyprocess==0.7.0
+    # via pexpect
+pure-eval==0.2.2
+    # via stack-data
 pyarrow==10.0.1
     # via flytekit
 pyasn1==0.5.0
@@ -233,12 +342,18 @@ pyasn1-modules==0.3.0
     # via google-auth
 pycparser==2.21
     # via cffi
+pydantic==1.10.12
+    # via ydata-profiling
 pygments==2.16.1
-    # via rich
+    # via
+    #   ipython
+    #   rich
 pyjwt[crypto]==2.8.0
     # via msal
 pyopenssl==23.2.0
     # via flytekit
+pyparsing==3.0.9
+    # via matplotlib
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -246,6 +361,7 @@ python-dateutil==2.8.2
     #   croniter
     #   flytekit
     #   kubernetes
+    #   matplotlib
     #   pandas
 python-json-logger==2.0.7
     # via flytekit
@@ -257,11 +373,14 @@ pytz==2023.3
     # via
     #   flytekit
     #   pandas
+pywavelets==1.4.1
+    # via imagehash
 pyyaml==6.0.1
     # via
     #   cookiecutter
     #   flytekit
     #   kubernetes
+    #   ydata-profiling
 regex==2023.8.8
     # via docker-image-py
 requests==2.31.0
@@ -277,6 +396,7 @@ requests==2.31.0
     #   kubernetes
     #   msal
     #   requests-oauthlib
+    #   ydata-profiling
 requests-oauthlib==1.3.1
     # via
     #   google-auth-oauthlib
@@ -292,26 +412,55 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+scipy==1.11.2
+    # via
+    #   imagehash
+    #   phik
+    #   statsmodels
+    #   ydata-profiling
+seaborn==0.12.2
+    # via ydata-profiling
 six==1.16.0
     # via
+    #   asttokens
     #   azure-core
     #   google-auth
     #   isodate
     #   kubernetes
+    #   patsy
     #   python-dateutil
 smmap==5.0.0
     # via gitdb
 sortedcontainers==2.4.0
     # via flytekit
+stack-data==0.6.2
+    # via ipython
 statsd==3.3.0
     # via flytekit
+statsmodels==0.14.0
+    # via ydata-profiling
+tangled-up-in-unicode==0.2.0
+    # via visions
+tenacity==8.2.3
+    # via plotly
 text-unidecode==1.3
     # via python-slugify
+tqdm==4.66.1
+    # via ydata-profiling
+traitlets==5.9.0
+    # via
+    #   comm
+    #   ipython
+    #   ipywidgets
+    #   matplotlib-inline
+typeguard==2.13.3
+    # via ydata-profiling
 typing-extensions==4.7.1
     # via
     #   azure-core
     #   azure-storage-blob
     #   flytekit
+    #   pydantic
     #   typing-inspect
 typing-inspect==0.9.0
     # via dataclasses-json
@@ -323,12 +472,20 @@ urllib3==1.26.16
     #   google-auth
     #   kubernetes
     #   requests
+visions[type_image_path]==0.7.5
+    # via ydata-profiling
+wcwidth==0.2.6
+    # via prompt-toolkit
 websocket-client==1.6.2
     # via
     #   docker
     #   kubernetes
 wheel==0.41.2
     # via flytekit
+widgetsnbextension==4.0.8
+    # via ipywidgets
+wordcloud==1.9.2
+    # via ydata-profiling
 wrapt==1.15.0
     # via
     #   aiobotocore
@@ -336,5 +493,7 @@ wrapt==1.15.0
     #   flytekit
 yarl==1.9.2
     # via aiohttp
+ydata-profiling==4.5.1
+    # via flytekitplugins-deck-standard
 zipp==3.16.2
     # via importlib-metadata
