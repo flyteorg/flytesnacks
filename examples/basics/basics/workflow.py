@@ -24,6 +24,7 @@
 # %%
 from flytekit import task, workflow
 
+
 # %% [markdown]
 # We define `slope` and `intercept` tasks to compute the slope and
 # intercept of the regression line, respectively.
@@ -35,12 +36,14 @@ def slope(x: list[int], y: list[int]) -> float:
     n = len(x)
     return (n * sum_xy - sum(x) * sum(y)) / (n * sum_x_squared - sum(x) ** 2)
 
+
 @task
 def intercept(x: list[int], y: list[int], slope: float) -> float:
     mean_x = sum(x) / len(x)
     mean_y = sum(y) / len(y)
     intercept = mean_y - slope * mean_x
     return intercept
+
 
 # %% [markdown]
 # Define a workflow to establish the task dependencies.
@@ -61,18 +64,18 @@ def simple_wf(x: list[int], y: list[int]) -> float:
 # yet remain inaccessible within the workflow itself.
 # The actual evaluation occurs when the workflow is executed.
 #
-# Workflows can be executed locally, resulting in immediate evaluation, or through tools like 
-# [`pyflyte`](https://docs.flyte.org/projects/flytekit/en/latest/pyflyte.html), 
+# Workflows can be executed locally, resulting in immediate evaluation, or through tools like
+# [`pyflyte`](https://docs.flyte.org/projects/flytekit/en/latest/pyflyte.html),
 # [`flytectl`](https://docs.flyte.org/projects/flytectl/en/latest/index.html) or UI, triggering evaluation.
 # While workflows decorated with `@workflow` resemble Python functions,
 # they function as python-esque Domain Specific Language (DSL).
 # When encountering a @task-decorated Python function, a promise object is created.
 # This promise doesn't store the task's actual output. Its fulfillment only occurs during execution.
-# Additionally, the inputs to a workflow are also promises, you can only pass promises into 
+# Additionally, the inputs to a workflow are also promises, you can only pass promises into
 # tasks, workflows and other Flyte constructs.
 #
 # :::{note}
-# You can learn more about creating dynamic Flyte workflows by referring 
+# You can learn more about creating dynamic Flyte workflows by referring
 # to {ref}`dynamic workflows <dynamic_workflows>`.
 # In a dynamic workflow, unlike a simple workflow, the inputs are pre-materialized.
 # However, each task invocation within the dynamic workflow still generates a promise that is evaluated lazily.
@@ -91,7 +94,7 @@ if __name__ == "__main__":
 #   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/basics/basics/workflow.py \
 #   simple_wf --x '[-3,0,3]' --y '[7,4,-2]'
 # ```
-# 
+#
 # If you want to run it remotely on the Flyte cluster,
 # simply add the `--remote flag` to the `pyflyte run` command:
 # ```
@@ -100,17 +103,18 @@ if __name__ == "__main__":
 #   simple_wf --x '[-3,0,3]' --y '[7,4,-2]'
 # ```
 #
-# While workflows are usually constructed from multiple tasks with dependencies established through 
-# shared inputs and outputs, there are scenarios where isolating the execution of a single task 
-# proves advantageous during the development and iteration of its logic. 
-# Crafting a new workflow definition each time for this purpose can be cumbersome. 
-# However, {ref}`executing an individual task <single_task_execution>` independently, 
+# While workflows are usually constructed from multiple tasks with dependencies established through
+# shared inputs and outputs, there are scenarios where isolating the execution of a single task
+# proves advantageous during the development and iteration of its logic.
+# Crafting a new workflow definition each time for this purpose can be cumbersome.
+# However, {ref}`executing an individual task <single_task_execution>` independently,
 # without the confines of a workflow, offers a convenient approach for iterating on task logic effortlessly.
 #
 # ## Use `partial` to provide default arguments to tasks
 # You can use the {py:func}`functools.partial` function to assign default or constant values to the parameters of your tasks.
 # %%
 import functools
+
 
 @workflow
 def simple_wf_with_partial(x: list[int], y: list[int]) -> float:
