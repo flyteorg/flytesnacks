@@ -49,6 +49,7 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
     return FlyteDirectory(path=str(local_dir))
 
 
+# %% [markdown]
 # :::{note}
 # You can annotate a FlyteDirectory when you want to download/upload the contents of the directory in batches. For example,
 #
