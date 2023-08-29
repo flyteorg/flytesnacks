@@ -44,7 +44,9 @@ default_lp(x=[-3, 0, 3], y=[7, 4, -2])
 # %% [markdown]
 # Create a launch plan and specify the default inputs.
 # %%
-simple_wf_lp = LaunchPlan.create("simple_wf_lp", simple_wf, default_inputs={"x": [-3, 0, 3], "y": [7, 4, -2]})
+simple_wf_lp = LaunchPlan.create(
+    name="simple_wf_lp", workflow=simple_wf, default_inputs={"x": [-3, 0, 3], "y": [7, 4, -2]}
+)
 
 # %% [markdown]
 # You can trigger the launch plan locally as follows:
@@ -60,7 +62,7 @@ simple_wf_lp(x=[3, 5, 3], y=[-3, 2, -2])
 # It's possible to lock launch plan inputs, preventing them from being overridden during execution.
 # %%
 simple_wf_lp_fixed_inputs = LaunchPlan.get_or_create(
-    name="simple_wf_lp_fixed_inputs", workflow=simple_wf_lp, fixed_inputs={"x": [-3, 0, 3]}
+    name="simple_wf_lp_fixed_inputs", workflow=simple_wf, fixed_inputs={"x": [-3, 0, 3]}
 )
 
 # %% [markdown]

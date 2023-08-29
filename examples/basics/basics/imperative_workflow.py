@@ -22,11 +22,10 @@
 # %%
 from flytekit import Workflow
 
-
 # %% [markdown]
 # We import the `slope` and `intercept` tasks from the `workflow.py` file.
 # %%
-from .workflow import slope, intercept
+from .workflow import intercept, slope
 
 # %% [markdown]
 # Create an imperative workflow.
@@ -36,8 +35,8 @@ imperative_wf = Workflow(name="imperative_workflow")
 # %% [markdown]
 # Add the workflow inputs to the imperative workflow.
 # %%
-imperative_wf.add_workflow_input("x", list[str])
-imperative_wf.add_workflow_input("y", list[str])
+imperative_wf.add_workflow_input("x", list[int])
+imperative_wf.add_workflow_input("y", list[int])
 
 # %% [markdown]
 # ::: {note}
@@ -47,8 +46,10 @@ imperative_wf.add_workflow_input("y", list[str])
 #
 # Add the tasks that need to be triggered from within the workflow.
 # %%
-node_t1 = imperative_wf.add_entity(slope, x=imperative_wf.inputs["x"])
-node_t2 = imperative_wf.add_entity(intercept, y=node_t1.outputs["o0"])
+node_t1 = imperative_wf.add_entity(slope, x=imperative_wf.inputs["x"], y=imperative_wf.inputs["y"])
+node_t2 = imperative_wf.add_entity(
+    intercept, x=imperative_wf.inputs["x"], y=imperative_wf.inputs["y"], slope=node_t1.outputs["o0"]
+)
 
 # %% [markdown]
 # Lastly, add the workflow output.

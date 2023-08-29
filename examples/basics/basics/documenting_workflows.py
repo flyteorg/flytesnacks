@@ -14,7 +14,6 @@
 # %%
 from typing import Tuple
 
-import pandas as pd
 from flytekit import workflow
 
 # %% [markdown]

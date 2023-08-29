@@ -20,18 +20,19 @@
 # It can be classified into two types:
 #
 # 1. A task associated with a Python function. Executing the task is the same as executing the function.
-# 2. A task without a Python function, such as a SQL query or a portable task like prebuilt 
+# 2. A task without a Python function, such as a SQL query or a portable task like prebuilt
 #    algorithms in SageMaker, or a service calling an API.
 #
-# Flyte offers numerous plugins for tasks, including backend plugins like 
+# Flyte offers numerous plugins for tasks, including backend plugins like
 # [Athena](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-aws-athena/flytekitplugins/athena/task.py).
 #
-# This example demonstrates how to write and execute a 
+# This example demonstrates how to write and execute a
 # [Python function task](https://github.com/flyteorg/flytekit/blob/master/flytekit/core/python_function_task.py#L75).
 #
 # To begin, import `task` from the `flytekit` library.
 # %%
 from flytekit import task
+
 
 # %% [markdown]
 # The use of the {py:func}`~flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
@@ -47,6 +48,7 @@ def slope(x: list[int], y: list[int]) -> float:
     n = len(x)
     return (n * sum_xy - sum(x) * sum(y)) / (n * sum_x_squared - sum(x) ** 2)
 
+
 # %% [markdown]
 # :::{note}
 # Flytekit will assign a default name to the output variable like `out0`.
@@ -61,7 +63,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # :::{note}
-# When invoking a Flyte task, you need to use keyword arguments to specify 
+# When invoking a Flyte task, you need to use keyword arguments to specify
 # the values for the corresponding parameters.
 # :::
 #
@@ -73,7 +75,7 @@ if __name__ == "__main__":
 #   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/basics/basics/task.py \
 #   slope --x '[-3,0,3]' --y '[7,4,-2]'
 # ```
-# 
+#
 # If you want to run it remotely on the Flyte cluster,
 # simply add the `--remote flag` to the `pyflyte run` command:
 # ```
