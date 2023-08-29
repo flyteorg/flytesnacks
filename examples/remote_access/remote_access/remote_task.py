@@ -70,6 +70,11 @@
 #      flyte_task, inputs={"n": 200, "mean": 0.0, "sigma": 1.0}, execution_name="task-execution", wait=True
 # )
 #
+# # Or use execution_name_prefix to avoid repeated execution names
+# execution = remote.execute(
+#      flyte_task, inputs={"n": 200, "mean": 0.0, "sigma": 1.0}, execution_name="flyte", wait=True
+# )
+#
 # # Inspecting execution
 # # The 'inputs' and 'outputs' correspond to the task execution.
 # input_keys = execution.inputs.keys()
