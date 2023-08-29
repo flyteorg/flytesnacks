@@ -62,7 +62,7 @@ simple_wf_lp(x=[3, 5, 3], y=[-3, 2, -2])
 # It's possible to lock launch plan inputs, preventing them from being overridden during execution.
 # %%
 simple_wf_lp_fixed_inputs = LaunchPlan.get_or_create(
-    name="simple_wf_lp_fixed_inputs", workflow=simple_wf, fixed_inputs={"x": [-3, 0, 3]}
+    name="fixed_inputs", workflow=simple_wf, fixed_inputs={"x": [-3, 0, 3]}
 )
 
 # %% [markdown]
