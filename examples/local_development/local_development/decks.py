@@ -37,7 +37,7 @@ from sklearn.decomposition import PCA
 # You can begin by initializing an {ref}`ImageSpec <image_spec_example>` object to encompass all the necessary dependencies.
 # This approach automatically triggers a Docker build, alleviating the need for you to manually create a Docker image.
 # %%
-custom_image = ImageSpec(name="flyte-decks-example", packages=["plotly"], registry="samhitaalla")
+custom_image = ImageSpec(name="flyte-decks-example", packages=["plotly"], registry="ghcr.io/flyteorg")
 
 if custom_image.is_container():
     import plotly
