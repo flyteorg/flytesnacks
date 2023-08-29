@@ -154,9 +154,6 @@ def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
 #
 # Converts a Markdown string into HTML, producing HTML as a Unicode string.
 # %%
-from flytekitplugins.deck.renderer import MarkdownRenderer
-
-
 @task(disable_deck=False)
 def markdown_renderer() -> None:
     flytekit.current_context().default_deck.append(
@@ -180,7 +177,6 @@ def markdown_renderer() -> None:
 # Typically, the whiskers extend to the edges of the box,
 # plus or minus 1.5 times the interquartile range (IQR: Q3-Q1).
 # %%
-import plotly.express as px
 from flytekitplugins.deck.renderer import BoxRenderer
 
 
