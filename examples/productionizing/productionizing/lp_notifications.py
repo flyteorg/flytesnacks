@@ -47,7 +47,7 @@ def int_doubler_wf(a: int) -> str:
 # 1. Launch Plan triggers email notifications when the workflow execution reaches the `SUCCEEDED` phase.
 # %%
 int_doubler_wf_lp = LaunchPlan.get_or_create(
-    name="int_doubler_wf",
+    name="email_notifications_lp",
     workflow=int_doubler_wf,
     default_inputs={"a": 4},
     notifications=[
@@ -60,7 +60,6 @@ int_doubler_wf_lp = LaunchPlan.get_or_create(
 
 # %% [markdown]
 # 2. Notifications shine when used for scheduled workflows to alert for failures.
-
 # %%
 int_doubler_wf_scheduled_lp = LaunchPlan.get_or_create(
     name="int_doubler_wf_scheduled",
