@@ -1,6 +1,3 @@
-# ######################
-# NOTE: For CI/CD only #
-########################
 FROM python:3.11-slim-buster
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
@@ -11,8 +8,7 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 WORKDIR /root
 
-# This is necessary for opencv to work
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev ffmpeg build-essential curl
+RUN apt-get update && apt-get install -y build-essential
 
 # Virtual environment
 ENV VENV /opt/venv

@@ -148,7 +148,7 @@ semantics:
 - In workflows, you shouldn't use non-deterministic operations like
   `rand.random`, `time.now()`, etc. These functions will be invoked at compile
   time and your workflows will not behave as you expect them to.
-- Within workflows, the inputs of workflow and the outputs of tasks function as promises under the hood,
+- Within workflows, the inputs of workflow and the outputs of tasks function are promises under the hood,
   so you can't access and operate on them like typical Python function outputs.
   _You can only pass promises into tasks, workflows, and other Flyte constructs_.
 - Regular Python conditionals won't work as intended in workflows: you need to
@@ -329,7 +329,7 @@ its own execution name, while the former will execute the workflow in the
 context of the parent workflow's execution context.
 
 ```{important}
-Learn more about subworkflows in the {ref}`User Guide <launchplans>`.
+Learn more about subworkflows in the {ref}`User Guide <launch_plan>`.
 ```
 
 ## What's Next?

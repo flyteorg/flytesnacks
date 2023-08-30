@@ -1,4 +1,4 @@
-# Example Contribution Guide
+# Contributing to User Guide, Tutorials and Integrations
 
 ```{eval-rst}
 .. tags:: Contribute, Basic

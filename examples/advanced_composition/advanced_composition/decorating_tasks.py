@@ -7,25 +7,28 @@
 # .. tags:: Intermediate
 # ```
 #
-# A simple way of modifying the behavior of tasks is by using decorators to wrap your task functions.
+# You can easily change how tasks behave by using decorators to wrap your task functions.
 #
 # In order to make sure that your decorated function contains all the type annotation and docstring
-# information that Flyte needs, you'll need to use the built-in {py:func}`~functools.wraps` decorator.
-
+# information that Flyte needs, you will need to use the built-in {py:func}`~functools.wraps` decorator.
+#
+# To begin, import the required dependencies.
 # %%
 import logging
 from functools import partial, wraps
 
 from flytekit import task, workflow
 
+# %% [markdown]
+# Create a logger to monitor the execution's progress.
+# %%
 logger = logging.getLogger(__file__)
 
 
 # %% [markdown]
-# ## Using a Single Decorator
+# ## Using a single decorator
 #
-# Here we define decorator that logs the input and output information of a decorated task.
-
+# We define a decorator that logs the input and output details for a decorated task.
 # %%
 def log_io(fn):
     @wraps(fn)
@@ -39,12 +42,11 @@ def log_io(fn):
 
 
 # %% [markdown]
-# Next, we define a task called `t1` which is decorated with `log_io`.
+# We create a task named `t1` that is decorated with `log_io`.
 #
 # :::{note}
 # The order of invoking the decorators is important. `@task` should always be the outer-most decorator.
 # :::
-
 # %%
 @task
 @log_io
@@ -55,17 +57,12 @@ def t1(x: int) -> int:
 # %% [markdown]
 # (stacking_decorators)=
 #
-# ## Stacking Multiple Decorators
+# ## Stacking multiple decorators
 #
 # You can also stack multiple decorators on top of each other as long as `@task` is the outer-most decorator.
 #
-# Here we define a decorator that validates that the output of the decorated function is a positive number before
-# returning it, raising a `ValueError` if it violates this assumption.
-#
-# :::{note}
-# The `validate_output` output uses {py:func}`~functools.partial` to implement parameterized decorators.
-# :::
-
+# We define a decorator that verifies if the output from the decorated function is a positive number before it's returned.
+# If this assumption is violated, it raises a `ValueError` exception.
 # %%
 def validate_output(fn=None, *, floor=0):
     @wraps(fn)
@@ -82,8 +79,11 @@ def validate_output(fn=None, *, floor=0):
 
 
 # %% [markdown]
-# Now let's define a function that uses both the logging and validator decorators:
-
+# :::{note}
+# The output of the `validate_output` task uses {py:func}`~functools.partial` to implement parameterized decorators.
+# :::
+#
+# We define a function that uses both the logging and validator decorators.
 # %%
 @task
 @log_io
@@ -94,7 +94,6 @@ def t2(x: int) -> int:
 
 # %% [markdown]
 # Finally, we compose a workflow that calls `t1` and `t2`.
-
 # %%
 @workflow
 def wf(x: int) -> int:
@@ -108,6 +107,5 @@ if __name__ == "__main__":
 # %% [markdown]
 # In this example, you learned how to modify the behavior of tasks via function decorators using the built-in
 # {py:func}`~functools.wraps` decorator pattern. To learn more about how to extend Flyte at a deeper level, for
-# example creating custom types, custom tasks, or backend plugins,
+# example creating custom types, custom tasks or backend plugins,
 # see {ref}`Extending Flyte <plugins_extend>`.
-#

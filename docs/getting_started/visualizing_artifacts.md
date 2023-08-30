@@ -285,7 +285,7 @@ of our dataset.
 Flyte Decks are simple to customize, as long as you can render the Python object
 into some HTML representation.
 
-Learn more about Flyte Decks in the {ref}`User Guide <flyte-decks>`.
+Learn more about Flyte Decks in the {ref}`User Guide <decks>`.
 ```
 
 ## What's Next?

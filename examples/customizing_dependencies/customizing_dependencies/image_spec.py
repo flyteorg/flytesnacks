@@ -48,13 +48,13 @@ pandas_image_spec = ImageSpec(
     python_version="3.9",
     apt_packages=["git"],
     env={"Debug": "True"},
-    registry="ghcr.io/unionai-oss",
+    registry="ghcr.io/flyteorg",
 )
 
 sklearn_image_spec = ImageSpec(
     base_image="ghcr.io/flyteorg/flytekit:py3.8-1.6.2",
     packages=["scikit-learn"],
-    registry="ghcr.io/unionai-oss",
+    registry="ghcr.io/flyteorg",
 )
 
 # %% [markdown]

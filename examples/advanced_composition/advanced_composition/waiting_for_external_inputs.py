@@ -28,7 +28,7 @@
 # :::{important}
 # These functions can only be used inside {func}`@workflow <flytekit.workflow>`-decorated
 # functions, {func}`@dynamic <flytekit.dynamic>`-decorated functions, or
-# {ref}`imperative workflows <imperative_wf_style>`.
+# {ref}`imperative workflows <imperative_workflow>`.
 # :::
 
 # %% [markdown]
@@ -130,7 +130,7 @@ def reporting_wf(data: typing.List[float]) -> dict:
 # :::{note}
 # The `create_report` task is just toy example. In a realistic example, this
 # report might be an html file or set of visualizations. This can be rendered
-# in the Flyte UI with {ref}`Flyte Decks <flyte-decks>`.
+# in the Flyte UI with {ref}`Flyte Decks <decks>`.
 # :::
 #
 # As mentioned in the beginning of this page, this construct can be used for
@@ -168,6 +168,7 @@ def reporting_with_approval_wf(data: typing.List[float]) -> dict:
 # You can also use the output of the `approve` function as a promise, feeding
 # it to a subsequent task. Let's create a version of our report-publishing
 # workflow where the approval happens after `create_report`:
+
 
 # %%
 @workflow

@@ -186,7 +186,7 @@ encompassing the job runner pod, scheduler pod and worker pods.
 
 ### Labels and annotations
 
-Labels and annotations specified within a {ref}`launch plan <launchplans>` will be inherited by all components of the dask job,
+Labels and annotations specified within a {ref}`launch plan <launch_plan>` will be inherited by all components of the dask job,
 which include the job runner pod, scheduler pod and worker pods.
 
 > ```python

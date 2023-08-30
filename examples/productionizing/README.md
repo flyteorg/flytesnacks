@@ -2,12 +2,16 @@
 
 # Productionize
 
-Once you've finished iterating on your tasks and workflows locally, you can serialize and register them to a Flyte
-backend. This section covers how to configure and deploy your workflows for your particular needs.
+In this section, you will learn how to take Flyte pipelines into production.
+You will explore concepts such as customizing resources, notifications, scheduling,
+GPU configuration, secrets, spot instances and more.
 
 ```{auto-examples-toc}
 customizing_resources
+reference_task
+reference_launch_plan
 lp_notifications
+lp_schedules
 configure_logging_links
 configure_use_gpus
 spot_instances

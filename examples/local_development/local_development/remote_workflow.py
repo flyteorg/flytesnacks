@@ -9,7 +9,7 @@
 # A `default launchplan` has the same name as the workflow and all argument defaults are similar. See
 # {ref}`Launch Plans` to run a workflow via the default launchplan.
 #
-# {ref}`Tasks also can be executed <basics_of_tasks>` using the launch command.
+# {ref}`Tasks also can be executed <task>` using the launch command.
 # One difference between running a task and a workflow via launchplans is that launchplans cannot be associated with a
 # task. This is to avoid triggers and scheduling.
 #
