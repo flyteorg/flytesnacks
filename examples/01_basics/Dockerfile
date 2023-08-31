@@ -19,7 +19,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN pip install flytekit flytekitplugins-envd
+RUN pip install flytekit==1.9.0 flytekitplugins-envd
 
 # Copy the actual code
 COPY . /root
