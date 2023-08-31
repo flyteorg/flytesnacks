@@ -143,7 +143,7 @@ Because Flyte uses executable docker containers as the smallest unit of compute,
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Raw Container Tasks <auto_examples/customizing_dependencies/raw_container>`
+* - {doc}`Raw Container Tasks <auto_examples/04_customizing_dependencies/raw_container>`
   - Execute arbitrary containers: You can write C++ code, bash scripts and any containerized program.
 ```
 

@@ -404,14 +404,14 @@ getting_started/core_use_cases
 
 📖 User Guide <userguide>
 🌳 Environment Setup <environment_setup>
-🔤 Basics <auto_examples/basics/index>
-⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
-🔮 Advanced Composition <auto_examples/advanced_composition/index>
-🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
-🏡 Local Development <auto_examples/local_development/index>
-⚗️ Testing <auto_examples/testing/index>
-🚢 Productionizing <auto_examples/productionizing/index>
-🏗 Extending <auto_examples/extending/index>
+🔤 Basics <auto_examples/01_basics/index>
+⌨️ Data Types and IO <auto_examples/02_data_types_and_io/index>
+🔮 Advanced Composition <auto_examples/03_advanced_composition/index>
+🧩 Customizing Dependencies <auto_examples/04_customizing_dependencies/index>
+🏡 Local Development <auto_examples/05_local_development/index>
+⚗️ Testing <auto_examples/06_testing/index>
+🚢 Productionizing <auto_examples/07_productionizing/index>
+🏗 Extending <auto_examples/08_extending/index>
 📝 Contributing <contribute>
 ```
 
