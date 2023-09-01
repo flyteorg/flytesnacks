@@ -45,7 +45,7 @@ Want to contribute or update an example? Check out the {doc}`Contribution Guide 
   - Implement conditionals, nested and dynamic workflows, map tasks and even recursion!
 * - {doc}`🧩 Customizing Dependencies <auto_examples/04_customizing_dependencies/index>`
   - Provide custom dependencies to run your Flyte entities.
-* - {doc}`🏡 Local Development <auto_examples/05_local_development/index>`
+* - {doc}`🏡 Development Lifecycle <auto_examples/05_development_lifecycle/index>`
   - Develop and test locally on the demo cluster.
 * - {doc}`⚗️ Testing <auto_examples/06_testing/index>`
   - Test tasks and workflows with Flyte's testing utilities.

@@ -1,4 +1,4 @@
-# Local Development
+# Development Lifecycle
 
 In this section, you will discover Flyte's features that aid in local workflow development.
 You will gain an understanding of concepts like caching, the Flyte remote API, Agents, Decks and more.

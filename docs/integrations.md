@@ -49,7 +49,7 @@ Data is automatically marshalled and unmarshalled in and out of the plugin. User
 {py:class}`~flytekit.core.base_task.PythonTask` API defined in Flytekit.
 
 Flytekit Plugins are lazily loaded and can be released independently like libraries. We follow a convention to name the
-plugin like `flytekitplugins-*`, where \* indicates the package to be integrated into Flytekit. For example
+plugin like `flytekitplugins-*`, where `*` indicates the package to be integrated into Flytekit. For example
 `flytekitplugins-papermill` enables users to author Flytekit tasks using [Papermill](https://papermill.readthedocs.io/en/latest/).
 
 You can find the plugins maintained by the core Flyte team [here](https://github.com/flyteorg/flytekit/tree/master/plugins).

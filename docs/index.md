@@ -408,7 +408,7 @@ getting_started/core_use_cases
 ⌨️ Data Types and IO <auto_examples/02_data_types_and_io/index>
 🔮 Advanced Composition <auto_examples/03_advanced_composition/index>
 🧩 Customizing Dependencies <auto_examples/04_customizing_dependencies/index>
-🏡 Local Development <auto_examples/05_local_development/index>
+🏡 Development Lifecycle <auto_examples/05_development_lifecycle/index>
 ⚗️ Testing <auto_examples/06_testing/index>
 🚢 Productionizing <auto_examples/07_productionizing/index>
 🏗 Extending <auto_examples/08_extending/index>
