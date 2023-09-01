@@ -33,7 +33,12 @@
 #
 # # Execute
 # execution = remote.execute(
-#     flyte_workflow, inputs={"mean": 1}, execution_name="workflow_execution", wait=True
+#     flyte_workflow, inputs={"mean": 1}, execution_name="workflow-execution", wait=True
+# )
+#
+# # Or use execution_name_prefix to avoid repeated execution names
+# execution = remote.execute(
+#     flyte_workflow, inputs={"mean": 1}, execution_name_prefix="flyte", wait=True
 # )
 # ```
 #

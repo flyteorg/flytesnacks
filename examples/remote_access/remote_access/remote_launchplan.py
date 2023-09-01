@@ -58,7 +58,12 @@
 #
 # # Execute
 # execution = remote.execute(
-#     flyte_lp, inputs={"mean": 1}, execution_name="lp_execution", wait=True
+#     flyte_lp, inputs={"mean": 1}, execution_name="lp-execution", wait=True
+# )
+#
+# # Or use execution_name_prefix to avoid repeated execution names
+# execution = remote.execute(
+#     flyte_lp, inputs={"mean": 1}, execution_name_prefix="flyte", wait=True
 # )
 # ```
 #
