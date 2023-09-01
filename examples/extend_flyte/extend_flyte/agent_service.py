@@ -7,6 +7,10 @@
 # .. tags:: Extensibility, Contribute, Intermediate
 # ```
 #
+# :::{note}
+# This is an experimental feature, which is subject to change the API in the future.
+# :::
+#
 # ## What is an Agent?
 #
 # In Flyte, an Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of creating a pod for each task.
