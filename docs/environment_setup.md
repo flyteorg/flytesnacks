@@ -92,7 +92,7 @@ You can also run the code directly from a remote source:
 
 ```
 pyflyte run --remote \
-    https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/01_basics/01_basics/hello_world.py \
+    https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/basics/basics/hello_world.py \
     hello_world_wf
 ```
 
@@ -112,7 +112,7 @@ Finally, run a workflow that takes some inputs, for example the `workflow.py` ex
 
 ```{prompt} bash
 pyflyte run --remote \
-    https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/01_basics/01_basics/workflow.py \
+    https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/basics/basics/workflow.py \
     simple_wf --x '[-3,0,3]' --y '[7,4,-2]'
 ```
 
@@ -135,7 +135,7 @@ flytectl get workflows \
     --domain development \
     --version <version> \
     -o doturl \
-    01_basics.workflow.simple_wf
+    basics.workflow.simple_wf
 ```
 
 To view workflow as a `strict digraph` on the command line:
@@ -146,7 +146,7 @@ flytectl get workflows \
     --domain development \
     --version <version> \
     -o dot \
-    01_basics.workflow.simple_wf
+    basics.workflow.simple_wf
 ```
 
 Replace `<version>` with the version obtained from the console UI,
@@ -165,4 +165,4 @@ image you want to use with the `--image` option in `pyflyte run`.
 
 ## What's next?
 
-Try out the examples in the {doc}`Basics <auto_examples/01_basics/index>` section.
+Try out the examples in the {doc}`Basics <auto_examples/basics/index>` section.

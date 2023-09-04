@@ -37,20 +37,20 @@ Want to contribute or update an example? Check out the {doc}`Contribution Guide 
 
 * - {doc}`🌳 Environment Setup <environment_setup>`
   - Set up a development environment to run the examples in the user guide.
-* - {doc}`🔤 Basics <auto_examples/01_basics/index>`
+* - {doc}`🔤 Basics <auto_examples/basics/index>`
   - Learn about tasks, workflows, launch plans, caching and managing files and directories.
-* - {doc}`⌨️ Data Types and IO <auto_examples/02_data_types_and_io/index>`
+* - {doc}`⌨️ Data Types and IO <auto_examples/data_types_and_io/index>`
   - Improve pipeline robustness with Flyte's portable and extensible type system.
-* - {doc}`🔮 Advanced Composition <auto_examples/03_advanced_composition/index>`
+* - {doc}`🔮 Advanced Composition <auto_examples/advanced_composition/index>`
   - Implement conditionals, nested and dynamic workflows, map tasks and even recursion!
-* - {doc}`🧩 Customizing Dependencies <auto_examples/04_customizing_dependencies/index>`
+* - {doc}`🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>`
   - Provide custom dependencies to run your Flyte entities.
-* - {doc}`🏡 Development Lifecycle <auto_examples/05_development_lifecycle/index>`
+* - {doc}`🏡 Development Lifecycle <auto_examples/development_lifecycle/index>`
   - Develop and test locally on the demo cluster.
-* - {doc}`⚗️ Testing <auto_examples/06_testing/index>`
+* - {doc}`⚗️ Testing <auto_examples/testing/index>`
   - Test tasks and workflows with Flyte's testing utilities.
-* - {doc}`🚢 Productionizing <auto_examples/07_productionizing/index>`
+* - {doc}`🚢 Productionizing <auto_examples/productionizing/index>`
   - Ship and configure your machine learning pipelines on a production Flyte installation.
-* - {doc}`🏗 Extending <auto_examples/08_extending/index>`
+* - {doc}`🏗 Extending <auto_examples/extending/index>`
   - Define custom plugins that aren't currently supported in the Flyte ecosystem.
 ```

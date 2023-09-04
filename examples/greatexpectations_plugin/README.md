@@ -31,11 +31,11 @@ We're supporting two Flyte types that should suit Great Expectations' `Datasourc
 
 :::{note}
 Flyte types are added because, in Great Expectations, we have the privilege to give a non-string (Pandas/Spark DataFrame) when using a
-{py:class}`RuntimeDataConnector <greatexpectations:great_expectations.datasource.data_connector.runtime_data_connector.RuntimeDataConnector>`
+`RuntimeDataConnector`
 but not when using an
-{py:class}`InferredAssetFilesystemDataConnector <greatexpectations:great_expectations.datasource.data_connector.inferred_asset_filesystem_data_connector.InferredAssetFilesystemDataConnector>`
+`InferredAssetFilesystemDataConnector`
 or a
-{py:class}`ConfiguredAssetFilesystemDataConnector <greatexpectations:great_expectations.datasource.data_connector.configured_asset_filesystem_data_connector.ConfiguredAssetFilesystemDataConnector>`.
+`ConfiguredAssetFilesystemDataConnector`.
 For the latter case, with the integration of Flyte types, we can give a Pandas/Spark DataFrame or a remote URI as the dataset.
 :::
 
@@ -49,8 +49,7 @@ The datasources can be well-integrated with the plugin using the following two m
 
 ### Data Validation Failure
 
-If the data validation fails, the plugin will raise a
-{py:class}`GreatExpectationsValidationError <greatexpectations:great_expectations.exceptions.GreatExpectationsValidationError>`.
+If the data validation fails, the plugin will raise a `GreatExpectationsValidationError`.
 
 For example, this is how the error message looks on the Flyte UI:
 
@@ -86,7 +85,7 @@ rate_code_id -> expect_column_proportion_of_unique_values_to_be_between
 
 - **context_root_dir**: Sets the path of the great expectations config directory.
 
-- **checkpoint_params**: Optional {py:class}`greatexpectations:great_expectations.checkpoint.checkpoint.SimpleCheckpoint` class parameters.
+- **checkpoint_params**: Optional `SimpleCheckpoint` class parameters.
 
 - **batch_request_config**: Additional batch request configuration parameters.
 

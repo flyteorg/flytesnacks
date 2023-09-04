@@ -3,7 +3,7 @@
 #
 # `GreatExpectationsTask` can be used to define data validation within the task.
 # In this example, we'll implement a simple task, followed by Great Expectations data validation on `FlyteFile`, `FlyteSchema`, and finally,
-# the {py:class}`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>`.
+# the `RuntimeBatchRequest`.
 #
 # The following video shows the inner workings of the Great Expectations plugin, plus a demo of the task example.
 #
@@ -165,7 +165,7 @@ def schema_wf() -> typing.List[str]:
 # %% [markdown]
 # ## RuntimeBatchRequest
 #
-# The {py:class}`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>` can wrap either an in-memory DataFrame,
+# The `RuntimeBatchRequest` can wrap either an in-memory DataFrame,
 # filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
 #
 # Let's instantiate a `RuntimeBatchRequest` that accepts a DataFrame and thereby validates it.
