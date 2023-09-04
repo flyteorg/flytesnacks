@@ -7,6 +7,10 @@
 # .. tags:: Extensibility, Contribute, Intermediate
 # ```
 #
+# :::{note}
+# This is an experimental feature, which is subject to change the API in the future.
+# :::
+#
 # ## What is an Agent?
 #
 # In Flyte, an Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of creating a pod for each task.
@@ -176,28 +180,30 @@
 #       - bigquery_query_job_task: agent-service
 #       - custom_task: agent-service
 #
-# agent-service:
-#   supportedTaskTypes:
-#     - default_task
-#     - custom_task
-#   # By default, all the request will be sent to the default agent.
-#   defaultAgent:
-#     endpoint: "dns:///flyteagent.flyte.svc.cluster.local:8000"
-#     insecure: true
-#     timeouts:
-#       GetTask: 200ms
-#     defaultTimeout: 50ms
-#   agents:
-#     custom_agent:
-#       endpoint: "dns:///custom-flyteagent.flyte.svc.cluster.local:8000"
-#       insecure: false
-#       defaultServiceConfig: '{"loadBalancingConfig": [{"round_robin":{}}]}'
+# plugins:
+#   agent-service:
+#     supportedTaskTypes:
+#       - bigquery_query_job_task
+#       - default_task
+#       - custom_task
+#     # By default, all the request will be sent to the default agent.
+#     defaultAgent:
+#       endpoint: "dns:///flyteagent.flyte.svc.cluster.local:8000"
+#       insecure: true
 #       timeouts:
-#         GetTask: 100ms
-#       defaultTimeout: 20ms
-#   agentForTaskTypes:
-#     # It will override the default agent for custom_task, which means propeller will send the request to this agent.
-#     - custom_task: custom_agent
+#         GetTask: 200ms
+#       defaultTimeout: 50ms
+#     agents:
+#       custom_agent:
+#         endpoint: "dns:///custom-flyteagent.flyte.svc.cluster.local:8000"
+#         insecure: false
+#         defaultServiceConfig: '{"loadBalancingConfig": [{"round_robin":{}}]}'
+#         timeouts:
+#           GetTask: 100ms
+#         defaultTimeout: 20ms
+#     agentForTaskTypes:
+#       # It will override the default agent for custom_task, which means propeller will send the request to this agent.
+#       - custom_task: custom_agent
 # ```
 #
 # 3. Restart the FlytePropeller
