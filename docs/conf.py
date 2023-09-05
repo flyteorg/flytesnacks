@@ -181,7 +181,7 @@ intersphinx_mapping = {
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "torch": ("https://pytorch.org/docs/stable/", None),
-    "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
+    # "greatexpectations": ("https://docs.greatexpectations.io/docs/reference/api_reference/", None),
     "tensorflow": (
         "https://www.tensorflow.org/api_docs/python",
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",

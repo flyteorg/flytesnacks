@@ -1,17 +1,16 @@
 # %% [markdown]
 # (shell_task)=
 #
-# # Run Bash Scripts Using ShellTask
+# # Shell Tasks
 #
 # ```{eval-rst}
-# .. tags:: Intermediate
+# .. tags:: Basic
 # ```
 #
-# To run bash scripts from within Flyte, ShellTask can be used. In this example, let's define three ShellTasks to run simple bash commands.
+# To execute bash scripts within Flyte, you can utilize the {py:class}`~flytekit.extras.tasks.shell.ShellTask` class.
+# This example includes three shell tasks to execute bash commands.
 #
-# :::{note}
-# The new input/output placeholder syntax of `ShellTask` is available starting Flytekit 0.30.0b8+.
-# :::
+# First, import the necessary libraries.
 # %%
 import os
 from typing import Tuple
@@ -22,6 +21,11 @@ from flytekit.extras.tasks.shell import OutputLocation, ShellTask
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 
+# %% [markdown]
+# With the required imports in place, you can proceed to define a shell task.
+# To create a shell task, provide a name for it, specify the bash script to be executed,
+# and define inputs and outputs if needed.
+# %%
 t1 = ShellTask(
     name="task_1",
     debug=True,
@@ -68,12 +72,15 @@ t3 = ShellTask(
 
 
 # %% [markdown]
-# - The `inputs` parameter is useful to specify the types of inputs that the task will accept
-# - The `output_locs` parameter is helpful to specify the output locations, could be a `FlyteFile` or `FlyteDirectory`
-# - The `script` parameter is the actual bash script that will be executed (`{inputs.x}`, `{outputs.j}`, etc. will be replaced with the actual input and output values)
-# - The `debug` parameter is useful for debugging
+# Here's a breakdown of the parameters of the `ShellTask`:
 #
-# Next, we define a task to create FlyteFile and FlyteDirectory.
+# - The `inputs` parameter allows you to specify the types of inputs that the task will accept
+# - The `output_locs` parameter is used to define the output locations, which can be `FlyteFile` or `FlyteDirectory`
+# - The `script` parameter contains the actual bash script that will be executed
+#   (`{inputs.x}`, `{outputs.j}`, etc. will be replaced with the actual input and output values).
+# - The `debug` parameter is helpful for debugging purposes
+#
+# We define a task to instantiate `FlyteFile` and `FlyteDirectory`.
 # A `.gitkeep` file is created in the FlyteDirectory as a placeholder to ensure the directory exists.
 # %%
 @task
@@ -89,11 +96,10 @@ def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
 
 
 # %% [markdown]
-# The data passage between tasks can be witnessed in the following workflow:
-#
+# We create a workflow to define the dependencies between the tasks.
 # %%
 @workflow
-def wf() -> FlyteFile:
+def shell_task_wf() -> FlyteFile:
     x, y = create_entities()
     t1_out = t1(x=x)
     t2_out = t2(x=t1_out, y=y)
@@ -101,5 +107,8 @@ def wf() -> FlyteFile:
     return t3_out
 
 
+# %% [markdown]
+# You can run the workflow locally.
+# %%
 if __name__ == "__main__":
-    print(f"Running wf() {wf()}")
+    print(f"Running shell_task_wf() {shell_task_wf()}")

@@ -402,18 +402,17 @@ getting_started/core_use_cases
 :caption: User Guide
 :hidden:
 
-User Guide <userguide>
-Environment Setup <environment_setup>
-Basics <auto_examples/basics/index>
-Control Flow <auto_examples/control_flow/index>
-Type System <auto_examples/type_system/index>
-Testing <auto_examples/testing/index>
-Containerization <auto_examples/containerization/index>
-Image Spec <auto_examples/image_spec/index>
-Remote Access <auto_examples/remote_access/index>
-Production Config <auto_examples/deployment/index>
-Extending Flyte <auto_examples/extend_flyte/index>
-Example Contribution Guide <contribute>
+📖 User Guide <userguide>
+🌳 Environment Setup <environment_setup>
+🔤 Basics <auto_examples/basics/index>
+⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
+🔮 Advanced Composition <auto_examples/advanced_composition/index>
+🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
+🏡 Development Lifecycle <auto_examples/development_lifecycle/index>
+⚗️ Testing <auto_examples/testing/index>
+🚢 Productionizing <auto_examples/productionizing/index>
+🏗 Extending <auto_examples/extending/index>
+📝 Contributing <contribute>
 ```
 
 ```{toctree}

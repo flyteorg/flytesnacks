@@ -4,7 +4,7 @@
 # `GreatExpectationsType` when accompanied with data can be used for data validation.
 # It essentially is the type we attach to the data we want to validate.
 # In this example, we'll implement a simple task, followed by Great Expectations data validation on `FlyteFile`, `FlyteSchema`, and finally,
-# the {py:class}`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>`. The following video is a demo of the Great Expectations type example.
+# the `RuntimeBatchRequest`. The following video is a demo of the Great Expectations type example.
 #
 # ```{eval-rst}
 # .. youtube:: pDFTt_g76Wc
@@ -154,7 +154,7 @@ def schema_wf() -> int:
 # %% [markdown]
 # ## RuntimeBatchRequest
 #
-# The {py:class}`RuntimeBatchRequest <great_expectations.core.batch.RuntimeBatchRequest>` can wrap either an in-memory DataFrame,
+# The `RuntimeBatchRequest` can wrap either an in-memory DataFrame,
 # filepath, or SQL query, and must include batch identifiers that uniquely identify the data.
 #
 # Let's instantiate a `RuntimeBatchRequest` that accepts a DataFrame and thereby validates it.

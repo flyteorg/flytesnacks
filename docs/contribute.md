@@ -1,6 +1,7 @@
-# Example Contribution Guide
+# Contributing to User Guide, Tutorials and Integrations
 
-```{tags} Contribute, Basic
+```{eval-rst}
+.. tags:: Contribute, Basic
 ```
 
 The examples documentation provides an easy way for the community to learn about the rich set of
@@ -157,7 +158,7 @@ packaged, but `flytesnacks` also supports examples written in `.ipynb` and
 
 ## Writing a README
 
-The `README.md` file needs to capture the *what*, *why*, and *how* of the example.
+The `README.md` file needs to capture the _what_, _why_, and _how_ of the example.
 
 - What is the integration about? Its features, etc.
 - Why do we need this integration? How is it going to benefit the Flyte users?
@@ -243,6 +244,7 @@ environment with:
 ```{prompt} bash
 pip install pip-tools
 ```
+
 :::
 
 If you've updated the dependencies of the project, update the `requirements.txt`
@@ -308,9 +310,11 @@ example project, e.g., in myst markdown format, you can write a table-of-content
 directive like so:
 
 :::{code-block}
+
 ```{toc}
 auto_examples/basics/index
 ```
+
 :::
 
 ::::
@@ -333,6 +337,7 @@ Verify that the code and documentation look as expected:
   ```{tip}
   To run a fresh build, run `make -C docs clean html`.
   ```
+
 - Open the HTML pages present in the `docs/_build` directory in the browser with
   `open docs/_build/index.html`
 
