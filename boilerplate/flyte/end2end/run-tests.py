@@ -40,7 +40,7 @@ FLYTESNACKS_WORKFLOW_GROUPS: Mapping[str, List[Tuple[str, dict]]] = {
         # ("control_flow.run_conditions.nested_conditions", {"my_input": 0.4}),
         # ("control_flow.run_conditions.consume_outputs", {"my_input": 0.4, "seed": 7}),
         # ("control_flow.run_merge_sort.merge_sort", {"numbers": [5, 4, 3, 2, 1], "count": 5}),
-        ("advanced_composition.subworkflows.parent_wf", {"my_input1": "hello"}),
+        ("advanced_composition.subworkflows.parent_workflow", {"my_input1": "hello"}),
         ("advanced_composition.subworkflows.nested_parent_wf", {"a": 3}),
         ("basics.workflow.simple_wf", {"x": [1, 2, 3], "y": [1, 2, 3]}),
         # TODO: enable new files and folders workflows
