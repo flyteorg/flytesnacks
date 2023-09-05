@@ -9,7 +9,7 @@ from typing import Dict, List, Mapping, Tuple
 
 import click
 import requests
-from flytekit.configuration import Config, ImageConfig, SerializationSettings
+from flytekit.configuration import Config
 from flytekit.models.core.execution import WorkflowExecutionPhase
 from flytekit.remote import FlyteRemote
 from flytekit.remote.executions import FlyteWorkflowExecution
