@@ -217,8 +217,7 @@ jobs:
                   advanced_composition/advanced_composition/subworkflows.py \
                   data_types_and_io/data_types_and_io/custom_objects.py \
                   data_types_and_io/data_types_and_io/schema.py \
-                  data_types_and_io/data_types_and_io/typed_schema.py \
-                  development_lifecycle/development_lifecycle/decks.py ;
+                  data_types_and_io/data_types_and_io/typed_schema.py ;
           do
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
                   register \
