@@ -168,7 +168,7 @@ jobs:
               "prerelease": false
           }'
 
-  sandbox-bundled-functional-tests:
+  e2e-tests:
     runs-on: ubuntu-latest
     env:
       FLYTESNACKS_PRIORITIES: 'P0'
