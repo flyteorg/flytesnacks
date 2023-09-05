@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
-import click
 import datetime
 import json
 import sys
 import time
 import traceback
-import requests
-from typing import List, Mapping, Tuple, Dict
-from flytekit.remote import FlyteRemote
-from flytekit.models.core.execution import WorkflowExecutionPhase
-from flytekit.configuration import Config, ImageConfig, SerializationSettings
-from flytekit.remote.executions import FlyteWorkflowExecution
+from typing import Dict, List, Mapping, Tuple
 
+import click
+import requests
+from flytekit.configuration import Config, ImageConfig, SerializationSettings
+from flytekit.models.core.execution import WorkflowExecutionPhase
+from flytekit.remote import FlyteRemote
+from flytekit.remote.executions import FlyteWorkflowExecution
 
 WAIT_TIME = 10
 MAX_ATTEMPTS = 200
@@ -25,7 +25,7 @@ FLYTESNACKS_WORKFLOW_GROUPS: Mapping[str, List[Tuple[str, dict]]] = {
         ("basics.hello_world.hello_world_wf", {}),
     ],
     "core": [
-        ("development_lifecycle.deck.image_renderer_wf", {}),
+        ("development_lifecycle.decks.image_renderer_wf", {}),
         # The chain_workflows example in flytesnacks expects to be running in a sandbox.
         ("advanced_composition.chain_entities.chain_workflows_wf", {}),
         ("advanced_composition.dynamics.wf", {"s1": "Pear", "s2": "Earth"}),
@@ -55,7 +55,7 @@ FLYTESNACKS_WORKFLOW_GROUPS: Mapping[str, List[Tuple[str, dict]]] = {
         # ("type_system.enums.enum_wf", {"c": "red"}),
         ("data_types_and_io.schema.df_wf", {"a": 42}),
         ("data_types_and_io.typed_schema.wf", {}),
-        #("my.imperative.workflow.example", {"in1": "hello", "in2": "foo"}),
+        # ("my.imperative.workflow.example", {"in1": "hello", "in2": "foo"}),
     ],
     "integrations-k8s-spark": [
         ("k8s_spark_plugin.pyspark_pi.my_spark", {"triggered_date": datetime.datetime.now()}),
@@ -94,11 +94,13 @@ def execute_workflow(remote, version, workflow_name, inputs):
     wf = remote.fetch_workflow(name=workflow_name, version=version)
     return remote.execute(wf, inputs=inputs, wait=False)
 
+
 def executions_finished(executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]) -> bool:
     for executions in executions_by_wfgroup.values():
         if not all([execution.is_done for execution in executions]):
             return False
     return True
+
 
 def sync_executions(remote: FlyteRemote, executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]):
     try:
@@ -116,6 +118,7 @@ def report_executions(executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecuti
     for executions in executions_by_wfgroup.values():
         for execution in executions:
             print(execution)
+
 
 def schedule_workflow_groups(
     tag: str,
@@ -137,16 +140,11 @@ def schedule_workflow_groups(
 
     # Wait for all executions to finish
     attempt = 0
-    while attempt == 0 or (
-        not executions_finished(executions_by_wfgroup) and attempt < MAX_ATTEMPTS
-    ):
+    while attempt == 0 or (not executions_finished(executions_by_wfgroup) and attempt < MAX_ATTEMPTS):
         attempt += 1
-        print(
-            f"Not all executions finished yet. Sleeping for some time, will check again in {WAIT_TIME}s"
-        )
+        print(f"Not all executions finished yet. Sleeping for some time, will check again in {WAIT_TIME}s")
         time.sleep(WAIT_TIME)
         sync_executions(remote, executions_by_wfgroup)
-
 
     report_executions(executions_by_wfgroup)
 
@@ -190,14 +188,17 @@ def run(
 
     # For a given release tag and priority, this function filters the workflow groups from the flytesnacks
     # manifest file. For example, for the release tag "v0.2.224" and the priority "P0" it returns [ "core" ].
-    manifest_url = "https://raw.githubusercontent.com/flyteorg/flytesnacks/" \
-                   f"{flytesnacks_release_tag}/flyte_tests_manifest.json"
+    manifest_url = (
+        "https://raw.githubusercontent.com/flyteorg/flytesnacks/" f"{flytesnacks_release_tag}/flyte_tests_manifest.json"
+    )
     r = requests.get(manifest_url)
     parsed_manifest = r.json()
     workflow_groups = []
-    workflow_groups = ["lite"] if "lite" in priorities else [
-            group["name"] for group in parsed_manifest if group["priority"] in priorities
-        ]
+    workflow_groups = (
+        ["lite"]
+        if "lite" in priorities
+        else [group["name"] for group in parsed_manifest if group["priority"] in priorities]
+    )
 
     results = []
     valid_workgroups = []
@@ -214,10 +215,7 @@ def run(
         valid_workgroups.append(workflow_group)
 
     results_by_wfgroup = schedule_workflow_groups(
-        flytesnacks_release_tag,
-        valid_workgroups,
-        remote,
-        terminate_workflow_on_failure
+        flytesnacks_release_tag, valid_workgroups, remote, terminate_workflow_on_failure
     )
 
     for workflow_group, succeeded in results_by_wfgroup.items():
@@ -271,9 +269,7 @@ def cli(
     terminate_workflow_on_failure,
 ):
     print(f"return_non_zero_on_failure={return_non_zero_on_failure}")
-    results = run(
-        flytesnacks_release_tag, priorities, config_file, terminate_workflow_on_failure
-    )
+    results = run(flytesnacks_release_tag, priorities, config_file, terminate_workflow_on_failure)
 
     # Write a json object in its own line describing the result of this run to stdout
     print(f"Result of run:\n{json.dumps(results)}")

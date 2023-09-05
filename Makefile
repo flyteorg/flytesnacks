@@ -20,3 +20,9 @@ docs-requirements.txt: docs-requirements.in install-piptools
 
 .PHONY: docs-requirements
 docs-requirements: docs-requirements.txt
+
+.PHONY: fmt
+fmt: ## Format code with black and isort
+	autoflake --remove-all-unused-imports --ignore-init-module-imports --ignore-pass-after-docstring --in-place -r examples
+	pre-commit run black --all-files || true
+	pre-commit run isort --all-files || true
