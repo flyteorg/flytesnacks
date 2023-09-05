@@ -25,7 +25,7 @@ FLYTESNACKS_WORKFLOW_GROUPS: Mapping[str, List[Tuple[str, dict]]] = {
         ("basics.hello_world.hello_world_wf", {}),
     ],
     "core": [
-        ("development_lifecycle.decks.image_renderer_wf", {}),
+        # ("development_lifecycle.decks.image_renderer_wf", {}),
         # The chain_workflows example in flytesnacks expects to be running in a sandbox.
         ("advanced_composition.chain_entities.chain_workflows_wf", {}),
         ("advanced_composition.dynamics.wf", {"s1": "Pear", "s2": "Earth"}),
