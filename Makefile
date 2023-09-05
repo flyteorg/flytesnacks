@@ -1,3 +1,4 @@
+include boilerplate/flyte/end2end/Makefile
 .SILENT:
 
 define PIP_COMPILE
