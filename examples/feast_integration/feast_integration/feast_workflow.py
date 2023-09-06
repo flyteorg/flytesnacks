@@ -108,7 +108,6 @@ def create_bucket(bucket_name: str, registry_path: str, online_store_path: str) 
         client.create_bucket(Bucket=bucket_name)
     except client.exceptions.BucketAlreadyOwnedByYou:
         logger.info(f"Bucket {bucket_name} has already been created by you.")
-        pass
 
     return RepoConfig(
         registry=f"s3://{bucket_name}/{registry_path}",
