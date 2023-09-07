@@ -1,4 +1,6 @@
 # %% [markdown]
+# (map_tasks)=
+#
 # # Map Tasks
 #
 # ```{tags} Intermediate
