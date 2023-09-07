@@ -97,9 +97,26 @@ async def simple_eager_workflow(x: int) -> int:
 # you lose the compile-time type safety that you get with regular static workflows
 # and to a lesser extent, dynamic workflows.
 # ```
+#
+# Similar to {ref}`dynamic workflows <dynamic_workflows>`, eager workflows are
+# actually tasks. The main difference is that, while dynamic workflows compile
+# a static workflow at runtime using materialized inputs, eager workflows do
+# not compile any workflow at all. Instead, they uses the the {py:class}`~flytekit.remote.remote.FlyteRemote`
+# object together with Python's `asyncio` API to kick off tasks and subworkflow
+# executions eagerly whenever you `await` on a coroutine. This means that eager
+# workflows can materialize an output of a task or subworkflow and use it as a
+# Python object in the underlying runtime environment. We'll see how to configure
+# `@eager` functions to run on a remote Flyte cluster
+# {ref}`later in this guide <eager_workflows_remote>`.
 
 # %% [markdown]
-# ## Operating on task and subworkflow outputs
+# ## What can you do with eager workflows?
+#
+# In this section we'll cover a few of the use cases that you can accomplish
+# with eager workflows, some of which you can't accomplish with static or dynamic
+# workflows.
+#
+# ### Operating on task and subworkflow outputs
 #
 # One of the biggest benefits of eager workflows is that you can now materialize
 # task and subworkflow outputs as Python values and do operations on them just
@@ -123,7 +140,7 @@ async def another_eager_workflow(x: int) -> int:
 
 
 # %% [markdown]
-# ## Conditionals
+# ### Pythonic Conditionals
 #
 # As you saw in the `simple_eager_workflow` workflow above, you can use regular
 # Python conditionals in your eager workflows. Let's look at a more complicated
@@ -157,7 +174,7 @@ async def eager_workflow_with_conditionals(x: int) -> int:
 
 
 # %% [markdown]
-# ## For loops
+# ### Loops
 #
 # You can also gather the outputs of multiple tasks or subworkflows into a list:
 
@@ -177,7 +194,7 @@ async def eager_workflow_with_for_loop(x: int) -> int:
 
 
 # %% [markdown]
-# ## Static subworkflows
+# ### Static subworkflows
 #
 # You can also invoke static workflows from within an eager workflow:
 
@@ -196,7 +213,7 @@ async def eager_workflow_with_static_subworkflow(x: int) -> int:
 
 
 # %% [markdown]
-# ## Eager subworkflows
+# ### Eager subworkflows
 #
 # You can have nest eager subworkflows inside a parent eager workflow:
 
@@ -213,7 +230,7 @@ async def nested_eager_workflow(x: int) -> int:
 
 
 # %% [markdown]
-# ## Catching exceptions
+# ### Catching exceptions
 #
 # You can also catch exceptions in eager workflows through `EagerException`:
 
@@ -260,10 +277,17 @@ async def eager_workflow_with_exception(x: int) -> int:
 
 # %%
 if __name__ == "__main__":
-    result = simple_eager_workflow(x=5)
+    result = asyncio.run(simple_eager_workflow(x=5))
     print(f"Result: {result}")  # "Result: 12"
 
 # %% [markdown]
+# This just uses the `asyncio.run` function to execute the eager workflow just
+# like any other Python async code. This is useful for local debugging as you're
+# developing your workflows and tasks.
+
+# %% [markdown]
+# (eager_workflows_remote)=
+#
 # ### Remote Flyte Cluster Execution
 #
 # Under the hood, `@eager` workflows use the {py:class}`~flytekit.remote.remote.FlyteRemote`
@@ -304,6 +328,7 @@ if __name__ == "__main__":
 # `client_secret_group` and `client_secret_key` are not required, since the
 # default sandbox configration does not require key-based authentication.
 
+# %%
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
