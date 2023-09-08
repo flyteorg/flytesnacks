@@ -107,7 +107,7 @@ async def simple_eager_workflow(x: int) -> int:
 #    assuming that they don't have any dependencies on each other. However, eager
 #    workflows provide a python-native way of doing this, with the main downside
 #    being that you lose the benefits of statically compiled workflows such as
-#    compile-time type analysis and first-class data lineage tracking.
+#    compile-time analysis and first-class data lineage tracking.
 # ```
 #
 # Similar to {ref}`dynamic workflows <dynamic_workflows>`, eager workflows are
@@ -442,6 +442,10 @@ async def eager_workflow_sandbox(x: int) -> int:
 # - You cannot invoke {ref}`dynamic workflows <dynamic_workflows>`,
 #   {ref}`map tasks <map_task>`, or {ref}`launch plans <launch_plan>` inside an
 #   eager workflow.
+# - [Context managers](https://docs.python.org/3/library/contextlib.html) will
+#   only work on locally executed functions within the eager workflow, i.e. using a
+#   context manager to modify the behavior of a task or subworkflow will not work
+#   because they are executed on a completely different pod.
 # - All exceptions raised by Flyte tasks or workflows will be caught and raised
 #   as an {py:class}`~flytekit.experimental.EagerException` at runtime.
 # - All task/subworkflow outputs are materialized as Python values, which includes
