@@ -15,6 +15,7 @@ subworkflows
 dynamics
 map_task
 merge_sort
+eager_workflows
 decorating_tasks
 decorating_workflows
 checkpoint
