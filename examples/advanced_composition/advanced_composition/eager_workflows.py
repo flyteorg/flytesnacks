@@ -96,6 +96,18 @@ async def simple_eager_workflow(x: int) -> int:
 # interface to define extremely flexible execution graphs! The trade-off is that
 # you lose the compile-time type safety that you get with regular static workflows
 # and to a lesser extent, dynamic workflows.
+#
+# We're leveraging Python's native `async` capabilities in order to:
+#
+# 1. Materialize the output of flyte tasks and subworkflows so you can operate
+#    on them without spinning up another pod and also determine the shape of the
+#    workflow graph in an extremely flexible manner.
+# 2. Provide an alternative way of achieving concurrency in Flyte. Flyte has
+#    concurrency built into it, so all tasks/subworkflows will execute concurrently
+#    assuming that they don't have any dependencies on each other. However, eager
+#    workflows provide a python-native way of doing this, with the main downside
+#    being that you lose the benefits of statically compiled workflows such as
+#    compile-time type analysis and first-class data lineage tracking.
 # ```
 #
 # Similar to {ref}`dynamic workflows <dynamic_workflows>`, eager workflows are
@@ -428,7 +440,7 @@ async def eager_workflow_sandbox(x: int) -> int:
 # need to keep in mind:
 #
 # - You cannot invoke {ref}`dynamic workflows <dynamic_workflows>`,
-#   {ref}`map tasks <map_tasks>`, or {ref}`launch plans <launch_plan>` inside an
+#   {ref}`map tasks <map_task>`, or {ref}`launch plans <launch_plan>` inside an
 #   eager workflow.
 # - All exceptions raised by Flyte tasks or workflows will be caught and raised
 #   as an {py:class}`~flytekit.experimental.EagerException` at runtime.
