@@ -113,7 +113,7 @@ async def simple_eager_workflow(x: int) -> int:
 # Similar to {ref}`dynamic workflows <dynamic_workflows>`, eager workflows are
 # actually tasks. The main difference is that, while dynamic workflows compile
 # a static workflow at runtime using materialized inputs, eager workflows do
-# not compile any workflow at all. Instead, they uses the the {py:class}`~flytekit.remote.remote.FlyteRemote`
+# not compile any workflow at all. Instead, they use the {py:class}`~flytekit.remote.remote.FlyteRemote`
 # object together with Python's `asyncio` API to kick off tasks and subworkflow
 # executions eagerly whenever you `await` on a coroutine. This means that eager
 # workflows can materialize an output of a task or subworkflow and use it as a
