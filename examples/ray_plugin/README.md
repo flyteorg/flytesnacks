@@ -72,8 +72,7 @@ To enable the plugin in the backend, refer to the instructions provided in the {
 To run the provided example on the Flyte cluster, use the following command:
 
 ```
-pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/ray_plugin/ray_plugin/ray_example.py \
+pyflyte run --remote ray_example.py \
   ray_workflow --n 10
 ```
 

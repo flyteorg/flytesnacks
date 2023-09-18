@@ -231,8 +231,7 @@ It's important to be aware that neither the job runner nor the scheduler will be
 To run the provided example on the Flyte cluster, use the following command:
 
 ```
-pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_dask_plugin/k8s_dask_plugin/dask_example.py \
+pyflyte run --remote dask_example.py \
   hello_dask --size 1000
 ```
 
