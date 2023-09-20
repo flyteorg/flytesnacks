@@ -68,6 +68,10 @@ Use `flytectl` to start a demo Flyte cluster:
 flytectl demo start
 ```
 
+After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this: 
+```export FLYTECTL_CONFIG=/Users/guestaccount/.flyte/config-sandbox.yaml
+```
+
 ## Running workflows
 
 Now you can run the example workflow locally using the default Docker image bundled with `flytekit`:
