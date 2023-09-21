@@ -69,7 +69,7 @@ flytectl demo start
 ```
 
 After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this: 
-```export FLYTECTL_CONFIG=/Users/guestaccount/.flyte/config-sandbox.yaml
+```{prompt} export FLYTECTL_CONFIG= ~/<pathTo>/.flyte/config-sandbox.yaml
 ```
 
 ## Running workflows
