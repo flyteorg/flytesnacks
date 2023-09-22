@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - name: 'Set example id'
+      - name: "Set example id"
         id: example_id
         run: echo "EXAMPLE_ID=$(echo ${{ matrix.directory }} | sed 's@/@-@g' | sed 's@_@-@g' )" >> "$GITHUB_OUTPUT"
       - name: Build docker image and serialize examples
@@ -42,7 +42,6 @@ jobs:
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
           path: ${{ matrix.directory }}/**/*.pb
-
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
   register:

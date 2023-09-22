@@ -170,8 +170,8 @@ of data between tasks and, more generally, the dependencies between tasks 🔀.
 :animate: fade-in-slide-down
 
 Flyte `@task` and `@workflow` decorators are designed to work seamlessly with
-your code-base, provided that the *decorated function is at the top-level scope
-of the module*.
+your code-base, provided that the _decorated function is at the top-level scope
+of the module_.
 
 This means that you can invoke tasks and workflows as regular Python methods and
 even import and use them in other Python modules or scripts.
@@ -189,7 +189,7 @@ only supports a subset of Python's semantics. Learn more in the
 
 ## Running Flyte Workflows in Python
 
-You can run the workflow in ``example.py`` on a local Python by using `pyflyte`,
+You can run the workflow in `example.py` on a local Python by using `pyflyte`,
 the CLI that ships with `flytekit`.
 
 ```{prompt} bash $
@@ -197,7 +197,7 @@ pyflyte run example.py training_workflow \
     --hyperparameters '{"C": 0.1}'
 ```
 
-:::::{dropdown} {fa}`info-circle`  Running into shell issues?
+:::::{dropdown} {fa}`info-circle` Running into shell issues?
 :title: text-muted
 :animate: fade-in-slide-down
 
@@ -212,8 +212,6 @@ set -gx PATH $PATH ~/.local/bin
 :::
 :::::
 
-
-
 :::::{dropdown} {fa}`info-circle` Why use `pyflyte run` rather than `python example.py`?
 :title: text-muted
 :animate: fade-in-slide-down
@@ -221,23 +219,23 @@ set -gx PATH $PATH ~/.local/bin
 `pyflyte run` enables you to execute a specific workflow using the syntax
 `pyflyte run <path/to/script.py> <workflow_or_task_function_name>`.
 
-Keyword arguments can be supplied to ``pyflyte run`` by passing in options in
-the format ``--kwarg value``, and in the case of ``snake_case_arg`` argument
-names, you can pass in options in the form of ``--snake-case-arg value``.
+Keyword arguments can be supplied to `pyflyte run` by passing in options in
+the format `--kwarg value`, and in the case of `snake_case_arg` argument
+names, you can pass in options in the form of `--snake-case-arg value`.
 
 ::::{note}
 If you want to run a workflow with `python example.py`, you would have to write
 a `main` module conditional at the end of the script to actually run the
 workflow:
 
-:::{code-block} python
+```python
 if __name__ == "__main__":
     training_workflow(hyperparameters={"C": 0.1})
-:::
+```
 
 This becomes even more verbose if you want to pass in arguments:
 
-:::{code-block} python
+```python
 if __name__ == "__main__":
     import json
     from argparse import ArgumentParser
@@ -248,7 +246,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     training_workflow(hyperparameters=args.hyperparameters)
-:::
+```
 
 ::::
 
@@ -315,7 +313,6 @@ Where ``<execution_name>`` is a unique identifier for the workflow execution.
 
 ````
 
-
 ## Inspect the Results
 
 Navigate to the URL produced by `pyflyte run`. This will take you to
@@ -323,7 +320,6 @@ FlyteConsole, the web UI used to manage Flyte entities such as tasks,
 workflows, and executions.
 
 ![getting started console](https://github.com/flyteorg/static-resources/raw/main/flytesnacks/getting_started/getting_started_console.gif)
-
 
 ```{note}
 There are a few features about FlyteConsole worth pointing out in the GIF above:
@@ -337,12 +333,11 @@ There are a few features about FlyteConsole worth pointing out in the GIF above:
 
 ## Summary
 
-🎉  **Congratulations! In this introductory guide, you:**
+🎉 **Congratulations! In this introductory guide, you:**
 
 1. 📜 Created a Flyte script, which trains a binary classification model.
 2. 🚀 Spun up a demo Flyte cluster on your local system.
 3. 👟 Ran a workflow locally and on a demo Flyte cluster.
-
 
 ## What's Next?
 
@@ -407,18 +402,17 @@ getting_started/core_use_cases
 :caption: User Guide
 :hidden:
 
-User Guide <userguide>
-Environment Setup <environment_setup>
-Basics <auto_examples/basics/index>
-Control Flow <auto_examples/control_flow/index>
-Type System <auto_examples/type_system/index>
-Testing <auto_examples/testing/index>
-Containerization <auto_examples/containerization/index>
-Image Spec <auto_examples/image_spec/index>
-Remote Access <auto_examples/remote_access/index>
-Production Config <auto_examples/deployment/index>
-Extending Flyte <auto_examples/extend_flyte/index>
-Example Contribution Guide <contribute>
+📖 User Guide <userguide>
+🌳 Environment Setup <environment_setup>
+🔤 Basics <auto_examples/basics/index>
+⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
+🔮 Advanced Composition <auto_examples/advanced_composition/index>
+🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
+🏡 Development Lifecycle <auto_examples/development_lifecycle/index>
+⚗️ Testing <auto_examples/testing/index>
+🚢 Productionizing <auto_examples/productionizing/index>
+🏗 Extending <auto_examples/extending/index>
+📝 Contributing <contribute>
 ```
 
 ```{toctree}
@@ -439,33 +433,33 @@ flyte_lab
 :hidden:
 
 Integrations <integrations>
-auto_examples/sql_plugin/index
-auto_examples/greatexpectations_plugin/index
-auto_examples/papermill_plugin/index
-auto_examples/pandera_plugin/index
-auto_examples/modin_plugin/index
-auto_examples/dolt_plugin/index
-auto_examples/dbt_plugin/index
-auto_examples/whylogs_plugin/index
-auto_examples/mlflow_plugin/index
-auto_examples/onnx_plugin/index
-auto_examples/duckdb_plugin/index
-auto_examples/k8s_pod_plugin/index
-auto_examples/k8s_dask_plugin/index
-auto_examples/k8s_spark_plugin/index
-auto_examples/kfpytorch_plugin/index
-auto_examples/kftensorflow_plugin/index
-auto_examples/kfmpi_plugin/index
-auto_examples/ray_plugin/index
-auto_examples/sagemaker_training_plugin/index
-auto_examples/sagemaker_pytorch_plugin/index
+auto_examples/airflow_plugin/index
 auto_examples/athena_plugin/index
 auto_examples/aws_batch_plugin/index
-auto_examples/hive_plugin/index
-auto_examples/snowflake_plugin/index
-auto_examples/databricks_plugin/index
+auto_examples/sagemaker_pytorch_plugin/index
+auto_examples/sagemaker_training_plugin/index
 auto_examples/bigquery_plugin/index
-auto_examples/airflow_plugin/index
+auto_examples/k8s_dask_plugin/index
+auto_examples/databricks_plugin/index
+auto_examples/dbt_plugin/index
+auto_examples/dolt_plugin/index
+auto_examples/duckdb_plugin/index
+auto_examples/greatexpectations_plugin/index
+auto_examples/hive_plugin/index
+auto_examples/k8s_pod_plugin/index
+auto_examples/mlflow_plugin/index
+auto_examples/modin_plugin/index
+auto_examples/kfmpi_plugin/index
+auto_examples/onnx_plugin/index
+auto_examples/papermill_plugin/index
+auto_examples/pandera_plugin/index
+auto_examples/kfpytorch_plugin/index
+auto_examples/ray_plugin/index
+auto_examples/snowflake_plugin/index
+auto_examples/k8s_spark_plugin/index
+auto_examples/sql_plugin/index
+auto_examples/kftensorflow_plugin/index
+auto_examples/whylogs_plugin/index
 ```
 
 ```{toctree}

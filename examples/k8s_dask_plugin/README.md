@@ -1,78 +1,100 @@
 (plugins-dask-k8s)=
 
-# Kubernetes Dask Jobs
+# Dask
 
 ```{eval-rst}
 .. tags:: Dask, Integration, DistributedComputing, Data, Advanced
 ```
 
-Flyte can execute dask jobs natively on a Kubernetes Cluster, which manages a virtual `dask` cluster's lifecycle. To
-do so, it leverages the open-sourced [Dask Kubernetes Operator](https://kubernetes.dask.org/en/latest/operator.html)
-and can be enabled without signing up for any service. This is like running an ephemeral `dask` cluster, which gets
-created for the specific Flyte task and gets torn down after completion.
+Flyte can natively execute [Dask](https://www.dask.org/) jobs on a Kubernetes Cluster,
+effortlessly managing the lifecycle of a virtual Dask cluster.
+This functionality is achieved by leveraging the open-sourced
+[Dask Kubernetes Operator](https://kubernetes.dask.org/en/latest/operator.html),
+and no additional sign-ups for services are required.
+The process is akin to running an ephemeral Dask cluster,
+which is created specifically for the Flyte task and subsequently torn down upon completion.
 
-In Flyte/K8s, the cost is amortized because pods are faster to create than a machine, but the penalty of downloading
-Docker images may affect the performance. Also, remember that starting a pod is not as fast as running a process.
+In the Flyte Kubernetes environment, the cost is amortized due to faster pod creation compared to machines.
+However, the performance may be affected by the penalty of downloading Docker images.
+Additionally, it's essential to keep in mind that starting a pod is not as swift as running a process.
 
-Flytekit makes it possible to write `dask` code natively as a task and the `dask` cluster will be automatically
-configured using the decorated `Dask()` config. The examples in this section provide a hands-on tutorial for writing
-`dask` Flyte tasks.
+Flytekit enables writing Dask code natively as a task,
+with the `Dask()` config automatically configuring the Dask cluster.
+The example provided in this section offers a hands-on tutorial for writing Dask Flyte tasks.
 
-The plugin has been tested against the `2022.12.0` version of the `dask-kubernetes-operator`.
+## Why use Kubernetes Dask?
 
-## Why use K8s dask?
+Managing Python dependencies can be challenging, but Flyte simplifies the process
+by enabling easy versioning and management of dependencies through containers.
+The Kubernetes Dask plugin extends the benefits of containerization to Dask without
+requiring the management of specialized Dask clusters.
 
-Managing Python dependencies is hard. Flyte makes it easy to version  and manage dependencies using containers. The
-K8s `dask` plugin brings all the benefits of containerization to `dask` without needing to manage special `dask`
-clusters.
+Pros:
 
-**Pros:**
+1. Simple to get started, providing complete isolation between workloads.
+2. Each job runs in isolation with its own virtual cluster, eliminating the complexities of dependency management.
+3. Flyte takes care of all the management tasks.
 
-1. Extremely easy to get started; get complete isolation between workloads
-2. Every job runs in isolation and has its own virtual cluster - no more nightmarish dependency management!
-3. Flyte manages everything for you!
+Cons:
 
-**Cons:**
+1. Short-running, bursty jobs may not be the best fit due to container overhead.
+2. Interactive Dask capabilities are not available with Flyte Kubernetes Dask;
+   instead, it is better suited for running adhoc and scheduled jobs.
 
-1. Short running, bursty jobs are not a great fit because of the container overhead
-2. No interactive Dask capabilities are available with Flyte K8s dask, which is more suited for running adhoc and
-   scheduled jobs.
+## Install the plugin
 
-## Step 1: Deploy the Dask Plugin in the Flyte Backend
+Install `flytekitplugins-dask` using `pip` in your environment.
 
-Flyte dask uses the [Dask Kubernetes Operator](https://kubernetes.dask.org/en/latest/operator.html) and a custom
-built [Flyte Dask Plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v1.0.28/go/tasks/plugins/k8s/dask).
-This is a backend plugin which has to be enabled in your deployment; you can follow the steps mentioned in the
-{ref}`flyte:deployment-plugin-setup-k8s` section.
+```
+pip install flytekitplugins-dask
+```
 
-## Step 2: Environment setup
-
-1. Install `flytekitplugins-dask` using `pip` in your environment.
-
-   ```bash
-   pip install flytekitplugins-dask
-   ```
-
-2. Ensure you have enough resources on your K8s cluster. Based on the resources required for your `dask` job (across job runner, scheduler and workers), you may have to tweak resource quotas for the namespace.
+:::{note}
+To enable Flyte to build the Docker image for you using `ImageSpec`, install `flytekitplugins-envd`.
+:::
 
 ## Implementation details
 
 ### Local execution
 
-When running the `dask` task locally, it will use a local [distributed Client](https://distributed.dask.org/en/stable/client.html). In case you would like to connect the to a remote cluster for
-when developing locally, you can set the `DASK_SCHEDULER_ADDRESS` environment variable to the URL of the remote
-scheduler and the `Client()` will use the cluster automatically.
+When executing the Dask task on your local machine,
+it will utilize a local [distributed client](https://distributed.dask.org/en/stable/client.html).
+If you intend to link to a remote cluster during local development, simply define the `DASK_SCHEDULER_ADDRESS`
+environment variable with the URL of the remote scheduler.
+The `Client()` will then automatically connect to the cluster.
+
+### Remote execution
+
+#### Step 1: Deploy Dask plugin in the Flyte backend
+
+Flyte Dask utilizes the [Dask Kubernetes operator](https://kubernetes.dask.org/en/latest/operator.html)
+in conjunction with a custom-built
+[Flyte Dask plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v1.0.28/go/tasks/plugins/k8s/dask).
+To leverage this functionality, you need to enable the backend plugin in your deployment.
+You can follow the steps mentioned in the {ref}`flyte:deployment-plugin-setup-k8s` section
+to enable the Flyte Dask plugin for your deployment.
+
+#### Step 2: Compute setup
+
+Ensure that your Kubernetes cluster has sufficient resources available.
+Depending on the resource requirements of your Dask job (including the job runner, scheduler and workers),
+you may need to adjust the resource quotas for the namespace accordingly.
 
 ### Resource specification
 
-It is advised to set `limits` as this will set the `--nthreads` and `--memory-limit` arguments for the workers
-as recommended by `dask` [best practices](https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices).
-When specifying resources, the following precedence is followed for all components of the `dask` job (job-runner pod,
-scheduler pod and worker pods):
+It's recommended to define `limits` as this will establish the
+`--nthreads` and `--memory-limit` parameters for the workers,
+in line with the suggested practices by Dask
+(refer to [best practices](https://kubernetes.dask.org/en/latest/kubecluster.html?highlight=--nthreads#best-practices)).
+When configuring resources, the subsequent hierarchy is observed across all components of the Dask job,
+which encompasses the job-runner pod, scheduler pod, and worker pods:
 
-1. If no resources are specified, the [platform resources](https://github.com/flyteorg/flyte/blob/1e3d515550cb338c2edb3919d79c6fa1f0da5a19/charts/flyte-core/values.yaml#L520-L531) are used
+1. In the absence of specified resources, the
+   [platform resources](https://github.com/flyteorg/flyte/blob/1e3d515550cb338c2edb3919d79c6fa1f0da5a19/charts/flyte-core/values.yaml#L520-L531)
+   will be used.
 
-2. When `task` resources are used, those will be applied to all components of the `dask` job
+2. When employing task resources, those will be enforced across all segments of the Dask job.
+   You can achieve this using the following code snippet:
 
    > ```python
    > from flytekit import Resources, task
@@ -80,13 +102,13 @@ scheduler pod and worker pods):
    >
    > @task(
    >   task_config=Dask(),
-   >   limits=Resources(cpu="1", mem="10Gi")  # Will be applied to all components
+   >   limits=Resources(cpu="1", mem="10Gi")  # Applied to all components
    > )
    > def my_dask_task():
    >    ...
    > ```
 
-3. When resources are specified for the single components, they take the highest precedence
+3. When resources are designated for individual components, they hold the highest precedence.
 
    > ```python
    > from flytekit import Resources, task
@@ -95,10 +117,10 @@ scheduler pod and worker pods):
    > @task(
    >   task_config=Dask(
    >       scheduler=Scheduler(
-   >           limits=Resources(cpu="1", mem="2Gi"),  # Will be applied to the job pod
+   >           limits=Resources(cpu="1", mem="2Gi"),  # Applied to the job pod
    >       ),
    >       workers=WorkerGroup(
-   >           limits=Resources(cpu="4", mem="10Gi"), # Will be applied to the scheduler and worker pods
+   >           limits=Resources(cpu="4", mem="10Gi"), # Applied to the scheduler and worker pods
    >       ),
    >   ),
    > )
@@ -114,6 +136,18 @@ environment). This helps keeping the Python environments of all cluster componen
 However, there is the possibility to specify different images for the components. This allows for use cases such as using
 different images between tasks of the same workflow. While it is possible to use different images for the different
 components of the `dask` job, it is not advised, as this can quickly lead to Python environments getting our of sync.
+
+As the default behavior, all components of the deployed Dask job,
+including the job runner pod, scheduler pod and worker pods,
+will employ the image that was utilized during registration.
+This image must have `dask[distributed]` installed in its Python environment,
+ensuring consistency across the Python environments of all cluster components.
+
+However, there exists the option to specify distinct images for these components.
+This accommodation caters to scenarios where diverse images are required for tasks within the same workflow.
+It is important to note that while it is technically possible to implement varying images
+for different components of the dask job, this approach is not recommended.
+Doing so can rapidly lead to discrepancies in Python environments.
 
 > ```python
 > from flytekit import Resources, task
@@ -133,10 +167,10 @@ components of the `dask` job, it is not advised, as this can quickly lead to Pyt
 >    ...
 > ```
 
-### Environment Variables
+### Environment variables
 
-Environment variables set in the `@task` decorator will be passed on to all `dask` job components (job runner pod,
-scheduler pod and worker pods)
+Environment variables configured within the `@task` decorator will be propagated to all components of the Dask job,
+encompassing the job runner pod, scheduler pod and worker pods.
 
 > ```python
 > from flytekit import Resources, task
@@ -150,10 +184,10 @@ scheduler pod and worker pods)
 >    ...
 > ```
 
-### Labels and Annotations
+### Labels and annotations
 
-Labels and annotations set in a `LaunchPlan` will be passed on to all `dask` job components (job runner pod,
-scheduler pod and worker pods)
+Labels and annotations specified within a {ref}`launch plan <launch_plan>` will be inherited by all components of the dask job,
+which include the job runner pod, scheduler pod and worker pods.
 
 > ```python
 > from flytekit import Resources, task, workflow, Labels, Annotations
@@ -174,11 +208,11 @@ scheduler pod and worker pods)
 > )
 > ```
 
-### Interruptible Tasks
+### Interruptible tasks
 
-The `dask` backend plugin supports running on interruptible nodes. When `interruptible==True`, the plugin will add
-the configured tolerations and node selectors to all worker pods. Please note that the job runner as well as the
-scheduler will not be run on interruptible nodes.
+The Dask backend plugin offers support for execution on interruptible nodes.
+When `interruptible==True`, the plugin will incorporate the specified tolerations and node selectors into all worker pods.
+It's important to be aware that neither the job runner nor the scheduler will be deployed on interruptible nodes.
 
 > ```python
 > from flytekit import Resources, task, workflow, Labels, Annotations
@@ -192,7 +226,15 @@ scheduler will not be run on interruptible nodes.
 >    ...
 > ```
 
-## Examples
+## Run the example on the Flyte cluster
+
+To run the provided example on the Flyte cluster, use the following command:
+
+```
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_dask_plugin/k8s_dask_plugin/dask_example.py \
+  hello_dask --size 1000
+```
 
 ```{auto-examples-toc}
 dask_example

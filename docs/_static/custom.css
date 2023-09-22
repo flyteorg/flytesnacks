@@ -84,3 +84,22 @@ p.tags a {
 p.tags span:not(:first-child) {
     display: none;
 }
+
+.plotly-graph-div {
+    width: 100% !important;
+    opacity: 0;
+}
+
+.plotly-graph-div.show {
+    opacity: 1;
+
+    -webkit-transition: opacity 0.5s ease-in;
+       -moz-transition: opacity 0.5s ease-in;
+        -ms-transition: opacity 0.5s ease-in;
+         -o-transition: opacity 0.5s ease-in;
+            transition: opacity 0.5s ease-in;
+}
+
+#flyte-frame-container > div.active {
+    width: 90% !important;
+}

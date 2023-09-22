@@ -106,7 +106,7 @@ execution = remote.execute(flyte_wf, inputs={"name": "Kermit"})
 
 ```{note}
 You can also launch workflows via `flytectl` which you can learn more about in
-the {ref}`User Guide <remote_launchplan>`
+the {ref}`User Guide <remote_launchplan>`.
 ```
 
 ## Running a Launchplan
@@ -308,7 +308,7 @@ remote.client.update_launch_plan(launchplan_id, "ACTIVE")
 
 :::{code-block} bash
 flytectl update launchplan -p flyteexamples -d development \
-    process_data_lp --version <VERSION> --activate
+ process_data_lp --version <VERSION> --activate
 :::
 
 ::::
@@ -334,7 +334,7 @@ remote.client.update_launch_plan(launchplan_id, "INACTIVE")
 
 :::{code-block} bash
 flytectl update launchplan -p flyteexamples -d development \
-    process_data_lp --version <VERSION> --archive
+ process_data_lp --version <VERSION> --archive
 :::
 
 ::::

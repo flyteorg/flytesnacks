@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath("./_ext"))
 # -- Project information -----------------------------------------------------
 
 project = "Flytesnacks"
-copyright = "2022, Flyte"
+copyright = "2023, Flyte"
 author = "Flyte"
 
 # The full version, including alpha/beta/rc tags
@@ -70,6 +70,7 @@ templates_path = ["_templates"]
 
 html_static_path = ["_static"]
 html_css_files = ["sphx_gallery_autogen.css", "custom.css"]
+html_js_files = ["custom.js"]
 
 suppress_warnings = ["autosectionlabel.*"]
 
@@ -155,7 +156,7 @@ sphinx_gallery_conf = {
     "thumbnail_size": (350, 350),
 }
 
-nb_execution_mode = "off"
+nb_execution_mode = "auto"
 nb_execution_excludepatterns = [
     "auto_examples/**/*",
 ]
@@ -180,7 +181,7 @@ intersphinx_mapping = {
     "flyteidl": ("https://docs.flyte.org/projects/flyteidl/en/latest", None),
     "flytectl": ("https://docs.flyte.org/projects/flytectl/en/latest/", None),
     "torch": ("https://pytorch.org/docs/stable/", None),
-    "greatexpectations": ("https://legacy.docs.greatexpectations.io/en/latest", None),
+    # "greatexpectations": ("https://docs.greatexpectations.io/docs/reference/api_reference/", None),
     "tensorflow": (
         "https://www.tensorflow.org/api_docs/python",
         "https://github.com/GPflow/tensorflow-intersphinx/raw/master/tf2_py_objects.inv",

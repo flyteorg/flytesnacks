@@ -6,45 +6,30 @@
 .. tags:: Integration, Data, Advanced, SQL
 ```
 
-Flyte backend can be connected with snowflake service. Once enabled it can allow you to query a snowflake service.
-This section will provide how to use the Snowflake Query Plugin using flytekit python.
+Flyte can be seamlessly integrated with the [Snowflake](https://www.snowflake.com) service,
+providing you with a straightforward means to query data in Snowflake.
 
-## Installation
+## Install the plugin
 
-To use the flytekit snowflake plugin simply run the following:
+To use the Snowflake plugin, run the following command:
 
-```{eval-rst}
-.. prompt:: bash
-
-    pip install flytekitplugins-snowflake
+```
+pip install flytekitplugins-snowflake
 ```
 
-## No Need of a dockerfile
+If you intend to run the plugin on the Flyte cluster, you must first set it up on the backend.
+Please refer to the
+{std:ref}`Snowflake plugin setup guide <flyte:deployment-plugin-setup-webapi-snowflake>`
+for detailed instructions.
 
-This plugin is purely a spec. Since SQL is completely portable there is no need to build a Docker container.
+## Run the example on the Flyte cluster
 
-## Configuring the backend to get snowflake working
+To run the provided example on the Flyte cluster, use the following command:
 
-1. Make sure to add "snowflake" in `tasks.task-plugins.enabled-plugin` in [enabled_plugins.yaml](https://github.com/flyteorg/flyte/blob/master/deployment/sandbox/flyte_generated.yaml#L2296)
-2. Add snowflake JWT token to Flytepropeller. [here](https://docs.snowflake.com/en/developer-guide/sql-api/guide.html#using-key-pair-authentication) to see more detail to setup snowflake JWT token.
-
-```bash
-kubectl edit secret -n flyte flyte-propeller-auth
 ```
-
-Configuration will be like below
-
-```bash
-apiVersion: v1
-data:
-  FLYTE_SNOWFLAKE_CLIENT_TOKEN: <JWT_TOKEN>
-  client_secret: Zm9vYmFy
-kind: Secret
-metadata:
-  annotations:
-    meta.helm.sh/release-name: flyte
-    meta.helm.sh/release-namespace: flyte
-...
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/snowflake_plugin/snowflake_plugin/snowflake.py \
+  snowflake_wf --nation_key 10
 ```
 
 ```{auto-examples-toc}

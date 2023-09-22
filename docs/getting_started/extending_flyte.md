@@ -26,7 +26,7 @@ the Flyte type system and Flyte tasks.
 
 ## Customizing Flyte Types
 
-Flyte has a {ref}`rich type system <flyte_type_system>` that automatically
+Flyte has a {ref}`rich type system <data_types_and_io>` that automatically
 handles the serialization and deserialization of objects so that when you pass
 data from one task to the next, you don't have to write a bunch of boilerplate
 code.
@@ -92,7 +92,7 @@ type.
 
 The easiest way to extend Flyte tasks is to use Python decorators. Since Flyte
 tasks are simply functions, you can wrap the task function in a custom
-decorator *before* wrapping the entire function in the `@task` decorator.
+decorator _before_ wrapping the entire function in the `@task` decorator.
 
 For example, if we want to do something before and after the actual task function
 is invoked, we can do the following:
@@ -161,7 +161,6 @@ many more ways to customize Flyte tasks:
   - These tasks plugins require implementing a backend plugin to leverage
     external services like Sagemaker, Snowflake, BigQuery, etc.
 ```
-
 
 ## What's Next?
 

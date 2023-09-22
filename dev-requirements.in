@@ -1,5 +1,5 @@
-flytekit>=1.7.0
-black==22.3.0
+flytekit
+black
 coverage
 flake8
 pre-commit
