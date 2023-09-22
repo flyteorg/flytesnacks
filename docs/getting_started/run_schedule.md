@@ -47,8 +47,8 @@ object:
 ```{code-cell} ipython3
 :tags: [remove-output]
 
+from flytekit.configuration import Config, ImageConfig
 from flytekit.remote import FlyteRemote
-from flytekit.configuration import Config
 
 remote = FlyteRemote(
     config=Config.auto(),
@@ -79,9 +79,11 @@ environment, you can import and execute it directly:
 
 from workflows.example import wf
 
-execution = remote.execute(wf,
+execution = remote.execute(
+    wf,
     inputs={"name": "Kermit"},
-    image_config=ImageConfig.auto(img_name="futureoutlier/flyte-practice:latest"),
+    image_config=ImageConfig.auto(img_name="ghcr.io/flyteorg/flytekit:py3.11-1.9.1"),
+    version="v1",
 )
 ```
 
