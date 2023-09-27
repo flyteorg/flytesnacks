@@ -3,7 +3,8 @@
 #
 # # Map Tasks
 #
-# ```{tags} Intermediate
+# ```{eval-rst}
+# .. tags:: Intermediate
 # ```
 #
 # ```{image} https://img.shields.io/badge/Blog%20Post-Map%20Tasks-blue?style=for-the-badge

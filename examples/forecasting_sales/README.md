@@ -2,7 +2,8 @@
 
 # Forecasting Rossman Store Sales with Horovod and Spark
 
-```{tags} MachineLearning, Integration, Advanced
+```{eval-rst}
+.. tags:: MachineLearning, Integration, Advanced
 ```
 
 ```{image} https://img.shields.io/badge/Blog-Horovod%20and%20Spark-blue?style=for-the-badge
