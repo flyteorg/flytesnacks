@@ -1,6 +1,7 @@
 # NLP Processing
 
-```{tags} MachineLearning, UI, Intermediate
+```{eval-rst}
+.. tags:: MachineLearning, UI, Intermediate
 ```
 
 This tutorial will demonstrate how to process text data and generate word embeddings and visualizations
