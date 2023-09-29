@@ -107,7 +107,7 @@ def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[St
 # 3. Use [Key Pair Authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth) to setup the connections with Snowflake.
 # 4. run the following command to setup the secret
 # ```bash
-# kubectl create secret generic snowflake --namespace=flyte --from-literal=private_key={your_private_key_above}
+# kubectl create secret generic snowflake --namespace=flytesnacks-development --from-file=private_key.pem={your_private_key_above}
 # ```
 # %% [markdown]
 # Import the dependencies.
@@ -136,7 +136,9 @@ def pandas_to_sf() -> StructuredDataset:
     # create a pandas dataframe
     df = pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]})
     # convert the dataframe to StructuredDataset
-    return StructuredDataset(dataframe=df, uri="snowflake://<user>:<your_account>/<database>/<schema>/<warehouse>/<table>")
+    return StructuredDataset(
+        dataframe=df, uri="snowflake://<user>:<your_account>/<warehouse>/<database>/<schema>/<table>"
+    )
 
 
 # %% [markdown]
@@ -152,9 +154,10 @@ def bq_to_pandas(sd: StructuredDataset) -> pd.DataFrame:
     # convert to pandas dataframe
     return sd.open(pd.DataFrame).all()
 
+
 # %% [markdown]
 # :::{note}
-# The Snowflake uri's format is `snowflake://<user>:<your_account>/<database>/<schema>/<warehouse>/<table>`.
+# The Snowflake uri's format is `snowflake://<user>:<your_account>/<warehouse>/<database>/<schema>/<table>`.
 # :::
 
 # %% [markdown]
@@ -178,7 +181,9 @@ if __name__ == "__main__":
     obj_bq_1 = bq_to_pandas(sd=StructuredDataset(uri="bq://sample-project-1-352610.sample_352610.test1"))
     obj_bq_2 = pandas_to_bq()
 
-    obj_sf_1 = sf_to_pandas(sd=StructuredDataset(uri="snowflake://<user>:<your_account>/<database>/<schema>/<warehouse>/<table>"))
+    obj_sf_1 = sf_to_pandas(
+        sd=StructuredDataset(uri="snowflake://<user>:<your_account>/<warehouse>/<database>/<schema>/<table>")
+    )
     obj_sf_2 = pandas_to_sf()
 
 
