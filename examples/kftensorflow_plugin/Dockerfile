@@ -16,7 +16,7 @@ ENV TERM linux
 
 # Install Python3.10 and other libraries
 RUN apt-get update \
-RUN && apt-get install -y software-properties-common \
+    && apt-get install -y software-properties-common \
     && apt-get install -y \
     build-essential \
     git \
