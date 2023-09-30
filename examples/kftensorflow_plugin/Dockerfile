@@ -17,8 +17,6 @@ ENV TERM linux
 # Install Python3.10 and other libraries
 RUN apt-get update \
     && apt-get install -y software-properties-common \
-    && add-apt-repository ppa:ubuntu-toolchain-r/test \
-    && add-apt-repository -y ppa:deadsnakes/ppa \
     && apt-get install -y \
     build-essential \
     git \
