@@ -107,7 +107,7 @@ def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[St
 # 3. Use [Key Pair Authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth) to setup the connections with Snowflake.
 # 4. run the following command to setup the secret
 # ```bash
-# kubectl create secret generic snowflake --namespace=flytesnacks-development --from-file=private_key.pem={your_private_key_above}
+# kubectl create secret generic snowflake --namespace=flytesnacks-development --from-file=private_key={your_private_key_above}
 # ```
 # %% [markdown]
 # Import the dependencies.
