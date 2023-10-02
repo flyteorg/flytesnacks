@@ -77,7 +77,7 @@ coverage==7.3.0
     # via -r dev-requirements.in
 croniter==1.4.1
     # via flytekit
-cryptography==41.0.3
+cryptography==41.0.4
     # via
     #   azure-identity
     #   azure-storage-blob
