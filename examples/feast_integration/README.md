@@ -1,6 +1,7 @@
 # Feast Integration
 
-```{tags} Data, MachineLearning, Advanced
+```{eval-rst}
+.. tags:: Data, MachineLearning, Advanced
 ```
 
 ```{image} https://img.shields.io/badge/Blog-Feast%20Integration-blue?style=for-the-badge

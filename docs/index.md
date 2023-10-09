@@ -448,6 +448,7 @@ auto_examples/greatexpectations_plugin/index
 auto_examples/hive_plugin/index
 auto_examples/k8s_pod_plugin/index
 auto_examples/mlflow_plugin/index
+auto_examples/mmcloud_plugin/index
 auto_examples/modin_plugin/index
 auto_examples/kfmpi_plugin/index
 auto_examples/onnx_plugin/index
