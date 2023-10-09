@@ -1,7 +1,8 @@
-flytekit>=1.3.0
+flytekit
 git+https://github.com/flyteorg/furo@main
 pillow
 psycopg2-binary
+flytekitplugins-deck-standard
 flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 jupytext

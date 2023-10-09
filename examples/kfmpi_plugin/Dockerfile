@@ -8,10 +8,11 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python3 and other basics
+# Install Python3.10 and other libraries
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:ubuntu-toolchain-r/test \
+    && add-apt-repository -y ppa:deadsnakes/ppa \
     && apt-get install -y \
     build-essential \
     cmake \
@@ -19,67 +20,52 @@ RUN apt-get update \
     curl \
     git \
     wget \
-    python3.8 \
-    python3.8-venv \
-    python3.8-dev \
+    python3.10 \
+    python3.10-venv \
+    python3.10-dev \
     make \
     libssl-dev \
     python3-pip \
     python3-wheel \
     libuv1
 
-ENV VENV /opt/venv
 # Virtual environment
-RUN python3.8 -m venv ${VENV}
+ENV VENV /opt/venv
+RUN python3.10 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-# Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
-# in future versions to make it completely portable
-RUN pip3 install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
-WORKDIR /root
+ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
 # Install wheel after venv is activated
 RUN pip3 install wheel
 
-# MPI
 # Install Open MPI
-RUN mkdir /tmp/openmpi && \
-    cd /tmp/openmpi && \
-    wget https://www.open-mpi.org/software/ompi/v4.0/downloads/openmpi-4.0.0.tar.gz && \
-    tar zxf openmpi-4.0.0.tar.gz && \
-    cd openmpi-4.0.0 && \
-    ./configure --enable-orterun-prefix-by-default && \
-    make -j $(nproc) all && \
-    make install && \
-    ldconfig && \
-    rm -rf /tmp/openmpi
-
-# Install OpenSSH for MPI to communicate between containers
-RUN apt-get install -y --no-install-recommends openssh-client openssh-server && \
-    mkdir -p /var/run/sshd
+RUN wget --progress=dot:mega -O /tmp/openmpi-4.1.4-bin.tar.gz https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.4.tar.gz && \
+    cd /tmp && tar -zxf /tmp/openmpi-4.1.4-bin.tar.gz && \
+    mkdir openmpi-4.1.4/build && cd openmpi-4.1.4/build && ../configure --prefix=/usr/local && \
+    make -j all && make install && ldconfig && \
+    mpirun --version
 
 # Allow OpenSSH to talk to containers without asking for confirmation
-# by disabling StrictHostKeyChecking.
-# mpi-operator mounts the .ssh folder from a Secret. For that to work, we need
-# to disable UserKnownHostsFile to avoid write permissions.
-# Disabling StrictModes avoids directory and files read permission checks.
-RUN sed -i 's/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g' /etc/ssh/ssh_config && \
-    echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config && \
-    sed -i 's/#\(StrictModes \).*/\1no/g' /etc/ssh/sshd_config
+RUN mkdir -p /var/run/sshd
+RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_config.new && \
+    echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config.new && \
+    mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
 # Install Python dependencies
 COPY requirements.txt /root
-
 RUN pip install -r /root/requirements.txt
+
+# Install TensorFlow
+# In case you encounter the "The TensorFlow library was compiled to use AVX instructions, which are not present on your machine" error,
+# you can resolve it by installing TensorFlow using the following RUN instruction:
+# RUN wget https://tf.novaal.de/westmere/tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl && pip install tensorflow-2.8.0-cp310-cp310-linux_x86_64.whl
+# Otherwise:
+RUN pip install tensorflow==2.8.0
 
 # Enable GPU
 # ENV HOROVOD_GPU_OPERATIONS NCCL
-RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horovod[tensorflow]==0.24.2
+RUN HOROVOD_WITH_MPI=1 pip install --no-cache-dir horovod==0.28.1
 
 # Copy the actual code
 COPY . /root/

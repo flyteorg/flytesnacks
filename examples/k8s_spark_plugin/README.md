@@ -1,109 +1,106 @@
 (plugins-spark-k8s)=
 
-# Kubernetes Spark Jobs
+# Spark
 
 ```{eval-rst}
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
 ```
 
-Flyte can execute Spark jobs natively on a Kubernetes Cluster, which manages a virtual cluster's lifecycle, spin-up, and tear down.
-It leverages the open-sourced [Spark On K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator)
-and can be enabled without signing up for any service. It is like running a `transient spark cluster` — a type of cluster spun up for a specific Spark job and torn down after completion.
-These clusters are better for production workloads but have an extra cost of setup and teardown.
+Flyte has the capability to directly execute Spark jobs on a Kubernetes Cluster.
+The cluster handles the lifecycle, initiation and termination of virtual clusters.
+It harnesses the open-source [Spark on Kubernetes operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator)
+and can be enabled without requiring any service subscription.
+This functionality is akin to operating a transient spark cluster
+— a cluster type established specifically for a Spark job and taken down upon completion.
 
-In Flyte, the cost is amortized because pods are faster to create than a machine, but the penalty of downloading Docker images may affect the performance.
-Also, remember that starting a pod is not as fast as running a process.
+While these clusters are optimal for production workloads, they do come with the additional cost of setup and teardown.
+In the Flyte environment, this cost is spread out over time due to the swiftness of creating pods compared to a full machine.
+However, keep in mind that the performance might be impacted by the need to download Docker images, and starting a pod is not as immediate as running a process.
 
-Flytekit makes it possible to write PySpark code natively as a task and the
-Spark cluster will be automatically configured using the decorated `SparkConf`. The examples in this guide provide a
-hands-on tutorial for writing PySpark tasks.
-
-:::{NOTE}
-This plugin has been tested at scale, and more than 100k Spark Jobs run through Flyte at Lyft. This still needs a large capacity on Kubernetes and careful configuration.
-We recommend using multi-cluster mode: {std:ref}`deployment/configuration/performance:multi-cluster mode` , and enabling {std:ref}`Resource Quotas <deployment/configuration/general:configurable resource types>` for large and extremely frequent Spark Jobs.
-This is not recommended for extremely short-running jobs, and it might be better to use a pre-spawned cluster. A job can be considered `short` if the runtime is less than `2-3` minutes.
-In this scenario, the cost of pod bring-up outweighs the cost of execution.
-:::
-
-## Why Use Kubernetes Spark?
-
-Managing Python dependencies is hard. Flyte makes it easy to version and manage dependencies using containers.
-The K8s Spark plugin brings all the benefits of containerization to Spark without needing to manage special Spark clusters.
-
-**Pros**
-
-1. Extremely easy to get started; get complete isolation between workloads.
-2. Every job runs in isolation and has its own virtual cluster — no more nightmarish dependency management!
-3. Flyte manages everything for you!
-
-**Cons**
-
-1. Short running, bursty jobs are not a great fit because of the container overhead.
-2. No interactive Spark capabilities are available with Flyte K8s Spark, which is more suited for running adhoc and scheduled jobs.
-
-## Step 1: Deploy Spark Plugin in the Flyte Backend
-
-Flyte Spark uses the [Spark On K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) and a custom built [Flyte Spark Plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark).
-This is a backend plugin which has to be enabled in your deployment.
-You can follow the steps mentioned in the {ref}`flyte:deployment-plugin-setup-k8s` section.
-
-You can optionally configure the plugin as per the [backend config structure](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark#Config) and an example config is defined
-[here](https://github.com/flyteorg/flyte/blob/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/propeller/plugins/spark.yaml). This is how it looks:
-
-```{eval-rst}
-.. rli:: https://raw.githubusercontent.com/flyteorg/flyte/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/propeller/plugins/spark.yaml
-   :language: yaml
-```
-
-### Spark Service Accounts
-
-Spark needs a special service account (with associated role and role bindings) to create executor pods.
-If you use IAM for Service accounts or GCP Workload identity, you need to update the service account to include this.
-
-You can use `Flyte cluster resource manager` to manage creating the spark service account per namespace.
-For this, you need to add the cluster resource templates as shown [here](https://github.com/flyteorg/flyte/tree/376f61acc37d885d17aa6b4d003db502c4cb6bcf/kustomize/overlays/eks/flyte/config/clusterresource-templates) (refer to the `spark.yaml` files).
+With Flytekit, you can compose PySpark code natively as a task.
+The Spark cluster will be automatically configured using the specified Spark configuration.
+The examples provided in this section offer a hands-on tutorial for writing PySpark tasks.
 
 :::{note}
-Refer to [this](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/gcp.md) guide to use GCP instead of AWS.
+This plugin has been rigorously tested at scale, successfully managing more than 100,000 Spark Jobs through Flyte at Lyft.
+However, please bear in mind that this functionality requires a significant Kubernetes capacity and meticulous configuration.
+
+For optimal results, we highly recommend adopting the
+[multi-cluster mode](https://docs.flyte.org/en/latest/deployment/configuration/performance.html#multi-cluster-mode).
+Additionally, consider enabling {std:ref}`resource quotas <deployment/configuration/general:configurable resource types>`
+for Spark Jobs that are both large in scale and executed frequently.
+
+Nonetheless, it is important to note that extremely short-duration jobs might not be the best fit for this setup.
+In such cases, utilizing a pre-spawned cluster could be more advantageous.
+A job can be considered "short" if its runtime is less than 2 to 3 minutes.
+In these situations, the cost of initializing pods might outweigh the actual execution cost.
 :::
 
-## Step 2: Environment Setup
+## Why use Kubernetes Spark?
 
-1. Install `flytekitplugins-spark` using `pip` in your environment that contains `flytekit`.
+Managing Python dependencies can be challenging, but Flyte simplifies the process
+by enabling easy versioning and management of dependencies through containers.
+The Kubernetes Spark plugin extends the benefits of containerization to Spark without
+requiring the management of specialized Spark clusters.
 
-   ```bash
-   pip install flytekitplugins-spark
-   ```
+Pros:
 
-2. Build Spark image correctly as explained in {ref}`spark-docker-image`.
+1. Simple to get started, providing complete isolation between workloads.
+2. Each job runs in isolation with its own virtual cluster, eliminating the complexities of dependency management.
+3. Flyte takes care of all the management tasks.
 
-3. Enable Spark plugin for Flyte by referring to the {ref}`spark-examples` section. Flyte uses the SparkOperator to run Spark Jobs and separate K8s Service Account/Role per namespace, which are created as part of the standard Flyte deployment.
+Cons:
 
-4. Ensure you have enough resources on your K8s cluster. Based on the resources required for your Spark job (across drivers/executors), you may have to tweak resource quotas for the namespace.
+1. Short-running, bursty jobs may not be the best fit due to container overhead.
+2. Interactive Spark capabilities are not available with Flyte Kubernetes Dask;
+   instead, it is better suited for running adhoc and scheduled jobs.
 
-(spark-docker-image)=
+## Implementation details
 
-### How to Build Your Dockerfile for Spark on Kubernetes
+### Step 1: Deploy Spark plugin in the Flyte backend
 
-Using Spark on K8s is extremely easy and provides full versioning using the custom-built Spark container. The built container can also execute regular Spark tasks.
-For Spark, the image must contain Spark dependencies and the correct entry point for the Spark driver/executors.
+Flyte Spark employs the Spark on K8s operator in conjunction with a bespoke
+[Flyte Spark Plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark).
 
-```{literalinclude} ../../../examples/k8s_spark_plugin/Dockerfile
-:language: docker
-:linenos: true
+This plugin serves as a backend component and necessitates activation within your deployment.
+To enable it, follow the instructions outlined in the {ref}`flyte:deployment-plugin-setup-k8s` section.
+
+:::{note}
+Refer to [this guide](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/gcp.md) to use GCP instead of AWS.
+:::
+
+### Step 2: Environment Setup
+
+Install `flytekitplugins-spark` using `pip` in your environment.
+
+```bash
+pip install flytekitplugins-spark
 ```
 
-## Step 3: Optionally, Setup Visibility
+:::{note}
+To enable Flyte to build the Docker image for you using `ImageSpec`, install `flytekitplugins-envd`.
+:::
 
-Every time a Spark job is run, you can get a Spark application UI link to monitor the job.
-And for historical executions, you can use the `SparkHistory` Server to retrieve the archived Spark execution history.
-Also, Flyte can create explicit links to the Spark driver logs and the individual Spark executor logs.
+Ensure that your Kubernetes cluster has sufficient resources available.
+Depending on the resource requirements of your Spark job across the driver and executors,
+you may need to adjust the resource quotas for the namespace accordingly.
 
-Spark history server and Spark UI links are shown on the Flyte Console and depend on the following configuration:
+### Step 3: Optionally, set up visibility
 
-### Setup Spark History Link in UI
+Whenever a Spark job is executed, you have the opportunity to access a Spark application UI link for
+real-time job monitoring. Additionally, for past executions, you can leverage the
+Spark history server to access the stored history of Spark executions.
 
-To get a link to the Spark history UI in Flyte Console, you need to set up a config variable in the Spark section of the Flyteplugins configuration.
+Furthermore, Flyte offers the capability to generate direct links to both the Spark driver logs and individual Spark executor logs.
+
+These Spark-related features, including the Spark history server and Spark UI links, are seamlessly displayed on the Flyte Console.
+Their availability is contingent upon the following configuration settings:
+
+#### Configure the Spark history link within the UI
+
+To access the Spark history UI link within the Flyte Console,
+it's necessary to configure a variable in the Spark section of the Flyteplugins configuration.
+Here's an example of how to set it up:
 
 ```
 plugins:
@@ -111,55 +108,83 @@ plugins:
     spark-history-server-url: <root-url-forspark-history server>
 ```
 
-Check out the various configuration options available [here](https://github.com/flyteorg/flyteplugins/blob/2e8a22b1b5569d6f24373495fdfec68c5e7d344f/go/tasks/plugins/k8s/spark/config.go).
+You can explore various configuration options by referring to
+[this link](https://github.com/flyteorg/flyteplugins/blob/master/go/tasks/plugins/k8s/spark/config.go).
 
-### Setup Spark Application UI (more involved)
+#### Configure the Spark application UI
 
-To get a link for the in-progress Spark drivers, Spark application UI, you need to configure your Kubernetes to have wildcard ingress access -`*.my-domain.net` and configure the
-[Spark On K8s Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator) to create a new ingress route for every application.
-This can be done as a command-line option to Spark-operator which is called the
-[ingress-url-format](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/d38c904a4dd84e849408153cdf4d7a30a7be5a07/main.go#L62).
+To obtain a link for the ongoing Spark drivers and the Spark application UI,
+you must set up Kubernetes to allow wildcard ingress access using `*.my-domain.net`.
+Additionally, you should configure the Spark on Kubernetes operator to
+establish a new ingress route for each application.
 
-### Setup Spark Driver and Executor Logs
+This can be achieved through the `ingress-url-format` command-line option of the Spark Operator.
+You can find more details about this option in the source code
+[here](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/d38c904a4dd84e849408153cdf4d7a30a7be5a07/main.go#L62).
 
-This can be configured by configuring the `logs` configuration of the Spark plugin. Spark Plugin uses the same default log configuration as explained in {ref}`configure-logging`.
+#### Configure the Spark driver and executor logs
 
-SparkPlugin supports separating User (spark user code) and System (spark core logs) to enhance visibility into Spark, which is only available if you can route the spark user logs separately from the core logs.
-**Flyte does not automatically separate the logs.** Checkout the configuration structure [here](https://github.com/flyteorg/flyteplugins/blob/2e8a22b1b5569d6f24373495fdfec68c5e7d344f/go/tasks/plugins/k8s/spark/config.go#L31).
+The logs can be configured by adjusting the `logs` configuration within the Spark plugin settings.
+The Spark plugin utilizes the same default log configuration outlined in the section on {ref}`configure-logging`.
 
-- *Mixed*: Get unseparated logs from Spark Driver (both user and system), which follow the same structure as all log plugins. You can get links to the K8s dashboard, or a log aggregator of your choice, as long as it can generate standardized links.
-- *User*: Logs from the driver which are separated (if log separation is available)
-- *System*: Logs from executors—usually will not return unique links per executors; more like a prefix where all executors logs can be found
-- *AllUser*: Logs all user logs across spark-submit, driver, and executor
+The SparkPlugin offers the capability to segregate user (Spark user code) and system (Spark core logs) logs,
+thus enhancing visibility into Spark operations.
+This is, however, feasible only if you can route the spark user logs separately from the core logs.
+It's important to note that Flyte does not perform automatic log separation. You can review the configuration structure
+[here](https://github.com/flyteorg/flyteplugins/blob/master/go/tasks/plugins/k8s/spark/config.go#L31-L36).
 
-**Log config example**
+- _Mixed_: Provides unseparated logs from the Spark driver (combining both user and system logs), following the standard structure of all log plugins.
+  You can obtain links to the Kubernetes dashboard or a preferred log aggregator as long as it can generate standardized links.
+- _User_: Offers logs from the driver with separation (subject to log separation availability).
+- _System_: Covers logs from executors, typically without individual links for each executor;
+  instead, it provides a prefix where all executor logs are accessible.
+- _AllUser_: Encompasses all user logs across spark-submit, driver and executor.
+
+Log configuration example:
 
 ```yaml
 plugins:
-    spark:
-      logs:
-        user:
-          kubernetes-enabled: true
-          kubernetes-url: <the existing k8s url you have in the main logs section>
-        mixed:
-          cloudwatch-enabled: true
-          cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
-        system:
-          cloudwatch-enabled: true
-          cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=system_log.var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
-        all-user:
-          cloudwatch-enabled: true
-          cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
+  spark:
+    logs:
+      user:
+        kubernetes-enabled: true
+        kubernetes-url: <the existing k8s url you have in the main logs section>
+      mixed:
+        cloudwatch-enabled: true
+        cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
+      system:
+        cloudwatch-enabled: true
+        cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=system_log.var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
+      all-user:
+        cloudwatch-enabled: true
+        cloudwatch-template-uri: "https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logStream:group=<LogGroupName>;prefix=var.log.containers.{{.podName}};streamFilter=typeLogStreamPrefix"
 ```
 
-### More configuration
+#### Additional configuration
 
-Spark plugin supports further enhanced configuration options; for example, if you want some Spark features to be enabled by default for every Spark application, default Spark configurations are to be applied.
-Refer to the [configuration structure](https://github.com/flyteorg/flyteplugins/blob/d76eb152eb36b9a77887985ab0ff3be923261bfb/go/tasks/plugins/k8s/spark/config.go#L24-L29) for more details.
+The Spark plugin provides support for a range of extended configuration options.
+For instance, if you wish to enable specific Spark features as defaults for all Spark applications,
+you can apply default Spark configurations.
+
+For more comprehensive information, please consult the [configuration structure](https://github.com/flyteorg/flyteplugins/blob/c528bb88937b4732c9cb5537ed8ea6943ff4fb56/go/tasks/plugins/k8s/spark/config.go#L24-L29).
+
+## Run the examples on the Flyte cluster
+
+To run the provided examples on the Flyte cluster, use any of the following commands:
+
+```
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_spark_plugin/k8s_spark_plugin/pyspark_pi.py \
+  my_spark
+```
+
+```
+pyflyte run --remote \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_spark_plugin/k8s_spark_plugin/dataframe_passing.py \
+  my_smart_structured_dataset
+```
 
 (spark-examples)=
-
-## Examples
 
 ```{auto-examples-toc}
 pyspark_pi

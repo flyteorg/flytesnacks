@@ -1,3 +1,6 @@
+# ######################
+# NOTE: For CI/CD only #
+########################
 FROM apache/spark-py:3.3.1
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
@@ -12,16 +15,6 @@ ARG spark_uid=1001
 ## Install Python3 and other basics
 USER 0
 RUN apt-get update && apt-get install -y python3 python3-venv make build-essential libssl-dev python3-pip curl wget
-
-# Install AWS CLI to run on AWS (for GCS install GSutil). This will be removed
-# in future versions to make it completely portable
-RUN pip3 install awscli
-
-WORKDIR /opt
-RUN curl https://sdk.cloud.google.com > install.sh
-RUN bash /opt/install.sh --install-dir=/opt
-ENV PATH $PATH:/opt/google-cloud-sdk/bin
-WORKDIR /root
 
 # Virtual environment
 ENV VENV /opt/venv
@@ -43,10 +36,6 @@ COPY . /root/
 # when registering tasks, workflows, and launch plans
 ARG tag
 ENV FLYTE_INTERNAL_IMAGE $tag
-
-# Copy over the helper script that the SDK relies on
-RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
-RUN chmod a+x /usr/local/bin/flytekit_venv
 
 # Set /root user and group
 RUN chown -R ${spark_uid}:${spark_uid} /root
