@@ -325,7 +325,7 @@ phik==0.12.3
     # via ydata-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==9.5.0
+pillow==10.0.1
     # via
     #   imagehash
     #   matplotlib
