@@ -53,7 +53,7 @@ python hello_world.py
 Expected output:
 
 ```{prompt}
-Running my_wf() hello world
+Running hello_world_wf() Hello, World!
 ```
 
 ## Create a local demo Flyte cluster
