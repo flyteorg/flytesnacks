@@ -1,6 +1,7 @@
 # House Price Regression
 
-```{tags} Data, MachineLearning, DataFrame, Intermediate
+```{eval-rst}
+.. tags:: Data, MachineLearning, DataFrame, Intermediate
 ```
 
 House Price Regression refers to the prediction of house prices based on various factors, using the XGBoost Regression model (in our case).

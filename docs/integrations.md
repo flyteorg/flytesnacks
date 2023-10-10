@@ -104,6 +104,8 @@ the Flyte task that use the respective plugin.
   - Running tasks and workflows on AWS batch service
 * - {doc}`Hive <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
+* - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
+  - Execute tasks using MemVerge Memory Machine Cloud
 * - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
   - Run Snowflake jobs in your workflows.
 * - {doc}`Databricks <auto_examples/databricks_plugin/index>`

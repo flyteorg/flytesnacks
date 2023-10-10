@@ -2,7 +2,8 @@
 
 # Nucleotide Sequence Querying with BLASTX
 
-```{tags} Advanced
+```{eval-rst}
+.. tags:: Advanced
 ```
 
 This tutorial demonstrates the integration of computational biology and Flyte.
