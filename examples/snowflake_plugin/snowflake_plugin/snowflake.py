@@ -11,6 +11,7 @@ from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 # %% [markdown]
 # Instantiate a {py:class}`~flytekitplugins.snowflake.SnowflakeTask` to execute a query.
 # Incorporate {py:class}`~flytekitplugins.snowflake.SnowflakeConfig` within the task to define the appropriate configuration.
+# USERNAME is the account you login the snowflake website.
 # %%
 snowflake_task_no_io = SnowflakeTask(
     name="sql.snowflake.no_io",
@@ -22,6 +23,8 @@ snowflake_task_no_io = SnowflakeTask(
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",
+        table="<TABLE_TO_INTERACT>",
+        user="<USERNAME>",
     ),
 )
 
@@ -58,6 +61,7 @@ snowflake_task_no_io = SnowflakeTask(
 #
 # Let us explore how we can parameterize our query to filter results for a specific country.
 # This country will be provided as user input, using a nation key to specify it.
+# USERNAME is the account you login the snowflake website.
 # %%
 snowflake_task_templatized_query = SnowflakeTask(
     name="sql.snowflake.w_io",
@@ -68,8 +72,10 @@ snowflake_task_templatized_query = SnowflakeTask(
         database="SNOWFLAKE_SAMPLE_DATA",
         schema="TPCH_SF1000",
         warehouse="COMPUTE_WH",
+        table="<TABLE_TO_INTERACT>",
+        user="<USERNAME>",
     ),
-    query_template="SELECT * from CUSTOMER where C_NATIONKEY =  {{ .inputs.nation_key }} limit 100",
+    query_template="SELECT * from CUSTOMER where C_NATIONKEY =  %(nation_key)s limit 100",
 )
 
 
