@@ -64,6 +64,8 @@ cloudpickle==2.2.1
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
+cmake==3.27.6
+    # via triton
 contourpy==1.1.0
     # via matplotlib
 cookiecutter==2.3.0
@@ -77,6 +79,7 @@ cryptography==41.0.3
     #   msal
     #   pyjwt
     #   pyopenssl
+    #   secretstorage
 cycler==0.11.0
     # via matplotlib
 dataclasses-json==0.5.9
@@ -96,7 +99,9 @@ docstring-parser==0.15
 envd==0.3.38
     # via flytekitplugins-envd
 filelock==3.12.2
-    # via torch
+    # via
+    #   torch
+    #   triton
 flyteidl==1.5.16
     # via
     #   flytekit
@@ -173,6 +178,10 @@ isodate==0.6.1
     # via azure-storage-blob
 jaraco-classes==3.3.0
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   cookiecutter
@@ -187,6 +196,8 @@ kiwisolver==1.4.4
     # via matplotlib
 kubernetes==27.2.0
     # via flytekit
+lit==17.0.2
+    # via triton
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.3
@@ -236,6 +247,31 @@ numpy==1.25.2
     #   pyarrow
     #   tensorboardx
     #   torchvision
+nvidia-cublas-cu11==11.10.3.66
+    # via
+    #   nvidia-cudnn-cu11
+    #   nvidia-cusolver-cu11
+    #   torch
+nvidia-cuda-cupti-cu11==11.7.101
+    # via torch
+nvidia-cuda-nvrtc-cu11==11.7.99
+    # via torch
+nvidia-cuda-runtime-cu11==11.7.99
+    # via torch
+nvidia-cudnn-cu11==8.5.0.96
+    # via torch
+nvidia-cufft-cu11==10.9.0.58
+    # via torch
+nvidia-curand-cu11==10.2.10.91
+    # via torch
+nvidia-cusolver-cu11==11.4.0.1
+    # via torch
+nvidia-cusparse-cu11==11.7.4.91
+    # via torch
+nvidia-nccl-cu11==2.14.3
+    # via torch
+nvidia-nvtx-cu11==11.7.91
+    # via torch
 oauthlib==3.2.2
     # via
     #   kubernetes
@@ -248,7 +284,7 @@ packaging==23.1
     #   tensorboardx
 pandas==1.5.3
     # via flytekit
-pillow==10.0.0
+pillow==10.0.1
     # via
     #   matplotlib
     #   torchvision
@@ -337,6 +373,8 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   azure-core
@@ -360,8 +398,11 @@ torch==2.0.1
     # via
     #   -r requirements.in
     #   torchvision
+    #   triton
 torchvision==0.15.2
     # via -r requirements.in
+triton==2.0.0
+    # via torch
 typing-extensions==4.7.1
     # via
     #   azure-core
@@ -384,7 +425,14 @@ websocket-client==1.6.1
     #   docker
     #   kubernetes
 wheel==0.41.1
-    # via flytekit
+    # via
+    #   flytekit
+    #   nvidia-cublas-cu11
+    #   nvidia-cuda-cupti-cu11
+    #   nvidia-cuda-runtime-cu11
+    #   nvidia-curand-cu11
+    #   nvidia-cusparse-cu11
+    #   nvidia-nvtx-cu11
 wrapt==1.15.0
     # via
     #   aiobotocore
