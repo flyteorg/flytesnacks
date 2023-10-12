@@ -18,10 +18,6 @@ aioitertools==0.11.0
     # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
-appnope==0.1.3
-    # via
-    #   ipykernel
-    #   ipython
 arrow==1.2.3
     # via jinja2-time
 asttokens==2.2.1
@@ -72,6 +68,8 @@ click==8.1.3
     #   rich-click
 cloudpickle==2.2.1
     # via flytekit
+cmake==3.27.6
+    # via triton
 comm==0.1.3
     # via ipykernel
 contourpy==1.1.0
@@ -87,6 +85,7 @@ cryptography==41.0.1
     #   msal
     #   pyjwt
     #   pyopenssl
+    #   secretstorage
 cycler==0.11.0
     # via matplotlib
 dacite==1.8.1
@@ -112,7 +111,9 @@ docstring-parser==0.15
 executing==1.2.0
     # via stack-data
 filelock==3.12.2
-    # via torch
+    # via
+    #   torch
+    #   triton
 flyteidl==1.5.11
     # via flytekit
 flytekit==1.7.0
@@ -186,13 +187,7 @@ imagehash==4.3.1
 importlib-metadata==6.7.0
     # via
     #   flytekit
-    #   jupyter-client
     #   keyring
-    #   markdown
-importlib-resources==5.12.0
-    # via
-    #   keyring
-    #   matplotlib
 ipykernel==6.23.3
     # via ipywidgets
 ipython==8.12.2
@@ -207,6 +202,10 @@ jaraco-classes==3.2.3
     # via keyring
 jedi==0.18.2
     # via ipython
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   cookiecutter
@@ -236,6 +235,8 @@ kiwisolver==1.4.4
     # via matplotlib
 kubernetes==26.1.0
     # via flytekit
+lit==17.0.2
+    # via triton
 markdown==3.4.3
     # via flytekitplugins-deck-standard
 markdown-it-py==3.0.0
@@ -311,6 +312,31 @@ numpy==1.23.5
     #   visions
     #   wordcloud
     #   ydata-profiling
+nvidia-cublas-cu11==11.10.3.66
+    # via
+    #   nvidia-cudnn-cu11
+    #   nvidia-cusolver-cu11
+    #   torch
+nvidia-cuda-cupti-cu11==11.7.101
+    # via torch
+nvidia-cuda-nvrtc-cu11==11.7.99
+    # via torch
+nvidia-cuda-runtime-cu11==11.7.99
+    # via torch
+nvidia-cudnn-cu11==8.5.0.96
+    # via torch
+nvidia-cufft-cu11==10.9.0.58
+    # via torch
+nvidia-curand-cu11==10.2.10.91
+    # via torch
+nvidia-cusolver-cu11==11.4.0.1
+    # via torch
+nvidia-cusparse-cu11==11.7.4.91
+    # via torch
+nvidia-nccl-cu11==2.14.3
+    # via torch
+nvidia-nvtx-cu11==11.7.91
+    # via torch
 oauthlib==3.2.2
     # via requests-oauthlib
 packaging==23.1
@@ -339,7 +365,7 @@ phik==0.12.3
     # via ydata-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==9.5.0
+pillow==10.0.1
     # via
     #   imagehash
     #   matplotlib
@@ -467,6 +493,8 @@ scipy==1.10.1
     #   ydata-profiling
 seaborn==0.12.2
     # via ydata-profiling
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   asttokens
@@ -498,7 +526,9 @@ text-unidecode==1.3
 threadpoolctl==3.1.0
     # via scikit-learn
 torch==2.0.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   triton
 tornado==6.3.2
     # via
     #   ipykernel
@@ -514,19 +544,18 @@ traitlets==5.9.0
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
+triton==2.0.0
+    # via torch
 typeguard==2.13.3
     # via ydata-profiling
 types-pyyaml==6.0.12.10
     # via responses
 typing-extensions==4.6.3
     # via
-    #   aioitertools
     #   azure-core
     #   azure-storage-blob
     #   flytekit
-    #   ipython
     #   pydantic
-    #   rich
     #   torch
     #   typing-inspect
 typing-inspect==0.9.0
@@ -552,6 +581,12 @@ wheel==0.40.0
     # via
     #   -r requirements.in
     #   flytekit
+    #   nvidia-cublas-cu11
+    #   nvidia-cuda-cupti-cu11
+    #   nvidia-cuda-runtime-cu11
+    #   nvidia-curand-cu11
+    #   nvidia-cusparse-cu11
+    #   nvidia-nvtx-cu11
 widgetsnbextension==4.0.7
     # via ipywidgets
 wordcloud==1.9.2
@@ -566,9 +601,7 @@ yarl==1.9.2
 ydata-profiling==4.3.1
     # via flytekitplugins-deck-standard
 zipp==3.15.0
-    # via
-    #   importlib-metadata
-    #   importlib-resources
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
