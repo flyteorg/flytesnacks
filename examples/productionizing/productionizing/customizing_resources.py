@@ -13,14 +13,13 @@
 # Large datasets may not be able to run locally, so we would want to provide hints to the Flyte backend to request for more memory.
 # This is done by decorating the task with the hints as shown in the following code sample.
 #
-# Tasks can have `task_config` which provides configuration for a specific task types, or `requests` and `limits` which mirror the native [equivalents in Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits).
+# Tasks can have `requests` and `limits` which mirror the native [equivalents in Kubernetes](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#requests-and-limits).
 # A task can possibly be allocated more resources than it requests, but never more than its limit.
 # Requests are treated as hints to schedule tasks on nodes with available resources, whereas limits
 # are hard constraints.
 #
 # For either a request or limit, refer to the {py:class}`flytekit:flytekit.Resources` documentation.
 #
-# And for task_config,  refer to the {py:func}`flytekit:flytekit.task` documentation.
 #
 # The following attributes can be specified for a `Resource`.
 #
@@ -87,8 +86,10 @@ if __name__ == "__main__":
 #
 # ## Using `with_overrides`
 #
-# You can use the `with_overrides` method to override the resources allocated to the tasks dynamically.
-# Let's understand how the resources can be initialized with an example.
+# Tasks can also have task_config which provides configuration for a specific task types. For task_config, refer to the {py:func}`flytekit:flytekit.task` documentation.
+#
+# You can use the `with_overrides` method to override the resources and task_config allocated to the tasks dynamically.
+# Let's understand how the resources can be initialized and override with an example.
 
 # %% [markdown]
 # Import the dependencies.
@@ -125,7 +126,7 @@ def my_run() -> str:
 
 
 # %% [markdown]
-# Or you can use `@dynamic` to generate tasks at runtime with any custom configurations you may want.
+# Or you can use `@dynamic` to generate tasks at runtime with any custom configurations you want.
 # %%
 @dynamic
 def dynamic_run(num_workers: int) -> str:
