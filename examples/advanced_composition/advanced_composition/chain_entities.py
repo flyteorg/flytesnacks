@@ -20,11 +20,13 @@ from flytekit import task, workflow
 
 @task
 def t2():
-    pass   
+    pass
+
 
 @task
 def t1():
-    pass   
+    pass
+
 
 @task
 def t0():
