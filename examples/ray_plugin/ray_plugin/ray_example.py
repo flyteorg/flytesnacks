@@ -84,7 +84,7 @@ ray_config = RayJobConfig(
 # %%
 @task(
     task_config=ray_config,
-    requests=Resources(mem="2Gi", cpu="2"),
+    requests=Resources(mem="800Mi", cpu="1"),
     container_image=custom_image,
 )
 def ray_task(n: int) -> typing.List[int]:

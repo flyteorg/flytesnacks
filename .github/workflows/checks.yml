@@ -6,9 +6,9 @@ on:
       - master
     paths-ignore:
       - "docs/**"
-  pull_request:
-    paths-ignore:
-      - "docs/**"
+#  pull_request:
+#    paths-ignore:
+#      - "docs/**"
 jobs:
   lint:
     runs-on: ubuntu-latest
