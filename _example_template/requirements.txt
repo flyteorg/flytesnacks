@@ -112,10 +112,10 @@ flyteidl==1.5.11
     # via flytekit
 flytekit==1.7.0
     # via
-    #   -r _example_template/requirements.in
+    #   -r requirements.in
     #   flytekitplugins-deck-standard
 flytekitplugins-deck-standard==1.7.0
-    # via -r _example_template/requirements.in
+    # via -r requirements.in
 fonttools==4.40.0
     # via matplotlib
 frozenlist==1.3.3
@@ -244,7 +244,7 @@ marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.7.1
     # via
-    #   -r _example_template/requirements.in
+    #   -r requirements.in
     #   phik
     #   seaborn
     #   wordcloud
@@ -325,7 +325,7 @@ phik==0.12.3
     # via ydata-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==9.5.0
+pillow==10.0.1
     # via
     #   imagehash
     #   matplotlib
@@ -525,7 +525,7 @@ websocket-client==1.6.1
     #   kubernetes
 wheel==0.40.0
     # via
-    #   -r _example_template/requirements.in
+    #   -r requirements.in
     #   flytekit
 widgetsnbextension==4.0.7
     # via ipywidgets

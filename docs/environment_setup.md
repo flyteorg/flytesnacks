@@ -24,7 +24,7 @@ def hello_world_wf() -> str:
     return res
 
 if __name__ == "__main__":
-    print(f"Running my_wf() {my_wf()}")
+    print(f"Running hello_world_wf() {hello_world_wf()}")
 ```
 
 To install `flytekit`, run the following command:
@@ -53,7 +53,7 @@ python hello_world.py
 Expected output:
 
 ```{prompt}
-Running my_wf() hello world
+Running hello_world_wf() Hello, World!
 ```
 
 ## Create a local demo Flyte cluster
@@ -66,6 +66,11 @@ Use `flytectl` to start a demo Flyte cluster:
 
 ```{prompt} bash
 flytectl demo start
+```
+
+After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this: 
+```{prompt} bash
+export FLYTECTL_CONFIG= ~/<pathTo>/.flyte/config-sandbox.yaml
 ```
 
 ## Running workflows
