@@ -21,8 +21,11 @@ sensor = FileSensor(name="test_sensor")
 
 # %% [markdown]
 # You have to specify the `path` parameter.
+#
 # In the sandbox, you can use the `s3://my-s3-bucket` path.
+#
 # We have already set the minio credentials in the sandbox by this [PR](https://github.com/flyteorg/flyte/pull/4235).
+#
 # If you test it in the development mode, you have to set the credentials to your environment variables.
 # ```{prompt} bash
 # export FLYTE_AWS_ENDPOINT="http://flyte-sandbox-minio.flyte:9000"
