@@ -24,7 +24,7 @@ jobs:
         name: Setup flytectl
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: "3.10"
       - name: Create Sandbox Cluster
         run: |
           flytectl config init
