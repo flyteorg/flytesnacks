@@ -43,4 +43,4 @@ jobs:
       - name: execute flyte workflows on demo cluster
         working-directory: examples
         run: |
-          pyflyte run --remote integration_test.py integration_test
+          pyflyte --config ~/.flyte/config.yaml run --remote integration_test.py integration_test
