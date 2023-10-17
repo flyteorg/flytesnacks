@@ -27,7 +27,7 @@ jobs:
           python-version: "3.10"
       - name: Create Sandbox Cluster
         run: |
-          flytectl config init
+          flytectl config init --console localhost:30080
           flytectl demo start
           kubectl create -k "github.com/ray-project/kuberay/ray-operator/config/default?ref=v0.5.2"
           kubectl rollout restart deployment flyte-sandbox -n flyte
@@ -39,7 +39,7 @@ jobs:
       - name: execute flyte workflows locally
         working-directory: examples
         run: |
-          pyflyte run --remote integration_test.py integration_test
+          pyflyte run integration_test.py integration_test
       - name: execute flyte workflows on demo cluster
         working-directory: examples
         run: |
