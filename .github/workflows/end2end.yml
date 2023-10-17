@@ -32,7 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install flytekit flytekitplugins-deck-standard flytekitplugins-ray
           pip freeze
-      - name: execute flyte workflows
+      - name: execute flyte workflows locally
+        working-directory: examples
+        run: |
+          pyflyte run --remote integration_test.py integration_test
+      - name: execute flyte workflows on demo cluster
         working-directory: examples
         run: |
           pyflyte run --remote integration_test.py integration_test
