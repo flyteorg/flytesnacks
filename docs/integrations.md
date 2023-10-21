@@ -18,27 +18,27 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`SQL <auto_examples/sql_plugin/index>`
+* - {doc}`SQL <examples/sql_plugin/README>`
   - Execute SQL queries as tasks.
-* - {doc}`Great Expectations <auto_examples/greatexpectations_plugin/index>`
+* - {doc}`Great Expectations <examples/greatexpectations_plugin/README>`
   - Validate data with `great_expectations`.
-* - {doc}`Papermill <auto_examples/papermill_plugin/index>`
+* - {doc}`Papermill <examples/papermill_plugin/README>`
   - Execute Jupyter Notebooks with `papermill`.
-* - {doc}`Pandera <auto_examples/pandera_plugin/index>`
+* - {doc}`Pandera <examples/pandera_plugin/README>`
   - Validate pandas dataframes with `pandera`.
-* - {doc}`Modin <auto_examples/modin_plugin/index>`
+* - {doc}`Modin <examples/modin_plugin/README>`
   - Scale pandas workflows with `modin`.
-* - {doc}`Dolt <auto_examples/dolt_plugin/index>`
+* - {doc}`Dolt <examples/dolt_plugin/README>`
   - Version your SQL database with `dolt`.
-* - {doc}`DBT <auto_examples/dbt_plugin/index>`
+* - {doc}`DBT <examples/dbt_plugin/README>`
   - Run and test your `dbt` pipelines in Flyte.
-* - {doc}`WhyLogs <auto_examples/whylogs_plugin/index>`
+* - {doc}`WhyLogs <examples/whylogs_plugin/README>`
   - `whylogs`: the open standard for data logging.
-* - {doc}`MLFlow <auto_examples/mlflow_plugin/index>`
+* - {doc}`MLFlow <examples/mlflow_plugin/README>`
   - `mlflow`: the open standard for model tracking.
-* - {doc}`ONNX <auto_examples/onnx_plugin/index>`
+* - {doc}`ONNX <examples/onnx_plugin/README>`
   - Convert ML models to ONNX models seamlessly.
-* - {doc}`DuckDB <auto_examples/duckdb_plugin/index>`
+* - {doc}`DuckDB <examples/duckdb_plugin/README>`
   - Run analytical queries using DuckDB.
 ```
 
@@ -64,19 +64,19 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`K8s Pods <auto_examples/k8s_pod_plugin/index>`
+* - {doc}`K8s Pods <examples/k8s_pod_plugin/README>`
   - Execute K8s pods for arbitrary workloads.
-* - {doc}`K8s Cluster Dask Jobs <auto_examples/k8s_dask_plugin/index>`
+* - {doc}`K8s Cluster Dask Jobs <examples/k8s_dask_plugin/README>`
   - Run Dask jobs on a K8s Cluster.
-* - {doc}`K8s Cluster Spark Jobs <auto_examples/k8s_spark_plugin/index>`
+* - {doc}`K8s Cluster Spark Jobs <examples/k8s_spark_plugin/README>`
   - Run Spark jobs on a K8s Cluster.
-* - {doc}`Kubeflow PyTorch <auto_examples/kfpytorch_plugin/index>`
+* - {doc}`Kubeflow PyTorch <examples/kfpytorch_plugin/README>`
   - Run distributed PyTorch training jobs using `Kubeflow`.
-* - {doc}`Kubeflow TensorFlow <auto_examples/kftensorflow_plugin/index>`
+* - {doc}`Kubeflow TensorFlow <examples/kftensorflow_plugin/README>`
   - Run distributed TensorFlow training jobs using `Kubeflow`.
-* - {doc}`MPI Operator <auto_examples/kfmpi_plugin/index>`
+* - {doc}`MPI Operator <examples/kfmpi_plugin/README>`
   - Run distributed deep learning training jobs using Horovod and MPI.
-* - {doc}`Ray Task <auto_examples/ray_plugin/index>`
+* - {doc}`Ray Task <examples/ray_plugin/README>`
   - Run Ray jobs on a K8s Cluster.
 ```
 
@@ -94,23 +94,23 @@ the Flyte task that use the respective plugin.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`AWS Sagemaker: Model Training <auto_examples/sagemaker_training_plugin/index>`
+* - {doc}`AWS Sagemaker: Model Training <examples/sagemaker_training_plugin/README>`
   - Train models with built-in or define your own custom algorithms.
-* - {doc}`AWS Sagemaker: Pytorch Training <auto_examples/sagemaker_pytorch_plugin/index>`
+* - {doc}`AWS Sagemaker: Pytorch Training <examples/sagemaker_pytorch_plugin/README>`
   - Train Pytorch models using Sagemaker, with support for distributed training.
-* - {doc}`AWS Athena <auto_examples/athena_plugin/index>`
+* - {doc}`AWS Athena <examples/athena_plugin/README>`
   - Execute queries using AWS Athena
-* - {doc}`AWS Batch <auto_examples/aws_batch_plugin/index>`
+* - {doc}`AWS Batch <examples/aws_batch_plugin/README>`
   - Running tasks and workflows on AWS batch service
-* - {doc}`Hive <auto_examples/hive_plugin/index>`
+* - {doc}`Hive <examples/hive_plugin/README>`
   - Run Hive jobs in your workflows.
-* - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
+* - {doc}`MMCloud <examples/mmcloud_plugin/README>`
   - Execute tasks using MemVerge Memory Machine Cloud
-* - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
+* - {doc}`Snowflake <examples/snowflake_plugin/README>`
   - Run Snowflake jobs in your workflows.
-* - {doc}`Databricks <auto_examples/databricks_plugin/index>`
+* - {doc}`Databricks <examples/databricks_plugin/README>`
   - Run Databricks jobs in your workflows.
-* - {doc}`BigQuery <auto_examples/bigquery_plugin/index>`
+* - {doc}`BigQuery <examples/bigquery_plugin/README>`
   - Run BigQuery jobs in your workflows.
 ```
 
@@ -145,7 +145,7 @@ Because Flyte uses executable docker containers as the smallest unit of compute,
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Raw Container Tasks <auto_examples/customizing_dependencies/raw_container>`
+* - {doc}`Raw Container Tasks <examples/customizing_dependencies/raw_container>`
   - Execute arbitrary containers: You can write C++ code, bash scripts and any containerized program.
 ```
 
@@ -172,6 +172,6 @@ constructs natively within other orchestration tools.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Airflow <auto_examples/airflow_plugin/index>`
+* - {doc}`Airflow <examples/airflow_plugin/README>`
   - Trigger Flyte executions from Airflow.
 ```
