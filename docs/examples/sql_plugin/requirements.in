@@ -1,0 +1,6 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-sqlalchemy>=0.20.1
+psycopg2-binary
