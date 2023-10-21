@@ -6,18 +6,22 @@ This section of the user guide introduces the advanced features of the flytekit 
 These examples cover more complex aspects of Flyte, including conditions, subworkflows,
 dynamic workflows, map tasks, gate nodes and more.
 
-```{auto-examples-toc}
-files
-folders
-conditions
-chain_entities
-subworkflows
-dynamics
-map_task
-merge_sort
-eager_workflows
-decorating_tasks
-decorating_workflows
-checkpoint
-waiting_for_external_inputs
+```{toctree}
+:maxdepth: -1
+:caption: Contents
+:hidden:
+
+advanced_composition/files
+advanced_composition/folders
+advanced_composition/conditions
+advanced_composition/chain_entities
+advanced_composition/subworkflows
+advanced_composition/dynamics
+advanced_composition/map_task
+advanced_composition/merge_sort
+advanced_composition/eager_workflows
+advanced_composition/decorating_tasks
+advanced_composition/decorating_workflows
+advanced_composition/checkpoint
+advanced_composition/waiting_for_external_inputs
 ```
