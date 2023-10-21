@@ -19,5 +19,5 @@ Flyte very much supports running your bioinformatics applications. Dive deeper i
 :caption: Contents
 :hidden:
 
-auto_examples/blast/index
+examples/blast/README
 ```
