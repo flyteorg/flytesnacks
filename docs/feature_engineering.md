@@ -22,6 +22,6 @@ Explore how features can be engineered with the power of Flyte.
 :caption: Contents
 :hidden:
 
-auto_examples/exploratory_data_analysis/index
-auto_examples/feast_integration/index
+examples/exploratory_data_analysis/README
+examples/feast_integration/README
 ```
