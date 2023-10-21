@@ -6,15 +6,15 @@ Understand how machine learning models can be trained from within Flyte, with an
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Diabetes Classification <auto_examples/pima_diabetes/index>`
+* - {doc}`Diabetes Classification <examples/pima_diabetes/README>`
   - Train an XGBoost model on the Pima Indians Diabetes Dataset.
-* - {doc}`House Price Regression <auto_examples/house_price_prediction/index>`
+* - {doc}`House Price Regression <examples/house_price_prediction/README>`
   - Use dynamic workflows to train a multiregion house price prediction model using XGBoost.
-* - {doc}`MNIST Classification <auto_examples/mnist_classifier/index>`
+* - {doc}`MNIST Classification <examples/mnist_classifier/README>`
   - Train a neural network on MNIST with PyTorch and W&B
-* - {doc}`NLP Processing with Gensim <auto_examples/nlp_processing/index>`
+* - {doc}`NLP Processing with Gensim <examples/nlp_processing/README>`
   - Word embedding and topic modelling on lee background corpus with Gensim
-* - {doc}`Forecast Sales Using Rossmann Store Sales <auto_examples/forecasting_sales/index>`
+* - {doc}`Forecast Sales Using Rossmann Store Sales <examples/forecasting_sales/README>`
   - Forecast sales data with data-parallel distributed training using Horovod on Spark.
 ```
 
@@ -23,9 +23,9 @@ Understand how machine learning models can be trained from within Flyte, with an
 :caption: Contents
 :hidden:
 
-auto_examples/pima_diabetes/index
-auto_examples/house_price_prediction/index
-auto_examples/mnist_classifier/index
-auto_examples/nlp_processing/index
-auto_examples/forecasting_sales/index
+examples/pima_diabetes/README
+examples/house_price_prediction/README
+examples/mnist_classifier/README
+examples/nlp_processing/README
+examples/forecasting_sales/README
 ```
