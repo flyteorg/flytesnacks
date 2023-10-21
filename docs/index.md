@@ -404,14 +404,14 @@ getting_started/core_use_cases
 
 📖 User Guide <userguide>
 🌳 Environment Setup <environment_setup>
-🔤 Basics <auto_examples/basics/index>
-⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
-🔮 Advanced Composition <auto_examples/advanced_composition/index>
-🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
-🏡 Development Lifecycle <auto_examples/development_lifecycle/index>
-⚗️ Testing <auto_examples/testing/index>
-🚢 Productionizing <auto_examples/productionizing/index>
-🏗 Extending <auto_examples/extending/index>
+🔤 Basics <examples/basics/index>
+⌨️ Data Types and IO <examples/data_types_and_io/README>
+🔮 Advanced Composition <examples/advanced_composition/README>
+🧩 Customizing Dependencies <examples/customizing_dependencies/README>
+🏡 Development Lifecycle <examples/development_lifecycle/README>
+⚗️ Testing <examples/testing/README>
+🚢 Productionizing <examples/productionizing/README>
+🏗 Extending <examples/extending/README>
 📝 Contributing <contribute>
 ```
 
@@ -433,34 +433,34 @@ flyte_lab
 :hidden:
 
 Integrations <integrations>
-auto_examples/airflow_plugin/index
-auto_examples/athena_plugin/index
-auto_examples/aws_batch_plugin/index
-auto_examples/sagemaker_pytorch_plugin/index
-auto_examples/sagemaker_training_plugin/index
-auto_examples/bigquery_plugin/index
-auto_examples/k8s_dask_plugin/index
-auto_examples/databricks_plugin/index
-auto_examples/dbt_plugin/index
-auto_examples/dolt_plugin/index
-auto_examples/duckdb_plugin/index
-auto_examples/greatexpectations_plugin/index
-auto_examples/hive_plugin/index
-auto_examples/k8s_pod_plugin/index
-auto_examples/mlflow_plugin/index
-auto_examples/mmcloud_plugin/index
-auto_examples/modin_plugin/index
-auto_examples/kfmpi_plugin/index
-auto_examples/onnx_plugin/index
-auto_examples/papermill_plugin/index
-auto_examples/pandera_plugin/index
-auto_examples/kfpytorch_plugin/index
-auto_examples/ray_plugin/index
-auto_examples/snowflake_plugin/index
-auto_examples/k8s_spark_plugin/index
-auto_examples/sql_plugin/index
-auto_examples/kftensorflow_plugin/index
-auto_examples/whylogs_plugin/index
+examples/airflow_plugin/README
+examples/athena_plugin/README
+examples/aws_batch_plugin/README
+examples/sagemaker_pytorch_plugin/README
+examples/sagemaker_training_plugin/README
+examples/bigquery_plugin/README
+examples/k8s_dask_plugin/README
+examples/databricks_plugin/README
+examples/dbt_plugin/README
+examples/dolt_plugin/README
+examples/duckdb_plugin/README
+examples/greatexpectations_plugin/README
+examples/hive_plugin/README
+examples/k8s_pod_plugin/README
+examples/mlflow_plugin/README
+examples/mmcloud_plugin/README
+examples/modin_plugin/README
+examples/kfmpi_plugin/README
+examples/onnx_plugin/README
+examples/papermill_plugin/README
+examples/pandera_plugin/README
+examples/kfpytorch_plugin/README
+examples/ray_plugin/README
+examples/snowflake_plugin/README
+examples/k8s_spark_plugin/README
+examples/sql_plugin/README
+examples/kftensorflow_plugin/README
+examples/whylogs_plugin/README
 ```
 
 ```{toctree}
