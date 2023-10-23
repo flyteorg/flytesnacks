@@ -130,7 +130,7 @@ def standard_scale_workflow(values: List[float]) -> List[float]:
 Just like tasks, workflows are executable in a regular Python runtime:
 
 ```{code-cell} ipython3
-standard_scale_workflow(values=[float(i) for i in range(1, 11)])
+print(standard_scale_workflow(values=[float(i) for i in range(1, 11)]))
 ```
 
 (workflows_versus_task_syntax)=
@@ -295,8 +295,19 @@ standard_scale_launch_plan = LaunchPlan.get_or_create(
 You can run a `LaunchPlan` locally. It will use the `default_inputs` dictionary
 whenever it's invoked:
 
-```{code-cell} ipython3
-standard_scale_launch_plan()
+Add the following line to your code:
+
+```python
+print(standard_scale_launch_plan())
+```
+Then do:
+
+```bash
+pyflyte run <your-code.py>
+```
+Example output:
+```bash
+[-0.7071067811865475, 0.0, 0.7071067811865475]
 ```
 
 Of course, these defaults can be overridden:
