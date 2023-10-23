@@ -347,6 +347,6 @@ Learn more about subworkflows in the {ref}`User Guide <launch_plan>`.
 
 So far we've been working with small code snippets and self-contained scripts.
 Next, we'll see how to organize a Flyte project that follows software
-engineering best practices, including modularizing code into meaningful modules,
+engineering best practices, including organizing code into meaningful modules,
 defining third-party dependencies, and creating a container image for making
 our workflows reproducible.
