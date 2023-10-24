@@ -30,51 +30,6 @@ This guide assumes that you:
   guide to create a minimal Flyte project.
 ```
 
-## Flyte Demo Cluster
-
-The Flyte demo cluster is a minimal Flyte cluster, which is ideal for local
-testing and prototyping.
-
-At a high level, the `flytectl demo start` command performs the following
-operations:
-
-1. Provisions a kubernetes cluster that runs in your local machine.
-2. Spins up a suite of services that Flyte needs to orchestrate tasks and
-   workflows, including a minio blob store for storing outputs of task/workflow
-   executions.
-3. Creates a configuration file `~/.flyte/config-sandbox.yaml`
-
-### Configuration
-
-The `config-sandbox.yaml` file contains configuration for **FlyteAdmin**,
-which is the Flyte cluster backend component that processes all client requests
-such as workflow executions:
-
-````{dropdown} See Configuration
-:title: text-muted
-
-```{code-block} yaml
-admin:
-  # For GRPC endpoints you might want to use dns:///flyte.myexample.com
-  endpoint: localhost:30080
-  authType: Pkce
-  insecure: true
-console:
-  endpoint: http://localhost:30080
-logger:
-  show-source: true
-  level: 0
-```
-
-````
-
-```{note}
-You can also create your own config file with `flytectl config init`, which
-will create a config file at `~/.flyte/config.yaml`.
-
-Learn more about the configuration settings in the
-{ref}`Deployment Guide <flyte:flyteadmin-config-specification>`
-```
 
 ### Custom Dependencies
 

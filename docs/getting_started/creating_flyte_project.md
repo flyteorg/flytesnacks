@@ -45,7 +45,7 @@ git init  # initialize a git repository
 If you examine `my_project`, you'll see the following file structure:
 
 ```{code-block} bash
-my_project
+tree my_project
 ├── Dockerfile        # Docker image
 ├── LICENSE
 ├── README.md
@@ -142,6 +142,9 @@ image to suit your needs:
 ```
 
 ````
+```{admonition} ImageSpec
+Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
+```
 
 ## What's Next?
 
