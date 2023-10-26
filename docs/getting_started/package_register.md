@@ -30,8 +30,7 @@ This guide assumes that you:
   guide to create a minimal Flyte project.
 ```
 
-
-### Custom Dependencies
+## Custom Dependencies
 
 If you have custom Python dependencies, update the `requirements.txt` file that
 ships with the {ref}`project template <getting_started_python_dependencies>`
@@ -41,7 +40,7 @@ You can also update the {ref}`Dockerfile <getting_started_dockerfile>` if you
 want to use a different base image or if the additional Python dependencies
 require installing binaries or packages from other languages.
 
-## Registration Patterns
+# Registration Patterns
 
 There are different methods of registering your workflows to a Flyte cluster
 where each method fulfills a particular use case during the workflow development
@@ -54,7 +53,7 @@ following use cases:
 
 (getting_started_register_pyflyte_run)=
 
-### Iterating on a Single Task or Workflow
+## Iterating on a Single Task or Workflow
 
 The quickest way to register a task or workflow to a Flyte cluster is with the
 `pyflyte run` CLI command. Assuming that you're inside the `my_project` directory
@@ -146,11 +145,13 @@ Once you've successfully registered your workflows, you can execute them by
 going to the Flyte console. If you're using a local Flyte demo cluster, you can
 go to the browser at `localhost:30080/console` and do the following:
 
-- Navigate to the **flytesnacks** > **development** domain.
+  - Navigate to the **flytesnacks** > **development** domain.
 - Click on the **Workflows** section of the left-hand sidebar.
 - Click on the **workflows.example.wf** card on the workflows list.
 - Click on the **Launch Workflow** button on the top-right corner.
 - Fill in an input **name** and click on the **Launch** button.
+
+![](https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/getting_started/getting-started-flyte-ui.png)
 
 ```{note}
 In the next guide you'll learn about how to run your workflows programmatically.
@@ -167,7 +168,7 @@ dependencies_. At a high level, fast registration:
 1. 📦 **Packages** and zips up the directory/file that you specify as the argument to
    `pyflyte register`, along with any files in the root directory of your
    project. The result of this is a tarball that is packaged into a `.tar.gz`
-   file, which also includes the serialized task and workflow specifications
+   file, which also includes the serialized task (in `protobuf` format) and workflow specifications
    defined in your workflow code.
 2. 🚢 **Registers** the Flyte package to the specified Flyte cluster and uploads the
    tarball containing the user-defined code into the configured blob store
@@ -197,7 +198,7 @@ workflows and all of their dependencies into a Docker container.
 
 The third method of registering your workflows uses two commands:
 
-- `pyflyte package`: packages your tasks and workflows into protobuf format.
+- `pyflyte package`: packages your tasks and workflows into `protobuf` format.
 - `flytectl register`: registers the Flyte package to the configured cluster.
 
 This is the production-grade registration flow that we recommend because this
