@@ -45,7 +45,7 @@ git init  # initialize a git repository
 If you examine `my_project`, you'll see the following file structure:
 
 ```{code-block} bash
-tree my_project
+my_project
 ├── Dockerfile        # Docker image
 ├── LICENSE
 ├── README.md
