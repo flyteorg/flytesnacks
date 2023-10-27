@@ -51,6 +51,11 @@ following use cases:
 2. Iterating on a Flyte project with multiple task/workflow modules.
 3. Deploying your workflows to a production environment.
 
+The following diagram provides a summarized view of the different registration patterns:
+
+![](https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/getting_started/flyte-registration-patterns.png)
+
+
 (getting_started_register_pyflyte_run)=
 
 ## Iterating on a Single Task or Workflow
@@ -162,7 +167,7 @@ In the next guide you'll learn about how to run your workflows programmatically.
 `pyflyte register` packages up your code through a mechanism called
 **fast registration**. Fast registration is useful when you already have a
 container image that's hosted in your container registry of choice and you change
-your workflow/task code _without any changes in your system-level/python
+your workflow/task code _without any changes in your system-level/Python
 dependencies_. At a high level, fast registration:
 
 1. 📦 **Packages** and zips up the directory/file that you specify as the argument to
@@ -205,6 +210,9 @@ This is the production-grade registration flow that we recommend because this
 method ensures that the workflows are fully containerized, which ensures that
 the system- and Python-level dependencies along with your workflow source code
 are immutable.
+
+
+
 
 (containerizing_your_project)=
 
