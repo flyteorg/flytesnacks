@@ -114,7 +114,7 @@ flake8-isort==6.0.0
     # via -r dev-requirements.in
 flyteidl==1.5.16
     # via flytekit
-flytekit==1.9.0
+flytekit==1.10.0
     # via -r dev-requirements.in
 frozenlist==1.4.0
     # via

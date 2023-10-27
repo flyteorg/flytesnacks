@@ -80,7 +80,7 @@
 #    * - Dataclasses ``@dataclass``
 #      - Struct
 #      - Automatic
-#      - Use python 3 type hints. The class should be a pure value class and should be annotated with ``@dataclass and @dataclass_json``.
+#      - Use python 3 type hints. The class should be a pure value class, inherit from Mashumaro's DataClassJSONMixin, and be annotated with ``@dataclass`.
 #    * - pandas.DataFrame
 #      - Schema
 #      - Automatic

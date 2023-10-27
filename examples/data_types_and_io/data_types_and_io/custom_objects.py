@@ -10,12 +10,17 @@
 # Flyte supports passing JSON between tasks. But to simplify the usage for the users and introduce type-safety,
 # Flytekit supports passing custom data objects between tasks.
 #
-# Currently, data classes decorated with `@dataclass_json` are supported.
+# Currently, data classes inheriting DataClassJSONMixin are supported.
 # One good use case of a data class would be when you want to wrap all input in a data class in the case of a map task
 # which can only accept one input and produce one output.
 #
 # This example shows how users can serialize custom JSON-compatible dataclasses between successive tasks using the
-# excellent [dataclasses_json](https://pypi.org/project/dataclasses-json/) library.
+# excellent [mashumaro](https://github.com/Fatal1ty/mashumaro) library.
+#
+# :::{note}
+# Please note that if you are below Flytekit v1.10 you'll need to also decorate with @dataclass_json via 
+# `from dataclass_json import dataclass_json` instead of Mashumaro's DataClassJSONMixin.
+# :::
 
 # %% [markdown]
 # To get started, let's import the necessary libraries.
@@ -26,7 +31,7 @@ import typing
 from dataclasses import dataclass
 
 import pandas as pd
-from dataclasses_json import dataclass_json
+from mashumaro.mixins.json import DataClassJSONMixin
 from flytekit import task, workflow
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
@@ -36,9 +41,8 @@ from flytekit.types.schema import FlyteSchema
 # %% [markdown]
 # We define a simple data class that can be sent between tasks.
 # %%
-@dataclass_json
 @dataclass
-class Datum(object):
+class Datum(DataClassJSONMixin):
     """
     Example of a simple custom class that is modeled as a dataclass
     """
@@ -60,9 +64,8 @@ class Datum(object):
 # Next, we define a data class that accepts {std:ref}`FlyteSchema <typed_schema>`, {std:ref}`FlyteFile <files>`,
 # and {std:ref}`FlyteDirectory <folders>`.
 # %%
-@dataclass_json
 @dataclass
-class Result:
+class Result(DataClassJSONMixin):
     schema: FlyteSchema
     file: FlyteFile
     directory: FlyteDirectory

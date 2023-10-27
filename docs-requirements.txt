@@ -152,7 +152,7 @@ flyteidl==1.5.16
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
-flytekit==1.9.0
+flytekit==1.10.0
     # via
     #   -r docs-requirements.in
     #   flytekitplugins-deck-standard
