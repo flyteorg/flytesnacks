@@ -130,7 +130,7 @@ def standard_scale_workflow(values: List[float]) -> List[float]:
 Just like tasks, workflows are executable in a regular Python runtime:
 
 ```{code-cell} ipython3
-print(standard_scale_workflow(values=[float(i) for i in range(1, 11)]))
+standard_scale_workflow(values=[float(i) for i in range(1, 11)])
 ```
 
 (workflows_versus_task_syntax)=

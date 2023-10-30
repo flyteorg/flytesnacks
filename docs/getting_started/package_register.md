@@ -211,9 +211,6 @@ method ensures that the workflows are fully containerized, which ensures that
 the system- and Python-level dependencies along with your workflow source code
 are immutable.
 
-
-
-
 (containerizing_your_project)=
 
 #### Containerizing your Project
