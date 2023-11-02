@@ -54,7 +54,7 @@ def intercept(x: list[int], y: list[int], slope: float) -> intercept_value:
 # %% [markdown]
 # :::{note}
 # While it's possible to create `NamedTuple`s directly within the code,
-# it's often better to declare them explicitly. This helps prevent potential linting errors in tools like pypy.
+# it's often better to declare them explicitly. This helps prevent potential linting errors in tools like mypy.
 #
 # ```
 # def slope() -> NamedTuple("slope_value", slope=float):

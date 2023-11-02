@@ -6,10 +6,12 @@
 # ```{eval-rst}
 # .. tags:: DataFrame, Basic, Data
 # ```
+# ```{currentmodule} flytekit.types.structured
+# ```
 #
 # Structured dataset is a superset of Flyte Schema.
 #
-# The `StructuredDataset` Transformer can write a dataframe to BigQuery, s3, or any storage by registering new structured dataset encoder and decoder.
+# The {py:class}`StructuredDataset` Transformer can write a dataframe to BigQuery, s3, or any storage by registering new structured dataset encoder and decoder.
 #
 # Flytekit makes it possible to return or accept a {py:class}`pandas.DataFrame` which is automatically
 # converted into Flyte's abstract representation of a structured dataset object.
@@ -40,7 +42,7 @@ from flytekit.types.structured.structured_dataset import (
 from typing_extensions import Annotated
 
 # %% [markdown]
-# We define the columns types for schema and `StructuredDataset`.
+# We define the columns types for schema and {py:class}`StructuredDataset`.
 # %%
 superset_cols = kwtypes(Name=str, Age=int, Height=int)
 subset_cols = kwtypes(Age=int)
@@ -73,7 +75,7 @@ def get_schema_df(a: int) -> FlyteSchema[superset_cols]:
 # When we invoke `all()`, the Flyte engine downloads the parquet file on S3, and deserializes it to `pandas.dataframe`.
 #
 # :::{note}
-# - Despite the input type of the task being `StructuredDataset`, it can also accept FlyteSchema as input.
+# - Despite the input type of the task being {py:class}`StructuredDataset`, it can also accept FlyteSchema as input.
 # - The code may result in runtime failures if the columns do not match.
 # :::
 # %%
@@ -86,11 +88,11 @@ def get_subset_df(df: Annotated[StructuredDataset, subset_cols]) -> Annotated[St
 
 
 # %% [markdown]
-# ## StructuredDataset with `uri` Argument
+# ## {py:class}`StructuredDataset` with `uri` Argument
 #
 # BigQuery `uri` allows you to load and retrieve data from cloud using the `uri`. The `uri` comprises of the bucket name and the filename prefixed with `gs://`.
-# If you specify BigQuery `uri` for StructuredDataset, BigQuery creates a table in the location specified by the `uri`.
-# The `uri` in StructuredDataset reads from or writes to S3, GCP, BigQuery, or any storage.
+# If you specify BigQuery `uri` for {py:class}`StructuredDataset`, BigQuery creates a table in the location specified by the `uri`.
+# The `uri` in {py:class}`StructuredDataset` reads from or writes to S3, GCP, BigQuery, or any storage.
 # Let's understand how to convert a pandas DataFrame to a BigQuery table and vice-versa through an example.
 #
 # Before writing DataFrame to a BigQuery table,
@@ -148,14 +150,14 @@ if __name__ == "__main__":
 # %% [markdown]
 # ## NumPy Encoder and Decoder
 #
-# `StructuredDataset` ships with an encoder and a decoder that handles the conversion of a Python value to a Flyte literal and vice-versa, respectively.
+# {py:class}`StructuredDataset` ships with an encoder and a decoder that handles the conversion of a Python value to a Flyte literal and vice-versa, respectively.
 # Let's understand how to write them by defining a NumPy encoder and decoder, which helps use NumPy array as a valid type within structured datasets.
 
 # %% [markdown]
 # ### NumPy Encoder
 #
-# We extend `StructuredDatasetEncoder` and implement the `encode` function.
-# The `encode` function converts NumPy array to an intermediate format (parquet file format in this case).
+# We extend {py:class}`StructuredDatasetEncoder` and implement the {py:meth}`~StructuredDatasetEncoder.encode` function.
+# The {py:meth}`~StructuredDatasetEncoder.encode` function converts NumPy array to an intermediate format (parquet file format in this case).
 # %%
 class NumpyEncodingHandlers(StructuredDatasetEncoder):
     def encode(
@@ -181,8 +183,8 @@ class NumpyEncodingHandlers(StructuredDatasetEncoder):
 # %% [markdown]
 # ### NumPy Decoder
 #
-# Next we extend `StructuredDatasetDecoder` and implement the `decode` function.
-# The `decode` function converts the parquet file to a `numpy.ndarray`.
+# Next we extend {py:class}`StructuredDatasetDecoder` and implement the {py:meth}`~StructuredDatasetDecoder.decode` function.
+# The {py:meth}`~StructuredDatasetDecoder.decode` function converts the parquet file to a `numpy.ndarray`.
 # %%
 class NumpyDecodingHandlers(StructuredDatasetDecoder):
     def decode(
@@ -238,7 +240,7 @@ def to_numpy(ds: Annotated[StructuredDataset, subset_cols]) -> Annotated[Structu
 
 
 # %% [markdown]
-# Finally, we define two workflows that showcase how a `pandas.DataFrame` and `FlyteSchema` are accepted by the `StructuredDataset`.
+# Finally, we define two workflows that showcase how a `pandas.DataFrame` and `FlyteSchema` are accepted by the {py:class}`StructuredDataset`.
 # %%
 @workflow
 def pandas_compatibility_wf(a: int) -> Annotated[StructuredDataset, subset_cols]:
