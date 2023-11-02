@@ -24,11 +24,11 @@ import tempfile
 from dataclasses import dataclass
 
 import pandas as pd
-from mashumaro.mixins.json import DataClassJSONMixin
 from flytekit import task, workflow
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
+from mashumaro.mixins.json import DataClassJSONMixin
 
 
 # %% [markdown]
@@ -72,7 +72,7 @@ def add(x: Datum, y: Datum) -> Datum:
 # %% [markdown]
 # ## Flyte types
 # We also define a data class that accepts {std:ref}`StructuredDataset <structured_dataset>`,
-# {std:ref}`FlyteFile <files>` and {std:ref}`FlyteDirectory <folders>`.
+# {std:ref}`FlyteFile <files>` and {std:ref}`FlyteDirectory <folder>`.
 # %%
 @dataclass
 class FlyteTypes(DataClassJSONMixin):

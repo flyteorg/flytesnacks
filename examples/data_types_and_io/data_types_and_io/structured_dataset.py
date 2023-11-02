@@ -105,8 +105,9 @@ def simple_sd_wf(a: int = 19) -> Annotated[StructuredDataset, col]:
 # Here's how you can register the Pandas to CSV handler, which is already available,
 # and enable the CSV serialization by annotating the structured dataset with the CSV format:
 # %%
-from flytekit.types.structured.structured_dataset import CSV
 from flytekit.types.structured import register_csv_handlers
+
+from flytekit.types.structured.structured_dataset import CSV
 
 register_csv_handlers()
 

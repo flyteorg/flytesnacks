@@ -14,6 +14,9 @@ They enable:
 - Simplifying access to data
 - Auto generated CLI and launch UI
 
+For a more comprehensive understanding of how Flyte manages data, refer to the
+{std:ref}`Understand How Flyte Handles Data <flyte:divedeep-data-management>` guide.
+
 (python_to_flyte_type_mapping)=
 
 ## Mapping Python to Flyte types
@@ -130,13 +133,15 @@ Here's a breakdown of these mappings:
       - Any
       - Custom transformers
       - The ``FlytePickle`` transformer is the default option, but you can also define custom transformers.
-        For instructions on building custom type transformers, please refer to :ref:`this section <advanced_custom_types>`.
+        **For instructions on building custom type transformers, please refer to :ref:`this section <advanced_custom_types>`**.
 ```
 
 ```{auto-examples-toc}
-dataclass
 enum_type
+dataclass
 pytorch_type
-structured_dataset
 pickle_type
+file
+folder
+structured_dataset
 ```
