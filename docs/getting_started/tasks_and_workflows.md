@@ -292,22 +292,11 @@ standard_scale_launch_plan = LaunchPlan.get_or_create(
 
 ### Invoking LaunchPlans Locally
 
-You can run a `LaunchPlan` locally. It will use the `default_inputs` dictionary
+You can run a `LaunchPlan` locally. This is, using the local Python interpreter (REPL). It will use the `default_inputs` dictionary
 whenever it's invoked:
 
-Add the following line to your code:
-
-```python
-print(standard_scale_launch_plan())
-```
-Then do:
-
-```bash
-pyflyte run <your-code.py>
-```
-Example output:
-```bash
-[-0.7071067811865475, 0.0, 0.7071067811865475]
+```{code-cell} ipython3
+standard_scale_launch_plan()
 ```
 
 Of course, these defaults can be overridden:
