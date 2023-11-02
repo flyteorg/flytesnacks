@@ -132,6 +132,10 @@ if __name__ == "__main__":
     print(count_unique_numbers_1(x=[1, 1, 2]))
     print(my_pipeline(x=[1, 1, 2]))
 
+from typing import NamedTuple
+
+import tensorflow as tf
+
 # %% [markdown]
 # You can see the memory allocation below. The memory limit is `500Mi` rather than `350Mi`, and the
 # CPU limit is 4, whereas it should have been 6 as specified using `with_overrides`.
@@ -150,97 +154,50 @@ if __name__ == "__main__":
 #
 # For task_config, refer to the {py:func}`flytekit:flytekit.task` documentation.
 #
-# Define some necessary functions and dependency.
-# For more detail please check [here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/kftensorflow_plugin/tf_mnist.html#run-distributed-tensorflow-training).
-# In this content we focus on how to override the `task_conf`.
-# %%
-import os
-from dataclasses import dataclass
-from typing import NamedTuple, Tuple
-
-from dataclasses_json import dataclass_json
-from flytekit import ImageSpec, Resources, dynamic, task, workflow
-from flytekit.types.directory import FlyteDirectory
-
-custom_image = ImageSpec(
-    name="kftensorflow-flyte-plugin",
-    packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow"],
-    registry="ghcr.io/flyteorg",
-)
-
-if custom_image.is_container():
-    import tensorflow as tf
-    from flytekitplugins.kftensorflow import PS, Chief, TfJob, Worker
-
-MODEL_FILE_PATH = "saved_model/"
-
-
-@dataclass_json
-@dataclass
-class Hyperparameters(object):
-    # initialize a data class to store the hyperparameters.
-    batch_size_per_replica: int = 64
-    buffer_size: int = 10000
-    epochs: int = 10
-
-
-def load_data(
-    hyperparameters: Hyperparameters,
-) -> Tuple[tf.data.Dataset, tf.data.Dataset, tf.distribute.Strategy]:
-    # Fetch train and evaluation datasets
-    ...
-
-
-def get_compiled_model(strategy: tf.distribute.Strategy) -> tf.keras.Model:
-    # compile a model
-    ...
-
-
-def decay(epoch: int):
-    # define a function for decaying the learning rate
-    ...
-
-
-def train_model(
-    model: tf.keras.Model,
-    train_dataset: tf.data.Dataset,
-    hyperparameters: Hyperparameters,
-) -> Tuple[tf.keras.Model, str]:
-    # define the train_model function
-    ...
-
-
-def test_model(model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data.Dataset) -> Tuple[float, float]:
-    # define the test_model function to evaluate loss and accuracy on the test dataset
-    ...
-
-
-# %% [markdown]
 # To create a TensorFlow task, add {py:class}`flytekitplugins:flytekitplugins.kftensorflow.TfJob` config to the Flyte task, that is a plugin can run distributed TensorFlow training on Kubernetes.
 # %%
-training_outputs = NamedTuple("TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory)
+from flytekit import Resources, dynamic, task, workflow
+from flytekitplugins.kftensorflow import PS, Chief, TfJob, Worker
 
-if os.getenv("SANDBOX") != "":
-    resources = Resources(gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi")
-else:
-    resources = Resources(gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi")
+TrainingOutputs = NamedTuple(
+    "TrainingOutputs",
+    [
+        ("model", tf.keras.Model),
+        ("accuracy", float),
+        ("loss", float),
+    ],
+)
 
 
 @task(
     task_config=TfJob(worker=Worker(replicas=1), ps=PS(replicas=1), chief=Chief(replicas=1)),
-    retries=2,
+    cache_version="1.0",
     cache=True,
-    cache_version="2.2",
-    requests=resources,
-    limits=resources,
-    container_image=custom_image,
+    requests=Resources(cpu="1", mem="2048Mi"),
+    limits=Resources(cpu="1", mem="2048Mi"),
 )
-def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
-    train_dataset, eval_dataset, strategy = load_data(hyperparameters=hyperparameters)
-    model = get_compiled_model(strategy=strategy)
-    model, checkpoint_dir = train_model(model=model, train_dataset=train_dataset, hyperparameters=hyperparameters)
-    eval_loss, eval_accuracy = test_model(model=model, checkpoint_dir=checkpoint_dir, eval_dataset=eval_dataset)
-    return training_outputs(accuracy=eval_accuracy, loss=eval_loss, model_state=MODEL_FILE_PATH)
+def train_model() -> TrainingOutputs:
+    (X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+    X_train, X_test = X_train / 255.0, X_test / 255.0
+    strategy = tf.distribute.MirroredStrategy()
+    with strategy.scope():
+        model = tf.keras.models.Sequential(
+            [
+                tf.keras.layers.Flatten(input_shape=(28, 28)),
+                tf.keras.layers.Dense(128, activation="relu"),
+                tf.keras.layers.Dropout(0.2),
+                tf.keras.layers.Dense(10),
+            ]
+        )
+        model.compile(
+            optimizer="adam", loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=["accuracy"]
+        )
+        BATCH_SIZE = 64
+        NUM_EPOCHS = 5
+        model.fit(X_train, y_train, epochs=NUM_EPOCHS, batch_size=BATCH_SIZE)
+        test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=2)
+
+    return TrainingOutputs(model=model, accuracy=test_accuracy, loss=test_loss)
 
 
 # %% [markdown]
@@ -248,18 +205,13 @@ def mnist_tensorflow_job(hyperparameters: Hyperparameters) -> training_outputs:
 # For here we override the worker replica count.
 # %%
 @workflow
-def mnist_tensorflow_workflow(
-    hyperparameters: Hyperparameters = Hyperparameters(batch_size_per_replica=64),
-) -> training_outputs:
-    return mnist_tensorflow_job(hyperparameters=hyperparameters)
+def my_tensorflow_workflow() -> TrainingOutputs:
+    return train_model()
 
 
 @dynamic
-def dynamic_run(
-    new_worker: int,
-    hyperparameters: Hyperparameters = Hyperparameters(batch_size_per_replica=64),
-) -> training_outputs:
-    return mnist_tensorflow_job(hyperparameters=hyperparameters).with_overrides(
+def dynamic_run(new_worker: int) -> TrainingOutputs:
+    return train_model().with_overrides(
         task_config=TfJob(worker=Worker(replicas=new_worker), ps=PS(replicas=1), chief=Chief(replicas=1))
     )
 
@@ -268,5 +220,5 @@ def dynamic_run(
 # You can execute the workflow locally.
 # %%
 if __name__ == "__main__":
-    print(mnist_tensorflow_workflow())
+    print(my_tensorflow_workflow())
     print(dynamic_run(new_worker=4))
