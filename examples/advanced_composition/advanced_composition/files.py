@@ -55,7 +55,8 @@ def normalize_columns(
     parsed_data = defaultdict(list)
     with open(csv_url, newline="\n") as input_file:
         reader = csv.DictReader(input_file, fieldnames=column_names)
-        for row in (x for i, x in enumerate(reader) if i > 0):
+        next(reader)  # Skip header
+        for row in reader:
             for column in columns_to_normalize:
                 parsed_data[column].append(float(row[column].strip()))
 
@@ -139,4 +140,4 @@ if __name__ == "__main__":
             column_names=column_names,
             columns_to_normalize=columns_to_normalize,
         )
-        print(f"Running normalize_csv_file workflow on {default_files}: " f"{normalized_columns}")
+        print(f"Running normalize_csv_file workflow on {csv_url}: " f"{normalized_columns}")

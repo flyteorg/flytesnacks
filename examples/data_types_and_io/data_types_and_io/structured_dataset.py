@@ -6,10 +6,12 @@
 # ```{eval-rst}
 # .. tags:: Basic, DataFrame
 # ```
+# ```{currentmodule} flytekit.types.structured
+# ```
 #
 # As with most type systems, Python has primitives, container types like maps and tuples, and support for user-defined structures.
 # However, while there’s a rich variety of dataframe classes (Pandas, Spark, Pandera, etc.), there’s no native Python type that
-# represents a dataframe in the abstract. This is the gap that the StructuredDataset type is meant to fill.
+# represents a dataframe in the abstract. This is the gap that the {py:class}`StructuredDataset` type is meant to fill.
 # It offers the following benefits:
 #
 # - Eliminate boilerplate code you would otherwise need to write to serialize/deserialize from file objects into dataframe instances,
@@ -46,7 +48,7 @@ from typing_extensions import Annotated
 # %% [markdown]
 # Define a task that returns a Pandas DataFrame.
 # Flytekit will detect the Pandas dataframe return signature and
-# convert the interface for the task to the new ``StructuredDataset`` type.
+# convert the interface for the task to the new {py:class}`StructuredDataset` type.
 # %%
 @task
 def generate_pandas_df(a: int) -> pd.DataFrame:
@@ -249,8 +251,8 @@ class NumpyEncodingHandler(StructuredDatasetEncoder):
 # %% [markdown]
 # ### NumPy decoder
 #
-# Extend `StructuredDatasetDecoder` and implement the `decode` function.
-# The `decode` function converts the parquet file to a `numpy.ndarray`.
+# Extend {py:class}`StructuredDatasetDecoder` and implement the {py:meth}`~StructuredDatasetDecoder.decode` function.
+# The {py:meth}`~StructuredDatasetDecoder.decode` function converts the parquet file to a `numpy.ndarray`.
 # %%
 class NumpyDecodingHandler(StructuredDatasetDecoder):
     def decode(
