@@ -124,7 +124,6 @@ There are many ways to extend your workloads:
     supports ScikitLearn, TensorFlow, and PyTorch.
 ```
 
-
 ```{admonition} Learn More
 :class: important
 
