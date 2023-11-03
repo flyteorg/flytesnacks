@@ -18,7 +18,8 @@
 #
 # :::{important}
 # Pickle can only be used to send objects between the exact same Python version.
-# We strongly recommend using Python types supported by Flyte or registering a custom transformer.
+# For optimal performance, it's advisable to either employ Python types that are supported by Flyte
+# or register a custom transformer, as using pickle types can result in lower performance.
 # :::
 #
 # This example demonstrates how you can utilize custom objects without registering a transformer.

@@ -78,12 +78,12 @@ Here's a breakdown of these mappings:
       - Automatic
       - Use ``typing.Iterator[T]``, where ``T`` can represent one of the other supported types listed in the table.
     * - File / file-like / ``os.PathLike``
-      - Blob (single): ``FlyteFile``
+      - ``FlyteFile``
       - Automatic
       - If you're using ``file`` or ``os.PathLike`` objects, Flyte will default to the binary protocol for the file.
         When using ``FlyteFile["protocol"]``, it is assumed that the file is in the specified protocol, such as 'jpg', 'png', 'hdf5', etc.
     * - Directory
-      - Blob (Multipart): ``FlyteDirectory``
+      - ``FlyteDirectory``
       - Automatic
       - When using ``FlyteDirectory["protocol"]``, it is assumed that all the files belong to the specified protocol.
     * - ``typing.Dict[str, V]`` / ``dict[str, V]``
@@ -102,7 +102,7 @@ Here's a breakdown of these mappings:
       - The class should be a pure value class that inherits from Mashumaro's DataClassJSONMixin,
         and be annotated with the ``@dataclass`` decorator.
     * - ``np.ndarray``
-      - Blob (single)
+      - File
       - Automatic
       - Use ``np.ndarray`` as a type hint.
     * - ``pandas.DataFrame``
@@ -118,15 +118,15 @@ Here's a breakdown of these mappings:
       - To utilize the type, install the ``flytekitplugins-pydantic`` plugin.
       - Use ``pydantic.BaseModel`` as a type hint.
     * - ``torch.Tensor`` / ``torch.nn.Module``
-      - Blob (Single)
+      - File
       - To utilize the type, install the ``torch`` library.
       - Use ``torch.Tensor`` or ``torch.nn.Module`` as a type hint, and you can use their derived types.
     * - ``tf.keras.Model``
-      - Blob (Single)
+      - File
       - To utilize the type, install the ``tensorflow`` library.
       - Use ``tf.keras.Model`` and its derived types.
     * - ``sklearn.base.BaseEstimator``
-      - Blob (single)
+      - File
       - To utilize the type, install the ``scikit-learn`` library.
       - Use ``sklearn.base.BaseEstimator`` and its derived types.
     * - User defined types
@@ -137,11 +137,11 @@ Here's a breakdown of these mappings:
 ```
 
 ```{auto-examples-toc}
-enum_type
-dataclass
-pytorch_type
-pickle_type
 file
 folder
 structured_dataset
+dataclass
+pytorch_type
+enum_type
+pickle_type
 ```

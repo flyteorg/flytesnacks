@@ -133,3 +133,11 @@ def dataclass_wf(x: int, y: int) -> (Datum, FlyteTypes):
 # %%
 if __name__ == "__main__":
     dataclass_wf(x=10, y=20)
+
+# %% [markdown]
+# To trigger a task that accepts a dataclass as an input with `pyflyte run`, you can provide a JSON file as an input:
+# ```
+# pyflyte run \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/data_types_and_io/data_types_and_io/dataclass.py \
+#   add --x dataclass_input.json --y dataclass_input.json
+# ```

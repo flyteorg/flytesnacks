@@ -52,7 +52,23 @@ def coffee_maker(coffee: str) -> str:
 
 
 # %% [markdown]
-# You can run the workflow locally:
+# The workflow can also accept an enum value.
+# %%
+@workflow
+def coffee_maker_enum(coffee_enum: Coffee) -> str:
+    return prep_order(coffee_enum=coffee_enum)
+
+
+# %% [markdown]
+# You can send a string to the `coffee_maker_enum` workflow during its execution, like this:
+# ```
+# pyflyte run \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/data_types_and_io/data_types_and_io/enum_type.py \
+#   coffee_maker_enum --coffee_enum="latte"
+# ```
+#
+# You can run the workflows locally.
 # %%
 if __name__ == "__main__":
     print(coffee_maker(coffee="latte"))
+    print(coffee_maker_enum(coffee_enum=Coffee.LATTE))
