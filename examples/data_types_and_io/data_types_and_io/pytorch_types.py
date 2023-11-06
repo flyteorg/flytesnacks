@@ -73,7 +73,6 @@ def pytorch_native_wf():
 # %% [markdown]
 # Passing around tensors and modules is no more a hassle!
 
-from dataclasses import dataclass
 
 # %% [markdown]
 # ## Checkpoint
@@ -85,6 +84,8 @@ from dataclasses import dataclass
 # As per PyTorch [docs](https://pytorch.org/tutorials/beginner/saving_loading_models.html#save-load-entire-model), it is recommended to
 # store the module's `state_dict` rather than the module itself. However, the serialization should work either way.
 # %%
+from dataclasses import dataclass
+
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
