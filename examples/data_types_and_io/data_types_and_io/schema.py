@@ -44,9 +44,8 @@ def get_df(a: int) -> pandas.DataFrame:
 def add_df(df: pandas.DataFrame) -> pandas.DataFrame:
     """
     Append some data to the dataframe.
-    NOTE: this may result in runtime failures if the columns do not match
     """
-    return df.append(pandas.DataFrame(data={"col1": [5, 10], "col2": [5, 10]}))
+    return pandas.concat([df, pandas.DataFrame(data={"col1": [5, 10], "col2": [5, 10]})])
 
 
 # %% [markdown]
