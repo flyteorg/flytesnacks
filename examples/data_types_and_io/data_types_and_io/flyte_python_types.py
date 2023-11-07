@@ -60,7 +60,7 @@
 #    * - Univariate List / typing.List
 #      - Collection [ type ]
 #      - Automatic
-#      - Use python 3 type hints e.g ``typing.List[T], where T can be one of the other supported types in the table``
+#      - Use python 3 type hints e.g ``typing.List[T]``, where ``T`` can be one of the other supported types in the table
 #    * - file / file-like / os.PathLike / flytekit.types.file.FlyteFile
 #      - Blob - Single
 #      - Automatic
@@ -72,7 +72,7 @@
 #    * - Typed dictionary with str key - typing.Dict[str, V]
 #      - Map[str, V]
 #      - Automatic
-#      - Use python 3 type hints e.g ``typing.Dict[str, V], where V can be one of the other supported types in the table even another Dictionary (nested)``
+#      - Use python 3 type hints e.g ``typing.Dict[str, V]``, where V can be one of the other supported types in the table even another Dictionary (nested)
 #    * - Untyped dictionary - dict
 #      - JSON (struct.pb)
 #      - Automatic
@@ -80,7 +80,7 @@
 #    * - Dataclasses ``@dataclass``
 #      - Struct
 #      - Automatic
-#      - Use python 3 type hints. The class should be a pure value class and should be annotated with ``@dataclass and @dataclass_json``.
+#      - Use python 3 type hints. The class should be a pure value class and should be annotated with ``@dataclass`` and ``@dataclass_json``.
 #    * - pandas.DataFrame
 #      - Schema
 #      - Automatic
@@ -96,6 +96,6 @@
 #    * - User defined types
 #      - Any
 #      - Custom Transformers
-#      - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to {ref}`advanced_custom_types`.
+#      - Use python 3 type hints. We use ``FlytePickle transformer`` by default, but users still can provide custom transformers. Refer to :ref:`advanced_custom_types`.
 # ```
 #
