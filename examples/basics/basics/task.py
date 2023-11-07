@@ -37,7 +37,7 @@ from flytekit import task
 # %% [markdown]
 # The use of the {py:func}`~flytekit.task` decorator is mandatory for a ``PythonFunctionTask``.
 # A task is essentially a regular Python function, with the exception that all inputs and outputs must be clearly annotated with their types.
-# Learn more about the supported types in the {ref}`type-system section <flytekit_to_flyte_type_mapping>`.
+# Learn more about the supported types in the {ref}`type-system section <python_to_flyte_type_mapping>`.
 #
 # We create a task that computes the slope of a regression line.
 # %%

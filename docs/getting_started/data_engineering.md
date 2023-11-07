@@ -77,7 +77,6 @@ task's resource requirements with the {py:class}`~flytekit.Resources` object.
 If those assumptions ever change we can update the resource request here, or
 override it at the workflow-level with the {ref}`with_overrides <resource_with_overrides>` method.
 
-
 ```{code-cell} ipython3
 @task(requests=Resources(mem="700Mi"))
 def transform(df: pd.DataFrame) -> pd.DataFrame:
@@ -110,7 +109,6 @@ def load(df: pd.DataFrame) -> CSVFile:
 
 Putting all the pieces together, we create an `etl_workflow` that produces a
 dataset based on the parameters you give it.
-
 
 ```{code-cell} ipython3
 @workflow
