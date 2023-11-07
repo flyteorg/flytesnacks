@@ -142,6 +142,9 @@ image to suit your needs:
 ```
 
 ````
+```{admonition} ImageSpec
+Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
+```
 
 ## What's Next?
 
