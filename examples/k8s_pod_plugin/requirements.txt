@@ -4,10 +4,6 @@
 #
 #    /Library/Developer/CommandLineTools/usr/bin/make requirements.txt
 #
-appnope==0.1.3
-    # via
-    #   ipykernel
-    #   ipython
 arrow==1.2.3
     # via jinja2-time
 asttokens==2.2.1
@@ -45,7 +41,9 @@ cookiecutter==2.1.1
 croniter==1.3.8
     # via flytekit
 cryptography==39.0.1
-    # via pyopenssl
+    # via
+    #   pyopenssl
+    #   secretstorage
 cycler==0.11.0
     # via matplotlib
 dataclasses-json==0.5.7
@@ -72,11 +70,11 @@ flyteidl==1.3.7
     # via flytekit
 flytekit==1.3.2
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   flytekitplugins-deck-standard
     #   flytekitplugins-pod
 flytekitplugins-deck-standard==1.3.2
-    # via -r ../../../common/requirements-common.in
+    # via -r requirements.in
 flytekitplugins-pod==1.3.2
     # via -r requirements.in
 fonttools==4.38.0
@@ -124,6 +122,10 @@ jaraco-classes==3.2.3
     # via keyring
 jedi==0.18.2
     # via ipython
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   cookiecutter
@@ -166,7 +168,7 @@ marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.6.3
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   phik
     #   seaborn
     #   ydata-profiling
@@ -233,7 +235,7 @@ phik==0.12.3
     # via ydata-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==9.4.0
+pillow==10.0.1
     # via
     #   imagehash
     #   matplotlib
@@ -336,6 +338,8 @@ scipy==1.9.3
     #   ydata-profiling
 seaborn==0.12.2
     # via ydata-profiling
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   asttokens
@@ -394,8 +398,10 @@ urllib3==1.26.14
     #   kubernetes
     #   requests
     #   responses
-visions[type_image_path]==0.7.5
-    # via ydata-profiling
+visions[type-image-path]==0.7.5
+    # via
+    #   visions
+    #   ydata-profiling
 wcwidth==0.2.6
     # via prompt-toolkit
 websocket-client==1.5.1
@@ -404,7 +410,7 @@ websocket-client==1.5.1
     #   kubernetes
 wheel==0.38.4
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   flytekit
 widgetsnbextension==4.0.5
     # via ipywidgets
