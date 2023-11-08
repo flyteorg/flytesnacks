@@ -62,8 +62,7 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl sandbox start
-          flytectl config init
+          flytectl demo start
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
         with:
