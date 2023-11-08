@@ -63,6 +63,11 @@ jobs:
       - name: setup sandbox
         run: |
           flytectl demo start
+          # Sleep is necessary here since `flyte-proxy` might not be ready
+          # to serve requests when the above command exits successfully.
+          # Fixed in: https://github.com/flyteorg/flyte/pull/4348
+          # TODO (jeev): Remove this when ^ is released.
+          sleep 10
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
         with:
