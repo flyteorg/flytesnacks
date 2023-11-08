@@ -22,7 +22,7 @@ sensor = FileSensor(name="test_sensor")
 # %% [markdown]
 # You have to specify the `path` parameter.
 #
-# In the sandbox, you can use the `s3://my-s3-bucket` path.
+# In the sandbox, you can use the s3 path.
 #
 # We have already set the minio credentials in the sandbox by this [PR](https://github.com/flyteorg/flyte/pull/4235).
 #
