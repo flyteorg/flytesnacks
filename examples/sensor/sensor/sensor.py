@@ -14,7 +14,7 @@ from flytekit.sensor.file_sensor import FileSensor
 #
 # The sensor will search for the file at the specified path. If the file exists, it will return a succeed status. Otherwise, the sensor will continue running until the file is added to the directory.
 #
-# You can also use the S3 file system or GCS file system.
+# You can also use the S3 or GCS file system.
 
 # %%
 sensor = FileSensor(name="test_file_sensor")
