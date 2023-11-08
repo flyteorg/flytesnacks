@@ -3,7 +3,7 @@
 # Sensor
 
 ```{eval-rst}
-.. tags:: Data, Advanced
+.. tags:: Data, Basic
 ```
 
 ## Run the example on the Flyte cluster
