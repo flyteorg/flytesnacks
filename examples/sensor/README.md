@@ -12,7 +12,7 @@ To run the provided example on the Flyte cluster, use the following command:
 
 ```
 pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/sensor/sensor/sensor.py wf
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/sensor/sensor/file_sensor_example.py wf
 ```
 
 ```{auto-examples-toc}
