@@ -12,7 +12,7 @@ from flytekit.sensor.file_sensor import FileSensor
 # %% [markdown]
 # Create a FileSensor task.
 #
-# The sensor will find the file at the given path.
+# The sensor will search for the file at the specified path. If the file exists, it will return a succeed status. Otherwise, the sensor will continue running until the file is added to the directory.
 #
 # You can also use the S3 file system or GCS file system.
 
