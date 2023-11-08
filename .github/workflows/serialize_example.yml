@@ -71,3 +71,4 @@ jobs:
           project: flytesnacks
           version: "latest"
           domain: development
+          config: /home/runner/.flyte/config-sandbox.yaml
