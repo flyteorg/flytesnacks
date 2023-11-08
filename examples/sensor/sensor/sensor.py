@@ -26,7 +26,7 @@ sensor = FileSensor(name="test_file_sensor")
 #
 # We have already set the minio credentials in the agent by default.
 #
-# If you test it in the development mode, you have to set the credentials to your environment variables.
+# If you test it locally, you have to set the credentials to your environment variables.
 # ```{prompt} bash
 # export FLYTE_AWS_ENDPOINT="http://localhost:30002"
 # export FLYTE_AWS_ACCESS_KEY_ID="minio"
