@@ -1,7 +1,7 @@
 # %% [markdown]
 # # File Sensor
 #
-# This example shows how to use the `SensorTask` to execute a query in Sensor.
+# This example shows how to use the `FileSensor` to detect files appearing in your local or remote filesystem.
 #
 # To begin, import the required libraries.
 
