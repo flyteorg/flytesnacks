@@ -5,7 +5,7 @@ import json
 import sys
 import time
 import traceback
-from typing import Dict, List, Mapping, Tuple, Optional
+from typing import Dict, List, Mapping, Optional, Tuple
 
 import click
 import requests
@@ -103,18 +103,14 @@ def execute_workflow(
     return remote.execute(wf, inputs=inputs, wait=False, cluster_pool=cluster_pool_name)
 
 
-def executions_finished(
-    executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]
-) -> bool:
+def executions_finished(executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]) -> bool:
     for executions in executions_by_wfgroup.values():
         if not all([execution.is_done for execution in executions]):
             return False
     return True
 
 
-def sync_executions(
-    remote: FlyteRemote, executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]
-):
+def sync_executions(remote: FlyteRemote, executions_by_wfgroup: Dict[str, List[FlyteWorkflowExecution]]):
     try:
         for executions in executions_by_wfgroup.values():
             for execution in executions:
@@ -148,19 +144,14 @@ def schedule_workflow_groups(
     for wf_group in workflow_groups:
         workflows = FLYTESNACKS_WORKFLOW_GROUPS.get(wf_group, [])
         executions_by_wfgroup[wf_group] = [
-            execute_workflow(remote, tag, workflow[0], workflow[1], cluster_pool_name)
-            for workflow in workflows
+            execute_workflow(remote, tag, workflow[0], workflow[1], cluster_pool_name) for workflow in workflows
         ]
 
     # Wait for all executions to finish
     attempt = 0
-    while attempt == 0 or (
-        not executions_finished(executions_by_wfgroup) and attempt < MAX_ATTEMPTS
-    ):
+    while attempt == 0 or (not executions_finished(executions_by_wfgroup) and attempt < MAX_ATTEMPTS):
         attempt += 1
-        print(
-            f"Not all executions finished yet. Sleeping for some time, will check again in {WAIT_TIME}s"
-        )
+        print(f"Not all executions finished yet. Sleeping for some time, will check again in {WAIT_TIME}s")
         time.sleep(WAIT_TIME)
         sync_executions(remote, executions_by_wfgroup)
 
@@ -176,13 +167,9 @@ def schedule_workflow_groups(
         if len(non_succeeded_executions) != 0:
             print(f"Failed executions for {wf_group}:")
             for execution in non_succeeded_executions:
-                print(
-                    f"    workflow={execution.spec.launch_plan.name}, execution_id={execution.id.name}"
-                )
+                print(f"    workflow={execution.spec.launch_plan.name}, execution_id={execution.id.name}")
                 if terminate_workflow_on_failure:
-                    remote.terminate(
-                        execution, "aborting execution scheduled in functional test"
-                    )
+                    remote.terminate(execution, "aborting execution scheduled in functional test")
         # A workflow group succeeds iff all of its executions succeed
         results[wf_group] = len(non_succeeded_executions) == 0
     return results
@@ -214,8 +201,7 @@ def run(
     # For a given release tag and priority, this function filters the workflow groups from the flytesnacks
     # manifest file. For example, for the release tag "v0.2.224" and the priority "P0" it returns [ "core" ].
     manifest_url = (
-        "https://raw.githubusercontent.com/flyteorg/flytesnacks/"
-        f"{flytesnacks_release_tag}/flyte_tests_manifest.json"
+        "https://raw.githubusercontent.com/flyteorg/flytesnacks/" f"{flytesnacks_release_tag}/flyte_tests_manifest.json"
     )
     r = requests.get(manifest_url)
     parsed_manifest = r.json()
@@ -223,11 +209,7 @@ def run(
     workflow_groups = (
         ["lite"]
         if "lite" in priorities
-        else [
-            group["name"]
-            for group in parsed_manifest
-            if group["priority"] in priorities
-        ]
+        else [group["name"] for group in parsed_manifest if group["priority"] in priorities]
     )
 
     results = []
