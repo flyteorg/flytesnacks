@@ -24,7 +24,7 @@ sensor = FileSensor(name="test_sensor")
 #
 # In the sandbox, you can use the s3 path.
 #
-# We have already set the minio credentials in the sandbox by this [PR](https://github.com/flyteorg/flyte/pull/4235).
+# We have already set the minio credentials in the agent by default.
 #
 # If you test it in the development mode, you have to set the credentials to your environment variables.
 # ```{prompt} bash
