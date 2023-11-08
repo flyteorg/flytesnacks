@@ -10,7 +10,7 @@ from flytekit import task, workflow
 from flytekit.sensor.file_sensor import FileSensor
 
 # %% [markdown]
-# Create a Sensor task.
+# Create a FileSensor task.
 #
 # The sensor will find the file at the given path.
 #
