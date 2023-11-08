@@ -17,7 +17,7 @@ from flytekit.sensor.file_sensor import FileSensor
 # You can also use the S3 file system or GCS file system.
 
 # %%
-sensor = FileSensor(name="test_sensor")
+sensor = FileSensor(name="test_file_sensor")
 
 # %% [markdown]
 # You have to specify the `path` parameter.
