@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Sensoring File
+# # File Sensor
 #
 # This example shows how to use the `SensorTask` to execute a query in Sensor.
 #
