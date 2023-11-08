@@ -42,7 +42,7 @@ def t1():
 
 @workflow()
 def wf():
-    sensor(path="s3://my-s3-bucket") >> t1()
+    sensor(path="s3://my-s3-bucket/file.txt") >> t1()
 
 
 if __name__ == "__main__":
