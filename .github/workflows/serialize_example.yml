@@ -62,12 +62,7 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl demo start
-          # Sleep is necessary here since `flyte-proxy` might not be ready
-          # to serve requests when the above command exits successfully.
-          # Fixed in: https://github.com/flyteorg/flyte/pull/4348
-          # TODO (jeev): Remove this when ^ is released.
-          sleep 10
+          flytectl sandbox start --host "localhost:30081" --insecure
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
         with:
@@ -76,4 +71,3 @@ jobs:
           project: flytesnacks
           version: "latest"
           domain: development
-          config: /home/runner/.flyte/config-sandbox.yaml
