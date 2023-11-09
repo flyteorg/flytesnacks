@@ -62,7 +62,8 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl sandbox start --host "localhost:30081" --insecure
+          flytectl sandbox start
+          flytectl config init --host "localhost:30081" --insecure
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2
         with:
