@@ -6,8 +6,10 @@ from basics.basics.named_outputs import simple_wf_with_named_outputs
 from basics.basics.shell_task import shell_task_wf
 from basics.basics.task import slope
 from basics.basics.workflow import simple_wf_with_partial
+from flytekit import workflow
+from k8s_spark_plugin.k8s_spark_plugin.dataframe_passing import spark_to_pandas_wf
+from k8s_spark_plugin.k8s_spark_plugin.pyspark_pi import my_spark
 from ray_plugin.ray_plugin.ray_example import ray_workflow
-from flytekit import workflow, task
 
 
 @workflow
@@ -29,9 +31,10 @@ def integration_test():
 
     # Test Plugins
     ray_workflow(n=5)
+    my_spark()
+    spark_to_pandas_wf()
+    # TODO: Add more plugins here, like tensorflow, torch, Dask.
 
-    # TODO: Add more plugins here, like spark, tensorflow, torch, Dask.
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     integration_test()
