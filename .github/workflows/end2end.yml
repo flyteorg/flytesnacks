@@ -29,6 +29,7 @@ jobs:
         run: |
           flytectl config init --host localhost:30080
           flytectl demo start
+          # TODO: Build a single binary image that enables and install all the plugins
           kubectl create -k "github.com/ray-project/kuberay/ray-operator/config/default?ref=v0.5.2"
           kubectl rollout restart deployment flyte-sandbox -n flyte
       - name: Setup Flytekit
@@ -44,3 +45,4 @@ jobs:
         working-directory: examples
         run: |
           pyflyte --config /home/runner/.flyte/config-sandbox.yaml run --remote integration_test.py integration_test
+      # TODO: Check workflow status
