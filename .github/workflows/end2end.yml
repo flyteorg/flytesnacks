@@ -1,0 +1,48 @@
+name: End to End tests
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  endtoend:
+    name: End to End tests
+    runs-on: ubuntu-latest
+    env:
+      FLYTESNACKS_VERSION: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: unionai/flytectl-setup-action@v0.0.1
+        name: Setup flytectl
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Create Sandbox Cluster
+        run: |
+          flytectl config init --host localhost:30080
+          flytectl demo start
+          # TODO: Build a single binary image that enables and install all the plugins
+          kubectl create -k "github.com/ray-project/kuberay/ray-operator/config/default?ref=v0.5.2"
+          kubectl rollout restart deployment flyte-sandbox -n flyte
+      - name: Setup Flytekit
+        run: |
+          python -m pip install --upgrade pip
+          pip install flytekitplugins-deck-standard flytekitplugins-ray flytekitplugins.spark flytekitplugins-envd
+          pip freeze
+      - name: execute flyte workflows locally
+        working-directory: examples
+        run: |
+          pyflyte run integration_test.py integration_test
+      - name: execute flyte workflows on demo cluster
+        working-directory: examples
+        run: |
+          pyflyte --config /home/runner/.flyte/config-sandbox.yaml run --remote integration_test.py integration_test
+      # TODO: Check workflow status
