@@ -35,7 +35,7 @@ jobs:
       - name: Setup Flytekit
         run: |
           python -m pip install --upgrade pip
-          pip install envd==0.3.35 flytekitplugins-deck-standard flytekitplugins-ray flytekitplugins-envd
+          pip install flytekitplugins-deck-standard flytekitplugins-ray flytekitplugins.spark flytekitplugins-envd
           pip freeze
       - name: execute flyte workflows locally
         working-directory: examples
