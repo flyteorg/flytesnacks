@@ -36,7 +36,8 @@ custom_image = ImageSpec(
 )
 
 # %% [markdown]
-# :::{note}
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #

@@ -74,7 +74,7 @@ def training_workflow(hyperparameters: dict) -> LogisticRegression:
 
 ```{important}
 Even though you can use a `dict` type to represent the model's hyperparameters,
-we recommend using {ref}`dataclasses <dataclass_type>` to define a custom
+we recommend using {ref}`dataclasses <dataclass>` to define a custom
 `Hyperparameter` Python object that provides more type information to the Flyte
 compiler. For example, Flyte uses this type information to auto-generate
 type-safe launch forms on the Flyte UI. Learn more in the
@@ -123,7 +123,6 @@ There are many ways to extend your workloads:
   - Serialize your models in ONNX format using the {ref}`ONNX plugin <onnx>`, which
     supports ScikitLearn, TensorFlow, and PyTorch.
 ```
-
 
 ```{admonition} Learn More
 :class: important

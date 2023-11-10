@@ -68,7 +68,7 @@ Use `flytectl` to start a demo Flyte cluster:
 flytectl demo start
 ```
 
-After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this: 
+After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this:
 ```{prompt} bash
 export FLYTECTL_CONFIG= ~/<pathTo>/.flyte/config-sandbox.yaml
 ```

@@ -173,14 +173,11 @@ For more comprehensive information, please consult the [configuration structure]
 To run the provided examples on the Flyte cluster, use any of the following commands:
 
 ```
-pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_spark_plugin/k8s_spark_plugin/pyspark_pi.py \
-  my_spark
+pyflyte run --remote pyspark_pi.py my_spark
 ```
 
 ```
-pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/k8s_spark_plugin/k8s_spark_plugin/dataframe_passing.py \
+pyflyte run --remote dataframe_passing.py \
   my_smart_structured_dataset
 ```
 
