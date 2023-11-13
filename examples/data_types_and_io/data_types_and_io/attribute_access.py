@@ -70,7 +70,7 @@ if __name__ == "__main__":
     dict_wf()
 
 # %% [markdown]
-# ## Dataclass
+# ## Python Dataclass
 # We can also access an attribute of a dataclass.
 # %%
 @dataclass_json
