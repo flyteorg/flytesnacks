@@ -223,11 +223,12 @@ jobs:
                   data_types_and_io/data_types_and_io/dataclass.py \
                   data_types_and_io/data_types_and_io/structured_dataset.py ;
           do
+              # TODO: unpin version of flytekit once the FlyteFile bug is fixed
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
                   register \
                   --project flytesnacks \
                   --domain development \
-                  --image cr.flyte.org/flyteorg/flytekit:py3.11-latest \
+                  --image cr.flyte.org/flyteorg/flytekit:py3.11-1.10.0 \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
                   flytesnacks/examples/$f;
           done
