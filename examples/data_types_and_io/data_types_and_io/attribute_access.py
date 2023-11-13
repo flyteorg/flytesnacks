@@ -9,13 +9,19 @@
 #
 # Flyte allows users to access attributes directly on output promises for List, Dict, Dataclass, and combinations of them. This allows users to pass attributes of the output directly in workflows, making it more convenient to work with complex data structures.
 #
-# To begin, import the necessary dependencies.
+# To begin, import the necessary dependencies and define a common task for later use.
 # %%
 from dataclasses import dataclass
 from typing import Dict, List
 
 from dataclasses_json import dataclass_json
 from flytekit import WorkflowFailurePolicy, task, workflow
+
+
+@task
+def print_str(a: str):
+    print(a)
+    return
 
 
 # %% [markdown]
@@ -28,12 +34,6 @@ from flytekit import WorkflowFailurePolicy, task, workflow
 @task
 def list_task() -> List[str]:
     return ["a", "b"]
-
-
-@task
-def print_str(a: str):
-    print(a)
-    return
 
 
 @workflow
@@ -55,12 +55,6 @@ if __name__ == "__main__":
 @task
 def dict_task() -> Dict[str, str]:
     return {"a": "b"}
-
-
-@task
-def print_str(a: str):
-    print(a)
-    return
 
 
 @workflow
@@ -90,12 +84,6 @@ def dataclass_task() -> foo:
     return foo(a="b")
 
 
-@task
-def print_str(a: str):
-    print(a)
-    return
-
-
 @workflow
 def dataclass_wf():
     o = dataclass_task()
@@ -115,12 +103,6 @@ if __name__ == "__main__":
 @task
 def advance_task() -> (Dict[str, List[str]], List[Dict[str, str]], Dict[str, foo]):
     return {"a": ["b"]}, [{"a": "b"}], {"a": foo(a="b")}
-
-
-@task
-def print_str(a: str):
-    print(a)
-    return
 
 
 @task
@@ -158,12 +140,6 @@ if __name__ == "__main__":
 @task
 def failed_task() -> (List[str], Dict[str, str], foo):
     return ["a", "b"], {"a": "b"}, foo(a="b")
-
-
-@task
-def print_str(a: str):
-    print(a)
-    return
 
 
 @workflow(
