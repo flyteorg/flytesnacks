@@ -8,7 +8,7 @@ adlfs==2023.9.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.8.6
     # via
     #   adlfs
     #   aiobotocore
@@ -251,7 +251,9 @@ pycparser==2.21
 pygments==2.16.1
     # via rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 python-dateutil==2.8.2
@@ -325,6 +327,7 @@ text-unidecode==1.3
     # via python-slugify
 typing-extensions==4.8.0
     # via
+    #   aioitertools
     #   azure-core
     #   azure-storage-blob
     #   flytekit
