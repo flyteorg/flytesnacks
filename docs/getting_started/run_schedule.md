@@ -75,6 +75,12 @@ and build the docker image from the DockerFile in the directory.
 If you have access to the `@workflow`-decorated function in your Python runtime
 environment, you can import and execute it directly:
 
+Before execute it directly, we need to register the workflow first.
+
+```{prompt} bash $
+pyflyte register wf.py 
+```
+
 ```{code-block} python
 
 from workflows.example import wf
@@ -82,8 +88,6 @@ from workflows.example import wf
 execution = remote.execute(
     wf,
     inputs={"name": "Kermit"},
-    image_config=ImageConfig.auto(img_name="ghcr.io/flyteorg/flytekit:py3.11-1.9.1"),
-    version="v1",
 )
 ```
 
