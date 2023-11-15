@@ -12,7 +12,7 @@
 #
 # First, import the necessary libraries.
 # %%
-import os
+from pathlib import Path
 from typing import Tuple
 
 import flytekit
@@ -85,13 +85,15 @@ t3 = ShellTask(
 # %%
 @task
 def create_entities() -> Tuple[FlyteFile, FlyteDirectory]:
-    working_dir = flytekit.current_context().working_directory
-    flytefile = os.path.join(working_dir, "test.txt")
-    os.open(flytefile, os.O_CREAT)
-    flytedir = os.path.join(working_dir, "testdata")
-    os.makedirs(flytedir, exist_ok=True)
-    flytedir_file = os.path.join(flytedir, ".gitkeep")
-    os.open(flytedir_file, os.O_CREAT)
+    working_dir = Path(flytekit.current_context().working_directory)
+    flytefile = working_dir / "test.txt"
+    flytefile.touch()
+
+    flytedir = working_dir / "testdata"
+    flytedir.mkdir(exist_ok=True)
+
+    flytedir_file = flytedir / ".gitkeep"
+    flytedir_file.touch()
     return flytefile, flytedir
 
 

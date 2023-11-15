@@ -41,7 +41,7 @@ def hello_world_wf() -> str:
 # Run the workflow by simply calling it like a Python function.
 # %%
 if __name__ == "__main__":
-    print(f"Running my_wf() {hello_world_wf()}")
+    print(f"Running hello_world_wf() {hello_world_wf()}")
 
 
 # %% [markdown]
