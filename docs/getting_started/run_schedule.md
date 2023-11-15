@@ -62,11 +62,6 @@ remote = FlyteRemote(
 You can run workflows using the `FlyteRemote` {py:meth}`~flytekit.remote.remote.FlyteRemote.execute`
 method, where you need to pass in a dictionary of `inputs` that adhere to the
 interface defined by the workflow.
-The Image below here has include workflows directory from 
-```{prompt} bash $
-pyflyte init my_project
-```
-and build the docker image from the DockerFile in the directory.
 
 `````{tabs}
 
