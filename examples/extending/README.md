@@ -14,7 +14,7 @@ For example, Flyte supports adding support for a dataframe type from a new libra
 grouping of images in a specific encoding.
 
 Flytekit natively supports structured data like {py:func}`~dataclasses.dataclass` using JSON as the
-representation format (see {ref}`Using Custom Python Objects <dataclass_type>`).
+representation format (see {ref}`Using Custom Python Objects <dataclass>`).
 
 Flytekit allows users to extend Flyte's type system and implement types in Python that are not representable as JSON documents. The user has to implement a {py:class}`~flytekit.extend.TypeTransformer`
 class to enable the translation of type from user type to Flyte-understood type.

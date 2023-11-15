@@ -24,8 +24,7 @@ To enable the plugin in the backend, follow instructions outlined in the {std:re
 To run the provided example on the Flyte cluster, use the following command:
 
 ```
-pyflyte run --remote \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/kfpytorch_plugin/kfpytorch_plugin/pytorch_mnist.py \
+pyflyte run --remote pytorch_mnist.py \
   pytorch_training_wf
 ```
 
