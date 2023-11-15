@@ -16,5 +16,5 @@ pyflyte run --remote \
 ```
 
 ```{auto-examples-toc}
-sensor
+file_sensor_example
 ```
