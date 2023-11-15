@@ -47,7 +47,7 @@ object:
 ```{code-cell} ipython3
 :tags: [remove-output]
 
-from flytekit.configuration import Config, ImageConfig
+from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
 remote = FlyteRemote(
@@ -70,7 +70,7 @@ interface defined by the workflow.
 If you have access to the `@workflow`-decorated function in your Python runtime
 environment, you can import and execute it directly:
 
-Before execute it directly, we need to register the workflow first.
+Before execute it directly, you need to register the workflow first.
 
 ```{prompt} bash $
 pyflyte register wf.py 
