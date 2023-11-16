@@ -155,7 +155,4 @@ def failed_workflow():
 
 
 # %% [markdown]
-# You can run the workflow locally.
-# %%
-if __name__ == "__main__":
-    failed_workflow()
+# failed_workflow should fail.
