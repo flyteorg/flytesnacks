@@ -223,7 +223,7 @@ jobs:
         run: python flyte_tests_generator.py >> flyte_tests.txt
       - name: Register specific tests
         run: |
-          for f in open("flyte_tests.txt").readlines() ;
+          while read -r line;
           do
               # TODO: unpin version of flytekit once the FlyteFile bug is fixed
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
@@ -233,7 +233,7 @@ jobs:
                   --image cr.flyte.org/flyteorg/flytekit:py3.11-1.10.0 \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
                   flytesnacks/$f;
-          done
+          done < flyte_tests.txt
       - name: End2End
         run: |
           make end2end_execute
