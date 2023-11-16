@@ -1,4 +1,5 @@
-[{
+[
+  {
     "name": "core",
     "priority": "P0",
     "path": "core",
@@ -6,61 +7,68 @@
       "exit_success": true,
       "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-hive",
     "priority": "P1",
     "path": "examples/hive_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-k8s-spark",
     "priority": "P1",
     "path": "examples/k8s_spark_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-kfpytorch",
     "priority": "P1",
     "path": "examples/kfpytorch_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-kftensorflow",
     "priority": "P1",
     "path": "examples/kftensorflow_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-pod",
     "priority": "P1",
     "path": "examples/k8s_pod_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-pandera",
     "priority": "P1",
     "path": "examples/pandera_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-whylogs",
     "priority": "P1",
     "path": "examples/whylogs_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
   },
   {
@@ -69,86 +77,97 @@
     "path": "examples/modin_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-papermill",
     "priority": "P1",
     "path": "examples/papermill_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-greatexpectations",
     "priority": "P1",
     "path": "examples/greatexpectations_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-sagemaker-pytorch",
     "priority": "P1",
     "path": "examples/sagemaker_pytorch_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-sagemaker-training",
     "priority": "P1",
     "path": "examples/sagemaker_training_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
-   "name": "case-studies-house-price-prediction",
-   "priority": "P2",
-   "path": "examples/house_price_prediction",
-   "exitCondition": {
-     "exit_success": true,
-     "exit_message": ""
-   }
-  },{
-   "name": "case-studies-pima-diabetes",
-   "priority": "P2",
-   "path": "examples/pima_diabetes",
-   "exitCondition": {
-     "exit_success": true,
-     "exit_message": ""
-   }
- },{
-  "name": "case-studies-mnist-classifier",
-  "priority": "P2",
-  "path": "examples/mnist_classifier",
-  "exitCondition": {
-    "exit_success": true,
-    "exit_message": ""
-  }
- },{
+  },
+  {
+    "name": "case-studies-house-price-prediction",
+    "priority": "P2",
+    "path": "examples/house_price_prediction",
+    "exitCondition": {
+      "exit_success": true,
+      "exit_message": ""
+    }
+  },
+  {
+    "name": "case-studies-pima-diabetes",
+    "priority": "P2",
+    "path": "examples/pima_diabetes",
+    "exitCondition": {
+      "exit_success": true,
+      "exit_message": ""
+    }
+  },
+  {
+    "name": "case-studies-mnist-classifier",
+    "priority": "P2",
+    "path": "examples/mnist_classifier",
+    "exitCondition": {
+      "exit_success": true,
+      "exit_message": ""
+    }
+  },
+  {
     "name": "case-studies-eda",
     "priority": "P2",
     "path": "examples/eda",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
-  }
- },{
+    }
+  },
+  {
     "name": "case-studies-feast-integration",
     "priority": "P2",
     "path": "examples/feast_integration",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
-   }
-  },{
+    }
+  },
+  {
     "name": "case-studies-blast",
     "priority": "P2",
     "path": "examples/blast",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
+    }
   }
-}]
+]

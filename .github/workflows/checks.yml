@@ -122,10 +122,17 @@ jobs:
     name: Publish artifacts to github release
     runs-on: ubuntu-latest
     needs: [prerelease]
+    strategy:
+      matrix:
+        python-version: ["3.11"]
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: setup download artifact dir
         run: |
           mkdir download-artifact
@@ -140,6 +147,8 @@ jobs:
           for i in */; do tar -czvf "../release-snacks/${i%/}.tar.gz" "$i" & done; wait
           cd .. && sudo rm -rf download-artifact/
           cp flyte_tests_manifest.json release-snacks/flyte_tests_manifest.json
+          python flyte_tests_generator.py >> flyte_tests.txt
+          cp flyte_tests.txt release-snacks/flyte_tests.txt
       - name: Release test manifest
         uses: goreleaser/goreleaser-action@v2
         with:
@@ -210,18 +219,11 @@ jobs:
         with:
           repository: flyteorg/flytesnacks
           path: flytesnacks
+      - name: Generate tests
+        run: python flyte_tests_generator.py >> flyte_tests.txt
       - name: Register specific tests
         run: |
-          for f in \
-                  basics/basics/hello_world.py \
-                  basics/basics/workflow.py \
-                  basics/basics/named_outputs.py \
-                  advanced_composition/advanced_composition/chain_entities.py \
-                  advanced_composition/advanced_composition/dynamics.py \
-                  advanced_composition/advanced_composition/map_task.py \
-                  advanced_composition/advanced_composition/subworkflows.py \
-                  data_types_and_io/data_types_and_io/dataclass.py \
-                  data_types_and_io/data_types_and_io/structured_dataset.py ;
+          for f in open("flyte_tests.txt").readlines() ;
           do
               # TODO: unpin version of flytekit once the FlyteFile bug is fixed
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
@@ -230,7 +232,7 @@ jobs:
                   --domain development \
                   --image cr.flyte.org/flyteorg/flytekit:py3.11-1.10.0 \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
-                  flytesnacks/examples/$f;
+                  flytesnacks/$f;
           done
       - name: End2End
         run: |
