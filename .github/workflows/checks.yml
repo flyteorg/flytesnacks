@@ -232,7 +232,7 @@ jobs:
                   --domain development \
                   --image cr.flyte.org/flyteorg/flytekit:py3.11-1.10.0 \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
-                  flytesnacks/$f;
+                  flytesnacks/$line;
           done < flyte_tests.txt
       - name: End2End
         run: |
