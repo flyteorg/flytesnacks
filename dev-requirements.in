@@ -11,3 +11,4 @@ mock
 pytest
 mypy
 mashumaro
+torch
