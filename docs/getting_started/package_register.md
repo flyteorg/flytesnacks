@@ -24,9 +24,8 @@ pre-defined cadence, and leverage the Flyte backend plugins like Spark.
 
 This guide assumes that you:
 
-- Have a local Flyte cluster running with `flytectl demo start` as described in
-  the {ref}`Introduction to Flyte <getting_started_flyte_cluster>` guide.
-- Followed the {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>`
+- Have a local Flyte cluster running with `flytectl demo start` as described in {ref}`"Running workflows locally" <getting_started_running_workflow_local_cluster>` guide.
+- Followed the {ref}`Creating a a Flyte project <getting_started_creating_a_flyte_project>`
   guide to create a minimal Flyte project.
 ```
 
