@@ -24,7 +24,7 @@
 #
 # - Install [kubectl](https://kubernetes.io/docs/tasks/tools/).
 # - Have access to a Flyte cluster, for e.g. with `flytectl demo start` as
-#   described {ref}`here <getting_started_running_a_workflow_in_a_local_cluster>`.
+#   described {ref}`here <getting_started_running_workflows_locally>`.
 # :::
 #
 # The first step to using secrets in Flyte is to create one on the backend.
