@@ -34,7 +34,7 @@ The @task decorator indicates functions that define tasks:
 * When deployed to a Flyte cluster, each task runs in its own Kubernetes pod.
 * Tasks are assembled into workflows.
 
-For more information on tasks, see "[TK - task feature/concept doc](#)".
+For more information on tasks, see "TK - link to eventual task feature/concept doc".
 
 ### @workflow
 
@@ -48,4 +48,4 @@ For more information on workflows, see "TK - link to workflow concept / feature 
 
 ## Next steps
 
-To create a Flyte Project and run the workflow in a local Flyte cluster, see "[Getting started with Flyte development](#)".
+To create a Flyte Project and run the workflow in a local Flyte cluster, see {ref}`"Getting started with workflow development"<getting_started_with_workflow_development>`.
