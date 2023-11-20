@@ -62,7 +62,7 @@ The following diagram provides a summarized view of the different registration p
 
 The quickest way to register a task or workflow to a Flyte cluster is with the
 `pyflyte run` CLI command. Assuming that you're inside the `my_project` directory
-that we created in {ref}`Initializing a Flyte project <getting_started_creating_flyte_project>`,
+that we created in {ref}`Creating a Flyte project <getting_started_creating_a_flyte_project>`,
 you can invoke it like so:
 
 ```{prompt} bash $
