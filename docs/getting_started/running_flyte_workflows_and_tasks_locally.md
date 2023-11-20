@@ -4,10 +4,6 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-kernelspec:
-  display_name: Python 3
-  language: python
-  name: python3
 ---
 
 (getting_started_running_workflows_and_tasks_locally)=
@@ -32,5 +28,4 @@ kernelspec:
 
 ## Next steps
 
-* Continue iterating and testing DAG (next section)
-* Set up cloud cluster (link to deploy docs)
+* Continue iterating on and testing DAG (next section)
