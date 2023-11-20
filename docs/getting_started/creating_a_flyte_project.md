@@ -35,7 +35,7 @@ TK - benefits of versioning your project.
 
 ## Python Dependencies
 
-TK - reorganize this section, fold into the other content
+TK - incorporate this section into rest of docs
 
 You can specify additional Python dependencies in your project by updating the
 `requirements.txt` file. This gives you the flexibility to use any
@@ -45,17 +45,20 @@ pip-installable package that your project may need.
 We recommend using [pip-compile](https://pip-tools.readthedocs.io/en/latest/) to
 manage the requirements of your project.
 ```
+
 ````{dropdown} See requirements.txt
 
 ```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/requirements.txt
 :caption: requirements.txt
 ```
 
+````
+
 (getting_started_dockerfile)=
 
 ## Dockerfile
 
-TK - reorganize this section, fold into the other content
+TK - incorporate this section into rest of docs
 
 The minimal Flyte project ships with a `Dockerfile` that defines the
 system requirements for running your tasks and workflows. You can customize this
