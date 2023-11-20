@@ -14,6 +14,7 @@ TK - let users know this section is about working in the user plane (creating an
 :maxdepth: -1
 :hidden:
 
+quickstart_guide
 installing_development_tools
 creating_a_flyte_project
 running_flyte_workflows_and_tasks_locally
