@@ -17,6 +17,6 @@ TK - let users know this section is about working in the user plane (creating an
 quickstart_guide
 installing_development_tools
 creating_a_flyte_project
-running_flyte_workflows_and_tasks_locally
+running_workflows_locally
 creating_and_running_a_launchplan
 ```
