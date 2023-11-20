@@ -4,10 +4,6 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-kernelspec:
-  display_name: Python 3
-  language: python
-  name: python3
 ---
 
 (getting_started_creating_a_flyte_project)=
@@ -20,7 +16,7 @@ kernelspec:
 
 ## Prerequisites
 
-* Follow the steps in "[Installing development tools](link-TK)"
+* Follow the steps in "[Installing development tools](#)"
 * Install git
 
 ## Steps
@@ -55,7 +51,7 @@ The @task decorator indicates functions that define tasks:
 * When deployed to a Flyte cluster, each task runs in its own Kubernetes pod.
 * Tasks are assembled into workflows.
 
-For more information on tasks, see "[TK - task feature/concept doc](link-TK)".
+For more information on tasks, see "[TK - task feature/concept doc](#)".
 
 #### @workflow
 
@@ -65,4 +61,4 @@ The @workflow decorator indicates a function-esque construct that defines a work
 * A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
 * When deployed to a Flyte cluster the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them. [TK - what part of the data plane does the compiling?]
 
-For more information on workflows, see "[TK - workflow feature/concept doc](link-TK)".
+For more information on workflows, see "[TK - workflow feature/concept doc](#)".

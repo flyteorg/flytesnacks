@@ -1,7 +1,6 @@
 ---
-# override the toc-determined page navigation order
-prev-page: index
-prev-page-title: Getting Started
+next-page: getting_started/tasks_and_workflows
+next-page-title: Tasks, Workflows and LaunchPlans
 ---
 
 (getting_started_fundamentals)=
@@ -24,9 +23,6 @@ use cases.
 * - {doc}`🔀 Tasks, Workflows and LaunchPlans <tasks_and_workflows>`
   - Create tasks as building blocks, compose them into workflows, and schedule
     them with launchplans.
-* - {doc}`✨ Creating a Flyte Project <creating_flyte_project>`
-  - Build a Flyte project from scratch and learn about the recommended project
-    structure.
 * - {doc}`🗄 Registering Workflows <package_register>`
   - Develop and deploy workflows to a local Flyte demo cluster.
 * - {doc}`⏱ Running and Scheduling Workflows <run_schedule>`
@@ -52,7 +48,6 @@ cluster, see the {ref}`Deployment Guide <deployment>`.
 :hidden:
 
 tasks_and_workflows
-creating_flyte_project
 package_register
 run_schedule
 visualizing_artifacts
