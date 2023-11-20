@@ -31,6 +31,47 @@ jupytext:
 TK - benefits of versioning your project.
 ```
 
+(getting_started_python_dependencies)=
+
+## Python Dependencies
+
+TK - reorganize this section, fold into the other content
+
+You can specify additional Python dependencies in your project by updating the
+`requirements.txt` file. This gives you the flexibility to use any
+pip-installable package that your project may need.
+
+```{note}
+We recommend using [pip-compile](https://pip-tools.readthedocs.io/en/latest/) to
+manage the requirements of your project.
+```
+````{dropdown} See requirements.txt
+
+```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/requirements.txt
+:caption: requirements.txt
+```
+
+(getting_started_dockerfile)=
+
+## Dockerfile
+
+TK - reorganize this section, fold into the other content
+
+The minimal Flyte project ships with a `Dockerfile` that defines the
+system requirements for running your tasks and workflows. You can customize this
+image to suit your needs:
+
+````{dropdown} See Dockerfile
+
+```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/Dockerfile
+:language: docker
+```
+
+````
+```{admonition} ImageSpec
+Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
+```
+
 ## Flyte Project components
 
 ### Directory structure and configuration files
