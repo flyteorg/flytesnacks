@@ -35,8 +35,8 @@ Flyte is made up of a User Plane, Control Plane, and Data Plane.
 
 ## Next steps
 
-* To quickly create and run a Flyte workflow, follow the [Quickstart guide](#), then read "[Getting started with Flyte workflow development](#)".
-* To create a Flyte Project with lightweight directory structure and configuration files, go to "[Getting started with Flyte workflow development](#)".
+* To quickly create and run a Flyte workflow, follow the {ref}`Quickstart guide<getting_started_quickstart_guide>`, then read {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
+* To create a Flyte Project with lightweight directory structure and configuration files, go to {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
 
 ```{toctree}
 :maxdepth: 1

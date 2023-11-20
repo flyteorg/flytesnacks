@@ -16,7 +16,7 @@ jupytext:
 
 ## Prerequisites
 
-* Follow the steps in "[Installing development tools](#)"
+* Follow the steps in {ref}`"Installing development tools" <getting_started_installing_development_tools>`
 * Install git
 
 ## Steps
@@ -51,7 +51,7 @@ The @task decorator indicates functions that define tasks:
 * When deployed to a Flyte cluster, each task runs in its own Kubernetes pod.
 * Tasks are assembled into workflows.
 
-For more information on tasks, see "[TK - task feature/concept doc](#)".
+For more information on tasks, see "TK - link to task feature/concept doc".
 
 #### @workflow
 
@@ -61,4 +61,4 @@ The @workflow decorator indicates a function-esque construct that defines a work
 * A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
 * When deployed to a Flyte cluster the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them. [TK - what part of the data plane does the compiling?]
 
-For more information on workflows, see "[TK - workflow feature/concept doc](#)".
+For more information on workflows, see "TK - link to workflow feature/concept doc".
