@@ -18,6 +18,8 @@ jupytext:
 
 ### Steps (with example)
 
+(getting_started_running_workflow_local_cluster)=
+
 ## Running a workflow in a local cluster
 
 [TK - Intro - why run in a local cluster]
