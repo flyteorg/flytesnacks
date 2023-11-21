@@ -92,8 +92,8 @@ In this example, the workflow file [TK - name of file] contains tasks and a work
 The @task decorator indicates functions that define tasks:
 
 * A task is a Python function that takes some inputs and produces an output.
-* When deployed to a Flyte cluster, each task runs in its own Kubernetes pod.
 * Tasks are assembled into workflows.
+* When deployed to a Flyte cluster, each task runs in its own [Kubernetes Pod](https://kubernetes.io/docs/concepts/workloads/pods/), where Flyte orchestrates what task runs at what time in the context of a workflow.
 
 For more information on tasks, see "TK - link to task feature/concept doc".
 
