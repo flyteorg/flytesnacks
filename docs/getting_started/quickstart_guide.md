@@ -59,26 +59,6 @@ In this example, the workflow file `hello_world.py` contains tasks and a workflo
 
 To learn more about tasks and workflows, see the {ref}`"Workflow code" section<getting_started_workflow_code>` of {ref}`"Flyte project components"<getting_started_flyte_project_components>`.
 
-### @task
-
-The @task decorator indicates functions that define tasks:
-
-* A task is a Python function that takes some inputs and produces an output.
-* When deployed to a Flyte cluster, each task runs in its own Kubernetes pod.
-* Tasks are assembled into workflows.
-
-For more information on tasks, see "TK - link to eventual task feature/concept doc".
-
-### @workflow
-
-The @workflow decorator indicates a function-esque construct that defines a workflow
-
-* Workflows specify the flow of data between tasks, and the dependencies between tasks.
-* A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
-* When deployed to a Flyte cluster the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them. TK - what part of the data plane does the compiling?
-
-For more information on workflows, see "TK - link to workflow concept / feature doc".
-
 ## Next steps
 
 To create a Flyte Project and run the workflow in a local Flyte cluster, see {ref}`"Getting started with workflow development"<getting_started_with_workflow_development>`.
