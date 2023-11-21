@@ -14,7 +14,7 @@ TK - reference Creating a Flyte project
 
 (getting_started_python_dependencies)=
 
-### `requirements.txt` Python dependencies 
+### `requirements.txt` Python dependencies
 
 You can specify additional Python dependencies in your project by updating the
 `requirements.txt` file. This gives you the flexibility to use any
