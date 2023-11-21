@@ -8,11 +8,11 @@ jupytext:
 
 (getting_started_creating_a_flyte_project)=
 
-# Creating a Flyte Project
+# Creating a Flyte project
 
-## About Flyte Projects
+## About Flyte projects
 
-[TK - link to repo with project templates]
+A Flyte project is a directory containing workflows, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ jupytext:
 ## Steps
 
 1. Create a virtual environment with conda (or other tool) to manage dependencies. [TK - if we want people to install flytekit after creating a virtual env, they need to do that after this step]
-2. Initialize your Flyte project [TK - slope/intercept example]
+2. Initialize your Flyte project [TK - slope/intercept example?]
 3. Install additional requirements with `pip install -r requirements.txt`.
 4. Initialize git repository in your Flyte project directory.
 5. Create at least one commit so you can later register the workflow to the local Flyte cluster.
@@ -31,11 +31,17 @@ jupytext:
 TK - benefits of versioning your project.
 ```
 
+```{note}
+For more Flyte project templates, see the [Flyte project template repository](https://github.com/flyteorg/flytekit-python-template/).
+```
+
+## Flyte Project components
+
+### Directory structure and configuration files
+
 (getting_started_python_dependencies)=
 
-## Python Dependencies
-
-TK - incorporate this section into rest of docs
+#### Python dependencies
 
 You can specify additional Python dependencies in your project by updating the
 `requirements.txt` file. This gives you the flexibility to use any
@@ -56,9 +62,7 @@ manage the requirements of your project.
 
 (getting_started_dockerfile)=
 
-## Dockerfile
-
-TK - incorporate this section into rest of docs
+#### Dockerfile
 
 The minimal Flyte project ships with a `Dockerfile` that defines the
 system requirements for running your tasks and workflows. You can customize this
@@ -75,21 +79,20 @@ image to suit your needs:
 Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
 ```
 
-## Flyte Project components
-
-### Directory structure and configuration files
-
-[TK - dir structure and config files]
-
 ### Workflow code
 
-In this example, the workflow file [TK - name of file] contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively. You can invoke tasks and workflows like regular Python methods, and even import and use them in other Python modules or scripts.
+In this example, the workflow file [TK - name of file] contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively.
 
-[TK - example workflow code]
+* The @task and @workflow decorators can be parsed by Python provided that they are used only on functions at the top-level scope of the module.
+* Task and workflow function signatures must be type-annotated with Python type hints.
+* Tasks and workflows can be invoked like regular Python methods, and even imported and used in other Python modules or scripts.
+* Task and workflow functions must be invoked with keyword arguments.
+
+[TK - snippet of example workflow code]
 
 #### @task
 
-The @task decorator indicates functions that define tasks:
+The @task decorator indicates a Python function that defines a task.
 
 * A task is a Python function that takes some inputs and produces an output.
 * Tasks are assembled into workflows.
@@ -99,7 +102,7 @@ For more information on tasks, see "TK - link to task feature/concept doc".
 
 #### @workflow
 
-The @workflow decorator indicates a function-esque construct that defines a workflow:
+The @workflow decorator indicates a function-esque construct that defines a workflow.
 
 * Workflows specify the flow of data between tasks, and the dependencies between tasks.
 * A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
