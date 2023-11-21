@@ -15,7 +15,7 @@ kernelspec:
 # Tasks, Workflows and LaunchPlans
 
 In {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`, we got a basic sense
-of how Flyte works by creating a few tasks and a simple model-training workflow.
+of how Flyte works by creating and running a basic workflow made up of a few tasks.
 In this guide, you'll learn more about how tasks and workflows fit into the Flyte
 programming model.
 
