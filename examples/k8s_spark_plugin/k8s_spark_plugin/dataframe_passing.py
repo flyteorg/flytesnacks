@@ -26,7 +26,8 @@ except ImportError:
 custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
 
 # %% [markdown]
-# :::{note}
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #
@@ -79,7 +80,7 @@ def spark_df() -> Annotated[StructuredDataset, columns]:
 # `spark_df` represents a Spark task executed within a Spark context, leveraging an active Spark cluster.
 #
 # This task yields a `pyspark.DataFrame` object, even though the return type is specified as
-# {ref}`StructuredDataset <structured_dataset_example>`.
+# {ref}`StructuredDataset <structured_dataset>`.
 # The Flytekit type system handles the automatic conversion of the `pyspark.DataFrame` into a `StructuredDataset` object.
 # The `StructuredDataset` object serves as an abstract representation of a DataFrame, adaptable to various DataFrame formats.
 
@@ -117,7 +118,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # New DataFrames can be dynamically loaded through the type engine.
-# To register a custom DataFrame type, you can define an encoder and decoder for `StructuredDataset` as outlined in the {ref}`structured_dataset_example` example.
+# To register a custom DataFrame type, you can define an encoder and decoder for `StructuredDataset` as outlined in the {ref}`structured_dataset` example.
 #
 # Existing DataFrame plugins include:
 #

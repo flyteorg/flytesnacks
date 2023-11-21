@@ -7,8 +7,6 @@ These examples cover more complex aspects of Flyte, including conditions, subwor
 dynamic workflows, map tasks, gate nodes and more.
 
 ```{auto-examples-toc}
-files
-folders
 conditions
 chain_entities
 subworkflows

@@ -1,6 +1,0 @@
-flytekit>=1.7.0
-wheel
-matplotlib
-flytekitplugins-deck-standard
-scikit-learn
-torch
