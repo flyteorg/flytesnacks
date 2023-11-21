@@ -55,6 +55,7 @@ Flyte includes a feature that builds a custom image without having to write a Do
 ```
 
 (getting_started_workflow_code)=
+
 ## Workflow code
 
 The workflow code contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively.
