@@ -6,6 +6,8 @@ jupytext:
     format_name: myst
 ---
 
+(getting_started_flyte_project_components)=
+
 # Flyte project components
 
 TK - reference Creating a Flyte project
@@ -52,9 +54,10 @@ image to suit your needs:
 Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
 ```
 
+(getting_started_workflow_code)=
 ## Workflow code
 
-In this example, the workflow file [TK - name of file] contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively.
+The workflow code contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively.
 
 * The @task and @workflow decorators can be parsed by Python provided that they are used only on functions at the top-level scope of the module.
 * Task and workflow function signatures must be type-annotated with Python type hints.
