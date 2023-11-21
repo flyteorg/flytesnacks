@@ -6,9 +6,9 @@ jupytext:
     format_name: myst
 ---
 
-(getting_started_running_workflows_and_tasks_locally)=
+(getting_started_running_workflows_locally)=
 
-# Running workflows and tasks locally
+# Running workflows locally
 
 ## Running a workflow locally (not in a local cluster)
 
