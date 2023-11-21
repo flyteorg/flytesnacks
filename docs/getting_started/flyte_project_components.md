@@ -6,7 +6,7 @@ jupytext:
     format_name: myst
 ---
 
-# Flyte Project components
+# Flyte project components
 
 TK - reference Creating a Flyte project
 
