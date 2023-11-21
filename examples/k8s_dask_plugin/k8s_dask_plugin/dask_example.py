@@ -15,7 +15,8 @@ from flytekit import ImageSpec, Resources, task
 custom_image = ImageSpec(name="flyte-dask-plugin", registry="ghcr.io/flyteorg", packages=["flytekitplugins-dask"])
 
 # %% [markdown]
-# :::{note}
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #

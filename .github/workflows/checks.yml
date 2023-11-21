@@ -171,8 +171,8 @@ jobs:
   e2e-tests:
     runs-on: ubuntu-latest
     env:
-      FLYTESNACKS_PRIORITIES: 'P0'
-      FLYTESNACKS_VERSION: ''
+      FLYTESNACKS_PRIORITIES: "P0"
+      FLYTESNACKS_VERSION: ""
     timeout-minutes: 30
     steps:
       - name: Set latest Flytesnacks release
@@ -185,7 +185,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - uses: unionai/flytectl-setup-action@v0.0.1
       - name: Setup sandbox
         run: |
@@ -220,15 +220,15 @@ jobs:
                   advanced_composition/advanced_composition/dynamics.py \
                   advanced_composition/advanced_composition/map_task.py \
                   advanced_composition/advanced_composition/subworkflows.py \
-                  data_types_and_io/data_types_and_io/custom_objects.py \
-                  data_types_and_io/data_types_and_io/schema.py \
-                  data_types_and_io/data_types_and_io/typed_schema.py ;
+                  data_types_and_io/data_types_and_io/dataclass.py \
+                  data_types_and_io/data_types_and_io/structured_dataset.py ;
           do
+              # TODO: unpin version of flytekit once the FlyteFile bug is fixed
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
                   register \
                   --project flytesnacks \
                   --domain development \
-                  --image cr.flyte.org/flyteorg/flytekit:py3.11-latest \
+                  --image cr.flyte.org/flyteorg/flytekit:py3.11-1.10.0 \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
                   flytesnacks/examples/$f;
           done

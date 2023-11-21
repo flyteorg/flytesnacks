@@ -35,8 +35,7 @@ However, the types that ship with Flyte or one of Flyte's
 {ref}`first-party integrations <integrations>` may not fulfill your needs. In
 this case, you'll need to create your own.
 
-The easiest way to do with is with the {py:mod}`dataclasses` and
-[dataclasses-json](https://lidatong.github.io/dataclasses-json/) modules, which
+The easiest way to do with is with the {py:mod}`dataclasses` module, which
 let you compose several Flyte-supported types into a single object. For
 example, suppose you want to support a coordinates data type with arbitrary
 metadata:
@@ -45,12 +44,10 @@ metadata:
 import typing
 
 from dataclasses import dataclass
-from dataclasses_json import dataclass_json
+from mashumaro.mixins.json import DataClassJSONMixin
 
-
-@dataclass_json
 @dataclass
-class Coordinate:
+class Coordinate(DataClassJSONMixin):
     """A custom type for coordinates with metadata attached."""
     x: float
     y: float
