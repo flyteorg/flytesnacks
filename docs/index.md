@@ -42,7 +42,7 @@ Flyte is made up of a User Plane, Control Plane, and Data Plane.
 :maxdepth: 1
 :hidden:
 
-|plane| Getting Started <self>
+|plane| About Flyte <self>
 |book-reader| User Guide <userguide>
 |chalkboard| Tutorials <tutorials>
 |project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
