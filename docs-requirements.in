@@ -1,4 +1,6 @@
 flytekit
+fsspec<2023.10.0
+mashumaro
 git+https://github.com/flyteorg/furo@main
 pillow
 psycopg2-binary
@@ -24,6 +26,6 @@ grpcio
 grpcio-status
 myst-nb
 ipython!=8.7.0
-sphinx-tags
+sphinx-tags==0.2.1
 scikit-learn
 torch
