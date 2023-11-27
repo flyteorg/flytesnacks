@@ -170,4 +170,4 @@ image you want to use with the `--image` option in `pyflyte run`.
 
 ## What's next?
 
-Try out the examples in the {doc}`Basics <auto_examples/basics/index>` section.
+Try out the examples in the {doc}`Basics <examples/basics/README>` section.

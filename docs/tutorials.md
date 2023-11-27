@@ -28,15 +28,15 @@ Train machine learning models from using your framework of choice.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Diabetes Classification <auto_examples/pima_diabetes/index>`
+* - {doc}`Diabetes Classification <examples/pima_diabetes/README>`
   - Train an XGBoost model on the Pima Indians Diabetes Dataset.
-* - {doc}`House Price Regression <auto_examples/house_price_prediction/index>`
+* - {doc}`House Price Regression <examples/house_price_prediction/README>`
   - Use dynamic workflows to train a multiregion house price prediction model using XGBoost.
-* - {doc}`MNIST Classification <auto_examples/mnist_classifier/index>`
+* - {doc}`MNIST Classification <examples/mnist_classifier/README>`
   - Train a neural network on MNIST with PyTorch and W&B
-* - {doc}`NLP Processing with Gensim <auto_examples/nlp_processing/index>`
+* - {doc}`NLP Processing with Gensim <examples/nlp_processing/README>`
   - Word embedding and topic modelling on lee background corpus with Gensim
-* - {doc}`Sales Forecasting <auto_examples/forecasting_sales/index>`
+* - {doc}`Sales Forecasting <examples/forecasting_sales/README>`
   - Use the Rossmann Store data to forecast sales with distributed training using Horovod on Spark.
 ```
 
@@ -48,9 +48,9 @@ Engineer the data features to improve your model accuracy.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`EDA and Feature Engineering With Papermill <auto_examples/exploratory_data_analysis/index>`
+* - {doc}`EDA and Feature Engineering With Papermill <examples/exploratory_data_analysis/README>`
   - How to use Jupyter notebook within Flyte
-* - {doc}`Data Cleaning and Feature Serving With Feast <auto_examples/feast_integration/index>`
+* - {doc}`Data Cleaning and Feature Serving With Feast <examples/feast_integration/README>`
   - How to use Feast to serve data in Flyte
 ```
 
@@ -62,7 +62,7 @@ Perform computational biology with Flyte.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Nucleotide Sequence Querying with BLASTX <auto_examples/blast/index>`
+* - {doc}`Nucleotide Sequence Querying with BLASTX <examples/blast/README>`
   - Use BLASTX to Query a Nucleotide Sequence Against a Local Protein Database
 ```
 

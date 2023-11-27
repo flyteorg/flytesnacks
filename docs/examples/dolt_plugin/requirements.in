@@ -1,0 +1,6 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins.dolt>=0.18.0
+great-expectations>=0.13.31

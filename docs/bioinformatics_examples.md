@@ -10,7 +10,7 @@ Flyte very much supports running your bioinformatics applications. Dive deeper i
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Nucleotide Sequence Querying with BLASTX <auto_examples/blast/index>`
+* - {doc}`Nucleotide Sequence Querying with BLASTX <examples/blast/README>`
   - Use BLASTX to Query a Nucleotide Sequence Against a Local Protein Database
 ```
 
@@ -19,5 +19,5 @@ Flyte very much supports running your bioinformatics applications. Dive deeper i
 :caption: Contents
 :hidden:
 
-auto_examples/blast/index
+examples/blast/README
 ```

@@ -10,9 +10,9 @@ Explore how features can be engineered with the power of Flyte.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`EDA and Feature Engineering With Papermill <auto_examples/exploratory_data_analysis/index>`
+* - {doc}`EDA and Feature Engineering With Papermill <examples/exploratory_data_analysis/README>`
   - How to use Jupyter notebook within Flyte
-* - {doc}`Data Cleaning and Feature Serving With Feast <auto_examples/feast_integration/index>`
+* - {doc}`Data Cleaning and Feature Serving With Feast <examples/feast_integration/README>`
   - How to use Feast to serve data in Flyte
 ```
 
@@ -22,6 +22,6 @@ Explore how features can be engineered with the power of Flyte.
 :caption: Contents
 :hidden:
 
-auto_examples/exploratory_data_analysis/index
-auto_examples/feast_integration/index
+examples/exploratory_data_analysis/README
+examples/feast_integration/README
 ```
