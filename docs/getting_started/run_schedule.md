@@ -47,10 +47,14 @@ object:
 ```{code-cell} ipython3
 :tags: [remove-output]
 
-from flytekit.remote import FlyteRemote
 from flytekit.configuration import Config
+from flytekit.remote import FlyteRemote
 
-remote = FlyteRemote(config=Config.auto())
+remote = FlyteRemote(
+    config=Config.auto(),
+    default_project="flytesnacks",
+    default_domain="development",
+)
 ```
 
 ## Running a Workflow
@@ -66,11 +70,20 @@ interface defined by the workflow.
 If you have access to the `@workflow`-decorated function in your Python runtime
 environment, you can import and execute it directly:
 
+Before execute it directly, you need to register the workflow first.
+
+```{prompt} bash $
+pyflyte register wf.py 
+```
+
 ```{code-block} python
 
 from workflows.example import wf
 
-execution = remote.execute(wf, inputs={"name": "Kermit"})
+execution = remote.execute(
+    wf,
+    inputs={"name": "Kermit"},
+)
 ```
 
 ````
