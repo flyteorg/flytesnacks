@@ -1,7 +1,7 @@
 ---
 # override the toc-determined page navigation order
-prev-page: index
-prev-page-title: About Flyte
+prev-page: getting_started/quickstart_guide
+prev-page-title: Quickstart guide
 ---
 
 (getting_started_with_workflow_development)=
@@ -14,7 +14,6 @@ At the heart of machine learning, data engineering, and data analytics is the di
 :maxdepth: -1
 :hidden:
 
-quickstart_guide
 installing_development_tools
 creating_a_flyte_project
 flyte_project_components
