@@ -14,7 +14,7 @@ next-page-title: Getting started with workflow development
 
 # About Flyte
 
-Flyte is a workflow orchestrator that seamlessly unifies data engineering, machine learning, and data analytics stacks for building robust and reliable applications. Flyte features:
+Flyte is a workflow orchestrator that unifies machine learning, data engineering, and data analytics stacks for building robust and reliable applications. Flyte features:
 * Reproducible, repeatable workflows
 * Strongly typed interfaces
 * Structured datasets to enable easy conversion of dataframes between types, and column-level type checking
@@ -24,19 +24,18 @@ Flyte is a workflow orchestrator that seamlessly unifies data engineering, machi
 
 For a full list of feature, see the [Flyte features page](https://flyte.org/features).
 
-[TK - decide where to put link to hosted sandbox https://sandbox.union.ai/]
-
 ## Basic Flyte components
 
-Flyte is made up of a User Plane, Control Plane, and Data Plane.
-* The **User Plane** consists of FlyteKit, the FlyteConsole, and Flytectl, which assist in interacting with the core Flyte API. Tasks, workflows, and launch plans are part of the User Plane.
-* The **Control Plane** implements the core Flyte API and serves all client requests coming from the User Plane. The Control Plane stores information such as current and past running workflows, and provides that information upon request. It also accepts requests to execute workflows, but offloads the work to the Data Plane.
-* The **Data Plane** accepts workflow requests from the Control Plane and guides the workflow to completion, launching tasks on a cluster of machines as necessary based on the workflow graph. The Data Plane sends status events back to the Control Plane so that information can be stored and surfaced to end users.
+Flyte is made up of a user plane, control plane, and data plane.
+* The **user plane** contains the elements you need to develop the code that will implement your application's directed acyclic graph (DAG). These elements are FlyteKit, the FlyteConsole, and Flytectl. Data scientists and machine learning engineers primarily work in the user plane.
+* The **control plane** is part of the Flyte backend that is configured by platform engineers or others tasked with setting up computing infrastructure. It consists of FlyteAdmin, which serves as the main Flyte API to process requests from clients in the user plane. The control plane sends workflow execution requests to the data plane for execution, and stores information such as current and past running workflows, and provides that information upon request.
+* The **data plane** is another part of the Flyte backend that contains FlytePropeller, the core engine of Flyte that executes workflows. FlytePropeller is designed as a [Kubernetes Controller](https://kubernetes.io/docs/concepts/architecture/controller/). The data plane sends status events back to the control plane so that information can be stored and surfaced to end users.
 
 ## Next steps
 
-* To quickly create and run a Flyte workflow, follow the {ref}`Quickstart guide <getting_started_quickstart_guide>`, then read {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
-* To create a Flyte Project with lightweight directory structure and configuration files, go to {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
+* To quickly try out Flyte on your machine, follow the {ref}`Quickstart guide <getting_started_quickstart_guide>`, then read {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
+* To create a Flyte project that can be used to package workflow code for deployment to a Flyte cluster, see {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
+* To set up a Flyte cluster, see the [Deployment documentation](https://docs.flyte.org/en/latest/deployment/index.html).
 
 ```{toctree}
 :maxdepth: -1
