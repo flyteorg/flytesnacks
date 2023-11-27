@@ -3,5 +3,5 @@ wheel
 matplotlib
 flytekitplugins-deck-standard
 flytekitplugins-spark>=0.16.0
-pyspark==3.0.1
+pyspark==3.2.2
 s3fs
