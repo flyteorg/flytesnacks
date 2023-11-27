@@ -38,6 +38,19 @@ Flyte is made up of a user plane, control plane, and data plane.
 * To set up a Flyte cluster, see the [Deployment documentation](https://docs.flyte.org/en/latest/deployment/index.html).
 
 ```{toctree}
+:maxdepth: 1
+:hidden:
+
+|plane| Getting Started <self>
+|book-reader| User Guide <userguide>
+|chalkboard| Tutorials <tutorials>
+|project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
+|rocket| Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
+|book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
+|hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
+```
+
+```{toctree}
 :maxdepth: -1
 :caption: Getting Started
 :hidden:
