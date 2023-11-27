@@ -61,4 +61,4 @@ To learn more about tasks and workflows, see the {ref}`"Workflow code" section<g
 
 ## Next steps
 
-To create a Flyte Project and run the workflow in a local Flyte cluster, see {ref}`"Getting started with workflow development"<getting_started_with_workflow_development>`.
+To create a Flyte project and run the workflow in a local Flyte cluster, see {ref}`"Getting started with workflow development"<getting_started_with_workflow_development>`.
