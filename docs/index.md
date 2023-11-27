@@ -6,8 +6,8 @@ jupytext:
     format_name: myst
 
 # override the toc-determined page navigation order
-next-page: getting_started/getting_started_with_workflow_development
-next-page-title: Getting started with workflow development
+next-page: getting_started/quickstart_guide
+next-page-title: Quickstart guide
 ---
 
 (getting_started_index)=
@@ -43,6 +43,7 @@ Flyte is made up of a user plane, control plane, and data plane.
 :hidden:
 
 About Flyte <self>
+getting_started/quickstart_guide
 getting_started/getting_started_with_workflow_development
 getting_started/flyte_fundamentals
 getting_started/core_use_cases
