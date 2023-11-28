@@ -16,7 +16,7 @@ next-page-title: Getting started with workflow development
 
 # Quickstart guide
 
-In this guide, you will create and run a Flyte workflow composed of Flyte tasks to generate the output “Hello, World!”.
+In this guide, you will create and run a Flyte workflow to generate the output “Hello, World!”.
 
 ## Prerequisites
 
