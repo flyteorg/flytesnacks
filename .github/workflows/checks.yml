@@ -147,7 +147,6 @@ jobs:
           for i in */; do tar -czvf "../release-snacks/${i%/}.tar.gz" "$i" & done; wait
           cd .. && sudo rm -rf download-artifact/
           cp flyte_tests_manifest.json release-snacks/flyte_tests_manifest.json
-          python flyte_tests_generator.py >> flyte_tests.txt
           cp flyte_tests.txt release-snacks/flyte_tests.txt
       - name: Release test manifest
         uses: goreleaser/goreleaser-action@v2
@@ -219,8 +218,9 @@ jobs:
         with:
           repository: flyteorg/flytesnacks
           path: flytesnacks
-      - name: Generate tests
-        run: python flyte_tests_generator.py >> flyte_tests.txt
+      - name: Validate if the tests exist
+        run: |
+          python flyte_tests_validate.py
       - name: Register specific tests
         run: |
           while read -r line;
@@ -234,6 +234,3 @@ jobs:
                   --version ${{ env.FLYTESNACKS_VERSION }} \
                   flytesnacks/$line;
           done < flyte_tests.txt
-      - name: End2End
-        run: |
-          make end2end_execute
