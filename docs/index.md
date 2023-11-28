@@ -41,13 +41,13 @@ Flyte is made up of a user plane, control plane, and data plane.
 :maxdepth: 1
 :hidden:
 
-|plane| Getting Started <self>
-|book-reader| User Guide <userguide>
-|chalkboard| Tutorials <tutorials>
-|project-diagram| Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
-|rocket| Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
-|book| API Reference <https://docs.flyte.org/en/latest/reference/index.html>
-|hands-helping| Community <https://docs.flyte.org/en/latest/community/index.html>
+Getting Started <self>
+User Guide <userguide>
+Tutorials <tutorials>
+Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
+Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
+API Reference <https://docs.flyte.org/en/latest/reference/index.html>
+Community <https://docs.flyte.org/en/latest/community/index.html>
 ```
 
 ```{toctree}
