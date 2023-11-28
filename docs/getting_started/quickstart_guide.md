@@ -4,6 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+
+# override the toc-determined page navigation order
+next-page: getting_started/getting_started_with_workflow_development
+next-page-title: Getting started with workflow development
 ---
 
 (getting_started_quickstart_guide)=
