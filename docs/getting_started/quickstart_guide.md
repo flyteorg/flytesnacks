@@ -6,6 +6,8 @@ jupytext:
     format_name: myst
 
 # override the toc-determined page navigation order
+prev-page: index
+prev-page-title: About Flyte
 next-page: getting_started/getting_started_with_workflow_development
 next-page-title: Getting started with workflow development
 ---
