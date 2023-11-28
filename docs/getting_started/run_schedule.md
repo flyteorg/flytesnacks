@@ -72,8 +72,8 @@ environment, you can import and execute it directly:
 
 Before execute it directly, you need to register the workflow first.
 
-```{prompt} bash
-pyflyte register wf.py 
+```{prompt} bash $
+pyflyte register wf.py
 ```
 
 ```{code-block} python
