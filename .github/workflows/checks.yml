@@ -218,7 +218,7 @@ jobs:
         with:
           repository: flyteorg/flytesnacks
           path: flytesnacks
-      - name: Validate if the tests exist
+      - name: Verify the existence of the tests
         run: |
           python flyte_tests_validate.py
       - name: Register specific tests
