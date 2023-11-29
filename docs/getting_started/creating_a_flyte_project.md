@@ -12,7 +12,7 @@ jupytext:
 
 ## About Flyte projects
 
-A Flyte project is a directory containing workflows, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
+A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
 
 ## Prerequisites
 
@@ -21,16 +21,53 @@ A Flyte project is a directory containing workflows, internal Python source code
 
 ## Steps
 
-1. Create a virtual environment with conda (or other tool) to manage dependencies. [TK - if we want people to install flytekit after creating a virtual env, they need to do that after this step]
-2. Initialize your Flyte project [TK - slope/intercept example?]
-3. Install additional requirements with `pip install -r requirements.txt`.
-4. Initialize git repository in your Flyte project directory.
-5. Create at least one commit so you can later register the workflow to the local Flyte cluster.
+1. Create a virtual environment
+2. Initialize your Flyte project
+3. Install additional requirements
+4. Initialize a git repository
+5. Create a git commit
 
-```{note}
-TK - benefits of versioning your project.
+### Create a virtual environment
+
+To manage dependencies, create a virtual environment with conda (or other tool) for your Flyte project.
+[TK - if we want people to install flytekit after creating a virtual env, they need to do that after this step]
+
+```{prompt} bash $
+TK - conda example
 ```
 
-```{note}
-For more Flyte project templates, see the [Flyte project template repository](https://github.com/flyteorg/flytekit-python-template/).
+### Initialize your Flyte project
+
+Next, you will need to initialize your Flyte project. The [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contains Flyte project templates with sample code that you can run as is or modify to suit your needs. In this example, we will initialize the [simple-example project template](https://github.com/flyteorg/flytekit-python-template/tree/main/simple-example).
+
+```{prompt} bash $
+TK - pyflyte init example
+```
+
+### Install additional requirements
+
+After initializing your Flyte project, you will need to install requirements listed in `requirements.txt`:
+
+```{prompt} bash $
+pip install -r requirements.txt
+```
+
+### Initialize a git repository and create a git commit
+
+TK - benefits of versioning Flyte project code: get versioned workflows and can register the workflow to a Flyte cluster
+
+To version your code, initialize a git repository in the Flyte project directory:
+
+```{prompt} bash $
+git init .
+```
+
+### Create a git commit
+
+To ensure you can register the workflow to a Flyte cluster, create at least one git commit:
+
+```{prompt} bash $
+
+git add .
+git commit -m "first commit"
 ```
