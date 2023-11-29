@@ -52,7 +52,7 @@ After initializing your Flyte project, you will need to install requirements lis
 pip install -r requirements.txt
 ```
 
-### Initialize a git repository and create a git commit
+### Initialize a git repository
 
 TK - benefits of versioning Flyte project code: get versioned workflows and can register the workflow to a Flyte cluster
 
