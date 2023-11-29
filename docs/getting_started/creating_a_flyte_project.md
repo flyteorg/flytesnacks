@@ -71,3 +71,9 @@ To ensure you can register the workflow to a Flyte cluster, create at least one 
 git add .
 git commit -m "first commit"
 ```
+
+## Next steps
+
+To run the workflow in your Flyte project locally, both in a local cluster and not, see {ref} `"Running workflows locally" <getting_started_running_workflows_locally>`.
+
+TK - need better language for "both in a local cluster and not" -- what is the term we should use for running locally, but not in a local cluster?
