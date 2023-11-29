@@ -91,5 +91,5 @@ For more information on tasks, see "TK - link to task feature/concept doc".
 The @workflow decorator indicates a function-esque construct that defines a workflow.
 
 * Workflows specify the flow of data between tasks, and the dependencies between tasks.
-* A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
+* A workflow appears to be a Python function but is actually a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that only supports a subset of Python syntax and semantics.
 * When deployed to a Flyte cluster, the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them.
