@@ -10,17 +10,18 @@ jupytext:
 
 # Flyte project components
 
-TK - reference Creating a Flyte project
+A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
 
-## Directory structure and configuration files
+## Configuration files
+
+The top-level Flyte project directory contains a Dockerfile and `requirements.txt` file that you can modify to suit the needs of your project.
 
 (getting_started_python_dependencies)=
 
 ### `requirements.txt` Python dependencies
 
-You can specify additional Python dependencies in your project by updating the
-`requirements.txt` file. This gives you the flexibility to use any
-pip-installable package that your project may need.
+You can specify pip-installable Python dependencies in your project by adding them to the
+`requirements.txt` file.
 
 ```{note}
 We recommend using [pip-compile](https://pip-tools.readthedocs.io/en/latest/) to
@@ -39,9 +40,11 @@ manage the requirements of your project.
 
 ### Dockerfile
 
-The minimal Flyte project ships with a `Dockerfile` that defines the
-system requirements for running your tasks and workflows. You can customize this
-image to suit your needs:
+TK - remove this section if we want to emphasize ImageSpec
+
+Flyte projects created from a template in the [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contain a `Dockerfile` that defines the
+system requirements for running the project tasks and workflows. You can customize this
+file to suit your needs:
 
 ````{dropdown} See Dockerfile
 
@@ -58,7 +61,9 @@ Flyte includes a feature that builds a custom image without having to write a Do
 
 ## Workflow code
 
-The workflow code contains tasks and a workflow, decorated with the `@task` and `@workflow` decorators, respectively.
+By default, Flyte projects created from a template in the [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contain a `workflows` directory, inside of which is a Python file that holds the workflow code for the application.
+
+The workflow code contains one or more task and workflow functions, decorated with the `@task` and `@workflow` decorators, respectively.
 
 * The @task and @workflow decorators can be parsed by Python provided that they are used only on functions at the top-level scope of the module.
 * Task and workflow function signatures must be type-annotated with Python type hints.
@@ -67,7 +72,11 @@ The workflow code contains tasks and a workflow, decorated with the `@task` and 
 
 [TK - snippet of example workflow code]
 
-### @task
+```{note}
+The workflow directory also contains an `__init__.py` file to indicate that the workflow code is part of a Python package. For more information, see the [Python documentation](https://docs.python.org/3/reference/import.html#regular-packages). TK - don't know if we need this -- if our audience includes people not familiar with software engineering best practices, this may be useful.
+```
+
+### @task decorator
 
 The @task decorator indicates a Python function that defines a task.
 
@@ -77,12 +86,10 @@ The @task decorator indicates a Python function that defines a task.
 
 For more information on tasks, see "TK - link to task feature/concept doc".
 
-### @workflow
+### @workflow decorator
 
 The @workflow decorator indicates a function-esque construct that defines a workflow.
 
 * Workflows specify the flow of data between tasks, and the dependencies between tasks.
 * A workflow appears to be a Python function but is actually a DSL that only supports a subset of Python syntax and semantics.
-* When deployed to a Flyte cluster the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them. [TK - what part of the data plane does the compiling?]
-
-For more information on workflows, see "TK - link to workflow feature/concept doc".
+* When deployed to a Flyte cluster, the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them.
