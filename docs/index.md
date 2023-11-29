@@ -12,7 +12,7 @@ next-page-title: Quickstart guide
 
 (getting_started_index)=
 
-# About Flyte
+# Introduction to Flyte
 
 Flyte is a workflow orchestrator that unifies machine learning, data engineering, and data analytics stacks for building robust and reliable applications. Flyte features:
 * Reproducible, repeatable workflows
@@ -55,7 +55,7 @@ Community <https://docs.flyte.org/en/latest/community/index.html>
 :caption: Getting Started
 :hidden:
 
-About Flyte <self>
+Introduction to Flyte <self>
 getting_started/quickstart_guide
 getting_started/getting_started_with_workflow_development
 getting_started/flyte_fundamentals
