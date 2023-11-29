@@ -14,7 +14,7 @@ A Flyte project is a directory containing task and workflow code, internal Pytho
 
 ## Configuration files
 
-The top-level Flyte project directory contains a Dockerfile and `requirements.txt` file that you can modify to suit the needs of your project.
+Flyte projects contain a `Dockerfile` and `requirements.txt` file that you can modify to suit the needs of your project.
 
 (getting_started_python_dependencies)=
 
@@ -25,7 +25,7 @@ You can specify pip-installable Python dependencies in your project by adding th
 
 ```{note}
 We recommend using [pip-compile](https://pip-tools.readthedocs.io/en/latest/) to
-manage the requirements of your project.
+manage your project's Python requirements.
 ```
 
 ````{dropdown} See requirements.txt
@@ -42,9 +42,7 @@ manage the requirements of your project.
 
 TK - remove this section if we want to emphasize ImageSpec
 
-Flyte projects created from a template in the [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contain a `Dockerfile` that defines the
-system requirements for running the project tasks and workflows. You can customize this
-file to suit your needs:
+Flyte projects contain a `Dockerfile` that defines the system requirements for running the tasks and workflows in the project that you can customize as needed.
 
 ````{dropdown} See Dockerfile
 
@@ -61,7 +59,7 @@ Flyte includes a feature that builds a custom image without having to write a Do
 
 ## Workflow code
 
-By default, Flyte projects created from a template in the [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contain a `workflows` directory, inside of which is a Python file that holds the workflow code for the application.
+By default, Flyte projects contain a `workflows` directory, inside of which is a Python file that holds the workflow code for the application.
 
 The workflow code contains one or more task and workflow functions, decorated with the `@task` and `@workflow` decorators, respectively.
 
