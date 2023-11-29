@@ -8,7 +8,7 @@ adlfs==2023.8.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.8.6
     # via
     #   adlfs
     #   aiobotocore
@@ -359,7 +359,9 @@ pygments==2.16.1
     #   ipython
     #   rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 pyparsing==3.0.9
@@ -489,8 +491,10 @@ urllib3==1.26.16
     #   google-auth
     #   kubernetes
     #   requests
-visions[type_image_path]==0.7.5
-    # via ydata-profiling
+visions[type-image-path]==0.7.5
+    # via
+    #   visions
+    #   ydata-profiling
 wcwidth==0.2.6
     # via prompt-toolkit
 websocket-client==1.6.2
