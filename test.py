@@ -30,7 +30,7 @@ s = """
 
 """
 # Define a regular expression pattern to match tasks/workflows in the pyflyte run output
-pattern = re.compile(r"^\│\s+(\w+)\s+", re.MULTILINE)
+pattern = re.compile(r"(?<=│ )(\w+)(?=\s+(?:Workflow|Task))")
 
 # Extract command names using the specified pattern
 commands = re.findall(pattern, s)

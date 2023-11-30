@@ -30,10 +30,11 @@ for file_name in open(file_list, "r").readlines():
         output_string = subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout.strip()
 
         # Define a regular expression pattern to match tasks/workflows in the pyflyte run output
-        pattern = re.compile(r"^\│\s+(\w+)\s+", re.MULTILINE)
+        pattern = re.compile(r"(?<=│ )(\w+)(?=\s+(?:Workflow|Task))")
 
         # Extract command names using the specified pattern
         commands = re.findall(pattern, output_string)
+        print(output_string)
         print(commands)
 
         # Check if the workflow specified is present in the pyflyte run output
