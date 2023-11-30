@@ -36,23 +36,27 @@ jupytext:
 ### Steps
 
 First, export the `FLYTECTL_CONFIG` environment variable in your shell:
-```{bash} $
+
+```{prompt} bash $
 export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 ```
 
 Next, start the demo cluster:
-```{bash} $
+
+```{prompt} bash $
 flytectl demo start
 ```
 
 Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote` flag:
-```{bash} $
+
+```{prompt} bash $
 pyflyte run --remote example.py training_workflow \
 --hyperparameters '{"C": 0.1}'
 ```
 
 You should see a URL to the workflow execution on your demo Flyte cluster. <execution_name> is a unique identifier for the workflow execution:
-```{bash}
+
+```{prompt} bash $
 Go to http://localhost:30080/console/projects/flytesnacks/domains/development/executions/<execution_name> to see execution in the console.
 ```
 
