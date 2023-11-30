@@ -27,7 +27,9 @@ for file_name in open(file_list, "r").readlines():
 
     for workflow, params in workflows:
         # Use the `pyflyte run` command to execute the workflow
+        print(file_name)
         output_string = subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout
+        print(output_string)
 
         # Define a regular expression pattern to match tasks/workflows in the pyflyte run output
         pattern = re.compile(r"^\│\s+(\w+)\s+", re.MULTILINE)
@@ -37,8 +39,6 @@ for file_name in open(file_list, "r").readlines():
 
         # Check if the workflow specified is present in the pyflyte run output
         just_the_workflow = workflow.split(".")[2]
-        print(workflow)
-        print(just_the_workflow)
         print(commands)
         if just_the_workflow in commands:
             print("Workflow found in the pyflyte run output.")
