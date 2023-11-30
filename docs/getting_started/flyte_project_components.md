@@ -82,8 +82,6 @@ The @task decorator indicates a Python function that defines a task.
 * Tasks are assembled into workflows.
 * When deployed to a Flyte cluster, each task runs in its own [Kubernetes Pod](https://kubernetes.io/docs/concepts/workloads/pods/), where Flyte orchestrates what task runs at what time in the context of a workflow.
 
-For more information on tasks, see "TK - link to task feature/concept doc".
-
 ### @workflow decorator
 
 The @workflow decorator indicates a function-esque construct that defines a workflow.
