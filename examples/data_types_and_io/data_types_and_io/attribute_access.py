@@ -151,7 +151,8 @@ def failed_workflow():
     l, d, f = failed_task()
     print_str(a=l[100])
     print_str(a=d["b"])
-    print_str(a=f.b)
+    # This task will fail at compile time
+    # print_str(a=f.b)
 
 
 # %% [markdown]
