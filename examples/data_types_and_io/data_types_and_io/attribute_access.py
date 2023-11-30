@@ -7,9 +7,9 @@
 # .. tags:: Basic
 # ```
 #
-# Flyte allows users to access attributes directly on output promises for List, Dict, Dataclass, and combinations of them. This allows users to pass attributes of the output directly in workflows, making it more convenient to work with complex data structures.
+# Flyte allows users to access attributes directly on output promises for List, Dict, Dataclass, and combinations of these types. This allows users to pass attributes of the output directly in workflows, making it more convenient to work with complex data structures.
 #
-# To begin, import the necessary dependencies and define a common task for later use.
+# First, import the necessary dependencies and define a common task for later use.
 # %%
 from dataclasses import dataclass
 from typing import Dict, List
@@ -26,9 +26,9 @@ def print_str(a: str):
 
 # %% [markdown]
 # ## List
-# We can access the output list by index.
+# You can access the output list by index.
 # :::{important}
-# Currently, Flyte doesn't support accessing output promises by list slicing
+# Currently, Flyte doesn't support accessing output promises by list slicing.
 # :::
 # %%
 @task
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # ## Dict
-# We can access the output dict by key.
+# You can access the output dict by key.
 # %%
 @task
 def dict_task() -> Dict[str, str]:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # ## Python Dataclass
-# We can also access an attribute of a dataclass.
+# You can also access an attribute of a dataclass.
 # %%
 @dataclass_json
 @dataclass
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # ## Complex Examples
-# The combinations of List, Dict, and Dataclass also work.
+# Combinations of List, Dict, and Dataclass also work.
 # %%
 @task
 def advance_task() -> (Dict[str, List[str]], List[Dict[str, str]], Dict[str, foo]):
