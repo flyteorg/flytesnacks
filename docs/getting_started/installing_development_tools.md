@@ -18,11 +18,22 @@ Python versions 3.8x - 3.10x are supported. [TK - is this accurate?]
 
 If you already have Python installed, you can use conda or pyenv to install the recommended version.
 
-## Install Conda (or another Python virtual environment manager)
+## Install conda and create a virtual environment
 
-We strongly recommend installing [conda](https://docs.conda.io/projects/conda/en/stable/) via [miniconda](https://docs.conda.io/projects/miniconda/en/latest/) to manage Python versions and virtual environments. Conda is used throughout the Flyte documentation.
+We strongly recommend installing [conda](https://docs.conda.io/projects/conda/en/stable/) with [miniconda](https://docs.conda.io/projects/miniconda/en/latest/) to manage Python versions and virtual environments. Conda is used throughout the Flyte documentation.
 
-You can also use another virtual environment manager, such as [pyenv](https://github.com/pyenv/pyenv) or [venv](https://docs.python.org/3/library/venv.html).
+After installing conda, create a virtual environment:
+
+
+```{prompt} bash $
+conda create -n flyte-example python=3.10 -y
+conda activate flyte-example
+```
+
+```{note}
+You can also use other virtual environment managers, such as [pyenv](https://github.com/pyenv/pyenv) and [venv](https://docs.python.org/3/library/venv.html).
+```
+
 
 ## Install Flytekit
 
