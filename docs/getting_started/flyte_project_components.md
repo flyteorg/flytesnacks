@@ -12,6 +12,22 @@ jupytext:
 
 A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
 
+## Directory structure
+
+If you examine the project you created with `pyflyte init` in {ref}`"Creating a Flyte project <getting_started_creating_a_flyte_project`, you'll see the following directory structure:
+
+```{code-block} bash
+my_project
+├── Dockerfile        # Docker image
+├── LICENSE
+├── README.md
+├── docker_build.sh   # Docker build helper script
+├── requirements.txt  # Python dependencies
+└── workflows
+    ├── __init__.py
+    └── example.py    # Example Flyte workflows
+```
+
 ## Configuration files
 
 Flyte projects contain a `Dockerfile` and `requirements.txt` file that you can modify to suit the needs of your project.
@@ -51,8 +67,8 @@ Flyte projects contain a `Dockerfile` that defines the system requirements for r
 ```
 
 ````
-```{admonition} ImageSpec
-Flyte includes a feature that builds a custom image without having to write a Dockerfile. [Learn more here](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
+```{note}
+Flyte includes ImageSpec, a feature that builds a custom image without having to write a Dockerfile. To learn more, see the [ImageSpec documentation](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
 ```
 
 (getting_started_workflow_code)=
