@@ -18,8 +18,8 @@ TK - "Creating a Flyte project" emphasizes that projects enable you to package c
 
 ### Prerequisites
 
-* {ref}`Install development tools <getting_started_installing_development_tools>`
-* {ref}`Create a Flyte project <getting_started_creating_a_flyte_project>` or follow the {ref}`Quickstart guide <getting_started_quickstart_guide>` to create a standalone workflow file.
+* {doc}`Install development tools <installing_development_tools>`
+* {doc}`Create a Flyte project <creating_a_flyte_project>` or follow the {doc}`Quickstart guide <quickstart_guide>` to create a standalone workflow file.
 
 ### Steps (with example)
 
@@ -31,8 +31,8 @@ TK - "Creating a Flyte project" emphasizes that projects enable you to package c
 
 ### Prerequisites
 
-* {ref}`Install development tools <getting_started_installing_development_tools>`
-* {ref}`Create a Flyte project <getting_started_creating_a_flyte_project>` or follow the {ref}`Quickstart guide <getting_started_quickstart_guide>` to create a standalone workflow file.
+* {doc}`Install development tools <installing_development_tools>`
+* {doc}`Create a Flyte project <creating_a_flyte_project>` or follow the {doc}`Quickstart guide <quickstart_guide>` to create a standalone workflow file.
 * Start Docker
 
 ### Steps

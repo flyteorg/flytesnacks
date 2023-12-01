@@ -6,15 +6,13 @@ jupytext:
     format_name: myst
 ---
 
-(getting_started_flyte_project_components)=
-
 # Flyte project components
 
 A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
 
 ## Directory structure
 
-If you examine the project you created with `pyflyte init` in {ref}`"Creating a Flyte project <getting_started_creating_a_flyte_project`, you'll see the following directory structure:
+If you examine the project you created with `pyflyte init` in {doc}`"Creating a Flyte project <creating_a_flyte_project`, you'll see the following directory structure:
 
 ```{code-block} bash
 my_project
@@ -56,7 +54,7 @@ manage your project's Python requirements.
 
 ### Dockerfile
 
-TK - remove this section if we want to emphasize ImageSpec
+TK - remove or change this section if we want to emphasize ImageSpec
 
 Flyte projects contain a `Dockerfile` that defines the system requirements for running the tasks and workflows in the project that you can customize as needed.
 
