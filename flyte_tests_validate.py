@@ -41,6 +41,8 @@ for file_name in open(file_list, "r").readlines():
 
         # Check if the workflow specified is present in the pyflyte run output
         just_the_workflow = workflow.split(".")[2]
+        print(output_string)
+        print(" " + just_the_workflow + " ")
         if " " + just_the_workflow + " " in output_string:
             print("Workflow found in the pyflyte run output.")
         else:
