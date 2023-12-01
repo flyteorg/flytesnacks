@@ -39,21 +39,18 @@ for file_name in open(file_list, "r").readlines():
         # Use the `pyflyte run` command to execute the workflow
         output_string = str(subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout)
 
-        print(output_string)
-        print(workflow)
-        print(workflow in output_string)
-
         # Check if the workflow specified is present in the pyflyte run output
-        if workflow in output_string:
+        print(output_string.split())
+        just_the_workflow = workflow.split(".")[2]
+        if just_the_workflow in output_string.split():
             print("Workflow found in the pyflyte run output.")
         else:
             raise Exception("Workflow not found in the pyflyte run output.")
 
         # Check if the specified parameters are valid
         options_output = subprocess.run(
-            ["pyflyte", "run", file_name, workflow.split(".")[2], "--help"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            ["pyflyte", "run", file_name, just_the_workflow, "--help"],
+            capture_output=True,
             text=True,
         ).stdout
 
