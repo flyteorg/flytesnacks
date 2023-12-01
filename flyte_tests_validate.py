@@ -53,6 +53,10 @@ for file_name in open(file_list, "r").readlines():
         # Find all matches in the input string
         options = [option.replace("--", "") for option in re.compile(r"--\w+").findall(options_output)]
 
+        print(params)
+        print(options_output)
+        print(options)
+
         # Validate if the provided params are a subset of the supported params
         if set(params).issubset(set(options)):
             print("All parameters found.")
