@@ -110,9 +110,9 @@ scale our workload:
 
 ```{code-cell} ipython3
 import math
-from typing import Tuple
+from typing import Tuple, List
 
-from flytekit import map_task
+from flytekit import map_task, task, workflow
 
 
 @task
