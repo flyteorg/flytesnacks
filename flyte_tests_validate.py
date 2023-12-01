@@ -10,6 +10,16 @@ with open("flyte_tests_manifest.json", "r") as file:
 
 examples = [(example[0], example[1]) for entry in data for example in entry.get("examples", []) if len(example) >= 1]
 
+
+def get_commands(output):
+    # Find lines starting with '|'
+    command_lines = re.findall(r"│\s*([a-zA-Z0-9_\-\.]+)\s+", output)
+
+    # Filter out 'Commands' and "--help" lines
+    commands = [cmd for cmd in command_lines if cmd.lower() != "commands" and cmd.lower() != "--help"]
+    return commands
+
+
 for file_name in open(file_list, "r").readlines():
     file_name = file_name.strip()
     print(f"Processing file: {file_name}")
@@ -27,13 +37,9 @@ for file_name in open(file_list, "r").readlines():
 
     for workflow, params in workflows:
         # Use the `pyflyte run` command to execute the workflow
-        output_string = subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout.strip()
+        output_string = subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout
 
-        # Define a regular expression pattern to match tasks/workflows in the pyflyte run output
-        pattern = re.compile(r"(?<=│ )(\w+)(?=\s+(?:Workflow|Task))")
-
-        # Extract command names using the specified pattern
-        commands = re.findall(pattern, output_string)
+        commands = get_commands(output_string)
         print(output_string)
         print(commands)
 
