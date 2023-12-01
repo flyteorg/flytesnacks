@@ -6,8 +6,6 @@ jupytext:
     format_name: myst
 ---
 
-(getting_started_creating_a_flyte_project)=
-
 # Creating a Flyte project
 
 ## About Flyte projects
@@ -16,7 +14,7 @@ A Flyte project is a directory containing task and workflow code, internal Pytho
 
 ## Prerequisites
 
-* Follow the steps in {ref}`"Installing development tools" <getting_started_installing_development_tools>`
+* Follow the steps in {doc}`"Installing development tools" <installing_development_tools>`
 * Install git
 
 ## Steps
@@ -76,8 +74,8 @@ git commit -m "first commit"
 
 ## Next steps
 
-To learn about the parts of a Flyte project, including tasks and workflows, see {ref} `"Flyte project components"`.
+To learn about the parts of a Flyte project, including tasks and workflows, see {doc} `"Flyte project components" <flyte_project_components>`.
 
-To run the workflow in your Flyte project locally, both in a local cluster and not, see {ref} `"Running workflows locally" <getting_started_running_workflows_locally>`.
+To run the workflow in your Flyte project locally, both in a local cluster and not, see {doc} `"Running workflows locally" <running_workflows_locally>`.
 
 TK - need better language for "both in a local cluster and not" -- what is the term we should use for running locally, but not in a local cluster?
