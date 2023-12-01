@@ -18,5 +18,4 @@ installing_development_tools
 creating_a_flyte_project
 flyte_project_components
 running_workflows_locally
-creating_and_running_a_flyte_launch_plan
 ```
