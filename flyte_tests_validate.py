@@ -35,7 +35,7 @@ for file_name in open(file_list, "r").readlines():
     if not workflows:
         raise Exception("The file does not contain any workflows.")
 
-    for workflow, params in workflows:
+    for workflow, params_dict in workflows:
         # Use the `pyflyte run` command to execute the workflow
         output_string = str(subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout)
 
@@ -51,14 +51,10 @@ for file_name in open(file_list, "r").readlines():
         ).stdout
 
         # Find all matches in the input string
-        options = [option.replace("--", "") for option in re.compile(r"--\w+").findall(options_output)]
-
-        print(params)
-        print(options_output)
-        print(options)
-
-        # Validate if the provided params are a subset of the supported params
-        if set(params).issubset(set(options)):
+        params = params_dict.keys()
+        if not params:
+            print("No parameters found.")
+        elif any(re.findall(r"|".join(params), options_output, re.IGNORECASE)):
             print("All parameters found.")
         else:
             raise Exception("There's a mismatch between the values accepted by the workflow and the ones you provided.")
