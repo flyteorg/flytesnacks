@@ -51,7 +51,10 @@ for file_name in open(file_list, "r").readlines():
 
         # Check if the specified parameters are valid
         options_output = subprocess.run(
-            ["pyflyte", "run", file_name, workflow.split(".")[2], "--help"], capture_output=True, text=True, env={}
+            ["pyflyte", "run", file_name, workflow.split(".")[2], "--help"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
         ).stdout
 
         # Find all matches in the input string
