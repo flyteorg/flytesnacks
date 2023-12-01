@@ -54,7 +54,7 @@ pyflyte run --remote example.py training_workflow \
 --hyperparameters '{"C": 0.1}'
 ```
 
-You should see a URL to the workflow execution on your demo Flyte cluster. <execution_name> is a unique identifier for the workflow execution:
+You should see a URL to the workflow execution on your demo Flyte cluster. `<execution_name>` is a unique identifier for the workflow execution:
 
 ```{prompt} bash $
 Go to http://localhost:30080/console/projects/flytesnacks/domains/development/executions/<execution_name> to see execution in the console.
