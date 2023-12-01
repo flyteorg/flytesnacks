@@ -10,6 +10,8 @@ jupytext:
 
 # Running workflows locally
 
+TK - "Creating a Flyte project" emphasizes that projects enable you to package code to run on a Flyte cluster, so you would expect this article to mention packaging code (and workflow registration), but it doesn't. We should probably mention those things at least briefly.
+
 ## Running a workflow locally (not in a local cluster)
 
 [TK - why run locally + not in a local cluster]
