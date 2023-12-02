@@ -10,16 +10,6 @@ with open("flyte_tests_manifest.json", "r") as file:
 
 examples = [(example[0], example[1]) for entry in data for example in entry.get("examples", []) if len(example) >= 1]
 
-
-def get_commands(output):
-    # Find lines starting with '|'
-    command_lines = re.findall(r"│\s*([a-zA-Z0-9_\-\.]+)\s+", output)
-
-    # Filter out 'Commands' and "--help" lines
-    commands = [cmd for cmd in command_lines if cmd.lower() != "commands" and cmd.lower() != "--help"]
-    return commands
-
-
 for file_name in open(file_list, "r").readlines():
     file_name = file_name.strip()
     print(f"Processing file: {file_name}")
@@ -54,7 +44,6 @@ for file_name in open(file_list, "r").readlines():
             text=True,
         ).stdout
 
-        # Find all matches in the input string
         params = params_dict.keys()
         if not params:
             print("No parameters found.")
