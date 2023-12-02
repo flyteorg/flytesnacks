@@ -28,5 +28,5 @@ To use the flyte interactive plugin simply run the following:
 This feature was created at LinkedIn and later donated to Flyte.
 
 ```{auto-examples-toc}
-vscode.py
+vscode
 ```
