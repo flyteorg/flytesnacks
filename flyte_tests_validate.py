@@ -40,9 +40,9 @@ for file_name in open(file_list, "r").readlines():
         output_string = str(subprocess.run(["pyflyte", "run", file_name], capture_output=True, text=True).stdout)
 
         # Check if the workflow specified is present in the pyflyte run output
-        print(output_string.split())
+        cleaned_string = re.sub(r"\x1b\[[0-9;]*[mG]", "", output_string)
         just_the_workflow = workflow.split(".")[2]
-        if just_the_workflow in output_string.split():
+        if just_the_workflow in cleaned_string.split():
             print("Workflow found in the pyflyte run output.")
         else:
             raise Exception("Workflow not found in the pyflyte run output.")
