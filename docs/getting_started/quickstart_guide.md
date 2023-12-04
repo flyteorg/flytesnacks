@@ -12,6 +12,7 @@ next-page: getting_started/getting_started_with_workflow_development
 next-page-title: Getting started with workflow development
 ---
 
+(getting_started_quickstart_guide)=
 # Quickstart guide
 
 In this guide, you will create and run a Flyte workflow to generate the output “Hello, World!”.
