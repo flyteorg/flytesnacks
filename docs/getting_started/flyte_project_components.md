@@ -54,8 +54,6 @@ manage your project's Python requirements.
 
 ### Dockerfile
 
-TK - remove or change this section if we want to emphasize ImageSpec
-
 Flyte projects contain a `Dockerfile` that defines the system requirements for running the tasks and workflows in the project that you can customize as needed.
 
 ````{dropdown} See Dockerfile
@@ -82,10 +80,8 @@ The workflow code contains one or more task and workflow functions, decorated wi
 * Tasks and workflows can be invoked like regular Python methods, and even imported and used in other Python modules or scripts.
 * Task and workflow functions must be invoked with keyword arguments.
 
-[TK - snippet of example workflow code]
-
 ```{note}
-The workflow directory also contains an `__init__.py` file to indicate that the workflow code is part of a Python package. For more information, see the [Python documentation](https://docs.python.org/3/reference/import.html#regular-packages). TK - don't know if we need this -- if our audience includes people not familiar with software engineering best practices, this may be useful.
+The workflow directory also contains an `__init__.py` file to indicate that the workflow code is part of a Python package. For more information, see the [Python documentation](https://docs.python.org/3/reference/import.html#regular-packages).
 ```
 
 ### @task decorator

@@ -19,7 +19,7 @@ In this guide, you will create and run a Flyte workflow to generate the output â
 
 ## Prerequisites
 
-* Install Python (TK - what version?)
+* Install Python
 * Install Flytekit with `pip install flytekit`
 
 ## Steps
