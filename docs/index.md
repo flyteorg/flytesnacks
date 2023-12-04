@@ -37,6 +37,8 @@ Flyte is made up of a user plane, control plane, and data plane.
 * To create a Flyte project that can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`.
 * To set up a Flyte cluster, see the [Deployment documentation](https://docs.flyte.org/en/latest/deployment/index.html).
 
+Test: {doc}`Quickstart guide <quickstart_guide>`, {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
+
 ```{toctree}
 :maxdepth: 1
 :hidden:
