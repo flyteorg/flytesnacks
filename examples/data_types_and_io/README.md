@@ -141,6 +141,7 @@ file
 folder
 structured_dataset
 dataclass
+attribute_access
 pytorch_type
 enum_type
 pickle_type
