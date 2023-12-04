@@ -15,9 +15,9 @@ Machine learning engineers, data engineers, and data analysts represent the proc
 * - {doc}`Installing development tools <installing_development_tools>`
   - Install the tools needed to create Flyte projects and run workflows and tasks.
 * - {doc}`Creating a Flyte project <creating_a_flyte_project>`
-  - Create a Flyte project that contains workflow code and necessary configuration files.
-* - {doc}`Running workflows locally <running_workflows_locally>`
-  - Execute workflows locally both on a local cluster and not. TK - need better language here
+  - Create a Flyte project that contains workflow code and essential configuration files.
+* - {doc}`Running a workflow locally <running_a_workflow_locally>`
+  - Execute a workflow in a local Python environment or in a local Flyte cluster.
 ```
 
 ```{toctree}
@@ -27,5 +27,5 @@ Machine learning engineers, data engineers, and data analysts represent the proc
 installing_development_tools
 creating_a_flyte_project
 flyte_project_components
-running_workflows_locally
+running_a_workflow_locally
 ```

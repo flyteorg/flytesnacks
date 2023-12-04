@@ -35,7 +35,7 @@ This guide assumes that you've completed the previous guides for
 
 ## Create a `FlyteRemote` Object
 
-In {ref}`"Running workflows locally" <getting_started_running_workflows_locally>`, you saw
+In {doc}`"Running a workflow locally" <running_a_workflow_locally>`, you saw
 how to run Flyte workflows with `pyflyte run` in the case that you're working
 with standalone scripts.
 
