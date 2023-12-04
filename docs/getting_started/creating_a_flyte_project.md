@@ -74,6 +74,6 @@ git commit -m "first commit"
 
 ## Next steps
 
-To learn about the parts of a Flyte project, including tasks and workflows, see {doc} `"Flyte project components" <flyte_project_components>`.
+To learn about the parts of a Flyte project, including tasks and workflows, see {doc}`"Flyte project components" <flyte_project_components>`.
 
-To run the workflow in your Flyte project in a local Python environment or in a local Flyte cluster, see {doc} `"Running a workflow locally" <running_a_workflow_locally>`.
+To run the workflow in your Flyte project in a local Python environment or in a local Flyte cluster, see {doc}`"Running a workflow locally" <running_a_workflow_locally>`.

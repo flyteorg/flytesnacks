@@ -63,7 +63,7 @@ refers to the function decorated with `@task` or `@workflow` that you wish to ru
 
 In this example, the file `hello_world.py` contains a task and a workflow, decorated with the `@task` and `@workflow` decorators, respectively. You can invoke tasks and workflows like regular Python methods, and even import and use them in other Python modules or scripts.
 
-To learn more about tasks and workflows, see the {ref}`"Workflow code" section<getting_started_workflow_code>` of {ref}`"Flyte project components"<getting_started_flyte_project_components>`.
+To learn more about tasks and workflows, see the {ref}`"Workflow code" section<getting_started_workflow_code>` of {doc}`"Flyte project components"<flyte_project_components>`.
 
 ## Next steps
 
