@@ -88,7 +88,3 @@ You can inspect the results of a workflow run by navigating to the URL produced 
 * On completion, you can inspect the outputs of each task, and ultimately, the overarching workflow.
 
 [TK - include separate screenshots for at least the first two bullet points above.]
-
-## Next steps
-
-TK
