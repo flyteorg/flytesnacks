@@ -4,6 +4,7 @@ prev-page: getting_started/quickstart_guide
 prev-page-title: Quickstart guide
 ---
 
+(getting_started_workflow_development)=
 # Getting started with workflow development
 
 Machine learning engineers, data engineers, and data analysts represent the processes that consume, transform, and output data with directed acyclic graphs (DAGs). In this section, you will learn how to create a Flyte project to contain the workflow code that implements your DAG, as well as the configuration files needed to package the code to run on a local or remote Flyte cluster.
