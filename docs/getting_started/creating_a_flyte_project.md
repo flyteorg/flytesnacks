@@ -77,5 +77,3 @@ git commit -m "first commit"
 To learn about the parts of a Flyte project, including tasks and workflows, see {doc} `"Flyte project components" <flyte_project_components>`.
 
 To run the workflow in your Flyte project in a local Python environment or in a local Flyte cluster, see {doc} `"Running a workflow locally" <running_a_workflow_locally>`.
-
-TK - need better language for "both in a local cluster and not" -- what is the term we should use for running locally, but not in a local cluster?
