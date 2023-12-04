@@ -79,7 +79,7 @@ pyflyte run --remote example.py wf --name Ada
 ```
 :::
 
-### Inspecting the results of the workflow run
+### Inspecting a workflow run in the FlyteConsole web interface
 
 You can inspect the results of a workflow run by navigating to the URL produced by `pyflyte run` for the workflow execution. You should see FlyteConsole, the web interface used to manage Flyte entities such as tasks, workflows, and executions. The default execution view shows the list of tasks executing in sequential order.
 
