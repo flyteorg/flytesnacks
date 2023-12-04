@@ -8,13 +8,9 @@ jupytext:
 
 # Running a workflow locally
 
-[TK - "Creating a Flyte project" emphasizes that projects enable you to package code to run on a Flyte cluster, so you would expect this article to mention packaging code (and workflow registration), but it doesn't. We should probably mention those things at least briefly.]
-
 ## Running a workflow in a local Python environment
 
 To quickly test changes to workflow code without the overhead of running a local cluster, you can run a workflow in a local Python environment.
-
-[TK - either include a note about the limitations of this approach or remove this section, make the entire article about running a workflow in a local cluster, and add a note about how you can run in a local Python environment as well, but that is not a recommended approach]
 
 ### Prerequisites
 
