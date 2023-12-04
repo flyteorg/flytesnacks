@@ -67,4 +67,4 @@ To learn more about tasks and workflows, see the {ref}`"Workflow code" section<g
 
 ## Next steps
 
-To create a Flyte project that can be used to package workflow code for deployment to a Flyte cluster, see {ref}`"Getting started with workflow development" <getting_started_with_workflow_development>`
+To create a Flyte project that can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
