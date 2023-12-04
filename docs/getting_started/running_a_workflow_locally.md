@@ -83,8 +83,13 @@ pyflyte run --remote example.py wf --name Ada
 
 You can inspect the results of a workflow run by navigating to the URL produced by `pyflyte run` for the workflow execution. You should see FlyteConsole, the web interface used to manage Flyte entities such as tasks, workflows, and executions. The default execution view shows the list of tasks executing in sequential order.
 
-* Clicking on a single task will open a panel that shows task logs, inputs, outputs, and metadata.
-* The **Graph** view shows the execution graph of the workflow, providing visual information about the topology of the graph and the state of each node as the workflow progresses.
-* On completion, you can inspect the outputs of each task, and ultimately, the overarching workflow.
+![](https://raw.githubusercontent.com/flyteorg/static-resources/nikki-onboarding-docs-revamp/flytesnacks/getting_started/flyteconsole_default.png)
 
-[TK - include separate screenshots for at least the first two bullet points above.]
+Clicking on a single task will open a panel that shows task logs, inputs, outputs, and metadata.
+![](https://raw.githubusercontent.com/flyteorg/static-resources/nikki-onboarding-docs-revamp/flytesnacks/getting_started/flyteconsole_task_panel.png)
+
+The **Graph** view shows the execution graph of the workflow, providing visual information about the topology of the graph and the state of each node as the workflow progresses.
+
+![](https://raw.githubusercontent.com/flyteorg/static-resources/nikki-onboarding-docs-revamp/flytesnacks/getting_started/flyteconsole_graph_view.png)
+
+On completion, you can inspect the outputs of each task, and ultimately, the overarching workflow.
