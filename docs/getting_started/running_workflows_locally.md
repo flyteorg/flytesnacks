@@ -21,13 +21,13 @@ To quickly test changes to workflow code without the overhead of running a local
 * {doc}`Install development tools <installing_development_tools>`
 * {doc}`Create a Flyte project <creating_a_flyte_project>`
 
-### Steps (with example)
+### Steps
 
 1. On the command line, navigate to the workflows directory of your Flyte project:
 ```{prompt} bash $
 cd my_project/workflows
 ```
-1. Run the workflow on the Flyte cluster with `pyflyte run`:
+2. Run the workflow on the Flyte cluster with `pyflyte run`:
 ```{prompt} bash $
 pyflyte run --remote example.py wf
 ```
@@ -51,16 +51,16 @@ To test changes to workflow code in a production-like environment, you can run a
 ```{prompt} bash $
 export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 ```
-1. Start the demo cluster:
+2. Start the demo cluster:
 
 ```{prompt} bash $
 flytectl demo start
 ```
-1. On the command line, navigate to the workflows directory of your Flyte project:
-```{prompt} bash
+3. On the command line, navigate to the workflows directory of your Flyte project:
+```{prompt} bash $
 cd my_project/workflows
 ```
-1. Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote` flag:
+4. Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote` flag:
 ```{prompt} bash $
 pyflyte run --remote example.py wf
 ```
@@ -70,6 +70,14 @@ You should see a URL to the workflow execution on your demo Flyte cluster, where
 ```{prompt} bash $
 Go to http://localhost:30080/console/projects/flytesnacks/domains/development/executions/<execution_name> to see execution in the console.
 ```
+
+:::{note}
+In this example, you can also pass a `name` parameter to the workflow:
+
+```{prompt} bash $
+pyflyte run --remote example.py wf --name Ada
+```
+:::
 
 ### Inspecting the results of the workflow run
 
