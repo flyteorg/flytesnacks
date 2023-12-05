@@ -36,9 +36,59 @@ To test changes to workflow code in a production-like environment, you can run a
 
 ### Prerequisites
 
-* {doc}`Install development tools <installing_development_tools>`
-* {doc}`Create a Flyte project <creating_a_flyte_project>`
-* Start the Docker daemon
+#### Install development tools
+
+If you have not already done so, follow the steps in {doc}`"Installing development tools <installing_development_tools>"` to install Python, `pip`, Flytekit, and optionally, conda.
+
+#### Create a Flyte project
+
+If you have not already done so, follow the steps in {doc}`"Creating a Flyte project" <creating_a_flyte_project>` to create a Flyte project.
+
+#### Install Docker
+
+Follow the steps in the [Docker installation guide](https://docs.docker.com/get-docker/) to install Docker.
+
+Flyte supports any [OCI-compatible](https://opencontainers.org/) container technology (like [Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/), and [Containerd](https://containerd.io/)), but for the purpose of this documentation, `flytectl` uses Docker to start a local Kubernetes cluster that you can interact with on your machine.
+
+#### Install `flytectl`
+
+You must install `flytectl` to start and configure a local Flyte cluster, as well as register workflows to a local or remote Flyte cluster.
+
+````{tabbed} macOS
+To use Homebrew, on the command line, run the following:
+
+```{prompt} bash $
+brew install flyteorg/homebrew-tap/flytectl
+```
+
+To use `curl`, on the command line, run the following:
+
+```{prompt} bash $
+curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
+```
+
+To download manually, see the [flytectl releases](https://github.com/flyteorg/flytectl/releases).
+````
+
+````{tabbed} Linux
+To use `curl`, on the command line, run the following:
+
+```{prompt} bash $
+curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
+```
+
+To download manually, see the [flytectl releases](https://github.com/flyteorg/flytectl/releases).
+````
+
+````{tabbed} Windows
+To use `curl`, in a Linux shell (such as [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)), on the command line, run the following:
+
+```{prompt} bash $
+curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
+```
+
+To download manually, see the [flytectl releases](https://github.com/flyteorg/flytectl/releases).
+````
 
 ### Steps
 
@@ -47,7 +97,8 @@ To test changes to workflow code in a production-like environment, you can run a
 ```{prompt} bash $
 export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 ```
-2. Start the demo cluster:
+2. Start the Docker daemon.
+3. Start the demo cluster:
 
 ```{prompt} bash $
 flytectl demo start

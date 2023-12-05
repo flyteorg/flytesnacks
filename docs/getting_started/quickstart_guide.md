@@ -19,8 +19,9 @@ In this guide, you will create and run a Flyte workflow to generate the output â
 
 ## Prerequisites
 
-* Install Python
-* Install Flytekit with `pip install flytekit`
+* [Download Python 3.8x or higher](https://www.python.org/downloads/)
+* [Download `pip`](https://pip.pypa.io/en/stable/installation/)
+* Install Flytekit with `pip install -U flytekit`
 
 ## Steps
 
