@@ -17,6 +17,8 @@ Machine learning engineers, data engineers, and data analysts represent the proc
   - Install the tools needed to create Flyte projects and run workflows and tasks.
 * - {doc}`Creating a Flyte project <creating_a_flyte_project>`
   - Create a Flyte project that contains workflow code and essential configuration files.
+* - {doc}`Flyte project components <flyte_project_components>`
+  - Understand the directory structure, configuration files, and code in a Flyte project.
 * - {doc}`Running a workflow locally <running_a_workflow_locally>`
   - Execute a workflow in a local Python environment or in a local Flyte cluster.
 ```

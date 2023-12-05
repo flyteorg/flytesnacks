@@ -12,7 +12,7 @@ A Flyte project is a directory containing task and workflow code, internal Pytho
 
 ## Directory structure
 
-If you examine the project you created with `pyflyte init` in {doc}`"Creating a Flyte project <creating_a_flyte_project`, you'll see the following directory structure:
+If you examine the project you created with `pyflyte init` in {doc}`"Creating a Flyte project <creating_a_flyte_project>"`, you'll see the following directory structure:
 
 ```{code-block} bash
 my_project
