@@ -8,9 +8,9 @@ jupytext:
 
 # Running a workflow locally
 
-## Running a workflow in a local Python environment
+To quickly test changes to your code without the overhead of setting up a local Flyte cluster, you can run your workflows in a local Python environment. If your organization has deployed a remote Flyte cluster, or if you want to test a Flyte cluster setup locally before committing to a remote deployment, you can run your workflows in a local demo Flyte cluster.
 
-To quickly test changes to workflow code without the overhead of running a local cluster, you can run a workflow in a local Python environment.
+## Running a workflow in a local Python environment
 
 ### Prerequisites
 
@@ -31,8 +31,6 @@ pyflyte run --remote example.py wf
 (getting_started_running_workflow_local_cluster)=
 
 ## Running a workflow in a local cluster
-
-To test changes to workflow code in a production-like environment, you can run a workflow in a local Flyte cluster.
 
 ### Prerequisites
 
@@ -103,13 +101,21 @@ export FLYTECTL_CONFIG=~/.flyte/config-sandbox.yaml
 ```{prompt} bash $
 flytectl demo start
 ```
+4. Create a project on the demo cluster to correspond to your local Flyte project:
+```{prompt} bash $
+flytectl create project \
+      --id "my-project" \
+      --labels "my-label=my-project" \
+      --description "My Flyte project" \
+      --name "My project"
+```
 3. On the command line, navigate to the workflows directory of your Flyte project:
 ```{prompt} bash $
 cd my_project/workflows
 ```
-4. Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote` flag:
+4. Run the workflow on the Flyte cluster with `pyflyte run` using the `--remote` flag and additional parameters for the project name and domain. In this example, you can also optionally pass a `name` parameter to the workflow:
 ```{prompt} bash $
-pyflyte run --remote example.py wf
+pyflyte run --remote -p my-project -d development example.py wf --name Ada
 ```
 
 You should see a URL to the workflow execution on your demo Flyte cluster, where `<execution_name>` is a unique identifier for the workflow execution:
@@ -117,14 +123,6 @@ You should see a URL to the workflow execution on your demo Flyte cluster, where
 ```{prompt} bash $
 Go to http://localhost:30080/console/projects/flytesnacks/domains/development/executions/<execution_name> to see execution in the console.
 ```
-
-:::{note}
-In this example, you can also pass a `name` parameter to the workflow:
-
-```{prompt} bash $
-pyflyte run --remote example.py wf --name Ada
-```
-:::
 
 ### Inspecting a workflow run in the FlyteConsole web interface
 
