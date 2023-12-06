@@ -130,10 +130,11 @@ the configured blob store, like S3 or GCS.
 Running this workflow locally, we can access the CSV file and read it into
 a `pandas.DataFrame`.
 
+<!--
 ```{code-cell} ipython3
 csv_file = etl_workflow(limit=5)
 pd.read_csv(csv_file)
-```
+``` -->
 
 ## Workflows as Reusable Components
 

@@ -2,14 +2,14 @@
 
 # Advanced Composition
 
-This section of the user guide introduces the advanced features of the flytekit Python SDK.
+This section of the user guide introduces the advanced features of the Flytekit Python SDK.
 These examples cover more complex aspects of Flyte, including conditions, subworkflows,
 dynamic workflows, map tasks, gate nodes and more.
 
 ```{auto-examples-toc}
 conditions
 chain_entities
-subworkflows
+subworkflow
 dynamics
 map_task
 merge_sort

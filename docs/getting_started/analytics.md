@@ -21,6 +21,7 @@ Flyte is ideal for data cleaning, statistical summarization, and plotting
 because with `flytekit` you can leverage the rich Python ecosystem of data
 processing and visualization tools.
 
+<!--
 ## Cleaning Data
 
 In this example, we're going to analyze some covid vaccination data:
@@ -184,4 +185,4 @@ If you need to connect to a database, Flyte provides first-party
 support for {ref}`AWS Athena <aws-athena>`, {ref}`Google Bigquery <big-query>`,
 {ref}`Snowflake <plugins-snowflake>`, {ref}`SQLAlchemy <sql_alchemy>`, and
 {ref}`SQLite3 <integrations_sql_sqlite3>`.
-```
+``` -->

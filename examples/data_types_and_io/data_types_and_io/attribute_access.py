@@ -1,159 +1,141 @@
 # %% [markdown]
 # (attribute_access)=
 #
-# # Attribute Access
+# # Accessing Attributes
 #
 # ```{eval-rst}
 # .. tags:: Basic
 # ```
 #
-# Flyte allows users to access attributes directly on output promises for List, Dict, Dataclass, and combinations of these types. This allows users to pass attributes of the output directly in workflows, making it more convenient to work with complex data structures.
+# You can directly access attributes on output promises for lists, dicts, dataclasses and combinations of these types in Flyte.
+# This functionality facilitates the direct passing of output attributes within workflows,
+# enhancing the convenience of working with complex data structures.
 #
-# First, import the necessary dependencies and define a common task for later use.
+# To begin, import the required dependencies and define a common task for subsequent use.
 # %%
 from dataclasses import dataclass
-from typing import Dict, List
 
 from dataclasses_json import dataclass_json
 from flytekit import WorkflowFailurePolicy, task, workflow
 
 
 @task
-def print_str(a: str):
-    print(a)
+def print_message(message: str):
+    print(message)
     return
 
 
 # %% [markdown]
 # ## List
-# You can access the output list by index.
+# You can access an output list using index notation.
+#
 # :::{important}
-# Currently, Flyte doesn't support accessing output promises by list slicing.
+# Flyte currently does not support output promise access through list slicing.
 # :::
 # %%
 @task
-def list_task() -> List[str]:
-    return ["a", "b"]
+def list_task() -> list[str]:
+    return ["apple", "banana"]
 
 
 @workflow
 def list_wf():
-    o = list_task()
-    print_str(a=o[0])
+    items = list_task()
+    first_item = items[0]
+    print_message(message=first_item)
 
 
 # %% [markdown]
-# You can run the workflow locally.
-# %%
-if __name__ == "__main__":
-    list_wf()
-
-# %% [markdown]
-# ## Dict
-# You can access the output dict by key.
+# ## Dictionary
+# Access the output dictionary by specifying the key.
 # %%
 @task
-def dict_task() -> Dict[str, str]:
-    return {"a": "b"}
+def dict_task() -> dict[str, str]:
+    return {"fruit": "banana"}
 
 
 @workflow
 def dict_wf():
-    o = dict_task()
-    print_str(a=o["a"])
+    fruit_dict = dict_task()
+    print_message(message=fruit_dict["fruit"])
 
 
 # %% [markdown]
-# You can run the workflow locally.
-# %%
-if __name__ == "__main__":
-    dict_wf()
-
-# %% [markdown]
-# ## Python Dataclass
-# You can also access an attribute of a dataclass.
+# ## Data class
+# Directly access an attribute of a dataclass.
 # %%
 @dataclass_json
 @dataclass
-class foo:
-    a: str
+class Fruit:
+    name: str
 
 
 @task
-def dataclass_task() -> foo:
-    return foo(a="b")
+def dataclass_task() -> Fruit:
+    return Fruit(name="banana")
 
 
 @workflow
 def dataclass_wf():
-    o = dataclass_task()
-    print_str(a=o.a)
+    fruit_instance = dataclass_task()
+    print_message(message=fruit_instance.name)
 
 
 # %% [markdown]
-# You can run the workflow locally.
-# %%
-if __name__ == "__main__":
-    dataclass_wf()
-
-# %% [markdown]
-# ## Complex Examples
-# Combinations of List, Dict, and Dataclass also work.
+# ## Complex type
+# Combinations of list, dict and dataclass also work effectively.
 # %%
 @task
-def advance_task() -> (Dict[str, List[str]], List[Dict[str, str]], Dict[str, foo]):
-    return {"a": ["b"]}, [{"a": "b"}], {"a": foo(a="b")}
+def advance_task() -> (dict[str, list[str]], list[dict[str, str]], dict[str, Fruit]):
+    return {"fruits": ["banana"]}, [{"fruit": "banana"}], {"fruit": Fruit(name="banana")}
 
 
 @task
-def print_list(a: List[str]):
-    print(a)
+def print_list(fruits: list[str]):
+    print(fruits)
 
 
 @task
-def print_dict(a: Dict[str, str]):
-    print(a)
+def print_dict(fruit_dict: dict[str, str]):
+    print(fruit_dict)
 
 
 @workflow
 def advanced_workflow():
-    dl, ld, dd = advance_task()
-    print_str(a=dl["a"][0])
-    print_str(a=ld[0]["a"])
-    print_str(a=dd["a"].a)
+    dictionary_list, list_dict, dict_dataclass = advance_task()
+    print_message(message=dictionary_list["fruits"][0])
+    print_message(message=list_dict[0]["fruit"])
+    print_message(message=dict_dataclass["fruit"].name)
 
-    print_list(a=dl["a"])
-    print_dict(a=ld[0])
+    print_list(fruits=dictionary_list["fruits"])
+    print_dict(fruit_dict=list_dict[0])
 
 
 # %% [markdown]
-# You can run the workflow locally.
+# You can run all the workflows locally as follows:
 # %%
 if __name__ == "__main__":
+    list_wf()
+    dict_wf()
+    dataclass_wf()
     advanced_workflow()
 
 
 # %% [markdown]
-# ## Failed Examples
-# The workflows will fail when there is an exception (e.g. out of range).
+# ## Failure scenario
+# The following workflow fails because it attempts to access indices and keys that are out of range:
 # %%
 @task
-def failed_task() -> (List[str], Dict[str, str], foo):
-    return ["a", "b"], {"a": "b"}, foo(a="b")
+def failed_task() -> (list[str], dict[str, str], Fruit):
+    return ["apple", "banana"], {"fruit": "banana"}, Fruit(name="banana")
 
 
 @workflow(
-    # The workflow will not fail if one of the nodes encounters an error, as long as there are other nodes that can still be executed.
+    # The workflow remains unaffected if one of the nodes encounters an error, as long as other executable nodes are still available
     failure_policy=WorkflowFailurePolicy.FAIL_AFTER_EXECUTABLE_NODES_COMPLETE
 )
 def failed_workflow():
-    # This workflow is supposed to fail due to exceptions
-    l, d, f = failed_task()
-    print_str(a=l[100])
-    print_str(a=d["b"])
-    # This task will fail at compile time
-    # print_str(a=f.b)
-
-
-# %% [markdown]
-# failed_workflow should fail.
+    fruits_list, fruit_dict, fruit_instance = failed_task()
+    print_message(message=fruits_list[100])  # Accessing an index that doesn't exist
+    print_message(message=fruit_dict["fruits"])  # Accessing a non-existent key
+    print_message(message=fruit_instance.fruit)  # Accessing a non-existent param
