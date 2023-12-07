@@ -1,1 +1,1 @@
-git+https://github.com/flyteorg/flytekit@a34ab93532f32a5c28ff65f72a7a7212e986e77c#egg=flytekitplugins-flyin&subdirectory=plugins/flytekit-flyin
+flytekitplugins-flyin
