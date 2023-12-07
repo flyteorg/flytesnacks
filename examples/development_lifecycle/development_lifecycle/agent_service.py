@@ -163,12 +163,17 @@
 #
 # # flytekit will autoload the agent if package is installed.
 # RUN pip install flytekitplugins-bigquery
-# CMD pyflyte serve --port 8000
+# CMD pyflyte serve agent --port 8000
 # ```
+#
+# :::{note}
+# For flytekit versions `<=v1.10.2`, use `pyflyte serve`.
+# For flytekit versions `>v1.10.2`, use `pyflyte serve agent`.
+# :::
 #
 # ### Update FlyteAgent
 #
-# 1. Update the FlyteAgent deployment's [image](https://github.com/flyteorg/flyte/blob/201a8e1450d86b72a67be938ce7502ee2621cadb/charts/flyte-core/templates/agent/deployment.yaml#L27)
+# 1. Update the FlyteAgent deployment's [image](https://github.com/flyteorg/flyte/blob/c049865cba017ad826405c7145cd3eccbc553232/charts/flyteagent/templates/agent/deployment.yaml#L26)
 # 2. Update the FlytePropeller configmap.
 #
 # ```YAML
