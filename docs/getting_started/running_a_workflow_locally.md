@@ -36,7 +36,7 @@ pyflyte run --remote example.py wf
 
 #### Install development tools
 
-If you have not already done so, follow the steps in {doc}`"Installing development tools <installing_development_tools>"` to install Python, `pip`, Flytekit, and optionally, conda.
+If you have not already done so, follow the steps in {doc}`"Installing development tools" <installing_development_tools>` to install Python, `pip`, Flytekit, and optionally, conda.
 
 #### Create a Flyte project
 
