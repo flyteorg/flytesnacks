@@ -8,7 +8,10 @@ jupytext:
 
 # Running a workflow locally
 
-To quickly test changes to your code without the overhead of setting up a local Flyte cluster, you can run your workflows in a local Python environment. If your organization has deployed a remote Flyte cluster, or if you want to test a Flyte cluster setup locally before committing to a remote deployment, you can run your workflows in a local demo Flyte cluster.
+You can run a workflow locally in two ways:
+
+* **Running a workflow in a local Python environment:** To develop and test your code quickly without the overhead of setting up a local Flyte cluster, you can run your workflow in a local Python environment.
+* **Running a workflow in a local Flyte cluster:** If your organization has deployed a remote Flyte cluster, or if you want to test a Flyte cluster setup locally before committing to a remote deployment, you can run your workflows in a local demo Flyte cluster.
 
 ## Running a workflow in a local Python environment
 
