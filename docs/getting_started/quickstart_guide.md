@@ -61,20 +61,19 @@ pyflyte run hello_world.py hello_world_wf --name Ada
 While you can run the example file like a Python script with `python hello_world.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you would have to add a `main` module conditional at the end of the script:
 ```python
 if __name__ == "__main__":
-    hello_world_wf()
+    print(hello_world_wf())
 ```
 
 Your code would become even more verbose if you wanted to pass arguments to the workflow:
 ```python
 if __name__ == "__main__":
-    import json
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
-    parser.add_argument("--name", type=json.loads)
+    parser.add_argument("--name", type=str)
 
     args = parser.parse_args()
-    hello_world_wf(name=args.name)
+    print(hello_world_wf(name=args.name))
 ```
 :::
 
