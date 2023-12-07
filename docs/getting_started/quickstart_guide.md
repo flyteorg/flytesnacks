@@ -21,7 +21,7 @@ In this guide, you will create and run a Flyte workflow to generate the output â
 
 * [Download Python 3.8x or higher](https://www.python.org/downloads/)
 * [Download `pip`](https://pip.pypa.io/en/stable/installation/)
-* Install Flytekit with `pip install -U flytekit`
+* Install [Flytekit](https://github.com/flyteorg/flytekit) with `pip install -U flytekit`
 
 ## Steps
 
@@ -33,30 +33,49 @@ First, create a file called `hello_world.py` and copy the following code into th
 from flytekit import task, workflow
 
 @task
-def say_hello() -> str:
-    return "Hello, World!"
+def say_hello(name: str) -> str:
+    return f"Hello, {name}!"
 
 @workflow
-def hello_world_wf() -> str:
-    res = say_hello()
+def hello_world_wf(name: str = 'world') -> str:
+    res = say_hello(name=name)
     return res
-
-if __name__ == "__main__":
-    print(f"Running hello_world_wf() {hello_world_wf()}")
 ```
 
 ### Run the workflow
 
-Next, run the workflow with `pyflyte run`:
+Next, run the workflow with `pyflyte run`. The initial arguments of `pyflyte run` take the form of
+`path/to/script.py <task_or_workflow_name>`, where `<task_or_workflow_name>`
+refers to the function decorated with `@task` or `@workflow` that you wish to run:
 
 ```{prompt} bash
 pyflyte run hello_world.py hello_world_wf
 ```
 
+You can also provide a `name` argument to the workflow:
+```{prompt} bash
+pyflyte run hello_world.py hello_world_wf --name Ada
+```
+
 :::{note}
-The initial arguments of `pyflyte run` take the form of
-`path/to/script.py <task_or_workflow_name>`, where `<task_or_workflow_name>`
-refers to the function decorated with `@task` or `@workflow` that you wish to run.
+While you can run the example file like a Python script with `python hello_world.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you would have to add a `main` module conditional at the end of the script:
+```python
+if __name__ == "__main__":
+    hello_world_wf()
+```
+
+Your code would become even more verbose if you wanted to pass arguments to the workflow:
+```python
+if __name__ == "__main__":
+    import json
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("--name", type=json.loads)
+
+    args = parser.parse_args()
+    hello_world_wf(name=args.name)
+```
 :::
 
 ## The @task and @workflow decorators
@@ -67,4 +86,4 @@ To learn more about tasks and workflows, see the {ref}`"Workflow code" section<g
 
 ## Next steps
 
-To create a Flyte project that can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
+To create a Flyte project that will structure your workflow code according to software engineering best practices, and can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
