@@ -29,6 +29,7 @@ seed(datetime.now().microsecond)
 # %% [markdown]
 # A simple split function that divides a list into two halves.
 
+
 # %%
 @task
 def split(numbers: typing.List[int]) -> Tuple[typing.List[int], typing.List[int], int, int]:
@@ -64,6 +65,7 @@ def merge(sorted_list1: typing.List[int], sorted_list2: typing.List[int]) -> typ
 # %% [markdown]
 # Generally speaking, the algorithm will recurse through the list, splitting it in half until it reaches a size that we
 # know is efficient enough to run locally. At which point it'll just use the python-builtin sorted function.
+
 
 # %% [markdown]
 # This runs the sorting completely locally. It's faster and more efficient to do so if the entire list fits in memory.

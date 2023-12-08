@@ -106,6 +106,8 @@ the Flyte task that use the respective plugin.
   - Run Hive jobs in your workflows.
 * - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
   - Execute tasks using MemVerge Memory Machine Cloud
+* - {doc}`Sensor <auto_examples/sensor/index>`
+  - Run Sensor jobs in your workflows.
 * - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
   - Run Snowflake jobs in your workflows.
 * - {doc}`Databricks <auto_examples/databricks_plugin/index>`
