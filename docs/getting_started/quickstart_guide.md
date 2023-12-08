@@ -15,7 +15,7 @@ next-page-title: Getting started with workflow development
 (getting_started_quickstart_guide)=
 # Quickstart guide
 
-In this guide, you will create and run a Flyte workflow to generate the output “Hello, World!”.
+In this guide, you will create and run a Flyte workflow in a local Python environment to generate the output "Hello, World!"
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ def hello_world_wf(name: str = 'world') -> str:
     return res
 ```
 
-### Run the workflow
+### Run the workflow in a local Python environment
 
 Next, run the workflow with `pyflyte run`. The initial arguments of `pyflyte run` take the form of
 `path/to/script.py <task_or_workflow_name>`, where `<task_or_workflow_name>`
@@ -85,4 +85,4 @@ To learn more about tasks and workflows, see the {ref}`"Workflow code" section<g
 
 ## Next steps
 
-To create a Flyte project that will structure your workflow code according to software engineering best practices, and can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
+To create a Flyte project to structure your workflow code according to software engineering best practices, and can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
