@@ -5,8 +5,8 @@
 # enabling connection and debugging in remote environments.
 
 # %%
-from flytekit import task
-from flytekitplugins.flyin import vscode, workflow
+from flytekit import task, workflow
+from flytekitplugins.flyin import vscode
 
 # %% [markdown]
 # ## Usage
