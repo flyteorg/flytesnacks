@@ -8,7 +8,7 @@ adlfs==2023.9.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.9.0
     # via
     #   adlfs
     #   aiobotocore
@@ -52,9 +52,7 @@ cffi==1.16.0
 chardet==5.2.0
     # via binaryornot
 charset-normalizer==3.2.0
-    # via
-    #   aiohttp
-    #   requests
+    # via requests
 click==8.1.7
     # via
     #   cookiecutter
