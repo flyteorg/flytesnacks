@@ -23,6 +23,7 @@ jobs:
       - name: Fetch flyte code
         uses: actions/checkout@v4
         with:
+          repository: flyteorg/flyte
           path: "${{ github.workspace }}/flyte"
       - uses: conda-incubator/setup-miniconda@v3
         with:
