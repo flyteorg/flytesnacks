@@ -40,7 +40,7 @@ def wf_train():
 # ### 3. Interactively Debugging Task
 #
 # To run the task in VSCode, select "Run and debug" from the left panel and execute the "interactive debugging" configuration.
-# 
+#
 # This will run your task with inputs from the previous task. It's important to note that the task runs entirely within VSCode and does not write the output to Flyte storage.
 #
 # For inspecting intermediate states, set breakpoints in the Python code and use the debugger for tracing.
@@ -51,9 +51,9 @@ def wf_train():
 
 
 # ### 4. Resuming Task with Updated Code:
-# After you finished debugging, you can resume the task with updated code by executing the "resume task" configuration. 
+# After you finished debugging, you can resume the task with updated code by executing the "resume task" configuration.
 # This will **terminate the code server**, run the task with inputs from the previous task, and write the output to Flyte storage.
-# 
+#
 # ** Note: Please remember to persist your code somewhere before resuming the task because you will lose the connection to vscode afterwards.**
 # <img src="https://raw.githubusercontent.com/ByronHsu/static-resources/byhsu/flyin/flytesnacks/integrations/flyin/resume_task.png">
 
@@ -103,6 +103,7 @@ def task_with_max_idle():
 def wf_idle():
     task_with_max_idle()
 
+
 # %% [markdown]
 # ### 3. Pre/Post Execution
 #
@@ -131,6 +132,7 @@ def t_hook():
 def wf_hook():
     task_with_max_idle()
 
+
 # %% [markdown]
 # ### 4. Running Along with Task
 # FlyIn can initiate VSCode after task failure, preventing task termination and enabling inspection.
@@ -149,11 +151,12 @@ def t_exception():
 def wf_exception():
     task_with_max_idle()
 
+
 # %% [markdown]
 # ### 5. Prebuilding Image with VSCode
 # To skip downloading VSCode and extensions at runtime,
 # they can be prebuilt into a Docker image, accelerating setup.
-# 
+#
 # ```
 # # Include this line if 'curl' isn't installed in the image.
 # RUN apt-get -y install curl
