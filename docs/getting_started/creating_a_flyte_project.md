@@ -10,20 +10,19 @@ jupytext:
 
 ## About Flyte projects
 
-A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts needed to package up your code so that it can be run on a Flyte cluster.
+A Flyte project is a directory containing task and workflow code, internal Python source code, configuration files, and other artifacts structured according to software engineering best practices that enables you to package up your code so that it can be registered to a Flyte cluster.
 
 ## Prerequisites
 
 * Follow the steps in {doc}`"Installing development tools" <installing_development_tools>`
-* Install git
+* Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Steps
 
 1. Activate your virtual environment
 1. Initialize your Flyte project
 1. Install additional requirements
-1. Version your Flyte project code with git
-1. Create a git commit
+1. (Optional) Version your Flyte project with git
 
 ### Activate your virtual environment
 
@@ -51,29 +50,46 @@ After initializing your Flyte project, you will need to install requirements lis
 pip install -r requirements.txt
 ```
 
-### Version your Flyte project code with git
+### (Optional) Version your Flyte project with git
 
-Versioning your Flyte project code allows you to register the workflow it contains to a Flyte cluster and enables workflow versioning.
-
-To version your Flyte project code, initialize a git repository in the Flyte project directory:
+We highly recommend putting your Flyte project code under version control. To do so, initialize a git repository in the Flyte project directory:
 
 ```{prompt} bash $
 cd my_project
 git init
 ```
 
-### Create a git commit
+### Run your workflow in a local Python environment and view the results
 
-To ensure you can register your workflow to a Flyte cluster, create at least one git commit:
+To check that your Flyte project was set up correctly, run the workflow in a local Python environment:
 
 ```{prompt} bash $
-
-git add .
-git commit -m "first commit"
+cd my_project/workflows
+pyflyte run example.py wf
 ```
+
+:::{note}
+While you can run the example file like a Python script with `python example.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you need to include the `main` module conditional at the end of the script:
+```python
+if __name__ == "__main__":
+    print(f"Running wf() { wf(name='passengers') }")
+```
+
+Your code would become even more verbose if you wanted to pass arguments to the workflow:
+```python
+if __name__ == "__main__":
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("--name", type=str)
+
+    args = parser.parse_args()
+    print(f"Running wf() {wf(name=args.name) }")
+```
+:::
 
 ## Next steps
 
 To learn about the parts of a Flyte project, including tasks and workflows, see {doc}`"Flyte project components" <flyte_project_components>`.
 
-To run the workflow in your Flyte project in a local Python environment or in a local Flyte cluster, see {doc}`"Running a workflow locally" <running_a_workflow_locally>`.
+To run the workflow in your Flyte project in a local Flyte cluster, see the {ref}`"Running a workflow in a local cluster" <getting_started_running_workflow_local_cluster>` section of {doc}`"Running a workflow locally" <running_a_workflow_locally>`.
