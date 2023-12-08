@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches:
-      - monodocs-ci
+      - master
   pull_request:
     branches:
       - master
@@ -30,8 +30,9 @@ jobs:
           python-version: 3.9
       - shell: bash -el {0}
         run: |
-          cd ${{ github.workspace }}/flyte
+          cd "${{ github.workspace }}/flyte"
           conda install -c conda-forge conda-lock
+          ls .
           conda-lock install -n monodocs-env monodocs-environment.lock.yaml
       - shell: bash -el {0}
         run: |
