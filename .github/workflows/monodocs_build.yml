@@ -30,10 +30,9 @@ jobs:
           auto-update-conda: true
           python-version: 3.9
       - shell: bash -el {0}
+        working-directory: ${{ github.workspace }}/flyte
         run: |
-          cd "${{ github.workspace }}/flyte"
           conda install -c conda-forge conda-lock
-          ls .
           conda-lock install -n monodocs-env monodocs-environment.lock.yaml
       - shell: bash -el {0}
         run: |
@@ -46,6 +45,7 @@ jobs:
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v1
       - name: Build the documentation
+        working-directory: ${{ github.workspace }}/flyte
         shell: bash -el {0}
         env:
           FLYTESNACKS_LOCAL_PATH: ${{ github.workspace }}/flytesnacks
