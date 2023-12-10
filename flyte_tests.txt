@@ -1,0 +1,17 @@
+examples/advanced_composition/advanced_composition/chain_entities.py
+examples/advanced_composition/advanced_composition/conditions.py
+examples/advanced_composition/advanced_composition/decorating_tasks.py
+examples/advanced_composition/advanced_composition/decorating_workflows.py
+examples/advanced_composition/advanced_composition/dynamics.py
+examples/advanced_composition/advanced_composition/map_task.py
+examples/advanced_composition/advanced_composition/waiting_for_external_inputs.py
+examples/basics/basics/documenting_workflows.py
+examples/basics/basics/hello_world.py
+examples/basics/basics/named_outputs.py
+examples/basics/basics/shell_task.py
+examples/basics/basics/workflow.py
+examples/data_types_and_io/data_types_and_io/dataclass.py
+examples/data_types_and_io/data_types_and_io/enum_type.py
+examples/data_types_and_io/data_types_and_io/file.py
+examples/data_types_and_io/data_types_and_io/folder.py
+examples/data_types_and_io/data_types_and_io/structured_dataset.py
