@@ -31,7 +31,7 @@ def wf_train():
 # You can connect in two ways:
 # 1. **(Recommended) Expose a URL on the Flyte console.** Set up ingress on the Flyte backend to expose a URL on the Flyte console. Details are to be determined (TBD).
 
-# 2. **Use Port-Forwarding:** Execute the command:
+# 2. **Use port forwarding.** To use port forwarding, execute the following command:
 #    ```
 #    $ kubectl port-forward <pod name> <port>
 #    ```
