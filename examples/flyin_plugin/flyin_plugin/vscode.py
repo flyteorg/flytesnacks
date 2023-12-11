@@ -37,7 +37,7 @@ def wf_train():
 #    ```
 #    Then, open a browser and navigate to `localhost:<port>`, replacing `<port>` with the port number configured above. You should be presented with the interface shown in the image below.
 
-# ### 3. Interactively Debugging Task
+# ### 3. Interactively debug the task
 #
 # To run the task in VSCode, select "Run and debug" from the left panel and execute the "interactive debugging" configuration.
 #
