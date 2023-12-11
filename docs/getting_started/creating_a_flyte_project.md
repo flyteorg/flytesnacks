@@ -59,6 +59,10 @@ cd my_project
 git init
 ```
 
+```{note}
+If you are using a Dockerfile instead of ImageSpec, you will need to initialize a git repository and create at least one commit, since the commit hash is used to tag the image when it is built.
+```
+
 ### Run your workflow in a local Python environment
 
 To check that your Flyte project was set up correctly, run the workflow in a local Python environment:
