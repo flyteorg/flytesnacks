@@ -236,6 +236,29 @@ def table_renderer() -> None:
 
 
 # %% [markdown]
+# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_source_code_renderer.png
+# :alt: Source code renderer
+# :class: with-shadow
+# :::
+# #### Source Code Renderer
+# Converts a Source Code into HTML
+# %%
+from flytekitplugins.deck.renderer import SourceCodeRenderer
+import inspect
+
+
+@task(disable_deck=False)
+def source_code_renderer() -> None:
+    file_path = inspect.getsourcefile(frame_renderer.__wrapped__)
+    with open(file_path, 'r') as f:
+        source_code = f.read()
+    flytekit.Deck(
+        "Source Code Renderer",
+        SourceCodeRenderer().to_html(source_code),
+    )
+
+
+# %% [markdown]
 # :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_table_renderer.png
 # :alt: Table renderer
 # :class: with-shadow
