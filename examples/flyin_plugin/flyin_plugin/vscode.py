@@ -57,7 +57,7 @@ def wf_train():
 # ** Note: Please remember to persist your code somewhere before resuming the task because you will lose the connection to vscode afterwards.**
 # <img src="https://raw.githubusercontent.com/ByronHsu/static-resources/byhsu/flyin/flytesnacks/integrations/flyin/resume_task.png">
 
-# ## Advanced Usage
+# ## Advanced usage
 # ### 1. Installing Extensions
 # Like local VSCode, you can install a variety of extensions to assist development. Available extensions differ from official VSCode for legal reasons and are hosted on [Open VSX Registry](https://open-vsx.org/).
 #
