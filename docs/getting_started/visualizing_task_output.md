@@ -10,13 +10,13 @@ kernelspec:
   name: python3
 ---
 
-(getting_started_visualizing_artifacts)=
+(getting_started_visualizing_task_output)=
 
-# Visualizing Artifacts
+# Visualizing task output
 
 Flyte {py:class}`~flytekit.deck.Deck`s are one of the first-class constructs in
 Flyte, allowing you to generate static HTML reports associated with any of the
-artifacts materialized within your tasks.
+outputs materialized within your tasks.
 
 You can think of Decks as stacks of HTML snippets that are logically grouped by
 tabs. By default, every task has three decks: an **input**, an **output**, and a
