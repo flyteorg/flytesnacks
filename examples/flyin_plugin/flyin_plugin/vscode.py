@@ -51,7 +51,7 @@ def wf_train():
 
 
 # ### 4. Resume your task with updated code
-# After you finished debugging, you can resume the task with updated code by executing the "resume task" configuration.
+# After you finish debugging, you can resume your task with updated code by executing the "resume task" configuration.
 # This will **terminate the code server**, run the task with inputs from the previous task, and write the output to Flyte storage.
 #
 # ** Note: Please remember to persist your code somewhere before resuming the task because you will lose the connection to vscode afterwards.**
