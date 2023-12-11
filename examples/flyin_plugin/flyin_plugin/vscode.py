@@ -35,7 +35,7 @@ def wf_train():
 #    ```
 #    $ kubectl port-forward <pod name> <port>
 #    ```
-#    Then, open a browser and navigate to `localhost:port`. You will be presented with the interface as shown in the image below.
+#    Then, open a browser and navigate to `localhost:<port>`, replacing `<port>` with the port number configured above. You should be presented with the interface shown in the image below.
 
 # ### 3. Interactively Debugging Task
 #
