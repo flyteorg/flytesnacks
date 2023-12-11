@@ -28,7 +28,7 @@ my_project
 
 ## Configuration files
 
-Flyte projects contain a `Dockerfile` and `requirements.txt` file that you can modify to suit the needs of your project.
+Flyte projects contain a `requirements.txt` file that you can modify to suit the needs of your project.
 
 (getting_started_python_dependencies)=
 
@@ -49,23 +49,6 @@ manage your project's Python requirements.
 ```
 
 ````
-
-(getting_started_dockerfile)=
-
-### Dockerfile
-
-Flyte projects contain a `Dockerfile` that defines the system requirements for running the tasks and workflows in the project that you can customize as needed.
-
-````{dropdown} See Dockerfile
-
-```{rli} https://raw.githubusercontent.com/flyteorg/flytekit-python-template/main/simple-example/%7B%7Bcookiecutter.project_name%7D%7D/Dockerfile
-:language: docker
-```
-
-````
-```{note}
-Flyte includes ImageSpec, a feature that builds a custom image without having to write a Dockerfile. To learn more, see the [ImageSpec documentation](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
-```
 
 (getting_started_workflow_code)=
 
@@ -99,3 +82,8 @@ The @workflow decorator indicates a function-esque construct that defines a work
 * Workflows specify the flow of data between tasks, and the dependencies between tasks.
 * A workflow appears to be a Python function but is actually a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that only supports a subset of Python syntax and semantics.
 * When deployed to a Flyte cluster, the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them.
+
+:::{note}
+
+The workflow code in the basic example also includes an optional ImageSpec configuration. ImageSpec is a Flyte feature that enables you to build a custom container image without having to write a Dockerfile. To learn more, see the [ImageSpec documentation](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
+:::

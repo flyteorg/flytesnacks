@@ -59,7 +59,7 @@ cd my_project
 git init
 ```
 
-### Run your workflow in a local Python environment and view the results
+### Run your workflow in a local Python environment
 
 To check that your Flyte project was set up correctly, run the workflow in a local Python environment:
 
