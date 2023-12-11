@@ -81,7 +81,10 @@ The @workflow decorator indicates a function-esque construct that defines a work
 * A workflow appears to be a Python function but is actually a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that only supports a subset of Python syntax and semantics.
 * When deployed to a Flyte cluster, the workflow function is "compiled" to construct the directed acyclic graph (DAG) of tasks, defining the order of execution of task pods and the data flow dependencies between them.
 
-:::{note}
+### ImageSpec
 
 The workflow code in the basic example also includes an optional ImageSpec configuration. ImageSpec is a Flyte feature that enables you to build a custom container image without having to write a Dockerfile. To learn more, see the [ImageSpec documentation](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html#image-spec-example)
-:::
+
+```{note}
+If you need to use a Dockerfile instead of ImageSpec, you will need to add a Dockerfile and a `docker_build.sh` script to the top-level directory of your project, and either remove any ImageSpec configurations from the workflow code file or leave them commented out.
+```
