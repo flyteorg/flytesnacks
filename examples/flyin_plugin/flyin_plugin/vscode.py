@@ -86,7 +86,7 @@ def wf_ext():
 
 
 # %% [markdown]
-# ### 2. Resource Management
+# ### Manage resources
 # To manage resources, FlyIn can terminate pods after a period of idleness (no active HTTP connections). Idleness is monitored via a heartbeat file.
 # %%
 from flytekit import task, workflow
@@ -105,9 +105,9 @@ def wf_idle():
 
 
 # %% [markdown]
-# ### 3. Pre/Post Execution
+# ### Pre/Post hooks
 #
-# For tasks requiring setup or cleanup, FlyIn allows execution of functions before and after VSCode starts.
+# FlyIn allows execution of functions before and after VSCode starts. This can be used for tasks requiring setup or cleanup.
 #
 # %%
 from flytekit import task, workflow
@@ -134,7 +134,7 @@ def wf_hook():
 
 
 # %% [markdown]
-# ### 4. Running Along with Task
+# ### Run FlyIn alongside tasks to initiate VSCode after failure
 # FlyIn can initiate VSCode after task failure, preventing task termination and enabling inspection.
 # %%
 from flytekit import task, workflow
