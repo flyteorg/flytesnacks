@@ -10,7 +10,7 @@ from flytekitplugins.flyin import vscode
 
 # %% [markdown]
 # ## Usage
-# ### 1. Adding vscode decorator
+# ###  Add `@vscode` decorator to task function definition
 
 # %%
 @task
