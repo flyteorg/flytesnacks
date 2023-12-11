@@ -16,7 +16,7 @@ Flyte tasks, designed as one-off jobs, require users to wait until completion to
 
 ## Installation
 
-To use the flyte interactive plugin simply run the following:
+To use the Flyte interactive plugin, run the following command:
 
 ```{eval-rst}
 .. prompt:: bash
