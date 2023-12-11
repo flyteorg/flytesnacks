@@ -36,7 +36,7 @@ conda activate flyte-example
 
 Next, initialize your Flyte project. The [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contains Flyte project templates with sample code that you can run as is or modify to suit your needs.
 
-In this example, we will initialize the [simple-example project template](https://github.com/flyteorg/flytekit-python-template/tree/main/simple-example).
+In this example, we will initialize the [basic-example-imagespec project template](https://github.com/flyteorg/flytekit-python-template/tree/main/basic-example-imagespec).
 
 ```{prompt} bash $
 pyflyte init my_project

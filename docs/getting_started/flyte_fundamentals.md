@@ -52,7 +52,7 @@ cluster, see the {ref}`Deployment Guide <deployment>`.
 tasks_and_workflows
 package_register
 run_schedule
-visualizing_artifacts
+visualizing_task_input_and_output
 optimizing_tasks
 extending_flyte
 ```
