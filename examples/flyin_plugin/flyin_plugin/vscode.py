@@ -158,7 +158,7 @@ def wf_exception():
 # they can be prebuilt into a Docker image, accelerating setup.
 #
 # ```
-# # Include this line if 'curl' isn't installed in the image.
+# # Include this line if `curl` isn't installed in the image.
 # RUN apt-get -y install curl
 # Download and extract VSCode.
 # RUN mkdir -p /tmp/code-server
