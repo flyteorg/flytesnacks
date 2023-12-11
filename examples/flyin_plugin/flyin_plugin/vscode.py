@@ -58,7 +58,7 @@ def wf_train():
 # <img src="https://raw.githubusercontent.com/ByronHsu/static-resources/byhsu/flyin/flytesnacks/integrations/flyin/resume_task.png">
 
 # ## Advanced usage
-# ### 1. Installing Extensions
+# ### Install extensions
 # Like local VSCode, you can install a variety of extensions to assist development. Available extensions differ from official VSCode for legal reasons and are hosted on [Open VSX Registry](https://open-vsx.org/).
 #
 # Python and Jupyter extensions are installed by default. Additional extensions can be added as shown below:
