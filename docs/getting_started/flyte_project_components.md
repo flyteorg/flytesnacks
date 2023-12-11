@@ -16,14 +16,12 @@ If you examine the project you created with `pyflyte init` in {doc}`"Creating a 
 
 ```{code-block} bash
 my_project
-├── Dockerfile        # Docker image
 ├── LICENSE
 ├── README.md
-├── docker_build.sh   # Docker build helper script
 ├── requirements.txt  # Python dependencies
 └── workflows
     ├── __init__.py
-    └── example.py    # Example Flyte workflows
+    └── example.py    # Example Flyte workflow code
 ```
 
 ## Configuration files
