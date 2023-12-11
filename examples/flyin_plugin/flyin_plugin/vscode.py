@@ -153,7 +153,7 @@ def wf_exception():
 
 
 # %% [markdown]
-# ### 5. Prebuilding Image with VSCode
+# ### Prebuild a Docker image with VSCode
 # To skip downloading VSCode and extensions at runtime,
 # they can be prebuilt into a Docker image, accelerating setup.
 #
