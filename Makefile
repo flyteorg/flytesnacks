@@ -3,7 +3,7 @@ include boilerplate/flyte/end2end/Makefile
 .SILENT:
 
 define PIP_COMPILE
-pip-compile  $(1) ${PIP_ARGS} --upgrade --verbose --resolver=backtracking
+pip-compile $(1) ${PIP_ARGS} --upgrade --verbose --resolver=backtracking
 endef
 
 install-piptools:
