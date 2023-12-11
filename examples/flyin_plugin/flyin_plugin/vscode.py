@@ -50,7 +50,7 @@ def wf_train():
 # <img src="https://raw.githubusercontent.com/ByronHsu/static-resources/byhsu/flyin/flytesnacks/integrations/flyin/interactive_debugging.png">
 
 
-# ### 4. Resuming Task with Updated Code:
+# ### 4. Resume your task with updated code
 # After you finished debugging, you can resume the task with updated code by executing the "resume task" configuration.
 # This will **terminate the code server**, run the task with inputs from the previous task, and write the output to Flyte storage.
 #
