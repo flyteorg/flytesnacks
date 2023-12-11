@@ -10,9 +10,9 @@ kernelspec:
   name: python3
 ---
 
-(getting_started_visualizing_task_output)=
+(getting_started_visualizing_task_input_and_output)=
 
-# Visualizing task output
+# Visualizing task input and output
 
 Flyte {py:class}`~flytekit.deck.Deck`s are one of the first-class constructs in
 Flyte, allowing you to generate static HTML reports associated with any of the

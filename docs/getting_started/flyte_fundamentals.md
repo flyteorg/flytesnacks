@@ -29,7 +29,7 @@ use cases.
   - Develop and deploy workflows to a local Flyte demo cluster.
 * - {doc}`⏱ Running and Scheduling Workflows <run_schedule>`
   - Execute workflows programmatically and schedule them as cron jobs.
-* - {doc}`📊 Visualizing Artifacts <visualizing_artifacts>`
+* - {doc}`📊 Visualizing Task Input and Output <visualizing_task_input_and_output>`
   - Create rich, customizable static reports for increased visibility into tasks.
 * - {doc}`🏎 Optimizing Tasks <optimizing_tasks>`
   - Make tasks scalable, performant, and robust to unexpected failures.
