@@ -54,7 +54,7 @@ def wf_train():
 # After you finish debugging, you can resume your task with updated code by executing the "resume task" configuration.
 # This will **terminate the code server**, run the task with inputs from the previous task, and write the output to Flyte storage.
 #
-# ** Note: Please remember to persist your code somewhere before resuming the task because you will lose the connection to vscode afterwards.**
+# ** Note: Remember to persist your code (e.g. to GitHub) before resuming the task, since you will lose the connection to the VSCode server afterwards.**
 # <img src="https://raw.githubusercontent.com/ByronHsu/static-resources/byhsu/flyin/flytesnacks/integrations/flyin/resume_task.png">
 
 # ## Advanced usage
@@ -87,7 +87,7 @@ def wf_ext():
 
 # %% [markdown]
 # ### 2. Resource Management
-# To manage GPU resources, FlyIn can terminate pods after a period of idleness (no active HTTP connections). Idleness is monitored via a heartbeat file.
+# To manage resources, FlyIn can terminate pods after a period of idleness (no active HTTP connections). Idleness is monitored via a heartbeat file.
 # %%
 from flytekit import task, workflow
 from flytekitplugins.flyin import vscode
