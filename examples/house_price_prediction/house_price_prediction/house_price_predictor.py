@@ -68,6 +68,7 @@ SPLIT_RATIOS = [0.6, 0.3, 0.1]
 #
 # We define a function to compute the price of a house based on multiple factors (`number of bedrooms`, `number of bathrooms`, `area`, `garage space`, and `year built`).
 
+
 # %%
 def gen_price(house) -> int:
     _base_price = int(house["SQUARE_FEET"] * 150)
@@ -125,7 +126,6 @@ def gen_houses(num_houses) -> pd.DataFrame:
 def split_data(
     df: pd.DataFrame, seed: int, split: typing.List[float]
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-
     seed = seed
     val_size = split[1]  # 0.3
     test_size = split[2]  # 0.1
@@ -182,6 +182,7 @@ dataset = typing.NamedTuple(
 # %% [markdown]
 # We define a task to call the aforementioned functions.
 
+
 # %%
 @task(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
@@ -196,7 +197,6 @@ def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
 # %%
 @task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
 def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFile:
-
     # fetch the features and target columns from the train dataset
     x = train[train.columns[1:]]
     y = train[train.columns[0]]
@@ -227,7 +227,6 @@ def predict(
     test: pd.DataFrame,
     model_ser: JoblibSerializedFile,
 ) -> typing.List[float]:
-
     # load the model
     model = joblib.load(model_ser)
 
@@ -246,7 +245,6 @@ def predict(
 # %%
 @workflow
 def house_price_predictor_trainer(seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION) -> typing.List[float]:
-
     # generate the data and split it into train test, and validation data
     split_data_vals = generate_and_split_data(number_of_houses=number_of_houses, seed=seed)
 

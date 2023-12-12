@@ -29,6 +29,7 @@ DataOutput = NamedTuple(
     ],
 )
 
+
 # %% [markdown]
 # Define a `load_data` task to load CIFAR10 data.
 # %%

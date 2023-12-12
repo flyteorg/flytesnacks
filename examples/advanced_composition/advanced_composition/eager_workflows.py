@@ -134,6 +134,7 @@ async def simple_eager_workflow(x: int) -> int:
 # task and subworkflow outputs as Python values and do operations on them just
 # like you would in any other Python function. Let's look at another example:
 
+
 # %%
 @eager
 async def another_eager_workflow(x: int) -> int:
@@ -157,6 +158,7 @@ async def another_eager_workflow(x: int) -> int:
 # As you saw in the `simple_eager_workflow` workflow above, you can use regular
 # Python conditionals in your eager workflows. Let's look at a more complicated
 # example:
+
 
 # %%
 @task
@@ -210,6 +212,7 @@ async def eager_workflow_with_for_loop(x: int) -> int:
 #
 # You can also invoke static workflows from within an eager workflow:
 
+
 # %%
 @workflow
 def subworkflow(x: int) -> int:
@@ -228,6 +231,7 @@ async def eager_workflow_with_static_subworkflow(x: int) -> int:
 # ### Eager subworkflows
 #
 # You can have nest eager subworkflows inside a parent eager workflow:
+
 
 # %%
 @eager

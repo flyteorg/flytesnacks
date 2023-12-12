@@ -56,6 +56,7 @@ nb = NotebookTask(
 # Next, we define a `cross_validate` function and a `modeling` task to compute the MAE score of the data against
 # the Gradient Boosting Regressor.
 
+
 # %%
 def cross_validate(model, nfolds, feats, targets):
     score = -1 * (cross_val_score(model, feats, targets, cv=nfolds, scoring="neg_mean_absolute_error"))

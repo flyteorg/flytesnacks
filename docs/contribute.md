@@ -275,9 +275,7 @@ if the code in itself is updated and requirements.txt is the same.
 ## Pre-commit hooks
 
 We use [pre-commit](https://pre-commit.com/) to automate linting and code formatting on every commit.
-Configured hooks include [black](https://github.com/psf/black), [isort](https://github.com/PyCQA/isort),
-[flake8](https://github.com/PyCQA/flake8) and linters to ensure newlines are added to the end of files, and there is
-proper spacing in files.
+Configured hooks include [ruff](https://github.com/astral-sh/ruff) to ensure newlines are added to the end of files, and there is proper spacing in files.
 
 We run all those hooks in CI, but if you want to run them locally on every commit, run `pre-commit install` after
 installing the dev environment requirements. In case you want to disable `pre-commit` hooks locally, run
@@ -285,7 +283,7 @@ installing the dev environment requirements. In case you want to disable `pre-co
 
 ### Formatting
 
-We use [black](https://github.com/psf/black) and [isort](https://github.com/PyCQA/isort) to autoformat code. They
+We use [ruff](https://github.com/astral-sh/ruff) to autoformat code. They
 are configured as git hooks in `pre-commit`. Run `make fmt` to format your code.
 
 ### Spell-checking

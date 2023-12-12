@@ -60,6 +60,7 @@ nb_2 = NotebookTask(
 # %% [markdown]
 # We define a `Workflow` to run the notebook tasks.
 
+
 # %%
 @workflow
 def notebook_wf(

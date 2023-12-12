@@ -93,6 +93,7 @@ CONTINUOUS_COLS = [
 # %% [markdown]
 # Next, let's initialize a data class to store the hyperparameters that will be used with the model (`epochs`, `learning_rate`, `batch_size`, etc.).
 
+
 # %%
 @dataclass_json
 @dataclass
@@ -600,7 +601,6 @@ def test(
     test_df: pyspark.sql.DataFrame,
     hp: Hyperparameters,
 ) -> FlyteDirectory:
-
     print("================")
     print("Final prediction")
     print("================")
@@ -649,7 +649,6 @@ def test(
     limits=Resources(mem="1Gi"),
 )
 def horovod_spark_task(data_dir: FlyteDirectory, hp: Hyperparameters, work_dir: FlyteDirectory) -> FlyteDirectory:
-
     max_sales, vocab, train_df, test_df = data_preparation(data_dir, hp)
 
     # working directory will have the model and predictions as separate files

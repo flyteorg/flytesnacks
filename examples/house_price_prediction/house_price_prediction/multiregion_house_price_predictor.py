@@ -72,6 +72,7 @@ dataset = typing.NamedTuple(
 # %% [markdown]
 # Next, we create a {py:func}`~flytekit:flytekit.dynamic` workflow to generate and split the data for multiple regions.
 
+
 # %%
 @dynamic(cache=True, cache_version="0.1", limits=Resources(mem="600Mi"))
 def generate_and_split_data_multiloc(
@@ -126,7 +127,6 @@ def parallel_fit_predict(
 def multi_region_house_price_prediction_model_trainer(
     seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
 ) -> typing.List[typing.List[float]]:
-
     # generate and split the data
     split_data_vals = generate_and_split_data_multiloc(
         locations=LOCATIONS,

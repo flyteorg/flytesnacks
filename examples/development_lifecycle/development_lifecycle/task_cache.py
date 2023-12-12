@@ -41,6 +41,7 @@ from typing_extensions import Annotated
 # Bumping the `cache_version` is akin to invalidating the cache.
 # You can manually update this version and Flyte caches the next execution instead of relying on the old cache.
 
+
 # %%
 @task(cache=True, cache_version="1.0")  # noqa: F841
 def square(n: int) -> int:
@@ -113,6 +114,7 @@ def square(n: int) -> int:
 #
 # The default behavior displayed by Flyte's memoization feature might not match the user intuition. For example, this code makes use of pandas dataframes:
 
+
 # %%
 @task
 def foo(a: int, b: str) -> pandas.DataFrame:
@@ -137,6 +139,7 @@ def wf(a: int, b: str):
 # However, with release 1.2.0, Flyte provides a new way to control memoization behavior of literals. This is done via a `typing.Annotated` call on the task signature.
 # For example, in order to cache the result of calls to `bar`, you can rewrite the code above like this:
 
+
 # %%
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
     return str(pandas.util.hash_pandas_object(df))
@@ -144,7 +147,8 @@ def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
 
 @task
 def foo_1(  # noqa: F811
-    a: int, b: str  # noqa: F821
+    a: int,
+    b: str,  # noqa: F821
 ) -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe)]:  # noqa: F821  # noqa: F821
     df = pandas.DataFrame(...)  # noqa: F821
     ...
@@ -175,6 +179,7 @@ def wf_1(a: int, b: str):  # noqa: F811
 # %% [markdown]
 # Here's a complete example of the feature:
 #
+
 
 # %%
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:

@@ -10,6 +10,7 @@ from flytekitplugins.mmcloud import MMCloudConfig
 # %% [markdown]
 # `MMCloudConfig` configures `MMCloudTask`. Tasks specified with `MMCloudConfig` will be executed using MMCloud. Tasks will be executed with requests `cpu="1"` and `mem="1Gi"` by default.
 
+
 # %%
 @task(task_config=MMCloudConfig())
 def to_str(i: int) -> str:
@@ -23,6 +24,7 @@ def to_int(s: str) -> int:
 
 # %% [markdown]
 # [Resource](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/productionizing/customizing_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/multi_images.html) images, and [environment](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.task.html) variable specifications are supported.
+
 
 # %%
 @task(

@@ -24,10 +24,9 @@ docs-requirements.txt: docs-requirements.in install-piptools
 docs-requirements: docs-requirements.txt
 
 .PHONY: fmt
-fmt: ## Format code with black and isort
-	autoflake --remove-all-unused-imports --ignore-init-module-imports --ignore-pass-after-docstring --in-place -r examples
-	pre-commit run black --all-files || true
-	pre-commit run isort --all-files || true
+fmt: ## Format code with ruff
+	pre-commit run ruff --all-files || true
+	pre-commit run ruff-format --all-files || true
 
 .PHONY: update_boilerplate
 update_boilerplate:

@@ -186,7 +186,6 @@ class LDAModelHyperparams(object):
 # %%
 @task
 def train_word2vec_model(training_data: List[List[str]], hyperparams: Word2VecModelHyperparams) -> model_file:
-
     model = Word2Vec(
         training_data,
         min_count=hyperparams.min_count,

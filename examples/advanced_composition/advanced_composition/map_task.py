@@ -62,6 +62,7 @@ def coalesce(b: List[str]) -> str:
 # You can utilize the `with_overrides` function to set resources specifically for individual map tasks.
 # This allows you to customize resource allocations such as memory usage.
 
+
 # %%
 @workflow
 def my_map_workflow(a: List[int]) -> str:
@@ -80,6 +81,7 @@ def my_map_workflow(a: List[int]) -> str:
 if __name__ == "__main__":
     result = my_map_workflow(a=[1, 2, 3, 4, 5])
     print(f"{result}")
+
 
 # %% [markdown]
 # When defining a map task, avoid calling other tasks in it. Flyte
@@ -116,6 +118,7 @@ def suboptimal_mappable_task(a: int) -> str:
 #
 # For instance, consider a task that requires three inputs.
 
+
 # %%
 @task
 def multi_input_task(quantity: int, price: float, shipping: float) -> float:
@@ -140,6 +143,7 @@ def multiple_workflow(list_q: List[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: fl
 # %% [markdown]
 # Another possibility is to bind the outputs of a task to partials.
 
+
 # %%
 @task
 def get_price() -> float:
@@ -155,6 +159,7 @@ def multiple_workflow_with_task_output(list_q: List[int] = [1, 2, 3, 4, 5], s: f
 
 # %% [markdown]
 # You can also provide multiple lists as input to a ``map_task``.
+
 
 # %%
 @workflow
