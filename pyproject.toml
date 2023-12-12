@@ -1,6 +1,25 @@
-[tool.black]
+[tool.ruff]
 line-length = 120
+select = ["E", "W", "F"]
+ignore = [
+    # Whitespace before '{symbol}'
+    "E203",
+    # Too many leading # before block comment
+    "E266",
+    # Line too long ({width} > {limit})
+    "E501",
+    # Ambiguous variable name: {name}
+    "E741",
+    # Undefined name {name}
+    "F821",
+]
 
-[tool.isort]
-profile = "black"
-line_length = 120
+[tool.ruff.extend-per-file-ignores]
+"*/__init__.py" = [
+    # unused-import
+    "F401",
+]
+"examples/**/*.py" = [
+    # Module level import not at top of cell
+    "E402",
+]
