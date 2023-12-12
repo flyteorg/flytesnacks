@@ -11,7 +11,7 @@
       ],
       ["advanced_composition.decorating_tasks.decorating_task_wf", { "x": 10 }],
       [
-        "advanced_composition.decorating_workflows.decorating_workflow_wf",
+        "advanced_composition.decorating_workflows.decorating_workflow",
         { "x": 19.8 }
       ],
       [

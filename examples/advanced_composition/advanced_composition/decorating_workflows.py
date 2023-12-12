@@ -127,12 +127,12 @@ def t2(x: float) -> float:
 # %%
 @workflow
 @setup_teardown(before=setup, after=teardown)
-def decorating_workflow_wf(x: float) -> float:
+def decorating_workflow(x: float) -> float:
     return t2(x=t1(x=x))
 
 
 if __name__ == "__main__":
-    print(decorating_workflow_wf(x=10.0))
+    print(decorating_workflow(x=10.0))
 
 
 # %% [markdown]
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 # ```
 # pyflyte run --remote \
 #   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/decorating_workflows.py \
-#   decorating_workflow_wf --x 10.0
+#   decorating_workflow --x 10.0
 # ```
 #
 # To define workflows imperatively, refer to {ref}`this example <imperative_workflow>`,
