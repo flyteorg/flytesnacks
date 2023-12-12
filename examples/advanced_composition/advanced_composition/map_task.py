@@ -131,7 +131,7 @@ import functools
 
 
 @workflow
-def multiple_workflow(list_q: list[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0) -> List[float]:
+def multiple_inputs_map_workflow(list_q: list[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0) -> List[float]:
     partial_task = functools.partial(multi_input_task, price=p, shipping=s)
     return map_task(partial_task)(quantity=list_q)
 
@@ -145,7 +145,7 @@ def get_price() -> float:
 
 
 @workflow
-def multiple_workflow_with_task_output(list_q: list[int] = [1, 2, 3, 4, 5], s: float = 6.0) -> list[float]:
+def map_workflow_partial_with_task_output(list_q: list[int] = [1, 2, 3, 4, 5], s: float = 6.0) -> list[float]:
     p = get_price()
     partial_task = functools.partial(multi_input_task, price=p, shipping=s)
     return map_task(partial_task)(quantity=list_q)
@@ -155,7 +155,7 @@ def multiple_workflow_with_task_output(list_q: list[int] = [1, 2, 3, 4, 5], s: f
 # You can also provide multiple lists as input to a ``map_task``.
 # %%
 @workflow
-def multiple_workflow_with_lists(
+def map_workflow_with_lists(
     list_q: list[int] = [1, 2, 3, 4, 5], list_p: list[float] = [6.0, 9.0, 8.7, 6.5, 1.2], s: float = 6.0
 ) -> list[float]:
     partial_task = functools.partial(multi_input_task, shipping=s)
