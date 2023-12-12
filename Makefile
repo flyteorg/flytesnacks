@@ -24,7 +24,7 @@ docs-requirements.txt: docs-requirements.in install-piptools
 docs-requirements: docs-requirements.txt
 
 .PHONY: fmt
-fmt: ## Format code with black and isort
+fmt: ## Format code with ruff
 	pre-commit run ruff --all-files || true
 	pre-commit run ruff-format --all-files || true
 
