@@ -59,21 +59,23 @@ class SuperResolutionNet(nn.Module):
 # This is a special annotation that tells Flytekit that this parameter is to be converted to an ONNX model with the given config.
 # %%
 @task
-def train() -> Annotated[
-    PyTorch2ONNX,
-    PyTorch2ONNXConfig(
-        args=torch.randn(1, 1, 224, 224, requires_grad=True),
-        export_params=True,  # store the trained parameter weights inside
-        opset_version=10,  # the ONNX version to export the model to
-        do_constant_folding=True,  # whether to execute constant folding for optimization
-        input_names=["input"],  # the model's input names
-        output_names=["output"],  # the model's output names
-        dynamic_axes={
-            "input": {0: "batch_size"},
-            "output": {0: "batch_size"},
-        },  # variable length axes
-    ),
-]:
+def train() -> (
+    Annotated[
+        PyTorch2ONNX,
+        PyTorch2ONNXConfig(
+            args=torch.randn(1, 1, 224, 224, requires_grad=True),
+            export_params=True,  # store the trained parameter weights inside
+            opset_version=10,  # the ONNX version to export the model to
+            do_constant_folding=True,  # whether to execute constant folding for optimization
+            input_names=["input"],  # the model's input names
+            output_names=["output"],  # the model's output names
+            dynamic_axes={
+                "input": {0: "batch_size"},
+                "output": {0: "batch_size"},
+            },  # variable length axes
+        ),
+    ]
+):
     # Create the super-resolution model by using the above model definition.
     torch_model = SuperResolutionNet(upscale_factor=3)
 

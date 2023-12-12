@@ -114,6 +114,7 @@ from sklearn.metrics import accuracy_score
 # Once we've gotten a rough sense of the statistical properties of the data, we can encode that domain knowledge into
 # a pandera schema:
 
+
 # %%
 class RawData(pa.SchemaModel):
     age: Series[int] = pa.Field(in_range={"min_value": 0, "max_value": 200})
@@ -168,6 +169,7 @@ class RawData(pa.SchemaModel):
 #
 # Now we're ready to write our first Flyte task:
 
+
 # %%
 @task
 def fetch_raw_data() -> DataFrame[RawData]:
@@ -198,6 +200,7 @@ def fetch_raw_data() -> DataFrame[RawData]:
 # `1` represents presence of heart disease.
 #
 # Here we can use inheritance to define a `ParsedData` schema by overriding just the `target` attribute:
+
 
 # %%
 class ParsedData(RawData):
@@ -241,6 +244,7 @@ def split_data(parsed_data: DataFrame[ParsedData], test_size: float, random_stat
 #
 # Next we'll train a `RandomForestClassifier` to predict the absence/presence of heart disease:
 
+
 # %%
 def get_features_and_target(dataset):
     """Helper function for separating feature and target data."""
@@ -268,6 +272,7 @@ def train_model(training_set: DataFrame[ParsedData], random_state: int) -> Jobli
 #
 # Next we assess the accuracy score of the model on the test set:
 
+
 # %%
 @task
 def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData]) -> float:
@@ -280,6 +285,7 @@ def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData])
 
 # %% [markdown]
 # Finally, we put all of the pieces together in a Flyte workflow:
+
 
 # %%
 @workflow

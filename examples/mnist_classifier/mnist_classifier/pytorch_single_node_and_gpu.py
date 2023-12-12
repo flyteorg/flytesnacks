@@ -89,6 +89,7 @@ class Net(nn.Module):
 # %% [markdown]
 # ## The Data Loader
 
+
 # %%
 def mnist_dataloader(batch_size, train=True, **kwargs):
     return torch.utils.data.DataLoader(
@@ -187,7 +188,6 @@ def test(model, device, test_loader):
 
     # disable gradient
     with torch.no_grad():
-
         # loop through the test data loader
         for images, targets in test_loader:
             images, targets = images.to(device), targets.to(device)  # device conversion

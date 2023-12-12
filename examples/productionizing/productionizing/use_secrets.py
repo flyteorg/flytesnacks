@@ -102,6 +102,7 @@ SECRET_NAME = "user_secret"
 # At runtime, flytekit looks inside the task pod for an environment variable or
 # a mounted file with a predefined name/path and loads the value.
 
+
 # %%
 @task(secret_requests=[Secret(group=SECRET_GROUP, key=SECRET_NAME)])
 def secret_task() -> str:
@@ -180,6 +181,7 @@ def user_info_task() -> Tuple[str, str]:
 # In these scenarios you can specify the `mount_requirement=Secret.MountType.FILE`.
 #
 # In the following example we force the mounting to be an environment variable:
+
 
 # %%
 @task(

@@ -48,6 +48,7 @@ def list_wf():
 if __name__ == "__main__":
     list_wf()
 
+
 # %% [markdown]
 # ## Dict
 # You can access the output dict by key.
@@ -68,6 +69,7 @@ def dict_wf():
 # %%
 if __name__ == "__main__":
     dict_wf()
+
 
 # %% [markdown]
 # ## Python Dataclass
@@ -95,6 +97,7 @@ def dataclass_wf():
 # %%
 if __name__ == "__main__":
     dataclass_wf()
+
 
 # %% [markdown]
 # ## Complex Examples
