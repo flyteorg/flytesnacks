@@ -103,8 +103,17 @@ def decorating_task_wf(x: int) -> int:
 if __name__ == "__main__":
     print(f"Running decorating_task_wf(x=10) {decorating_task_wf(x=10)}")
 
-
 # %% [markdown]
+# ## Run the example on the Flyte cluster
+#
+# To run the provided workflow on the Flyte cluster, use the following command:
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/decorating_tasks.py \
+#   decorating_task_wf --x 10
+# ```
+#
 # In this example, you learned how to modify the behavior of tasks via function decorators using the built-in
 # {py:func}`~functools.wraps` decorator pattern. To learn more about how to extend Flyte at a deeper level, for
 # example creating custom types, custom tasks or backend plugins,

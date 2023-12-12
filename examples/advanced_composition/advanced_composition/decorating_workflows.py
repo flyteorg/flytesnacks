@@ -136,6 +136,16 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
+# ## Run the example on the Flyte cluster
+#
+# To run the provided workflow on the Flyte cluster, use the following command:
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/decorating_workflows.py \
+#   decorating_workflow_wf --x 10.0
+# ```
+#
 # To define workflows imperatively, refer to {ref}`this example <imperative_workflow>`,
 # and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks or
 # backend plugins, see {ref}`Extending Flyte <plugins_extend>`.

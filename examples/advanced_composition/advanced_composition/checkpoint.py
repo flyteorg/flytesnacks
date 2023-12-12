@@ -99,3 +99,14 @@ if __name__ == "__main__":
     except RuntimeError as e:  # noqa : F841
         # Since no retries are performed, an exception is expected when run locally
         pass
+
+# %% [markdown]
+# ## Run the example on the Flyte cluster
+#
+# To run the provided workflow on the Flyte cluster, use the following command:
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/checkpoint.py \
+#   checkpointing_example --n_iterations 10
+# ```

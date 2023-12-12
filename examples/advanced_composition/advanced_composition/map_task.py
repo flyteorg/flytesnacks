@@ -62,7 +62,7 @@ from flytekit import TaskMetadata
 
 
 @workflow
-def map_workflow_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
+def map_workflow_with_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
     map_task(detect_anomalies, metadata=TaskMetadata(cache=True, cache_version="0.1", retries=1))(data_point=data)
 
 
@@ -75,7 +75,7 @@ def map_workflow_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12
 # the map task and marking it as successful.
 # %%
 @workflow
-def map_workflow_additional_params(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
+def map_workflow_with_additional_params(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
     map_task(detect_anomalies, concurrency=1, min_success_ratio=0.75)(data_point=data)
 
 
@@ -131,7 +131,7 @@ import functools
 
 
 @workflow
-def multiple_inputs_map_workflow(list_q: list[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0) -> List[float]:
+def multiple_inputs_map_workflow(list_q: list[int] = [1, 2, 3, 4, 5], p: float = 6.0, s: float = 7.0) -> list[float]:
     partial_task = functools.partial(multi_input_task, price=p, shipping=s)
     return map_task(partial_task)(quantity=list_q)
 
@@ -165,6 +165,40 @@ def map_workflow_with_lists(
 # %% [markdown]
 # ```{note}
 # It is important to note that you cannot provide a list as an input to a partial task.
+# ```
+#
+# ## Run the example on the Flyte cluster
+#
+# To run the provided workflows on the Flyte cluster, use the following commands:
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/map_task.py \
+#   map_workflow
+# ```
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/map_task.py \
+#   map_workflow_with_additional_params
+# ```
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/map_task.py \
+#   multiple_inputs_map_workflow
+# ```
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/map_task.py \
+#   map_workflow_partial_with_task_output
+# ```
+#
+# ```
+# pyflyte run --remote \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/map_task.py \
+#   map_workflow_with_lists
 # ```
 #
 # ## ArrayNode
