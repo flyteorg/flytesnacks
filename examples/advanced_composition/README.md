@@ -10,9 +10,8 @@ dynamic workflows, map tasks, gate nodes and more.
 conditions
 chain_entities
 subworkflow
-dynamics
+dynamic_workflow
 map_task
-merge_sort
 eager_workflows
 decorating_tasks
 decorating_workflows

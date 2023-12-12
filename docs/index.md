@@ -456,6 +456,7 @@ auto_examples/papermill_plugin/index
 auto_examples/pandera_plugin/index
 auto_examples/kfpytorch_plugin/index
 auto_examples/ray_plugin/index
+auto_examples/sensor/index
 auto_examples/snowflake_plugin/index
 auto_examples/k8s_spark_plugin/index
 auto_examples/sql_plugin/index

@@ -96,12 +96,12 @@ def t2(x: int) -> int:
 # Finally, we compose a workflow that calls `t1` and `t2`.
 # %%
 @workflow
-def wf(x: int) -> int:
+def decorating_task_wf(x: int) -> int:
     return t2(x=t1(x=x))
 
 
 if __name__ == "__main__":
-    print(f"Running wf(x=10) {wf(x=10)}")
+    print(f"Running decorating_task_wf(x=10) {decorating_task_wf(x=10)}")
 
 
 # %% [markdown]

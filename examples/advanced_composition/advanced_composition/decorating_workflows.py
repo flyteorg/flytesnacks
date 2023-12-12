@@ -13,13 +13,14 @@
 # tasks, we need to do a little extra work to make sure that the DAG underlying the workflow executes tasks in the
 # correct order.
 #
-# ## Setup-Teardown Pattern
+# ## Setup-teardown pattern
 #
 # The main use case of decorating `@workflow`-decorated functions is to establish a setup-teardown pattern to execute task
 # before and after your main workflow logic. This is useful when integrating with other external services
 # like [wandb](https://wandb.ai/site) or [clearml](https://clear.ml/), which enable you to track metrics of model
 # training runs.
-
+#
+# To begin, import the necessary libraries.
 # %%
 from functools import partial, wraps
 from unittest.mock import MagicMock
@@ -29,10 +30,9 @@ from flytekit import FlyteContextManager, task, workflow
 from flytekit.core.node_creation import create_node
 
 # %% [markdown]
-# First, let's define the tasks that we want for setup and teardown. In this example, we'll use the
+# Let's define the tasks we need for setup and teardown. In this example, we use the
 # {py:class}`unittest.mock.MagicMock` class to create a fake external service that we want to initialize at the
 # beginning of our workflow and finish at the end.
-
 # %%
 external_service = MagicMock()
 
@@ -54,11 +54,9 @@ def teardown():
 # if you need to link Flyte with the external service so that you reference the same unique identifier in both the
 # external service and Flyte.
 #
-# ## Workflow Decorator
+# ## Workflow decorator
 #
-# Next we create the decorator that we'll use to wrap our workflow function.
-
-
+# We create a decorator that we want to use to wrap our workflow function.
 # %%
 def setup_teardown(fn=None, *, before, after):
     @wraps(fn)
@@ -107,15 +105,12 @@ def setup_teardown(fn=None, *, before, after):
 # 3. When `fn` is called, under the hood Flytekit creates all the nodes associated with the workflow function body
 # 4. The code within the `if ctx.compilation_state is not None:` conditional is executed at compile time, which
 #    is where we extract the first and last nodes associated with the workflow function body at index `1` and `-2`.
-# 5. Finally, we use the `>>` right shift operator to ensure that `before_node` executes before the
+# 5. The `>>` right shift operator ensures that `before_node` executes before the
 #    first node and `after_node` executes after the last node of the main workflow function body.
-
-# %% [markdown]
+#
 # ## Defining the DAG
 #
-# Now let's define two tasks that will constitute the workflow
-
-
+# We define two tasks that will constitute the workflow.
 # %%
 @task
 def t1(x: float) -> float:
@@ -129,26 +124,18 @@ def t2(x: float) -> float:
 
 # %% [markdown]
 # And then create our decorated workflow:
-
-
 # %%
 @workflow
 @setup_teardown(before=setup, after=teardown)
-def wf(x: float) -> float:
+def decorating_workflow_wf(x: float) -> float:
     return t2(x=t1(x=x))
 
 
 if __name__ == "__main__":
-    print(wf(x=10.0))
+    print(decorating_workflow_wf(x=10.0))
 
 
 # %% [markdown]
-# In this example, you learned how to modify the behavior of a workflow by defining a `setup_teardown` decorator
-# that can be applied to any workflow in your project. This is useful when integrating with other external services
-# like [wandb](https://wandb.ai/site) or [clearml](https://clear.ml/), which enable you to track metrics of model
-# training runs.
-#
 # To define workflows imperatively, refer to {ref}`this example <imperative_workflow>`,
-# and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks, or
+# and to learn more about how to extend Flyte at a deeper level, for example creating custom types, custom tasks or
 # backend plugins, see {ref}`Extending Flyte <plugins_extend>`.
-#
