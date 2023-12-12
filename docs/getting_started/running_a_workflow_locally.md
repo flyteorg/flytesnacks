@@ -33,6 +33,26 @@ cd my_project/workflows
 pyflyte run example.py wf
 ```
 
+:::{note}
+While you can run the example file like a Python script with `python hello_world.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you would have to add a `main` module conditional at the end of the script:
+```python
+if __name__ == "__main__":
+    print(hello_world_wf())
+```
+
+Your code would become even more verbose if you wanted to pass arguments to the workflow:
+```python
+if __name__ == "__main__":
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("--name", type=str)
+
+    args = parser.parse_args()
+    print(hello_world_wf(name=args.name))
+```
+:::
+
 (getting_started_running_workflow_local_cluster)=
 
 ## Running a workflow in a local Flyte cluster
