@@ -40,11 +40,12 @@ from flytekit.types.file import PythonPickledFile
 # {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`
 # such as the `Net` model architecture, `Hyperparameters`, and `log_test_predictions`.
 # %%
-from mnist_classifier.pytorch_single_node_and_gpu import Hyperparameters, Net, log_test_predictions
 from torch import distributed as dist
 from torch import multiprocessing as mp
 from torch import nn, optim
 from torchvision import datasets, transforms
+
+from mnist_classifier.pytorch_single_node_and_gpu import Hyperparameters, Net, log_test_predictions
 
 # %% [markdown]
 # Let's define some variables to be used later.
