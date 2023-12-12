@@ -19,20 +19,15 @@ A Flyte project is a directory containing task and workflow code, internal Pytho
 
 ## Steps
 
-1. Activate your virtual environment
-1. Initialize your Flyte project
-1. Install additional requirements
-1. (Optional) Version your Flyte project with git
+### 1. Activate your Python virtual environment
 
-### Activate your virtual environment
-
-First, activate the virtual environment you will use to manage dependencies for your Flyte project:
+If you are using conda or another Python virtual environment manager, first, activate the virtual environment you will use to manage dependencies for your Flyte project:
 
 ```{prompt} bash $
 conda activate flyte-example
 ```
 
-### Initialize your Flyte project
+### 2. Initialize your Flyte project
 
 Next, initialize your Flyte project. The [flytekit-python-template GitHub repository](https://github.com/flyteorg/flytekit-python-template) contains Flyte project templates with sample code that you can run as is or modify to suit your needs.
 
@@ -42,7 +37,7 @@ In this example, we will initialize the [basic-example-imagespec project templat
 pyflyte init my_project
 ```
 
-### Install additional requirements
+### 3. Install additional requirements
 
 After initializing your Flyte project, you will need to install requirements listed in `requirements.txt`:
 
@@ -50,7 +45,7 @@ After initializing your Flyte project, you will need to install requirements lis
 pip install -r requirements.txt
 ```
 
-### (Optional) Version your Flyte project with git
+### 4. (Optional) Version your Flyte project with git
 
 We highly recommend putting your Flyte project code under version control. To do so, initialize a git repository in the Flyte project directory:
 
@@ -63,7 +58,7 @@ git init
 If you are using a Dockerfile instead of ImageSpec, you will need to initialize a git repository and create at least one commit, since the commit hash is used to tag the image when it is built.
 ```
 
-### Run your workflow in a local Python environment
+### 5. Run your workflow in a local Python environment
 
 To check that your Flyte project was set up correctly, run the workflow in a local Python environment:
 
@@ -71,26 +66,6 @@ To check that your Flyte project was set up correctly, run the workflow in a loc
 cd my_project/workflows
 pyflyte run example.py wf
 ```
-
-:::{note}
-While you can run the example file like a Python script with `python example.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you need to include the `main` module conditional at the end of the script:
-```python
-if __name__ == "__main__":
-    print(f"Running wf() { wf(name='passengers') }")
-```
-
-Your code would become even more verbose if you wanted to pass arguments to the workflow:
-```python
-if __name__ == "__main__":
-    from argparse import ArgumentParser
-
-    parser = ArgumentParser()
-    parser.add_argument("--name", type=str)
-
-    args = parser.parse_args()
-    print(f"Running wf() {wf(name=args.name) }")
-```
-:::
 
 ## Next steps
 
