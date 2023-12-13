@@ -15,7 +15,7 @@ next-page-title: Getting started with workflow development
 (getting_started_quickstart_guide)=
 # Quickstart guide
 
-In this guide, you will create and run a Flyte workflow in a local Python environment to generate the output "Hello, World!"
+In this guide, you will create and run a Flyte workflow in a local Python environment to generate the output "Hello, world!"
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ In this guide, you will create and run a Flyte workflow in a local Python enviro
 
 ### 1. Initialize the "Hello, world!" Flyte project
 
-To create an example workflow file, initialize the "Hello, world! Flyte project by running the following command:
+To create an example workflow file, initialize the "Hello, world!" Flyte project by running the following command:
 
 ```{prompt} bash $
 pyflyte init --template hello-world hello-world
