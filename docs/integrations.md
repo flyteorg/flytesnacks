@@ -102,6 +102,8 @@ the Flyte task that use the respective plugin.
   - Execute queries using AWS Athena
 * - {doc}`AWS Batch <auto_examples/aws_batch_plugin/index>`
   - Running tasks and workflows on AWS batch service
+* - {doc}`Flyte Interactive <auto_examples/flyin_plugin/index>`
+  - Execute tasks using Flyte Interactive to debug.
 * - {doc}`Hive <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
 * - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
