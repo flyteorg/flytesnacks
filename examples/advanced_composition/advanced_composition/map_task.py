@@ -46,42 +46,41 @@ if __name__ == "__main__":
 # %% [markdown]
 # To customize resource allocations, such as memory usage for individual map tasks,
 # you can leverage `with_overrides`. Here's an example using the `detect_anomalies` map task within a workflow:
-# %%
-from flytekit import Resources
-
-
-@workflow
-def map_workflow_with_resource_overrides(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
-    return map_task(detect_anomalies)(data_point=data).with_overrides(requests=Resources(mem="2Gi"))
-
-
-# %% [markdown]
+#
+# ```python
+# from flytekit import Resources
+#
+#
+# @workflow
+# def map_workflow_with_resource_overrides(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
+#     return map_task(detect_anomalies)(data_point=data).with_overrides(requests=Resources(mem="2Gi"))
+# ```
+#
 # You can use {py:class}`~flytekit.TaskMetadata` to set attributes such as `cache`, `cache_version`, `interruptible`, `retries` and `timeout`.
-# %%
-from flytekit import TaskMetadata
-
-
-@workflow
-def map_workflow_with_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
-    return map_task(detect_anomalies, metadata=TaskMetadata(cache=True, cache_version="0.1", retries=1))(
-        data_point=data
-    )
-
-
-# %% [markdown]
+# ```python
+# from flytekit import TaskMetadata
+#
+#
+# @workflow
+# def map_workflow_with_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
+#     return map_task(detect_anomalies, metadata=TaskMetadata(cache=True, cache_version="0.1", retries=1))(
+#         data_point=data
+#     )
+# ```
+#
 # You can also configure `concurrency` and `min_success_ratio` for a map task:
 # - `concurrency` limits the number of mapped tasks that can run in parallel to the specified batch size.
 # If the input size exceeds the concurrency value, multiple batches will run serially until all inputs are processed.
 # If left unspecified, it implies unbounded concurrency.
 # - `min_success_ratio` determines the minimum fraction of total jobs that must complete successfully before terminating
 # the map task and marking it as successful.
-# %%
-@workflow
-def map_workflow_with_additional_params(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
-    return map_task(detect_anomalies, concurrency=1, min_success_ratio=0.75)(data_point=data)
-
-
-# %% [markdown]
+#
+# ```python
+# @workflow
+# def map_workflow_with_additional_params(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
+#     return map_task(detect_anomalies, concurrency=1, min_success_ratio=0.75)(data_point=data)
+# ```
+#
 # A map task internally uses a compression algorithm (bitsets) to handle every Flyte workflow node’s metadata,
 # which would have otherwise been in the order of 100s of bytes.
 #
