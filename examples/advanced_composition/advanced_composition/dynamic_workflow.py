@@ -166,6 +166,7 @@ if __name__ == "__main__":
 # In contrast, {ref}`map tasks <map_task>` prove efficient for such extensive fan-out scenarios since they refrain from storing metadata,
 # resulting in less noticeable overhead.
 #
+# (advanced_merge_sort)=
 # ## Merge sort
 #
 # Merge sort is a perfect example to showcase how to seamlessly achieve recursion using dynamic workflows.

@@ -63,7 +63,9 @@ from flytekit import TaskMetadata
 
 @workflow
 def map_workflow_with_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
-    map_task(detect_anomalies, metadata=TaskMetadata(cache=True, cache_version="0.1", retries=1))(data_point=data)
+    return map_task(detect_anomalies, metadata=TaskMetadata(cache=True, cache_version="0.1", retries=1))(
+        data_point=data
+    )
 
 
 # %% [markdown]
@@ -76,7 +78,7 @@ def map_workflow_with_metadata(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 1
 # %%
 @workflow
 def map_workflow_with_additional_params(data: list[int] = [10, 12, 11, 10, 13, 12, 100, 11, 12, 10]) -> list[bool]:
-    map_task(detect_anomalies, concurrency=1, min_success_ratio=0.75)(data_point=data)
+    return map_task(detect_anomalies, concurrency=1, min_success_ratio=0.75)(data_point=data)
 
 
 # %% [markdown]
