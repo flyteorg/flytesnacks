@@ -19,22 +19,44 @@ In this guide, you will create and run a Flyte workflow in a local Python enviro
 
 ## Prerequisites
 
-* [Download Python 3.8x or higher](https://www.python.org/downloads/)
-* [Download `pip`](https://pip.pypa.io/en/stable/installation/)
+* [Install Python 3.8x or higher](https://www.python.org/downloads/)
 * Install [Flytekit](https://github.com/flyteorg/flytekit) with `pip install -U flytekit`
 
 ## Steps
 
-### Create a workflow
+### 1. Initialize the "Hello, world!" Flyte project
 
-First, create a file called `hello_world.py` and copy the following code into the file:
+To create an example workflow file, initialize the "Hello, world! Flyte project by running the following command:
+
+```{prompt} bash $
+pyflyte init --template hello-world hello-world
+```
+
+### 2. Run the example workflow in a local Python environment
+
+Next, run the workflow in the example workflow file with `pyflyte run`. The initial arguments of `pyflyte run` take the form of
+`path/to/script.py <task_or_workflow_name>`, where `<task_or_workflow_name>`
+refers to the function decorated with `@task` or `@workflow` that you wish to run:
+
+```{prompt} bash $
+cd hello-world
+pyflyte run example.py hello_world_wf
+```
+
+You can also provide a `name` argument to the workflow:
+```{prompt} bash $
+pyflyte run example.py hello_world_wf --name Ada
+```
+
+## The @task and @workflow decorators
+
+In this example, the file `example.py` contains a task and a workflow, decorated with the `@task` and `@workflow` decorators, respectively. You can invoke tasks and workflows like regular Python methods, and even import and use them in other Python modules or scripts.
 
 ```python
-from flytekit import task, workflow
-
 @task
 def say_hello(name: str) -> str:
     return f"Hello, {name}!"
+
 
 @workflow
 def hello_world_wf(name: str = 'world') -> str:
@@ -42,27 +64,8 @@ def hello_world_wf(name: str = 'world') -> str:
     return res
 ```
 
-### Run the workflow in a local Python environment
-
-Next, run the workflow with `pyflyte run`. The initial arguments of `pyflyte run` take the form of
-`path/to/script.py <task_or_workflow_name>`, where `<task_or_workflow_name>`
-refers to the function decorated with `@task` or `@workflow` that you wish to run:
-
-```{prompt} bash
-pyflyte run hello_world.py hello_world_wf
-```
-
-You can also provide a `name` argument to the workflow:
-```{prompt} bash
-pyflyte run hello_world.py hello_world_wf --name Ada
-```
-
-## The @task and @workflow decorators
-
-In this example, the file `hello_world.py` contains a task and a workflow, decorated with the `@task` and `@workflow` decorators, respectively. You can invoke tasks and workflows like regular Python methods, and even import and use them in other Python modules or scripts.
-
 To learn more about tasks and workflows, see the {ref}`"Workflow code" section<getting_started_workflow_code>` of {doc}`"Flyte project components"<flyte_project_components>`.
 
 ## Next steps
 
-To create a Flyte project to structure your workflow code according to software engineering best practices, and can be used to package workflow code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`
+To create a productionizable Flyte project to structure your code according to software engineering best practices, and that can be used to package your code for deployment to a Flyte cluster, see {doc}`"Getting started with workflow development" <getting_started_with_workflow_development>`

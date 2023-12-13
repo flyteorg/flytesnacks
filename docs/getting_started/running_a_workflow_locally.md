@@ -11,7 +11,7 @@ jupytext:
 You can run a workflow locally in two ways:
 
 * **{ref}`In a local Python environment <getting_started_running_workflow_local_python_environment>`:** To develop and test your code quickly without the overhead of setting up a local Flyte cluster, you can run your workflow in a local Python environment.
-* **{ref}`In a local Flyte cluster <getting_started_running_workflow_local_cluster>`:** If your organization has deployed a remote Flyte cluster, or if you want to test a Flyte cluster setup locally before committing to a remote deployment, you can run your workflows in a local demo Flyte cluster.
+* **{ref}`In a local Flyte cluster <getting_started_running_workflow_local_cluster>`:** To test your code in a more production-like setting, you can run your workflow in a local cluster, such as the demo Flyte cluster.
 
 (getting_started_running_workflow_local_python_environment)=
 
@@ -34,10 +34,10 @@ pyflyte run example.py wf
 ```
 
 :::{note}
-While you can run the example file like a Python script with `python hello_world.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you would have to add a `main` module conditional at the end of the script:
+While you can run the example file like a Python script with `python example.py`, we recommend using `pyflyte run` instead. To run the file like a Python script, you would have to add a `main` module conditional at the end of the script:
 ```python
 if __name__ == "__main__":
-    print(hello_world_wf())
+    print(wf())
 ```
 
 Your code would become even more verbose if you wanted to pass arguments to the workflow:
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser.add_argument("--name", type=str)
 
     args = parser.parse_args()
-    print(hello_world_wf(name=args.name))
+    print(wf(name=args.name))
 ```
 :::
 
@@ -59,21 +59,21 @@ if __name__ == "__main__":
 
 ### Prerequisites
 
-#### Install development tools
+#### 1. Install development tools
 
-If you have not already done so, follow the steps in {doc}`"Installing development tools" <installing_development_tools>` to install Python, `pip`, Flytekit, and optionally, conda.
+If you have not already done so, follow the steps in {doc}`"Installing development tools" <installing_development_tools>` to install Python, Flytekit, and optionally, conda.
 
-#### Create a Flyte project
+#### 2. Create a Flyte project
 
 If you have not already done so, follow the steps in {doc}`"Creating a Flyte project" <creating_a_flyte_project>` to create a Flyte project.
 
-#### Install Docker
+#### 3. Install Docker
 
 Follow the steps in the [Docker installation guide](https://docs.docker.com/get-docker/) to install Docker.
 
 Flyte supports any [OCI-compatible](https://opencontainers.org/) container technology (like [Podman](https://podman.io/), [LXD](https://linuxcontainers.org/lxd/introduction/), and [Containerd](https://containerd.io/)), but for the purpose of this documentation, `flytectl` uses Docker to start a local Kubernetes cluster that you can interact with on your machine.
 
-#### Install `flytectl`
+#### 4. Install `flytectl`
 
 You must install `flytectl` to start and configure a local Flyte cluster, as well as register workflows to a local or remote Flyte cluster.
 
