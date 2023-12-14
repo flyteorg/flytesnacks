@@ -124,18 +124,20 @@ if __name__ == "__main__":
 # %% [markdown]
 # ## Failure scenario
 # The following workflow fails because it attempts to access indices and keys that are out of range:
-# %%
-@task
-def failed_task() -> (list[str], dict[str, str], Fruit):
-    return ["apple", "banana"], {"fruit": "banana"}, Fruit(name="banana")
-
-
-@workflow(
-    # The workflow remains unaffected if one of the nodes encounters an error, as long as other executable nodes are still available
-    failure_policy=WorkflowFailurePolicy.FAIL_AFTER_EXECUTABLE_NODES_COMPLETE
-)
-def failed_workflow():
-    fruits_list, fruit_dict, fruit_instance = failed_task()
-    print_message(message=fruits_list[100])  # Accessing an index that doesn't exist
-    print_message(message=fruit_dict["fruits"])  # Accessing a non-existent key
-    print_message(message=fruit_instance.fruit)  # Accessing a non-existent param
+#
+# ```python
+# @task
+# def failed_task() -> (list[str], dict[str, str], Fruit):
+#     return ["apple", "banana"], {"fruit": "banana"}, Fruit(name="banana")
+#
+#
+# @workflow(
+#     # The workflow remains unaffected if one of the nodes encounters an error, as long as other executable nodes are still available
+#     failure_policy=WorkflowFailurePolicy.FAIL_AFTER_EXECUTABLE_NODES_COMPLETE
+# )
+# def failed_workflow():
+#     fruits_list, fruit_dict, fruit_instance = failed_task()
+#     print_message(message=fruits_list[100])  # Accessing an index that doesn't exist
+#     print_message(message=fruit_dict["fruits"])  # Accessing a non-existent key
+#     print_message(message=fruit_instance.fruit)  # Accessing a non-existent param
+# ```
