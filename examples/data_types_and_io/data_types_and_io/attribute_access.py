@@ -16,7 +16,7 @@
 from dataclasses import dataclass
 
 from dataclasses_json import dataclass_json
-from flytekit import WorkflowFailurePolicy, task, workflow
+from flytekit import task, workflow
 
 
 @task
@@ -126,6 +126,9 @@ if __name__ == "__main__":
 # The following workflow fails because it attempts to access indices and keys that are out of range:
 #
 # ```python
+# from flytekit import WorkflowFailurePolicy
+#
+#
 # @task
 # def failed_task() -> (list[str], dict[str, str], Fruit):
 #     return ["apple", "banana"], {"fruit": "banana"}, Fruit(name="banana")
