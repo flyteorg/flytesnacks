@@ -37,6 +37,13 @@ In this example, we will initialize the [basic-example-imagespec project templat
 pyflyte init my_project
 ```
 
+:::{note}
+
+To initialize a Flyte project with a different template, use the `--template` parameter:
+
+`pyflyte init --template hello-world hello-world`
+:::
+
 ### 3. Install additional requirements
 
 After initializing your Flyte project, you will need to install requirements listed in `requirements.txt`:
