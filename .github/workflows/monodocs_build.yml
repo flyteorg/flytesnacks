@@ -49,4 +49,4 @@ jobs:
           FLYTESNACKS_LOCAL_PATH: ${{ github.workspace }}/flytesnacks
         run: |
           conda activate monodocs-env
-          make docs
+          make -C docs html SPHINXOPTS="-W -vvv"
