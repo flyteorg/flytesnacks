@@ -3,7 +3,7 @@
 #
 # *New in Flyte 1.3.0*
 #
-# There are use cases where we want a workflow execution to pause, only to continue
+# There are use cases where you may want a workflow execution to pause, only to continue
 # when some time has passed or when it receives some inputs that are external to
 # the workflow execution inputs. You can think of these as execution-time inputs,
 # since they need to be supplied to the workflow after it's launched. Examples of
@@ -30,8 +30,7 @@
 # functions, {func}`@dynamic <flytekit.dynamic>`-decorated functions, or
 # {ref}`imperative workflows <imperative_workflow>`.
 # :::
-
-# %% [markdown]
+#
 # ## Pause executions with the `sleep` node
 #
 # The simplest case is when you want your workflow to {py:func}`~flytekit.sleep`
@@ -40,7 +39,6 @@
 # Though this type of node may not be used often in a production setting,
 # you might want to use it, for example, if you want to simulate a delay in
 # your workflow to mock out the behavior of some long-running computation.
-
 # %%
 from datetime import timedelta
 
@@ -87,7 +85,6 @@ def sleep_wf(num: int) -> int:
 # but before publishing it you want to give it a custom title. You can achieve
 # this by defining a `wait_for_input` node that takes a `str` input and
 # finalizes the report:
-
 # %%
 import typing
 
@@ -168,8 +165,6 @@ def reporting_with_approval_wf(data: typing.List[float]) -> dict:
 # You can also use the output of the `approve` function as a promise, feeding
 # it to a subsequent task. Let's create a version of our report-publishing
 # workflow where the approval happens after `create_report`:
-
-
 # %%
 @workflow
 def approval_as_promise_wf(data: typing.List[float]) -> dict:
@@ -188,14 +183,13 @@ def approval_as_promise_wf(data: typing.List[float]) -> dict:
 
 
 # %% [markdown]
-# ## Working with Conditionals
+# ## Working with conditionals
 #
 # The node constructs by themselves are useful, but they become even more
 # useful when we combine them with other Flyte constructs, like {ref}`conditionals <conditional>`.
 #
 # To illustrate this, let's extend the report-publishing use case so that we
-# produce and "invalid report" output in case we don't approve the final report:
-
+# produce an "invalid report" output in case we don't approve the final report:
 # %%
 from flytekit import conditional
 
@@ -293,4 +287,3 @@ def conditional_wf(data: typing.List[float]) -> dict:
 # # node is in the `signals` list above
 # remote.set_signal("review-passes", execution.id.name, True)
 # ```
-#
