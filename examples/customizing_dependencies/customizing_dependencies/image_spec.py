@@ -62,6 +62,11 @@ sklearn_image_spec = ImageSpec(
 )
 
 # %% [markdown]
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
 # `is_container` is used to determine whether the task is utilizing the image constructed from the `ImageSpec`.
 # If the task is indeed using the image built from the `ImageSpec`, it will then import Tensorflow.
 # This approach helps minimize module loading time and prevents unnecessary dependency installation within a single image.

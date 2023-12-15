@@ -24,7 +24,7 @@ from flytekit.types.file import FlyteFile
 @reference_launch_plan(
     project="flytesnacks",
     domain="development",
-    name="advanced_composition.files.normalize_csv_file",
+    name="data_types_and_io.file.normalize_csv_file",
     version="{{ registration.version }}",
 )
 def normalize_csv_file(

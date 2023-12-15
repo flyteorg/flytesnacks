@@ -88,9 +88,11 @@ if __name__ == "__main__":
     print(f"Running parent_wf(a=3) {parent_wf(a=3)}")
 
 
+# %% [markdown]
 # Interestingly, we can nest a workflow that has a subworkflow within a workflow.
 # Workflows can be simply composed from other workflows, even if they are standalone entities. Each of the
 # workflows in this module can exist and run independently.
+# %%
 @workflow
 def nested_parent_wf(a: int) -> Tuple[int, str, str, str]:
     x, y = my_subwf(a=a)
@@ -162,6 +164,7 @@ external_lp = LaunchPlan.get_or_create(
     ext_workflow,
     "parent_workflow_execution",
 )
+
 
 # %% [markdown]
 # Define another task that returns the repeated keys (in our case, words) from a dictionary.
