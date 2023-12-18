@@ -244,14 +244,15 @@ def table_renderer() -> None:
 # #### Source Code Renderer
 # Converts a Source Code into HTML
 # %%
-from flytekitplugins.deck.renderer import SourceCodeRenderer
 import inspect
 
+from flytekitplugins.deck.renderer import SourceCodeRenderer
 
-@task(disable_deck=False)
+
+@task(enable_deck=True)
 def source_code_renderer() -> None:
     file_path = inspect.getsourcefile(frame_renderer.__wrapped__)
-    with open(file_path, 'r') as f:
+    with open(file_path, "r") as f:
         source_code = f.read()
     flytekit.Deck(
         "Source Code Renderer",
