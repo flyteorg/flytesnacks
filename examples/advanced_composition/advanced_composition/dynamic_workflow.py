@@ -245,12 +245,12 @@ def merge_sort(numbers: list[int], numbers_count: int, run_local_at_count: int =
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/dynamics.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/dynamic_workflow.py \
 #   dynamic_wf --s1 "Pear" --s2 "Earth"
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/dynamics.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/dynamic_workflow.py \
 #   merge_sort --numbers '[1813, 3105, 3260, 2634, 383, 7037, 3291, 2403, 315, 7164]' --numbers_count 10
 # ```
