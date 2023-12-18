@@ -76,7 +76,7 @@ def simple_wf(x: list[int], y: list[int]) -> float:
 #
 # :::{note}
 # You can learn more about creating dynamic Flyte workflows by referring
-# to {ref}`dynamic workflows <dynamic_workflows>`.
+# to {ref}`dynamic workflows <dynamic_workflow>`.
 # In a dynamic workflow, unlike a simple workflow, the inputs are pre-materialized.
 # However, each task invocation within the dynamic workflow still generates a promise that is evaluated lazily.
 # Bear in mind that a workflow can have tasks, other workflows and dynamic workflows.
