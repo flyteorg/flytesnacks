@@ -5,14 +5,20 @@
     "path": "core",
     "examples": [
       ["advanced_composition.chain_entities.chain_workflows_wf", {}],
-      ["advanced_composition.conditions.consume_outputs", { "my_input": 10.0 }],
-      ["advanced_composition.decorating_tasks.wf", { "x": 10 }],
-      ["advanced_composition.decorating_workflows.wf", { "x": 19.8 }],
-      ["advanced_composition.dynamics.wf", { "s1": "Pear", "s2": "Earth" }],
       [
-        "advanced_composition.map_task.my_map_workflow",
-        { "a": [1, 2, 3, 4, 5] }
+        "advanced_composition.conditional.consume_task_output",
+        { "radius": 0.7 }
       ],
+      ["advanced_composition.decorating_tasks.decorating_task_wf", { "x": 10 }],
+      [
+        "advanced_composition.decorating_workflows.decorating_workflow",
+        { "x": 19.8 }
+      ],
+      [
+        "advanced_composition.dynamic_workflow.dynamic_wf",
+        { "s1": "Pear", "s2": "Earth" }
+      ],
+      ["advanced_composition.map_task.map_workflow_with_lists", {}],
       [
         "advanced_composition.waiting_for_external_inputs.sleep_wf",
         { "num": 5 }
