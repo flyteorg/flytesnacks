@@ -245,42 +245,42 @@ if __name__ == "__main__":
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   shape_properties --radius 3.0
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   shape_properties_with_multiple_branches --radius 11.0
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   shape_properties_accept_conditional_output --radius 0.5
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   boolean_wf
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   boolean_input_wf --boolean_input
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   nested_conditions --radius 0.7
 # ```
 #
 # ```
 # pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditions.py \
+#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/conditional.py \
 #   consume_task_output --radius 0.4 --seed 7
 # ```
