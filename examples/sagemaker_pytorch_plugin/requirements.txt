@@ -593,7 +593,7 @@ websocket-client==1.6.0
     # via
     #   docker
     #   kubernetes
-werkzeug==2.3.6
+werkzeug==2.3.8
     # via sagemaker-training
 wheel==0.40.0
     # via
