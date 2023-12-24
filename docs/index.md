@@ -444,6 +444,7 @@ auto_examples/databricks_plugin/index
 auto_examples/dbt_plugin/index
 auto_examples/dolt_plugin/index
 auto_examples/duckdb_plugin/index
+auto_examples/flyin_plugin/index
 auto_examples/greatexpectations_plugin/index
 auto_examples/hive_plugin/index
 auto_examples/k8s_pod_plugin/index
@@ -456,6 +457,7 @@ auto_examples/papermill_plugin/index
 auto_examples/pandera_plugin/index
 auto_examples/kfpytorch_plugin/index
 auto_examples/ray_plugin/index
+auto_examples/sensor/index
 auto_examples/snowflake_plugin/index
 auto_examples/k8s_spark_plugin/index
 auto_examples/sql_plugin/index
