@@ -240,7 +240,7 @@ workflow_with_subworkflow(num_samples=10, seed=3)
 ```
 
 ```{important}
-Learn more about subworkflows in the {ref}`User Guide <subworkflows>`.
+Learn more about subworkflows in the {ref}`User Guide <subworkflow>`.
 ```
 
 ### Specifying Dependencies without Passing Data
