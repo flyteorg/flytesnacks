@@ -237,7 +237,7 @@ def table_renderer() -> None:
 
 
 # %% [markdown]
-# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_source_code_renderer.png
+# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_table_renderer.png
 # :alt: Source code renderer
 # :class: with-shadow
 # :::
@@ -261,7 +261,7 @@ def source_code_renderer() -> None:
 
 
 # %% [markdown]
-# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_table_renderer.png
+# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_source_code_renderer.png
 # :alt: Table renderer
 # :class: with-shadow
 # :::
