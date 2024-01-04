@@ -102,14 +102,14 @@ executing==2.0.1
     # via stack-data
 flyteidl==1.10.6
     # via flytekit
-flytekit==1.10.2
+flytekit==1.10.3b4
     # via
     #   -r requirements.in
     #   flytekitplugins-deck-standard
     #   flytekitplugins-envd
-flytekitplugins-deck-standard==1.10.2
+flytekitplugins-deck-standard==1.10.3b4
     # via -r requirements.in
-flytekitplugins-envd==1.10.2
+flytekitplugins-envd==1.10.3b4
     # via -r requirements.in
 fonttools==4.47.0
     # via matplotlib
@@ -352,6 +352,7 @@ pydantic-core==2.14.6
     # via pydantic
 pygments==2.17.2
     # via
+    #   flytekitplugins-deck-standard
     #   ipython
     #   rich
 pyjwt[crypto]==2.8.0
