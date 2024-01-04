@@ -9,7 +9,7 @@ private_images
 task_cache
 task_cache_serialize
 decks
-failure_ndoe
+failure_node
 register_project
 remote_task
 remote_workflow
