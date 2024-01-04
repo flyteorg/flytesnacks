@@ -20,6 +20,7 @@ def create_cluster(name: str):
     print(f"Creating cluster: {name}")
 
 
+# %% [markdown]
 # Create a task that will fail during execution.
 # %%
 @task
@@ -33,6 +34,7 @@ def delete_cluster(name: str):
     print(f"Deleting cluster {name}")
 
 
+# %% [markdown]
 # Create a task that will be executed if any of the tasks in the workflow fail.
 # %%
 @task
@@ -40,6 +42,7 @@ def clean_up(name: str):
     print(f"Cleaning up cluster {name}")
 
 
+# %% [markdown]
 # Set the `on_failure` parameter to the cleanup task.
 # This task will be executed if any of the tasks in the workflow fail.
 # :::{important}
@@ -54,6 +57,7 @@ def subwf(name: str):
     c >> t >> d
 
 
+# %% [markdown]
 # Set the failure policy to `FAIL_AFTER_EXECUTABLE_NODES_COMPLETE` to ensure that the `wf1` is executed even if the subworkflow fails.
 # In this case, both parent and child workflows will fail. The `clean_up` task will be executed twice.
 # %%
@@ -71,8 +75,10 @@ def clean_up_wf(name: str):
     return clean_up(name=name)
 
 
+# %% [markdown]
 # You can also set the `on_failure` parameter to a workflow.
 # This workflow will be executed if any of the tasks in the workflow fail.
+
 # %%
 @workflow(on_failure=clean_up_wf)
 def wf2(name: str = "my_cluster"):
