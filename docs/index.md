@@ -58,6 +58,7 @@ Community <https://docs.flyte.org/en/latest/community/index.html>
 Introduction to Flyte <self>
 getting_started/quickstart_guide
 getting_started/getting_started_with_workflow_development
+getting_started/developing_and_testing_workflows
 getting_started/flyte_fundamentals
 getting_started/core_use_cases
 ```
