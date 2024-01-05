@@ -1,154 +1,215 @@
-[{
+[
+  {
     "name": "core",
     "priority": "P0",
     "path": "core",
+    "examples": [
+      ["advanced_composition.chain_entities.chain_workflows_wf", {}],
+      [
+        "advanced_composition.conditional.consume_task_output",
+        { "radius": 0.7 }
+      ],
+      ["advanced_composition.decorating_tasks.decorating_task_wf", { "x": 10 }],
+      [
+        "advanced_composition.decorating_workflows.decorating_workflow",
+        { "x": 19.8 }
+      ],
+      [
+        "advanced_composition.dynamic_workflow.dynamic_wf",
+        { "s1": "Pear", "s2": "Earth" }
+      ],
+      ["advanced_composition.map_task.map_workflow_with_lists", {}],
+      [
+        "advanced_composition.waiting_for_external_inputs.sleep_wf",
+        { "num": 5 }
+      ],
+      ["basics.documenting_workflows.sphinx_docstring_wf", {}],
+      ["basics.hello_world.hello_world_wf", {}],
+      ["basics.named_outputs.simple_wf_with_named_outputs", {}],
+      ["basics.shell_task.shell_task_wf", {}],
+      ["basics.workflow.simple_wf", { "x": [1, 2, 3], "y": [1, 2, 3] }],
+      ["data_types_and_io.dataclass.dataclass_wf", { "x": 10, "y": 20 }],
+      ["data_types_and_io.enum_type.coffee_maker", { "coffee": "latte" }],
+      [
+        "data_types_and_io.file.normalize_csv_file",
+        {
+          "csv_url": "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
+          "column_names": [
+            "Name",
+            "Sex",
+            "Age",
+            "Heights (in)",
+            "Weight (lbs)"
+          ],
+          "columns_to_normalize": ["Age"]
+        }
+      ],
+      [
+        "data_types_and_io.folder.download_and_normalize_csv_files",
+        {
+          "csv_urls": [
+            "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
+            "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv"
+          ],
+          "columns_metadata": [
+            ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
+            ["Index", "Eruption length (mins)", "Eruption wait (mins)"]
+          ],
+          "columns_to_normalize_metadata": [["Age"], ["Eruption length (mins)"]]
+        }
+      ],
+      ["data_types_and_io.structured_dataset.simple_sd_wf", { "a": 42 }]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-hive",
     "priority": "P1",
     "path": "examples/hive_plugin",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-k8s-spark",
     "priority": "P1",
     "path": "examples/k8s_spark_plugin",
+    "examples": [
+      [
+        "k8s_spark_plugin.pyspark_pi.my_spark",
+        { "triggered_date": "2023-11-21T18:58:01" }
+      ]
+    ],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-kfpytorch",
     "priority": "P1",
     "path": "examples/kfpytorch_plugin",
+    "examples": [["kfpytorch_plugin.pytorch_mnist.pytorch_training_wf", {}]],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-kftensorflow",
     "priority": "P1",
     "path": "examples/kftensorflow_plugin",
+    "examples": [
+      ["kftensorflow_plugin.tf_mnist.mnist_tensorflow_workflow", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
-    "name": "integrations-pod",
-    "priority": "P1",
-    "path": "examples/k8s_pod_plugin",
-    "exitCondition": {
-      "exit_success": true,
-        "exit_message": ""
-    }
-  },{
+  },
+  {
     "name": "integrations-pandera",
     "priority": "P1",
     "path": "examples/pandera_plugin",
+    "examples": [["pandera_plugin.basic_schema_example.process_data", {}]],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
-    }
-  },{
-    "name": "integrations-whylogs",
-    "priority": "P1",
-    "path": "examples/whylogs_plugin",
-    "exitCondition": {
-      "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
   },
   {
     "name": "integrations-modin",
     "priority": "P1",
     "path": "examples/modin_plugin",
+    "examples": [["modin_plugin.knn_classifier.pipeline", {}]],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-papermill",
     "priority": "P1",
     "path": "examples/papermill_plugin",
+    "examples": [
+      ["papermill_plugin.simple.nb_to_python_wf", { "f": 3.1415926535 }]
+    ],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
+  },
+  {
     "name": "integrations-greatexpectations",
     "priority": "P1",
     "path": "examples/greatexpectations_plugin",
+    "examples": [
+      ["greatexpectations_plugin.task_example.simple_wf", {}],
+      ["greatexpectations_plugin.task_example.file_wf", {}],
+      ["greatexpectations_plugin.task_example.schema_wf", {}],
+      ["greatexpectations_plugin.task_example.runtime_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
-    "name": "integrations-sagemaker-pytorch",
-    "priority": "P1",
-    "path": "examples/sagemaker_pytorch_plugin",
+  },
+  {
+    "name": "case-studies-house-price-prediction",
+    "priority": "P2",
+    "path": "examples/house_price_prediction",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
-    "name": "integrations-sagemaker-training",
-    "priority": "P1",
-    "path": "examples/sagemaker_training_plugin",
+  },
+  {
+    "name": "case-studies-pima-diabetes",
+    "priority": "P2",
+    "path": "examples/pima_diabetes",
     "exitCondition": {
       "exit_success": true,
-        "exit_message": ""
+      "exit_message": ""
     }
-  },{
-   "name": "case-studies-house-price-prediction",
-   "priority": "P2",
-   "path": "examples/house_price_prediction",
-   "exitCondition": {
-     "exit_success": true,
-     "exit_message": ""
-   }
-  },{
-   "name": "case-studies-pima-diabetes",
-   "priority": "P2",
-   "path": "examples/pima_diabetes",
-   "exitCondition": {
-     "exit_success": true,
-     "exit_message": ""
-   }
- },{
-  "name": "case-studies-mnist-classifier",
-  "priority": "P2",
-  "path": "examples/mnist_classifier",
-  "exitCondition": {
-    "exit_success": true,
-    "exit_message": ""
-  }
- },{
+  },
+  {
+    "name": "case-studies-mnist-classifier",
+    "priority": "P2",
+    "path": "examples/mnist_classifier",
+    "exitCondition": {
+      "exit_success": true,
+      "exit_message": ""
+    }
+  },
+  {
     "name": "case-studies-eda",
     "priority": "P2",
     "path": "examples/eda",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
-  }
- },{
+    }
+  },
+  {
     "name": "case-studies-feast-integration",
     "priority": "P2",
     "path": "examples/feast_integration",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
-   }
-  },{
+    }
+  },
+  {
     "name": "case-studies-blast",
     "priority": "P2",
     "path": "examples/blast",
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
+    }
   }
-}]
+]

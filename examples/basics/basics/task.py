@@ -16,7 +16,7 @@
 # 4. Independently executable
 # 5. Suitable for unit testing
 #
-# A Flyte task operates within its own container and and runs on a [Kubernetes pod](https://kubernetes.io/docs/concepts/workloads/pods/).
+# A Flyte task operates within its own container and runs on a [Kubernetes pod](https://kubernetes.io/docs/concepts/workloads/pods/).
 # It can be classified into two types:
 #
 # 1. A task associated with a Python function. Executing the task is the same as executing the function.
