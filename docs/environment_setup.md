@@ -69,6 +69,7 @@ flytectl demo start
 ```
 
 After this completes, be sure to export the Flyte config as it will be essential later. Run the command in the output that looks like this:
+
 ```{prompt} bash
 export FLYTECTL_CONFIG= ~/<pathTo>/.flyte/config-sandbox.yaml
 ```
@@ -166,19 +167,23 @@ These examples will explicitly show you which images to use for running these ex
 image you want to use with the `--image` option in `pyflyte run`.
 :::
 
-🎉 Congrats! Now you can run all the examples in the {ref}`userguide` 🎉
+🎉 Congrats! Now you can run all the examples in the {ref}`userguide` 🎉!
 
-## Demo cluster configuration
+## Configuring the demo cluster to use additional resources
 
-Depending on the intensity of your workflows, you may encounter errors such as OOM (Out of Memory) errors or find pods with the status: OOMKilled.
-It is critical to understand that the demo cluster is not setup to immediately accept any and all workflow requirements, and some resource requests may be ignored depending on the cluster's limits.
+Depending on how resource intensive your workflows are, you may encounter errors such as
+OOM (Out of Memory) errors or find pods with the status OOMKilled.
+It is crucial to understand that the demo cluster is not set up to immediately accommodate
+all workflow requirements, and some resource requests may be ignored based on the cluster's limits.
 
 :::{tip}
-**Keep in mind that for production deployments, you should put more thought into these configurations - rather than just setting large numbers.**
+Keep in mind that, for production deployments, you should give careful consideration to
+these configurations rather than simply setting large numbers.
+:::
 
-As an example of what settings are available to you, you can alter the demo cluster's memory and cpu limit configurations by following a few simple steps:
+Here's how you can go about modifying the configurations:
 
-1. Create the file `cra.yaml` with the following text:
+1. Add cluster resource attributes to `cra.yaml`:
 
 ```
 attributes:
@@ -188,7 +193,7 @@ project: flytesnacks
 domain: development
 ```
 
-2. Create the file `tra.yaml` with the following text:
+2. Add task resource attributes to `tra.yaml`:
 
 ```
 defaults:
@@ -201,38 +206,39 @@ project: flytesnacks
 domain: development
 ```
 
-3. Apply the two configuration files via:
+3. Apply the two configuration files using the following commands:
 
 ```
-$ flytectl update task-resource-attribute --attrFile tra.yaml --config ~/.flyte/config-sandbox.yaml
-$ flytectl update cluster-resource-attribute --attrFile cra.yaml --config ~/.flyte/config-sandbox.yaml
+$ flytectl update task-resource-attribute --attrFile tra.yaml
+$ flytectl update cluster-resource-attribute --attrFile cra.yaml
 ```
 
-4. Confirm the configuration via:
+4. Confirm that the configuration is applied using the following commands:
 
 ```
-$ flytectl get task-resource-attribute --config ~/.flyte/config-sandbox.yaml -p flytesnacks -d development
+$ flytectl get task-resource-attribute -p flytesnacks -d development
 {"project":"flytesnacks","domain":"development","defaults":{"cpu":"2","memory":"1Gi"},"limits":{"cpu":"1000","memory":"5Ti"}}
 
-$ flytectl get cluster-resource-attribute --config ~/.flyte/config-sandbox.yaml -p flytesnacks -d development
+$ flytectl get cluster-resource-attribute -p flytesnacks -d development
 {"project":"flytesnacks","domain":"development","attributes":{"projectQuotaCpu":"1000","projectQuotaMemory":"5Ti"}}
 ```
 
-And that's it! You have now altered your flyte demo cluster to enable significantly more intensive workloads.
+And that's it! You have successfully modified your Flyte demo cluster to accommodate resource intensive workloads.
 
-For more information see: :ref:`deployment/configuration/general:Configuring Custom K8s Resources` 
+For more information, refer to the
+[Configuring Custom K8s Resources](https://docs.flyte.org/en/latest/deployment/configuration/general.html) guide.
 
-### Demo cluster envd ImageSpec preparation
+## Local registry
 
-If you find yourself using tasks dependant on `ImageSpec` containers that are built with `envd` with the `demo` or `sandbox` clusters,
-before you submit your workflow you will need to inform `envd` how to push the images it builds to the cluster. This can
-be done via:
+If you find yourself using tasks dependent on `ImageSpec` containers built with `envd` on the demo cluster,
+before you submit your workflow, you will need to inform `envd` how to push the images it builds to the cluster.
+This can be done via:
 
 ```
 envd context create --name flyte-sandbox --builder tcp --builder-address localhost:30003 --use
 ```
-You will also need to update your `ImageSpec` instances to set `registry="localhost:30000"`
 
+You will also need to update your `ImageSpec` instances to set `registry="localhost:30000"`.
 
 ## What's next?
 
