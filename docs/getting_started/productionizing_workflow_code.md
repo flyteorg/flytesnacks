@@ -13,6 +13,7 @@ TK
 :hidden:
 
 speeding_up_task_execution_with_caching
+cache_serializing
 automatically_retry_failing_tasks_with_retries
 configuring_task_timeouts
 parallelizing_tasks_with_map_task
