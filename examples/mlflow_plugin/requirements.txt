@@ -83,7 +83,7 @@ flytekit==1.2.11
     # via flytekitplugins-mlflow
 flytekitplugins-mlflow==1.7.0
     # via -r requirements.in
-fonttools==4.40.0
+fonttools==4.43.0
     # via matplotlib
 gast==0.4.0
     # via tensorflow
