@@ -51,6 +51,7 @@ extensions = [
     "sphinxcontrib.youtube",
     "sphinx_tabs.tabs",
     "sphinx_tags",
+    "sphinx_reredirects",
     "myst_nb",
     # custom extensions
     "auto_examples",
@@ -199,6 +200,12 @@ intersphinx_mapping = {
     "horovod": ("https://horovod.readthedocs.io/en/stable/", None),
     "sklearn": ("https://scikit-learn.org/stable/", None),
     "feast": ("https://rtd.feast.dev/en/latest", None),
+}
+
+# Redirects to the new docs site
+redirects = {
+    "index.html": "https://docs.flyte.org/en/latest/introduction.html",
+    "auto_examples/*": "https://docs.flyte.org/en/latest/examples/$source.html",
 }
 
 # Sphinx-tabs config
