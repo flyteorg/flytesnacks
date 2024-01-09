@@ -15,6 +15,7 @@ task
 workflow
 launch_plan
 imperative_workflow
+random_name_workflow
 documenting_workflows
 shell_task
 named_outputs
