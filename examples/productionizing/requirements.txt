@@ -73,6 +73,7 @@ cryptography==41.0.3
     #   msal
     #   pyjwt
     #   pyopenssl
+    #   secretstorage
 dataclasses-json==0.5.9
     # via flytekit
 decorator==5.1.1
@@ -105,7 +106,7 @@ gcsfs==2023.6.0
     # via flytekit
 gitdb==4.0.10
     # via gitpython
-gitpython==3.1.32
+gitpython==3.1.41
     # via flytekit
 google-api-core==2.11.1
     # via
@@ -153,6 +154,10 @@ isodate==0.6.1
     # via azure-storage-blob
 jaraco-classes==3.3.0
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via cookiecutter
 jmespath==1.0.1
@@ -236,7 +241,9 @@ pycparser==2.21
 pygments==2.16.1
     # via rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 python-dateutil==2.8.2
@@ -292,6 +299,8 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   azure-core
