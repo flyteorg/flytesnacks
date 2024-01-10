@@ -27,6 +27,6 @@ def t() -> int:
 # %% [markdown]
 # Generate random name and use imperative style workflow
 # %%
-wf = Workflow(name=gen_id())
+wf = Workflow(name=f"basics.random_name_workflow.{gen_id()}")
 node_t = wf.add_entity(t)
 wf.add_workflow_output("wf_output", node_t.outputs["o0"])
