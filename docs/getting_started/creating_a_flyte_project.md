@@ -15,7 +15,7 @@ A Flyte project is a directory containing task and workflow code, internal Pytho
 ## Prerequisites
 
 * Follow the steps in {doc}`"Installing development tools" <installing_development_tools>`
-* Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* (Optional, but recommended) Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 ## Steps
 
@@ -49,6 +49,7 @@ To initialize a Flyte project with a different template, use the `--template` pa
 After initializing your Flyte project, you will need to install requirements listed in `requirements.txt`:
 
 ```{prompt} bash $
+cd my_project
 pip install -r requirements.txt
 ```
 
@@ -57,7 +58,6 @@ pip install -r requirements.txt
 We highly recommend putting your Flyte project code under version control. To do so, initialize a git repository in the Flyte project directory:
 
 ```{prompt} bash $
-cd my_project
 git init
 ```
 
@@ -70,7 +70,7 @@ If you are using a Dockerfile instead of ImageSpec, you will need to initialize 
 To check that your Flyte project was set up correctly, run the workflow in a local Python environment:
 
 ```{prompt} bash $
-cd my_project/workflows
+cd workflows
 pyflyte run example.py wf
 ```
 
