@@ -147,7 +147,7 @@ gevent==22.10.2
     # via sagemaker-training
 gitdb==4.0.10
     # via gitpython
-gitpython==3.1.31
+gitpython==3.1.41
     # via flytekit
 google-api-core==2.11.1
     # via
