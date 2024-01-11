@@ -205,7 +205,6 @@ intersphinx_mapping = {
 if int(os.environ.get("ENABLE_SPHINX_REDIRECTS", 0)):
     # Redirects to the new docs site
     redirects = {
-        "index.html": "https://docs.flyte.org/en/latest/introduction.html",
         "auto_examples/advanced_composition/waiting_for_external_inputs.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/advanced_composition/waiting_for_external_inputs.html",
         "auto_examples/advanced_composition/eager_workflows.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/advanced_composition/eager_workflows.html",
         "auto_examples/advanced_composition/map_task.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/advanced_composition/map_task.html",
