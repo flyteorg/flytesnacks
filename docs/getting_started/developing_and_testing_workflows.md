@@ -6,6 +6,12 @@ prev-page-title: Running a workflow locally
 
 # Developing and testing workflows
 
+TODO:
+About the Flyte development cycle
+Diagram of full development cycle
+Iterating across environments (local python vs. local cluster vs. remote cluster)
+Push to production (cloud setup: go to Deployment docs)
+
 TK
 
 ```{toctree}
