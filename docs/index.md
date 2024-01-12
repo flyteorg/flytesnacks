@@ -6,7 +6,7 @@ jupytext:
     format_name: myst
 
 # override the toc-determined page navigation order
-next-page: getting_started/quickstart_guide
+next-page: getting_started/quickstart_guide/index
 next-page-title: Quickstart guide
 ---
 
@@ -56,12 +56,12 @@ Community <https://docs.flyte.org/en/latest/community/index.html>
 :hidden:
 
 Introduction to Flyte <self>
-getting_started/quickstart_guide
-getting_started/getting_started_with_workflow_development
-getting_started/developing_and_testing_workflows
-getting_started/productionizing_workflow_code
-getting_started/flyte_fundamentals
-getting_started/core_use_cases
+getting_started/quickstart_guide/index
+getting_started/getting_started_with_workflow_development/index
+getting_started/developing_and_testing_workflows/index
+getting_started/productionizing_workflow_code/index
+getting_started/flyte_fundamentals/index
+getting_started/core_use_cases/index
 ```
 
 ```{toctree}
