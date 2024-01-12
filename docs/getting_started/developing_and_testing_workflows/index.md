@@ -4,15 +4,27 @@ prev-page: getting_started/running_a_workflow_locally
 prev-page-title: Running a workflow locally
 ---
 
+(developing_and_testing_workflows)=
 # Developing and testing workflows
 
-TK
+In this section we will guide you through the Flyte workflow development process.
+
+As with all software development, the process is an iterative cycle of writing, testing, running and debugging your code.
+
+The difference with Flyte is that any point in the cycle you have a choice of three different ways of running your code:
+
+* In your local Python environment
+* On a local cluster
+* On a remote cluster
+
+This allows you to test your code in progressively more production-realistic environments as you develop it.
+
+This section will walk you through how to set up your environment to enable each of these modes of execution and how to the Flyte development tools to actually run your code in each.
 
 ```{toctree}
 :maxdepth: -1
 :hidden:
 
-about_the_flyte_development_cycle
 writing_your_code
 setting_up_your_image
 registering_and_running_workflows_on_a_flyte_cluster
