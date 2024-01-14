@@ -41,6 +41,7 @@ from typing_extensions import Annotated
 # Bumping the `cache_version` is akin to invalidating the cache.
 # You can manually update this version and Flyte caches the next execution instead of relying on the old cache.
 
+
 # %%
 @task(cache=True, cache_version="1.0")  # noqa: F841
 def square(n: int) -> int:
@@ -102,6 +103,7 @@ def square(n: int) -> int:
 # The flytekit package uses the [diskcache](https://github.com/grantjenks/python-diskcache) package, specifically [diskcache.Cache](http://www.grantjenks.com/docs/diskcache/tutorial.html#cache), to aid in the memoization of task executions. The results of local task executions are stored under `~/.flyte/local-cache/` and cache keys are composed of **Cache Version**, **Task Signature**, and **Task Input Values**.
 #
 # Similar to the remote case, a local cache entry for a task will be invalidated if either the `cache_version` or the task signature is modified. In addition, the local cache can also be emptied by running the following command: `pyflyte local-cache clear`, which essentially obliterates the contents of the `~/.flyte/local-cache/` directory.
+# To disable the local cache, you can set the `local.cache_enabled` config option (e.g. through setting the environment variable `FLYTE_LOCAL_CACHE_ENABELED=False`).
 #
 # :::{note}
 # The format used by the store is opaque and not meant to be inspectable.
@@ -112,6 +114,7 @@ def square(n: int) -> int:
 # ## Caching of Non-flyte Offloaded Objects
 #
 # The default behavior displayed by Flyte's memoization feature might not match the user intuition. For example, this code makes use of pandas dataframes:
+
 
 # %%
 @task
@@ -136,6 +139,7 @@ def wf(a: int, b: str):
 # If run twice with the same inputs, one would expect that `bar` would trigger a cache hit, but it turns out that's not the case because of how dataframes are represented in Flyte.
 # However, with release 1.2.0, Flyte provides a new way to control memoization behavior of literals. This is done via a `typing.Annotated` call on the task signature.
 # For example, in order to cache the result of calls to `bar`, you can rewrite the code above like this:
+
 
 # %%
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
@@ -175,6 +179,7 @@ def wf_1(a: int, b: str):  # noqa: F811
 # %% [markdown]
 # Here's a complete example of the feature:
 #
+
 
 # %%
 def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
