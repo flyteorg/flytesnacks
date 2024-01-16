@@ -24,13 +24,38 @@ In this guide, you will create and run a Flyte workflow in a local Python enviro
 
 ## Steps
 
-### 1. Initialize the "Hello, world!" Flyte project
+### 1. Create a "Hello, world!" file
 
-To create an example workflow file, initialize the "Hello, world!" Flyte project by running the following command:
+To create an example workflow file, copy the following into a file called `example.py`:
+
+```python
+from flytekit import task, workflow
+
+
+@task
+def say_hello(name: str) -> str:
+    return f"Hello, {name}!"
+
+
+@workflow
+def hello_world_wf(name: str = 'world') -> str:
+    res = say_hello(name=name)
+    return res
+
+
+if __name__ == "__main__":
+    print(f"Running wf() {hello_world_wf(name='passengers')}")
+```
+
+:::{note}
+You can also use the `pyflyte init` command to initialize the "Hello, world!" Flyte project by running the following command:
 
 ```{prompt} bash $
 pyflyte init --template hello-world hello-world
 ```
+
+This will create a project directory that contains an `example.py` file with code above.
+:::
 
 ### 2. Run the example workflow in a local Python environment
 
