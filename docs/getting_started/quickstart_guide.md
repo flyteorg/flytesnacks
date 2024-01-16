@@ -64,7 +64,6 @@ Next, run the workflow in the example workflow file with `pyflyte run`. The init
 refers to the function decorated with `@task` or `@workflow` that you wish to run:
 
 ```{prompt} bash $
-cd hello-world
 pyflyte run example.py hello_world_wf
 ```
 
@@ -72,6 +71,14 @@ You can also provide a `name` argument to the workflow:
 ```{prompt} bash $
 pyflyte run example.py hello_world_wf --name Ada
 ```
+
+:::{note}
+If you created a "Hello, world" project using `pyflyte init`, you will need to change directories before running the workflow:
+```{prompt} bash $
+cd hello-world
+pyflyte run example.py hello_world_wf
+```
+:::
 
 ## The @task and @workflow decorators
 
