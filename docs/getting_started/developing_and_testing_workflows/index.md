@@ -19,7 +19,6 @@ The difference with Flyte is that any point in the cycle you have a choice of th
 
 This allows you to test your code in progressively more production-realistic environments as you develop it.
 
-This section will walk you through how to set up your environment to enable each of these modes of execution and how to the Flyte development tools to actually run your code in each.
 
 ```{toctree}
 :maxdepth: -1
