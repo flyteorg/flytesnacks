@@ -36,6 +36,13 @@ def wf_train():
 #    $ kubectl port-forward <pod name> <port>
 #    ```
 #    Then, open a browser and navigate to `localhost:<port>`, replacing `<port>` with the port number configured above. You should be presented with the interface shown in the image below.
+#    Take the flyte cluster sandbox mode and flytesnacks-development domain for example.
+#    Create connection using approach 2.
+#    ```
+#    $ kubectl port-forward -n flytesnacks-development pod-name 8080:8080
+#    ```
+#    Enter the following URL in the browser: http://localhost:8080
+#    You will see the code server like the screenshot below.
 
 # ### 3. Interactively debug the task
 #
