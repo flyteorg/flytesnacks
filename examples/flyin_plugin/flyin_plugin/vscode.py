@@ -182,8 +182,11 @@ def wf_exception():
 
 # %% [markdown]
 # ### Send Notifications before VSCode server terminated
+#
 # You can set up notifications to be sent before the VSCode server is terminated.
+#
 # In the example, we will sent the noticiation to slack when the VSCode server will be terminated in 60 seconds.
+#
 # You can switch sengrid_notifier to slack_notifier to send the notification through email.
 # %%
 from flytekit import Secret, task, workflow
