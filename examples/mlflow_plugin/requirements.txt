@@ -189,7 +189,7 @@ marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.7.2
     # via mlflow
-mlflow==2.8.1
+mlflow==2.9.2
     # via flytekitplugins-mlflow
 more-itertools==9.1.0
     # via jaraco-classes

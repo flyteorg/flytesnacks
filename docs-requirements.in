@@ -15,6 +15,7 @@ sphinx-prompt
 sphinx-code-include
 sphinx-autoapi
 sphinx-copybutton
+sphinx-reredirects
 sphinxext-remoteliteralinclude
 sphinx_fontawesome
 sphinx-panels
