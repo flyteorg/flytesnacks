@@ -10,7 +10,7 @@ from flytekitplugins.flyin import vscode
 
 # %% [markdown]
 # ## Usage
-# ###  Add `@vscode` decorator to task function definition
+# ### 1. Add `@vscode` decorator to task function definition
 
 # %%
 @task
@@ -35,8 +35,12 @@ def wf_train():
 #    ```
 #    $ kubectl port-forward <pod name> <port>
 #    ```
-#    Then, open a browser and navigate to `localhost:<port>`, replacing `<port>` with the port number configured above. You should be presented with the interface shown in the image below.
+#    Then, open a browser and navigate to `localhost:<port>`, replacing `<port>` with the port number configured above.\
+#
+#    You should be presented with the interface shown in the image below.
+#
 #    Take the flyte cluster sandbox mode and flytesnacks-development domain for example.
+#
 #    Create connection using approach 2.
 #    ```
 #    $ kubectl port-forward -n flytesnacks-development pod-name 8080:8080
@@ -167,10 +171,50 @@ def wf_exception():
 # ```
 # # Include this line if `curl` isn't installed in the image.
 # RUN apt-get -y install curl
-# Download and extract VSCode.
+# # Download and extract VSCode.
 # RUN mkdir -p /tmp/code-server
 # RUN curl -kfL -o /tmp/code-server/code-server-4.18.0-linux-amd64.tar.gz https://github.com/coder/code-server/releases/download/v4.18.0/code-server-4.18.0-linux-amd64.tar.gz
 # RUN tar -xzf /tmp/code-server/code-server-4.18.0-linux-amd64.tar.gz -C /tmp/code-server/
 # ENV PATH="/tmp/code-server/code-server-4.18.0-linux-amd64/bin:${PATH}"
 # # TODO: download and install extensions
 # ```
+
+
+# %% [markdown]
+# ### Send Notifications before VSCode server terminated
+# You can set up notifications to be sent before the VSCode server is terminated.
+# In the example, we will sent the noticiation to slack when the VSCode server will be terminated in 60 seconds.
+# You can switch sengrid_notifier to slack_notifier to send the notification through email.
+# %%
+from flytekit import Secret, task, workflow
+from flytekitplugins.flyin import vscode, VscodeConfig, SendgridNotifier, SendgridConfig, SlackNotifier, SlackConfig
+
+sengrid_notifier = SendgridNotifier(sendgrid_conf=SendgridConfig(
+                    from_email="xxx@gmail.com",
+                    to_email="xxxxx@xxx.tw",
+                    secret_group="sendgrid-api",
+                    secret_key="token",
+                ))
+slack_notifier = SlackNotifier(slack_conf=SlackConfig(
+                        channel="demo",
+                        secret_group="slack-api",
+                        secret_key="token",
+                    ))
+
+@task(
+    secret_requests=[Secret(key="token", group="sendgrid-api"),
+                    Secret(key="token", group="slack-api"),   ],
+)
+@vscode(
+    config=VscodeConfig(),
+    max_idle_seconds=80,
+    warning_seconds_before_termination=60,
+    notifier=slack_notifier,
+)
+def t(a: int, b: int) -> int:
+    return a + b
+
+@workflow
+def wf(a: int = 5, b: int = 3) -> int:
+    out = t(a=a, b=b)
+    return out
