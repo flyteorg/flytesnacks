@@ -1,2 +1,3 @@
 flytekitplugins-spark
 flytekitplugins-envd
+pandas
