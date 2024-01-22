@@ -181,7 +181,13 @@ imagehash==4.3.1
 importlib-metadata==6.7.0
     # via
     #   flytekit
+    #   jupyter-client
     #   keyring
+    #   markdown
+importlib-resources==6.1.1
+    # via
+    #   keyring
+    #   matplotlib
 ipykernel==6.23.3
     # via ipywidgets
 ipython==8.12.2
@@ -325,7 +331,7 @@ phik==0.12.3
     # via ydata-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==10.0.1
+pillow==10.2.0
     # via
     #   imagehash
     #   matplotlib
@@ -371,7 +377,9 @@ pygments==2.15.1
     #   ipython
     #   rich
 pyjwt[crypto]==2.7.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 pyparsing==3.1.0
@@ -499,10 +507,13 @@ types-pyyaml==6.0.12.10
     # via responses
 typing-extensions==4.6.3
     # via
+    #   aioitertools
     #   azure-core
     #   azure-storage-blob
     #   flytekit
+    #   ipython
     #   pydantic
+    #   rich
     #   typing-inspect
 typing-inspect==0.9.0
     # via dataclasses-json
@@ -515,8 +526,10 @@ urllib3==1.26.16
     #   kubernetes
     #   requests
     #   responses
-visions[type_image_path]==0.7.5
-    # via ydata-profiling
+visions[type-image-path]==0.7.5
+    # via
+    #   visions
+    #   ydata-profiling
 wcwidth==0.2.6
     # via prompt-toolkit
 websocket-client==1.6.1
@@ -541,7 +554,9 @@ yarl==1.9.2
 ydata-profiling==4.3.1
     # via flytekitplugins-deck-standard
 zipp==3.15.0
-    # via importlib-metadata
+    # via
+    #   importlib-metadata
+    #   importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
