@@ -230,7 +230,7 @@ pandas==1.5.3
     # via
     #   flytekit
     #   mlflow
-pillow==10.0.0
+pillow==10.2.0
     # via matplotlib
 plotly==5.15.0
     # via flytekitplugins-mlflow
