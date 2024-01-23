@@ -1,7 +1,7 @@
 # %% [markdown]
 # (extend-agent-service)=
 #
-# # Writing Agents in Python
+# # Using the FlyteAgent Service to write Python agents
 #
 # ```{eval-rst}
 # .. tags:: Extensibility, Contribute, Intermediate
@@ -11,58 +11,43 @@
 # This is an experimental feature, which is subject to change the API in the future.
 # :::
 #
-# ## What is an Agent?
+# ## About the FlyteAgent Service
 #
-# In Flyte, an Agent is a long-running stateless service that can be used to execute tasks. It reduces the overhead of creating a pod for each task.
-# In addition, it's easy to scale up and down the agent service based on the workload. Agent services are designed to be language-agnostic.
-# For now, we only support Python agent, but we may support other languages in the future.
-#
-# Agent is designed to run a specific type of task. For example, you can create a BigQuery agent to run BigQuery task. Therefore, if you create a new type of task, you can
-# either run the task in the pod, or you can create a new agent to run it. You can determine how the task will be executed in the FlytePropeller configMap.
+# The FlyteAgent Service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
+# to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
+# deployment. You can create different FlyteAgent services to host different agents. For example, you could have one production
+# agent service and one development agent service.
 #
 # Key goals of the agent service include:
-#
-# - Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
-# - Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
-# - Flyte Agent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
-# - Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
-# - Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
-# - Simple API: Agents offer a straightforward API, making integration and usage straightforward for developers.
-#
-# ## Why do we need an Agent Service?
-#
-# Without Agents, people need to implement a backend plugin in the propeller. The backend plugin is responsible for
-# creating a CRD and submitting a http request to the external service. However, it increases the complexity of flytepropeller, and
-# it's hard to maintain the backend plugin. For example, if we want to add a new plugin, we need to update and compile
-# flytepropeller, and it's also hard to test. In addition, the backend plugin is running in flytepropeller itself, so it
-# increases the load of the flytepropeller engine.
-#
-# Furthermore, implementing backend plugins can be challenging, particularly for data scientists and ML engineers who may lack proficiency in
-# Golang. Additionally, managing performance requirements, maintenance, and development can be burdensome.
-# To address these issues, we introduced the "Agent Service" in Flyte. This system enables rapid plugin
-# development while decoupling them from the core flytepropeller engine.
-#
-# ## Overview
-#
-# The Flyte Agent Service is a Python-based agent registry powered by a gRPC server. It allows users and flytepropeller
-# to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks. Each Agent service is a Kubernetes
-# deployment. You can create two different Agent services hosting different Agents. For example, you can create one production
-# agent service and one development agent service.
+# * Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
+# * Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
+# * FlyteAgent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
+# * Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
+# * Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
+# * Simple API: Agents offer a straightforward API, making integration and usage straightforward for developers.
 #
 # :::{figure} https://i.ibb.co/vXhBDjP/Screen-Shot-2023-05-29-at-2-54-14-PM.png
 # :alt: Agent Service
 # :class: with-shadow
 # :::
 #
-# ## How to register a new agent
+# ## About Flyte Agents
+# A Flyte Agent is intended to run a specific type of task. For example, a BigQuery Flyte Agent runs BigQuery tasks.
+#
+# Flyte Agents are preferable to FlytePropellor plugins for interacting with external services. With a FlytePropellor plugin,
+# you need to implement a plugin that is responsible for creating a CRD and submitting an HTTP request to the external service,
+# which increases the complexity of FlytePropeller. Such a plugin is hard to maintain, as FlytePropellor needs to be updated and compiled, and hard to test.
+# Additionally, since the FlytePropellor plugin runs in FlytePropeller itself, it increases the load on the FlytePropeller engine.
+#
+# ## Registering a new Flyte Agent
 #
 # ### Flytekit interface specification
 #
-# To register a new agent, you can extend the `AgentBase` class in the flytekit backend module. Implementing the following three methods is necessary, and it's important to ensure that all calls are idempotent:
+# To register a new agent, extend the `AgentBase` class in the flytekit backend module and implement the following three methods. All calls must be idempotent:
 #
-# - `create`: This method is used to initiate a new task. Users have the flexibility to use gRPC, REST, or an SDK to create a task.
-# - `get`: This method allows retrieving the job Resource (jobID or output literal) associated with the task, such as a BigQuery Job ID or Databricks task ID.
-# - `delete`: Invoking this method will send a request to delete the corresponding job.
+# - `create`: Initiates a new task. Users have the flexibility to use gRPC, REST, or an SDK to create a task.
+# - `get`: Retrieves the job Resource (jobID or output literal) associated with the task, such as a BigQuery Job ID or Databricks task ID.
+# - `delete`: Sends a request to delete the corresponding job.
 #
 # ```python
 # from flytekit.extend.backend.base_agent import AgentBase, AgentRegistry
@@ -121,16 +106,16 @@
 # AgentRegistry.register(CustomAgent())
 # ```
 #
-# Here is an example of [BigQuery Agent](https://github.com/flyteorg/flytekit/blob/9977aac26242ebbede8e00d476c2fbc59ac5487a/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py#L35) implementation.
+# Here is an example of a [BigQuery Agent](https://github.com/flyteorg/flytekit/blob/9977aac26242ebbede8e00d476c2fbc59ac5487a/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py#L35) implementation.
 #
-# ### How to test the agent
+# ### Testing Flyte Agents
 #
-# Agent can be tested locally without running backend server. It makes the development of the agent easier.
+# Agents can be tested locally without running the Flyte backend server.
 #
-# The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the propeller's behavior to call the agent.
+# The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the FlytePropeller's behavior to call the agent.
 # In some cases, you should store credentials in your local environment when testing locally.
 # For example, you need to set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable when testing the BigQuery task.
-# After setting up the CREDENTIALS, you can run the task locally. Flytekit will automatically call the agent to create, get, or delete the task.
+# After setting up the CREDENTIALS, you can run the task locally. Flytekit will automatically call the agent to `create`, `get`, or `delete` the task.
 #
 # ```python
 # bigquery_doge_coin = BigQueryTask(
@@ -142,15 +127,15 @@
 # )
 # ```
 #
-# Task above task as an example, you can run the task locally and test agent with the following command:
+# Task above task as an example. You can run the task locally and test the Agent with the following command:
 #
 # ```bash
 # pyflyte run wf.py bigquery_doge_coin --version 10
 # ```
 #
-# ### Build a New image
+# ### Building a new image for a Flyte Agent
 #
-# The following is a sample Dockerfile for building an image for a flyte agent.
+# The following is a sample Dockerfile for building an image for a Flyte Agent.
 #
 # ```Dockerfile
 # FROM python:3.9-slim-buster
