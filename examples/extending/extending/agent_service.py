@@ -1,7 +1,7 @@
 # %% [markdown]
 # (extend-agent-service)=
 #
-# # Using the FlyteAgent Service to write Python agents
+# # Using the Flyte Agent Service to write Python agents
 #
 # ```{eval-rst}
 # .. tags:: Extensibility, Contribute, Intermediate
@@ -11,17 +11,17 @@
 # This is an experimental feature, which is subject to change the API in the future.
 # :::
 #
-# ## About the FlyteAgent Service
+# ## About the Flyte Agent Service
 #
-# The FlyteAgent Service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
+# The Flyte Agent Service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
 # to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
-# deployment. You can create different FlyteAgent services to host different agents. For example, you could have one production
+# deployment. You can create different Flyte Agent services to host different agents. For example, you could have one production
 # agent service and one development agent service.
 #
 # Key goals of the agent service include:
 # * Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
 # * Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
-# * FlyteAgent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
+# * Flyte Agent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
 # * Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
 # * Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
 # * Simple API: Agents offer a straightforward API, making integration and usage straightforward for developers.
@@ -156,9 +156,9 @@
 # For flytekit versions `>v1.10.2`, use `pyflyte serve agent`.
 # :::
 #
-# ### Update FlyteAgent
+# ### Update Flyte Agent
 #
-# 1. Update the FlyteAgent deployment's [image](https://github.com/flyteorg/flyte/blob/c049865cba017ad826405c7145cd3eccbc553232/charts/flyteagent/templates/agent/deployment.yaml#L26)
+# 1. Update the Flyte Agent deployment's [image](https://github.com/flyteorg/flyte/blob/c049865cba017ad826405c7145cd3eccbc553232/charts/flyteagent/templates/agent/deployment.yaml#L26)
 # 2. Update the FlytePropeller configmap.
 #
 # ```YAML

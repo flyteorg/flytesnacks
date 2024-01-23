@@ -130,9 +130,9 @@ A Flytekit-only task plugin can be a {ref}`user container <user_container>` or {
 
 ### Backend Plugin
 
-Backend plugins are implemented in one of two ways:
-* As Flytepropellor extensions
-* Using the Flyte agent service
+Backend plugins can be implemented in one of two ways:
+* As FlytePropellor plugins
+* As Flyte Agents that run on the FlyteAgent Service
 
 If you create a new type of task, you can either run the task in the pod, or you can create a new Flyte Agent to run it. You can determine how the task will be executed in the FlytePropeller configMap.
 
@@ -165,7 +165,7 @@ of the plugin.
 
 _New in Flyte 1.7.0_
 
-{ref}`Flyte Agent Service <extend-agent-service>` allows you to write backend
+The {ref}`Flyte Agent Service <extend-agent-service>` allows you to write backend
 plugins in Python.
 
 ### Summary
