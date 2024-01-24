@@ -1,7 +1,7 @@
 # %% [markdown]
 # (extend-agent-service)=
 #
-# # Using the Flyte Agent Service to write Python agents
+# # Writing Flyte Agents in Python
 #
 # ```{eval-rst}
 # .. tags:: Extensibility, Contribute, Intermediate
