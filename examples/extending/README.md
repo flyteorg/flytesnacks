@@ -219,4 +219,5 @@ prebuilt_container
 user_container
 backend_plugins
 container_interface
+agent_service
 ```
