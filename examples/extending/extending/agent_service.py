@@ -11,10 +11,10 @@
 # This is an experimental feature, which is subject to change the API in the future.
 # :::
 #
-# ## About the Flyte Agent Service
+# ## About the Flyte Agent service
 #
-# The Flyte Agent Service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
-# to send gRPC requests to the registry for executing jobs such as BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
+# The Flyte Agent service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
+# to send gRPC requests to the registry for executing jobs—for instance, BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
 # deployment. You can create different Flyte Agent services to host different agents. For example, you could have one production
 # agent service and one development agent service.
 #
