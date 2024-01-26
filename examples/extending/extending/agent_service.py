@@ -8,17 +8,17 @@
 # ```
 #
 # :::{note}
-# This is an experimental feature, which is subject to change the API in the future.
+# This is an experimental feature, which is subject to change in the future.
 # :::
 #
 # ## About the Flyte Agent service
 #
 # The Flyte Agent service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
 # to send gRPC requests to the registry for executing jobs—for instance, BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
-# deployment. You can create different Flyte Agent services to host different agents. For example, you could have one production
+# deployment. You can create different Flyte Agent services to host different Flyte Agents. For example, you could have one production
 # agent service and one development agent service.
 #
-# Key goals of the agent service include:
+# Key goals of the agent service:
 # * Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
 # * Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
 # * Flyte Agent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
@@ -39,11 +39,9 @@
 # which increases the complexity of FlytePropeller. Such a plugin is hard to maintain, as FlytePropellor needs to be updated and compiled, and hard to test.
 # Additionally, since the FlytePropellor plugin runs in FlytePropeller itself, it increases the load on the FlytePropeller engine.
 #
-# ## Registering a new Flyte Agent
+# ## Creating a new Flyte Agent
 #
-# ### Flytekit interface specification
-#
-# To register a new agent, extend the `AgentBase` class in the flytekit backend module and implement the following three methods. All calls must be idempotent:
+# To create a new Flyte Agent, extend the `AgentBase` class in the flytekit backend module and implement the following three methods. All calls must be idempotent:
 #
 # - `create`: Initiates a new task. Users have the flexibility to use gRPC, REST, or an SDK to create a task.
 # - `get`: Retrieves the job Resource (jobID or output literal) associated with the task, such as a BigQuery Job ID or Databricks task ID.
@@ -105,17 +103,17 @@
 # # To register the custom agent
 # AgentRegistry.register(CustomAgent())
 # ```
+# 
+# Here is an example of a [BigQuery Agent](https://github.com/flyteorg/flytekit/blob/master/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py) implementation.
 #
-# Here is an example of a [BigQuery Agent](https://github.com/flyteorg/flytekit/blob/9977aac26242ebbede8e00d476c2fbc59ac5487a/plugins/flytekit-bigquery/flytekitplugins/bigquery/agent.py#L35) implementation.
-#
-# ### Testing Flyte Agents
+# ## Testing a Flyte Agent
 #
 # Agents can be tested locally without running the Flyte backend server.
 #
-# The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic the FlytePropeller's behavior to call the agent.
+# The task inherited from AsyncAgentExecutorMixin can be executed locally, allowing flytekit to mimic FlytePropeller's behavior to call the agent.
 # In some cases, you should store credentials in your local environment when testing locally.
 # For example, you need to set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable when testing the BigQuery task.
-# After setting up the CREDENTIALS, you can run the task locally. Flytekit will automatically call the agent to `create`, `get`, or `delete` the task.
+# After setting up the credentials, you can run the task locally. Flytekit will automatically call the agent to `create`, `get`, or `delete` the task.
 #
 # ```python
 # bigquery_doge_coin = BigQueryTask(
@@ -133,7 +131,7 @@
 # pyflyte run wf.py bigquery_doge_coin --version 10
 # ```
 #
-# ### Building a new image for a Flyte Agent
+# ## Building a new image for a Flyte Agent
 #
 # The following is a sample Dockerfile for building an image for a Flyte Agent.
 #
@@ -156,9 +154,9 @@
 # For flytekit versions `>v1.10.2`, use `pyflyte serve agent`.
 # :::
 #
-# ### Update Flyte Agent
+# ## Updating Flyte Agents
 #
-# 1. Update the Flyte Agent deployment's [image](https://github.com/flyteorg/flyte/blob/c049865cba017ad826405c7145cd3eccbc553232/charts/flyteagent/templates/agent/deployment.yaml#L26)
+# 1. Update the Flyte Agent deployment's [image](https://github.com/flyteorg/flyte/blob/master/charts/flyteagent/templates/agent/deployment.yaml#L26)
 # 2. Update the FlytePropeller configmap.
 #
 # ```YAML
