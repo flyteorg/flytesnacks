@@ -1,7 +1,8 @@
 ---
-# override the toc-determined page navigation order
-prev-page: index
-prev-page-title: Getting Started
+prev-page: getting_started/creating_and_running_a_flyte_launch_plan
+prev-page-title: Creating and running a Flyte Launch Plan
+next-page: getting_started/tasks_and_workflows
+next-page-title: Tasks, Workflows and LaunchPlans
 ---
 
 (getting_started_fundamentals)=
@@ -24,14 +25,11 @@ use cases.
 * - {doc}`🔀 Tasks, Workflows and LaunchPlans <tasks_and_workflows>`
   - Create tasks as building blocks, compose them into workflows, and schedule
     them with launchplans.
-* - {doc}`✨ Creating a Flyte Project <creating_flyte_project>`
-  - Build a Flyte project from scratch and learn about the recommended project
-    structure.
 * - {doc}`🗄 Registering Workflows <package_register>`
   - Develop and deploy workflows to a local Flyte demo cluster.
 * - {doc}`⏱ Running and Scheduling Workflows <run_schedule>`
   - Execute workflows programmatically and schedule them as cron jobs.
-* - {doc}`📊 Visualizing Artifacts <visualizing_artifacts>`
+* - {doc}`📊 Visualizing Task Input and Output <visualizing_task_input_and_output>`
   - Create rich, customizable static reports for increased visibility into tasks.
 * - {doc}`🏎 Optimizing Tasks <optimizing_tasks>`
   - Make tasks scalable, performant, and robust to unexpected failures.
@@ -52,10 +50,9 @@ cluster, see the {ref}`Deployment Guide <deployment>`.
 :hidden:
 
 tasks_and_workflows
-creating_flyte_project
 package_register
 run_schedule
-visualizing_artifacts
+visualizing_task_input_and_output
 optimizing_tasks
 extending_flyte
 ```
