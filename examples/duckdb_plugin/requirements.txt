@@ -79,7 +79,7 @@ flytekitplugins-deck-standard==1.4.0
     # via -r requirements.in
 flytekitplugins-duckdb==1.4.0
     # via -r requirements.in
-fonttools==4.39.0
+fonttools==4.43.0
     # via matplotlib
 gitdb==4.0.10
     # via gitpython
