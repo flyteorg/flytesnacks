@@ -13,7 +13,7 @@ adlfs==2023.8.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.9.2
     # via
     #   adlfs
     #   aiobotocore
@@ -27,8 +27,6 @@ array-record==0.4.1
     # via tensorflow-datasets
 arrow==1.2.3
     # via cookiecutter
-async-timeout==4.0.3
-    # via aiohttp
 attrs==23.1.0
     # via aiohttp
 azure-core==1.29.2
@@ -59,9 +57,7 @@ cffi==1.15.1
 chardet==5.2.0
     # via binaryornot
 charset-normalizer==3.2.0
-    # via
-    #   aiohttp
-    #   requests
+    # via requests
 click==8.1.6
     # via
     #   cookiecutter
@@ -103,6 +99,7 @@ envd==0.3.38
 etils[enp,epath,epy]==1.4.1
     # via
     #   array-record
+    #   etils
     #   tensorflow-datasets
 flyteidl==1.5.16
     # via flytekit
@@ -274,7 +271,9 @@ pycparser==2.21
 pygments==2.16.1
     # via rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 python-dateutil==2.8.2
