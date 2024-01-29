@@ -10,7 +10,7 @@ agate==1.6.3
     # via dbt-core
 aiobotocore==2.5.2
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.9.2
     # via
     #   adlfs
     #   aiobotocore
@@ -59,9 +59,7 @@ cffi==1.15.1
 chardet==5.1.0
     # via binaryornot
 charset-normalizer==3.2.0
-    # via
-    #   aiohttp
-    #   requests
+    # via requests
 click==8.1.6
     # via
     #   cookiecutter
@@ -83,6 +81,7 @@ cryptography==41.0.2
     #   msal
     #   pyjwt
     #   pyopenssl
+    #   secretstorage
 dataclasses-json==0.5.9
     # via flytekit
 dbt-core==1.2.6
@@ -185,6 +184,10 @@ isodate==0.6.1
     #   dbt-core
 jaraco-classes==3.3.0
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==2.11.3
     # via
     #   cookiecutter
@@ -269,7 +272,6 @@ portalocker==2.7.0
     # via msal-extensions
 protobuf==4.23.4
     # via
-    #   dbt-core
     #   flyteidl
     #   google-api-core
     #   googleapis-common-protos
@@ -292,7 +294,9 @@ pycparser==2.21
 pygments==2.15.1
     # via rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyopenssl==23.2.0
     # via flytekit
 pyparsing==3.1.0
@@ -365,6 +369,8 @@ rsa==4.9
     # via google-auth
 s3fs==2023.6.0
     # via flytekit
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   agate
