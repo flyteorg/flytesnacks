@@ -34,10 +34,10 @@
 # ## About Flyte Agents
 # A Flyte Agent is intended to run a specific type of task. For example, a BigQuery Flyte Agent runs BigQuery tasks.
 #
-# Flyte Agents are preferable to FlytePropellor plugins for interacting with external services. With a FlytePropellor plugin,
+# Flyte Agents are preferable to FlytePropeller plugins for interacting with external services. With a FlytePropeller plugin,
 # you need to implement a plugin that is responsible for creating a CRD or submitting an HTTP request to the external service,
-# which increases the complexity of FlytePropeller. Such a plugin is hard to maintain, as FlytePropellor needs to be updated and compiled, and hard to test.
-# Additionally, since the FlytePropellor plugin runs in FlytePropeller itself, it increases the load on the FlytePropeller engine.
+# which increases the complexity of FlytePropeller. Such a plugin is hard to maintain, as FlytePropeller needs to be updated and compiled, and hard to test.
+# Additionally, since the FlytePropeller plugin runs in FlytePropeller itself, it increases the load on the FlytePropeller engine.
 #
 # ## Creating a new Flyte Agent
 #
