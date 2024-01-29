@@ -13,17 +13,17 @@
 #
 # ## About the Flyte Agent service
 #
-# The Flyte Agent service is a Python-based agent registry powered by a gRPC server. It allows users and FlytePropeller
-# to send gRPC requests to the registry for executing jobs—for instance, BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
+# The Flyte Agent service is a Python-based service powered by a gRPC server. It allows FlytePropeller
+# to send gRPC requests to the agent service for executing jobs—for instance, BigQuery and Databricks jobs. Each Flye Agent service is a Kubernetes
 # deployment. You can create different Flyte Agent services to host different Flyte Agents. For example, you could have one production
 # agent service and one development agent service.
 #
 # Key goals of the agent service:
 # * Support for communication with external services: The focus is on enabling agents that seamlessly interact with external services.
 # * Independent testing and private deployment: Agents can be tested independently and deployed privately, providing flexibility and control over development.
-# * Flyte Agent usage in local development: Users, especially in flytekit and unionml, can leverage backend agents for local development, streamlining the development process.
+# * Flyte Agent usage in local development: Users, especially in flytekit, can leverage backend agents for local development, streamlining the development process.
 # * Language-agnostic: Agents can be authored in any programming language, allowing users to work with their preferred language and tools.
-# * Scalability: Agents are designed to be scalable, ensuring they can handle large-scale workloads effectively.
+# * Scalability: Agents are designed to be horizontally scalable. Agents are stateless services, ensuring they can handle large-scale workloads effectively.
 # * Simple API: Agents offer a straightforward API, making integration and usage straightforward for developers.
 #
 # :::{figure} https://i.ibb.co/vXhBDjP/Screen-Shot-2023-05-29-at-2-54-14-PM.png
@@ -35,7 +35,7 @@
 # A Flyte Agent is intended to run a specific type of task. For example, a BigQuery Flyte Agent runs BigQuery tasks.
 #
 # Flyte Agents are preferable to FlytePropellor plugins for interacting with external services. With a FlytePropellor plugin,
-# you need to implement a plugin that is responsible for creating a CRD and submitting an HTTP request to the external service,
+# you need to implement a plugin that is responsible for creating a CRD or submitting an HTTP request to the external service,
 # which increases the complexity of FlytePropeller. Such a plugin is hard to maintain, as FlytePropellor needs to be updated and compiled, and hard to test.
 # Additionally, since the FlytePropellor plugin runs in FlytePropeller itself, it increases the load on the FlytePropeller engine.
 #
