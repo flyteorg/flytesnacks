@@ -8,7 +8,7 @@ adlfs==2023.10.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.9.1
+aiohttp==3.9.2
     # via
     #   adlfs
     #   aiobotocore
@@ -80,6 +80,7 @@ cryptography==41.0.7
     #   azure-storage-blob
     #   msal
     #   pyjwt
+    #   secretstorage
 cycler==0.12.1
     # via matplotlib
 dacite==1.8.1
@@ -186,6 +187,10 @@ jaraco-classes==3.3.0
     # via keyring
 jedi==0.19.1
     # via ipython
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   cookiecutter
@@ -356,7 +361,9 @@ pygments==2.17.2
     #   ipython
     #   rich
 pyjwt[crypto]==2.8.0
-    # via msal
+    # via
+    #   msal
+    #   pyjwt
 pyparsing==3.1.1
     # via matplotlib
 python-dateutil==2.8.2
@@ -425,6 +432,8 @@ scipy==1.11.4
     #   ydata-profiling
 seaborn==0.12.2
     # via ydata-profiling
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   asttokens
@@ -481,8 +490,10 @@ urllib3==1.26.18
     #   flytekit
     #   kubernetes
     #   requests
-visions[type_image_path]==0.7.5
-    # via ydata-profiling
+visions[type-image-path]==0.7.5
+    # via
+    #   visions
+    #   ydata-profiling
 wcwidth==0.2.12
     # via prompt-toolkit
 websocket-client==1.7.0
