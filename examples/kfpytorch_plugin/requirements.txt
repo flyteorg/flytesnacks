@@ -112,7 +112,7 @@ flytekitplugins-envd==1.9.0
     # via -r requirements.in
 flytekitplugins-kfpytorch==1.9.0
     # via -r requirements.in
-fonttools==4.42.0
+fonttools==4.43.0
     # via matplotlib
 frozenlist==1.4.0
     # via
