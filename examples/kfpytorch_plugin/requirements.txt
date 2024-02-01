@@ -282,7 +282,7 @@ packaging==23.1
     #   tensorboardx
 pandas==1.5.3
     # via flytekit
-pillow==10.0.0
+pillow==10.2.0
     # via
     #   matplotlib
     #   torchvision
