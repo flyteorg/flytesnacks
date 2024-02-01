@@ -59,7 +59,7 @@ Introduction to Flyte <self>
 getting_started/quickstart_guide
 getting_started/getting_started_with_workflow_development
 getting_started/flyte_fundamentals
-getting_started/flyte_agents
+getting_started/agents
 getting_started/core_use_cases
 ```
 

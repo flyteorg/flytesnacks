@@ -6,7 +6,7 @@ jupytext:
     format_name: myst
 ---
 
-# Testing Flyte agents locally
+# Testing agents locally
 
 Agents can be tested locally without running the backend server, which makes agent development easier.
 
