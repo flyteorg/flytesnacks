@@ -8,10 +8,8 @@ jupytext:
 
 # Configuring your Flyte deployment for agents
 
-To configure your Flyte deployment
+To configure your Flyte deployment for a particular agent, see the [Agent Setup](https://docs.flyte.org/en/latest/deployment/agents/index.html) documentation.
 
 :::{note}
-
-If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to enable agents in your deployment.
-
+If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 :::
