@@ -124,8 +124,8 @@ fastjsonschema==2.19.0
 flyteidl==1.10.6
     # via flytekit
 flytekit==1.10.2
-    # via flytekitplugins-flyin
-flytekitplugins-flyin==1.10.2
+    # via flytekitplugins-flyteinteractive
+flytekitplugins-flyteinteractive==1.10.2
     # via -r requirements.in
 fqdn==1.5.1
     # via jsonschema
@@ -237,7 +237,7 @@ jsonschema[format-nongpl]==4.20.0
 jsonschema-specifications==2023.11.2
     # via jsonschema
 jupyter==1.0.0
-    # via flytekitplugins-flyin
+    # via flytekitplugins-flyteinteractive
 jupyter-client==8.6.0
     # via
     #   ipykernel
