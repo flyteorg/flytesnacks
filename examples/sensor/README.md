@@ -15,6 +15,12 @@ pyflyte run --remote \
   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/sensor/sensor/file_sensor_example.py wf
 ```
 
-```{auto-examples-toc}
+## Usage
+
+For an example of how to use the `FileSensor` to detect the appearance of files in a local or remote filesystem, see the {doc}`"File sensor example" <file_sensor_example>` example page.
+
+```{toctree}
+:hidden:
+
 file_sensor_example
 ```

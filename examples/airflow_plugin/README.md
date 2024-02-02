@@ -24,6 +24,12 @@ pip install airflow-provider-flyte
 
 All the configuration options for the provider are available in the provider repo's [README](https://github.com/flyteorg/airflow-provider-flyte#readme).
 
-```{auto-examples-toc}
+## Usage
+
+For an example of how to construct an Airflow DAG using `FlyteOperator`, see the {doc}`"Airflow Flyte Operator example"<airflow>` page.
+
+```{toctree}
+:hidden:
+
 airflow
 ```

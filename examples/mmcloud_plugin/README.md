@@ -78,6 +78,12 @@ COPY float /usr/local/bin/float
 CMD pyflyte serve agent --port 8000
 ```
 
-```{auto-examples-toc}
+## Usage
+
+For an example of how to use the MMCloud plugin to execute tasks on MemVerge Memory Machine Cloud, see the {doc}`"Memory Machine Cloud" <example>` example page.
+
+```{toctree}
+:hidden:
+
 example
 ```
