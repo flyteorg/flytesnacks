@@ -17,6 +17,12 @@ next-page-title: Getting started with workflow development
 
 In this guide, you will create and run a Flyte workflow in a local Python environment to generate the output "Hello, world!"
 
+```{note}
+
+To try Flyte in a hosted environment, see the [Union Cloud sandbox](https://sandbox.union.ai/).
+
+```
+
 ## Prerequisites
 
 * [Install Python 3.8x or higher](https://www.python.org/downloads/)
