@@ -8,7 +8,7 @@ jupytext:
 
 # Creating Flyte agents
 
-The Flyte agent framework enables rapid agent development, since agents are decoupled from the core FlytePropeller engine. Agents can be tested independently and deployed privately, making maintenance easier and giving you more flexibility and control over development.
+The Flyte agent framework enables rapid agent development, since agents are decoupled from the core FlytePropeller engine. Agents can be written in Python, easing development for data scientists. Agents can be tested independently and deployed privately, making maintenance easier and giving you more flexibility and control over development.
 
 If you need to create a new type of task, we recommend creating a new agent to run it rather than running the task in a pod. After testing the new agent, you can update your FlytePropeller configMap to specify the type of task that the agent should run.
 
