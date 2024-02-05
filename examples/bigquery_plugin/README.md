@@ -9,9 +9,11 @@
 Flyte backend can be connected with BigQuery service. Once enabled, it can allow you to query a BigQuery table.
 This section will provide how to use the BigQuery Plugin using flytekit python.
 
-## Installation
+## Local usage
 
-To use the flytekit bigquery plugin simply run the following:
+### Install the plugin
+
+To use the flytekit bigquery plugin, run the following:
 
 ```{eval-rst}
 .. prompt:: bash
@@ -21,10 +23,18 @@ To use the flytekit bigquery plugin simply run the following:
 
 This plugin is purely a spec. Since SQL is completely portable, there is no need to build a Docker container.
 
-## Configuring the backend to get bigquery working
+### Run code locally
+
+For example code you can run locally, see {doc}`"BigQuery Query"<bigquery>`
+
+## Flyte cluster usage
+
+To use on the Flyte cluster, you must configure the backend to get bigquery working.
 
 BigQuery plugins are [enabled in flytepropeller's config](https://docs.flyte.org/en/latest/deployment/plugin_setup/gcp/bigquery.html#deployment-plugin-setup-gcp-bigquery)
 
-```{auto-examples-toc}
+```{toctree}
+:hidden:
+
 bigquery
 ```
