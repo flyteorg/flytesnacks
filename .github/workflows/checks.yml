@@ -221,8 +221,6 @@ jobs:
       - name: Verify existence of the tests
         run: |
           python flyte_tests_validate.py
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: Register specific tests
         run: |
           while read -r line;
@@ -235,3 +233,6 @@ jobs:
                   --version ${{ env.FLYTESNACKS_VERSION }} \
                   flytesnacks/$line;
           done < flyte_tests.txt
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
