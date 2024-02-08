@@ -140,19 +140,6 @@ Flyte uses Kustomize to generate the the deployment configuration which can be l
 
 ::::
 
-## Custom Container Tasks
-
-Because Flyte uses executable docker containers as the smallest unit of compute, you can write custom tasks with the
-{py:class}`flytekit.ContainerTask` via the [flytekit](https://github.com/flyteorg/flytekit) SDK.
-
-```{list-table}
-:header-rows: 0
-:widths: 20 30
-
-* - {doc}`Raw Container Tasks <auto_examples/customizing_dependencies/raw_container>`
-  - Execute arbitrary containers: You can write C++ code, bash scripts and any containerized program.
-```
-
 ## SDKs for Writing Tasks and Workflows
 
 The {ref}`community <community>` would love to help you with your own ideas of building a new SDK. Currently the available SDKs are:
