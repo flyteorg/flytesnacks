@@ -1,7 +1,4 @@
 flytekit==1.10.3
 flytekitplugins-kfpytorch
 flytekitplugins-envd
-tensorboardX
-torch --index-url https://download.pytorch.org/whl/cpu
-torchvision --index-url https://download.pytorch.org/whl/cpu
 matplotlib
