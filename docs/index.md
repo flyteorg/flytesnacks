@@ -103,7 +103,7 @@ auto_examples/athena_plugin/index
 auto_examples/aws_batch_plugin/index
 auto_examples/sagemaker_pytorch_plugin/index
 auto_examples/sagemaker_training_plugin/index
-auto_examples/bigquery_plugin/index
+auto_examples/bigquery_integration/index
 auto_examples/k8s_dask_plugin/index
 auto_examples/databricks_plugin/index
 auto_examples/dbt_plugin/index
