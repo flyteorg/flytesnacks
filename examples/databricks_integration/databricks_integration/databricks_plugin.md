@@ -2,4 +2,56 @@
 
 # Databricks plugin
 
-TK
+```{note}
+
+This is a legacy implementation of the Databricks integration. We recommend using the {ref}`Databricks agent <databricks_agent>` instead.
+
+```
+
+## Installation
+
+The Databricks plugin comes bundled with the Spark plugin. To use the Spark plugin, install it with `pip`:
+
+```
+pip install flytekitplugins-spark
+
+```
+
+## Example usage
+
+For a usage example, see the {doc}`Databricks job <databricks_job>` page.
+
+
+### Run the example on the Flyte cluster
+
+```{note}
+
+To run the Databricks plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
+{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`.
+
+```
+
+To run the provided example on the Flyte cluster, use the following command:
+
+```
+pyflyte run --remote \
+  --image ghcr.io/flyteorg/flytecookbook:databricks_plugin-latest \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/databricks_integration/databricks_integration/databricks_job.py \
+  my_databricks_job
+```
+
+Using Spark on Databricks is incredibly simple and offers comprehensive versioning through a
+custom-built Spark container. This built container also facilitates the execution of standard Spark tasks.
+
+To utilize Spark, the image should employ a base image provided by Databricks,
+and the workflow code must be copied to `/databricks/driver`.
+
+```{literalinclude} ../../../examples/databricks_integration/Dockerfile
+:language: docker
+:emphasize-lines: 1,7-8,20
+```
+
+## Deployment configuration
+
+To run the Databricks plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
+{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`.

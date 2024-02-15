@@ -4,47 +4,13 @@
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
 ```
 
-Flyte can be seamlessly integrated with the [Databricks](https://www.databricks.com/) service,
-enabling you to effortlessly submit Spark jobs to the Databricks platform.
+Flyte can be integrated with the [Databricks](https://www.databricks.com/) service,
+enabling you to submit Spark jobs to the Databricks platform.
 
-## Install the plugin
+There are two implementations of the Databricks integration:
 
-The Databricks plugin comes bundled with the Spark plugin.
-To execute it locally, run the following command:
-
-```
-pip install flytekitplugins-spark
-```
-
-If you intend to run the plugin on the Flyte cluster, you must first set it up on the backend.
-Please refer to the
-{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`
-for detailed instructions.
-
-## Run the example on the Flyte cluster
-
-To run the provided example on the Flyte cluster, use the following command:
-
-```
-pyflyte run --remote \
-  --image ghcr.io/flyteorg/flytecookbook:databricks_plugin-latest \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/databricks_integration/databricks_integration/databricks_job.py \
-  my_databricks_job
-```
-
-:::{note}
-Using Spark on Databricks is incredibly simple and offers comprehensive versioning through a
-custom-built Spark container. This built container also facilitates the execution of standard Spark tasks.
-
-To utilize Spark, the image should employ a base image provided by Databricks,
-and the workflow code must be copied to `/databricks/driver`.
-
-```{literalinclude} ../../../examples/databricks_integration/Dockerfile
-:language: docker
-:emphasize-lines: 1,7-8,20
-```
-
-:::
+* **{ref}`Databricks agent <databricks_agent>`:** This implementation uses the agents framework (TK - link to agents guide). We strongly recommend using the Databricks agent rather than the plugin, as agents can be tested locally without running the Flyte backend, are designed to be scalable, can handle large workloads efficiently, and decrease load on FlytePropeller.
+* **{ref}`Databricks plugin <databricks_plugin>`:** This implementation uses the legacy plugin framework. Only use this documentation if you have already configured your Flyte deployment to use the plugin. If you are using the plugin, we highly recommend migrating to the agent framework version instead, if possible.
 
 ```{toctree}
 :maxdepth: -1
