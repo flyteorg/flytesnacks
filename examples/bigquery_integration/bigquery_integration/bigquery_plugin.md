@@ -10,7 +10,7 @@ This is a legacy implementation of the BigQuery integration. We recommend using 
 
 ## Installation
 
-To use the flytekit BigQuery plugin, install the module with `pip`:
+To install the BigQuery plugin, run the following command:
 
 ```{eval-rst}
 .. prompt:: bash
@@ -24,7 +24,7 @@ This plugin is purely a spec. Since SQL is completely portable, there is no need
 
 For a usage example, see the {doc}`BigQuery example query<bigquery>` page.
 
-## Deployment configuration
+## Flyte deployment configuration
 
 BigQuery plugins are [enabled in FlytePropeller's config](https://docs.flyte.org/en/latest/deployment/plugin_setup/gcp/bigquery.html#deployment-plugin-setup-gcp-bigquery).
 

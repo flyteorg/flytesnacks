@@ -10,26 +10,23 @@ This is a legacy implementation of the Databricks integration. We recommend usin
 
 ## Installation
 
-The Databricks plugin comes bundled with the Spark plugin. To use the Spark plugin, install it with `pip`:
+The Databricks plugin comes bundled with the Spark plugin. To install the Spark plugin, run the following command:
 
 ```
 pip install flytekitplugins-spark
 
 ```
 
-## Example usage
-
-For a usage example, see the {doc}`Databricks job <databricks_job>` page.
-
-
-### Run the example on the Flyte cluster
-
-```{note}
+## Flyte deployment configuration
 
 To run the Databricks plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
 {std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`.
 
-```
+## Example usage
+
+For a usage example, see the {doc}`Databricks job <databricks_job>` page.
+
+### Run the example on the Flyte cluster
 
 To run the provided example on a Flyte cluster, use the following command:
 
@@ -50,8 +47,3 @@ and the workflow code must be copied to `/databricks/driver`.
 :language: docker
 :emphasize-lines: 1,7-8,20
 ```
-
-## Deployment configuration
-
-To run the Databricks plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
-{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`.

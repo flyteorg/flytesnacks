@@ -4,7 +4,7 @@
 
 ## Installation
 
-To use the flytekit BigQuery agent in your tasks, install it with `pip`:
+To install the BigQuery agent, run the following command:
 
 ```{eval-rst}
 .. prompt:: bash
@@ -20,9 +20,9 @@ For an example query, see {doc}`BigQuery example query<bigquery>`.
 
 ## Local testing
 
-TK - explain local testing
+TK
 
-## Deployment configuration
+## Flyte deployment configuration
 
 ```{note}
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.

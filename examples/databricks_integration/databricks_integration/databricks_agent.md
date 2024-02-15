@@ -4,7 +4,7 @@
 
 ## Installation
 
-The Databricks agent comes bundled with the Spark plugin. To use the Spark plugin, install it with `pip`:
+The Databricks agent comes bundled with the Spark plugin. To install the Spark plugin, run the following command:
 
 ```
 pip install flytekitplugins-spark
@@ -19,6 +19,10 @@ For a usage example, see the {doc}`Databricks job <databricks_job>` page.
 
 TK
 
-## Deployment configuration
+## Flyte deployment configuration
+
+```{note}
+If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
+```
 
 To run the Databricks agent on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the {std:ref}`Databricks agent setup guide <flyte:deployment-agent-setup-databricks>`.
