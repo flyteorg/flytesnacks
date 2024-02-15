@@ -31,7 +31,7 @@ To run the Databricks plugin on a Flyte cluster, you must configure it in your F
 
 ```
 
-To run the provided example on the Flyte cluster, use the following command:
+To run the provided example on a Flyte cluster, use the following command:
 
 ```
 pyflyte run --remote \
@@ -40,10 +40,10 @@ pyflyte run --remote \
   my_databricks_job
 ```
 
-Using Spark on Databricks is incredibly simple and offers comprehensive versioning through a
-custom-built Spark container. This built container also facilitates the execution of standard Spark tasks.
+Using Spark on Databricks allows comprehensive versioning through a
+custom-built Spark container. This container also facilitates the execution of standard Spark tasks.
 
-To utilize Spark, the image should employ a base image provided by Databricks,
+To use Spark, the image should employ a base image provided by Databricks,
 and the workflow code must be copied to `/databricks/driver`.
 
 ```{literalinclude} ../../../examples/databricks_integration/Dockerfile
