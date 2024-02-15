@@ -20,10 +20,13 @@ To use the flytekit BigQuery plugin, install the module with `pip`:
 
 This plugin is purely a spec. Since SQL is completely portable, there is no need to build a Docker container.
 
-## Usage
+## Example usage
 
-For an example query, see {doc}`BigQuery example query<bigquery>`.
+For a usage example, see the {doc}`BigQuery example query<bigquery>` page.
 
 ## Deployment configuration
 
 BigQuery plugins are [enabled in FlytePropeller's config](https://docs.flyte.org/en/latest/deployment/plugin_setup/gcp/bigquery.html#deployment-plugin-setup-gcp-bigquery).
+
+To run the BigQuery plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
+{std:ref}`BigQuery plugin setup guide <flyte:deployment-plugin-setup-gcp-bigquery>`.

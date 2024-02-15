@@ -18,7 +18,7 @@ This agent is purely a spec. Since SQL is completely portable, there is no need 
 
 For an example query, see {doc}`BigQuery example query<bigquery>`.
 
-## Testing the BigQuery agent locally
+## Local testing
 
 TK - explain local testing
 
