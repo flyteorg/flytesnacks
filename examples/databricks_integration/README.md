@@ -28,7 +28,7 @@ To run the provided example on the Flyte cluster, use the following command:
 ```
 pyflyte run --remote \
   --image ghcr.io/flyteorg/flytecookbook:databricks_plugin-latest \
-  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/databricks_plugin/databricks_plugin/databricks_job.py \
+  https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/databricks_integration/databricks_integration/databricks_job.py \
   my_databricks_job
 ```
 
@@ -39,13 +39,17 @@ custom-built Spark container. This built container also facilitates the executio
 To utilize Spark, the image should employ a base image provided by Databricks,
 and the workflow code must be copied to `/databricks/driver`.
 
-```{literalinclude} ../../../examples/databricks_plugin/Dockerfile
+```{literalinclude} ../../../examples/databricks_integration/Dockerfile
 :language: docker
 :emphasize-lines: 1,7-8,20
 ```
 
 :::
 
-```{auto-examples-toc}
+```{toctree}
+:maxdepth: -1
+:hidden:
+databricks_agent
+databricks_plugin
 databricks_job
 ```

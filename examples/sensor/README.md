@@ -6,15 +6,29 @@
 .. tags:: Data, Basic
 ```
 
-## Run the example on the Flyte cluster
+## Usage
 
-To run the provided example on the Flyte cluster, use the following command:
+For an example of detecting a file with the `FileSensor`, see the {doc}`file sensor example <file_sensor_example>`.
+
+### Run the file senseor example on a Flyte cluster
+
+To run the provided example on a Flyte cluster, use the following command:
 
 ```
 pyflyte run --remote \
   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/sensor/sensor/file_sensor_example.py wf
 ```
 
-```{auto-examples-toc}
+## Deployment configuration
+
+```{note}
+If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
+```
+
+To configure your deployment for the sensor agent, see the {ref}`sensor agent deployment documentation<deployment-agent-setup-sensor>`.
+
+```{toctree}
+:maxdepth: -1
+:hidden:
 file_sensor_example
 ```

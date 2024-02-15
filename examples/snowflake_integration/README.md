@@ -32,6 +32,11 @@ pyflyte run --remote \
   snowflake_wf --nation_key 10
 ```
 
-```{auto-examples-toc}
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+snowflake_agent
+snowflake_plugin
 snowflake
 ```

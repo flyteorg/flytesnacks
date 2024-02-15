@@ -2,9 +2,7 @@
 .. tags:: GCP, Data, Integration, Advanced
 ```
 
-(bigquery_integration)=
-
-# BigQuery integration
+# BigQuery
 
 You can configure your Flyte deployment to connect to the Google BigQuery service to query BigQuery tables.
 

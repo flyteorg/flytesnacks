@@ -78,6 +78,11 @@ COPY float /usr/local/bin/float
 CMD pyflyte serve agent --port 8000
 ```
 
-```{auto-examples-toc}
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+mmcloud_agent
+mmcloud_plugin
 example
 ```

@@ -29,5 +29,3 @@ If you are using a managed deployment of Flyte, you will need to contact your de
 ```
 
 To configure your deployment for the BigQuery agent, see the {ref}`BigQuery agent deployment documentation<deployment-agent-setup-bigquery>`.
-
-

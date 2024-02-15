@@ -80,30 +80,6 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Ray jobs on a K8s Cluster.
 ```
 
-(flyte_agents)=
-
-## Flyte agents
-
-In Flyte, an agent is a long-running, stateless service powered by a gRPC server that communicates with an external service. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task (for example, the BigQuery agent handles BigQuery tasks). The agent service then initiates a job with the appropriate external service. For more information, see the Flyte agents guide.
-
-```{list-table}
-:header-rows: 0
-:widths: 20 30
-
-* - Airflow
-  - Run Airflow jobs in your workflows using the Airflow agent.
-* - {doc}`BigQuery <auto_examples/bigquery_plugin/index>`
-  - Run BigQuery jobs in your workflows using the BigQuery agent.
-* - {doc}`Databricks <auto_examples/databricks_plugin/index>`
-  - Run Databricks jobs in your workflows.
-* - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
-  - Execute tasks using MemVerge Memory Machine Cloud
-* - {doc}`Sensor <auto_examples/sensor/index>`
-  - Run Sensor jobs in your workflows.
-* - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
-  - Run Snowflake jobs in your workflows.
-```
-
 (external_service_backend_plugins)=
 
 ## External Service Backend Plugins
@@ -130,6 +106,16 @@ the Flyte task that use the respective plugin.
   - Execute tasks using Flyte Interactive to debug.
 * - {doc}`Hive <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
+* - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
+  - Execute tasks using MemVerge Memory Machine Cloud
+* - {doc}`Sensor <auto_examples/sensor/index>`
+  - Run Sensor jobs in your workflows.
+* - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
+  - Run Snowflake jobs in your workflows.
+* - {doc}`Databricks <auto_examples/databricks_plugin/index>`
+  - Run Databricks jobs in your workflows.
+* - {doc}`BigQuery <auto_examples/bigquery_plugin/index>`
+  - Run BigQuery jobs in your workflows.
 ```
 
 (enable-backend-plugins)=
