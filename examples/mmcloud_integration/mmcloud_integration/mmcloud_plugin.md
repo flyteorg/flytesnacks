@@ -77,3 +77,7 @@ COPY float /usr/local/bin/float
 # For flytekit versions > v1.10.2, use pyflyte serve agent.
 CMD pyflyte serve agent --port 8000
 ```
+
+## Example usage
+
+For a usage example, see the {ref}`Memory Machine Cloud example <example>` page.

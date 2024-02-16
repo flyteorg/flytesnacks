@@ -14,7 +14,7 @@ To install the agent, run the following command:
 
 ## Example usage
 
-TK
+For a usage example, see the {ref}`Memory Machine Cloud example <example>` page.
 
 ## Local testing
 
