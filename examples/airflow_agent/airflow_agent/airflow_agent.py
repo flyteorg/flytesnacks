@@ -1,6 +1,7 @@
 from airflow.sensors.filesystem import FileSensor
 from flytekit import task, workflow
 
+
 @task()
 def t1():
     print("flyte")
@@ -12,5 +13,5 @@ def wf():
     sensor >> t1()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     wf()
