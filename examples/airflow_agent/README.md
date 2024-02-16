@@ -29,5 +29,3 @@ To configure your deployment for the Airflow agent, see the {ref}`Airflow agent 
 :hidden:
 airflow_agent
 ```
-
-
