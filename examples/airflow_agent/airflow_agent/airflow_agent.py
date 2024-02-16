@@ -1,3 +1,8 @@
+# %% [markdown]
+# # Airflow agent example
+#
+# %%
+
 from airflow.sensors.filesystem import FileSensor
 from flytekit import task, workflow
 

@@ -98,6 +98,7 @@ flyte_lab
 :hidden:
 
 Integrations <integrations>
+auto_examples/airflow_agent/index
 auto_examples/airflow_plugin/index
 auto_examples/athena_plugin/index
 auto_examples/aws_batch_plugin/index
