@@ -14,7 +14,7 @@ To install the BigQuery agent, run the following command:
 
 This agent is purely a spec. Since SQL is completely portable, there is no need to build a Docker container.
 
-## Usage
+## Example usage
 
 For an example query, see {doc}`BigQuery example query<bigquery>`.
 
