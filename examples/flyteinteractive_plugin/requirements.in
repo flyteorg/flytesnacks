@@ -1,1 +1,2 @@
-flytekitplugins-flyteinteractive>=v1.10.7
+flytekit>=1.10.7
+flytekitplugins-flyteinteractive>=1.10.7
