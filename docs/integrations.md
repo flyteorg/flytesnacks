@@ -80,17 +80,17 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Ray jobs on a K8s Cluster.
 ```
 
-(flyte_agents_integrations)=
+(flyte_agents)=
 
 ## Flyte agents
 
-In Flyte, an agent is a long-running, stateless service powered by a gRPC server that communicates with an external service. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task. (For example, the BigQuery agent handles BigQuery tasks.) The agent service then initiates a job with the appropriate external service. For more information, see the Flyte agents guide.
+In Flyte, an agent is a long-running, stateless service powered by a gRPC server that communicates with an external service. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task. (For example, the BigQuery agent handles BigQuery tasks.) The agent service then initiates a job with the appropriate external service. For more information, see the {ref}`Flyte agents guide <flyte_agents_guide>`.
 
 ```{list-table}
 :header-rows: 0
 :widths: 20 30
 
-* - Airflow agent
+* - {ref}`Airflow agent <airflow_agent>`
   - Run Airflow jobs in your workflows with the Airflow agent.
 * - {ref}`BigQuery agent <bigquery_agent>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
