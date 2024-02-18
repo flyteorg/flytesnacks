@@ -22,7 +22,7 @@ TK
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To configure your deployment for the Airflow agent, see the {ref}`Airflow agent deployment documentation<deployment-agent-setup-airflow>`.
+To enable the Airflow agent in your Flyte deployment, see the {ref}`Airflow agent deployment guide<deployment-agent-setup-airflow>`.
 
 ```{toctree}
 :maxdepth: -1

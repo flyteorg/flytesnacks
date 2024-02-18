@@ -26,4 +26,4 @@ TK
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To run the MMCloud agent on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the {std:ref}`MMCloud agent setup guide <flyte:deployment-agent-setup-mmcloud>`.
+To enable the MMCloud agent in your Flyte deployment, see the {std:ref}`MMCloud agent setup guide <flyte:deployment-agent-setup-mmcloud>`.
