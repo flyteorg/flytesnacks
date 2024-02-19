@@ -14,6 +14,13 @@ To install the plugin, run the following command:
 
 ## Example usage
 
+```{note}
+
+You don't need an Airflow cluster to run Airflow tasks, since Flytekit will
+automatically compile Airflow tasks to Flyte tasks and execute them on the Flyte cluster.
+
+```
+
 For a usage example, see the {doc}`Airflow agent example <airflow_agent_example>` page.
 
 ## Local testing
