@@ -2,6 +2,10 @@
 
 # Airflow agent
 
+```{note}
+Not all Airflow operators are supported. We have tested many, but please help us test them all and [file a bug report](https://github.com/flyteorg/flyte/issues/new?assignees=&labels=bug%2Cuntriaged&projects=&template=bug_report.yaml&title=%5BBUG%5D+) if you have any issues.
+```
+
 ## Installation
 
 To install the plugin, run the following command:
@@ -10,7 +14,7 @@ To install the plugin, run the following command:
 
 ## Example usage
 
-For a usage example, see the {doc}`Airflow agent example <airflow_agent>` page.
+For a usage example, see the {doc}`Airflow agent example <airflow_agent_example>` page.
 
 ## Local testing
 
@@ -27,5 +31,5 @@ To enable the Airflow agent in your Flyte deployment, see the {ref}`Airflow agen
 ```{toctree}
 :maxdepth: -1
 :hidden:
-airflow_agent
+airflow_agent_example
 ```

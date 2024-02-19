@@ -8,7 +8,7 @@
 
 ```{note}
 
-This is a legacy implementation of the Snowflake integration. We recommend using the {ref}`Databricks agent <databricks_agent>` instead.
+This is a legacy implementation of the Snowflake integration. We recommend using the {ref}`Snowflake agent <snowflake_agent>` instead.
 
 ```
 

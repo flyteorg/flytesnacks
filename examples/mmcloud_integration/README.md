@@ -18,5 +18,5 @@ There are two implementations of the MMCloud integration:
 
 mmcloud_agent
 mmcloud_plugin
-example
+mmcloud_example
 ```

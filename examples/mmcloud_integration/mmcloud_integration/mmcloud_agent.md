@@ -1,6 +1,6 @@
 (mmcloud_agent)=
 
-# MMCloud agent
+# Memory Machine Cloud agent
 
 ## Installation
 
@@ -12,9 +12,11 @@ To install the agent, run the following command:
     pip install flytekitplugins-mmcloud
 ```
 
+To get started with Memory Machine Cloud, see the [Memory Machine Cloud user guide](https://docs.memverge.com/mmce/current/userguide/olh/index.html).
+
 ## Example usage
 
-For a usage example, see the {ref}`Memory Machine Cloud example <example>` page.
+For a usage example, see the {ref}`Memory Machine Cloud example <mmcloud_example>` page.
 
 ## Local testing
 
@@ -26,4 +28,4 @@ TK
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To enable the MMCloud agent in your Flyte deployment, see the {std:ref}`MMCloud agent setup guide <flyte:deployment-agent-setup-mmcloud>`.
+To enable the Memory Machine Cloud agent in your Flyte deployment, see the {std:ref}`MMCloud agent setup guide <flyte:deployment-agent-setup-mmcloud>`.

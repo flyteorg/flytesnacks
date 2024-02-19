@@ -96,7 +96,7 @@ In Flyte, an agent is a long-running, stateless service powered by a gRPC server
   - Run BigQuery jobs in your workflows with the BigQuery agent.
 * - {ref}`Databricks <databricks_agent>`
   - Run Databricks jobs in your workflows with the Databricks agent.
-* - {ref}`MMCloud <mmcloud_agent>`
+* - {ref}`Memory Machine Cloud <mmcloud_agent>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
 * - {doc}`Sensor <auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
