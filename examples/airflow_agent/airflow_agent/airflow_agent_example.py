@@ -1,4 +1,5 @@
 # %% [markdown]
+# (airflow_agent_example)=
 # # Airflow agent example
 #
 # %%
