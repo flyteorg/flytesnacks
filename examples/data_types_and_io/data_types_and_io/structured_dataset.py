@@ -21,9 +21,20 @@
 #   (not only at compile time, but also runtime since type information is carried along in the literal),
 #    store third-party schema definitions, and potentially in the future, render sample data, provide summary statistics, etc.
 #
-# This example demonstrates how to work with a structured dataset using Flyte entities.
+# ## Usage
 #
-# To begin, import the necessary dependencies.
+# To use the `StructuredDataset` type, import `pandas` and define a task that returns a Pandas Dataframe.
+# Flytekit will detect the Pandas DataFrame return signature and convert the interface for the task to
+# the {py:class}`StructuredDataset` type.
+#
+# ## Example
+# This example demonstrates how to work with a structured dataset using Flyte entities.
+# ```{note}
+# To use the `StructuredDataset` type, you only need to import `pandas`.
+# The other imports specified below are only necessary for this specific example.
+# ```
+#
+# To begin, import the dependencies for the example.
 # %%
 import os
 import typing
@@ -47,8 +58,6 @@ from typing_extensions import Annotated
 
 # %% [markdown]
 # Define a task that returns a Pandas DataFrame.
-# Flytekit will detect the Pandas dataframe return signature and
-# convert the interface for the task to the new {py:class}`StructuredDataset` type.
 # %%
 @task
 def generate_pandas_df(a: int) -> pd.DataFrame:
