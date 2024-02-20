@@ -84,7 +84,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
 ## Flyte agents
 
-In Flyte, an agent is a long-running, stateless service powered by a gRPC server that communicates with an external service. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task. (For example, the BigQuery agent handles BigQuery tasks.) The agent service then initiates a job with the appropriate external service. For more information, see the {ref}`Flyte agents guide <flyte_agents_guide>`.
+[Flyte agents](https://docs.flyte.org/en/latest/flyte_agents/index.html) are long-running, stateless services that receive execution requests via gRPC and initiate jobs with appropriate external or internal services. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task. (For example, the BigQuery agent handles BigQuery tasks.) The agent service then initiates a job with the appropriate service. If you don't see the agent you need below, see "[Developing agents](https://docs.flyte.org/en/latest/flyte_agents/developing_agents.html)" to learn how to develop a new agent.
 
 ```{list-table}
 :header-rows: 0

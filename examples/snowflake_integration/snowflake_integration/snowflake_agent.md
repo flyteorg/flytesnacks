@@ -24,4 +24,4 @@ TK
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To enable the Snowflake agent in your Flyte deployment, see the {std:ref}`Snowflake agent setup guide <flyte:deployment-agent-setup-snowflake>`.
+To enable the Snowflake agent in your Flyte deployment, see the {ref}`Snowflake agent setup guide <deployment-agent-setup-snowflake>`.

@@ -28,4 +28,4 @@ TK
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To enable the BigQuery agent in your Flyte deployment, see the {ref}`BigQuery agent deployment documentation<deployment-agent-setup-bigquery>`.
+To enable the BigQuery agent in your Flyte deployment, see the {ref}`BigQuery agent deployment guide<deployment-agent-setup-bigquery>`.
