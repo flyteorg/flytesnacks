@@ -2,18 +2,11 @@
 
 # Snowflake plugin
 
-```{eval-rst}
-.. tags:: Integration, Data, Advanced, SQL
-```
-
 ```{note}
 
 This is a legacy implementation of the Snowflake integration. We recommend using the {ref}`Snowflake agent <snowflake_agent>` instead.
 
 ```
-
-Flyte can be seamlessly integrated with the [Snowflake](https://www.snowflake.com) service,
-providing you with a straightforward means to query data in Snowflake.
 
 ## Installation
 
