@@ -369,7 +369,7 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 if os.getenv("SANDBOX") != "":
     mem = "100Mi"
     gpu = "0"
-    storage = "500Mi"
+    storage = "20Mi"
     ephemeral_storage = "500Mi"
 else:
     mem = "30Gi"
