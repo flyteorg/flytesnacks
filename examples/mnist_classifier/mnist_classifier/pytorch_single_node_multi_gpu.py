@@ -370,11 +370,11 @@ if os.getenv("SANDBOX") != "":
     mem = "100Mi"
     gpu = "0"
     storage = "500Mi"
-    ephemeral_storage = "500Mi"
+    ephemeral_storage = "20Mi"
 else:
     mem = "30Gi"
     gpu = str(WORLD_SIZE)
-    ephemeral_storage = "20Mi"
+    ephemeral_storage = "500Mi"
     storage = "20Gi"
 
 
