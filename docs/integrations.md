@@ -108,7 +108,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 
 ## External Service Backend Plugins
 
-As the term suggests, external service backend plugins relies on external services like
+As the term suggests, external service backend plugins rely on external services like
 [AWS Sagemaker](https://aws.amazon.com/sagemaker),
 [Hive](https://docs.qubole.com/en/latest/user-guide/engines/hive/index.html) or
 [Snowflake](https://www.snowflake.com/) for handling the workload defined in
