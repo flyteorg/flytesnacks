@@ -1,9 +1,9 @@
-flytekit>=1.0.0
+flytekit
 wheel
 matplotlib
 flytekitplugins-deck-standard
 torch
 torchvision
 wandb
-numpy
-pandas
+numpy<1.22.0
+pandas<=1.4.3
