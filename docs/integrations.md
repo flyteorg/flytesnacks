@@ -80,11 +80,35 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Ray jobs on a K8s Cluster.
 ```
 
+(flyte_agents)=
+
+## Flyte agents
+
+[Flyte agents](https://docs.flyte.org/en/latest/flyte_agents/index.html) are long-running, stateless services that receive execution requests via gRPC and initiate jobs with appropriate external or internal services. Each agent service is a Kubernetes deployment that receives gRPC requests from FlytePropeller when users trigger a particular type of task. (For example, the BigQuery agent handles BigQuery tasks.) The agent service then initiates a job with the appropriate service. If you don't see the agent you need below, see "[Developing agents](https://docs.flyte.org/en/latest/flyte_agents/developing_agents.html)" to learn how to develop a new agent.
+
+```{list-table}
+:header-rows: 0
+:widths: 20 30
+
+* - {ref}`Airflow agent <airflow_agent>`
+  - Run Airflow jobs in your workflows with the Airflow agent.
+* - {ref}`BigQuery agent <bigquery_agent>`
+  - Run BigQuery jobs in your workflows with the BigQuery agent.
+* - {ref}`Databricks <databricks_agent>`
+  - Run Databricks jobs in your workflows with the Databricks agent.
+* - {ref}`Memory Machine Cloud <mmcloud_agent>`
+  - Execute tasks using the MemVerge Memory Machine Cloud agent.
+* - {doc}`Sensor <auto_examples/sensor/index>`
+  - Run sensor jobs in your workflows with the sensor agent.
+* - {ref}`Snowflake <snowflake_agent>`
+  - Run Snowflake jobs in your workflows with the Snowflake agent.
+```
+
 (external_service_backend_plugins)=
 
 ## External Service Backend Plugins
 
-As the term suggests, external service backend plugins relies on external services like
+As the term suggests, external service backend plugins rely on external services like
 [AWS Sagemaker](https://aws.amazon.com/sagemaker),
 [Hive](https://docs.qubole.com/en/latest/user-guide/engines/hive/index.html) or
 [Snowflake](https://www.snowflake.com/) for handling the workload defined in
@@ -94,27 +118,25 @@ the Flyte task that use the respective plugin.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`AWS Sagemaker: Model Training <auto_examples/sagemaker_training_plugin/index>`
+* - {doc}`AWS Sagemaker: Model Training plugin <auto_examples/sagemaker_training_plugin/index>`
   - Train models with built-in or define your own custom algorithms.
-* - {doc}`AWS Sagemaker: Pytorch Training <auto_examples/sagemaker_pytorch_plugin/index>`
+* - {doc}`AWS Sagemaker: Pytorch Training plugin <auto_examples/sagemaker_pytorch_plugin/index>`
   - Train Pytorch models using Sagemaker, with support for distributed training.
-* - {doc}`AWS Athena <auto_examples/athena_plugin/index>`
+* - {doc}`AWS Athena plugin <auto_examples/athena_plugin/index>`
   - Execute queries using AWS Athena
-* - {doc}`AWS Batch <auto_examples/aws_batch_plugin/index>`
+* - {doc}`AWS Batch plugin <auto_examples/aws_batch_plugin/index>`
   - Running tasks and workflows on AWS batch service
-* - {doc}`Flyte Interactive <auto_examples/flyin_plugin/index>`
+* - {doc}`Flyte Interactive <auto_examples/flyteinteractive_plugin/index>`
   - Execute tasks using Flyte Interactive to debug.
-* - {doc}`Hive <auto_examples/hive_plugin/index>`
+* - {doc}`Hive plugin <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
-* - {doc}`MMCloud <auto_examples/mmcloud_plugin/index>`
+* - {ref}`MMCloud plugin <mmcloud_plugin>`
   - Execute tasks using MemVerge Memory Machine Cloud
-* - {doc}`Sensor <auto_examples/sensor/index>`
-  - Run Sensor jobs in your workflows.
-* - {doc}`Snowflake <auto_examples/snowflake_plugin/index>`
+* - {ref}`Snowflake <snowflake_plugin>`
   - Run Snowflake jobs in your workflows.
-* - {doc}`Databricks <auto_examples/databricks_plugin/index>`
+* - {ref}`Databricks <databricks_plugin>`
   - Run Databricks jobs in your workflows.
-* - {doc}`BigQuery <auto_examples/bigquery_plugin/index>`
+* - {ref}`BigQuery <bigquery_plugin>`
   - Run BigQuery jobs in your workflows.
 ```
 
@@ -139,19 +161,6 @@ This is a little tricky since you have to look at the source code of the plugin 
 Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to [kustomize your own deployment](https://github.com/flyteorg/flyte/tree/master/kustomize).
 
 ::::
-
-## Custom Container Tasks
-
-Because Flyte uses executable docker containers as the smallest unit of compute, you can write custom tasks with the
-{py:class}`flytekit.ContainerTask` via the [flytekit](https://github.com/flyteorg/flytekit) SDK.
-
-```{list-table}
-:header-rows: 0
-:widths: 20 30
-
-* - {doc}`Raw Container Tasks <auto_examples/customizing_dependencies/raw_container>`
-  - Execute arbitrary containers: You can write C++ code, bash scripts and any containerized program.
-```
 
 ## SDKs for Writing Tasks and Workflows
 

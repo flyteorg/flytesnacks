@@ -1,5 +1,13 @@
 [
   {
+    "name": "lite",
+    "priority": "lite",
+    "path": "core",
+    "examples": [
+      ["basics.hello_world.hello_world_wf", {}]
+    ]
+  },
+  {
     "name": "core",
     "priority": "P0",
     "path": "core",

@@ -26,6 +26,8 @@ ENV PATH="${VENV}/bin:$PATH"
 # Install Python dependencies
 COPY requirements.txt /root
 RUN pip install -r /root/requirements.txt
+RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install tensorboardX
 
 # Copy the actual code
 COPY . /root/

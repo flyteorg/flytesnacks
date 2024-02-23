@@ -20,7 +20,7 @@
 # Additionally, you can create new decks to render your data using custom renderers.
 #
 # :::{note}
-# Flyte Decks is an opt-in feature; to enable it, set `disable_deck` to `False` in the task parameters.
+# Flyte Decks is an opt-in feature; to enable it, set `enable_deck` to `True` in the task parameters.
 # :::
 #
 # To begin, import the dependencies.
@@ -52,7 +52,7 @@ if custom_image.is_container():
 #
 # Note the usage of `append` to append the Plotly deck to the Markdown deck.
 # %%
-@task(disable_deck=False, container_image=custom_image)
+@task(enable_deck=True, container_image=custom_image)
 def pca_plot():
     iris_df = px.data.iris()
     X = iris_df[["sepal_length", "sepal_width", "petal_length", "petal_width"]]
@@ -109,7 +109,7 @@ def pca_plot():
 #
 # ### Available renderers
 #
-# #### Frame Renderer
+# #### Frame renderer
 #
 # Creates a profile report from a Pandas DataFrame.
 # %%
@@ -117,7 +117,7 @@ import pandas as pd
 from flytekitplugins.deck.renderer import FrameProfilingRenderer
 
 
-@task(disable_deck=False)
+@task(enable_deck=True)
 def frame_renderer() -> None:
     df = pd.DataFrame(data={"col1": [1, 2], "col2": [3, 4]})
     flytekit.Deck("Frame Renderer", FrameProfilingRenderer().to_html(df=df))
@@ -130,7 +130,7 @@ def frame_renderer() -> None:
 # :::
 #
 # %% [markdown]
-# #### TopFrame Renderer
+# #### Top-frame renderer
 #
 # Renders DataFrame as an HTML table.
 # This renderer doesn't necessitate plugin installation since it's accessible within the flytekit library.
@@ -140,7 +140,7 @@ from typing import Annotated
 from flytekit.deck import TopFrameRenderer
 
 
-@task(disable_deck=False)
+@task(enable_deck=True)
 def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
     return pd.DataFrame(data={"col1": [1, 2], "col2": [3, 4]})
 
@@ -151,11 +151,11 @@ def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
 # :class: with-shadow
 # :::
 #
-# #### MarkDown Renderer
+# #### Markdown renderer
 #
 # Converts a Markdown string into HTML, producing HTML as a Unicode string.
 # %%
-@task(disable_deck=False)
+@task(enable_deck=True)
 def markdown_renderer() -> None:
     flytekit.current_context().default_deck.append(
         MarkdownRenderer().to_html("You can install flytekit using this command: ```import flytekit```")
@@ -168,7 +168,7 @@ def markdown_renderer() -> None:
 # :class: with-shadow
 # :::
 #
-# #### Box Renderer
+# #### Box renderer
 #
 # Groups rows of DataFrame together into a
 # box-and-whisker mark to visualize their distribution.
@@ -181,7 +181,7 @@ def markdown_renderer() -> None:
 from flytekitplugins.deck.renderer import BoxRenderer
 
 
-@task(disable_deck=False)
+@task(enable_deck=True)
 def box_renderer() -> None:
     iris_df = px.data.iris()
     flytekit.Deck("Box Plot", BoxRenderer("sepal_length").to_html(iris_df))
@@ -193,7 +193,7 @@ def box_renderer() -> None:
 # :class: with-shadow
 # :::
 #
-# #### Image Renderer
+# #### Image renderer
 #
 # Converts a {ref}`FlyteFile <files>` or `PIL.Image.Image` object into an HTML string,
 # where the image data is encoded as a base64 string.
@@ -203,7 +203,7 @@ from flytekit.types.file import FlyteFile
 from flytekitplugins.deck.renderer import ImageRenderer
 
 
-@task(disable_deck=False)
+@task(enable_deck=True)
 def image_renderer(image: FlyteFile) -> None:
     flytekit.Deck("Image Renderer", ImageRenderer().to_html(image_src=image))
 
@@ -221,14 +221,14 @@ def image_renderer_wf(
 # :class: with-shadow
 # :::
 #
-# #### Table Renderer
+# #### Table renderer
 #
-# Converts a Pandas DataFrame into an HTML table.
+# Converts a Pandas dataframe into an HTML table.
 # %%
 from flytekitplugins.deck.renderer import TableRenderer
 
 
-@task(disable_deck=False)
+@task(enable_deck=True)
 def table_renderer() -> None:
     flytekit.Deck(
         "Table Renderer",
@@ -237,12 +237,14 @@ def table_renderer() -> None:
 
 
 # %% [markdown]
-# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_source_code_renderer.png
-# :alt: Source code renderer
+# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_table_renderer.png
+# :alt: Table renderer
 # :class: with-shadow
 # :::
-# #### Source Code Renderer
-# Converts a Source Code into HTML
+#
+# #### Source code renderer
+#
+# Converts source code to HTML and renders it as a Unicode string on the deck.
 # %%
 import inspect
 
@@ -261,8 +263,8 @@ def source_code_renderer() -> None:
 
 
 # %% [markdown]
-# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_table_renderer.png
-# :alt: Table renderer
+# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_decks_source_code_renderer.png
+# :alt: Source code renderer
 # :class: with-shadow
 # :::
 #
