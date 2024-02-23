@@ -90,17 +90,17 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {ref}`Airflow agent <airflow_agent>`
+* - {doc}`Airflow agent <auto_examples/airflow_agent/index>`
   - Run Airflow jobs in your workflows with the Airflow agent.
-* - {ref}`BigQuery agent <bigquery_agent>`
+* - {doc}`BigQuery agent <auto_examples/bigquery_integration/bigquery_agent>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
-* - {ref}`Databricks <databricks_agent>`
+* - {doc}`Databricks <auto_examples/databricks_integration/databricks_agent>`
   - Run Databricks jobs in your workflows with the Databricks agent.
-* - {ref}`Memory Machine Cloud <mmcloud_agent>`
+* - {doc}`Memory Machine Cloud <auto_examples/mmcloud_integration/mmcloud_agent>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
 * - {doc}`Sensor <auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
-* - {ref}`Snowflake <snowflake_agent>`
+* - {doc}`Snowflake <auto_examples/snowflake_integration/snowflake_agent>`
   - Run Snowflake jobs in your workflows with the Snowflake agent.
 ```
 
@@ -130,13 +130,13 @@ the Flyte task that use the respective plugin.
   - Execute tasks using Flyte Interactive to debug.
 * - {doc}`Hive plugin <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
-* - {ref}`MMCloud plugin <mmcloud_plugin>`
+* - {doc}`MMCloud plugin <auto_examples/mmcloud_integration/mmcloud_plugin>`
   - Execute tasks using MemVerge Memory Machine Cloud
-* - {ref}`Snowflake <snowflake_plugin>`
+* - {doc}`Snowflake <auto_examples/snowflake_integration/snowflake_plugin>`
   - Run Snowflake jobs in your workflows.
-* - {ref}`Databricks <databricks_plugin>`
+* - {doc}`Databricks <auto_examples/databricks_integration/databricks_plugin>`
   - Run Databricks jobs in your workflows.
-* - {ref}`BigQuery <bigquery_plugin>`
+* - {doc}`BigQuery <auto_examples/bigquery_integration/bigquery_plugin>`
   - Run BigQuery jobs in your workflows.
 ```
 
