@@ -7,10 +7,16 @@
 # .. tags:: FailureNode, Intermediate
 # ```
 #
-# Failure node is a feature that allows you to specify a node to execute in case of a failure.
-# This is useful when you want to execute a cleanup task when certain tasks fail.
+# The Failure Node feature enables you to designate a specific node to execute in the event of a failure within your workflow.
 #
-# To begin, import the necessary dependencies.
+# For example, workflow involves creating a cluster at the beginning, followed by the execution of tasks, and concluding
+# with the deletion of the cluster once all tasks are completed. However, if any task within the workflow encounters an error,
+# flyte will abort the entire workflow and won’t delete the cluster. This poses a challenge if you still need to clean up the
+# cluster even in a task failure.
+#
+# A failure node can be incorporated into the workflow to address this issue. This ensures that critical actions,
+# such as deleting the cluster, are executed even in the event of failures occurring throughout the workflow execution.
+#
 # %%
 from flytekit import task, workflow, WorkflowFailurePolicy
 
