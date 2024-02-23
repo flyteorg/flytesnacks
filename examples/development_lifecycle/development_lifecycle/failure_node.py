@@ -49,7 +49,7 @@ def clean_up(name: str):
 
 
 # %% [markdown]
-# Set the `on_failure` parameter to the cleanup task.
+# Specify the `on_failure` to a cleanup task.
 # This task will be executed if any of the tasks in the workflow fail.
 # :::{important}
 # The input of `clean_up` should be the exact same as the input of the workflow.
@@ -64,8 +64,8 @@ def subwf(name: str):
 
 
 # %% [markdown]
-# Set the failure policy to `FAIL_AFTER_EXECUTABLE_NODES_COMPLETE` to ensure that the `wf1` is executed even if the subworkflow fails.
-# In this case, both parent and child workflows will fail. The `clean_up` task will be executed twice.
+# By setting the failure policy to `FAIL_AFTER_EXECUTABLE_NODES_COMPLETE` to ensure that the `wf1` is executed even if the subworkflow fails.
+# In this case, both parent and child workflows will fail, resulting in the `clean_up` task being executed twice.
 # %%
 @workflow(on_failure=clean_up, failure_policy=WorkflowFailurePolicy.FAIL_AFTER_EXECUTABLE_NODES_COMPLETE)
 def wf1(name: str = "my_cluster"):
@@ -82,7 +82,7 @@ def clean_up_wf(name: str):
 
 
 # %% [markdown]
-# You can also set the `on_failure` parameter to a workflow.
+# You can also set the `on_failure` to a workflow.
 # This workflow will be executed if any of the tasks in the workflow fail.
 
 # %%
