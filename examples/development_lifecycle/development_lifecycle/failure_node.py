@@ -18,7 +18,7 @@
 # such as deleting the cluster, are executed even in the event of failures occurring throughout the workflow execution.
 #
 # %%
-from flytekit import task, workflow, WorkflowFailurePolicy
+from flytekit import WorkflowFailurePolicy, task, workflow
 
 
 @task
