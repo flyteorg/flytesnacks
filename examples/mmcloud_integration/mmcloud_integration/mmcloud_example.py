@@ -1,4 +1,5 @@
 # %% [markdown]
+# (mmcloud_example)=
 # # Memory Machine Cloud
 #
 # This example shows how to use the MMCloud plugin to execute tasks on MemVerge Memory Machine Cloud.
