@@ -7,8 +7,8 @@
 # with Flyte's powerful task execution and orchestration capabilities.
 # %%
 
-from airflow.sensors.filesystem import FileSensor
 from airflow.operators.bash import BashOperator
+from airflow.sensors.filesystem import FileSensor
 from flytekit import task, workflow
 
 
