@@ -1,5 +1,5 @@
 # %% [markdown]
-# # Quering data in Snowflake
+# # Querying data in Snowflake
 #
 # This example shows how to use the `SnowflakeTask` to execute a query in Snowflake.
 #

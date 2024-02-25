@@ -1,12 +1,12 @@
-# Memory Machine Cloud
+(mmcloud_plugin)=
 
-```{eval-rst}
-.. tags:: AWS, GCP, AliCloud, Integration, Advanced
+# Memory Machine Cloud plugin
+
+```{note}
+
+This is a legacy implementation of the Memory Machine Cloud integration. We recommend using the {ref}`Memory Machine Cloud agent <mmcloud_agent>` instead.
+
 ```
-
-[MemVerge](https://memverge.com/) [Memory Machine Cloud](https://www.mmcloud.io/) (MMCloud)—available on AWS, GCP, and AliCloud—empowers users to continuously optimize cloud resources during runtime, safely execute stateful tasks on spot instances, and monitor resource usage in real time. These capabilities make it an excellent fit for long-running batch workloads.
-
-Flyte can be integrated with MMCloud, allowing you to execute Flyte tasks using MMCloud.
 
 ## Installation
 
@@ -18,9 +18,9 @@ To install the plugin, run the following command:
     pip install flytekitplugins-mmcloud
 ```
 
-To get started with MMCloud, refer to the [MMCloud User Guide](https://docs.memverge.com/mmce/current/userguide/olh/index.html).
+To get started with MMCloud, see the [MMCloud user guide](https://docs.memverge.com/mmce/current/userguide/olh/index.html).
 
-## Configuring the backend to get MMCloud working
+## Flyte deployment configuration
 
 The MMCloud plugin is [enabled in FlytePropeller's configuration](https://docs.flyte.org/en/latest/deployment/plugins/memverge/mmcloud.html).
 
@@ -37,13 +37,13 @@ This plugin allows executing `PythonFunctionTask` using MMCloud without changing
         return str(i)
 ```
 
-[Resource](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/productionizing/customizing_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/multi_images.html) images, and [environment](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.task.html) variable specifications are supported.
+[Resource](https://docs.flyte.org/en/latest/flytesnacks/examples/productionizing/customizing_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/en/latest/flytesnacks/examples/customizing_dependencies/multi_images.html) images, and environment variable specifications are supported.
 
-[ImageSpec](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/customizing_dependencies/image_spec.html) may be used to define images to run tasks.
+[ImageSpec](https://docs.flyte.org/en/latest/flytesnacks/examples/customizing_dependencies/image_spec.html#image-spec-example) may be used to define images to run tasks.
 
 ### Credentials
 
-The following [secrets](https://docs.flyte.org/projects/cookbook/en/latest/auto_examples/productionizing/use_secrets.html) are required to be defined for the agent server:
+The following [secrets](https://docs.flyte.org/en/latest/flytesnacks/examples/productionizing/use_secrets.html) are required to be defined for the agent server:
 * `mmc_address`: MMCloud OpCenter address
 * `mmc_username`: MMCloud OpCenter username
 * `mmc_password`: MMCloud OpCenter password
@@ -78,6 +78,6 @@ COPY float /usr/local/bin/float
 CMD pyflyte serve agent --port 8000
 ```
 
-```{auto-examples-toc}
-example
-```
+## Example usage
+
+For a usage example, see the {ref}`Memory Machine Cloud example <mmcloud_example>` page.

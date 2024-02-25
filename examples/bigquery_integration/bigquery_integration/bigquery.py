@@ -1,5 +1,5 @@
 # %% [markdown]
-# # BigQuery Query
+# # BigQuery example query
 #
 # This example shows how to use a Flyte BigQueryTask to execute a query.
 # %%
