@@ -31,5 +31,5 @@ def file_sensor():
 # %%
 @workflow
 def bash_sensor():
-    b = BashOperator(task_id=f"airflow_bash_operator", bash_command="echo hello")
-    b >> t1()
+    op = BashOperator(task_id="airflow_bash_operator", bash_command="echo hello")
+    op >> t1()
