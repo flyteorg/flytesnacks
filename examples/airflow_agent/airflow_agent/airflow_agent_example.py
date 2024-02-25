@@ -1,23 +1,35 @@
 # %% [markdown]
 # (airflow_agent_example)=
-# # Airflow agent example
-#
+# # Airflow
+# Airflow is a widely used open-source platform for managing workflows and has a robust ecosystem.
+# Flyte provides an Airflow plugin that allows you to run Airflow tasks as Flyte tasks.
+# This allows you to use the Airflow robust plugin ecosystem in conjunction
+# with Flyte's powerful task execution and orchestration capabilities.
 # %%
 
 from airflow.sensors.filesystem import FileSensor
+from airflow.operators.bash import BashOperator
 from flytekit import task, workflow
 
 
 @task()
 def t1():
-    print("flyte")
+    print("success")
 
 
+# %% [markdown]
+# Use the Airflow `FileSensor` to wait for a file to appear before running the task.
+# %%
 @workflow
-def wf():
+def file_sensor():
     sensor = FileSensor(task_id="id", filepath="/tmp/1234")
     sensor >> t1()
 
 
-if __name__ == "__main__":
-    wf()
+# %% [markdown]
+# Use the Airflow `BashOperator` to run a bash command.
+# %%
+@workflow
+def bash_sensor():
+    b = BashOperator(task_id=f"airflow_bash_operator", bash_command="echo hello")
+    b >> t1()

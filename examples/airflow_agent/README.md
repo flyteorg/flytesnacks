@@ -12,12 +12,16 @@ To install the plugin, run the following command:
 
 `pip install flytekitplugins-airflow`
 
+This plugin has two components:
+1. Airflow compiler: This component compiles Airflow tasks to Flyte tasks, so airflow tasks can be directly used inside the Flyte workflow.
+2. Airflow agent: This component allows you to execute Airflow tasks either locally or on a Flyte cluster.
+
 ## Example usage
 
 ```{note}
 
 You don't need an Airflow cluster to run Airflow tasks, since Flytekit will
-automatically compile Airflow tasks to Flyte tasks and execute them on the Flyte cluster.
+automatically compile Airflow tasks to Flyte tasks and execute them on the Airflow agent.
 
 ```
 
@@ -25,7 +29,10 @@ For a usage example, see the {doc}`Airflow agent example <airflow_agent_example>
 
 ## Local testing
 
-To test an agent locally, create a class for the agent task that inherits from [AsyncAgentExecutorMixin](https://github.com/flyteorg/flytekit/blob/master/flytekit/extend/backend/base_agent.py#L155). This mixin can handle both asynchronous tasks and synchronous tasks and allows flytekit to mimic FlytePropeller's behavior in calling the agent. For more information, see "[Testing agents locally](https://docs.flyte.org/en/latest/flyte_agents/testing_agents_locally.html)".
+Airflow doesn't support local execution natively.
+However, Flyte compiles Airflow tasks to Flyte tasks,
+which enables you to test Airflow tasks locally in Flytekit's local execution mode.
+
 
 ```{note}
 
