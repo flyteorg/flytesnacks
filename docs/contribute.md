@@ -1,31 +1,30 @@
-# Contributing to User Guide, Tutorials and Integrations
+# Contributing to Flyte documentation
 
 ```{eval-rst}
 .. tags:: Contribute, Basic
 ```
 
-The examples documentation provides an easy way for the community to learn about the rich set of
-features that Flyte offers, and we are constantly improving them with your help!
+The Flyte documentation provides an easy way for the community to learn about the rich set of
+features that Flyte offers, and we are constantly improving it with your help!
 
 Whether you're a novice or experienced software engineer, data scientist, or machine learning
 practitioner, all contributions are welcome!
 
 ## How to Contribute
 
-The Flyte documentation examples guides are broken up into three types:
+The Flyte documentation is broken up into three types:
 
-1. {ref}`User Guides <userguide>`: These are short, simple guides that demonstrate how to use a particular Flyte feature.
-   These examples should be runnable locally.
+1. {ref}`User Guides <userguide>`: These are short, simple guides that demonstrate how to use a particular Flyte feature. These guides live in the [Flyte repo](https://github.com/flyteorg/flyte/tree/master/docs).
 2. {ref}`Tutorials <tutorials>`: These are longer, more advanced guides that use multiple Flyte features to solve
    real-world problems. Tutorials are generally more complex examples that may require extra setup or that can only run
    on larger clusters.
 3. {ref}`Integrations <integrations>`: These examples showcase how to use the Flyte plugins that integrate with the
    broader data and ML ecosystem.
 
-The first step to contributing an example is to open up a
+The first step to contributing documentation is to open up a
 [documentation issue](https://github.com/flyteorg/flyte/issues/new?assignees=&labels=documentation%2Cuntriaged&template=docs_issue.yaml&title=%5BDocs%5D+)
-to articulate the kind of example you want to write. The Flyte maintainers will guide and help you figure out where
-your example would fit best.
+to articulate the kind of documentation you want to write. The Flyte maintainers will guide and help you figure out where
+your documentation would fit best.
 
 ## Creating an Example
 
@@ -33,9 +32,9 @@ your example would fit best.
 Follow the {ref}`env_setup` guide to get your development environment ready.
 :::
 
-The `flytesnacks` repo examples live in the `examples` directory, where each
+The `flytesnacks` tutorial and integrations documentation lives in the `examples` directory, where each
 subdirectory contains a self-contained example project that covers a particular
-feature, integration, or use case.
+integration or use case.
 
 ```{code-block} bash
 examples
@@ -52,10 +51,10 @@ examples
 
 If you're adding a new example to an existing project, you can simply create a
 new `.py` file in the appropriate directory. For example, if you want to add a new
-example in the `examples/basics` project, simply do:
+example in the `examples/forecasting_sales` project, simply do:
 
 ```{prompt} bash
-touch examples/basics/my_new_example.py
+touch examples/forecasting_sales/forecasting_sales/my_new_example.py
 ```
 
 Once you're done creating your example, add it to the `README.md` file of the
@@ -71,8 +70,8 @@ my_new_example
 ### Creating a new example project
 
 ````{important}
-If you're creating a new example in the User Guide, Tutorials, or Integrations
-that doesn't fit into any of the existing subdirectories, you'll need to setup a
+If you're creating a new example in the Tutorials or Integrations
+that doesn't fit into any of the existing subdirectories, you'll need to create a
 new example project.
 
 In the `flytesnacks` root directory, create one with:
@@ -96,7 +95,7 @@ examples/new_example_project
 
 ````
 
-### Creating python examples
+### Creating Python examples
 
 Then, write your example python script in [percent format](https://jupytext.readthedocs.io/en/latest/formats.html#the-percent-format),
 which allows you to interleave python code and markdown in the same file. Each
@@ -295,10 +294,10 @@ We use [codespell](https://github.com/codespell-project/codespell) to catch comm
 
 ## Update Documentation Pages
 
-The `docs/conf.py` contains the sphinx configuration for building the
+The `docs/conf.py` contains the Sphinx configuration for building the
 `flytesnacks` documentation.
 
-At build-time, the `flytesnacks` sphinx build system will convert all of the
+At build-time, the `flytesnacks` Sphinx build system will convert all of the
 projects in the `examples` directory into `docs/auto_examples`, and will be
 available in the documentation.
 
@@ -312,7 +311,7 @@ directive like so:
 :::{code-block}
 
 ```{toc}
-auto_examples/basics/index
+auto_examples/house_price_integration/index
 ```
 
 :::
@@ -322,7 +321,7 @@ auto_examples/basics/index
 If you've created a new example project, you'll need to add the `index` page
 in the table of contents in `docs/index.md` to make sure the project
 shows up in the documentation. Additonally, you'll need to update the appropriate
-`list-table` directive in `docs/userguide.md`, `docs/tutorials.md`, or
+`list-table` directive in `docs/tutorials.md` or
 `docs/integrations.md` so that it shows up in the respective section of the
 documentation.
 
