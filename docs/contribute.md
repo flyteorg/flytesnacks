@@ -202,6 +202,7 @@ flytectl demo start
 
 ### Testing the `basics` project examples on a local demo cluster
 
+
 In this example, we'll build the `basics` project:
 
 ```{prompt} bash
