@@ -23,7 +23,7 @@ anyio==4.0.0
     # via httpx
 apache-airflow[google]==2.8.0
     # via
-    #   -r dev-requirements.in
+    #   -r requirements.in
     #   apache-airflow-providers-apache-beam
     #   apache-airflow-providers-common-sql
     #   apache-airflow-providers-ftp
@@ -32,7 +32,7 @@ apache-airflow[google]==2.8.0
     #   apache-airflow-providers-imap
     #   apache-airflow-providers-sqlite
 apache-airflow-providers-apache-beam[google]==5.3.0
-    # via -r dev-requirements.in
+    # via -r requirements.in
 apache-airflow-providers-common-sql==1.8.0
     # via
     #   apache-airflow
@@ -636,7 +636,7 @@ opentelemetry-semantic-conventions==0.42b0
     # via opentelemetry-sdk
 ordered-set==4.1.0
     # via flask-limiter
-orjson==3.9.10
+orjson==3.9.15
     # via apache-beam
 overrides==6.5.0
     # via google-cloud-pubsublite
