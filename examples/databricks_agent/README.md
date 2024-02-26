@@ -1,22 +1,26 @@
-(bigquery_agent)=
+(databricks_agent)=
 
-# BigQuery agent
+# Databricks agent
+
+```{eval-rst}
+.. tags:: Spark, Integration, DistributedComputing, Data, Advanced
+```
+
+Flyte can be integrated with the [Databricks](https://www.databricks.com/) service,
+enabling you to submit Spark jobs to the Databricks platform.
 
 ## Installation
 
-To install the BigQuery agent, run the following command:
+The Databricks agent comes bundled with the Spark plugin. To install the Spark plugin, run the following command:
 
-```{eval-rst}
-.. prompt:: bash
-
-    pip install flytekitplugins-bigquery
 ```
+pip install flytekitplugins-spark
 
-This agent is purely a spec. Since SQL is completely portable, there is no need to build a Docker container.
+```
 
 ## Example usage
 
-For an example query, see {doc}`BigQuery example query<bigquery>`.
+For a usage example, see the {doc}`Databricks agent example <databricks_agent_example>` page.
 
 ## Local testing
 
@@ -34,4 +38,12 @@ In some cases, you will need to store credentials in your local environment when
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To enable the BigQuery agent in your Flyte deployment, see the {ref}`BigQuery agent deployment guide<deployment-agent-setup-bigquery>`.
+To enable the Databricks agent in your Flyte deployment, see the {ref}`Databricks agent setup guide <deployment-agent-setup-databricks>`.
+
+
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+databricks_agent_example
+```

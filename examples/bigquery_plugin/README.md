@@ -22,7 +22,7 @@ This plugin is purely a spec. Since SQL is completely portable, there is no need
 
 ## Example usage
 
-For a usage example, see the {doc}`BigQuery example query<bigquery>` page.
+For a usage example, see the {doc}`BigQuery example query<bigquery_plugin_example>` page.
 
 ## Flyte deployment configuration
 
@@ -30,3 +30,11 @@ BigQuery plugins are [enabled in FlytePropeller's config](https://docs.flyte.org
 
 To run the BigQuery plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
 {std:ref}`BigQuery plugin setup guide <flyte:deployment-plugin-setup-gcp-bigquery>`.
+
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+bigquery_plugin_example
+
+```
