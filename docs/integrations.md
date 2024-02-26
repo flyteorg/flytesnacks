@@ -90,7 +90,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {ref}`Airflow agent <airflow_agent>`
+* - {ref}`Airflow agent <airflow_agent_example>`
   - Run Airflow jobs in your workflows with the Airflow agent.
 * - {ref}`BigQuery agent <bigquery_agent>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
