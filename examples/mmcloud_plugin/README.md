@@ -1,3 +1,7 @@
+```{eval-rst}
+.. tags:: AWS, GCP, AliCloud, Integration, Advanced
+```
+
 (mmcloud_plugin)=
 
 # Memory Machine Cloud plugin
@@ -7,6 +11,8 @@
 This is a legacy implementation of the Memory Machine Cloud integration. We recommend using the {ref}`Memory Machine Cloud agent <mmcloud_agent>` instead.
 
 ```
+
+[MemVerge](https://memverge.com/) [Memory Machine Cloud](https://www.mmcloud.io/) (MMCloud)—available on AWS, GCP, and AliCloud—empowers users to continuously optimize cloud resources during runtime, safely execute stateful tasks on spot instances, and monitor resource usage in real time. These capabilities make it an excellent fit for long-running batch workloads. Flyte can be integrated with MMCloud, allowing you to execute Flyte tasks using MMCloud.
 
 ## Installation
 
@@ -80,4 +86,13 @@ CMD pyflyte serve agent --port 8000
 
 ## Example usage
 
-For a usage example, see the {ref}`Memory Machine Cloud example <mmcloud_example>` page.
+For a usage example, see the {ref}`Memory Machine Cloud example <mmcloud_plugin_example>` page.
+
+
+
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+mmcloud_plugin_example
+```

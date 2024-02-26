@@ -90,17 +90,17 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {ref}`Airflow agent <airflow_agent>`
+* - {doc}`Airflow agent <auto_examples/airflow_agent/index>`
   - Run Airflow jobs in your workflows with the Airflow agent.
-* - {ref}`BigQuery agent <bigquery_agent>`
+* - {doc}`BigQuery agent <auto_examples/bigquery_agent/index>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
-* - {ref}`Databricks <databricks_agent>`
+* - {doc}`Databricks <auto_examples/databricks_agent/index>`
   - Run Databricks jobs in your workflows with the Databricks agent.
-* - {ref}`Memory Machine Cloud <mmcloud_agent>`
+* - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
 * - {doc}`Sensor <auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
-* - {ref}`Snowflake <snowflake_agent>`
+* - {doc}`Snowflake <auto_examples/snowflake_agent/index>`
   - Run Snowflake jobs in your workflows with the Snowflake agent.
 ```
 
@@ -109,10 +109,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 ## External Service Backend Plugins
 
 As the term suggests, external service backend plugins rely on external services like
-[AWS Sagemaker](https://aws.amazon.com/sagemaker),
-[Hive](https://docs.qubole.com/en/latest/user-guide/engines/hive/index.html) or
-[Snowflake](https://www.snowflake.com/) for handling the workload defined in
-the Flyte task that use the respective plugin.
+[Hive](https://docs.qubole.com/en/latest/user-guide/engines/hive/index.html) for handling the workload defined in the Flyte task that uses the respective plugin.
 
 ```{list-table}
 :header-rows: 0
@@ -130,14 +127,6 @@ the Flyte task that use the respective plugin.
   - Execute tasks using Flyte Interactive to debug.
 * - {doc}`Hive plugin <auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
-* - {ref}`MMCloud plugin <mmcloud_plugin>`
-  - Execute tasks using MemVerge Memory Machine Cloud
-* - {ref}`Snowflake <snowflake_plugin>`
-  - Run Snowflake jobs in your workflows.
-* - {ref}`Databricks <databricks_plugin>`
-  - Run Databricks jobs in your workflows.
-* - {ref}`BigQuery <bigquery_plugin>`
-  - Run BigQuery jobs in your workflows.
 ```
 
 (enable-backend-plugins)=

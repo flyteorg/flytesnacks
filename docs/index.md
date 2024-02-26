@@ -104,9 +104,9 @@ auto_examples/athena_plugin/index
 auto_examples/aws_batch_plugin/index
 auto_examples/sagemaker_pytorch_plugin/index
 auto_examples/sagemaker_training_plugin/index
-auto_examples/bigquery_integration/index
+auto_examples/bigquery_agent/index
 auto_examples/k8s_dask_plugin/index
-auto_examples/databricks_integration/index
+auto_examples/databricks_agent/index
 auto_examples/dbt_plugin/index
 auto_examples/dolt_plugin/index
 auto_examples/duckdb_plugin/index
@@ -115,7 +115,7 @@ auto_examples/greatexpectations_plugin/index
 auto_examples/hive_plugin/index
 auto_examples/k8s_pod_plugin/index
 auto_examples/mlflow_plugin/index
-auto_examples/mmcloud_integration/index
+auto_examples/mmcloud_agent/index
 auto_examples/modin_plugin/index
 auto_examples/kfmpi_plugin/index
 auto_examples/onnx_plugin/index
@@ -124,12 +124,26 @@ auto_examples/pandera_plugin/index
 auto_examples/kfpytorch_plugin/index
 auto_examples/ray_plugin/index
 auto_examples/sensor/index
-auto_examples/snowflake_integration/index
+auto_examples/snowflake_agent/index
 auto_examples/k8s_spark_plugin/index
 auto_examples/sql_plugin/index
 auto_examples/kftensorflow_plugin/index
 auto_examples/whylogs_plugin/index
 ```
+
+```{toctree}
+:maxdepth: -1
+:caption: Deprecated integrations
+:hidden:
+
+Deprecated integrations <deprecated_integrations>
+auto_examples/bigquery_plugin/index
+auto_examples/databricks_plugin/index
+auto_examples/mmcloud_plugin/index
+auto_examples/snowflake_plugin/index
+```
+
+
 
 ```{toctree}
 :maxdepth: -1

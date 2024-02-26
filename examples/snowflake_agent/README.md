@@ -1,19 +1,24 @@
-(databricks_agent)=
+(snowflake_agent)=
 
-# Databricks agent
+# Snowflake agent
+
+```{eval-rst}
+.. tags:: AWS, GCP, AliCloud, Integration, Advanced
+```
+Flyte can be seamlessly integrated with the [Snowflake](https://www.snowflake.com) service,
+providing you with a straightforward means to query data in Snowflake.
 
 ## Installation
 
-The Databricks agent comes bundled with the Spark plugin. To install the Spark plugin, run the following command:
+To use the Snowflake plugin, run the following command:
 
 ```
-pip install flytekitplugins-spark
-
+pip install flytekitplugins-snowflake
 ```
 
 ## Example usage
 
-For a usage example, see the {doc}`Databricks job <databricks_job>` page.
+For a usage example, see the {ref}`Snowflake example page <snowflake_agent_example>`.
 
 ## Local testing
 
@@ -31,4 +36,12 @@ In some cases, you will need to store credentials in your local environment when
 If you are using a managed deployment of Flyte, you will need to contact your deployment administrator to configure agents in your deployment.
 ```
 
-To enable the Databricks agent in your Flyte deployment, see the {ref}`Databricks agent setup guide <deployment-agent-setup-databricks>`.
+To enable the Snowflake agent in your Flyte deployment, see the {ref}`Snowflake agent setup guide <deployment-agent-setup-snowflake>`.
+
+
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+snowflake_agent_example
+```

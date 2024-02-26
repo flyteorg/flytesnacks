@@ -1,5 +1,5 @@
 # %% [markdown]
-# (spark_on_databricks)=
+# (spark_on_databricks_agent)=
 #
 # # Running Spark on Databricks
 #
