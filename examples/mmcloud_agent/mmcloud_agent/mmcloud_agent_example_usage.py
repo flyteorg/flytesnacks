@@ -1,8 +1,8 @@
 # %% [markdown]
-# (mmcloud_agent_example)=
-# # Memory Machine Cloud
+# (mmcloud_agent_example_usage)=
+# # Memory Machine Cloud agent example usage
 #
-# This example shows how to use the MMCloud plugin to execute tasks on MemVerge Memory Machine Cloud.
+# This example shows how to use the MMCloud agent to execute tasks on MemVerge Memory Machine Cloud.
 
 # %%
 from flytekit import Resources, task, workflow

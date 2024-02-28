@@ -10,7 +10,7 @@ providing you with a straightforward means to query data in Snowflake.
 
 ## Installation
 
-To use the Snowflake plugin, run the following command:
+To use the Snowflake agent, run the following command:
 
 ```
 pip install flytekitplugins-snowflake
@@ -18,7 +18,7 @@ pip install flytekitplugins-snowflake
 
 ## Example usage
 
-For a usage example, see the {ref}`Snowflake example page <snowflake_agent_example>`.
+For a usage example, see {doc}`Snowflake agent example usage<snowflake_agent_example_usage>`.
 
 ## Local testing
 
@@ -43,5 +43,5 @@ To enable the Snowflake agent in your Flyte deployment, see the {ref}`Snowflake 
 :maxdepth: -1
 :hidden:
 
-snowflake_agent_example
+snowflake_agent_example_usage
 ```

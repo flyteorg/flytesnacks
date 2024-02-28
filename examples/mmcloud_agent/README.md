@@ -22,7 +22,7 @@ To get started with Memory Machine Cloud, see the [Memory Machine Cloud user gui
 
 ## Example usage
 
-For a usage example, see the {ref}`Memory Machine Cloud example <mmcloud_agent_example>` page.
+For a usage example, see {doc}`Memory Machine Cloud agent example usage<mmcloud_agent_example_usage>`.
 
 ## Local testing
 
@@ -47,5 +47,5 @@ To enable the Memory Machine Cloud agent in your Flyte deployment, see the {ref}
 :maxdepth: -1
 :hidden:
 
-mmcloud_agent_example
+mmcloud_agent_example_usage
 ```
