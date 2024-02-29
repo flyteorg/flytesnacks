@@ -16,7 +16,7 @@ This agent is purely a spec. Since SQL is completely portable, there is no need 
 
 ## Example usage
 
-For an example query, see {doc}`BigQuery example query<bigquery_agent_example>`.
+For an example query, see {doc}`BigQuery agent example usage<bigquery_agent_example_usage>`.
 
 ## Local testing
 
@@ -41,6 +41,6 @@ To enable the BigQuery agent in your Flyte deployment, see the {ref}`BigQuery ag
 :maxdepth: -1
 :hidden:
 
-bigquery_agent_example
+bigquery_agent_example_usage
 
 ```

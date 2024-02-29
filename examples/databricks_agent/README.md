@@ -20,7 +20,7 @@ pip install flytekitplugins-spark
 
 ## Example usage
 
-For a usage example, see the {doc}`Databricks agent example <databricks_agent_example>` page.
+For a usage example, see {doc}`Databricks agent example usage<databricks_agent_example_usage>`.
 
 ## Local testing
 
@@ -45,5 +45,5 @@ To enable the Databricks agent in your Flyte deployment, see the {ref}`Databrick
 :maxdepth: -1
 :hidden:
 
-databricks_agent_example
+databricks_agent_example_usage
 ```
