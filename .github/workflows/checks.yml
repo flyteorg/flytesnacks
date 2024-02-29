@@ -1,5 +1,9 @@
 name: Master
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -66,6 +70,7 @@ jobs:
       matrix:
         directory: "${{ fromJson(needs.list_examples.outputs.packages) }}"
     steps:
+      - uses: insightsengineering/disk-space-reclaimer@v1
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
