@@ -1,16 +1,13 @@
 # %% [markdown]
-# # BigQuery Query
+# # BigQuery agent example usage
 #
 # This example shows how to use a Flyte BigQueryTask to execute a query.
 # %%
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
 
 import pandas as pd
 from flytekit import StructuredDataset, kwtypes, task, workflow
 from flytekitplugins.bigquery import BigQueryConfig, BigQueryTask
+from typing_extensions import Annotated
 
 # %% [markdown]
 # This is the world's simplest query. Note that in order for registration to work properly, you'll need to give your
