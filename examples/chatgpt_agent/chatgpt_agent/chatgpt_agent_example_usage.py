@@ -21,8 +21,8 @@ chatgpt_small_job = ChatGPTTask(
     name="gpt-3.5-turbo",
     openai_organization="org-NayNG68kGnVXMJ8Ak4PMgQv7",
     chatgpt_config={
-            "model": "gpt-3.5-turbo",
-            "temperature": 0.7,
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.7,
     },
 )
 
@@ -30,10 +30,11 @@ chatgpt_big_job = ChatGPTTask(
     name="gpt-4",
     openai_organization="org-NayNG68kGnVXMJ8Ak4PMgQv7",
     chatgpt_config={
-            "model": "gpt-4",
-            "temperature": 0.7,
+        "model": "gpt-4",
+        "temperature": 0.7,
     },
 )
+
 
 @workflow
 def my_chatgpt_job(message: str) -> str:
@@ -41,11 +42,10 @@ def my_chatgpt_job(message: str) -> str:
     message = chatgpt_big_job(message=message)
     return message
 
+
 # %% [markdown]
 # You can execute the workflow locally.
 # %%
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    print(
-        f"Running my_chatgpt_job(message='hi') {my_chatgpt_job(message='hi')}"
-    )
+    print(f"Running my_chatgpt_job(message='hi') {my_chatgpt_job(message='hi')}")
