@@ -121,12 +121,15 @@ def get_github_latest_release(owner: str = "flyteorg", repo: str = "flyte") -> s
     container_image=image,
     secret_requests=[Secret(key="token", group="slack-api")],
 )
-def post_message_on_slack(channel: str, message: str):
+def post_message_on_slack(message: str):
+    if message == "":
+        return
+
     from slack_sdk import WebClient
 
     token = flytekit.current_context().secrets.get("slack-api", "token")
     client = WebClient(token=token)
-    client.chat_postMessage(channel=channel, text=message)
+    client.chat_postMessage(channel="youtube-summary", text=message)
 
 
 @workflow
@@ -165,21 +168,6 @@ chatgpt_job = ChatGPTTask(
         "temperature": 0.7,
     },
 )
-
-
-@task(
-    container_image=image,
-    secret_requests=[Secret(key="token", group="slack-api")],
-)
-def post_message_on_slack(message: str):
-    if message == "":
-        return
-
-    from slack_sdk import WebClient
-
-    token = flytekit.current_context().secrets.get("slack-api", "token")
-    client = WebClient(token=token)
-    client.chat_postMessage(channel="youtube-summary", text=message)
 
 
 @task(container_image=image)
