@@ -8,7 +8,10 @@
 #
 # %%
 
-from flytekit import workflow
+from typing import List
+
+import flytekit
+from flytekit import ImageSpec, Secret, dynamic, task, workflow
 from flytekitplugins.chatgpt import ChatGPTTask
 
 # %% [markdown]
@@ -63,10 +66,6 @@ if __name__ == "__main__":
 # ### Summarize Flyte's Latest Release from GitHub to Slack
 #
 # %%
-import flytekit
-from flytekit import ImageSpec, Secret, task, workflow
-from flytekitplugins.chatgpt import ChatGPTTask
-
 flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
 chatgpt_plugin = "git+https://github.com/flyteorg/flytekit.git@master#subdirectory=plugins/flytekit-openai"
 image = ImageSpec(
@@ -144,12 +143,6 @@ if __name__ == "__main__":
 # %% [markdown]
 # ### Summarize Flyte's Latest Youtube Video to Slack
 # %%
-from typing import List
-
-import flytekit
-from flytekit import ImageSpec, Secret, dynamic, task, workflow
-from flytekitplugins.chatgpt import ChatGPTTask
-
 flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
 chatgpt_plugin = "git+https://github.com/flyteorg/flytekit.git@master#subdirectory=plugins/flytekit-openai"
 image = ImageSpec(
@@ -299,10 +292,6 @@ if __name__ == "__main__":
 # ### Summarize MLOPs Latest Trend from Medium to Twitter
 # Note: This example can only work in the local environment.
 # %%
-import flytekit
-from flytekit import ImageSpec, Secret, task, workflow
-from flytekitplugins.chatgpt import ChatGPTTask
-
 chatgpt_job = ChatGPTTask(
     name="3.5-turbo",
     openai_organization="org-NayNG68kGnVXMJ8Ak4PMgQv7",
