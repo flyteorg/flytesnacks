@@ -14,7 +14,7 @@ To install the ChatGPT agent, run the following command:
 
 ## Example usage
 
-For an example query, see {doc}`ChatGPT agent example usage<chatgpt_agent_example_usage>`.
+For an example job, see {doc}`ChatGPT agent example usage<chatgpt_agent_example_usage>`.
 
 ## Local testing
 
