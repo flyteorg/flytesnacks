@@ -19,7 +19,7 @@ from flytekitplugins.chatgpt import ChatGPTTask
 #
 # `name` is for Flyte and it should be unique.
 #
-# Openai organization is for openai api, you can find it [here](https://platform.openai.com/account/organization).
+# `openai_organization` is for the OpenAI API. You can find it [here](https://platform.openai.com/account/organization).
 #
 # Chatgpt config is for openai chat completion, you can find it [here](https://platform.openai.com/docs/api-reference/chat/create).
 #
