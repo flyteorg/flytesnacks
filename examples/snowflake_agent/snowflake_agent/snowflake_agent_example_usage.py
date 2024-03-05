@@ -1,5 +1,6 @@
 # %% [markdown]
-# # Quering data in Snowflake
+# (snowflake_agent_example_usage)=
+# # Querying data in Snowflake
 #
 # This example shows how to use the `SnowflakeTask` to execute a query in Snowflake.
 #

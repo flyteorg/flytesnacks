@@ -1,0 +1,5 @@
+flytekit
+wheel
+matplotlib
+flytekitplugins-deck-standard
+flytekitplugins-bigquery==0.30.1
