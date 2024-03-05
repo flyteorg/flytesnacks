@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # ## ChatGPT Summary Bot
-# These examples show you the real use case of ChatGPT in the production mode.
+# These examples show you a real use case of ChatGPT in the production mode.
 #
 # For more details, you can refer the [github repository](https://github.com/Future-Outlier/FlyteChatGPTSummaryBot) and the [demo video](https://youtu.be/IS6gi4jR7h0?si=hWHZp5LyjDspiwfD).
 # ### Summarize Flyte's Latest Release from GitHub to Slack
