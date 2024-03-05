@@ -111,7 +111,7 @@ def get_github_latest_release(owner: str = "flyteorg", repo: str = "flyte") -> s
         "Start the message with 'This is the latest Flyte Github Releases'. "
         f"End the message with 'Checkout the page here: https://github.com/{owner}/{repo}/releases'. "
         "Note: Handling via the Slack API is not required. Format the response in bullet points.\n\n"
-        f"Latest Releases:\n{response.json()['body']}"
+        f"Latest releases:\n{response.json()['body']}"
     )
 
     return message
