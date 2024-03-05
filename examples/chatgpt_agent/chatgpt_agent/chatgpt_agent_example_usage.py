@@ -15,7 +15,7 @@ from flytekit import ImageSpec, Secret, dynamic, task, workflow
 from flytekitplugins.chatgpt import ChatGPTTask
 
 # %% [markdown]
-# You have to specify your `name`, `openai organization` and `chatgpt config`.
+# You have to specify your `name`, `openai_organization` and `chatgpt_config`.
 #
 # `name` is for Flyte and it should be unique.
 #
