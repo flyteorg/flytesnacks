@@ -108,7 +108,7 @@ def get_github_latest_release(owner: str = "flyteorg", repo: str = "flyte") -> s
     message = (
         "You are a Bot. Provide a summary of the latest Flyte Github releases for users on Slack."
         "Ensure the response fits within 4000 characters, suitable for a Slack message. "
-        "Start the message with 'This is the latest Flyte Github Releases'. "
+        "Start the message with 'These are the latest Flyte GitHub releases'. "
         f"End the message with 'Check out the releases page here: https://github.com/{owner}/{repo}/releases'. "
         "Note: Handling via the Slack API is not required. Format the response in bullet points.\n\n"
         f"Latest releases:\n{response.json()['body']}"
