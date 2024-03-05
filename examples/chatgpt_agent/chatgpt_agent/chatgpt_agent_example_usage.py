@@ -277,7 +277,7 @@ if __name__ == "__main__":
     wf(channel_url="https://www.youtube.com/@flyteorg")
 
 # %% [markdown]
-# ### Summarize MLOPs Latest Trend from Medium to Twitter
+# ### Summarize the latest MLOps trend from Medium to Twitter
 # Note: This example only works in a local environment.
 # %%
 chatgpt_job = ChatGPTTask(
