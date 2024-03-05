@@ -144,7 +144,7 @@ if __name__ == "__main__":
 
 
 # %% [markdown]
-# ### Summarize Flyte's Latest Youtube Video to Slack
+# ### Summarize Flyte's latest YouTube Video to Slack
 # %%
 flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
 chatgpt_plugin = "git+https://github.com/flyteorg/flytekit.git@master#subdirectory=plugins/flytekit-openai"
