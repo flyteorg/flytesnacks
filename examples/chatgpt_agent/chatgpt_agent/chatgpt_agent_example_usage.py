@@ -4,7 +4,7 @@
 # ## Basic Example
 # ChatGPT can be used in lots of cases, for example, sentiment analysis, language translation, SQL query generation, and text summarization.
 #
-# This example shows you how to run ChatGPT task in flyte.
+# This example shows you how to run ChatGPT tasks in flyte.
 #
 # %%
 
