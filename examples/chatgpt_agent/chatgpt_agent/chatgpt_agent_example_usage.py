@@ -17,7 +17,7 @@ from flytekitplugins.chatgpt import ChatGPTTask
 # %% [markdown]
 # You have to specify your `name`, `openai organization` and `chatgpt config`.
 #
-# Name is for flyte and it should be unique.
+# `name` is for Flyte and it should be unique.
 #
 # Openai organization is for openai api, you can find it [here](https://platform.openai.com/account/organization).
 #
