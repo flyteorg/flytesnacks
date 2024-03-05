@@ -44,4 +44,3 @@ _flyte_decks
 .keras
 **/flyte-package.tgz
 .hypothesis
-docs/sg_execution_times.rst
