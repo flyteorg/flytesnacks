@@ -11,8 +11,6 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 USER root
 
-RUN apt-get update && apt-get install -y libsm6 libxext6 libxrender-dev build-essential
-
 # Install Python dependencies
 COPY requirements.in /root
 RUN pip install -r /root/requirements.in
