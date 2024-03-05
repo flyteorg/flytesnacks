@@ -63,7 +63,7 @@ if __name__ == "__main__":
 # These examples show you a real use case of ChatGPT in the production mode.
 #
 # For more details, see the [FlyteChatGPT Summary Bot GitHub repository](https://github.com/Future-Outlier/FlyteChatGPTSummaryBot) and the [demo video](https://youtu.be/IS6gi4jR7h0?si=hWHZp5LyjDspiwfD).
-# ### Summarize Flyte's Latest Release from GitHub to Slack
+# ### Summarize Flyte's latest GitHub releases to Slack
 #
 # %%
 flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
