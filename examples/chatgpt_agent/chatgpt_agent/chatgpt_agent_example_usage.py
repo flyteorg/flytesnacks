@@ -21,7 +21,7 @@ from flytekitplugins.chatgpt import ChatGPTTask
 #
 # `openai_organization` is for the OpenAI API. You can find it [here](https://platform.openai.com/account/organization).
 #
-# Chatgpt config is for openai chat completion, you can find it [here](https://platform.openai.com/docs/api-reference/chat/create).
+# `chatgpt_config` is for OpenAI chat completion. You can find it [here](https://platform.openai.com/docs/api-reference/chat/create).
 #
 # %%
 chatgpt_small_job = ChatGPTTask(
