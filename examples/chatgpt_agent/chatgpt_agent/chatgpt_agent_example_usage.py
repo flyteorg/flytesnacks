@@ -278,7 +278,7 @@ if __name__ == "__main__":
 
 # %% [markdown]
 # ### Summarize MLOPs Latest Trend from Medium to Twitter
-# Note: This example can only work in the local environment.
+# Note: This example only works in a local environment.
 # %%
 chatgpt_job = ChatGPTTask(
     name="3.5-turbo",
