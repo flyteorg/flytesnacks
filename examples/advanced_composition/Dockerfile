@@ -10,7 +10,7 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
-RUN apt-get update && apt-get install -y build-essential curl
+RUN apt-get update && apt-get install -y build-essential curl git
 
 # Virtual environment
 ENV VENV /opt/venv
@@ -18,6 +18,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 RUN pip install flytekit==1.10.2
+RUN pip install --no-deps -U --force-reinstall "git+https://github.com/flyteorg/flytekit.git@7eed0c024f60d5a633963e5a30cc5abd8972982a"
+RUN pip install --no-deps -U --force-reinstall "git+https://github.com/flyteorg/flyte.git@v1.10.7-b4#subdirectory=flyteidl"
 
 # Copy the actual code
 COPY . /root
