@@ -94,6 +94,8 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Airflow jobs in your workflows with the Airflow agent.
 * - {doc}`BigQuery agent <auto_examples/bigquery_agent/index>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
+* - {doc}`ChatGPT agent <auto_examples/chatgpt_agent/index>`
+  - Run ChatGPT jobs in your workflows with the ChatGPT agent.
 * - {doc}`Databricks <auto_examples/databricks_agent/index>`
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
