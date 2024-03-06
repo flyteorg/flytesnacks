@@ -331,7 +331,7 @@ documentation.
 Verify that the code and documentation look as expected:
 
 - Learn about the documentation tools [here](https://docs.flyte.org/en/latest/community/contribute.html#documentation)
-- Install the requirements by running `pip install -r docs-requirements.in`.
+- Install the requirements by running `pip install -r docs-requirements.txt`.
 - Run `make -C docs html`
 
   ```{tip}
