@@ -52,7 +52,7 @@
 #
 # **FLYTE**
 #
-# The [getting started tutorial](https://docs.flyte.org/en/latest/getting_started/index.html) should help you with setting up Flyte.
+# The [Quickstart guide](https://docs.flyte.org/en/latest/quickstart_guide.html) should help you with setting up Flyte.
 #
 # ## Create an Airflow Connection
 #
@@ -72,7 +72,7 @@
 # ## Register Flyte Code
 #
 # At the Flyte end, we'll train an XGBoost model on Pima Indians Diabetes Dataset.
-# The source code is available [here](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/pima_diabetes/diabetes.py).
+# The source code is available [here](https://github.com/flyteorg/flytesnacks/blob/master/examples/pima_diabetes/pima_diabetes/diabetes.py ).
 #
 # Register the example on the Flyte backend before proceeding with running the Airflow DAG.
 #
