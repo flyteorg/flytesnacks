@@ -71,6 +71,7 @@ jobs:
       matrix:
         directory: "${{ fromJson(needs.list_examples.outputs.packages) }}"
     steps:
+      - uses: insightsengineering/disk-space-reclaimer@v1
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
