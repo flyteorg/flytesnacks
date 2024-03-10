@@ -147,10 +147,6 @@ The plugin configuration structure is defined [here](https://pkg.go.dev/github.c
 
 This is a little tricky since you have to look at the source code of the plugin to figure out the `ID`. In the case of Spark, for example, the value of `ID` is used [here](https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L424) here, defined as [spark](https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L41).
 
-**Enabling a Specific Backend Plugin in Your Own Kustomize Generator**
-
-Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to [kustomize your own deployment](https://github.com/flyteorg/flyte/tree/master/kustomize).
-
 ::::
 
 ## SDKs for Writing Tasks and Workflows
