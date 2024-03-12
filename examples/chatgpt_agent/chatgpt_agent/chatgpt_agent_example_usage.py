@@ -66,13 +66,11 @@ if __name__ == "__main__":
 # ### Summarize Flyte's latest GitHub releases to Slack
 #
 # %%
-flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
-chatgpt_plugin = "git+https://github.com/flyteorg/flytekit.git@master#subdirectory=plugins/flytekit-openai"
+
 image = ImageSpec(
     apt_packages=["git"],
     packages=[
-        flytekit_master,
-        chatgpt_plugin,
+        "flytekitplugins-chatgpt",
         "requests",
         "slack_sdk",
     ],
@@ -146,13 +144,10 @@ if __name__ == "__main__":
 # %% [markdown]
 # ### Summarize Flyte's latest YouTube Video to Slack
 # %%
-flytekit_master = "git+https://github.com/flyteorg/flytekit.git@master"
-chatgpt_plugin = "git+https://github.com/flyteorg/flytekit.git@master#subdirectory=plugins/flytekit-openai"
 image = ImageSpec(
     apt_packages=["git"],
     packages=[
-        flytekit_master,
-        chatgpt_plugin,
+        "flytekitplugins-chatgpt",
         "scrapetube==2.5.1",
         "youtube_transcript_api==0.6.1",
         "slack_sdk==3.23.0",
