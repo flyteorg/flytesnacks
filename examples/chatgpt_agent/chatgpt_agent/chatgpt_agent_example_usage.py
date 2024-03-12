@@ -66,7 +66,6 @@ if __name__ == "__main__":
 # ### Summarize Flyte's latest GitHub releases to Slack
 #
 # %%
-
 image = ImageSpec(
     apt_packages=["git"],
     packages=[
