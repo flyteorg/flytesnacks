@@ -12,7 +12,7 @@ from typing import List
 
 import flytekit
 from flytekit import ImageSpec, Secret, dynamic, task, workflow
-from flytekitplugins.chatgpt import ChatGPTTask
+from flytekitplugins.openai import ChatGPTTask
 
 # %% [markdown]
 # You have to specify your `name`, `openai_organization` and `chatgpt_config`.
