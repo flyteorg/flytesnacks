@@ -4,11 +4,11 @@
 #
 #    pip-compile requirements.in
 #
-adlfs==2023.8.0
+adlfs==2023.9.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.8.5
+aiohttp==3.9.3
     # via
     #   adlfs
     #   aiobotocore
@@ -18,120 +18,108 @@ aioitertools==0.11.0
     # via aiobotocore
 aiosignal==1.3.1
     # via aiohttp
-arrow==1.2.3
+arrow==1.3.0
     # via cookiecutter
 async-timeout==4.0.3
     # via aiohttp
-attrs==23.1.0
+attrs==23.2.0
     # via aiohttp
-azure-core==1.29.2
+azure-core==1.30.0
     # via
     #   adlfs
     #   azure-identity
     #   azure-storage-blob
 azure-datalake-store==0.0.53
     # via adlfs
-azure-identity==1.14.0
+azure-identity==1.15.0
     # via adlfs
-azure-storage-blob==12.17.0
+azure-storage-blob==12.19.0
     # via adlfs
 binaryornot==0.4.4
     # via cookiecutter
 botocore==1.31.17
     # via aiobotocore
-cachetools==5.3.1
+cachetools==5.3.2
     # via google-auth
-certifi==2023.7.22
+certifi==2024.2.2
     # via
     #   kubernetes
     #   requests
-cffi==1.15.1
+cffi==1.16.0
     # via
     #   azure-datalake-store
     #   cryptography
 chardet==5.2.0
     # via binaryornot
-charset-normalizer==3.2.0
-    # via
-    #   aiohttp
-    #   requests
-click==8.1.6
+charset-normalizer==3.3.2
+    # via requests
+click==8.1.7
     # via
     #   cookiecutter
     #   flytekit
     #   rich-click
-cloudpickle==2.2.1
+cloudpickle==3.0.0
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
-contourpy==1.1.0
+contourpy==1.2.0
     # via matplotlib
-cookiecutter==2.3.0
+cookiecutter==2.5.0
     # via flytekit
-croniter==1.4.1
+croniter==2.0.1
     # via flytekit
-cryptography==41.0.3
+cryptography==42.0.2
     # via
     #   azure-identity
     #   azure-storage-blob
     #   msal
     #   pyjwt
-    #   pyopenssl
-cycler==0.11.0
+cycler==0.12.1
     # via matplotlib
 dataclasses-json==0.5.9
     # via flytekit
 decorator==5.1.1
     # via gcsfs
-deprecated==1.2.14
-    # via flytekit
-diskcache==5.6.1
+diskcache==5.6.3
     # via flytekit
 docker==6.1.3
     # via flytekit
-docker-image-py==0.1.12
-    # via flytekit
 docstring-parser==0.15
     # via flytekit
-envd==0.3.38
+envd==0.3.45
     # via flytekitplugins-envd
-filelock==3.12.2
-    # via torch
-flyteidl==1.5.16
+flyteidl==1.10.6
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
-flytekit==1.9.0
+flytekit==1.10.3
     # via
+    #   -r requirements.in
     #   flytekitplugins-envd
     #   flytekitplugins-kfpytorch
-flytekitplugins-envd==1.9.0
+flytekitplugins-envd==1.10.3
     # via -r requirements.in
-flytekitplugins-kfpytorch==1.9.0
+flytekitplugins-kfpytorch==1.10.3
     # via -r requirements.in
-fonttools==4.42.0
+fonttools==4.48.1
     # via matplotlib
-frozenlist==1.4.0
+frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2023.6.0
+fsspec==2023.9.2
     # via
     #   adlfs
     #   flytekit
     #   gcsfs
     #   s3fs
-gcsfs==2023.6.0
+gcsfs==2023.9.2
     # via flytekit
-gitdb==4.0.10
-    # via gitpython
-gitpython==3.1.32
-    # via flytekit
-google-api-core==2.11.1
+google-api-core==2.16.2
     # via
     #   google-cloud-core
     #   google-cloud-storage
-google-auth==2.22.0
+google-auth==2.27.0
     # via
     #   gcsfs
     #   google-api-core
@@ -139,59 +127,61 @@ google-auth==2.22.0
     #   google-cloud-core
     #   google-cloud-storage
     #   kubernetes
-google-auth-oauthlib==1.0.0
+google-auth-oauthlib==1.2.0
     # via gcsfs
-google-cloud-core==2.3.3
+google-cloud-core==2.4.1
     # via google-cloud-storage
-google-cloud-storage==2.10.0
+google-cloud-storage==2.14.0
     # via gcsfs
 google-crc32c==1.5.0
-    # via google-resumable-media
-google-resumable-media==2.5.0
+    # via
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.0
     # via google-cloud-storage
-googleapis-common-protos==1.60.0
+googleapis-common-protos==1.62.0
     # via
     #   flyteidl
     #   flytekit
     #   google-api-core
     #   grpcio-status
-grpcio==1.53.0
+grpcio==1.60.1
     # via
     #   flytekit
     #   grpcio-status
-grpcio-status==1.53.0
+grpcio-status==1.60.1
     # via flytekit
-idna==3.4
+idna==3.6
     # via
     #   requests
     #   yarl
-importlib-metadata==6.8.0
+importlib-metadata==7.0.1
     # via
     #   flytekit
     #   keyring
 isodate==0.6.1
     # via azure-storage-blob
-jaraco-classes==3.3.0
+jaraco-classes==3.3.1
     # via keyring
-jinja2==3.1.2
-    # via
-    #   cookiecutter
-    #   torch
+jinja2==3.1.3
+    # via cookiecutter
 jmespath==1.0.1
     # via botocore
 joblib==1.3.2
     # via flytekit
-keyring==24.2.0
+jsonpickle==3.0.2
     # via flytekit
-kiwisolver==1.4.4
+keyring==24.3.0
+    # via flytekit
+kiwisolver==1.4.5
     # via matplotlib
-kubernetes==27.2.0
+kubernetes==29.0.0
     # via flytekit
 markdown-it-py==3.0.0
     # via rich
-markupsafe==2.1.3
+markupsafe==2.1.5
     # via jinja2
-marshmallow==3.20.1
+marshmallow==3.20.2
     # via
     #   dataclasses-json
     #   marshmallow-enum
@@ -202,71 +192,59 @@ marshmallow-enum==1.5.1
     #   flytekit
 marshmallow-jsonschema==0.13.0
     # via flytekit
-matplotlib==3.7.2
+mashumaro==3.12
+    # via flytekit
+matplotlib==3.8.2
     # via -r requirements.in
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==10.1.0
+more-itertools==10.2.0
     # via jaraco-classes
-mpmath==1.3.0
-    # via sympy
-msal==1.23.0
+msal==1.26.0
     # via
     #   azure-datalake-store
     #   azure-identity
     #   msal-extensions
-msal-extensions==1.0.0
+msal-extensions==1.1.0
     # via azure-identity
-multidict==6.0.4
+multidict==6.0.5
     # via
     #   aiohttp
     #   yarl
 mypy-extensions==1.0.0
     # via typing-inspect
-natsort==8.4.0
-    # via flytekit
-networkx==3.1
-    # via torch
-numpy==1.25.2
+numpy==1.26.4
     # via
     #   contourpy
-    #   flytekit
     #   matplotlib
-    #   pandas
     #   pyarrow
-    #   tensorboardx
-    #   torchvision
 oauthlib==3.2.2
     # via
     #   kubernetes
     #   requests-oauthlib
-packaging==23.1
+packaging==23.2
     # via
     #   docker
     #   marshmallow
     #   matplotlib
-    #   tensorboardx
-pandas==1.5.3
-    # via flytekit
-pillow==10.0.0
-    # via
-    #   matplotlib
-    #   torchvision
-portalocker==2.7.0
+    #   msal-extensions
+pillow==10.2.0
+    # via matplotlib
+portalocker==2.8.2
     # via msal-extensions
-protobuf==4.24.0
+protobuf==4.24.4
     # via
     #   flyteidl
+    #   flytekit
     #   google-api-core
     #   googleapis-common-protos
     #   grpcio-status
     #   protoc-gen-swagger
-    #   tensorboardx
 protoc-gen-swagger==0.1.0
     # via flyteidl
-pyarrow==10.0.1
+pyarrow==15.0.0
     # via flytekit
-pyasn1==0.5.0
+pyasn1==0.5.1
     # via
     #   pyasn1-modules
     #   rsa
@@ -274,40 +252,34 @@ pyasn1-modules==0.3.0
     # via google-auth
 pycparser==2.21
     # via cffi
-pygments==2.16.1
+pygments==2.17.2
     # via rich
 pyjwt[crypto]==2.8.0
-    # via msal
-pyopenssl==23.2.0
-    # via flytekit
-pyparsing==3.0.9
+    # via
+    #   msal
+    #   pyjwt
+pyparsing==3.1.1
     # via matplotlib
 python-dateutil==2.8.2
     # via
     #   arrow
     #   botocore
     #   croniter
-    #   flytekit
     #   kubernetes
     #   matplotlib
-    #   pandas
 python-json-logger==2.0.7
     # via flytekit
-python-slugify==8.0.1
+python-slugify==8.0.3
     # via cookiecutter
 pytimeparse==1.1.8
     # via flytekit
-pytz==2023.3
-    # via
-    #   flytekit
-    #   pandas
+pytz==2024.1
+    # via croniter
 pyyaml==6.0.1
     # via
     #   cookiecutter
     #   flytekit
     #   kubernetes
-regex==2023.8.8
-    # via docker-image-py
 requests==2.31.0
     # via
     #   azure-core
@@ -321,76 +293,57 @@ requests==2.31.0
     #   kubernetes
     #   msal
     #   requests-oauthlib
-    #   torchvision
 requests-oauthlib==1.3.1
     # via
     #   google-auth-oauthlib
     #   kubernetes
-rich==13.5.2
+rich==13.7.0
     # via
     #   cookiecutter
     #   flytekit
     #   rich-click
-rich-click==1.6.1
+rich-click==1.7.3
     # via flytekit
 rsa==4.9
     # via google-auth
-s3fs==2023.6.0
+s3fs==2023.9.2
     # via flytekit
 six==1.16.0
     # via
     #   azure-core
-    #   google-auth
     #   isodate
     #   kubernetes
     #   python-dateutil
-smmap==5.0.0
-    # via gitdb
-sortedcontainers==2.4.0
-    # via flytekit
 statsd==3.3.0
     # via flytekit
-sympy==1.12
-    # via torch
-tensorboardx==2.6.2
-    # via -r requirements.in
 text-unidecode==1.3
     # via python-slugify
-torch==2.0.1
-    # via
-    #   -r requirements.in
-    #   torchvision
-torchvision==0.15.2
-    # via -r requirements.in
-typing-extensions==4.7.1
+types-python-dateutil==2.8.19.20240106
+    # via arrow
+typing-extensions==4.9.0
     # via
     #   azure-core
     #   azure-storage-blob
     #   flytekit
-    #   torch
+    #   mashumaro
+    #   rich-click
     #   typing-inspect
 typing-inspect==0.9.0
     # via dataclasses-json
-urllib3==1.26.16
+urllib3==1.26.18
     # via
     #   botocore
     #   docker
     #   flytekit
-    #   google-auth
     #   kubernetes
     #   requests
-websocket-client==1.6.1
+websocket-client==1.7.0
     # via
     #   docker
     #   kubernetes
-wheel==0.41.1
-    # via flytekit
-wrapt==1.15.0
-    # via
-    #   aiobotocore
-    #   deprecated
-    #   flytekit
-yarl==1.9.2
+wrapt==1.16.0
+    # via aiobotocore
+yarl==1.9.4
     # via aiohttp
-zipp==3.16.2
+zipp==3.17.0
     # via importlib-metadata

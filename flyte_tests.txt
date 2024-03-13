@@ -1,8 +1,8 @@
 examples/advanced_composition/advanced_composition/chain_entities.py
-examples/advanced_composition/advanced_composition/conditions.py
+examples/advanced_composition/advanced_composition/conditional.py
 examples/advanced_composition/advanced_composition/decorating_tasks.py
 examples/advanced_composition/advanced_composition/decorating_workflows.py
-examples/advanced_composition/advanced_composition/dynamics.py
+examples/advanced_composition/advanced_composition/dynamic_workflow.py
 examples/advanced_composition/advanced_composition/map_task.py
 examples/advanced_composition/advanced_composition/waiting_for_external_inputs.py
 examples/basics/basics/documenting_workflows.py

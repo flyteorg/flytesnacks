@@ -1,29 +1,39 @@
-# Databricks
+# Databricks plugin
 
 ```{eval-rst}
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
 ```
 
-Flyte can be seamlessly integrated with the [Databricks](https://www.databricks.com/) service,
-enabling you to effortlessly submit Spark jobs to the Databricks platform.
+```{note}
 
-## Install the plugin
+This is a legacy implementation of the Databricks integration. We recommend using the {ref}`Databricks agent <databricks_agent>` instead.
 
-The Databricks plugin comes bundled with the Spark plugin.
-To execute it locally, run the following command:
+```
+
+Flyte can be integrated with the [Databricks](https://www.databricks.com/) service,
+enabling you to submit Spark jobs to the Databricks platform.
+
+## Installation
+
+The Databricks plugin comes bundled with the Spark plugin. To install the Spark plugin, run the following command:
 
 ```
 pip install flytekitplugins-spark
+
 ```
 
-If you intend to run the plugin on the Flyte cluster, you must first set it up on the backend.
-Please refer to the
-{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`
-for detailed instructions.
+## Flyte deployment configuration
 
-## Run the example on the Flyte cluster
+To run the Databricks plugin on a Flyte cluster, you must configure it in your Flyte deployment. For more information, see the
+{std:ref}`Databricks plugin setup guide <flyte:deployment-plugin-setup-webapi-databricks>`.
 
-To run the provided example on the Flyte cluster, use the following command:
+## Example usage
+
+For a usage example, see the {doc}`Databricks plugin example <databricks_plugin_example>` page.
+
+### Run the example on the Flyte cluster
+
+To run the provided example on a Flyte cluster, use the following command:
 
 ```
 pyflyte run --remote \
@@ -32,11 +42,10 @@ pyflyte run --remote \
   my_databricks_job
 ```
 
-:::{note}
-Using Spark on Databricks is incredibly simple and offers comprehensive versioning through a
-custom-built Spark container. This built container also facilitates the execution of standard Spark tasks.
+Using Spark on Databricks allows comprehensive versioning through a
+custom-built Spark container. This container also facilitates the execution of standard Spark tasks.
 
-To utilize Spark, the image should employ a base image provided by Databricks,
+To use Spark, the image should employ a base image provided by Databricks,
 and the workflow code must be copied to `/databricks/driver`.
 
 ```{literalinclude} ../../../examples/databricks_plugin/Dockerfile
@@ -44,8 +53,10 @@ and the workflow code must be copied to `/databricks/driver`.
 :emphasize-lines: 1,7-8,20
 ```
 
-:::
 
-```{auto-examples-toc}
-databricks_job
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+databricks_plugin_example
 ```

@@ -1,9 +1,0 @@
-flytekit
-wheel
-matplotlib
-flytekitplugins-deck-standard
-flytekitplugins-onnxpytorch>=1.1.1
-flytekitplugins-onnxtensorflow>=1.1.1
-flytekitplugins-onnxscikitlearn>=1.1.1
-onnxruntime
-torchvision

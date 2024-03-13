@@ -53,8 +53,6 @@ jobs:
         with:
           fetch-depth: "0"
       - uses: unionai/flytectl-setup-action@v0.0.1
-        with:
-          version: 'v0.7.8'
       - name: setup download artifact dir
         run: |
           mkdir download-artifact
@@ -64,7 +62,7 @@ jobs:
           path: ./download-artifact/
       - name: setup sandbox
         run: |
-          flytectl sandbox start
+          flytectl demo start
           flytectl config init
       - name: Register examples
         uses: unionai/flyte-register-action@v0.0.2

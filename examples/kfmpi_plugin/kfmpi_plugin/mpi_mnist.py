@@ -173,7 +173,7 @@ if __name__ == "__main__":
 # In the context of distributed training, it's important to acknowledge that return values from various workers could potentially vary.
 # If you need to regulate which worker's return value gets passed on to subsequent tasks in the workflow,
 # you have the option to raise an
-# [IgnoreOutputs exception](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html)
+# [IgnoreOutputs exception](https://docs.flyte.org/en/latest/api/flytekit/generated/flytekit.core.base_task.IgnoreOutputs.html#flytekit-core-base-task-ignoreoutputs)
 # for all remaining ranks.
 # :::
 # %%
