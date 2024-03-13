@@ -44,7 +44,10 @@ from flytekit import Resources, task, workflow
 # %% [markdown]
 # Define a task and configure the resources to be allocated to it.
 # %%
-@task(requests=Resources(cpu="1", mem="100Mi"), limits=Resources(cpu="2", mem="150Mi"))
+@task(
+    requests=Resources(cpu="1", mem="100Mi", ephemeral_storage="200Mi"),
+    limits=Resources(cpu="2", mem="150Mi", ephemeral_storage="500Mi"),
+)
 def count_unique_numbers(x: typing.List[int]) -> int:
     s = set()
     for i in x:

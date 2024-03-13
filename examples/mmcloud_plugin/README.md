@@ -43,13 +43,13 @@ This plugin allows executing `PythonFunctionTask` using MMCloud without changing
         return str(i)
 ```
 
-[Resource](https://docs.flyte.org/en/latest/flytesnacks/examples/productionizing/customizing_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/en/latest/flytesnacks/examples/customizing_dependencies/multi_images.html) images, and environment variable specifications are supported.
+[Resource](https://docs.flyte.org/en/latest/user_guide/productionizing/customizing_task_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/multiple_images_in_a_workflow.html) images, and environment variable specifications are supported.
 
-[ImageSpec](https://docs.flyte.org/en/latest/flytesnacks/examples/customizing_dependencies/image_spec.html#image-spec-example) may be used to define images to run tasks.
+[ImageSpec](https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/imagespec.html#image-spec-example) may be used to define images to run tasks.
 
 ### Credentials
 
-The following [secrets](https://docs.flyte.org/en/latest/flytesnacks/examples/productionizing/use_secrets.html) are required to be defined for the agent server:
+The following [secrets](https://docs.flyte.org/en/latest/user_guide/productionizing/secrets.html) are required to be defined for the agent server:
 * `mmc_address`: MMCloud OpCenter address
 * `mmc_username`: MMCloud OpCenter username
 * `mmc_password`: MMCloud OpCenter password
