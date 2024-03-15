@@ -196,7 +196,7 @@ async def invocations(request: Request):
 
 
 # %% [markdown]
-# Create a file named `serve` to serve the model, in our case using FastAPI:
+# Create a file named `serve` to serve the model, in our case we are using FastAPI:
 #
 # ```bash
 # !/bin/bash
