@@ -31,4 +31,5 @@ This feature was created at LinkedIn and later donated to Flyte.
 
 ```{auto-examples-toc}
 vscode
+jupyter
 ```
