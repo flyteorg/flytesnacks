@@ -66,7 +66,7 @@ def intercept(x: list[int], y: list[int], slope: float) -> intercept_value:
 # Additionally, you can also have the workflow return a `NamedTuple` as an output.
 #
 # :::{note}
-# Remember that we are extracting individual task execution outputs by dereferencing them.
+# Remembers that we are extracting individual task execution outputs by dereferencing them.
 # This is necessary because `NamedTuple`s function as tuples and require this dereferencing.
 # :::
 # %%
