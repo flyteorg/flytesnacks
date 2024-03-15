@@ -74,7 +74,7 @@ def sagemaker_xgboost_wf(
 # The above workflow generates a compressed model artifact that can be stored in an S3 bucket.
 # Take a note of the S3 URI.
 #
-# To deploy the model on SageMaker, use the `create_sagemaker_deployment` function.
+# To deploy the model on SageMaker, use the {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 # %%
 from flytekit import kwtypes
 
@@ -133,7 +133,8 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 
 # %% [markdown]
 # This function returns an imperative workflow responsible for deploying the XGBoost model, creating an endpoint configuration,
-# and initializing an endpoint. Configurations relevant to these tasks are passed to the `create_sagemaker_deployment` function.
+# and initializing an endpoint. Configurations relevant to these tasks are passed to the 
+# {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
 # `sagemaker_image` should include the inference code, necessary libraries and an entrypoint for model serving.
 #
@@ -242,11 +243,11 @@ invoke_endpoint = SageMakerInvokeEndpointTask(
 )
 
 # %% [markdown]
-# The `SageMakerInvokeEndpointTask` invokes an endpoint asynchronously, resulting in an
+# The {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerInvokeEndpointTask` invokes an endpoint asynchronously, resulting in an
 # S3 location that will be populated with the output after it's generated.
 # For instance, the inference_input file may include input like this: `[6, 148, 72, 35, 0, 33.6, 0.627, 50]`
 #
-# To delete the deployment, you can instantiate a `delete_sagemaker_deployment` function.
+# To delete the deployment, you can instantiate a {py:func}`~flytekitplugins.awssagemaker_inference.delete_sagemaker_deployment` function.
 # %%
 from flytekitplugins.awssagemaker_inference import delete_sagemaker_deployment
 
@@ -274,14 +275,15 @@ def deployment_deletion_workflow():
 #
 # You have the option to execute the SageMaker tasks independently. The following tasks are available for use:
 #
-# - `SageMakerModelTask`
-# - `SageMakerEndpointConfigTask`
-# - `SageMakerEndpointTask`
-# - `SageMakerDeleteEndpointTask`
-# - `SageMakerDeleteEndpointConfigTask`
-# - `SageMakerDeleteModelTask`
-# - `SageMakerInvokeEndpointTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerModelTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointConfigTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerDeleteEndpointTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerDeleteEndpointConfigTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerDeleteModelTask`
+# - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerInvokeEndpointTask`
 #
-# All tasks except the `SageMakerEndpointTask` inherit the `BotoTask`.
-# The `BotoTask` provides the flexibility to invoke any Boto3 method.
+# All tasks except the {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointTask` 
+# inherit the {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask`.
+# The {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask` provides the flexibility to invoke any Boto3 method.
 # If you need to interact with the Boto3 APIs, you can use this task.

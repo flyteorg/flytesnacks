@@ -43,7 +43,7 @@ If you are using a managed deployment of Flyte, you will need to contact your de
 ```
 
 To enable the AWS SageMaker inference agent in your Flyte deployment, refer to the
-{ref}`AWS SageMaker inference agent setup guide <deployment-agent-setup-aws-sagemaker-inference>`.
+{ref}`AWS SageMaker inference agent setup guide <deployment-agent-setup-sagemaker-inference>`.
 
 ```{toctree}
 :maxdepth: -1
