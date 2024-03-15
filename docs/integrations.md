@@ -94,6 +94,8 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Airflow jobs in your workflows with the Airflow agent.
 * - {doc}`BigQuery agent <auto_examples/bigquery_agent/index>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
+* - {doc}`ChatGPT agent <auto_examples/chatgpt_agent/index>`
+  - Run ChatGPT jobs in your workflows with the ChatGPT agent.
 * - {doc}`Databricks <auto_examples/databricks_agent/index>`
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
@@ -135,17 +137,22 @@ As the term suggests, external service backend plugins rely on external services
 To enable a backend plugin you have to add the `ID` of the plugin to the enabled plugins list. The `enabled-plugins` is available under the `tasks > task-plugins` section of FlytePropeller's configuration.
 The plugin configuration structure is defined [here](https://pkg.go.dev/github.com/flyteorg/flytepropeller@v0.6.1/pkg/controller/nodes/task/config#TaskPluginConfig). An example of the config follows,
 
-:::{rli} https://raw.githubusercontent.com/flyteorg/flyte/master/kustomize/overlays/sandbox/flyte/config/propeller/enabled_plugins.yaml
-:language: yaml
-:::
+```yaml
+tasks:
+  task-plugins:
+    enabled-plugins:
+      - container
+      - sidecar
+      - k8s-array
+    default-for-task-types:
+      container: container
+      sidecar: sidecar
+      container_array: k8s-array
+```
 
 **Finding the `ID` of the Backend Plugin**
 
 This is a little tricky since you have to look at the source code of the plugin to figure out the `ID`. In the case of Spark, for example, the value of `ID` is used [here](https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L424) here, defined as [spark](https://github.com/flyteorg/flyteplugins/blob/v0.5.25/go/tasks/plugins/k8s/spark/spark.go#L41).
-
-**Enabling a Specific Backend Plugin in Your Own Kustomize Generator**
-
-Flyte uses Kustomize to generate the the deployment configuration which can be leveraged to [kustomize your own deployment](https://github.com/flyteorg/flyte/tree/master/kustomize).
 
 ::::
 

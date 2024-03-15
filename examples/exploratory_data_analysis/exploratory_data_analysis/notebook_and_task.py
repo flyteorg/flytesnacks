@@ -37,7 +37,7 @@ class Hyperparameters(object):
 
 
 # %% [markdown]
-# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb).
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/examples/exploratory_data_analysis/exploratory_data_analysis/supermarket_regression_1.ipynb).
 # This notebook returns `dummified_data` and `dataset` as the outputs.
 #
 # :::{note}

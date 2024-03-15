@@ -105,6 +105,7 @@ auto_examples/airflow_plugin/index
 auto_examples/athena_plugin/index
 auto_examples/aws_batch_plugin/index
 auto_examples/bigquery_agent/index
+auto_examples/chatgpt_agent/index
 auto_examples/k8s_dask_plugin/index
 auto_examples/databricks_agent/index
 auto_examples/dbt_plugin/index
