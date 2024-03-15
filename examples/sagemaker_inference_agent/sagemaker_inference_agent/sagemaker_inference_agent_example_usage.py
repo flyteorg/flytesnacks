@@ -130,7 +130,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # `sagemaker_image` should include the inference code, necessary libraries and an entrypoint for model serving.
 #
 # :::{note}
-# For more detailed instructions on using your custom inference image, please refer to
+# For more detailed instructions on using your custom inference image, refer to
 # [this documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html).
 # :::
 #
@@ -198,7 +198,7 @@ async def invocations(request: Request):
 # %% [markdown]
 # Create a file named `serve` to serve the model, in our case using FastAPI:
 #
-# ```
+# ```bash
 # !/bin/bash
 #
 # _term() {
