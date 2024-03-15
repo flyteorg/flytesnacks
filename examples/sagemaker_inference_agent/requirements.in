@@ -1,0 +1,4 @@
+git+https://github.com/flyteorg/flytekit.git@fb8f04a59dd8c709c35d9adc6889b7ed227c2aaa#subdirectory=plugins/flytekit-aws-sagemaker
+xgboost
+fastapi
+uvicorn

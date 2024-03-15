@@ -1,0 +1,14 @@
+#!/bin/bash
+
+_term() {
+echo "Caught SIGTERM signal!"
+kill -TERM "$child" 2>/dev/null
+}
+
+trap _term SIGTERM
+
+echo "Starting the API server"
+uvicorn sagemaker_agent_example_usage:app --host 0.0.0.0 --port 8080&
+
+child=$!
+wait "$child"
