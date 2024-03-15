@@ -15,7 +15,6 @@ import flytekit
 from flytekit import ImageSpec, task, workflow
 from flytekit.types.file import FlyteFile
 from numpy import loadtxt
-from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
 
 train_model_image = ImageSpec(
@@ -38,10 +37,7 @@ def train_model(dataset: FlyteFile) -> FlyteFile:
     model = XGBClassifier()
     model.fit(X_train, y_train)
 
-    serialized_model = os.path.join(
-        flytekit.current_context().working_directory, 
-        "xgboost_model.json"
-    )
+    serialized_model = os.path.join(flytekit.current_context().working_directory, "xgboost_model.json")
     booster = model.get_booster()
     booster.save_model(serialized_model)
 
@@ -77,7 +73,6 @@ def sagemaker_xgboost_wf(
 # To deploy the model on SageMaker, use the {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 # %%
 from flytekit import kwtypes
-
 from flytekitplugins.awssagemaker_inference import create_sagemaker_deployment
 
 REGION = "us-east-2"
@@ -116,11 +111,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
                 "InstanceType": "{inputs.instance_type}",
             },
         ],
-        "AsyncInferenceConfig": {
-            "OutputConfig": {
-                "S3OutputPath": os.getenv("S3_OUTPUT_PATH")
-            }
-        },
+        "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": os.getenv("S3_OUTPUT_PATH")}},
     },
     endpoint_config={
         "EndpointName": ENDPOINT_NAME,
@@ -133,7 +124,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 
 # %% [markdown]
 # This function returns an imperative workflow responsible for deploying the XGBoost model, creating an endpoint configuration,
-# and initializing an endpoint. Configurations relevant to these tasks are passed to the 
+# and initializing an endpoint. Configurations relevant to these tasks are passed to the
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
 # `sagemaker_image` should include the inference code, necessary libraries and an entrypoint for model serving.
@@ -232,7 +223,6 @@ async def invocations(request: Request):
 # %%
 from flytekitplugins.awssagemaker_inference import SageMakerInvokeEndpointTask
 
-
 invoke_endpoint = SageMakerInvokeEndpointTask(
     name="sagemaker_invoke_endpoint",
     config={
@@ -251,11 +241,7 @@ invoke_endpoint = SageMakerInvokeEndpointTask(
 # %%
 from flytekitplugins.awssagemaker_inference import delete_sagemaker_deployment
 
-
-sagemaker_deployment_deletion_wf = delete_sagemaker_deployment(
-    name="sagemaker-deployment-deletion", 
-    region="us-east-2"
-)
+sagemaker_deployment_deletion_wf = delete_sagemaker_deployment(name="sagemaker-deployment-deletion", region="us-east-2")
 
 
 @workflow
@@ -283,7 +269,7 @@ def deployment_deletion_workflow():
 # - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerDeleteModelTask`
 # - {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerInvokeEndpointTask`
 #
-# All tasks except the {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointTask` 
+# All tasks except the {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointTask`
 # inherit the {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask`.
 # The {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask` provides the flexibility to invoke any Boto3 method.
 # If you need to interact with the Boto3 APIs, you can use this task.
