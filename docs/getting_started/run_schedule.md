@@ -52,8 +52,8 @@ from flytekit.remote import FlyteRemote
 
 
 remote = FlyteRemote(
-config=Config.auto(), 
-default_project="flytesnacks", 
+config=Config.auto(),
+default_project="flytesnacks",
 default_domain="development")
 
 
