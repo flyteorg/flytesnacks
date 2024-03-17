@@ -192,7 +192,7 @@ If the example code can be run locally, just use `python <my_file>.py` to run it
 Install {doc}`flytectl <flytectl:index>`, the commandline interface for flyte.
 
 :::{note}
-Learn more about installation and configuration of Flytectl [here](https://docs.flyte.org/projects/flytectl/en/latest/index.html).
+Learn more about installation and configuration of Flytectl [here](https://docs.flyte.org/en/latest/flytectl/docs_index.html).
 :::
 
 Start a Flyte demo cluster with:
