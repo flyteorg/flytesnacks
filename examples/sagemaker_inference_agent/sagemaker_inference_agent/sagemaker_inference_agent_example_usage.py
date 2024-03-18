@@ -135,7 +135,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # :::
 #
 # To receive inference requests, the container built with `sagemaker_image` must have a web server
-# listening on port 8080 and must accept POST requests to the `/invocations` and `/ping` endpoints.
+# listening on port 8080 and must accept POST and GET requests to the `/invocations` and `/ping` endpoints, respectively.
 #
 # We define the FastAPI inference code as follows:
 # %%
