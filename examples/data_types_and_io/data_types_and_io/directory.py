@@ -1,18 +1,3 @@
-# %% [markdown]
-# (folder)=
-#
-# # Flyte Directory
-#
-# ```{eval-rst}
-# .. tags:: Data, Basic
-# ```
-#
-# In addition to files, folders are another fundamental operating system primitive.
-# Flyte supports folders in the form of
-# [multi-part blobs](https://github.com/flyteorg/flyteidl/blob/master/protos/flyteidl/core/types.proto#L73).
-#
-# To begin, import the libraries.
-# %%
 import csv
 import os
 import urllib.request
@@ -25,13 +10,6 @@ from flytekit import task, workflow
 from flytekit.types.directory import FlyteDirectory
 
 
-# %% [markdown]
-# Building upon the previous example demonstrated in the {std:ref}`file <file>` section,
-# let's continue by considering the normalization of columns in a CSV file.
-#
-# The following task downloads a list of URLs pointing to CSV files
-# and returns the folder path in a `FlyteDirectory` object.
-# %%
 @task
 def download_files(csv_urls: List[str]) -> FlyteDirectory:
     working_dir = flytekit.current_context().working_directory
@@ -50,32 +28,6 @@ def download_files(csv_urls: List[str]) -> FlyteDirectory:
     return FlyteDirectory(path=str(local_dir))
 
 
-# %% [markdown]
-# :::{note}
-# You can annotate a `FlyteDirectory` when you want to download or upload the contents of the directory in batches.
-# For example,
-#
-# ```{code-block}
-# @task
-# def t1(directory: Annotated[FlyteDirectory, BatchSize(10)]) -> Annotated[FlyteDirectory, BatchSize(100)]:
-#     ...
-#     return FlyteDirectory(...)
-# ```
-#
-# Flytekit efficiently downloads files from the specified input directory in 10-file chunks.
-# It then loads these chunks into memory before writing them to the local disk.
-# The process repeats for subsequent sets of 10 files.
-# Similarly, for outputs, Flytekit uploads the resulting directory in chunks of 100.
-# :::
-#
-# We define a helper function to normalize the columns in-place.
-#
-# :::{note}
-# This is a plain Python function that will be called in a subsequent Flyte task. This example
-# demonstrates how Flyte tasks are simply entrypoints of execution, which can themselves call
-# other functions and routines that are written in pure Python.
-# :::
-# %%
 def normalize_columns(
     local_csv_file: str,
     column_names: List[str],
@@ -104,10 +56,6 @@ def normalize_columns(
             writer.writerow({k: row[i] for i, k in enumerate(columns_to_normalize)})
 
 
-# %% [markdown]
-# We then define a task that accepts the previously downloaded folder, along with some metadata about the
-# column names of each file in the directory and the column names that we want to normalize.
-# %%
 @task
 def normalize_all_files(
     csv_files_dir: FlyteDirectory,
@@ -124,11 +72,6 @@ def normalize_all_files(
     return FlyteDirectory(path=csv_files_dir.path)
 
 
-# %% [markdown]
-# Compose all of the above tasks into a workflow. This workflow accepts a list
-# of URL strings pointing to a remote location containing a CSV file, a list of column names
-# associated with each CSV file, and a list of columns that we want to normalize.
-# %%
 @workflow
 def download_and_normalize_csv_files(
     csv_urls: List[str],
@@ -143,9 +86,6 @@ def download_and_normalize_csv_files(
     )
 
 
-# %% [markdown]
-# You can run the workflow locally as follows:
-# %%
 if __name__ == "__main__":
     csv_urls = [
         "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
