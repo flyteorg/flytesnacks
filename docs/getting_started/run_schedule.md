@@ -50,11 +50,13 @@ object:
 from flytekit.configuration import Config
 from flytekit.remote import FlyteRemote
 
+
 remote = FlyteRemote(
-    config=Config.auto(),
-    default_project="flytesnacks",
-    default_domain="development",
-)
+config=Config.auto(),
+default_project="flytesnacks",
+default_domain="development")
+
+
 ```
 
 ## Running a Workflow
