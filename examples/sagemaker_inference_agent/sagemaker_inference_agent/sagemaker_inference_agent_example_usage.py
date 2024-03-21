@@ -63,12 +63,12 @@ def sagemaker_xgboost_wf(
 
 # %% [markdown]
 # :::{important}
-# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
+# Replace `ghcr.io/flyteorg` with a container registry to which you can publish.
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #
 # The above workflow generates a compressed model artifact that can be stored in an S3 bucket.
-# Take a note of the S3 URI.
+# Take note of the S3 URI.
 #
 # To deploy the model on SageMaker, use the {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 # %%
@@ -76,10 +76,10 @@ from flytekit import kwtypes
 from flytekitplugins.awssagemaker_inference import create_sagemaker_deployment
 
 REGION = "us-east-2"
-MODEL_NAME = "sagemaker-xgboost"
-ENDPOINT_CONFIG_NAME = "sagemaker-xgboost-endpoint-config"
-ENDPOINT_NAME = "sagemaker-xgboost-endpoint"
-
+MODEL_NAME = "xgboost"
+ENDPOINT_CONFIG_NAME = "xgboost-endpoint-config"
+ENDPOINT_NAME = "xgboost-endpoint"
+S3_OUTPUT_PATH = "s3://sagemaker-agent-xgboost/inference-output/output"
 
 sagemaker_image = ImageSpec(
     name="sagemaker-xgboost",
@@ -111,7 +111,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
                 "InstanceType": "{inputs.instance_type}",
             },
         ],
-        "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": os.getenv("S3_OUTPUT_PATH")}},
+        "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": S3_OUTPUT_PATH}},
     },
     endpoint_config={
         "EndpointName": ENDPOINT_NAME,
@@ -123,15 +123,15 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 
 
 # %% [markdown]
-# This function returns an imperative workflow responsible for deploying the XGBoost model, creating an endpoint configuration,
+# This function returns an imperative workflow responsible for deploying the XGBoost model, creating an endpoint configuration
 # and initializing an endpoint. Configurations relevant to these tasks are passed to the
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
-# `sagemaker_image` should include the inference code, necessary libraries and an entrypoint for model serving.
+# `sagemaker_image` should include the inference code, necessary libraries, and an entrypoint for model serving.
 #
 # :::{note}
-# For more detailed instructions on using your custom inference image, refer to
-# [this documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html).
+# For more detailed instructions on using your custom inference image, refer to the
+# [Amazon SageMaker documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html).
 # :::
 #
 # To receive inference requests, the container built with `sagemaker_image` must have a web server
@@ -196,7 +196,7 @@ async def invocations(request: Request):
 
 
 # %% [markdown]
-# Create a file named `serve` to serve the model, in our case we are using FastAPI:
+# Create a file named `serve` to serve the model. In our case, we are using FastAPI:
 #
 # ```bash
 # !/bin/bash
@@ -209,14 +209,14 @@ async def invocations(request: Request):
 # trap _term SIGTERM
 #
 # echo "Starting the API server"
-# uvicorn sagemaker_agent_example_usage:app --host 0.0.0.0 --port 8080&
+# uvicorn sagemaker_inference_agent_example_usage:app --host 0.0.0.0 --port 8080&
 #
 # child=$!
 # wait "$child"
 # ```
 #
 # You can trigger the `sagemaker_deployment_wf` by providing the model artifact path,
-# execution role ARN and instance type.
+# execution role ARN, and instance type.
 #
 # Once the endpoint creation status changes to `InService`, the SageMaker deployment workflow succeeds.
 # You can then invoke the endpoint using the SageMaker agent as follows:
@@ -254,8 +254,8 @@ def deployment_deletion_workflow():
 
 
 # %% [markdown]
-# You need to provide the endpoint name, endpoint config name and the model name
-# to execute this deletion, which removes the endpoint, endpoint config and the model.
+# You need to provide the endpoint name, endpoint config name, and the model name
+# to execute this deletion, which removes the endpoint, endpoint config, and the model.
 #
 # ## Available tasks
 #
@@ -271,5 +271,6 @@ def deployment_deletion_workflow():
 #
 # All tasks except the {py:class}`~flytekitplugins.awssagemaker_inference.SageMakerEndpointTask`
 # inherit the {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask`.
-# The {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask` provides the flexibility to invoke any Boto3 method.
+# The {py:class}`~flytekitplugins.awssagemaker_inference.BotoTask` provides the flexibility to invoke any
+# [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) method.
 # If you need to interact with the Boto3 APIs, you can use this task.

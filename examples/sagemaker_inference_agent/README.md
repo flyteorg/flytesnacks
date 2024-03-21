@@ -6,7 +6,7 @@
 .. tags:: AWS, Integration, Advanced
 ```
 
-The AWS SageMaker inference agent allows you to deploy models and create, as well as trigger inference endpoints.
+The AWS SageMaker inference agent allows you to deploy models, and create and trigger inference endpoints.
 You can also fully remove the SageMaker deployment.
 
 ## Installation
@@ -32,7 +32,7 @@ For more information, see "[Testing agents locally](https://docs.flyte.org/en/la
 
 :::{note}
 You will need to store credentials in your local environment when testing locally.
-It should follow the same pattern as
+To do so, follow the same pattern as
 [storing secrets locally](https://docs.flyte.org/en/latest/user_guide/productionizing/secrets.html#secret-discovery).
 :::
 
