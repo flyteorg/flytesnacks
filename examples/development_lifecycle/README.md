@@ -5,6 +5,7 @@ You will gain an understanding of concepts like caching, the Flyte remote API, A
 
 ```{auto-examples-toc}
 agent_service
+agent_development
 private_images
 task_cache
 task_cache_serialize
