@@ -89,7 +89,7 @@
 # :::
 #
 # This code snippet will output two logs per task that use the log plugin.
-# However, not all task types use the log plugin; for example, the SageMaker plugin uses the log output provided by Sagemaker, and the Snowflake plugin will use a link to the snowflake console.
+# However, not all task types use the log plugin; for example, the Snowflake plugin will use a link to the snowflake console.
 #
 # ## Datadog Integration
 #

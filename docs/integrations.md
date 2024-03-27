@@ -100,6 +100,8 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
+* - {doc}`SageMaker Inference <auto_examples/sagemaker_inference_agent/index>`
+  - Deploy models and create, as well as trigger inference endpoints on SageMaker.
 * - {doc}`Sensor <auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
 * - {doc}`Snowflake <auto_examples/snowflake_agent/index>`
@@ -117,10 +119,6 @@ As the term suggests, external service backend plugins rely on external services
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`AWS Sagemaker: Model Training plugin <auto_examples/sagemaker_training_plugin/index>`
-  - Train models with built-in or define your own custom algorithms.
-* - {doc}`AWS Sagemaker: Pytorch Training plugin <auto_examples/sagemaker_pytorch_plugin/index>`
-  - Train Pytorch models using Sagemaker, with support for distributed training.
 * - {doc}`AWS Athena plugin <auto_examples/athena_plugin/index>`
   - Execute queries using AWS Athena
 * - {doc}`AWS Batch plugin <auto_examples/aws_batch_plugin/index>`

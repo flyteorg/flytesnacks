@@ -55,10 +55,7 @@ Moreover, to utilize the power of a GPU, ensure that your Flyte backend has GPU 
 
 ## Distributed Data-Parallel Training
 
-Flyte also supports distributed training for PyTorch models, but this is not native. This is achieved using one of the optional plugins, such as:
-
-- Natively on Kubernetes using {ref}`kf-pytorch-op`
-- On AWS using {ref}`aws-sagemaker` training
+Flyte also supports distributed training for PyTorch models, but this is not native. It is achieved using {ref}`kf-pytorch-op`, for example.
 
 ## Weights & Biases Integration
 
