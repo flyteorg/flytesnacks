@@ -44,10 +44,9 @@ metadata:
 import typing
 
 from dataclasses import dataclass
-from mashumaro.mixins.json import DataClassJSONMixin
 
 @dataclass
-class Coordinate(DataClassJSONMixin):
+class Coordinate:
     """A custom type for coordinates with metadata attached."""
     x: float
     y: float
