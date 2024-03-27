@@ -84,7 +84,7 @@ S3_OUTPUT_PATH = "s3://sagemaker-agent-xgboost/inference-output/output"
 sagemaker_image = ImageSpec(
     name="sagemaker-xgboost",
     registry="ghcr.io/flyteorg",  # Amazon EC2 Container Registry or a Docker registry accessible from your VPC.
-    requirements=["xgboost", "fastapi", "uvicorn", "scikit-learn"],
+    packages=["xgboost", "fastapi", "uvicorn", "scikit-learn"],
     source_root=".",
 ).with_commands(["chmod +x /root/serve"])
 
