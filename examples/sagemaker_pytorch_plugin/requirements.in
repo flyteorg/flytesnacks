@@ -1,8 +1,0 @@
-flytekit
-wheel
-matplotlib
-flytekitplugins-deck-standard
-flytekitplugins-awssagemaker>=0.16.0
-torch==1.8.1
-torchvision==0.9.1
-tensorboardX

@@ -11,7 +11,7 @@
 # but it's important to distinguish tasks and workflows.
 #
 # A task's body executes at run-time on a Kubernetes cluster, in a Query Engine like BigQuery,
-# or on hosted services like AWS Batch or Sagemaker.
+# or on hosted services like AWS Batch or SageMaker.
 #
 # In contrast, a workflow's body doesn't perform computations; it's used to structure tasks.
 # A workflow's body executes at registration time, during the workflow's registration process.

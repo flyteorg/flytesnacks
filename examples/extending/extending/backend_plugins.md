@@ -12,8 +12,8 @@ Flyte.
 
 To recap, here are a few examples of why you would want to implement a backend plugin:
 
-1. We want to add a new capability to the Flyte Platform, for example we might want to:
-   - Talk to a new service like  AWS Sagemaker, Snowflake, Redshift, Athena, BigQuery, etc.
+1. You want to add a new capability to the Flyte Platform, for example you might want to:
+   - Talk to a new service like AWS SageMaker, Snowflake, Redshift, Athena, BigQuery, etc.
    - Orchestrate a set of containers in a new way like Spark, Flink, Distributed
      training on Kubernetes (usually using a Kubernetes operator).
    - Use a new container orchestration engine like AWS Batch/ECS, Hashicorp' Nomad
