@@ -2,3 +2,4 @@ flytekitplugins-awssagemaker>=1.12.0b1
 xgboost
 fastapi
 uvicorn
+scikit-learn
