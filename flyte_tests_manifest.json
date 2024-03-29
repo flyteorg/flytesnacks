@@ -88,8 +88,7 @@
     "path": "examples/k8s_spark_plugin",
     "examples": [
       [
-        "k8s_spark_plugin.pyspark_pi.my_spark",
-        { "triggered_date": "2023-11-21T18:58:01" }
+        "k8s_spark_plugin.pyspark_pi.my_spark", {}
       ]
     ],
     "exitCondition": {
