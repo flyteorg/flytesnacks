@@ -9,7 +9,7 @@ To install the ChatGPT agent, run the following command:
 ```{eval-rst}
 .. prompt:: bash
 
-    pip install flytekitplugins-chatgpt
+    pip install flytekitplugins-openai
 ```
 
 ## Example usage
