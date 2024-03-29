@@ -88,7 +88,7 @@
     "path": "examples/k8s_spark_plugin",
     "examples": [
       [
-        "k8s_spark_plugin.pyspark_pi.my_spark", {},
+        "k8s_spark_plugin.pyspark_pi.my_spark", {}
       ]
     ],
     "exitCondition": {
