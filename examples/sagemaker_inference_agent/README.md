@@ -30,12 +30,6 @@ These mixins can handle synchronous and synchronous tasks, respectively,
 and allow flytekit to mimic FlytePropeller's behavior in calling the agent.
 For more information, see "[Testing agents locally](https://docs.flyte.org/en/latest/flyte_agents/testing_agents_locally.html)".
 
-:::{note}
-You will need to store credentials in your local environment when testing locally.
-To do so, follow the same pattern as
-[storing secrets locally](https://docs.flyte.org/en/latest/user_guide/productionizing/secrets.html#secret-discovery).
-:::
-
 ## Flyte deployment configuration
 
 ```{note}

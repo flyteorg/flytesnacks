@@ -96,7 +96,7 @@ flyteidl==1.11.1b0
     # via flytekit
 flytekit==1.11.0
     # via flytekitplugins-awssagemaker
-flytekitplugins-awssagemaker==1.12.0b1
+flytekitplugins-awssagemaker==1.12.0b2
     # via -r requirements.in
 frozenlist==1.4.1
     # via
