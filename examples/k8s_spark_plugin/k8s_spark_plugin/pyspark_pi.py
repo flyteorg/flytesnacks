@@ -16,7 +16,7 @@ from flytekitplugins.spark import Spark
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
+custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
 
 
 # %% [markdown]
@@ -71,7 +71,10 @@ def f(_):
 # %% [markdown]
 # Additionally, we specify a standard Flyte task that won't be executed on the Spark cluster.
 # %%
-@task(cache_version="2")
+@task(
+    cache_version="2",
+    container_image=custom_image
+)
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
     return 1
