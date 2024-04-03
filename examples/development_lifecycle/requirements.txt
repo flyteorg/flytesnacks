@@ -313,7 +313,7 @@ pexpect==4.9.0
     # via ipython
 phik==0.12.3
     # via ydata-profiling
-pillow==10.2.0
+pillow==10.3.0
     # via
     #   imagehash
     #   matplotlib
@@ -491,9 +491,7 @@ urllib3==1.26.18
     #   kubernetes
     #   requests
 visions[type-image-path]==0.7.5
-    # via
-    #   visions
-    #   ydata-profiling
+    # via ydata-profiling
 wcwidth==0.2.12
     # via prompt-toolkit
 websocket-client==1.7.0
