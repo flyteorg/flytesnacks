@@ -73,7 +73,7 @@ def f(_):
 # %%
 @task(
     cache_version="2",
-    container_image=custom_image
+    container_image=custom_image,
 )
 def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -> int:
     print("My printed value: {} @ {}".format(value_to_print, date_triggered))
