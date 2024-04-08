@@ -30,7 +30,6 @@ from flytekit import ImageSpec, Resources, task, workflow
 # Create an `ImageSpec` to encompass all the dependencies needed for the Ray task.
 # %%
 custom_image = ImageSpec(
-    name="ray-flyte-plugin",
     registry="ghcr.io/flyteorg",
     packages=["flytekitplugins-ray"],
 )

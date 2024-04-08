@@ -24,7 +24,6 @@ from flytekit.types.directory import FlyteDirectory
 # Create an `ImageSpec` to encompass all the dependencies needed for the TensorFlow task.
 # %%
 custom_image = ImageSpec(
-    name="kftensorflow-flyte-plugin",
     packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow"],
     registry="ghcr.io/flyteorg",
 )
@@ -184,10 +183,10 @@ def test_model(model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data
 # %%
 training_outputs = NamedTuple("TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory)
 
-if os.getenv("SANDBOX") != "":
-    resources = Resources(gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi")
+if os.getenv("SANDBOX"):
+    resources = Resources(gpu="0", mem="1000Mi", ephemeral_storage="500Mi")
 else:
-    resources = Resources(gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi")
+    resources = Resources(gpu="1", mem="10Gi", ephemeral_storage="500Mi")
 
 
 @task(

@@ -12,8 +12,10 @@ import typing
 import flytekitplugins.pandera  # noqa : F401
 import pandas as pd
 import pandera as pa
-from flytekit import task, workflow
+from flytekit import task, workflow, ImageSpec
 from pandera.typing import DataFrame, Series
+
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera"])
 
 # %% [markdown]
 # ## A Simple Data Processing Pipeline
@@ -94,18 +96,18 @@ class OutSchema(IntermediateSchema):
 # annotating the inputs and outputs of those functions with the pandera schemas:
 
 # %%
-@task
+@task(container_image=custom_image)
 def dict_to_dataframe(data: dict) -> DataFrame[InSchema]:
     """Helper task to convert a dictionary input to a dataframe."""
     return pd.DataFrame(data)
 
 
-@task
+@task(container_image=custom_image)
 def total_pay(df: DataFrame[InSchema]) -> DataFrame[IntermediateSchema]:  # noqa : F811
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
 
 
-@task
+@task(container_image=custom_image)
 def add_ids(df: DataFrame[IntermediateSchema], worker_ids: typing.List[str]) -> DataFrame[OutSchema]:
     return df.assign(worker_id=worker_ids)
 

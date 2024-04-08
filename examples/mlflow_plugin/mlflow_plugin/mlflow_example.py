@@ -14,15 +14,17 @@ import tensorflow as tf
 # %% [markdown]
 # Let's first import the libraries.
 # %%
-from flytekit import task, workflow
+from flytekit import task, workflow, ImageSpec, Resources
 from flytekitplugins.mlflow import mlflow_autolog
+
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-mlflow", "tensorflow"])
 
 
 # %% [markdown]
 # Run a model training here and generate metrics and parameters.
 # Add `mlflow_autolog` to the task, then flyte will automatically log the metric to the Flyte Deck.
 # %%
-@task(disable_deck=False)
+@task(enable_deck=True, container_image=custom_image, requests=Resources(mem="3000Mi"))
 @mlflow_autolog(framework=mlflow.keras)
 def train_model(epochs: int):
     # Refer to https://www.tensorflow.org/tutorials/keras/classification
