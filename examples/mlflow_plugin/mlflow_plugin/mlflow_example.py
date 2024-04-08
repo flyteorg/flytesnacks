@@ -14,7 +14,7 @@ import tensorflow as tf
 # %% [markdown]
 # Let's first import the libraries.
 # %%
-from flytekit import task, workflow, ImageSpec, Resources
+from flytekit import ImageSpec, Resources, task, workflow
 from flytekitplugins.mlflow import mlflow_autolog
 
 custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-mlflow", "tensorflow"])

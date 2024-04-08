@@ -12,7 +12,7 @@ import typing
 import flytekitplugins.pandera  # noqa : F401
 import pandas as pd
 import pandera as pa
-from flytekit import task, workflow, ImageSpec
+from flytekit import ImageSpec, task, workflow
 from pandera.typing import DataFrame, Series
 
 custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera"])

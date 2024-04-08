@@ -46,7 +46,7 @@ import flytekitplugins.pandera  # noqa: F401
 import joblib
 import pandas as pd
 import pandera as pa
-from flytekit import task, workflow, ImageSpec
+from flytekit import ImageSpec, task, workflow
 from flytekit.types.file import JoblibSerializedFile
 from pandera.typing import DataFrame, Index, Series  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
