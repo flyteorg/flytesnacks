@@ -1,19 +1,4 @@
-# %% [markdown]
-# (raw_container)=
-#
-# # Using Raw Containers
-#
-# ```{eval-rst}
-# .. tags:: Containerization, Advanced
-# ```
-#
-# This example demonstrates how to use arbitrary containers in 5 different languages, all orchestrated in flytekit seamlessly.
-# Flyte mounts an input data volume where all the data needed by the container is available, and an output data volume
-# for the container to write all the data which will be stored away.
-#
-# The data is written as separate files, one per input variable. The format of the file is serialized strings.
-# Refer to the raw protocol to understand how to leverage this.
-# %%
+# Using raw containers
 import logging
 
 from flytekit import ContainerTask, kwtypes, task, workflow
