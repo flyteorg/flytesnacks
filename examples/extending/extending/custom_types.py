@@ -1,32 +1,4 @@
-# %% [markdown]
-# (advanced_custom_types)=
-#
-# # Writing Custom Flyte Types
-#
-# ```{eval-rst}
-# .. tags:: Extensibility, Contribute, Intermediate
-# ```
-#
-# Flyte is a strongly-typed framework for authoring tasks and workflows. But there are situations when the existing
-# types do not directly work. This is true with any programming language!
-#
-# Similar to a programming language enabling higher-level concepts to describe user-specific objects such as classes in Python/Java/C++, struct in C/Golang, etc.,
-# Flytekit allows modeling user classes. The idea is to make an interface that is more productive for the
-# use case, while writing a transformer that converts the user-defined type into one of the generic constructs in Flyte's type system.
-#
-# This example will try to model an example user-defined dataset and show how it can be seamlessly integrated with Flytekit's type engine.
-#
-# The example is demonstrated in the video below:
-#
-# ```{eval-rst}
-# ..  youtube:: 1xExpRzz8Tw
-#
-#
-# ```
-
-# %% [markdown]
-# First, we import the dependencies.
-# %%
+# Writing custom Flyte types
 import os
 import tempfile
 import typing
@@ -36,13 +8,7 @@ from flytekit import Blob, BlobMetadata, BlobType, FlyteContext, Literal, Litera
 from flytekit.extend import TypeEngine, TypeTransformer
 
 
-# %% [markdown]
-# :::{note}
-# `FlyteContext` is used to access a random local directory.
-# :::
-#
-# Defined type here represents a list of files on the disk. We will refer to it as `MyDataset`.
-# %%
+# Defined type here represents a list of files on the disk. We will refer to it as `MyDataset`
 class MyDataset(object):
     """
     ``MyDataset`` is a collection of files. In Flyte, this maps to a multi-part blob or directory.
@@ -76,13 +42,7 @@ class MyDataset(object):
 # `MyDataset` represents a set of files locally. However, when a workflow consists of multiple steps, we want the data to
 # flow between different steps. To achieve this, it is necessary to explain how the data will be transformed to
 # Flyte's remote references. To do this, we create a new instance of
-# {py:class}`~flytekit:flytekit.extend.TypeTransformer`, for the type `MyDataset` as follows:
-#
-# :::{note}
-# The `TypeTransformer` is a Generic abstract base class. The `Generic` type argument refers to the actual object
-# that we want to work with. In this case, it is the `MyDataset` object.
-# :::
-# %%
+# `flytekit.extend.TypeTransformer`, for the type `MyDataset` as follows:
 class MyDatasetTransformer(TypeTransformer[MyDataset]):
     _TYPE_INFO = BlobType(format="binary", dimensionality=BlobType.BlobDimensionality.MULTIPART)
 
@@ -123,16 +83,12 @@ class MyDatasetTransformer(TypeTransformer[MyDataset]):
         return MyDataset(base_dir=local_dir)
 
 
-# %% [markdown]
 # Before we can use MyDataset in our tasks, we need to let Flytekit know that `MyDataset` should be considered as a valid type.
-# This is done using {py:class}`~flytekit:flytekit.extend.TypeEngine`'s `register` method.
-# %%
+# This is done using `flytekit.extend.TypeEngine`'s `register` method.
 TypeEngine.register(MyDatasetTransformer())
 
 
-# %% [markdown]
 # The new type should be ready to use! Let us write an example generator and consumer for this new datatype.
-# %%
 @task
 def generate() -> MyDataset:
     d = MyDataset()
@@ -159,9 +115,7 @@ def wf() -> str:
     return consume(d=generate())
 
 
-# %% [markdown]
-# This workflow can be executed and tested locally. Flytekit will exercise the entire path even if you run it locally.
-#
-# %%
+# This workflow can be executed and tested locally.
+# Flytekit will exercise the entire path even if you run it locally.
 if __name__ == "__main__":
     print(wf())
