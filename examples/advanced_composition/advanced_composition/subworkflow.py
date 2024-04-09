@@ -1,26 +1,4 @@
-# %% [markdown]
-# (subworkflow)=
-#
-# # Subworkflows
-#
-# ```{eval-rst}
-# .. tags:: Intermediate
-# ```
-#
-# Subworkflows share similarities with {ref}`launch plans <Launch plans>`, as both enable users to initiate one workflow from within another.
-# The distinction lies in the analogy: think of launch plans as "pass by pointer" and subworkflows as "pass by value."
-#
-# ## When to use subworkflows?
-#
-# Subworkflows offer an elegant solution for managing parallelism between a workflow and its launched sub-flows,
-# as they execute within the same context as the parent workflow.
-# Consequently, all nodes of a subworkflow adhere to the overall constraints imposed by the parent workflow.
-#
-# Consider this scenario: when workflow `A` is integrated as a subworkflow of workflow `B`,
-# running workflow `B` results in the entire graph of workflow `A` being duplicated into workflow `B` at the point of invocation.
-#
-# Here's an example illustrating the calculation of slope, intercept and the corresponding y-value.
-# %%
+# Subworkflows
 from flytekit import task, workflow
 
 
@@ -58,50 +36,29 @@ def regression_line_wf(val: int = 5, x: list[int] = [-3, 0, 3], y: list[int] = [
     return regression_line(val=val, slope_value=slope_value, intercept_value=intercept_value)
 
 
-# %% [markdown]
-# The `slope_intercept_wf` computes the slope and intercept of the regression line.
-# Subsequently, the `regression_line_wf` triggers `slope_intercept_wf` and then computes the y-value.
-#
-# To execute the workflow locally, use the following:
-# %%
+# Run the example locally
 if __name__ == "__main__":
     print(f"Executing regression_line_wf(): {regression_line_wf()}")
 
 
-# %% [markdown]
 # It's possible to nest a workflow that contains a subworkflow within another workflow.
-# Workflows can be easily constructed from other workflows, even if they function as standalone entities.
+# Workflows can be constructed from other workflows, even if they function as standalone entities.
 # Each workflow in this module has the capability to exist and run independently.
-# %%
 @workflow
 def nested_regression_line_wf() -> float:
     return regression_line_wf()
 
 
-# %% [markdown]
-# You can run the nested workflow locally as well.
-# %%
+# Run the nested workflow locally
 if __name__ == "__main__":
     print(f"Running nested_regression_line_wf(): {nested_regression_line_wf()}")
 
-# %% [markdown]
-# ## External workflow
+
+# External workflow
 #
 # When launch plans are employed within a workflow to initiate the execution of a pre-defined workflow,
 # a new external execution is triggered. This results in a distinct execution ID and can be identified
 # as a separate entity.
-#
-# These external invocations of a workflow, initiated using launch plans from a parent workflow,
-# are termed as external workflows. They may have separate parallelism constraints since the context is not shared.
-#
-# :::{tip}
-# If your deployment uses {ref}`multiple Kubernetes clusters <flyte:deployment-deployment-multicluster>`,
-# external workflows may offer a way to distribute the workload of a workflow across multiple clusters.
-# :::
-#
-# Here's an example that illustrates the concept of external workflows:
-# %%
-
 from flytekit import LaunchPlan
 
 launch_plan = LaunchPlan.get_or_create(
@@ -115,38 +72,6 @@ def nested_regression_line_lp() -> float:
     return launch_plan()
 
 
-# %% [markdown]
-# :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/main/flytesnacks/user_guide/flyte_external_workflow_execution.png
-# :alt: External workflow execution
-# :class: with-shadow
-# :::
-#
-# In the console screenshot above, note that the launch plan execution ID differs from that of the workflow.
-#
-# You can run a workflow containing an external workflow locally as follows:
-# %%
+# Run a workflow containing an external workflow locally
 if __name__ == "__main__":
     print(f"Running nested_regression_line_lp(): {nested_regression_line_lp}")
-
-# %% [markdown]
-# ## Run the example on the Flyte cluster
-#
-# To run the provided workflows on the Flyte cluster, use the following commands:
-#
-# ```
-# pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/subworkflow.py \
-#   regression_line_wf
-# ```
-#
-# ```
-# pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/subworkflow.py \
-#   nested_regression_line_wf
-# ```
-#
-# ```
-# pyflyte run --remote \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/advanced_composition/advanced_composition/subworkflow.py \
-#   nested_regression_line_lp
-# ```
