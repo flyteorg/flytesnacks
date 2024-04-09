@@ -5,18 +5,14 @@ from flytekit import ContainerTask, kwtypes, task, workflow
 
 logger = logging.getLogger(__file__)
 
-# %% [markdown]
-# ## Container Tasks
-#
-# A {py:class}`flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
+# A `flytekit.ContainerTask` denotes an arbitrary container. In the following example, the name of the task
 # is `calculate_ellipse_area_shell`. This name has to be unique in the entire project. Users can specify:
 #
 # - `input_data_dir` -> where inputs will be written to.
 # - `output_data_dir` -> where Flyte will expect the outputs to exist.
-#
+
 # `inputs` and `outputs` specify the interface for the task; thus it should be an ordered dictionary of typed input and
 # output variables.
-# %%
 calculate_ellipse_area_shell = ContainerTask(
     name="ellipse-area-metadata-shell",
     input_data_dir="/var/inputs",
@@ -117,10 +113,8 @@ def report_all_calculated_areas(
     logger.info(f"julia: area={area_julia}, metadata={metadata_julia}")
 
 
-# %% [markdown]
 # As can be seen in this example, `ContainerTask`s can be interacted with like normal Python functions, whose inputs
 # correspond to the declared input variables. All data returned by the tasks are consumed and logged by a Flyte task.
-# %%
 @workflow
 def wf(a: float, b: float):
     # Calculate area in all languages
@@ -143,46 +137,3 @@ def wf(a: float, b: float):
         area_julia=area_julia,
         metadata_julia=metadata_julia,
     )
-
-
-# %% [markdown]
-# One of the benefits of raw container tasks is that Flytekit does not need to be installed in the target container.
-#
-# :::{note}
-# Raw containers cannot be run locally at the moment.
-# :::
-#
-# ## Scripts
-#
-# The contents of each script specified in the `ContainerTask` is as follows:
-#
-# ### calculate-ellipse-area.sh
-#
-# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/shell/calculate-ellipse-area.sh
-# :language: shell
-# ```
-#
-# ### calculate-ellipse-area.py
-#
-# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/python/calculate-ellipse-area.py
-# :language: python
-# ```
-#
-# ### calculate-ellipse-area.R
-#
-# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/r/calculate-ellipse-area.R
-# :language: r
-# ```
-#
-# ### calculate-ellipse-area.hs
-#
-# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/haskell/calculate-ellipse-area.hs
-# :language: haskell
-# ```
-#
-# ### calculate-ellipse-area.jl
-#
-# ```{literalinclude} ../../../examples/customizing_dependencies/raw-containers-supporting-files/per-language/julia/calculate-ellipse-area.jl
-# :language: julia
-# ```
-#
