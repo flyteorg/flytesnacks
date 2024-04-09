@@ -1,5 +1,3 @@
-# Mocking tasks for testing
-
 import datetime
 
 import pandas

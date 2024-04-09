@@ -1,5 +1,3 @@
-# Chaining Flyte entities
-
 from flytekit import task, workflow
 
 

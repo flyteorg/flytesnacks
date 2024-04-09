@@ -1,4 +1,3 @@
-# Map tasks
 from flytekit import map_task, task, workflow
 
 

@@ -1,4 +1,3 @@
-# Using raw containers
 import logging
 
 from flytekit import ContainerTask, kwtypes, task, workflow

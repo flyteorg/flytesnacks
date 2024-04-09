@@ -1,4 +1,3 @@
-# Failure node
 from flytekit import WorkflowFailurePolicy, task, workflow
 
 

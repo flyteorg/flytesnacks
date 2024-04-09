@@ -1,4 +1,3 @@
-# Decorating workflows
 from functools import partial, wraps
 from unittest.mock import MagicMock
 

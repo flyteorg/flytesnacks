@@ -1,4 +1,3 @@
-# Named outputs
 from typing import NamedTuple
 
 from flytekit import task, workflow

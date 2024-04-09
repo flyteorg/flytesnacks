@@ -1,5 +1,3 @@
-# Notifications
-
 from datetime import timedelta
 from flytekit import Email, FixedRate, LaunchPlan, PagerDuty, Slack, WorkflowExecutionPhase, task, workflow
 
@@ -72,5 +70,5 @@ wacky_int_doubler_lp = LaunchPlan.get_or_create(
 
 
 # 4. You can use pyflyte register to register the launch plan and lauch it in flyteconsole to get the notifications.
-#
+
 # pyflyte register lp_notifications.py

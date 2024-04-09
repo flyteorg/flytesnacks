@@ -1,5 +1,3 @@
-# Data class
-
 import os
 import tempfile
 from dataclasses import dataclass

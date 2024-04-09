@@ -1,4 +1,3 @@
-# Multiple container images in a single workflow
 import numpy as np
 from flytekit import task, workflow
 

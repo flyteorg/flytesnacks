@@ -1,4 +1,3 @@
-# PyTorch type
 import torch
 from flytekit import task, workflow
 

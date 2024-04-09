@@ -1,16 +1,3 @@
-# %% [markdown]
-# # Waiting for External Inputs
-
-
-# ## Pause executions with the `sleep` node
-#
-# The simplest case is when you want your workflow to {py:func}`~flytekit.sleep`
-# for some specified amount of time before continuing.
-#
-# Though this type of node may not be used often in a production setting,
-# you might want to use it, for example, if you want to simulate a delay in
-# your workflow to mock out the behavior of some long-running computation.
-# %%
 from datetime import timedelta
 
 from flytekit import sleep, task, workflow

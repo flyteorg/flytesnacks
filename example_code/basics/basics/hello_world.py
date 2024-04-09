@@ -1,7 +1,3 @@
-# Hello world
-# Flyte tasks are the core building blocks of larger, more complex workflows.
-# Workflows compose multiple tasks – or other workflows –
-# into meaningful steps of computation to produce some useful set of outputs or outcomes.
 from flytekit import task, workflow
 
 

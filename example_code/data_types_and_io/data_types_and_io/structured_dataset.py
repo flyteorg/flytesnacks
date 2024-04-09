@@ -1,4 +1,3 @@
-# Structured dataset
 import os
 import typing
 

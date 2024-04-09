@@ -1,4 +1,8 @@
-# Reference launch plan
+from typing import List
+
+from flytekit import reference_launch_plan, workflow
+from flytekit.types.file import FlyteFile
+
 
 # A `flytekit.reference_launch_plan` references previously defined, serialized,
 # and registered Flyte launch plans.
@@ -6,11 +10,6 @@
 # that use launch plans declared by others.
 
 # The following example illustrates how to use reference launch plans
-from typing import List
-
-from flytekit import reference_launch_plan, workflow
-from flytekit.types.file import FlyteFile
-
 
 @reference_launch_plan(
     project="flytesnacks",

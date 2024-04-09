@@ -1,4 +1,7 @@
-# Reference task
+from typing import List
+
+from flytekit import reference_task, workflow
+from flytekit.types.file import FlyteFile
 
 # A `flytekit.reference_task` references the Flyte tasks that have already been defined, serialized, and registered.
 # You can reference tasks from other projects and create workflows that use tasks declared by others.
@@ -6,11 +9,6 @@
 
 # The following example illustrates how to use reference tasks
 # Note that reference tasks cannot be run locally. You must mock them out
-from typing import List
-
-from flytekit import reference_task, workflow
-from flytekit.types.file import FlyteFile
-
 
 @reference_task(
     project="flytesnacks",

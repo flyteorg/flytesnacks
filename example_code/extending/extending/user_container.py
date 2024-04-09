@@ -1,4 +1,3 @@
-# User container task plugin
 import typing
 from datetime import timedelta
 from time import sleep

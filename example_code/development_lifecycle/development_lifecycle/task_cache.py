@@ -1,4 +1,3 @@
-# Caching
 import time
 
 import pandas

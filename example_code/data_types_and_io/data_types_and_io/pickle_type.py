@@ -1,7 +1,4 @@
-# Pickle type
-
 from flytekit import task, workflow
-
 
 # `Superhero` represents a user-defined complex type that can be serialized
 # to a pickle file by Flytekit

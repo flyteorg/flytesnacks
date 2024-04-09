@@ -1,4 +1,3 @@
-# Documenting workflows
 from typing import Tuple
 
 from flytekit import workflow

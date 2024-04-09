@@ -1,4 +1,3 @@
-# Enum type
 from enum import Enum
 
 from flytekit import task, workflow

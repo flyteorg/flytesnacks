@@ -1,5 +1,3 @@
-# Cache serializing
-
 from flytekit import task
 
 

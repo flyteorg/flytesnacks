@@ -1,4 +1,3 @@
-# Decorating tasks
 import logging
 from functools import partial, wraps
 

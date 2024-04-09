@@ -1,5 +1,3 @@
-# Scheduling workflows
-
 from datetime import datetime
 
 from flytekit import task, workflow

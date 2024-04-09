@@ -1,4 +1,3 @@
-# Eager workflows
 from flytekit import task, workflow
 from flytekit.experimental import eager
 

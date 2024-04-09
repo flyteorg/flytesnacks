@@ -1,5 +1,3 @@
-# Customizing task resources
-
 import typing
 
 from flytekit import Resources, task, workflow

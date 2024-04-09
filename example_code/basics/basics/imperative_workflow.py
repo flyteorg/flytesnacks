@@ -1,4 +1,3 @@
-# Imperative workflows
 from flytekit import Workflow
 
 # Import the `slope` and `intercept` tasks from the workflow.py file

@@ -1,5 +1,9 @@
+import os
+from typing import Tuple
 
-# Using ssecrets in a task
+import flytekit
+from flytekit import Secret, task, workflow
+from flytekit.testing import SecretsManager
 
 # Flyte supports running a variety of tasks, from containers to SQL queries and
 # service calls, and it provides a native Secret construct to request and access
@@ -41,14 +45,6 @@
 # Once you've defined a secret on the Flyte backend, `flytekit` exposes a class
 # called `flytekit.Secret`s, which allows you to request a secret
 # from the configured secret manager.
-
-
-import os
-from typing import Tuple
-
-import flytekit
-from flytekit import Secret, task, workflow
-from flytekit.testing import SecretsManager
 
 secret = Secret(
     group="<SECRET_GROUP>",

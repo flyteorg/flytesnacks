@@ -1,4 +1,3 @@
-# Decks
 import flytekit
 from flytekit import ImageSpec, task
 from flytekitplugins.deck.renderer import MarkdownRenderer

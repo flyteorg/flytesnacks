@@ -1,4 +1,3 @@
-# Launch plans
 from flytekit import LaunchPlan, current_context
 
 # Import the workflow from the workflow.py file

@@ -1,4 +1,3 @@
-# Writing custom Flyte types
 import os
 import tempfile
 import typing
