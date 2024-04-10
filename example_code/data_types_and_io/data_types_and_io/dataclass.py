@@ -9,11 +9,11 @@ from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
 from mashumaro.mixins.json import DataClassJSONMixin
 
-
 # NOTE: If you're using Flytekit version below v1.10, you'll need to decorate with `@dataclass_json` using
 # `from dataclass_json import dataclass_json` instead of inheriting from Mashumaro's `DataClassJSONMixin`.
 # If you're using Flytekit version >= v1.11.1, you don't need to decorate with `@dataclass_json` or
 # inherit from Mashumaro's `DataClassJSONMixin`.
+
 
 # Python types
 # Define a `dataclass` with `int`, `str` and `dict` as the data types

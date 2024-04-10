@@ -3,13 +3,13 @@ from typing import List
 from flytekit import reference_launch_plan, workflow
 from flytekit.types.file import FlyteFile
 
-
 # A `flytekit.reference_launch_plan` references previously defined, serialized,
 # and registered Flyte launch plans.
 # You can reference launch plans from other projects and create workflows
 # that use launch plans declared by others.
 
 # The following example illustrates how to use reference launch plans
+
 
 @reference_launch_plan(
     project="flytesnacks",

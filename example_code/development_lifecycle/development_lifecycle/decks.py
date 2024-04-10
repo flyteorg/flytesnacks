@@ -67,6 +67,7 @@ def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
 # Markdown renderer converts a Markdown string into HTML,
 # producing HTML as a Unicode string.
 
+
 @task(enable_deck=True)
 def markdown_renderer() -> None:
     flytekit.current_context().default_deck.append(

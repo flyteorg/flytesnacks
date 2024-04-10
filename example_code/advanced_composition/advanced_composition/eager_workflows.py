@@ -1,6 +1,7 @@
 from flytekit import task, workflow
 from flytekit.experimental import eager
 
+
 # Example 1
 @task
 def add_one(x: int) -> int:

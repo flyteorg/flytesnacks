@@ -10,6 +10,7 @@ from flytekit.types.file import FlyteFile
 # The following example illustrates how to use reference tasks
 # Note that reference tasks cannot be run locally. You must mock them out
 
+
 @reference_task(
     project="flytesnacks",
     domain="development",

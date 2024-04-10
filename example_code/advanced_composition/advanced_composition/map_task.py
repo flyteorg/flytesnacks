@@ -1,6 +1,5 @@
 from flytekit import map_task, task, workflow
 
-
 # Example 1
 threshold = 11
 

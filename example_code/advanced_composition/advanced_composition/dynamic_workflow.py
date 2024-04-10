@@ -3,6 +3,7 @@ from flytekit import dynamic, task, workflow
 # A workflow whose directed acyclic graph (DAG) is computed at runtime
 # is a dynamic workflow.
 
+
 # Define a task that returns the index of a character,
 # where A-Z/a-z is equivalent to 0-25
 @task

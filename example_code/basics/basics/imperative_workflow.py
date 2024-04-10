@@ -3,7 +3,6 @@ from flytekit import Workflow
 # Import the `slope` and `intercept` tasks from the workflow.py file
 from .workflow import intercept, slope
 
-
 # Create an imperative workflow
 imperative_wf = Workflow(name="imperative_workflow")
 

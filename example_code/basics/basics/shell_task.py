@@ -7,7 +7,6 @@ from flytekit.extras.tasks.shell import OutputLocation, ShellTask
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 
-
 # To create a shell task, provide a name for it,
 # specify the bash script to be executed,
 # and define inputs and outputs if needed

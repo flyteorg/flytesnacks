@@ -125,4 +125,3 @@ of the plugin.
 #### Flyte Agent Framework
 The [Flyte Agent Framework](https://docs.flyte.org/en/latest/flyte_agents/index.html) allows you to write backend
 plugins in Python.
-
