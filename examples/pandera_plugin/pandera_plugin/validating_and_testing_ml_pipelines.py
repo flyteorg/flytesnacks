@@ -46,11 +46,13 @@ import flytekitplugins.pandera  # noqa: F401
 import joblib
 import pandas as pd
 import pandera as pa
-from flytekit import task, workflow
+from flytekit import ImageSpec, task, workflow
 from flytekit.types.file import JoblibSerializedFile
 from pandera.typing import DataFrame, Index, Series  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera"])
 
 # %% [markdown]
 # We also need to import the `pandera` flytekit plugin to enable dataframe runtime type-checking:
@@ -169,7 +171,7 @@ class RawData(pa.SchemaModel):
 # Now we're ready to write our first Flyte task:
 
 # %%
-@task
+@task(container_image=custom_image)
 def fetch_raw_data() -> DataFrame[RawData]:
     data_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data"
     return (
@@ -204,7 +206,7 @@ class ParsedData(RawData):
     target: Series[int] = pa.Field(isin=[0, 1])
 
 
-@task
+@task(container_image=custom_image)
 def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
     return raw_data.assign(target=lambda _: (_.target > 0).astype(int))
 
@@ -225,7 +227,7 @@ def parse_raw_data(raw_data: DataFrame[RawData]) -> DataFrame[ParsedData]:
 DataSplits = typing.NamedTuple("DataSplits", training_set=DataFrame[ParsedData], test_set=DataFrame[ParsedData])
 
 
-@task
+@task(container_image=custom_image)
 def split_data(parsed_data: DataFrame[ParsedData], test_size: float, random_state: int) -> DataSplits:
     training_set = parsed_data.sample(frac=test_size, random_state=random_state)
     test_set = parsed_data[~parsed_data.index.isin(training_set.index)]
@@ -249,7 +251,7 @@ def get_features_and_target(dataset):
     return X, y
 
 
-@task
+@task(container_image=custom_image)
 def train_model(training_set: DataFrame[ParsedData], random_state: int) -> JoblibSerializedFile:
     model = RandomForestClassifier(n_estimators=100, random_state=random_state)
     X, y = get_features_and_target(training_set)
@@ -269,7 +271,7 @@ def train_model(training_set: DataFrame[ParsedData], random_state: int) -> Jobli
 # Next we assess the accuracy score of the model on the test set:
 
 # %%
-@task
+@task(container_image=custom_image)
 def evaluate_model(model: JoblibSerializedFile, test_set: DataFrame[ParsedData]) -> float:
     with open(model, "rb") as f:
         model = joblib.load(f)

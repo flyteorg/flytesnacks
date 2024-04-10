@@ -16,7 +16,7 @@ from flytekitplugins.spark import Spark
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
 
 
 # %% [markdown]
@@ -39,6 +39,7 @@ custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg",
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
+            "spark.jars": "https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-latest.jar",
         }
     ),
     limits=Resources(mem="2000M"),
