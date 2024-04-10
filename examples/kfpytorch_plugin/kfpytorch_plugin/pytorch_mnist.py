@@ -23,7 +23,6 @@ WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 # Create an `ImageSpec` to encompass all the dependencies needed for the PyTorch task.
 # %%
 custom_image = ImageSpec(
-    name="flyte-kfpytorch-plugin",
     packages=["torch", "torchvision", "flytekitplugins-kfpytorch", "matplotlib", "tensorboardX"],
     registry="ghcr.io/flyteorg",
 )
@@ -55,14 +54,14 @@ if custom_image.is_container():
 # Adjust memory, GPU usage and storage settings based on whether you are
 # registering against the demo cluster or not.
 # %%
-if os.getenv("SANDBOX") != "":
+if os.getenv("SANDBOX"):
     cpu_request = "500m"
     mem_request = "500Mi"
     gpu_request = "0"
     mem_limit = "500Mi"
     gpu_limit = "0"
 else:
-    cpu_request = "500m"
+    cpu_request = "1000m"
     mem_request = "4Gi"
     gpu_request = "1"
     mem_limit = "8Gi"

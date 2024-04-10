@@ -23,7 +23,7 @@ except ImportError:
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(name="flyte-spark-plugin", registry="ghcr.io/flyteorg")
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
 
 # %% [markdown]
 # :::{important}
@@ -54,6 +54,7 @@ columns = kwtypes(name=str, age=int)
             "spark.executor.cores": "1",
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
+            "spark.jars": "https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-latest.jar",
         }
     ),
     limits=Resources(mem="2000M"),
@@ -72,7 +73,7 @@ def spark_df() -> Annotated[StructuredDataset, columns]:
                 ("Charlie", 15),
             ],
             ["name", "age"],
-        )
+        ),
     )
 
 
@@ -88,7 +89,7 @@ def spark_df() -> Annotated[StructuredDataset, columns]:
 # %% [markdown]
 # Create a task to consume the Spark DataFrame.
 # %%
-@task
+@task(container_image=custom_image)
 def sum_of_all_ages(sd: Annotated[StructuredDataset, columns]) -> int:
     df: pandas.DataFrame = sd.open(pandas.DataFrame).all()
     return int(df["age"].sum())
