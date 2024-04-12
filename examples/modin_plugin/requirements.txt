@@ -35,7 +35,9 @@ cookiecutter==2.1.1
 croniter==1.3.7
     # via flytekit
 cryptography==38.0.3
-    # via pyopenssl
+    # via
+    #   pyopenssl
+    #   secretstorage
 cycler==0.11.0
     # via matplotlib
 dataclasses-json==0.5.7
@@ -62,11 +64,11 @@ flyteidl==1.1.22
     # via flytekit
 flytekit==1.2.3
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   flytekitplugins-deck-standard
     #   flytekitplugins-modin
 flytekitplugins-deck-standard==1.2.3
-    # via -r ../../../common/requirements-common.in
+    # via -r requirements.in
 flytekitplugins-modin==1.2.3
     # via -r requirements.in
 fonttools==4.38.0
@@ -95,7 +97,7 @@ grpcio-status==1.43.0
     #   flytekitplugins-modin
 htmlmin==0.1.12
     # via pandas-profiling
-idna==3.4
+idna==3.7
     # via requests
 imagehash==4.3.1
     # via visions
@@ -106,6 +108,10 @@ importlib-metadata==5.0.0
     #   markdown
 jaraco-classes==3.2.3
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   cookiecutter
@@ -139,7 +145,7 @@ marshmallow-jsonschema==0.13.0
     # via flytekit
 matplotlib==3.5.3
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   missingno
     #   pandas-profiling
     #   phik
@@ -173,6 +179,7 @@ numpy==1.23.4
     #   patsy
     #   phik
     #   pyarrow
+    #   pywavelets
     #   ray
     #   scikit-learn
     #   scipy
@@ -293,6 +300,8 @@ seaborn==0.12.1
     # via
     #   missingno
     #   pandas-profiling
+secretstorage==3.3.3
+    # via keyring
 six==1.16.0
     # via
     #   grpcio
@@ -333,13 +342,13 @@ urllib3==1.26.12
     #   responses
 virtualenv==20.16.6
     # via ray
-visions[type_image_path]==0.7.5
+visions[type-image-path]==0.7.5
     # via pandas-profiling
 websocket-client==1.4.2
     # via docker
 wheel==0.38.2
     # via
-    #   -r ../../../common/requirements-common.in
+    #   -r requirements.in
     #   flytekit
 wrapt==1.14.1
     # via
