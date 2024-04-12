@@ -164,7 +164,7 @@ grpcio-status==1.60.0
     # via flytekit
 htmlmin==0.1.12
     # via ydata-profiling
-idna==3.6
+idna==3.7
     # via
     #   anyio
     #   requests
@@ -491,9 +491,7 @@ urllib3==1.26.18
     #   kubernetes
     #   requests
 visions[type-image-path]==0.7.5
-    # via
-    #   visions
-    #   ydata-profiling
+    # via ydata-profiling
 wcwidth==0.2.12
     # via prompt-toolkit
 websocket-client==1.7.0
