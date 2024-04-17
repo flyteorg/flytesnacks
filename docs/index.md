@@ -44,7 +44,7 @@ Flyte is made up of a user plane, control plane, and data plane.
 :hidden:
 
 Getting Started <self>
-User Guide <userguide>
+User Guide <https://docs.flyte.org/en/latest/user_guide/index.html>
 Tutorials <tutorials>
 Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
 Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
@@ -58,10 +58,10 @@ Community <https://docs.flyte.org/en/latest/community/index.html>
 :hidden:
 
 Introduction to Flyte <self>
-getting_started/quickstart_guide
-getting_started/getting_started_with_workflow_development
-getting_started/flyte_fundamentals
-getting_started/core_use_cases
+Quickstart guide <https://docs.flyte.org/en/latest/quickstart_guide.html>
+Getting started with workflow development <https://docs.flyte.org/en/latest/getting_started_with_workflow_development/index.html>
+Flyte fundamentals <https://docs.flyte.org/en/latest/flyte_fundamentals/index.html>
+Core use cases <https://docs.flyte.org/en/latest/core_use_cases/index.html>
 ```
 
 ```{toctree}
@@ -69,16 +69,16 @@ getting_started/core_use_cases
 :caption: User Guide
 :hidden:
 
-📖 User Guide <userguide>
-🌳 Environment Setup <environment_setup>
-🔤 Basics <auto_examples/basics/index>
-⌨️ Data Types and IO <auto_examples/data_types_and_io/index>
-🔮 Advanced Composition <auto_examples/advanced_composition/index>
-🧩 Customizing Dependencies <auto_examples/customizing_dependencies/index>
-🏡 Development Lifecycle <auto_examples/development_lifecycle/index>
-⚗️ Testing <auto_examples/testing/index>
-🚢 Productionizing <auto_examples/productionizing/index>
-🏗 Extending <auto_examples/extending/index>
+📖 User Guide <https://docs.flyte.org/en/latest/user_guide/index.html>
+🌳 Environment Setup <https://docs.flyte.org/en/latest/user_guide/environment_setup.html>
+🔤 Basics <https://docs.flyte.org/en/latest/user_guide/basics/index.html>
+⌨️ Data Types and IO <https://docs.flyte.org/en/latest/user_guide/data_types_and_io/index.html>
+🔮 Advanced Composition <https://docs.flyte.org/en/latest/user_guide/advanced_composition/index.html>
+🧩 Customizing Dependencies <https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/index.html>
+🏡 Development Lifecycle <https://docs.flyte.org/en/latest/user_guide/development_lifecycle/index.html>
+⚗️ Testing <https://docs.flyte.org/en/latest/user_guide/testing/index.html>
+🚢 Productionizing <https://docs.flyte.org/en/latest/user_guide/productionizing/index.html>
+🏗 Extending <https://docs.flyte.org/en/latest/user_guide/extending/index.html>
 📝 Contributing <contribute>
 ```
 
