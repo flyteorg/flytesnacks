@@ -173,10 +173,16 @@ nb_execution_excludepatterns = [
 
 # myst notebook docs customization
 auto_examples_dir_root = "../examples"
-exclude_examples = ["advanced_composition", "basics",
-                    "customizing_dependencies", "data_types_and_io",
-                    "development_lifecycle", "extending",
-                    "productionizing", "testing"]
+exclude_examples = [
+    "advanced_composition",
+    "basics",
+    "customizing_dependencies",
+    "data_types_and_io",
+    "development_lifecycle",
+    "extending",
+    "productionizing",
+    "testing",
+]
 
 # intersphinx configuration
 intersphinx_mapping = {
