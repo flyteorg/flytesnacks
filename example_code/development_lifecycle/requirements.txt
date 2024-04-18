@@ -8,7 +8,7 @@ adlfs==2023.10.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohttp==3.9.2
+aiohttp==3.9.4
     # via
     #   adlfs
     #   aiobotocore
@@ -491,9 +491,7 @@ urllib3==1.26.18
     #   kubernetes
     #   requests
 visions[type-image-path]==0.7.5
-    # via
-    #   visions
-    #   ydata-profiling
+    # via ydata-profiling
 wcwidth==0.2.12
     # via prompt-toolkit
 websocket-client==1.7.0
