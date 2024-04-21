@@ -112,6 +112,9 @@ def report_all_calculated_areas(
     logger.info(f"julia: area={area_julia}, metadata={metadata_julia}")
 
 
+# If you’re using Flytekit version >= v1.11.1, you can execute it locally.
+# For example, `pyflyte run raw_container.py calculate_ellipse_area_shell --a 1.1 --b 1.2`
+#
 # As can be seen in this example, `ContainerTask`s can be interacted with like normal Python functions, whose inputs
 # correspond to the declared input variables. All data returned by the tasks are consumed and logged by a Flyte task.
 @workflow
