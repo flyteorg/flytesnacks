@@ -11,35 +11,36 @@ and deep learning models. It enables interoperability between different framewor
 
 The flytekit onnx type plugin comes in three flavors:
 
-```{eval-rst}
-.. tabbed:: ScikitLearn
+::::{tab-set}
 
-  .. code-block::
+:::{tab-item} ScikitLearn
 
-      pip install flytekitplugins-onnxpytorch
-
-  This plugin enables the conversion from scikitlearn models to ONNX models.
+```{code-block}
+pip install flytekitplugins-onnxpytorch
 ```
 
-```{eval-rst}
-.. tabbed:: TensorFlow
+This plugin enables the conversion from scikitlearn models to ONNX models.
+:::
 
-  .. code-block::
+:::{tab-item} TensorFlow
 
-      pip install flytekitplugins-onnxtensorflow
-
-  This plugin enables the conversion from tensorflow models to ONNX models.
+```{code-block}
+pip install flytekitplugins-onnxtensorflow
 ```
 
-```{eval-rst}
-.. tabbed:: PyTorch
+This plugin enables the conversion from tensorflow models to ONNX models.
+:::
 
-  .. code-block::
+:::{tab-item} PyTorch
 
-      pip install flytekitplugins-onnxpytorch
-
-  This plugin enables the conversion from pytorch models to ONNX models.
+```{code-block}
+pip install flytekitplugins-onnxpytorch
 ```
+
+This plugin enables the conversion from pytorch models to ONNX models.
+:::
+
+::::
 
 :::{note}
 If you'd like to add support for a new framework, please create an issue and submit a pull request to the flytekit repo.
