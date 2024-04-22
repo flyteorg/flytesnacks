@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - ci-overhaul
     paths-ignore:
       - "docs/**"
   pull_request:
@@ -21,7 +20,10 @@ jobs:
     name: Serialize
     strategy:
       matrix:
-        example: ["k8s_spark_plugin"]
+        example:
+          - advanced_composition
+          - airflow_agent
+          - k8s_spark_plugin
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -40,7 +42,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          pip install --pre "numpy<2.0.0" flytekitplugins-spark flytekitplugins-envd
+          pip install "numpy<2.0.0" flytekitplugins-spark flytekitplugins-envd flytekitplugins-airflow
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
