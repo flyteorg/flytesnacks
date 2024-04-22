@@ -40,7 +40,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          pip install flytekitplugins-spark flytekitplugins-envd
+          pip install --pre flytekitplugins-spark flytekitplugins-envd
       - name: Login to GitHub Container Registry
         if: ${{ github.event_name == 'push' }}
         uses: docker/login-action@v1
