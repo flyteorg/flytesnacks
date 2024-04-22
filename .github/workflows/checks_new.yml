@@ -18,10 +18,10 @@ concurrency:
 jobs:
   serialize_examples:
     runs-on: "ubuntu-latest"
-    name: Serialize Flytesnacks workflow
+    name: Serialize
     strategy:
       matrix:
-        example: ["examples/k8s_spark_plugin"]
+        example: ["k8s_spark_plugin"]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -40,7 +40,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          pip install --pre flytekitplugins-spark flytekitplugins-envd
+          pip install --pre numpy<2.0.0 flytekitplugins-spark flytekitplugins-envd
       - name: Login to GitHub Container Registry
         if: ${{ github.event_name == 'push' }}
         uses: docker/login-action@v1
@@ -50,5 +50,5 @@ jobs:
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Pyflyte package
         run: |
-          cd ${{ matrix.example }}
+          cd examples/${{ matrix.example }}
           pyflyte --pkgs k8s_spark_plugin package -o spark-package.tgz --force --fast
