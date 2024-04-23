@@ -182,6 +182,10 @@ exclude_examples = [
     "extending",
     "productionizing",
     "testing",
+    "biquery_plugin",
+    "databricks_plugin",
+    "mmcloud_plugin",
+    "snowflake_plugin"
 ]
 
 # intersphinx configuration
