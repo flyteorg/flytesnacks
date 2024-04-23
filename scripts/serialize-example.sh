@@ -17,7 +17,7 @@ serialize() {
         --image "$2" \
         --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
         --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
-        --output flyte-package.tgz \
+        --output /root/flyte-package.tgz \
         --force
 }
 

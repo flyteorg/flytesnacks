@@ -86,7 +86,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: snacks-${{ matrix.example }}
+          name: snacks-examples-${{ matrix.example }}
           path: examples/${{ matrix.example }}/**/*.pb
 
   # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
