@@ -19,6 +19,7 @@ jobs:
     runs-on: "ubuntu-latest"
     name: Serialize
     strategy:
+      fail-fast: false
       matrix:
         example:
           - advanced_composition
