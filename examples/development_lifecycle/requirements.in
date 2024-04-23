@@ -1,5 +1,5 @@
-flytekit>=1.10.3b4
-flytekitplugins-deck-standard>=1.10.3b4
-flytekitplugins-envd>=1.10.3b4
+flytekit
+flytekitplugins-deck-standard
+flytekitplugins-envd
 plotly
 scikit-learn

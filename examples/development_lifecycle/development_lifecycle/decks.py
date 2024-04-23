@@ -3,7 +3,7 @@ from flytekit import ImageSpec, task
 from flytekitplugins.deck.renderer import MarkdownRenderer
 from sklearn.decomposition import PCA
 
-# Ceate a new deck named `pca` and render Markdown content along with a
+# Create a new deck named `pca` and render Markdown content along with a
 # PCA (https://en.wikipedia.org/wiki/Principal_component_analysis) plot.
 # Start by initializing an `ImageSpec`` object
 # to encompass all the necessary dependencies.
@@ -12,7 +12,7 @@ from sklearn.decomposition import PCA
 # For more information, see
 # https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/imagespec.html#image-spec-example
 
-custom_image = ImageSpec(name="flyte-decks-example", packages=["plotly"], registry="ghcr.io/flyteorg")
+custom_image = ImageSpec(packages=["plotly"], registry="ghcr.io/flyteorg")
 
 if custom_image.is_container():
     import plotly
