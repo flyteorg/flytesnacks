@@ -85,7 +85,6 @@ This image is built using the following `Dockerfile` and contains:
 - A postgres database.
 
 ````{dropdown} See Dockerfile
-:color: muted
 
 This Dockerfile can be found in the ``flytesnacks/examples`` directory under
 the filepath listed in the code block title below.
