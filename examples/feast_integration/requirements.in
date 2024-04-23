@@ -5,4 +5,4 @@ flytekitplugins-deck-standard
 scikit-learn
 numpy
 boto3
-feast[aws]==0.25.0
+feast[aws]
