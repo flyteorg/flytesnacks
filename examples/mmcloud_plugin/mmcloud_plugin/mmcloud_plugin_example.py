@@ -1,17 +1,10 @@
-# %% [markdown]
-# (mmcloud_plugin_example)=
-# # Memory Machine Cloud
-#
-# This example shows how to use the MMCloud plugin to execute tasks on MemVerge Memory Machine Cloud.
-
-# %%
 from flytekit import Resources, task, workflow
 from flytekitplugins.mmcloud import MMCloudConfig
 
-# %% [markdown]
-# `MMCloudConfig` configures `MMCloudTask`. Tasks specified with `MMCloudConfig` will be executed using MMCloud. Tasks will be executed with requests `cpu="1"` and `mem="1Gi"` by default.
 
-# %%
+# `MMCloudConfig` configures `MMCloudTask`.
+# Tasks specified with `MMCloudConfig` will be executed using MMCloud.
+# Tasks will be executed with requests `cpu="1"` and `mem="1Gi"` by default.
 @task(task_config=MMCloudConfig())
 def to_str(i: int) -> str:
     return str(i)
@@ -22,10 +15,6 @@ def to_int(s: str) -> int:
     return int(s)
 
 
-# %% [markdown]
-# [Resource](https://docs.flyte.org/en/latest/user_guide/productionizing/customizing_task_resources.html) (cpu and mem) requests and limits, [container](https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/multiple_images_in_a_workflow.html) images, and [environment](https://docs.flyte.org/en/latest/api/flytekit/generated/flytekit.task.html) variable specifications are supported.
-
-# %%
 @task(
     task_config=MMCloudConfig(submit_extra="--migratePolicy [enable=true]"),
     requests=Resources(cpu="1", mem="1Gi"),
