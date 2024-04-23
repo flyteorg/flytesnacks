@@ -35,5 +35,3 @@ flytekitplugins-sqlalchemy
 flytekitplugins-vaex
 flytekitplugins-whylogs
 feast
-horovod
-packaging
