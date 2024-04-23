@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-example-list
-        run: echo "PACKAGES=$(find examples -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | sed 's/examples\///' | jq --raw-input . | jq --slurp . | jq -c .)"
+        run: echo "PACKAGES=$(find examples -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | sed 's/examples\///' | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
     outputs:
       packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
   serialize_examples:
