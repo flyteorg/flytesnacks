@@ -155,12 +155,12 @@ if __name__ == "__main__":
     print(f"NumPy encoder and decoder: {numpy_wf().open(np.ndarray).all()}")
 
 
-import pandas as pd
-from typing import Annotated
 from dataclasses import dataclass
-from tabulate import tabulate
-from flytekit import ImageSpec, StructuredDataset, kwtypes, task, workflow
+from typing import Annotated
 
+import pandas as pd
+from flytekit import StructuredDataset, kwtypes, task, workflow
+from tabulate import tabulate
 
 data = [
     {
@@ -194,6 +194,7 @@ class CompanyField:
     info: InfoField
     company: str
 
+
 ## Add `@task(container_image=image)` if want to test in remote mode.
 ## Add `GOOGLE_APPLICATION_CREDENTIALS` if wanna test `google-cloud-bigquery`.
 # image = ImageSpec(
@@ -223,7 +224,7 @@ MyNestedDataClassDataset = Annotated[StructuredDataset, kwtypes(info=kwtypes(con
 @task()
 def create_bq_table() -> StructuredDataset:
     df = pd.json_normalize(data, max_level=0)
-    print("original dataframe: \n", tabulate(df, headers='keys', tablefmt='psql'))
+    print("original dataframe: \n", tabulate(df, headers="keys", tablefmt="psql"))
 
     # Enable one of GCP `uri` below if you want. You can replace `uri` with your own google cloud endpoints.
     return StructuredDataset(
@@ -232,53 +233,55 @@ def create_bq_table() -> StructuredDataset:
         # uri= "bq://flyte-austin362667-gcp:dataset.nested_type"
     )
 
+
 @task()
 def print_table_by_arg(sd: MyArgDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyArgDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyArgDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_dict(sd: MyDictDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyDictDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_list_dict(sd: MyDictListDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyDictListDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyDictListDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_top_dataclass(sd: MyTopDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyTopDataClassDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyTopDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_top_dict(sd: MyTopDictDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyTopDictDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyTopDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_second_dataclass(sd: MySecondDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MySecondDataClassDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MySecondDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
 @task()
 def print_table_by_nested_dataclass(sd: MyNestedDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
-    print("MyNestedDataClassDataset dataframe: \n", tabulate(t, headers='keys', tablefmt='psql'))
+    print("MyNestedDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
+
 
 @workflow
 def contacts_wf():
