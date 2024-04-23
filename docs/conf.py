@@ -185,7 +185,7 @@ exclude_examples = [
     "bigquery_plugin",
     "databricks_plugin",
     "mmcloud_plugin",
-    "snowflake_plugin"
+    "snowflake_plugin",
 ]
 
 # intersphinx configuration

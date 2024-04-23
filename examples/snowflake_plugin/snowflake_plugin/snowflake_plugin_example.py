@@ -1,7 +1,6 @@
 from flytekit import kwtypes, workflow
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 
-
 snowflake_task_no_io = SnowflakeTask(
     name="sql.snowflake.no_io",
     inputs={},
