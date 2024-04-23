@@ -282,6 +282,7 @@ jobs:
           path: flytesnacks
       - name: Verify existence of the tests
         run: |
+          source .venv/bin/activate
           python flyte_tests_validate.py
       - name: Register specific tests
         run: |
