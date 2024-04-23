@@ -76,4 +76,9 @@ jobs:
         run: |
           pip freeze
           source .venv/bin/activate
-          pyflyte -vvv --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
+          pyflyte -vvv \
+          --pkgs ${{ matrix.example }} package \
+          --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
+          --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
+          --output spark-package.tgz \
+          --force --fast

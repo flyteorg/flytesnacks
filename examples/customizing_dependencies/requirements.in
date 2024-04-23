@@ -1,3 +1,2 @@
-flytekit==1.9.0
-flytekitplugins-envd
+flytekit
 scikit-learn
