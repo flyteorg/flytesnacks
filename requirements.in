@@ -35,3 +35,6 @@ flytekitplugins-sqlalchemy
 flytekitplugins-vaex
 flytekitplugins-whylogs
 feast
+xgboost
+modin
+dask[dataframe]

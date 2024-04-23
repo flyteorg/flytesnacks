@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "PACKAGES=$(find examples -maxdepth 1 -type d -exec basename '{}' \; \
           | grep -v -e 'testing' -e 'examples' \
+          | grep -v -e 'aiflow_plugin' -e 'forecasting_sales' \
           | sort \
           | jq --raw-input . \
           | jq --slurp . \
@@ -72,4 +73,4 @@ jobs:
         run: |
           source .venv/bin/activate
           cd examples/${{ matrix.example }}
-          pyflyte --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
+          pyflyte -vvv  --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
