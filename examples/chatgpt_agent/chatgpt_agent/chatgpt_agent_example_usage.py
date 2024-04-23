@@ -130,14 +130,14 @@ def post_message_on_slack(message: str):
 
 
 @workflow
-def wf(owner: str = "flyteorg", repo: str = "flyte", channel: str = "demo"):
+def slack_wf(owner: str = "flyteorg", repo: str = "flyte", channel: str = "demo"):
     message = get_github_latest_release(owner=owner, repo=repo)
     message = chatgpt_job(message=message)
     post_message_on_slack(message=message)
 
 
 if __name__ == "__main__":
-    wf()
+    slack_wf()
 
 
 # %% [markdown]
@@ -183,7 +183,7 @@ def get_latest_video_transcript_chunks(channel_url: str) -> List[str]:
 
 
 @workflow
-def wf(channel_url: str):
+def video_wf(channel_url: str):
     chunks = get_latest_video_transcript_chunks(channel_url=channel_url)
     dynamic_subwf(channel_url=channel_url, chunks=chunks)
 
@@ -268,7 +268,7 @@ def dynamic_subwf(channel_url: str, chunks: List[str]):
 
 
 if __name__ == "__main__":
-    wf(channel_url="https://www.youtube.com/@flyteorg")
+    video_wf(channel_url="https://www.youtube.com/@flyteorg")
 
 # %% [markdown]
 # ### Summarize the latest MLOps trend from Medium to Twitter
@@ -353,11 +353,11 @@ def tweet(text: str):
 
 
 @workflow
-def wf(url: str = "https://medium.com/tag/flyte"):
+def tweet_wf(url: str = "https://medium.com/tag/flyte"):
     message = get_weekly_articles_title(url=url)
     message = chatgpt_job(message=message)
     tweet(text=message)
 
 
 if __name__ == "__main__":
-    wf()
+    tweet_wf()
