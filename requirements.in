@@ -38,3 +38,4 @@ feast
 xgboost
 modin
 dask[dataframe]
+wandb

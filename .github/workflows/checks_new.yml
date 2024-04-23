@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "PACKAGES=$(find examples -maxdepth 1 -type d -exec basename '{}' \; \
           | grep -v -e 'testing' -e 'examples' \
-          | grep -v -e 'aiflow_plugin' -e 'forecasting_sales' \
+          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' \
           | sort \
           | jq --raw-input . \
           | jq --slurp . \
@@ -37,6 +37,7 @@ jobs:
     needs: [list_examples]
     runs-on: "ubuntu-latest"
     env:
+      FLYTE_SDK_RICH_TRACEBACKS: "0"
       PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
     name: Serialize
     strategy:
@@ -71,6 +72,7 @@ jobs:
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Pyflyte package
         run: |
+          pip list
           source .venv/bin/activate
           cd examples/${{ matrix.example }}
-          pyflyte -vvv  --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
+          pyflyte -vvv --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
