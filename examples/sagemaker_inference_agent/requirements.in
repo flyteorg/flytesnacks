@@ -3,3 +3,5 @@ xgboost
 fastapi
 uvicorn
 scikit-learn
+flytekit==1.11.0
+flyteidl==1.11.1b0

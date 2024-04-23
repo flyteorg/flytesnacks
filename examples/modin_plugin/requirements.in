@@ -4,3 +4,4 @@ matplotlib
 flytekitplugins-deck-standard
 flytekitplugins-modin
 scikit-learn
+modin

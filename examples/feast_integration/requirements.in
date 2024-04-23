@@ -5,3 +5,4 @@ flytekitplugins-deck-standard
 scikit-learn
 numpy
 feast[aws]
+boto3
