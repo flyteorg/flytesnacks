@@ -58,7 +58,7 @@ jobs:
           # Look to see if there is a cache hit for the corresponding requirements files
           key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('dev-requirements.in', 'requirements.in')) }}
       - name: Install dependencies
-        working-directory: ${{ matrix.example }}
+        working-directory: examples/${{ matrix.example }}
         run: |
           pip install uv
           uv venv
@@ -72,7 +72,7 @@ jobs:
           username: ${{ secrets.FLYTE_BOT_USERNAME }}
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Pyflyte package
-        working-directory: ${{ matrix.example }}
+        working-directory: examples/${{ matrix.example }}
         run: |
           pip freeze
           source .venv/bin/activate
