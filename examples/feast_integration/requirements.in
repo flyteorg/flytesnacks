@@ -4,5 +4,5 @@ matplotlib
 flytekitplugins-deck-standard
 scikit-learn
 numpy
-feast[aws]
 boto3
+feast[aws]==0.25.0

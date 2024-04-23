@@ -5,3 +5,4 @@ flytekitplugins-deck-standard
 flytekitplugins-modin
 scikit-learn
 modin
+ray
