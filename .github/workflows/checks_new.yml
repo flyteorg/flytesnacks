@@ -26,6 +26,11 @@ jobs:
           - k8s_spark_plugin
           - athena_plugin
           - aws_batch_plugin
+          - basics
+          - bigquery_agent
+          - bigquery_plugin
+          - blast
+          - chatgpt_agent
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
