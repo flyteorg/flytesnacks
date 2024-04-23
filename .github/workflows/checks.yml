@@ -285,6 +285,7 @@ jobs:
           python flyte_tests_validate.py
       - name: Register specific tests
         run: |
+          source .venv/bin/activate
           while read -r line;
           do
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \
