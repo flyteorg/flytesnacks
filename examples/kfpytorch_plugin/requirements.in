@@ -3,3 +3,4 @@ flytekitplugins-kfpytorch
 matplotlib
 torch
 tensorboardX
+torchvision

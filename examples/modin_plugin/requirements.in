@@ -6,3 +6,4 @@ flytekitplugins-modin
 scikit-learn
 modin
 ray
+pandas
