@@ -133,7 +133,7 @@ def post_message_on_slack(message: str):
 def wf(owner: str = "flyteorg", repo: str = "flyte", channel: str = "demo"):
     message = get_github_latest_release(owner=owner, repo=repo)
     message = chatgpt_job(message=message)
-    post_message_on_slack(channel=channel, message=message)
+    post_message_on_slack(message=message)
 
 
 if __name__ == "__main__":

@@ -31,6 +31,20 @@ jobs:
           - bigquery_plugin
           - blast
           - chatgpt_agent
+          - customizing_dependencies
+          - data_types_and_io
+          - dbt_plugin
+          - development_lifecycle
+          - dolt_plugin
+          - duckdb_plugin
+          - exploratory_data_analysis
+          - extending
+          - feast_integration
+          - forecasting_sales
+          - greatexpectations_plugin
+          - hive_plugin
+          - house_price_prediction
+          - k8s_dask_plugin
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
