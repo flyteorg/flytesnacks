@@ -149,7 +149,7 @@ jobs:
   bump_version:
     name: Bump Version
     if: ${{ github.event_name != 'pull_request' }}
-    needs: [ trigger_serialize_register_examples, push_example_image_to_github ] # Only to ensure it can successfully build
+    needs: [ serialize ] # Only to ensure it can successfully build
     uses: flyteorg/flytetools/.github/workflows/bump_version.yml@master
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
