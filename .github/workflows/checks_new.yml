@@ -58,5 +58,6 @@ jobs:
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Pyflyte package
         run: |
+          source .venv/bin/activate
           cd examples/${{ matrix.example }}
           pyflyte --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
