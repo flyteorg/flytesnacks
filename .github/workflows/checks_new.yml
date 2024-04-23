@@ -26,7 +26,7 @@ jobs:
         run: |
           echo "PACKAGES=$(find examples -maxdepth 1 -type d -exec basename '{}' \; \
           | grep -v -e 'testing' -e 'examples' \
-          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' \
+          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' -e 'onnx_plugin' \
           | sort \
           | jq --raw-input . \
           | jq --slurp . \
@@ -58,12 +58,13 @@ jobs:
           # Look to see if there is a cache hit for the corresponding requirements files
           key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('dev-requirements.in', 'requirements.in')) }}
       - name: Install dependencies
+        working-directory: ${{ matrix.example }}
         run: |
-          sudo apt-get update && sudo apt install python3-packaging
           pip install uv
           uv venv
           source .venv/bin/activate
-          uv pip install -r requirements.in
+          uv pip install flytekit flytekitplugins-envd
+          if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -71,8 +72,8 @@ jobs:
           username: ${{ secrets.FLYTE_BOT_USERNAME }}
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Pyflyte package
+        working-directory: ${{ matrix.example }}
         run: |
-          pip list
+          pip freeze
           source .venv/bin/activate
-          cd examples/${{ matrix.example }}
           pyflyte -vvv --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
