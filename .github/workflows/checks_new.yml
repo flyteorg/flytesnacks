@@ -24,6 +24,8 @@ jobs:
           - advanced_composition
           - airflow_agent
           - k8s_spark_plugin
+          - athena_plugin
+          - aws_batch_plugin
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -42,7 +44,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          pip install "numpy<2.0.0" flytekitplugins-spark flytekitplugins-envd flytekitplugins-airflow
+          uv pip install -r requirements.in
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
