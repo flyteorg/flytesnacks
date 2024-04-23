@@ -1,4 +1,4 @@
-flytekit==1.10.3
+flytekit
 flytekitplugins-kfpytorch
 matplotlib
 torch
