@@ -15,37 +15,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # This is the build system for the new example directory structure
+  list_examples:
+    runs-on: ubuntu-latest
+    name: "Create a list of example packages"
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Provide the list"
+        id: create-example-list
+        run: echo "PACKAGES=$(find examples -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | sed 's/examples\///' | jq --raw-input . | jq --slurp . | jq -c .)"
+    outputs:
+      packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
   serialize_examples:
+    needs: [list_examples]
     runs-on: "ubuntu-latest"
     name: Serialize
     strategy:
       fail-fast: false
       matrix:
-        example:
-          - advanced_composition
-          - airflow_agent
-          - k8s_spark_plugin
-          - athena_plugin
-          - aws_batch_plugin
-          - basics
-          - bigquery_agent
-          - bigquery_plugin
-          - blast
-          - chatgpt_agent
-          - customizing_dependencies
-          - data_types_and_io
-          - dbt_plugin
-          - development_lifecycle
-          - dolt_plugin
-          - duckdb_plugin
-          - exploratory_data_analysis
-          - extending
-          - feast_integration
-          - forecasting_sales
-          - greatexpectations_plugin
-          - hive_plugin
-          - house_price_prediction
-          - k8s_dask_plugin
+        example: "${{ fromJson(needs.list_examples.outputs.packages) }}"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -61,6 +49,7 @@ jobs:
           key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('dev-requirements.in', 'requirements.in')) }}
       - name: Install dependencies
         run: |
+          sudo apt install python3-packaging
           pip install uv
           uv venv
           source .venv/bin/activate
