@@ -52,4 +52,4 @@ jobs:
       - name: Pyflyte package
         run: |
           cd examples/${{ matrix.example }}
-          pyflyte --pkgs k8s_spark_plugin package -o spark-package.tgz --force --fast
+          pyflyte --pkgs ${{ matrix.example }} package -o spark-package.tgz --force --fast
