@@ -10,6 +10,7 @@
 # %%
 import os
 import tarfile
+from pathlib import Path
 
 import flytekit
 from flytekit import ImageSpec, task, workflow
@@ -37,7 +38,7 @@ def train_model(dataset: FlyteFile) -> FlyteFile:
     model = XGBClassifier()
     model.fit(X_train, y_train)
 
-    serialized_model = os.path.join(flytekit.current_context().working_directory, "xgboost_model.json")
+    serialized_model = str(Path(flytekit.current_context().working_directory) / "xgboost_model.json")
     booster = model.get_booster()
     booster.save_model(serialized_model)
 
@@ -152,7 +153,7 @@ if sagemaker_image.is_container():
 class Predictor:
     def __init__(self, path: str, name: str):
         self._model = Booster()
-        self._model.load_model(os.path.join(path, name))
+        self._model.load_model(str(Path(path) / name))
 
     def predict(self, inputs: DMatrix) -> np.ndarray:
         return self._model.predict(inputs)

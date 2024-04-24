@@ -8,7 +8,6 @@
 # %% [markdown]
 # First, let's import the libraries we will use in this example.
 # %%
-import os
 import pathlib
 
 import pandas as pd
@@ -27,7 +26,7 @@ from flytekitplugins.papermill import NotebookTask
 # %%
 nb_1 = NotebookTask(
     name="eda-featureeng-nb",
-    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"),
+    notebook_path=str(pathlib.Path(__file__).parent.absolute() / "supermarket_regression_1.ipynb"),
     outputs=kwtypes(dummified_data=pd.DataFrame, dataset=str),
     requests=Resources(mem="500Mi"),
 )
@@ -40,10 +39,7 @@ nb_1 = NotebookTask(
 # %%
 nb_2 = NotebookTask(
     name="regression-nb",
-    notebook_path=os.path.join(
-        pathlib.Path(__file__).parent.absolute(),
-        "supermarket_regression_2.ipynb",
-    ),
+    notebook_path=str(pathlib.Path(__file__).parent.absolute() / "supermarket_regression_2.ipynb"),
     inputs=kwtypes(
         dataset=str,
         n_estimators=int,

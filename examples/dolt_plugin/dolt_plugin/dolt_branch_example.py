@@ -3,9 +3,9 @@
 #
 # In this example, we'll show how to use DoltTable along with Dolt's `Branch` feature.
 # %%
-import os
 import sys
 import typing
+from pathlib import Path
 
 import pandas as pd
 from dolt_integrations.core import NewBranch
@@ -30,7 +30,7 @@ from flytekitplugins.dolt.schema import DoltConfig, DoltTable
 # statement to fetch data.
 
 # %%
-doltdb_path = os.path.join(os.path.dirname(__file__), "foo")
+doltdb_path = str(Path(__file__).parent / "foo")
 
 
 def generate_confs(a: int) -> typing.Tuple[DoltConfig, DoltConfig, DoltConfig]:

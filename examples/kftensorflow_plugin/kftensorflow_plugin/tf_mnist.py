@@ -14,6 +14,7 @@
 # %%
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import NamedTuple, Tuple
 
 from dataclasses_json import dataclass_json
@@ -143,7 +144,7 @@ def train_model(
     checkpoint_dir = "./training_checkpoints"
 
     # Define the name of the checkpoint files
-    checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
+    checkpoint_prefix = str(Path(checkpoint_dir) / "ckpt_{epoch}")
 
     # Define a callback for printing the learning rate at the end of each epoch
     class PrintLR(tf.keras.callbacks.Callback):

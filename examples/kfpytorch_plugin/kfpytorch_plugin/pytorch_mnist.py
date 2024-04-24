@@ -9,6 +9,7 @@
 import os
 import typing
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Tuple
 
 import flytekit
@@ -201,7 +202,7 @@ TrainingOutputs = typing.NamedTuple(
     container_image=custom_image,
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
-    log_dir = os.path.join(flytekit.current_context().working_directory, "logs")
+    log_dir = str(Path(flytekit.current_context().working_directory) / "logs")
     writer = SummaryWriter(log_dir)
 
     torch.manual_seed(hp.seed)
@@ -220,7 +221,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            os.path.join(flytekit.current_context().working_directory, "data"),
+            str(Path(flytekit.current_context().working_directory) / "data"),
             train=True,
             download=True,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
@@ -231,7 +232,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     )
     test_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            os.path.join(flytekit.current_context().working_directory, "data"),
+            str(Path(flytekit.current_context().working_directory) / "data"),
             train=False,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
@@ -264,7 +265,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     ]
 
     # Save the model
-    model_file = os.path.join(flytekit.current_context().working_directory, "mnist_cnn.pt")
+    model_file = str(Path(flytekit.current_context().working_directory) / "mnist_cnn.pt")
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(
@@ -294,7 +295,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
     plt.title("Accuracy")
     plt.ylabel("accuracy")
     plt.xlabel("epoch")
-    accuracy_plot = os.path.join(flytekit.current_context().working_directory, "accuracy.png")
+    accuracy_plot = str(Path(flytekit.current_context().working_directory) / "accuracy.png")
     plt.savefig(accuracy_plot)
     return PNGImageFile(accuracy_plot)
 

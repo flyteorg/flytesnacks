@@ -15,8 +15,8 @@
 # %% [markdown]
 # First, let's import the required libraries.
 # %%
-import os
 import typing
+from pathlib import Path
 
 import pandas as pd
 from flytekit import Resources, kwtypes, task, workflow
@@ -64,7 +64,7 @@ def simple_task(csv_file: str) -> int:
     # If the data validation fails, this will return a ValidationError.
     result = simple_task_object(dataset=csv_file)
     print(result)
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df.shape[0]
 
 
@@ -202,7 +202,7 @@ runtime_task_obj = GreatExpectationsTask(
 # %%
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df
 
 

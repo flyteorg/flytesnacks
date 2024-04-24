@@ -1,6 +1,6 @@
 import os
 import tempfile
-import typing
+from pathlib import Path
 from typing import Type
 
 from flytekit import Blob, BlobMetadata, BlobType, FlyteContext, Literal, LiteralType, Scalar, task, workflow
@@ -13,26 +13,25 @@ class MyDataset(object):
     ``MyDataset`` is a collection of files. In Flyte, this maps to a multi-part blob or directory.
     """
 
-    def __init__(self, base_dir: str = None):
+    def __init__(self, base_dir: str | None = None):
         if base_dir is None:
             self._tmp_dir = tempfile.TemporaryDirectory()
             self._base_dir = self._tmp_dir.name
             self._files = []
         else:
             self._base_dir = base_dir
-            files = os.listdir(base_dir)
-            self._files = [os.path.join(base_dir, f) for f in files]
+            self._files = list(Path(base_dir).iterdir())
 
     @property
     def base_dir(self) -> str:
         return self._base_dir
 
     @property
-    def files(self) -> typing.List[str]:
+    def files(self) -> list[os.PathLike]:
         return self._files
 
-    def new_file(self, name: str) -> str:
-        new_file = os.path.join(self._base_dir, name)
+    def new_file(self, name: str) -> os.PathLike:
+        new_file = Path(self._base_dir) / name
         self._files.append(new_file)
         return new_file
 

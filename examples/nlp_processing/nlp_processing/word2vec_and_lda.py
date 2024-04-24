@@ -16,10 +16,10 @@
 # First, we import the necessary libraries.
 # %%
 import logging
-import os
 import random
 import typing
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List
 
 import flytekit
@@ -52,8 +52,8 @@ model_file = typing.NamedTuple("ModelFile", model=FlyteFile[MODELSER_NLP])
 # %% [markdown]
 # Next, we define the path to the lee corpus dataset (installed with gensim).
 # %%
-data_dir = os.path.join(gensim.__path__[0], "test", "test_data")
-lee_train_file = os.path.join(data_dir, "lee_background.cor")
+data_dir = Path(gensim.__path__[0]) / "test" / "test_data"
+lee_train_file = str(data_dir / "lee_background.cor")
 
 
 # %% [markdown]
@@ -196,7 +196,7 @@ def train_word2vec_model(training_data: List[List[str]], hyperparams: Word2VecMo
     )
     training_loss = model.get_latest_training_loss()
     logger.info(f"training loss: {training_loss}")
-    out_path = os.path.join(flytekit.current_context().working_directory, "word2vec.model")
+    out_path = str(Path(flytekit.current_context().working_directory) / "word2vec.model")
     model.save(out_path)
     return (out_path,)
 
