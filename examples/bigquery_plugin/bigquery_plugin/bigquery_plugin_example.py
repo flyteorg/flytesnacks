@@ -1,7 +1,7 @@
 # %% [markdown]
 # # BigQuery example query
 #
-# This example shows how to use a Flyte BigQueryTask to execute a query.
+# ddddThis example shows how to use a Flyte BigQueryTask to execute a query.
 # %%
 try:
     from typing import Annotated
