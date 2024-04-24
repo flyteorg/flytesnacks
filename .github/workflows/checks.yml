@@ -108,6 +108,7 @@ jobs:
               docker build -t tag1 -t tag2 .
           fi
       - name: Push default image
+        working-directory: examples/${{ matrix.example }}
         if: ${{ github.event_name != 'pull_request' }}
         run: |
           if [ -f Dockerfile ]; then
