@@ -103,8 +103,15 @@ jobs:
         working-directory: examples/${{ matrix.example }}
         run: |
           if [ -f Dockerfile ]; then
-              default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
-              docker build --push -t $default_image .
+              tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
+              tag2=ghcr.io/flyteorg/flytecookbook:latest
+              docker build --push -t tag1 -t tag2 .
+          fi
+      - name: Push default image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          if [ -f Dockerfile ]; then
+              docker push ghcr.io/flyteorg/flytecookbook --all-tags
           fi
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
