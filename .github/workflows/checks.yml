@@ -105,7 +105,7 @@ jobs:
           if [ -f Dockerfile ]; then
               tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
               tag2=ghcr.io/flyteorg/flytecookbook:latest
-              docker build --push -t tag1 -t tag2 .
+              docker build -t tag1 -t tag2 .
           fi
       - name: Push default image
         if: ${{ github.event_name != 'pull_request' }}
