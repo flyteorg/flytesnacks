@@ -15,7 +15,7 @@ This section provides a guide on how to use the AWS Batch Plugin using flytekit 
 To use the flytekit batch plugin simply run the following:
 
 ```{eval-rst}
-.. prompt:: bash
+.. prompt:: bashhhhhh
 
     pip install flytekitplugins-awsbatch
 ```
