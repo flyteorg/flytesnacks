@@ -9,7 +9,7 @@ ENV PYTHONPATH /root
 
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY requirements.in /root
 RUN pip install -r /root/requirements.txt
 RUN pip freeze
 

@@ -53,7 +53,7 @@ RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_confi
     mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY requirements.in /root
 RUN pip install -r /root/requirements.txt
 
 # Install TensorFlow

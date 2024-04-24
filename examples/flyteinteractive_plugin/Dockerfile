@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install build-essential -y \
     && :
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY requirements.in /root
 RUN pip install -r /root/requirements.txt
 RUN pip freeze
 

@@ -38,7 +38,7 @@ ENV PATH="${VENV}/bin:$PATH"
 RUN pip3 install wheel
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY requirements.in /root
 RUN pip install -r /root/requirements.txt
 
 # Install TensorFlow

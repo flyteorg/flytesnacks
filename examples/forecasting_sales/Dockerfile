@@ -83,7 +83,7 @@ RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horo
 # ENV HOROVOD_PROGRAM /opt/venv/bin/flytekit_mpi_runner.py
 
 # Install Python dependencies
-COPY requirements.txt /root
+COPY requirements.in /root
 RUN pip install -r /root/requirements.txt
 
 # SPARK

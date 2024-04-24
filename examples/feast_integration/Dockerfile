@@ -24,7 +24,7 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root/.
+COPY requirements.in /root/.
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
 # Copy the actual co
