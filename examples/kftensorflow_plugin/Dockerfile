@@ -39,7 +39,7 @@ RUN pip3 install wheel
 
 # Install Python dependencies
 COPY requirements.in /root
-RUN pip install -r /root/requirements.txt
+RUN pip install -r /root/requirements.in
 
 # Install TensorFlow
 RUN pip install tensorflow

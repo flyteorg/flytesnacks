@@ -84,7 +84,7 @@ RUN HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 pip install --no-cache-dir horo
 
 # Install Python dependencies
 COPY requirements.in /root
-RUN pip install -r /root/requirements.txt
+RUN pip install -r /root/requirements.in
 
 # SPARK
 RUN flytekit_install_spark3.sh

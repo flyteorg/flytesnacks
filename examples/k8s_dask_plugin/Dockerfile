@@ -35,7 +35,7 @@ ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
 COPY requirements.in /root
-RUN pip install -r /root/requirements.txt
+RUN pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/

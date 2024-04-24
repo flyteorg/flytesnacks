@@ -54,7 +54,7 @@ RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_confi
 
 # Install Python dependencies
 COPY requirements.in /root
-RUN pip install -r /root/requirements.txt
+RUN pip install -r /root/requirements.in
 
 # Install TensorFlow
 # In case you encounter the "The TensorFlow library was compiled to use AVX instructions, which are not present on your machine" error,
