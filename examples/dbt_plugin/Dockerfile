@@ -17,8 +17,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root/
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root/
+RUN pip install -r /root/requirements.in
 # psycopg2-binary is a dependency of the dbt-postgres adapter, but that doesn't work on mac M1s.
 # As per https://github.com/psycopg/psycopg2/issues/1360, we install psycopg to circumvent this.
 RUN pip uninstall -y psycopg2-binary && pip install psycopg2

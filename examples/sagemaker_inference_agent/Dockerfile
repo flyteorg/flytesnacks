@@ -11,8 +11,8 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONPATH /root
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/

@@ -99,12 +99,28 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.FLYTE_BOT_USERNAME }}
           password: ${{ secrets.FLYTE_BOT_PAT }}
+      - name: Build and push default image
+        working-directory: examples/${{ matrix.example }}
+        run: |
+          if [ -f Dockerfile ]; then
+              tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
+              tag2=ghcr.io/flyteorg/flytecookbook:latest
+              docker build -t tag1 -t tag2 .
+          fi
+      - name: Push default image
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          if [ -f Dockerfile ]; then
+              docker push ghcr.io/flyteorg/flytecookbook --all-tags
+          fi
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
         run: |
+          default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
           source .venv/bin/activate
           pyflyte \
           --pkgs ${{ matrix.example }} package \
+          --image $default_image \
           --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
           --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
           --output flyte-package.tgz \
