@@ -1,5 +1,7 @@
-flytekitplugins-awssagemaker>=1.12.0b2
+flytekitplugins-awssagemaker
 xgboost
 fastapi
 uvicorn
 scikit-learn
+flytekit
+flyteidl

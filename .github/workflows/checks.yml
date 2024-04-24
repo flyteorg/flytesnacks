@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: [ "3.11" ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -41,7 +41,6 @@ jobs:
         run: python -m pip list
       - name: Lint
         run: pre-commit run --all --show-diff-on-failure
-
   # This is the build system for the new example directory structure
   list_examples:
     runs-on: ubuntu-latest
@@ -50,59 +49,114 @@ jobs:
       - uses: actions/checkout@v2
       - name: "Provide the list"
         id: create-example-list
-        run: echo "PACKAGES=$(find examples -mindepth 1 -maxdepth 2 -type f -name Dockerfile -exec dirname '{}' \; | sort | jq --raw-input . | jq --slurp . | jq -c .)" >> "$GITHUB_OUTPUT"
+        run: |
+          # TODO: Register and update the examples below. (onnx_plugin, feast_integration, etc)
+          echo "PACKAGES=$(find examples -maxdepth 1 -type d -exec basename '{}' \; \
+          | grep -v -e 'testing' -e 'examples' \
+          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' -e 'onnx_plugin' -e 'feast_integration' -e 'modin_plugin' -e 'sagemaker_inference_agent' -e 'kfpytorch_plugin' \
+          | sort \
+          | jq --raw-input . \
+          | jq --slurp . \
+          | jq -c .)" >> "$GITHUB_OUTPUT"
     outputs:
       packages: "${{ steps.create-example-list.outputs.PACKAGES }}"
-
-  trigger_serialize_register_examples:
-    name: Serialize & Register Flytesnacks workflow
+  serialize:
     needs: [list_examples]
-    uses: ./.github/workflows/serialize_example.yml
-    with:
-      packages: ${{ needs.list_examples.outputs.PACKAGES }}
-    secrets:
-      FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
-
-  push_example_image_to_github:
-    name: Build & Push Example Image to GHCR
-    runs-on: ubuntu-latest
-    needs: [list_examples]
+    runs-on: "ubuntu-latest"
+    env:
+      FLYTE_SDK_RICH_TRACEBACKS: "0"
+      PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
     strategy:
+      fail-fast: false
       matrix:
-        directory: "${{ fromJson(needs.list_examples.outputs.packages) }}"
+        example: "${{ fromJson(needs.list_examples.outputs.packages) }}"
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Clear action cache'
+        uses: ./.github/actions/clear-action-cache
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          # This path is specific to Ubuntu
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements files
+          key: ${{ format('{0}-pip-{1}', runner.os, hashFiles('dev-requirements.in', 'requirements.in')) }}
+      - name: Install dependencies
+        working-directory: examples/${{ matrix.example }}
+        run: |
+          pip install uv
+          uv venv
+          source .venv/bin/activate
+          uv pip install flytekit flytekitplugins-envd
+          if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.FLYTE_BOT_USERNAME }}
+          password: ${{ secrets.FLYTE_BOT_PAT }}
+      - name: Pyflyte package
+        working-directory: examples/${{ matrix.example }}
+        run: |
+          source .venv/bin/activate
+          pyflyte \
+          --pkgs ${{ matrix.example }} package \
+          --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
+          --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
+          --output flyte-package.tgz \
+          --force
+          tar -xvf flyte-package.tgz
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: snacks-examples-${{ matrix.example }}
+          path: examples/${{ matrix.example }}/**/*.pb
+
+  # Download all artifacts generated from the previous job. Startup a sandbox cluster then register all of them.
+  register:
+    name: Register example to sandbox
+    runs-on: ubuntu-latest
+    needs: [ "serialize" ]
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - name: "Set example name"
-        id: example_id
-        run: echo "EXAMPLE_NAME=$(basename -- ${{ matrix.directory }})" >> "$GITHUB_OUTPUT"
-      - name: Build & Push Docker Image to Github Registry
-        uses: whoan/docker-build-with-cache-action@v5
+      - uses: unionai/flytectl-setup-action@v0.0.1
+      - name: setup download artifact dir
+        run: |
+          mkdir download-artifact
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
         with:
-          # https://docs.github.com/en/packages/learn-github-packages/publishing-a-package
-          username: "${{ secrets.FLYTE_BOT_USERNAME }}"
-          password: "${{ secrets.FLYTE_BOT_PAT }}"
-          image_name: ${{ github.repository_owner }}/flytecookbook
-          image_tag: ${{ steps.example_id.outputs.EXAMPLE_NAME }}-latest,${{ steps.example_id.outputs.EXAMPLE_NAME }}-${{ github.sha }}
-          registry: ghcr.io
-          push_git_tag: ${{ github.event_name != 'pull_request' }}
-          push_image_and_stages: ${{ github.event_name != 'pull_request' }}
-          build_extra_args: "--compress=true --build-arg=tag=ghcr.io/${{ github.repository_owner }}/flytecookbook:${{ steps.example_id.outputs.id }}-${{ github.sha }}"
-          context: ${{ matrix.directory }}
-          dockerfile: Dockerfile
+          path: ./download-artifact/
+      - name: setup sandbox
+        run: |
+          flytectl demo start
+          flytectl config init
+      - name: Register examples
+        uses: unionai/flyte-register-action@v0.0.2
+        with:
+          flytesnacks: false
+          proto: ./download-artifact/**/*
+          project: flytesnacks
+          version: "latest"
+          domain: development
 
   bump_version:
     name: Bump Version
     if: ${{ github.event_name != 'pull_request' }}
-    needs: [trigger_serialize_register_examples, push_example_image_to_github] # Only to ensure it can successfully build
+    needs: [ serialize ] # Only to ensure it can successfully build
     uses: flyteorg/flytetools/.github/workflows/bump_version.yml@master
     secrets:
       FLYTE_BOT_PAT: ${{ secrets.FLYTE_BOT_PAT }}
 
   prerelease:
     name: Create Prerelease
-    needs: [bump_version]
+    needs: [ bump_version ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -126,10 +180,10 @@ jobs:
   release_workflow:
     name: Publish artifacts to github release
     runs-on: ubuntu-latest
-    needs: [prerelease]
+    needs: [ prerelease ]
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: [ "3.11" ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -164,7 +218,7 @@ jobs:
 
   make_release:
     name: Mark github pre-release as Release
-    needs: [release_workflow]
+    needs: [ release_workflow ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -216,8 +270,10 @@ jobs:
           flytectl demo start --imagePullPolicy Never
       - name: Install Python dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install flytekit flytekitplugins-deck-standard torch
+          pip install uv
+          uv venv
+          source .venv/bin/activate
+          uv pip install --upgrade pip flytekit flytekitplugins-deck-standard torch
           pip freeze
       - name: Checkout flytesnacks
         uses: actions/checkout@v3
@@ -226,9 +282,11 @@ jobs:
           path: flytesnacks
       - name: Verify existence of the tests
         run: |
+          source .venv/bin/activate
           python flyte_tests_validate.py
       - name: Register specific tests
         run: |
+          source .venv/bin/activate
           while read -r line;
           do
               pyflyte --config ./boilerplate/flyte/end2end/functional-test-config.yaml \

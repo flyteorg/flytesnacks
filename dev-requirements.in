@@ -12,3 +12,5 @@ mock
 pytest
 mypy
 mashumaro
+xgboost
+dask[dataframe]

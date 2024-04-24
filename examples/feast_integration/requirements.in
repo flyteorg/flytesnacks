@@ -1,7 +1,8 @@
-flytekit>=0.32.3
+flytekit
 wheel
 matplotlib
 flytekitplugins-deck-standard
 scikit-learn
 numpy
+boto3
 feast[aws]
