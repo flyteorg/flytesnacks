@@ -93,6 +93,13 @@ jobs:
           source .venv/bin/activate
           uv pip install flytekit flytekitplugins-envd
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
+      - name: Build default image
+        working-directory: examples/${{ matrix.example }}
+        run: |
+          if [ -f requirements.in ]; then
+              default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
+              docker build -t $default_image .
+          fi
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -102,9 +109,11 @@ jobs:
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
         run: |
+          default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
           source .venv/bin/activate
           pyflyte \
           --pkgs ${{ matrix.example }} package \
+          --image $default_image \
           --image mindmeld="ghcr.io/flyteorg/flytecookbook:core-latest" \
           --image borebuster="ghcr.io/flyteorg/flytekit:py3.9-latest" \
           --output flyte-package.tgz \
