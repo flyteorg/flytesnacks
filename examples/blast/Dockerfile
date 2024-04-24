@@ -48,7 +48,7 @@ WORKDIR /root
 
 # Install Python dependencies
 COPY requirements.in /root
-RUN ${VENV}/bin/pip install -r /root/requirements.txt
+RUN ${VENV}/bin/pip install -r /root/requirements.in
 
 # Copy data
 # COPY blast/kitasatospora /root/kitasatospora
