@@ -107,11 +107,7 @@ jobs:
               tag2=ghcr.io/flyteorg/flytecookbook:latest
               docker build -t tag1 -t tag2 .
           fi
-      - name: Push default image
-        working-directory: examples/${{ matrix.example }}
-        if: ${{ github.event_name != 'pull_request' }}
-        run: |
-          if [ -f Dockerfile ]; then
+          if ${{ github.event_name != 'pull_request' }}; then
               docker push ghcr.io/flyteorg/flytecookbook --all-tags
           fi
       - name: Pyflyte package
