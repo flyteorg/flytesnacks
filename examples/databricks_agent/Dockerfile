@@ -11,8 +11,8 @@ USER 0
 RUN sudo apt-get update && sudo apt-get install -y make build-essential libssl-dev git
 
 # Install Python dependencies
-COPY ./requirements.txt /databricks/driver/requirements.txt
-RUN /databricks/python3/bin/pip install -r /databricks/driver/requirements.txt
+COPY ./requirements.in /databricks/driver/requirements.in
+RUN /databricks/python3/bin/pip install -r /databricks/driver/requirements.in
 
 WORKDIR /databricks/driver
 
