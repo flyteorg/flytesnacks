@@ -96,7 +96,7 @@ jobs:
       - name: Build default image
         working-directory: examples/${{ matrix.example }}
         run: |
-          if [ -f requirements.in ]; then
+          if [ -f Dockerfile ]; then
               default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
               docker build -t $default_image .
           fi
