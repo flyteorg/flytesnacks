@@ -106,9 +106,10 @@ jobs:
               tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
               tag2=ghcr.io/flyteorg/flytecookbook:latest
               docker build -t "$tag1" -t "$tag2" .
-              if ${{ github.event_name != 'pull_request' }}; then
-                  docker push ghcr.io/flyteorg/flytecookbook --all-tags
-              fi
+              docker push ghcr.io/flyteorg/flytecookbook --all-tags
+#              if ${{ github.event_name != 'pull_request' }}; then
+#                  docker push ghcr.io/flyteorg/flytecookbook --all-tags
+#              fi
           fi
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
