@@ -1,6 +1,6 @@
 import csv
-import os
 from collections import defaultdict
+from pathlib import Path
 from typing import List
 
 import flytekit
@@ -37,11 +37,8 @@ def normalize_columns(
         normalized_data[colname] = [(x - mean) / std for x in values]
 
     # write to local path
-    out_path = os.path.join(
-        flytekit.current_context().working_directory,
-        f"normalized-{os.path.basename(csv_url.path).rsplit('.')[0]}.csv",
-    )
-    with open(out_path, mode="w") as output_file:
+    out_path = Path(flytekit.current_context().working_directory) / f"normalized-{Path(csv_url.path).stem}.csv"
+    with out_path.open(mode="w") as output_file:
         writer = csv.DictWriter(output_file, fieldnames=columns_to_normalize)
         writer.writeheader()
         for row in zip(*normalized_data.values()):

@@ -15,8 +15,8 @@
 # %% [markdown]
 # First, we import the necessary libraries for use in the following examples.
 # %%
-import os
 import time
+from pathlib import Path
 from typing import List
 
 from flytekit import Resources, TaskMetadata, dynamic, map_task, task, workflow
@@ -131,7 +131,7 @@ _SHARED_DATA_PATH = "/data/message.txt"
 )
 def multiple_containers_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.
-    while not os.path.isfile(_SHARED_DATA_PATH):
+    while not Path(_SHARED_DATA_PATH).is_file():
         time.sleep(5)
 
     with open(_SHARED_DATA_PATH, "r") as shared_message_file:

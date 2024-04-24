@@ -14,7 +14,7 @@
 # %% [markdown]
 # First, let's import the required libraries.
 # %%
-import os
+from pathlib import Path
 
 import pandas as pd
 from flytekit import Resources, task, workflow
@@ -191,7 +191,7 @@ runtime_ge_config = GreatExpectationsFlyteConfig(
 # %%
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df
 
 

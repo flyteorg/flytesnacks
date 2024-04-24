@@ -123,7 +123,7 @@ def download_data(dataset: str) -> FlyteDirectory:
     print("==============")
 
     working_dir = flytekit.current_context().working_directory
-    data_dir = pathlib.Path(os.path.join(working_dir, "data"))
+    data_dir = pathlib.Path(working_dir) / "data"
     data_dir.mkdir(exist_ok=True)
 
     # download the dataset
@@ -584,8 +584,8 @@ def train(
     print("Best RMSPE: %f" % best_val_rmspe)
 
     # save the trained model
-    keras_model.save(os.path.join(working_dir, hp.local_checkpoint_file))
-    print("Written checkpoint to %s" % os.path.join(working_dir, hp.local_checkpoint_file))
+    keras_model.save(pathlib.Path(working_dir) / hp.local_checkpoint_file)
+    print("Written checkpoint to %s" % (pathlib.Path(working_dir) / hp.local_checkpoint_file))
     # the Estimator returns a Transformer representation of the trained model once training is complete
     return keras_model
 
@@ -612,7 +612,7 @@ def test(
     pred_df = pred_df.withColumn("Sales_pred", F.exp(pred_df.Sales_output))
 
     submission_df = pred_df.select(pred_df.Id.cast(T.IntegerType()), pred_df.Sales_pred).toPandas()
-    submission_df.sort_values(by=["Id"]).to_csv(os.path.join(working_dir, hp.local_submission_csv), index=False)
+    submission_df.sort_values(by=["Id"]).to_csv(pathlib.Path(working_dir) / hp.local_submission_csv, index=False)
     # predictions are saved to a CSV file.
     print("Saved predictions to %s" % hp.local_submission_csv)
 

@@ -27,13 +27,13 @@
 # pip install xgboost
 # ```
 
-# %%
-import os
-
 # %% [markdown]
 # First, let's import the required packages into the environment.
 # %%
 import typing
+
+# %%
+from pathlib import Path
 from typing import Tuple
 
 import flytekit
@@ -210,7 +210,7 @@ def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFil
     m.fit(x, y, eval_set=[(eval_x, eval_y)])
 
     working_dir = flytekit.current_context().working_directory
-    fname = os.path.join(working_dir, f"model-{loc}.joblib.dat")
+    fname = str(Path(working_dir) / f"model-{loc}.joblib.dat")
     joblib.dump(m, fname)
 
     # return the serialized model
