@@ -120,6 +120,7 @@ auto_examples/mmcloud_agent/index
 auto_examples/modin_plugin/index
 auto_examples/kfmpi_plugin/index
 auto_examples/onnx_plugin/index
+auto_examples/openai_batch_agent/index
 auto_examples/papermill_plugin/index
 auto_examples/pandera_plugin/index
 auto_examples/kfpytorch_plugin/index
