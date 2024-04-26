@@ -1,6 +1,6 @@
 (databricks_agent)=
 
-# Databricks agent
+# Databricks agent example
 
 ```{eval-rst}
 .. tags:: Spark, Integration, DistributedComputing, Data, Advanced
