@@ -34,17 +34,15 @@ custom_image = ImageSpec(
 # :::
 #
 # The following imports are required to configure the PyTorch cluster in Flyte.
-# You can load them on demand.
 # %%
-if custom_image.is_container():
-    import matplotlib.pyplot as plt
-    import torch
-    import torch.nn.functional as F
-    from flytekitplugins.kfpytorch import PyTorch, Worker
-    from tensorboardX import SummaryWriter
-    from torch import distributed as dist
-    from torch import nn, optim
-    from torchvision import datasets, transforms
+import matplotlib.pyplot as plt
+import torch
+import torch.nn.functional as F
+from flytekitplugins.kfpytorch import PyTorch, Worker
+from tensorboardX import SummaryWriter
+from torch import distributed as dist
+from torch import nn, optim
+from torchvision import datasets, transforms
 
 # %% [markdown]
 # You can activate GPU support by either using the base image that includes the necessary GPU dependencies
