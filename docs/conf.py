@@ -186,6 +186,14 @@ exclude_examples = [
     "databricks_plugin",
     "mmcloud_plugin",
     "snowflake_plugin",
+    "blast",
+    "exploratory_data_analysis",
+    "feast_integration",
+    "forecasting_sales",
+    "house_price_prediction",
+    "mnist_classifier",
+    "nlp_processing",
+    "pima_diabetes"
 ]
 
 # intersphinx configuration

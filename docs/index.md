@@ -45,7 +45,7 @@ Flyte is made up of a user plane, control plane, and data plane.
 
 Getting Started <self>
 User Guide <https://docs.flyte.org/en/latest/user_guide/index.html>
-Tutorials <tutorials>
+Tutorials <https://docs.flyte.org/en/latest/tutorials/index.html>
 Concepts <https://docs.flyte.org/en/latest/concepts/basics.html>
 Deployment <https://docs.flyte.org/en/latest/deployment/index.html>
 API Reference <https://docs.flyte.org/en/latest/reference/index.html>
@@ -79,7 +79,7 @@ Core use cases <https://docs.flyte.org/en/latest/core_use_cases/index.html>
 ⚗️ Testing <https://docs.flyte.org/en/latest/user_guide/testing/index.html>
 🚢 Productionizing <https://docs.flyte.org/en/latest/user_guide/productionizing/index.html>
 🏗 Extending <https://docs.flyte.org/en/latest/user_guide/extending/index.html>
-📝 Contributing <contribute>
+📝 Contributing <https://docs.flyte.org/en/latest/contribute.html>
 ```
 
 ```{toctree}
@@ -87,11 +87,11 @@ Core use cases <https://docs.flyte.org/en/latest/core_use_cases/index.html>
 :caption: Tutorials
 :hidden:
 
-Tutorials <tutorials>
-Model Training <ml_training>
-feature_engineering
-bioinformatics_examples
-flyte_lab
+Tutorials <https://docs.flyte.org/en/latest/tutorials/index.html>
+Model training <https://docs.flyte.org/en/latest/tutorials/model_training/index.html>
+Feature engineering <https://docs.flyte.org/en/latest/tutorials/feature_engineering/index.html>
+Bioinformatics <https://docs.flyte.org/en/latest/tutorials/bioinformatics/index.html>
+Flyte lab <https://docs.flyte.org/en/latest/tutorials/flyte_lab/index.html>
 ```
 
 ```{toctree}
