@@ -19,7 +19,7 @@ pip install flytekitplugins-openai
 
 ## Example usage
 
-For a usage example, see {doc}`OpenAI Batch agent example usage <openai_batch_agent_agent_example_usage>`.
+For a usage example, see {doc}`OpenAI Batch agent example usage <openai_batch_agent_example_usage>`.
 
 ## Local testing
 
