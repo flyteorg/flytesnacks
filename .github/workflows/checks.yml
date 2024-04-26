@@ -72,8 +72,7 @@ jobs:
         example: "${{ fromJson(needs.list_examples.outputs.packages) }}"
     steps:
       - uses: actions/checkout@v4
-      - name: 'Clear action cache'
-        uses: ./.github/actions/clear-action-cache
+      - uses: insightsengineering/disk-space-reclaimer@v1
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
