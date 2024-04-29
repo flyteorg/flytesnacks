@@ -14,7 +14,7 @@ import flytekit
 import numpy as np
 import pandas as pd
 import whylogs as why
-from flytekit import conditional, task, workflow, ImageSpec
+from flytekit import ImageSpec, conditional, task, workflow
 from flytekitplugins.whylogs.renderer import WhylogsConstraintsRenderer, WhylogsSummaryDriftRenderer
 from flytekitplugins.whylogs.schema import WhylogsDatasetProfileTransformer  # noqa
 from sklearn.datasets import load_diabetes
@@ -27,7 +27,9 @@ from whylogs.core.constraints.factories import (
     smaller_than_number,
 )
 
-image_spec = ImageSpec(packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg")
+image_spec = ImageSpec(
+    packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg"
+)
 
 # %% [markdown]
 # Next thing is defining a task to read our reference dataset.
