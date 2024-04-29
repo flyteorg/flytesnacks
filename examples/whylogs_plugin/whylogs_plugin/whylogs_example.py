@@ -27,7 +27,7 @@ from whylogs.core.constraints.factories import (
     smaller_than_number,
 )
 
-image_spec = ImageSpec(packages=["matplotlib", "flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "boto3", "mlflow-skinny"], registry="ghcr.io/flyteorg")
+image_spec = ImageSpec(packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg")
 
 # %% [markdown]
 # Next thing is defining a task to read our reference dataset.
