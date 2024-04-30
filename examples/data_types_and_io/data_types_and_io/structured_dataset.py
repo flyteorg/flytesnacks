@@ -193,7 +193,6 @@ MyArgDataset = Annotated[StructuredDataset, kwtypes(company=str)]
 MyTopDataClassDataset = Annotated[StructuredDataset, CompanyField]
 MyTopDictDataset = Annotated[StructuredDataset, {"company": str, "location": str}]
 
-# Nested field structure is supported starting from Flytekit 1.12.0
 MyDictDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": str}})]
 MyDictListDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": str, "email": str}})]
 MySecondDataClassDataset = Annotated[StructuredDataset, kwtypes(info=InfoField)]
