@@ -78,10 +78,10 @@ def pandas_to_csv_wf() -> Annotated[StructuredDataset, CSV]:
 # (parquet file format in this case).
 class NumpyEncodingHandler(StructuredDatasetEncoder):
     def encode(
-            self,
-            ctx: FlyteContext,
-            structured_dataset: StructuredDataset,
-            structured_dataset_type: StructuredDatasetType,
+        self,
+        ctx: FlyteContext,
+        structured_dataset: StructuredDataset,
+        structured_dataset_type: StructuredDatasetType,
     ) -> literals.StructuredDataset:
         df = typing.cast(np.ndarray, structured_dataset.dataframe)
         name = ["col" + str(i) for i in range(len(df))]
@@ -101,10 +101,10 @@ class NumpyEncodingHandler(StructuredDatasetEncoder):
 # The `StructuredDatasetDecoder.decode` function converts the parquet file to a `numpy.ndarray`
 class NumpyDecodingHandler(StructuredDatasetDecoder):
     def decode(
-            self,
-            ctx: FlyteContext,
-            flyte_value: literals.StructuredDataset,
-            current_task_metadata: StructuredDatasetMetadata,
+        self,
+        ctx: FlyteContext,
+        flyte_value: literals.StructuredDataset,
+        current_task_metadata: StructuredDatasetMetadata,
     ) -> np.ndarray:
         local_dir = ctx.file_access.get_random_local_directory()
         ctx.file_access.get_data(flyte_value.uri, local_dir, is_multipart=True)
