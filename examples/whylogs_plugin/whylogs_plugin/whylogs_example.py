@@ -14,7 +14,7 @@ import flytekit
 import numpy as np
 import pandas as pd
 import whylogs as why
-from flytekit import conditional, task, workflow
+from flytekit import ImageSpec, conditional, task, workflow
 from flytekitplugins.whylogs.renderer import WhylogsConstraintsRenderer, WhylogsSummaryDriftRenderer
 from flytekitplugins.whylogs.schema import WhylogsDatasetProfileTransformer  # noqa
 from sklearn.datasets import load_diabetes
@@ -27,12 +27,15 @@ from whylogs.core.constraints.factories import (
     smaller_than_number,
 )
 
+image_spec = ImageSpec(
+    packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg"
+)
 
 # %% [markdown]
 # Next thing is defining a task to read our reference dataset.
 # For this, we will take scikit-learn's entire example Diabetes dataset
 # %%
-@task
+@task(container_image=image_spec)
 def get_reference_data() -> pd.DataFrame:
     diabetes = load_diabetes()
     df = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
@@ -45,7 +48,7 @@ def get_reference_data() -> pd.DataFrame:
 # so in order to reproduce some of what real-life data behaves
 # we will take an arbitrary subset of the reference dataset
 # %%
-@task
+@task(container_image=image_spec)
 def get_target_data() -> pd.DataFrame:
     diabetes = load_diabetes()
     df = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
@@ -59,7 +62,7 @@ def get_target_data() -> pd.DataFrame:
 # With it, users can either visualize and check overall statistics
 # or even run a constraint suite on top of it.
 # %%
-@task
+@task(container_image=image_spec)
 def create_profile_view(df: pd.DataFrame) -> DatasetProfileView:
     result = why.log(df)
     return result.view()
@@ -69,7 +72,7 @@ def create_profile_view(df: pd.DataFrame) -> DatasetProfileView:
 # And we will also define a constraints report task
 # that will run some checks in our existing profile.
 # %%
-@task
+@task(container_image=image_spec)
 def constraints_report(profile_view: DatasetProfileView) -> bool:
     builder = ConstraintsBuilder(dataset_profile_view=profile_view)
     builder.add_constraint(greater_than_number(column_name="age", number=-11.0))
@@ -92,7 +95,7 @@ def constraints_report(profile_view: DatasetProfileView) -> bool:
 # random numbers with numpy. This task will take place if we pass our
 # constraints suite.
 # %%
-@task
+@task(container_image=image_spec)
 def make_predictions(input_data: pd.DataFrame, output_path: str) -> str:
     input_data["predictions"] = np.random.random(size=len(input_data))
     if not os.path.exists(output_path):
@@ -106,7 +109,7 @@ def make_predictions(input_data: pd.DataFrame, output_path: str) -> str:
 # with the Summary Drift Report, which can provide further intuition into
 # whether there was a data drift to the failed constraint checks.
 # %%
-@task
+@task(container_image=image_spec)
 def summary_drift_report(new_data: pd.DataFrame, reference_data: pd.DataFrame) -> str:
     renderer = WhylogsSummaryDriftRenderer()
     report = renderer.to_html(target_data=new_data, reference_data=reference_data)
