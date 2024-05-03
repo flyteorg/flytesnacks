@@ -267,24 +267,20 @@ TrainingOutputs = typing.NamedTuple(
 # %%
 if os.getenv("SANDBOX") != "":
     print(f"SANDBOX ENV: '{os.getenv('SANDBOX')}'")
-
     mem = "100Mi"
     gpu = "0"
-    storage = "500Mi"
 else:
     print(f"SANDBOX ENV: '{os.getenv('SANDBOX')}'")
-
     mem = "3Gi"
     gpu = "1"
-    storage = "1Gi"
 
 
 @task(
     retries=2,
     cache=True,
     cache_version="1.0",
-    requests=Resources(gpu=gpu, mem=mem, storage=storage),
-    limits=Resources(gpu=gpu, mem=mem, storage=storage),
+    requests=Resources(gpu=gpu, mem=mem),
+    limits=Resources(gpu=gpu, mem=mem),
 )
 def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     wandb_setup()

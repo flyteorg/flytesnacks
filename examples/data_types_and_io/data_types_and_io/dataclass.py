@@ -1,24 +1,3 @@
-# %% [markdown]
-# (dataclass)=
-#
-# # Data Class
-#
-# ```{eval-rst}
-# .. tags:: Basic
-# ```
-#
-# When you've multiple values that you want to send across Flyte entities, you can use a `dataclass`.
-#
-# Flytekit uses the [Mashumaro library](https://github.com/Fatal1ty/mashumaro)
-# to serialize and deserialize dataclasses.
-#
-# :::{important}
-# If you're using Flytekit version below v1.10, you'll need to decorate with `@dataclass_json` using
-# `from dataclass_json import dataclass_json` instead of inheriting from Mashumaro's `DataClassJSONMixin`.
-# :::
-#
-# To begin, import the necessary dependencies.
-# %%
 import os
 import tempfile
 from dataclasses import dataclass
@@ -30,11 +9,14 @@ from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
 from mashumaro.mixins.json import DataClassJSONMixin
 
+# NOTE: If you're using Flytekit version below v1.10, you'll need to decorate with `@dataclass_json` using
+# `from dataclass_json import dataclass_json` instead of inheriting from Mashumaro's `DataClassJSONMixin`.
+# If you're using Flytekit version >= v1.11.1, you don't need to decorate with `@dataclass_json` or
+# inherit from Mashumaro's `DataClassJSONMixin`.
 
-# %% [markdown]
-# ## Python types
-# We define a `dataclass` with `int`, `str` and `dict` as the data types.
-# %%
+
+# Python types
+# Define a `dataclass` with `int`, `str` and `dict` as the data types
 @dataclass
 class Datum(DataClassJSONMixin):
     x: int
@@ -42,15 +24,7 @@ class Datum(DataClassJSONMixin):
     z: dict[int, str]
 
 
-# %% [markdown]
-# You can send a `dataclass` between different tasks written in various languages, and input it through the Flyte console as raw JSON.
-#
-# :::{note}
-# All variables in a data class should be **annotated with their type**. Failure to do should will result in an error.
-# :::
-#
-# Once declared, a dataclass can be returned as an output or accepted as an input.
-# %%
+# Once declared, a dataclass can be returned as an output or accepted as an input
 @task
 def stringify(s: int) -> Datum:
     """
@@ -69,11 +43,7 @@ def add(x: Datum, y: Datum) -> Datum:
     return Datum(x=x.x + y.x, y=x.y + y.y, z=x.z)
 
 
-# %% [markdown]
-# ## Flyte types
-# We also define a data class that accepts {std:ref}`StructuredDataset <structured_dataset>`,
-# {std:ref}`FlyteFile <files>` and {std:ref}`FlyteDirectory <folder>`.
-# %%
+# Flyte types
 @dataclass
 class FlyteTypes(DataClassJSONMixin):
     dataframe: StructuredDataset
@@ -114,12 +84,7 @@ def download_data(res: FlyteTypes):
     assert os.listdir(res.directory) == ["df.parquet"]
 
 
-# %% [markdown]
-# A data class supports the usage of data associated with Python types, data classes,
-# flyte file, flyte directory and structured dataset.
-#
-# We define a workflow that calls the tasks created above.
-# %%
+# Define a workflow that calls the tasks created above
 @workflow
 def dataclass_wf(x: int, y: int) -> (Datum, FlyteTypes):
     o1 = add(x=stringify(s=x), y=stringify(s=y))
@@ -128,16 +93,6 @@ def dataclass_wf(x: int, y: int) -> (Datum, FlyteTypes):
     return o1, o2
 
 
-# %% [markdown]
-# You can run the workflow locally as follows:
-# %%
+# Run the workflow locally
 if __name__ == "__main__":
     dataclass_wf(x=10, y=20)
-
-# %% [markdown]
-# To trigger a task that accepts a dataclass as an input with `pyflyte run`, you can provide a JSON file as an input:
-# ```
-# pyflyte run \
-#   https://raw.githubusercontent.com/flyteorg/flytesnacks/master/examples/data_types_and_io/data_types_and_io/dataclass.py \
-#   add --x dataclass_input.json --y dataclass_input.json
-# ```

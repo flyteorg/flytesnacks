@@ -10,12 +10,12 @@ features that Flyte offers, and we are constantly improving them with your help!
 Whether you're a novice or experienced software engineer, data scientist, or machine learning
 practitioner, all contributions are welcome!
 
-## How to Contribute
+## How to contribute
 
 The Flyte documentation examples guides are broken up into three types:
 
-1. {ref}`User Guides <userguide>`: These are short, simple guides that demonstrate how to use a particular Flyte feature.
-   These examples should be runnable locally.
+1. {ref}`User Guides <userguide>`: These are short, simple guides that demonstrate how to use a particular Flyte feature. The Markdown files live in the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide), while the example code lives in flytesnacks.
+   These examples should be runnable locally. **Note:** The comments in the user guide Python files **will not** be rendered as user-facing docs. To update the user-facing documentation, open a pull request in the flyte repo.
 2. {ref}`Tutorials <tutorials>`: These are longer, more advanced guides that use multiple Flyte features to solve
    real-world problems. Tutorials are generally more complex examples that may require extra setup or that can only run
    on larger clusters.
@@ -24,10 +24,9 @@ The Flyte documentation examples guides are broken up into three types:
 
 The first step to contributing an example is to open up a
 [documentation issue](https://github.com/flyteorg/flyte/issues/new?assignees=&labels=documentation%2Cuntriaged&template=docs_issue.yaml&title=%5BDocs%5D+)
-to articulate the kind of example you want to write. The Flyte maintainers will guide and help you figure out where
-your example would fit best.
+to articulate the kind of example you want to write. The Flyte maintainers will guide and help you figure out where your example would fit best.
 
-## Creating an Example
+## Creating an example
 
 :::{admonition} Prerequisites
 Follow the {ref}`env_setup` guide to get your development environment ready.
@@ -58,7 +57,9 @@ example in the `examples/basics` project, simply do:
 touch examples/basics/my_new_example.py
 ```
 
-Once you're done creating your example, add it to the `README.md` file of the
+If you are creating a new user guide example, you can reference the code in the user guide documentation using the `rli` (remoteliteralinclude) directive.
+
+If you are creating a new integration or tutorial example, add the example to the `README.md` file of the
 example project as an entry in the `auto-examples-toc` directive:
 
 ````{code-block}
@@ -98,7 +99,13 @@ examples/new_example_project
 
 ### Creating python examples
 
-Then, write your example python script in [percent format](https://jupytext.readthedocs.io/en/latest/formats.html#the-percent-format),
+#### User guide examples
+
+If you are writing a user guide example, write your example Python script in regular Python, with regular comments. These comments **will not** be extracted from the Python file and turned into user-facing documentation. To update user-facing user guide documentation, edit the user guide files in the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide). You can use the `rli` ([remoteliteralinclude](https://github.com/wpilibsuite/sphinxext-remoteliteralinclude/blob/main/README.md)) directive to include snippets of code from your example Python file.
+
+#### Tutorial or integration examples
+
+If you are writing a tutorial or integration example, write your example Python script in [percent format](https://jupytext.readthedocs.io/en/latest/formats.html#the-percent-format),
 which allows you to interleave python code and markdown in the same file. Each
 code cell should be delimited by `# %%`, and each markdown cell should be
 delimited with `# %% [markdown]`.
@@ -156,6 +163,8 @@ packaged, but `flytesnacks` also supports examples written in `.ipynb` and
 - `.md`: When a piece of documentation doesn't require testable or packaged
   flyte tasks/workflows, an example page can be written as a myst markdown file.
 
+**Note:** If you want to add Markdown files to a user guide example project, add them to the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide) instead.
+
 ## Writing a README
 
 The `README.md` file needs to capture the _what_, _why_, and _how_ of the example.
@@ -165,7 +174,7 @@ The `README.md` file needs to capture the _what_, _why_, and _how_ of the exampl
 - Showcase the uniqueness of the integration
 - How to install the plugin?
 
-Finally, write a `auto-examples-toc` directive at the bottom of the file:
+Finally, **for tutorials and integrations only**, write a `auto-examples-toc` directive at the bottom of the file:
 
 ````{code-block}
 ```{auto-examples-toc}
@@ -192,7 +201,7 @@ If the example code can be run locally, just use `python <my_file>.py` to run it
 Install {doc}`flytectl <flytectl:index>`, the commandline interface for flyte.
 
 :::{note}
-Learn more about installation and configuration of Flytectl [here](https://docs.flyte.org/projects/flytectl/en/latest/index.html).
+Learn more about installation and configuration of Flytectl [here](https://docs.flyte.org/en/latest/flytectl/docs_index.html).
 :::
 
 Start a Flyte demo cluster with:

@@ -16,7 +16,7 @@ from flytekit import Resources, kwtypes, workflow
 from flytekitplugins.papermill import NotebookTask
 
 # %% [markdown]
-# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_1.ipynb) (EDA).
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/examples/exploratory_data_analysis/exploratory_data_analysis/supermarket_regression_1.ipynb) (EDA).
 # This notebook returns `dummified_data` and `dataset` as the outputs.
 #
 # :::{note}
@@ -33,7 +33,7 @@ nb_1 = NotebookTask(
 )
 
 # %% [markdown]
-# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/cookbook/case_studies/feature_engineering/eda/supermarket_regression_2.ipynb)
+# We define a `NotebookTask` to run the [Jupyter notebook](https://github.com/flyteorg/flytesnacks/blob/master/examples/exploratory_data_analysis/exploratory_data_analysis/supermarket_regression_2.ipynb)
 # (Modeling).
 #
 # This notebook returns `mae_score` as the output.

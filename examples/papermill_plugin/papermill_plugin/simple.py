@@ -63,7 +63,7 @@ def square_root_task(f: float) -> float:
 # Now treat the notebook task as a regular task:
 # %%
 @workflow
-def nb_to_python_wf(f: float) -> float:
+def nb_to_python_wf(f: float = 3.1415926535) -> float:
     out = nb(v=f)
     return square_root_task(f=out.square)
 

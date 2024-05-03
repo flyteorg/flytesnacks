@@ -19,12 +19,12 @@ In this example, we will train our data on the XGBoost model to predict house pr
 House price prediction pipeline for one region doesn't require a {py:func}`~flytekit:flytekit.dynamic` workflow. When multiple regions are involved, to iterate through the regions at run-time and thereby build the DAG, Flyte workflow has to be {py:func}`~flytekit:flytekit.dynamic`.
 
 ```{tip}
-Refer to {ref}`dynamic_workflows` section to learn more about dynamic workflows.
+Refer to {ref}`dynamic_workflow` section to learn more about dynamic workflows.
 ```
 
 ## Dataset
 
-We will create a custom dataset to build our model by referring to the [Sagemaker example](https://github.com/aws/amazon-sagemaker-examples/blob/master/advanced_functionality/multi_model_xgboost_home_value/xgboost_multi_model_endpoint_home_value.ipynb).
+We will create a custom dataset to build our model by referring to the [SageMaker example](https://github.com/aws/amazon-sagemaker-examples/blob/master/advanced_functionality/multi_model_xgboost_home_value/xgboost_multi_model_endpoint_home_value.ipynb).
 
 The dataset will have the following columns:
 

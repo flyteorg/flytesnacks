@@ -1,2 +1,0 @@
-flytekitplugins-spark
-flytekitplugins-envd

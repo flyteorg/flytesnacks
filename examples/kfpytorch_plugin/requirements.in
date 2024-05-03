@@ -1,6 +1,6 @@
+flytekit
 flytekitplugins-kfpytorch
-flytekitplugins-envd
-tensorboardX
-torch
-torchvision
 matplotlib
+torch
+tensorboardX
+torchvision

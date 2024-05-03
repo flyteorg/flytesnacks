@@ -24,7 +24,6 @@ from flytekit.types.directory import FlyteDirectory
 # Create an `ImageSpec` to encompass all the dependencies needed for the TensorFlow task.
 # %%
 custom_image = ImageSpec(
-    name="kftensorflow-flyte-plugin",
     packages=["tensorflow", "tensorflow-datasets", "flytekitplugins-kftensorflow"],
     registry="ghcr.io/flyteorg",
 )
@@ -184,10 +183,10 @@ def test_model(model: tf.keras.Model, checkpoint_dir: str, eval_dataset: tf.data
 # %%
 training_outputs = NamedTuple("TrainingOutputs", accuracy=float, loss=float, model_state=FlyteDirectory)
 
-if os.getenv("SANDBOX") != "":
-    resources = Resources(gpu="0", mem="1000Mi", storage="500Mi", ephemeral_storage="500Mi")
+if os.getenv("SANDBOX"):
+    resources = Resources(gpu="0", mem="1000Mi", ephemeral_storage="500Mi")
 else:
-    resources = Resources(gpu="2", mem="10Gi", storage="10Gi", ephemeral_storage="500Mi")
+    resources = Resources(gpu="1", mem="10Gi", ephemeral_storage="500Mi")
 
 
 @task(
@@ -244,6 +243,6 @@ if __name__ == "__main__":
 # In the context of distributed training, it's important to acknowledge that return values from various workers could potentially vary.
 # If you need to regulate which worker's return value gets passed on to subsequent tasks in the workflow,
 # you have the option to raise an
-# [IgnoreOutputs exception](https://docs.flyte.org/projects/flytekit/en/latest/generated/flytekit.core.base_task.IgnoreOutputs.html)
+# [IgnoreOutputs exception](https://docs.flyte.org/en/latest/api/flytekit/generated/flytekit.core.base_task.IgnoreOutputs.html#flytekit-core-base-task-ignoreoutputs)
 # for all remaining ranks.
 # :::

@@ -1,4 +1,4 @@
-FROM python:3.8-buster
+FROM python:3.10-buster
 
 WORKDIR /root
 ENV VENV /opt/venv
@@ -24,8 +24,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/

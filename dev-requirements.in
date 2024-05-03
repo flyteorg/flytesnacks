@@ -1,3 +1,4 @@
+autoflake
 flytekit
 coverage
 pre-commit
@@ -6,3 +7,5 @@ mock
 pytest
 mypy
 mashumaro
+xgboost
+dask[dataframe]

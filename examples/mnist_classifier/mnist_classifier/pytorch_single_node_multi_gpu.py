@@ -372,21 +372,19 @@ def train_mnist(rank: int, world_size: int, hp: Hyperparameters):
 if os.getenv("SANDBOX") != "":
     mem = "100Mi"
     gpu = "0"
-    storage = "500Mi"
     ephemeral_storage = "500Mi"
 else:
     mem = "30Gi"
     gpu = str(WORLD_SIZE)
     ephemeral_storage = "500Mi"
-    storage = "20Gi"
 
 
 @task(
     retries=2,
     cache=True,
     cache_version="1.2",
-    requests=Resources(gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage),
-    limits=Resources(gpu=gpu, mem=mem, storage=storage, ephemeral_storage=ephemeral_storage),
+    requests=Resources(gpu=gpu, mem=mem, ephemeral_storage=ephemeral_storage),
+    limits=Resources(gpu=gpu, mem=mem, ephemeral_storage=ephemeral_storage),
 )
 def pytorch_mnist_task(hp: Hyperparameters) -> TrainingOutputs:
     print("Start MNIST training:")

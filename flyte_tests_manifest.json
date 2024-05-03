@@ -1,18 +1,32 @@
 [
   {
+    "name": "lite",
+    "priority": "lite",
+    "path": "core",
+    "examples": [
+      ["basics.hello_world.hello_world_wf", {}]
+    ]
+  },
+  {
     "name": "core",
     "priority": "P0",
     "path": "core",
     "examples": [
       ["advanced_composition.chain_entities.chain_workflows_wf", {}],
-      ["advanced_composition.conditions.consume_outputs", { "my_input": 10.0 }],
-      ["advanced_composition.decorating_tasks.wf", { "x": 10 }],
-      ["advanced_composition.decorating_workflows.wf", { "x": 19.8 }],
-      ["advanced_composition.dynamics.wf", { "s1": "Pear", "s2": "Earth" }],
       [
-        "advanced_composition.map_task.my_map_workflow",
-        { "a": [1, 2, 3, 4, 5] }
+        "advanced_composition.conditional.consume_task_output",
+        { "radius": 0.7 }
       ],
+      ["advanced_composition.decorating_tasks.decorating_task_wf", { "x": 10 }],
+      [
+        "advanced_composition.decorating_workflows.decorating_workflow",
+        { "x": 19.8 }
+      ],
+      [
+        "advanced_composition.dynamic_workflow.dynamic_wf",
+        { "s1": "Pear", "s2": "Earth" }
+      ],
+      ["advanced_composition.map_task.map_workflow_with_lists", {}],
       [
         "advanced_composition.waiting_for_external_inputs.sleep_wf",
         { "num": 5 }
@@ -63,6 +77,9 @@
     "name": "integrations-hive",
     "priority": "P1",
     "path": "examples/hive_plugin",
+    "examples": [
+      ["hive_plugin.hive.full_hive_demo_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -73,10 +90,7 @@
     "priority": "P1",
     "path": "examples/k8s_spark_plugin",
     "examples": [
-      [
-        "k8s_spark_plugin.pyspark_pi.my_spark",
-        { "triggered_date": "2023-11-21T18:58:01" }
-      ]
+      ["k8s_spark_plugin.pyspark_pi.my_spark", {}]
     ],
     "exitCondition": {
       "exit_success": true,
@@ -87,7 +101,9 @@
     "name": "integrations-kfpytorch",
     "priority": "P1",
     "path": "examples/kfpytorch_plugin",
-    "examples": [["kfpytorch_plugin.pytorch_mnist.pytorch_training_wf", {}]],
+    "examples": [
+      ["kfpytorch_plugin.pytorch_mnist.pytorch_training_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -109,7 +125,9 @@
     "name": "integrations-pandera",
     "priority": "P1",
     "path": "examples/pandera_plugin",
-    "examples": [["pandera_plugin.basic_schema_example.process_data", {}]],
+    "examples": [
+      ["pandera_plugin.basic_schema_example.process_data", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -119,7 +137,9 @@
     "name": "integrations-modin",
     "priority": "P1",
     "path": "examples/modin_plugin",
-    "examples": [["modin_plugin.knn_classifier.pipeline", {}]],
+    "examples": [
+      ["modin_plugin.knn_classifier.pipeline", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -130,7 +150,7 @@
     "priority": "P1",
     "path": "examples/papermill_plugin",
     "examples": [
-      ["papermill_plugin.simple.nb_to_python_wf", { "f": 3.1415926535 }]
+      ["papermill_plugin.simple.nb_to_python_wf", {}]
     ],
     "exitCondition": {
       "exit_success": true,
@@ -156,6 +176,9 @@
     "name": "case-studies-house-price-prediction",
     "priority": "P2",
     "path": "examples/house_price_prediction",
+    "examples": [
+      ["house_price_prediction.house_price_predictor.house_price_predictor_trainer", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -165,6 +188,9 @@
     "name": "case-studies-pima-diabetes",
     "priority": "P2",
     "path": "examples/pima_diabetes",
+    "examples": [
+      ["pima_diabetes.diabetes.diabetes_xgboost_model", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -174,6 +200,9 @@
     "name": "case-studies-mnist-classifier",
     "priority": "P2",
     "path": "examples/mnist_classifier",
+    "examples": [
+      ["mnist_classifier.pytorch_single_node_and_gpu.pytorch_training_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -183,6 +212,9 @@
     "name": "case-studies-eda",
     "priority": "P2",
     "path": "examples/eda",
+    "examples": [
+      ["exploratory_data_analysis.notebook.notebook_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -192,6 +224,9 @@
     "name": "case-studies-feast-integration",
     "priority": "P2",
     "path": "examples/feast_integration",
+    "examples": [
+      ["feast_integration.feast_workflow.feast_workflow", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""
@@ -201,6 +236,9 @@
     "name": "case-studies-blast",
     "priority": "P2",
     "path": "examples/blast",
+    "examples": [
+      ["blast.blastx_example.blast_wf", {}]
+    ],
     "exitCondition": {
       "exit_success": true,
       "exit_message": ""

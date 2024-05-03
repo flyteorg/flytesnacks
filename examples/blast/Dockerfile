@@ -47,8 +47,8 @@ RUN wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.13.0/ncbi-blast-2
 WORKDIR /root
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN ${VENV}/bin/pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN ${VENV}/bin/pip install -r /root/requirements.in
 
 # Copy data
 # COPY blast/kitasatospora /root/kitasatospora
