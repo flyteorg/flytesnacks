@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
-from flytekit import FlyteContext, StructuredDatasetType, kwtypes, task, workflow
+from flytekit import FlyteContext, ImageSpec, StructuredDatasetType, kwtypes, task, workflow
 from flytekit.models import literals
 from flytekit.models.literals import StructuredDatasetMetadata
 from flytekit.types.structured.structured_dataset import (
@@ -198,8 +198,10 @@ MyDictListDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel
 MySecondDataClassDataset = Annotated[StructuredDataset, kwtypes(info=InfoField)]
 MyNestedDataClassDataset = Annotated[StructuredDataset, kwtypes(info=kwtypes(contacts=ContactsField))]
 
+image = ImageSpec(packages=["pandas", "tabulate"], registry="ghcr.io/flyteorg")
 
-@task()
+
+@task(container_image=image)
 def create_parquet_file() -> StructuredDataset:
     df = pd.json_normalize(data, max_level=0)
     print("original dataframe: \n", tabulate(df, headers="keys", tablefmt="psql"))
@@ -207,49 +209,49 @@ def create_parquet_file() -> StructuredDataset:
     return StructuredDataset(dataframe=df)
 
 
-@task()
+@task(container_image=image)
 def print_table_by_arg(sd: MyArgDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyArgDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_dict(sd: MyDictDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_list_dict(sd: MyDictListDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyDictListDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_top_dataclass(sd: MyTopDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyTopDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_top_dict(sd: MyTopDictDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyTopDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_second_dataclass(sd: MySecondDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MySecondDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
     return t
 
 
-@task()
+@task(container_image=image)
 def print_table_by_nested_dataclass(sd: MyNestedDataClassDataset) -> pd.DataFrame:
     t = sd.open(pd.DataFrame).all()
     print("MyNestedDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
