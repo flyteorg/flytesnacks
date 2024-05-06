@@ -31,6 +31,7 @@ rabbits_conf = DoltConfig(
 # %% [markdown]
 # We define a task to create a DataFrame and store the table in Dolt.
 
+
 # %%
 @task
 def populate_rabbits(a: int) -> DoltTable:

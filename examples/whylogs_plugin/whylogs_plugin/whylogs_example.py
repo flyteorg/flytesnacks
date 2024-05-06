@@ -31,6 +31,7 @@ image_spec = ImageSpec(
     packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg"
 )
 
+
 # %% [markdown]
 # Next thing is defining a task to read our reference dataset.
 # For this, we will take scikit-learn's entire example Diabetes dataset
