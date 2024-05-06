@@ -135,6 +135,7 @@ def user_info_task() -> Tuple[str, str]:
 # dependent library requires the secret to be available as a file.
 # In these scenarios you can specify the `mount_requirement=Secret.MountType.FILE`.
 
+
 # In the following example we force the mounting to be an environment variable:
 @task(
     secret_requests=[

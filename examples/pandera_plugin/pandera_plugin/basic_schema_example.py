@@ -22,6 +22,7 @@ custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins
 #
 # Let's first define a simple data processing pipeline in pure python.
 
+
 # %%
 def total_pay(df):
     return df.assign(total_pay=df.hourly_pay * df.hours_worked)
@@ -45,6 +46,7 @@ def process_data(df, worker_id):
 #
 # Next we define the schemas that provide type and statistical annotations
 # for the raw, intermediate, and final outputs of our pipeline.
+
 
 # %%
 class InSchema(pa.DataFrameModel):
@@ -94,6 +96,7 @@ class OutSchema(IntermediateSchema):
 # Finally, we can turn our data processing pipeline into a Flyte workflow
 # by decorating our functions with the {py:func}`~flytekit.task` and {py:func}`~flytekit.workflow` decorators and
 # annotating the inputs and outputs of those functions with the pandera schemas:
+
 
 # %%
 @task(container_image=custom_image)

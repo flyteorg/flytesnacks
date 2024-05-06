@@ -67,7 +67,8 @@ def hash_pandas_dataframe(df: pandas.DataFrame) -> str:
 
 @task
 def foo_1(  # noqa: F811
-    a: int, b: str  # noqa: F821
+    a: int,
+    b: str,  # noqa: F821
 ) -> Annotated[pandas.DataFrame, HashMethod(hash_pandas_dataframe)]:  # noqa: F821  # noqa: F821
     df = pandas.DataFrame(...)  # noqa: F821
     ...
