@@ -1,11 +1,12 @@
 import os
 import typing
+from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
-from flytekit import FlyteContext, StructuredDatasetType, kwtypes, task, workflow
+from flytekit import FlyteContext, ImageSpec, StructuredDatasetType, kwtypes, task, workflow
 from flytekit.models import literals
 from flytekit.models.literals import StructuredDatasetMetadata
 from flytekit.types.structured.structured_dataset import (
@@ -15,6 +16,7 @@ from flytekit.types.structured.structured_dataset import (
     StructuredDatasetEncoder,
     StructuredDatasetTransformerEngine,
 )
+from tabulate import tabulate
 from typing_extensions import Annotated
 
 
@@ -153,3 +155,116 @@ if __name__ == "__main__":
     print(f"A simple Pandas dataframe workflow: {sd.open(pd.DataFrame).all()}")
     print(f"Using CSV as the serializer: {pandas_to_csv_wf().open(pd.DataFrame).all()}")
     print(f"NumPy encoder and decoder: {numpy_wf().open(np.ndarray).all()}")
+
+data = [
+    {
+        "company": "XYZ pvt ltd",
+        "location": "London",
+        "info": {"president": "Rakesh Kapoor", "contacts": {"email": "contact@xyz.com", "tel": "9876543210"}},
+    },
+    {
+        "company": "ABC pvt ltd",
+        "location": "USA",
+        "info": {"president": "Kapoor Rakesh", "contacts": {"email": "contact@abc.com", "tel": "0123456789"}},
+    },
+]
+
+
+@dataclass
+class ContactsField:
+    email: str
+    tel: str
+
+
+@dataclass
+class InfoField:
+    president: str
+    contacts: ContactsField
+
+
+@dataclass
+class CompanyField:
+    location: str
+    info: InfoField
+    company: str
+
+
+MyArgDataset = Annotated[StructuredDataset, kwtypes(company=str)]
+MyTopDataClassDataset = Annotated[StructuredDataset, CompanyField]
+MyTopDictDataset = Annotated[StructuredDataset, {"company": str, "location": str}]
+
+MyDictDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": str}})]
+MyDictListDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": str, "email": str}})]
+MySecondDataClassDataset = Annotated[StructuredDataset, kwtypes(info=InfoField)]
+MyNestedDataClassDataset = Annotated[StructuredDataset, kwtypes(info=kwtypes(contacts=ContactsField))]
+
+image = ImageSpec(packages=["pandas", "tabulate"], registry="ghcr.io/flyteorg")
+
+
+@task(container_image=image)
+def create_parquet_file() -> StructuredDataset:
+    df = pd.json_normalize(data, max_level=0)
+    print("original dataframe: \n", tabulate(df, headers="keys", tablefmt="psql"))
+
+    return StructuredDataset(dataframe=df)
+
+
+@task(container_image=image)
+def print_table_by_arg(sd: MyArgDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyArgDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_dict(sd: MyDictDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_list_dict(sd: MyDictListDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyDictListDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_top_dataclass(sd: MyTopDataClassDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyTopDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_top_dict(sd: MyTopDictDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyTopDictDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_second_dataclass(sd: MySecondDataClassDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MySecondDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@task(container_image=image)
+def print_table_by_nested_dataclass(sd: MyNestedDataClassDataset) -> pd.DataFrame:
+    t = sd.open(pd.DataFrame).all()
+    print("MyNestedDataClassDataset dataframe: \n", tabulate(t, headers="keys", tablefmt="psql"))
+    return t
+
+
+@workflow
+def contacts_wf():
+    sd = create_parquet_file()
+    print_table_by_arg(sd=sd)
+    print_table_by_dict(sd=sd)
+    print_table_by_list_dict(sd=sd)
+    print_table_by_top_dataclass(sd=sd)
+    print_table_by_top_dict(sd=sd)
+    print_table_by_second_dataclass(sd=sd)
+    print_table_by_nested_dataclass(sd=sd)
