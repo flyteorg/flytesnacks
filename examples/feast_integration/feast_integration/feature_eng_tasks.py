@@ -25,6 +25,7 @@ NO_IMPUTATION_COLS = [
     "timestamp",
 ]
 
+
 # %% [markdown]
 # Use the [SimpleImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html) class from the `scikit-learn` library
 # to fill in the missing values of the dataset.

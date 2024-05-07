@@ -54,6 +54,7 @@ simple_task_object = GreatExpectationsTask(
     context_root_dir=CONTEXT_ROOT_DIR,
 )
 
+
 # %% [markdown]
 # Next, we define a task that validates the data before returning the shape of the DataFrame.
 # %%
@@ -96,6 +97,7 @@ file_task_object = GreatExpectationsTask(
     local_file_path="/tmp",
     context_root_dir=CONTEXT_ROOT_DIR,
 )
+
 
 # %% [markdown]
 # Next, we define a task that calls the validation logic.
@@ -143,6 +145,7 @@ sql_to_df = SQLite3Task(
     output_schema_type=FlyteSchema,
     task_config=SQLite3Config(uri=SQLITE_DATASET),
 )
+
 
 # %% [markdown]
 # Next, we define a task that validates the data and returns the columns in it.
