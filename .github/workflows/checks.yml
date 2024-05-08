@@ -100,7 +100,17 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.FLYTE_BOT_USERNAME }}
           password: ${{ secrets.FLYTE_BOT_PAT }}
+      - name: Check if dockerfile exists
+        id: dockerfile
+        run: |
+          if [ -f Dockerfile ]
+          then
+            echo "exist=True" >> $GITHUB_OUTPUT
+          else
+            echo "exist=False" >> $GITHUB_OUTPUT
+          fi
       - name: Build and push default image
+        if: ${{ steps.dockerfile.outputs.exist }}
         uses: docker/build-push-action@v5
         with:
           context: examples/${{ matrix.example }}
