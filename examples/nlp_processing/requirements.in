@@ -1,4 +1,4 @@
-flytekit>=0.32.3
+flytekit
 wheel
 matplotlib
 flytekitplugins-deck-standard
@@ -8,3 +8,4 @@ nltk
 plotly
 pyemd
 scikit-learn
+scipy==1.10.1
