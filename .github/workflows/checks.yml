@@ -105,9 +105,9 @@ jobs:
         run: |
           if [ -f Dockerfile ]
           then
-            echo "exist=True" >> $GITHUB_OUTPUT
+            echo "exist=true" >> "$GITHUB_OUTPUT"
           else
-            echo "exist=False" >> $GITHUB_OUTPUT
+            echo "exist=false" >> "$GITHUB_OUTPUT"
           fi
       - name: Build and push default image
         if: ${{ steps.dockerfile.outputs.exist }}
