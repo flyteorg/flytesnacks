@@ -105,7 +105,7 @@ jobs:
         with:
           context: examples/${{ matrix.example }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}, tag2=ghcr.io/flyteorg/flytecookbook:latest
+          tags: ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }},ghcr.io/flyteorg/flytecookbook:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Pyflyte package
