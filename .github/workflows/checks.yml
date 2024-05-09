@@ -101,6 +101,7 @@ jobs:
           username: ${{ secrets.FLYTE_BOT_USERNAME }}
           password: ${{ secrets.FLYTE_BOT_PAT }}
       - name: Check if dockerfile exists
+        working-directory: examples/${{ matrix.example }}
         id: dockerfile
         run: |
           if [ -f Dockerfile ]
