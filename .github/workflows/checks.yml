@@ -89,8 +89,8 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          uv pip install flytekit flytekitplugins-envd
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
+          uv pip install flytekit>=1.12.1b0 flytekitplugins-envd
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to GitHub Container Registry
