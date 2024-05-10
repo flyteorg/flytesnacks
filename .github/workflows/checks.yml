@@ -113,7 +113,7 @@ jobs:
             echo "exist=false" >> "$GITHUB_OUTPUT"
           fi
       - name: Build and push default image
-        if: ${{ steps.dockerfile.outputs.exist == true }}
+        if: ${{ steps.dockerfile.outputs.exist == "true" }}
         uses: docker/build-push-action@v5
         with:
           context: examples/${{ matrix.example }}
