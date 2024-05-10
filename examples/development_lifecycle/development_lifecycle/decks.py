@@ -1,6 +1,6 @@
 import flytekit
 from flytekit import ImageSpec, task
-from flytekitplugins.deck.renderer import MarkdownRenderer
+from flytekit.deck.renderer import MarkdownRenderer
 from sklearn.decomposition import PCA
 
 # Create a new deck named `pca` and render Markdown content along with a
@@ -127,7 +127,7 @@ def table_renderer() -> None:
 # and renders it as a Unicode string on the deck.
 import inspect
 
-from flytekitplugins.deck.renderer import SourceCodeRenderer
+from flytekit.deck.renderer import SourceCodeRenderer
 
 
 @task(enable_deck=True)

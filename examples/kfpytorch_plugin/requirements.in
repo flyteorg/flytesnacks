@@ -1,6 +1,9 @@
 flytekit
 flytekitplugins-kfpytorch
+kubernetes
+lightning
 matplotlib
 torch
 tensorboardX
 torchvision
+lightning
