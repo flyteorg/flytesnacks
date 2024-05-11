@@ -116,13 +116,13 @@ jobs:
           fi
       - name: Build and push default image
         if: ${{ steps.dockerfile.outputs.exist == 'true' }}
-        uses: docker/build-push-action@v5
-        with:
-          context: examples/${{ matrix.example }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }},ghcr.io/flyteorg/flytecookbook:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
+          tag2=ghcr.io/flyteorg/flytecookbook:latest
+          docker build -t "$tag1" -t "$tag2" .
+          if ${{ github.event_name != 'pull_request' }}; then
+              docker push ghcr.io/flyteorg/flytecookbook --all-tags
+          fi
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
         run: |
