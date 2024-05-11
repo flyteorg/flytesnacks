@@ -113,6 +113,7 @@ jobs:
             echo "exist=false" >> "$GITHUB_OUTPUT"
           fi
       - name: Build and push default image
+        working-directory: examples/${{ matrix.example }}
         if: ${{ steps.dockerfile.outputs.exist == 'true' }}
         run: |
           tag1=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
