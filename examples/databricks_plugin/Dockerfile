@@ -1,4 +1,4 @@
-FROM databricksruntime/standard:12.2-LTS
+FROM databricksruntime/standard:14.3-LTS
 LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
 ENV VENV /opt/venv
