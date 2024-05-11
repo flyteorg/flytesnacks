@@ -93,8 +93,6 @@ jobs:
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
           uv pip install "flytekit>=1.12.1b0" flytekitplugins-envd
           pip freeze
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to GitHub Container Registry
