@@ -1,7 +1,7 @@
 # ######################
 # NOTE: For CI/CD only #
 ########################
-FROM apache/spark-py:3.4.0
+FROM apache/spark-py:v3.4.0
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
