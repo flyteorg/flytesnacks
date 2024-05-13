@@ -25,7 +25,7 @@ image = ImageSpec(packages=["pandas", "tabulate"], registry="ghcr.io/flyteorg")
 # Define a task that returns a Pandas DataFrame.
 # Flytekit will detect the Pandas dataframe return signature and
 # convert the interface for the task to the StructuredDatased type
-@task
+@task(container_image=image)
 def generate_pandas_df(a: int) -> pd.DataFrame:
     return pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [a, 22], "Height": [160, 178]})
 
