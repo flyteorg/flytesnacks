@@ -14,11 +14,7 @@ import pandas
 from flytekit import ImageSpec, Resources, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
 from flytekitplugins.spark import Spark
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing_extensions import Annotated
 
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
