@@ -1,7 +1,7 @@
 # ######################
 # NOTE: For CI/CD only #
 ########################
-FROM ubuntu:focal
+FROM ubuntu:latest
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
