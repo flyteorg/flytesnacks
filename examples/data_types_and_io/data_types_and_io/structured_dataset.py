@@ -19,6 +19,8 @@ from flytekit.types.structured.structured_dataset import (
 from tabulate import tabulate
 from typing_extensions import Annotated
 
+image = ImageSpec(packages=["pandas", "tabulate"], registry="ghcr.io/flyteorg")
+
 
 # Define a task that returns a Pandas DataFrame.
 # Flytekit will detect the Pandas dataframe return signature and
@@ -40,7 +42,7 @@ col = kwtypes(Age=int)
 # that's supported or added to structured dataset.
 # For instance, you can use ``pa.Table`` to convert
 # the Pandas DataFrame to a PyArrow table.
-@task
+@task(container_image=image)
 def get_subset_pandas_df(df: Annotated[StructuredDataset, all_cols]) -> Annotated[StructuredDataset, col]:
     df = df.open(pd.DataFrame).all()
     df = pd.concat([df, pd.DataFrame([[30]], columns=["Age"])])
@@ -62,7 +64,7 @@ from flytekit.types.structured.structured_dataset import CSV
 register_csv_handlers()
 
 
-@task
+@task(container_image=image)
 def pandas_to_csv(df: pd.DataFrame) -> Annotated[StructuredDataset, CSV]:
     return StructuredDataset(dataframe=df)
 
@@ -133,12 +135,12 @@ StructuredDatasetTransformerEngine.register_renderer(np.ndarray, NumpyRenderer()
 
 # You can now use `numpy.ndarray` to deserialize the parquet file to NumPy
 # and serialize a task's output (NumPy array) to a parquet file.
-@task
+@task(container_image=image)
 def generate_pd_df_with_str() -> pd.DataFrame:
     return pd.DataFrame({"Name": ["Tom", "Joseph"]})
 
 
-@task
+@task(container_image=image)
 def to_numpy(sd: StructuredDataset) -> Annotated[StructuredDataset, None, PARQUET]:
     numpy_array = sd.open(np.ndarray).all()
     return StructuredDataset(dataframe=numpy_array)
@@ -197,8 +199,6 @@ MyDictDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": s
 MyDictListDataset = Annotated[StructuredDataset, kwtypes(info={"contacts": {"tel": str, "email": str}})]
 MySecondDataClassDataset = Annotated[StructuredDataset, kwtypes(info=InfoField)]
 MyNestedDataClassDataset = Annotated[StructuredDataset, kwtypes(info=kwtypes(contacts=ContactsField))]
-
-image = ImageSpec(packages=["pandas", "tabulate"], registry="ghcr.io/flyteorg")
 
 
 @task(container_image=image)
