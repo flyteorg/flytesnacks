@@ -1,14 +1,13 @@
 # %% [markdown]
 # # Use PyTorch Lightning to Train an MNIST Autoencoder
 #
-# This notebook demonstrates how to use pytorch lightning with Flyte's `Elastic`
+# This notebook demonstrates how to use Pytorch Lightning with Flyte's `Elastic`
 # task config, which is exposed by the `flytekitplugins-kfpytorch` plugin.
 #
 # First, we import all of the relevant packages.
 
 import os
 
-import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
@@ -67,24 +66,29 @@ custom_pod_template = PodTemplate(
 # will learn how to create compressed embeddings of MNIST images.
 
 
-class LitAutoEncoder(L.LightningModule):
-    def __init__(self, encoder, decoder):
-        super().__init__()
-        self.encoder = encoder
-        self.decoder = decoder
+def create_model(encoder, decoder):
+    import lightning as L
 
-    def training_step(self, batch, batch_idx):
-        x, y = batch
-        x = x.view(x.size(0), -1)
-        z = self.encoder(x)
-        x_hat = self.decoder(z)
-        loss = nn.functional.mse_loss(x_hat, x)
-        self.log("train_loss", loss)
-        return loss
+    class LitAutoEncoder(L.LightningModule):
+        def __init__(self, encoder, decoder):
+            super().__init__()
+            self.encoder = encoder
+            self.decoder = decoder
 
-    def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=1e-3)
-        return optimizer
+        def training_step(self, batch, batch_idx):
+            x, y = batch
+            x = x.view(x.size(0), -1)
+            z = self.encoder(x)
+            x_hat = self.decoder(z)
+            loss = nn.functional.mse_loss(x_hat, x)
+            self.log("train_loss", loss)
+            return loss
+
+        def configure_optimizers(self):
+            optimizer = optim.Adam(self.parameters(), lr=1e-3)
+            return optimizer
+
+    return LitAutoEncoder(encoder, decoder)
 
 
 # %% [markdown]
@@ -96,8 +100,8 @@ class LitAutoEncoder(L.LightningModule):
 # whatever reason, and we set `rdzv_configs` to have a generous timeout so that
 # the head and worker nodes have enought time to connect to each other.
 #
-# This task will output a `FlyteDirectory`, which will contain the model
-# checkpoint that will result from training.
+# This task will output a {ref}`FlyteDirectory <folder>`, which will contain the
+# model checkpoint that will result from training.
 
 NUM_NODES = 2
 NUM_DEVICES = 8
@@ -115,10 +119,14 @@ NUM_DEVICES = 8
     requests=Resources(mem="32Gi", cpu="48", gpu="8", ephemeral_storage="100Gi"),
     pod_template=custom_pod_template,
 )
-def train_model() -> FlyteDirectory:
+def train_model(dataloader_num_workers: int) -> FlyteDirectory:
+    """Train an autoencoder model on the MNIST."""
+
+    import lightning as L
+
     encoder = nn.Sequential(nn.Linear(28 * 28, 64), nn.ReLU(), nn.Linear(64, 3))
     decoder = nn.Sequential(nn.Linear(3, 64), nn.ReLU(), nn.Linear(64, 28 * 28))
-    autoencoder = LitAutoEncoder(encoder, decoder)
+    autoencoder = create_model(encoder, decoder)
 
     root_dir = os.getcwd()
     dataset = MNIST(
@@ -126,7 +134,9 @@ def train_model() -> FlyteDirectory:
         download=True,
         transform=ToTensor(),
     )
-    train_loader = utils.data.DataLoader(dataset, num_workers=0)
+    train_loader = utils.data.DataLoader(
+        dataset, batch_size=1, pin_memory=True, persistent_workers=True, num_workers=dataloader_num_workers
+    )
 
     model_dir = os.path.join(root_dir, "model")
     trainer = L.Trainer(
@@ -147,5 +157,5 @@ def train_model() -> FlyteDirectory:
 
 
 @workflow
-def train_workflow() -> FlyteDirectory:
-    return train_model()
+def train_workflow(dataloader_num_workers: int = 0) -> FlyteDirectory:
+    return train_model(dataloader_num_workers=dataloader_num_workers)
