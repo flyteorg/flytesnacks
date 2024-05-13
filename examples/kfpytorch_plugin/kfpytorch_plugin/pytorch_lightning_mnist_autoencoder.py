@@ -46,7 +46,7 @@ custom_image = ImageSpec(
     ],
     cuda="12.1.0",
     python_version="3.9",
-    registry="nielsbantilan",
+    registry="ghcr.io/flyteorg",
 )
 
 # %% [markdown]
