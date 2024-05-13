@@ -2,6 +2,7 @@ flytekit>=0.32.3
 wheel
 matplotlib
 flytekitplugins-deck-standard
+torch
 torchvision
 wandb
 numpy<1.22.0
