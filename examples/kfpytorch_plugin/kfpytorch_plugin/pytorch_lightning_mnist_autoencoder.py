@@ -62,7 +62,7 @@ custom_pod_template = PodTemplate(
 )
 
 # %% [markdown]
-# ## Define a `LightningModule``
+# ## Define a `LightningModule`
 #
 # Then we create a pytorch lightning module, which defines an autoencoder that
 # will learn how to create compressed embeddings of MNIST images.
