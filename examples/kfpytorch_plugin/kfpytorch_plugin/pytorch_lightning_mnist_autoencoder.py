@@ -157,5 +157,5 @@ def train_model(dataloader_num_workers: int) -> FlyteDirectory:
 
 
 @workflow
-def train_workflow(dataloader_num_workers: int = 0) -> FlyteDirectory:
+def train_workflow(dataloader_num_workers: int = 1) -> FlyteDirectory:
     return train_model(dataloader_num_workers=dataloader_num_workers)
