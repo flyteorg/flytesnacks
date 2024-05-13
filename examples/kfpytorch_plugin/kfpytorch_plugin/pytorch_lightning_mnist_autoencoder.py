@@ -8,6 +8,7 @@
 
 import os
 
+import lightning as L
 from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
@@ -19,7 +20,8 @@ from kubernetes.client.models import (
     V1Volume,
     V1VolumeMount,
 )
-from torch import nn, optim, utils
+from torch import nn, optim
+from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
 from torchvision.transforms import ToTensor
 
@@ -53,42 +55,74 @@ custom_image = ImageSpec(
 # training so that state can be shared across workers.
 
 container = V1Container(name=custom_image.name, volume_mounts=[V1VolumeMount(mount_path="/dev/shm", name="dshm")])
-volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="", size_limit="200Gi"))
+volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="Memory"))
 custom_pod_template = PodTemplate(
     primary_container_name=custom_image.name,
     pod_spec=V1PodSpec(containers=[container], volumes=[volume]),
 )
 
 # %% [markdown]
-# ## Define a Lightning Module
+# ## Define a `LightningModule``
 #
 # Then we create a pytorch lightning module, which defines an autoencoder that
 # will learn how to create compressed embeddings of MNIST images.
 
 
-def create_model(encoder, decoder):
-    import lightning as L
+class MNISTAutoEncoder(L.LightningModule):
+    def __init__(self, encoder, decoder):
+        super().__init__()
+        self.encoder = encoder
+        self.decoder = decoder
 
-    class LitAutoEncoder(L.LightningModule):
-        def __init__(self, encoder, decoder):
-            super().__init__()
-            self.encoder = encoder
-            self.decoder = decoder
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        x = x.view(x.size(0), -1)
+        z = self.encoder(x)
+        x_hat = self.decoder(z)
+        loss = nn.functional.mse_loss(x_hat, x)
+        self.log("train_loss", loss)
+        return loss
 
-        def training_step(self, batch, batch_idx):
-            x, y = batch
-            x = x.view(x.size(0), -1)
-            z = self.encoder(x)
-            x_hat = self.decoder(z)
-            loss = nn.functional.mse_loss(x_hat, x)
-            self.log("train_loss", loss)
-            return loss
+    def configure_optimizers(self):
+        optimizer = optim.Adam(self.parameters(), lr=1e-3)
+        return optimizer
 
-        def configure_optimizers(self):
-            optimizer = optim.Adam(self.parameters(), lr=1e-3)
-            return optimizer
 
-    return LitAutoEncoder(encoder, decoder)
+# %% [markdown]
+# ## Define a `LightningDataModule`
+#
+# Then we define a pytorch lightning data module, which defines how to prepare
+# and setup the training data.
+
+
+class MNISTDataModule(L.LightningDataModule):
+    def __init__(self, root_dir, batch_size=64, dataloader_num_workers=0):
+        super().__init__()
+        self.root_dir = root_dir
+        self.batch_size = batch_size
+        self.dataloader_num_workers = dataloader_num_workers
+
+    def prepare_data(self):
+        MNIST(self.root_dir, train=True, download=True)
+
+    def setup(self, stage=None):
+        self.dataset = MNIST(
+            self.root_dir,
+            train=True,
+            download=False,
+            transform=ToTensor(),
+        )
+
+    def train_dataloader(self):
+        persistent_workers = self.dataloader_num_workers > 0
+        return DataLoader(
+            self.dataset,
+            batch_size=self.batch_size,
+            num_workers=self.dataloader_num_workers,
+            persistent_workers=persistent_workers,
+            pin_memory=True,
+            shuffle=True,
+        )
 
 
 # %% [markdown]
@@ -122,33 +156,28 @@ NUM_DEVICES = 8
 def train_model(dataloader_num_workers: int) -> FlyteDirectory:
     """Train an autoencoder model on the MNIST."""
 
-    import lightning as L
-
     encoder = nn.Sequential(nn.Linear(28 * 28, 64), nn.ReLU(), nn.Linear(64, 3))
     decoder = nn.Sequential(nn.Linear(3, 64), nn.ReLU(), nn.Linear(64, 28 * 28))
-    autoencoder = create_model(encoder, decoder)
+    autoencoder = MNISTAutoEncoder(encoder, decoder)
 
     root_dir = os.getcwd()
-    dataset = MNIST(
-        os.path.join(root_dir, "dataset"),
-        download=True,
-        transform=ToTensor(),
-    )
-    train_loader = utils.data.DataLoader(
-        dataset, batch_size=1, pin_memory=True, persistent_workers=True, num_workers=dataloader_num_workers
+    data = MNISTDataModule(
+        root_dir,
+        batch_size=4,
+        dataloader_num_workers=dataloader_num_workers,
     )
 
     model_dir = os.path.join(root_dir, "model")
     trainer = L.Trainer(
         default_root_dir=model_dir,
-        max_epochs=100,
+        max_epochs=3,
         num_nodes=NUM_NODES,
         devices=NUM_DEVICES,
         accelerator="gpu",
         strategy="ddp",
-        precision=16,
+        precision="16-mixed",
     )
-    trainer.fit(model=autoencoder, train_dataloaders=train_loader)
+    trainer.fit(model=autoencoder, datamodule=data)
     return FlyteDirectory(path=str(model_dir))
 
 

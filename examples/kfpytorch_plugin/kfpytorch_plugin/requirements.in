@@ -1,6 +1,0 @@
-torch==2.2.1
-torchvision
-flytekitplugins-kfpytorch
-kubernetes
-lightning
-networkx==3.2.1
