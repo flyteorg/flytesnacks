@@ -60,6 +60,7 @@ custom_image = ImageSpec(
 #     cuda="12.1.0",
 #     ...
 # )
+# ```
 # :::
 
 # %% [markdown]

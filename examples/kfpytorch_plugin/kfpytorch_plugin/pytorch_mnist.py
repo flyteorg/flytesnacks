@@ -56,6 +56,7 @@ from torchvision import datasets, transforms
 #     cuda="12.1.0",
 #     ...
 # )
+# ````
 # :::
 #
 # Adjust memory, GPU usage and storage settings based on whether you are
