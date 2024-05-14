@@ -130,7 +130,6 @@ auto_examples/snowflake_agent/index
 auto_examples/k8s_spark_plugin/index
 auto_examples/sql_plugin/index
 auto_examples/kftensorflow_plugin/index
-auto_examples/wandb_plugin/index
 auto_examples/whylogs_plugin/index
 ```
 

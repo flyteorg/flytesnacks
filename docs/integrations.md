@@ -40,6 +40,8 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - Convert ML models to ONNX models seamlessly.
 * - {doc}`DuckDB <auto_examples/duckdb_plugin/index>`
   - Run analytical queries using DuckDB.
+* - {doc}`Weights & Biases <auto_examples/wandb_plugin/index>`
+  - `wandb`: Machine learning platform to build better models faster.
 ```
 
 :::{dropdown} {fa}`info-circle` Using flytekit plugins
