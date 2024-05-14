@@ -33,20 +33,34 @@ from torchvision.transforms import ToTensor
 
 custom_image = ImageSpec(
     packages=[
-        "adlfs==2024.4.1",
-        "gcsfs==2024.3.1",
-        "torch==2.2.1",
+        "torch",
         "torchvision",
         "flytekitplugins-kfpytorch",
         "kubernetes",
-        "lightning==2.2.4",
-        "networkx==3.2.1",
-        "s3fs==2024.3.1",
+        "lightning",
     ],
-    cuda="12.1.0",
-    python_version="3.9",
     registry="ghcr.io/flyteorg",
 )
+
+# %% [markdown]
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
+# To upload the image to the local registry in the demo cluster, indicate the
+# registry as `localhost:30000`.
+# :::
+#
+# :::{note}
+# You can activate GPU support by either using the base image that includes
+# the necessary GPU dependencies or by specifying the `cuda` parameter in
+# the {py:class}`~flytekit.image_spec.ImageSpec`, for example:
+#
+# ```python
+# custom_image = ImageSpec(
+#     packages=[...],
+#     cuda="12.1.0",
+#     ...
+# )
+# :::
 
 # %% [markdown]
 # We're also going to define a custom pod template that mounts a shared memory

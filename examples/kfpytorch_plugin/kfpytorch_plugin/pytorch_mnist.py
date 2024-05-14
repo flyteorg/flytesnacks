@@ -45,9 +45,18 @@ from torch import nn, optim
 from torchvision import datasets, transforms
 
 # %% [markdown]
-# You can activate GPU support by either using the base image that includes the necessary GPU dependencies
-# or by initializing the [CUDA parameters](https://github.com/flyteorg/flytekit/blob/master/flytekit/image_spec/image_spec.py#L34-L35)
-# within the `ImageSpec`.
+# :::{note}
+# You can activate GPU support by either using the base image that includes
+# the necessary GPU dependencies or by specifying the `cuda` parameter in
+# the {py:class}`~flytekit.image_spec.ImageSpec`, for example:
+#
+# ```python
+# custom_image = ImageSpec(
+#     packages=[...],
+#     cuda="12.1.0",
+#     ...
+# )
+# :::
 #
 # Adjust memory, GPU usage and storage settings based on whether you are
 # registering against the demo cluster or not.
