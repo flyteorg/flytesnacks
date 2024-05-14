@@ -23,6 +23,7 @@ WANDB_ENTITY = "github-username"
 # %%
 SECRET_KEY = "wandb-api-key"
 SECRET_GROUP = "wandb-api-group"
+wandb_secret = Secret(key=SECRET_KEY, group=SECRET_GROUP)
 
 # %% [markdown]
 # Next, we use `ImageSpec` to construct a container that contains the dependencies for this
@@ -44,14 +45,9 @@ image = ImageSpec(
 # code, where we pass `WandbCallback` into `XGBClassifier`'s `callbacks`.
 @task(
     container_image=image,
-    secret_requests=[Secret(key=SECRET_KEY, group=SECRET_GROUP)],
+    secret_requests=[wandb_secret],
 )
-@wandb_init(
-    project=WANDB_PROJECT,
-    entity=WANDB_ENTITY,
-    secret_key=SECRET_KEY,
-    secret_group=SECRET_GROUP,
-)
+@wandb_init(project=WANDB_PROJECT, entity=WANDB_ENTITY, secret=wandb_secret)
 def train() -> float:
     import wandb
     from sklearn.datasets import load_iris
