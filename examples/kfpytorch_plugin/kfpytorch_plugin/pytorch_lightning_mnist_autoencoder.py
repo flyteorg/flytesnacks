@@ -32,7 +32,6 @@ from torchvision.transforms import ToTensor
 # necessary dependencies installed.
 
 custom_image = ImageSpec(
-    name="flytesnacks-lightning",
     packages=[
         "adlfs==2024.4.1",
         "gcsfs==2024.3.1",
