@@ -15,7 +15,7 @@
 # %%
 from typing import Iterator
 
-from flytekit import workflow
+from flytekit import workflow, Secret
 from flytekit.types.file import JSONLFile
 from flytekit.types.iterator import JSON
 from flytekitplugins.openai import BatchResult, create_batch
@@ -51,15 +51,16 @@ def jsons():
         yield x
 
 
-batch = create_batch(
+iterator_batch = create_batch(
     name="gpt-3.5-turbo",
     openai_organization="your-org",
+    secret=Secret(group="openai", key="api-key"),
 )
 
 
 @workflow
 def json_iterator_wf(json_vals: Iterator[JSON] = jsons()) -> BatchResult:
-    return batch(jsonl_in=json_vals)
+    return iterator_batch(json_iterator=json_vals)
 
 
 # %% [markdown]
@@ -68,20 +69,28 @@ def json_iterator_wf(json_vals: Iterator[JSON] = jsons()) -> BatchResult:
 # output and error files. It also accepts a `config` parameter, allowing you to provide `metadata`, `endpoint`,
 # and `completion_window` values. These parameters default to their respective default values.
 #
-# `BatchResult` is a `NamedTuple` that contains the paths to the output file and the error file.
+# `BatchResult` is a dataclass that contains the paths to the output file and the error file.
 #
 # ## Using `JSONLFile`
 #
 # The following code snippet demonstrates how to send a JSONL file to the `create_batch` function:
 # %%
+file_batch = create_batch(
+    name="gpt-3.5-turbo",
+    openai_organization="your-org",
+    secret=Secret(group="openai", key="api-key"),
+    is_json_iterator=False,
+)
+
+
 @workflow
-def jsonl_wf() -> BatchResult:
-    return batch(jsonl_in=JSONLFile("data.jsonl"))
+def jsonl_wf(jsonl_file: JSONLFile = "data.jsonl") -> BatchResult:
+    return file_batch(jsonl_file=jsonl_file)
 
 
 # %% [markdown]
 # The iterator streams JSONs to reduce the memory footprint. If you have large batches of requests that are huge in size,
-# you can leverage the iterator. It streams the data to a JSONL file and uploads it to OpenAI, whereas `JSONLFile`
+# we recommend you use the iterator. It streams the data to a JSONL file and uploads it to OpenAI, whereas `JSONLFile`
 # downloads the file in its entirety at once and uploads it to OpenAI.
 #
 # You can find more info about the [Batch API in the OpenAI docs](https://help.openai.com/en/articles/9197833-batch-api-faq).
