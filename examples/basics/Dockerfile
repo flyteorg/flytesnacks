@@ -17,7 +17,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN pip install flytekit==1.10.0 flytekitplugins-envd
+RUN pip install flytekit==1.10.0 flytekitplugins-envd "fsspec<2024.5.0"
 
 # Copy the actual code
 COPY . /root
