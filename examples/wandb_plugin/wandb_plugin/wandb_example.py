@@ -41,7 +41,7 @@ image = ImageSpec(
 
 # %%
 # The `wandb_init` decorator calls `wandb.init` and configures it to use Flyte's
-# execution id as Weight and Biases run id. The body of the task is XGBoost training
+# execution id as the Weight and Biases run id. The body of the task is XGBoost training
 # code, where we pass `WandbCallback` into `XGBClassifier`'s `callbacks`.
 @task(
     container_image=image,
@@ -77,7 +77,7 @@ def wf() -> float:
 
 
 # %% [markdown]
-# To enable dynamic log links add plugin to Flyte's configuration file:
+# To enable dynamic log links, add plugin to Flyte's configuration file:
 # ```yaml
 # dynamic-log-links:
 #    - wandb-execution-id:
