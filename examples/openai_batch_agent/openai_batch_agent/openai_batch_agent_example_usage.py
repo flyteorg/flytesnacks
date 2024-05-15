@@ -15,7 +15,7 @@
 # %%
 from typing import Iterator
 
-from flytekit import workflow, Secret
+from flytekit import Secret, workflow
 from flytekit.types.file import JSONLFile
 from flytekit.types.iterator import JSON
 from flytekitplugins.openai import BatchResult, create_batch
