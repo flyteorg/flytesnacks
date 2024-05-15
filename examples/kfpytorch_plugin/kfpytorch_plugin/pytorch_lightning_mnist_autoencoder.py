@@ -33,18 +33,12 @@ from torchvision.transforms import ToTensor
 
 custom_image = ImageSpec(
     packages=[
-        "adlfs==2024.4.1",
-        "gcsfs==2024.3.1",
-        "torch==2.2.1",
+        "torch",
         "torchvision",
         "flytekitplugins-kfpytorch",
         "kubernetes",
-        "lightning==2.2.4",
-        "networkx==3.2.1",
-        "s3fs==2024.3.1",
+        "lightning",
     ],
-    cuda="12.1.0",
-    python_version="3.10",
     registry="ghcr.io/flyteorg",
 )
 
