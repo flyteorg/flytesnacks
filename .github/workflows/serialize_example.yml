@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: "0"
-      - uses: unionai/flytectl-setup-action@v0.0.1
+      - uses: unionai/flytectl-setup-action@v0.0.3
       - name: setup download artifact dir
         run: |
           mkdir download-artifact
