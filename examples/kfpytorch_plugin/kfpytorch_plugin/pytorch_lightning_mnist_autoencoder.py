@@ -6,6 +6,7 @@
 #
 # First, we import all of the relevant packages.
 
+# %%
 import os
 
 import lightning as L
@@ -31,6 +32,7 @@ from torchvision.transforms import ToTensor
 # For this task, we're going to use a custom image that has all of the
 # necessary dependencies installed.
 
+# %%
 custom_image = ImageSpec(
     packages=[
         "adlfs==2024.4.1",
@@ -74,6 +76,7 @@ custom_image = ImageSpec(
 # volume to `/dev/shm`. This is necessary for distributed data parallel (DDP)
 # training so that state can be shared across workers.
 
+# %%
 container = V1Container(name=custom_image.name, volume_mounts=[V1VolumeMount(mount_path="/dev/shm", name="dshm")])
 volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="Memory"))
 custom_pod_template = PodTemplate(
@@ -88,6 +91,7 @@ custom_pod_template = PodTemplate(
 # will learn how to create compressed embeddings of MNIST images.
 
 
+# %%
 class MNISTAutoEncoder(L.LightningModule):
     def __init__(self, encoder, decoder):
         super().__init__()
@@ -115,6 +119,7 @@ class MNISTAutoEncoder(L.LightningModule):
 # and setup the training data.
 
 
+# %%
 class MNISTDataModule(L.LightningDataModule):
     def __init__(self, root_dir, batch_size=64, dataloader_num_workers=0):
         super().__init__()
@@ -157,6 +162,7 @@ class MNISTDataModule(L.LightningDataModule):
 # This task will output a {ref}`FlyteDirectory <folder>`, which will contain the
 # model checkpoint that will result from training.
 
+# %%
 NUM_NODES = 2
 NUM_DEVICES = 8
 
@@ -205,6 +211,7 @@ def train_model(dataloader_num_workers: int) -> FlyteDirectory:
 # Finally, we wrap it all up in a workflow.
 
 
+# %%
 @workflow
 def train_workflow(dataloader_num_workers: int = 1) -> FlyteDirectory:
     return train_model(dataloader_num_workers=dataloader_num_workers)
