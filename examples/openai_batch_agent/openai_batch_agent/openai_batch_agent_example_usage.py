@@ -60,7 +60,7 @@ iterator_batch = create_batch(
 
 @workflow
 def json_iterator_wf(json_vals: Iterator[JSON] = jsons()) -> BatchResult:
-    return iterator_batch(json_iterator=json_vals)
+    return iterator_batch(jsonl_in=json_vals)
 
 
 # %% [markdown]
@@ -85,12 +85,11 @@ file_batch = create_batch(
 
 @workflow
 def jsonl_wf(jsonl_file: JSONLFile = "data.jsonl") -> BatchResult:
-    return file_batch(jsonl_file=jsonl_file)
+    return file_batch(jsonl_in=jsonl_file)
 
 
 # %% [markdown]
-# The iterator streams JSONs to reduce the memory footprint. If you have large batches of requests that are huge in size,
-# we recommend you use the iterator. It streams the data to a JSONL file and uploads it to OpenAI, whereas `JSONLFile`
-# downloads the file in its entirety at once and uploads it to OpenAI.
-#
+# The iterator **streams JSON objects to a JSONL file**. If you have large batches of requests or have distinct JSON objects that 
+# you want to run predictions on, we recommend you use the iterator.
+# 
 # You can find more info about the [Batch API in the OpenAI docs](https://help.openai.com/en/articles/9197833-batch-api-faq).
