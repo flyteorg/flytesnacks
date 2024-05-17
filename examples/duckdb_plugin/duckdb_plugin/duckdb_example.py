@@ -153,7 +153,7 @@ def params_wf(
             [["chainsaw", 500, 10], ["iphone", 300, 2]],
             ["duck", "goose"],
         ]
-    )
+    ),
 ) -> pd.DataFrame:
     return read_df(df=duckdb_params_query(params=params))
 

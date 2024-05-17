@@ -16,8 +16,7 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+RUN pip install flytekit
 
 # Copy the actual code
 COPY . /root

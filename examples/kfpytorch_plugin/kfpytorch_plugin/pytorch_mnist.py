@@ -34,22 +34,30 @@ custom_image = ImageSpec(
 # :::
 #
 # The following imports are required to configure the PyTorch cluster in Flyte.
-# You can load them on demand.
 # %%
-if custom_image.is_container():
-    import matplotlib.pyplot as plt
-    import torch
-    import torch.nn.functional as F
-    from flytekitplugins.kfpytorch import PyTorch, Worker
-    from tensorboardX import SummaryWriter
-    from torch import distributed as dist
-    from torch import nn, optim
-    from torchvision import datasets, transforms
+import matplotlib.pyplot as plt
+import torch
+import torch.nn.functional as F
+from flytekitplugins.kfpytorch import PyTorch, Worker
+from tensorboardX import SummaryWriter
+from torch import distributed as dist
+from torch import nn, optim
+from torchvision import datasets, transforms
 
 # %% [markdown]
-# You can activate GPU support by either using the base image that includes the necessary GPU dependencies
-# or by initializing the [CUDA parameters](https://github.com/flyteorg/flytekit/blob/master/flytekit/image_spec/image_spec.py#L34-L35)
-# within the `ImageSpec`.
+# :::{note}
+# You can activate GPU support by either using the base image that includes
+# the necessary GPU dependencies or by specifying the `cuda` parameter in
+# the {py:class}`~flytekit.image_spec.ImageSpec`, for example:
+#
+# ```python
+# custom_image = ImageSpec(
+#     packages=[...],
+#     cuda="12.1.0",
+#     ...
+# )
+# ````
+# :::
 #
 # Adjust memory, GPU usage and storage settings based on whether you are
 # registering against the demo cluster or not.

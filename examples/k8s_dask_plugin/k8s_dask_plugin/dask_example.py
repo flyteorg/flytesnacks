@@ -12,7 +12,7 @@ from flytekit import ImageSpec, Resources, task
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the Dask task.
 # %%
-custom_image = ImageSpec(name="flyte-dask-plugin", registry="ghcr.io/flyteorg", packages=["flytekitplugins-dask"])
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-dask"])
 
 # %% [markdown]
 # :::{important}

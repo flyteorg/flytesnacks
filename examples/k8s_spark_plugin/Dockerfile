@@ -1,7 +1,7 @@
 # ######################
 # NOTE: For CI/CD only #
 ########################
-FROM apache/spark-py:3.3.1
+FROM apache/spark-py:v3.4.0
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -23,8 +23,8 @@ ENV PATH="${VENV}/bin:$PATH"
 RUN pip3 install wheel
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN pip install -r /root/requirements.in
 
 RUN wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.4/hadoop-aws-3.2.4.jar -P /opt/spark/jars && \
     wget https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar -P /opt/spark/jars

@@ -1,7 +1,7 @@
 # ######################
 # NOTE: For CI/CD only #
 ########################
-FROM ubuntu:focal
+FROM ubuntu:latest
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -34,8 +34,8 @@ RUN python3.11 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/

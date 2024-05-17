@@ -28,6 +28,7 @@ DBT_PROJECT_DIR = "jaffle_shop"
 DBT_PROFILES_DIR = "dbt-profiles"
 DBT_PROFILE = "jaffle_shop"
 
+
 # %% [markdown]
 # This task ensures that the jaffle_shop database is created and it also contains
 # some data before scheduling an execution of this workflow.

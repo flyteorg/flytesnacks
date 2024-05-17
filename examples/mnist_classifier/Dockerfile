@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.9.0-cuda10.2-cudnn7-runtime
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
 LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
@@ -22,8 +22,8 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.in /root
+RUN pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/
