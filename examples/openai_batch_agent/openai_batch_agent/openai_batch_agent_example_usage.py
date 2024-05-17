@@ -89,7 +89,7 @@ def jsonl_wf(jsonl_file: JSONLFile = "data.jsonl") -> BatchResult:
 
 
 # %% [markdown]
-# The iterator **streams JSON objects to a JSONL file**. If you have large batches of requests or have distinct JSON objects that 
+# The iterator **streams JSON objects to a JSONL file**. If you have large batches of requests or have distinct JSON objects that
 # you want to run predictions on, we recommend you use the iterator.
-# 
+#
 # You can find more info about the [Batch API in the OpenAI docs](https://help.openai.com/en/articles/9197833-batch-api-faq).
