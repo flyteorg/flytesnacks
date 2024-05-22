@@ -13,6 +13,7 @@
 #
 # Here's how you can provide an `Iterator` as an input to the agent:
 # %%
+import os
 from typing import Iterator
 
 from flytekit import Secret, workflow
@@ -84,7 +85,7 @@ file_batch = create_batch(
 
 
 @workflow
-def jsonl_wf(jsonl_file: JSONLFile = "data.jsonl") -> BatchResult:
+def jsonl_wf(jsonl_file: JSONLFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data.jsonl")) -> BatchResult:
     return file_batch(jsonl_in=jsonl_file)
 
 
