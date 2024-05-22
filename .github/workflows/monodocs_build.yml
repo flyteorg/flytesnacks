@@ -39,6 +39,7 @@ jobs:
         run: |
           conda activate monodocs-env
           pip install ./flyteidl
+          pip install flytekit==1.12.1b2
           conda info
           conda list
           conda config --show-sources
