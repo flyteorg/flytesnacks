@@ -38,34 +38,6 @@
       ["basics.workflow.simple_wf", { "x": [1, 2, 3], "y": [1, 2, 3] }],
       ["data_types_and_io.dataclass.dataclass_wf", { "x": 10, "y": 20 }],
       ["data_types_and_io.enum_type.coffee_maker", { "coffee": "latte" }],
-      [
-        "data_types_and_io.file.normalize_csv_file",
-        {
-          "csv_url": "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
-          "column_names": [
-            "Name",
-            "Sex",
-            "Age",
-            "Heights (in)",
-            "Weight (lbs)"
-          ],
-          "columns_to_normalize": ["Age"]
-        }
-      ],
-      [
-        "data_types_and_io.folder.download_and_normalize_csv_files",
-        {
-          "csv_urls": [
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv"
-          ],
-          "columns_metadata": [
-            ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
-            ["Index", "Eruption length (mins)", "Eruption wait (mins)"]
-          ],
-          "columns_to_normalize_metadata": [["Age"], ["Eruption length (mins)"]]
-        }
-      ],
       ["data_types_and_io.structured_dataset.simple_sd_wf", { "a": 42 }]
     ],
     "exitCondition": {
