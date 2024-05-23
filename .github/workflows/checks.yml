@@ -300,11 +300,6 @@ jobs:
           source .venv/bin/activate
           uv pip install "flytekit>=1.12.1b0" flytekitplugins-deck-standard torch tabulate
           pip freeze
-      - name: Checkout flytesnacks
-        uses: actions/checkout@v3
-        with:
-          repository: flyteorg/flytesnacks
-          path: flytesnacks
       - name: Verify existence of the tests
         run: |
           source .venv/bin/activate
@@ -320,7 +315,7 @@ jobs:
                   --domain development \
                   --image cr.flyte.org/flyteorg/flytekit:py3.11-latest \
                   --version ${{ env.FLYTESNACKS_VERSION }} \
-                  flytesnacks/$line;
+                  $line;
           done < flyte_tests.txt
       - name: Setup tmate session
         if: ${{ failure() }}
