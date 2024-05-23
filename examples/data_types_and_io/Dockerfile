@@ -17,7 +17,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN pip install flytekit==1.10.3 pandas
+RUN pip install flytekit==1.12.0 pandas
 RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
 
 # Copy the actual code

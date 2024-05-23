@@ -17,7 +17,7 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN pip install flytekit==1.10.2
+RUN pip install flytekit==1.12.0
 
 # Copy the actual code
 COPY . /root
