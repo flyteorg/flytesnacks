@@ -1,6 +1,6 @@
-import os
 import typing
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -87,8 +87,8 @@ class NumpyEncodingHandler(StructuredDatasetEncoder):
         table = pa.Table.from_arrays(df, name)
         path = ctx.file_access.get_random_remote_directory()
         local_dir = ctx.file_access.get_random_local_directory()
-        local_path = os.path.join(local_dir, f"{0:05}")
-        pq.write_table(table, local_path)
+        local_path = Path(local_dir) / f"{0:05}"
+        pq.write_table(table, str(local_path))
         ctx.file_access.upload_directory(local_dir, path)
         return literals.StructuredDataset(
             uri=path,

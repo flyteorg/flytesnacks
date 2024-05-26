@@ -34,6 +34,7 @@
 import logging
 import os
 from datetime import datetime, timedelta
+from pathlib import Path
 
 import boto3
 import flytekit
@@ -173,8 +174,8 @@ def store_offline(repo_config: RepoConfig, dataframe: StructuredDataset) -> Flyt
     horse_colic_entity = Entity(name="Hospital Number")
 
     ctx = flytekit.current_context()
-    data_dir = os.path.join(ctx.working_directory, "parquet-data")
-    os.makedirs(data_dir, exist_ok=True)
+    data_dir = Path(ctx.working_directory) / "parquet-data"
+    data_dir.mkdir(parents=True, exist_ok=True)
 
     FlyteContext.current_context().file_access.get_data(
         dataframe._literal_sd.uri + "/00000",
