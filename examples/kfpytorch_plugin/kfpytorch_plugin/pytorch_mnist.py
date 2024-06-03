@@ -16,7 +16,7 @@ import flytekit
 from dataclasses_json import dataclass_json
 from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import TensorboardLogs
-from flytekit.types.file import PNGImageFile, PythonPickledFile
+from flytekit.types.file import PNGImageFile, FlyteFile
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
@@ -192,7 +192,7 @@ class Hyperparameters(object):
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs",
     epoch_accuracies=typing.List[float],
-    model_state=PythonPickledFile,
+    model_state=FlyteFile,
     logs=TensorboardLogs,
 )
 
@@ -278,7 +278,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
 
     return TrainingOutputs(
         epoch_accuracies=accuracies,
-        model_state=PythonPickledFile(model_file),
+        model_state=FlyteFile(model_file),
         logs=TensorboardLogs(log_dir),
     )
 
@@ -316,7 +316,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
 @workflow
 def pytorch_training_wf(
     hp: Hyperparameters = Hyperparameters(epochs=2, batch_size=128),
-) -> Tuple[PythonPickledFile, PNGImageFile, TensorboardLogs]:
+) -> Tuple[FlyteFile, PNGImageFile, TensorboardLogs]:
     accuracies, model, logs = mnist_pytorch_job(hp=hp)
     plot = plot_accuracy(epoch_accuracies=accuracies)
     return model, plot, logs
