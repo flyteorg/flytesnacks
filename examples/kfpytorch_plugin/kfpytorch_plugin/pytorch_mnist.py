@@ -16,7 +16,7 @@ import flytekit
 from dataclasses_json import dataclass_json
 from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import TensorboardLogs
-from flytekit.types.file import PNGImageFile, FlyteFile
+from flytekit.types.file import FlyteFile, PNGImageFile
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
