@@ -1,0 +1,16 @@
+python_version: 3.11
+name: artifacts
+base_image: python:3.11-slim-buster
+registry: ghcr.io/unionai-oss
+# platform: linux/arm64
+apt_packages:
+  - "git"
+packages:
+  - tabulate
+  - flyteidl==v1.11.1b1
+  - decorator
+  - pandas
+  - botocore
+  - aiohttp
+  #- flytekit==v1.12.0b4
+  - "git+https://github.com/flyteorg/flytekit.git@e3b8e7842add5d48c0f4c0fd2ba0eb59f9810aa3"
