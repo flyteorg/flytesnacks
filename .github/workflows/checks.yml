@@ -162,13 +162,8 @@ jobs:
           flytectl demo start
           flytectl config init
       - name: Register examples
-        uses: unionai/flyte-register-action@v0.0.2
-        with:
-          flytesnacks: false
-          proto: ./download-artifact/**/*
-          project: flytesnacks
-          version: "latest"
-          domain: development
+        run: |
+          flytectl register files ./download-artifact/**/*.tar.gz --archive -p flytesnacks -d development --version latest
 
   bump_version:
     name: Bump Version
