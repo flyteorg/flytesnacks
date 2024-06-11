@@ -227,7 +227,7 @@ jobs:
           cp flyte_tests_manifest.json release-snacks/flyte_tests_manifest.json
           cp flyte_tests.txt release-snacks/flyte_tests.txt
       - name: Release test manifest
-        uses: goreleaser/goreleaser-action@v2
+        uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
           args: release --rm-dist
