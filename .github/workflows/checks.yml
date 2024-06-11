@@ -163,7 +163,7 @@ jobs:
           flytectl config init
       - name: Register examples
         run: |
-          flytectl register files ./download-artifact/**/**/*.tar.gz --archive -p flytesnacks -d development --version latest
+          flytectl register files ./download-artifact/**/* -p flytesnacks -d development --version latest
 
   bump_version:
     name: Bump Version
