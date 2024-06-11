@@ -162,7 +162,7 @@ jobs:
           flytectl demo start
           flytectl config init
       - name: Register examples
-        uses: unionai/flyte-register-action@v0.0.2
+        uses: unionai/flyte-register-action@move-to-node20
         with:
           flytesnacks: false
           proto: ./download-artifact/**/*
