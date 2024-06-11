@@ -142,7 +142,6 @@ auto_examples/whylogs_plugin/index
 Deprecated integrations <https://docs.flyte.org/en/latest/deprecated_integrations/index.html>
 BigQuery plugin <https://docs.flyte.org/en/latest/deprecated_integrations/bigquery_plugin/index.html>
 Databricks plugin <https://docs.flyte.org/en/latest/deprecated_integrations/databricks_plugin/index.html>
-MMCloud plugin <https://docs.flyte.org/en/latest/deprecated_integrations/mmcloud_plugin/index.html>
 Snowflake plugin <https://docs.flyte.org/en/latest/deprecated_integrations/snowflake_plugin/index.html>
 ```
 
