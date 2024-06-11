@@ -86,9 +86,7 @@ file_batch = create_batch(
 
 @workflow
 def jsonl_wf(
-    jsonl_file: JSONLFile = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "data.jsonl"
-    )
+    jsonl_file: JSONLFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data.jsonl")
 ) -> BatchResult:
     return file_batch(jsonl_in=jsonl_file)
 
