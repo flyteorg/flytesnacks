@@ -22,7 +22,7 @@ from flytekit import ImageSpec, Resources, task, workflow
 custom_image = ImageSpec(
     registry="ghcr.io/flyteorg",
     packages=["flytekitplugins-ray"],
-    # kuberay operator needs wget for readiness probe
+    # kuberay operator needs wget for readiness probe.
     apt_packages=["wget"],
 )
 
