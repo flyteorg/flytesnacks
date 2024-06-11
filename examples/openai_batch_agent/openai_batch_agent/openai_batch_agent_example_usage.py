@@ -53,7 +53,7 @@ def jsons():
 
 
 iterator_batch = create_batch(
-    name="gpt-3.5-turbo",
+    name="gpt-3.5-turbo-iterator",
     openai_organization="your-org",
     secret=Secret(group="openai", key="api-key"),
 )
@@ -77,7 +77,7 @@ def json_iterator_wf(json_vals: Iterator[JSON] = jsons()) -> BatchResult:
 # The following code snippet demonstrates how to send a JSONL file to the `create_batch` function:
 # %%
 file_batch = create_batch(
-    name="gpt-3.5-turbo",
+    name="gpt-3.5-turbo-file",
     openai_organization="your-org",
     secret=Secret(group="openai", key="api-key"),
     is_json_iterator=False,

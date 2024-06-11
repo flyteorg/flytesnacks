@@ -53,7 +53,7 @@ jobs:
           # TODO: Register and update the examples below. (onnx_plugin, feast_integration, etc)
           echo "PACKAGES=$(find examples -maxdepth 1 -type d -exec basename '{}' \; \
           | grep -v -e 'testing' -e 'examples' \
-          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' -e 'onnx_plugin' -e 'feast_integration' -e 'modin_plugin' -e 'sagemaker_inference_agent' -e 'mnist_classifier' -e 'openai_batch_agent' \
+          | grep -v -e 'airflow_plugin' -e 'forecasting_sales' -e 'onnx_plugin' -e 'feast_integration' -e 'modin_plugin' -e 'sagemaker_inference_agent' -e 'mnist_classifier' \
           | sort \
           | jq --raw-input . \
           | jq --slurp . \
