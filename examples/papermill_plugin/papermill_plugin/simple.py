@@ -5,7 +5,6 @@
 # one output. This can be generalized to multiple inputs and outputs.
 # %%
 import math
-import os
 import pathlib
 
 from flytekit import kwtypes, task, workflow
@@ -31,7 +30,7 @@ from flytekitplugins.papermill import NotebookTask
 # %%
 nb = NotebookTask(
     name="simple-nb",
-    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "nb_simple.ipynb"),
+    notebook_path=str(pathlib.Path(__file__).parent.absolute() / "nb_simple.ipynb"),
     render_deck=True,
     inputs=kwtypes(v=float),
     outputs=kwtypes(square=float),
@@ -42,6 +41,7 @@ nb = NotebookTask(
 # - Note the inputs and outputs. The variable names match the variable names in the jupyter notebook.
 # - You can see the notebook on Flyte deck if `render_deck` is set to true.
 # :::
+
 
 # %% [markdown]
 # :::{figure} https://i.imgur.com/ogfVpr2.png

@@ -102,6 +102,8 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
+* - {doc}`OpenAI Batch <auto_examples/openai_batch_agent/index>`
+  - Submit requests for asynchronous batch processing on OpenAI.
 * - {doc}`SageMaker Inference <auto_examples/sagemaker_inference_agent/index>`
   - Deploy models and create, as well as trigger inference endpoints on SageMaker.
 * - {doc}`Sensor <auto_examples/sensor/index>`

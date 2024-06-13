@@ -14,7 +14,7 @@
 # %% [markdown]
 # First, let's import the required libraries.
 # %%
-import os
+from pathlib import Path
 
 import pandas as pd
 from flytekit import Resources, task, workflow
@@ -47,6 +47,7 @@ CONTEXT_ROOT_DIR = "greatexpectations/great_expectations"
 #
 # The parameters within the `data_connector_query` convey that we're fetching all those files that have "2019" and "01" in the file names.
 
+
 # %%
 @task(limits=Resources(mem="500Mi"))
 def simple_task(
@@ -67,7 +68,7 @@ def simple_task(
             ),
             context_root_dir=CONTEXT_ROOT_DIR,
         ),
-    ]
+    ],
 ) -> str:
     return f"Validation works for {directory}!"
 
@@ -101,6 +102,7 @@ great_expectations_config = GreatExpectationsFlyteConfig(
 #
 # The first value that's being sent within `GreatExpectationsType` is `CSVFile` (this is a pre-formatted FlyteFile type).
 # This means that we want to validate the `FlyteFile` data.
+
 
 # %%
 @task(limits=Resources(mem="500Mi"))
@@ -137,7 +139,7 @@ def schema_task(
             local_file_path="/tmp/test.parquet",  # noqa: F722
             context_root_dir=CONTEXT_ROOT_DIR,
         ),
-    ]
+    ],
 ) -> int:
     return dataframe.shape[0]
 
@@ -189,7 +191,7 @@ runtime_ge_config = GreatExpectationsFlyteConfig(
 # %%
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df
 
 

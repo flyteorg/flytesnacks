@@ -8,7 +8,6 @@
 # %% [markdown]
 # First, let's import the libraries we will use in this example.
 # %%
-import os
 import pathlib
 from dataclasses import dataclass
 
@@ -46,7 +45,7 @@ class Hyperparameters(object):
 # %%
 nb = NotebookTask(
     name="eda-feature-eng-nb",
-    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "supermarket_regression_1.ipynb"),
+    notebook_path=str(pathlib.Path(__file__).parent.absolute() / "supermarket_regression_1.ipynb"),
     outputs=kwtypes(dummified_data=pd.DataFrame, dataset=str),
     requests=Resources(mem="500Mi"),
 )
@@ -55,6 +54,7 @@ nb = NotebookTask(
 # %% [markdown]
 # Next, we define a `cross_validate` function and a `modeling` task to compute the MAE score of the data against
 # the Gradient Boosting Regressor.
+
 
 # %%
 def cross_validate(model, nfolds, feats, targets):

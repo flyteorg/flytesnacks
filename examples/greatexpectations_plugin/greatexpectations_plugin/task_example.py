@@ -15,8 +15,8 @@
 # %% [markdown]
 # First, let's import the required libraries.
 # %%
-import os
 import typing
+from pathlib import Path
 
 import pandas as pd
 from flytekit import Resources, kwtypes, task, workflow
@@ -54,6 +54,7 @@ simple_task_object = GreatExpectationsTask(
     context_root_dir=CONTEXT_ROOT_DIR,
 )
 
+
 # %% [markdown]
 # Next, we define a task that validates the data before returning the shape of the DataFrame.
 # %%
@@ -64,7 +65,7 @@ def simple_task(csv_file: str) -> int:
     # If the data validation fails, this will return a ValidationError.
     result = simple_task_object(dataset=csv_file)
     print(result)
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df.shape[0]
 
 
@@ -96,6 +97,7 @@ file_task_object = GreatExpectationsTask(
     local_file_path="/tmp",
     context_root_dir=CONTEXT_ROOT_DIR,
 )
+
 
 # %% [markdown]
 # Next, we define a task that calls the validation logic.
@@ -143,6 +145,7 @@ sql_to_df = SQLite3Task(
     output_schema_type=FlyteSchema,
     task_config=SQLite3Config(uri=SQLITE_DATASET),
 )
+
 
 # %% [markdown]
 # Next, we define a task that validates the data and returns the columns in it.
@@ -202,7 +205,7 @@ runtime_task_obj = GreatExpectationsTask(
 # %%
 @task
 def runtime_to_df_task(csv_file: str) -> pd.DataFrame:
-    df = pd.read_csv(os.path.join("greatexpectations", "data", csv_file))
+    df = pd.read_csv(Path("greatexpectations") / "data" / csv_file)
     return df
 
 

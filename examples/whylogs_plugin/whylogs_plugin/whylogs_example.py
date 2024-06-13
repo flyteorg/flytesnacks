@@ -8,7 +8,7 @@
 # %% [markdown]
 # First, let's make all the necessary imports for our example to run properly
 # %%
-import os
+from pathlib import Path
 
 import flytekit
 import numpy as np
@@ -30,6 +30,7 @@ from whylogs.core.constraints.factories import (
 image_spec = ImageSpec(
     packages=["flytekitplugins-whylogs", "whylogs[whylabs]", "scikit-learn", "mlflow"], registry="ghcr.io/flyteorg"
 )
+
 
 # %% [markdown]
 # Next thing is defining a task to read our reference dataset.
@@ -98,9 +99,10 @@ def constraints_report(profile_view: DatasetProfileView) -> bool:
 @task(container_image=image_spec)
 def make_predictions(input_data: pd.DataFrame, output_path: str) -> str:
     input_data["predictions"] = np.random.random(size=len(input_data))
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-    input_data.to_csv(os.path.join(output_path, "predictions.csv"))
+    output_path = Path(output_path)
+    if not output_path.exists():
+        output_path.mkdir(parents=True)
+    input_data.to_csv(str(output_path / "predictions.csv"))
     return f"wrote predictions successfully to {output_path}"
 
 

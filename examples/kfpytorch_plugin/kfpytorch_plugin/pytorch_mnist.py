@@ -9,13 +9,14 @@
 import os
 import typing
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Tuple
 
 import flytekit
 from dataclasses_json import dataclass_json
 from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.types.directory import TensorboardLogs
-from flytekit.types.file import PNGImageFile, PythonPickledFile
+from flytekit.types.file import FlyteFile, PNGImageFile
 
 WORLD_SIZE = int(os.environ.get("WORLD_SIZE", 1))
 
@@ -45,9 +46,19 @@ from torch import nn, optim
 from torchvision import datasets, transforms
 
 # %% [markdown]
-# You can activate GPU support by either using the base image that includes the necessary GPU dependencies
-# or by initializing the [CUDA parameters](https://github.com/flyteorg/flytekit/blob/master/flytekit/image_spec/image_spec.py#L34-L35)
-# within the `ImageSpec`.
+# :::{note}
+# You can activate GPU support by either using the base image that includes
+# the necessary GPU dependencies or by specifying the `cuda` parameter in
+# the {py:class}`~flytekit.image_spec.ImageSpec`, for example:
+#
+# ```python
+# custom_image = ImageSpec(
+#     packages=[...],
+#     cuda="12.1.0",
+#     ...
+# )
+# ````
+# :::
 #
 # Adjust memory, GPU usage and storage settings based on whether you are
 # registering against the demo cluster or not.
@@ -181,7 +192,7 @@ class Hyperparameters(object):
 TrainingOutputs = typing.NamedTuple(
     "TrainingOutputs",
     epoch_accuracies=typing.List[float],
-    model_state=PythonPickledFile,
+    model_state=FlyteFile,
     logs=TensorboardLogs,
 )
 
@@ -199,7 +210,7 @@ TrainingOutputs = typing.NamedTuple(
     container_image=custom_image,
 )
 def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
-    log_dir = os.path.join(flytekit.current_context().working_directory, "logs")
+    log_dir = str(Path(flytekit.current_context().working_directory) / "logs")
     writer = SummaryWriter(log_dir)
 
     torch.manual_seed(hp.seed)
@@ -218,7 +229,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     kwargs = {"num_workers": 1, "pin_memory": True} if use_cuda else {}
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            os.path.join(flytekit.current_context().working_directory, "data"),
+            str(Path(flytekit.current_context().working_directory) / "data"),
             train=True,
             download=True,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
@@ -229,7 +240,7 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     )
     test_loader = torch.utils.data.DataLoader(
         datasets.MNIST(
-            os.path.join(flytekit.current_context().working_directory, "data"),
+            str(Path(flytekit.current_context().working_directory) / "data"),
             train=False,
             transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]),
         ),
@@ -262,12 +273,12 @@ def mnist_pytorch_job(hp: Hyperparameters) -> TrainingOutputs:
     ]
 
     # Save the model
-    model_file = os.path.join(flytekit.current_context().working_directory, "mnist_cnn.pt")
+    model_file = str(Path(flytekit.current_context().working_directory) / "mnist_cnn.pt")
     torch.save(model.state_dict(), model_file)
 
     return TrainingOutputs(
         epoch_accuracies=accuracies,
-        model_state=PythonPickledFile(model_file),
+        model_state=FlyteFile(model_file),
         logs=TensorboardLogs(log_dir),
     )
 
@@ -292,7 +303,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
     plt.title("Accuracy")
     plt.ylabel("accuracy")
     plt.xlabel("epoch")
-    accuracy_plot = os.path.join(flytekit.current_context().working_directory, "accuracy.png")
+    accuracy_plot = str(Path(flytekit.current_context().working_directory) / "accuracy.png")
     plt.savefig(accuracy_plot)
     return PNGImageFile(accuracy_plot)
 
@@ -305,7 +316,7 @@ def plot_accuracy(epoch_accuracies: typing.List[float]) -> PNGImageFile:
 @workflow
 def pytorch_training_wf(
     hp: Hyperparameters = Hyperparameters(epochs=2, batch_size=128),
-) -> Tuple[PythonPickledFile, PNGImageFile, TensorboardLogs]:
+) -> Tuple[FlyteFile, PNGImageFile, TensorboardLogs]:
     accuracies, model, logs = mnist_pytorch_job(hp=hp)
     plot = plot_accuracy(epoch_accuracies=accuracies)
     return model, plot, logs

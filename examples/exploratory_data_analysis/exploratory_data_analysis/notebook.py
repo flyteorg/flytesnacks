@@ -7,7 +7,6 @@
 # %% [markdown]
 # First, let's import the libraries we will use in this example.
 # %%
-import os
 import pathlib
 
 from flytekit import Resources, kwtypes, workflow
@@ -34,7 +33,7 @@ from flytekitplugins.papermill import NotebookTask
 # %%
 nb = NotebookTask(
     name="pipeline-nb",
-    notebook_path=os.path.join(pathlib.Path(__file__).parent.absolute(), "supermarket_regression.ipynb"),
+    notebook_path=str(pathlib.Path(__file__).parent.absolute() / "supermarket_regression.ipynb"),
     inputs=kwtypes(
         n_estimators=int,
         max_depth=int,
@@ -49,6 +48,7 @@ nb = NotebookTask(
 
 # %% [markdown]
 # Since a task need not be defined, we create a `workflow` and return the MAE score.
+
 
 # %%
 @workflow

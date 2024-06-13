@@ -10,8 +10,8 @@
 # %% [markdown]
 # First, let's import the libraries.
 # %%
-import os
 import sys
+from pathlib import Path
 
 import pandas as pd
 from flytekit import task, workflow
@@ -20,7 +20,7 @@ from flytekitplugins.dolt.schema import DoltConfig, DoltTable
 # %% [markdown]
 # Next, we initialize Dolt's config.
 # %%
-doltdb_path = os.path.join(os.path.dirname(__file__), "foo")
+doltdb_path = str(Path(__file__).parent / "foo")
 
 rabbits_conf = DoltConfig(
     db_path=doltdb_path,
@@ -30,6 +30,7 @@ rabbits_conf = DoltConfig(
 
 # %% [markdown]
 # We define a task to create a DataFrame and store the table in Dolt.
+
 
 # %%
 @task

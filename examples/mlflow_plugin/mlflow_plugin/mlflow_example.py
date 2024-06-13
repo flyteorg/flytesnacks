@@ -59,6 +59,7 @@ def train_model(epochs: int):
 # :class: with-shadow
 # :::
 
+
 # %% [markdown]
 # Finally, we put everything together into a workflow:
 #

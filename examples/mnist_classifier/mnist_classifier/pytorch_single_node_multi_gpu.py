@@ -40,11 +40,12 @@ from flytekit.types.file import PythonPickledFile
 # {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`
 # such as the `Net` model architecture, `Hyperparameters`, and `log_test_predictions`.
 # %%
-from mnist_classifier.pytorch_single_node_and_gpu import Hyperparameters, Net, log_test_predictions
 from torch import distributed as dist
 from torch import multiprocessing as mp
 from torch import nn, optim
 from torchvision import datasets, transforms
+
+from mnist_classifier.pytorch_single_node_and_gpu import Hyperparameters, Net, log_test_predictions
 
 # %% [markdown]
 # Let's define some variables to be used later.
@@ -85,6 +86,7 @@ def wandb_setup():
 #
 # We'll use the same neural network architecture as the one we define in the
 # {ref}`single node and gpu tutorial <pytorch_single_node_and_gpu>`.
+
 
 # %% [markdown]
 # ## Data Downloader
@@ -195,7 +197,6 @@ def test(model, rank, test_loader):
 
     # disable gradient
     with torch.no_grad():
-
         # loop through the test data loader
         total = 0.0
         for images, targets in test_loader:
@@ -247,6 +248,7 @@ TrainingOutputs = typing.NamedTuple(
 # `dist_setup` is a helper function that instantiates a distributed environment. We're pointing all of the
 # processes across all available GPUs to the address of the main process.
 
+
 # %%
 def dist_setup(rank, world_size, backend):
     os.environ["MASTER_ADDR"] = "localhost"
@@ -269,6 +271,7 @@ ACCURACIES_FILE = "./mnist_cnn_accuracies.json"
 # - log metrics via `wandb`
 # - save the trained model to disk
 # - keep track of validation metrics
+
 
 # %%
 def train_mnist(rank: int, world_size: int, hp: Hyperparameters):

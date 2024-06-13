@@ -8,14 +8,15 @@
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
+# documentation root, use pathlib.Path.resolve to make it absolute, like shown here.
 #
 import os
 import re
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath("../"))
-sys.path.append(os.path.abspath("./_ext"))
+sys.path.insert(0, str(Path("../").resolve(strict=True)))
+sys.path.append(str(Path("./_ext").resolve(strict=True)))
 
 # -- Project information -----------------------------------------------------
 
@@ -184,7 +185,6 @@ exclude_examples = [
     "testing",
     "bigquery_plugin",
     "databricks_plugin",
-    "mmcloud_plugin",
     "snowflake_plugin",
 ]
 
@@ -331,8 +331,6 @@ if int(os.environ.get("ENABLE_SPHINX_REDIRECTS", 0)):
         "auto_examples/kftensorflow_plugin/index.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/kftensorflow_plugin/index.html",
         "auto_examples/mlflow_plugin/index.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mlflow_plugin/index.html",
         "auto_examples/mlflow_plugin/mlflow_example.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mlflow_plugin/mlflow_example.html",
-        "auto_examples/mmcloud_plugin/example.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mmcloud_integration/example.html",
-        "auto_examples/mmcloud_plugin/index.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mmcloud_integration/index.html",
         "auto_examples/mnist_classifier/pytorch_single_node_and_gpu.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mnist_classifier/pytorch_single_node_and_gpu.html",
         "auto_examples/mnist_classifier/index.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mnist_classifier/index.html",
         "auto_examples/mnist_classifier/pytorch_single_node_multi_gpu.html": "https://docs.flyte.org/en/latest/flytesnacks/examples/mnist_classifier/pytorch_single_node_multi_gpu.html",

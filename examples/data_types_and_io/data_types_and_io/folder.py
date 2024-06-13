@@ -1,5 +1,4 @@
 import csv
-import os
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
@@ -15,17 +14,14 @@ from flytekit.types.directory import FlyteDirectory
 @task
 def download_files(csv_urls: List[str]) -> FlyteDirectory:
     working_dir = flytekit.current_context().working_directory
-    local_dir = Path(os.path.join(working_dir, "csv_files"))
+    local_dir = Path(working_dir) / "csv_files"
     local_dir.mkdir(exist_ok=True)
 
     # get the number of digits needed to preserve the order of files in the local directory
     zfill_len = len(str(len(csv_urls)))
     for idx, remote_location in enumerate(csv_urls):
-        local_image = os.path.join(
-            # prefix the file name with the index location of the file in the original csv_urls list
-            local_dir,
-            f"{str(idx).zfill(zfill_len)}_{os.path.basename(remote_location)}",
-        )
+        # prefix the file name with the index location of the file in the original csv_urls list
+        local_image = Path(local_dir) / f"{str(idx).zfill(zfill_len)}_{Path(remote_location).name}"
         urllib.request.urlretrieve(remote_location, local_image)
     return FlyteDirectory(path=str(local_dir))
 
@@ -69,7 +65,7 @@ def normalize_all_files(
 ) -> FlyteDirectory:
     for local_csv_file, column_names, columns_to_normalize in zip(
         # make sure we sort the files in the directory to preserve the original order of the csv urls
-        [os.path.join(csv_files_dir, x) for x in sorted(os.listdir(csv_files_dir))],
+        list(sorted(Path(csv_files_dir).iterdir())),
         columns_metadata,
         columns_to_normalize_metadata,
     ):

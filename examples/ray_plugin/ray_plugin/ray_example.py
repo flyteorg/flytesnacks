@@ -18,26 +18,20 @@ from flytekit import ImageSpec, Resources, task, workflow
 
 # %% [markdown]
 # Create an `ImageSpec` to encompass all the dependencies needed for the Ray task.
+# # :::{important}
+# # Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
+# # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# # :::
 # %%
 custom_image = ImageSpec(
     registry="ghcr.io/flyteorg",
     packages=["flytekitplugins-ray"],
-    # kuberay operator needs wget for readiness probe
+    # kuberay operator needs wget for readiness probe.
     apt_packages=["wget"],
 )
 
-# %% [markdown]
-# :::{important}
-# Replace `ghcr.io/flyteorg` with a container registry you've access to publish to.
-# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
-# :::
-#
-# The following imports are required to configure the Ray cluster in Flyte.
-# You can load them on demand.
-# %%
-if custom_image.is_container():
-    import ray
-    from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
+import ray
+from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
 # %% [markdown]

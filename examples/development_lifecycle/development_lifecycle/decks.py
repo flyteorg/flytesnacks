@@ -1,6 +1,6 @@
 import flytekit
 from flytekit import ImageSpec, task
-from flytekitplugins.deck.renderer import MarkdownRenderer
+from flytekit.deck.renderer import MarkdownRenderer
 from sklearn.decomposition import PCA
 
 # Create a new deck named `pca` and render Markdown content along with a
@@ -120,22 +120,4 @@ def table_renderer() -> None:
     flytekit.Deck(
         "Table Renderer",
         TableRenderer().to_html(df=pd.DataFrame(data={"col1": [1, 2], "col2": [3, 4]}), table_width=50),
-    )
-
-
-# #### Source code renderer converts source code to HTML
-# and renders it as a Unicode string on the deck.
-import inspect
-
-from flytekitplugins.deck.renderer import SourceCodeRenderer
-
-
-@task(enable_deck=True)
-def source_code_renderer() -> None:
-    file_path = inspect.getsourcefile(frame_renderer.__wrapped__)
-    with open(file_path, "r") as f:
-        source_code = f.read()
-    flytekit.Deck(
-        "Source Code Renderer",
-        SourceCodeRenderer().to_html(source_code),
     )

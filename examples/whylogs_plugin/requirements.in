@@ -4,6 +4,6 @@ matplotlib
 flytekitplugins-deck-standard
 flytekitplugins-whylogs>=1.1.1b0
 scikit-learn
-whylogs[s3]
+whylogs[s3]==1.3.30
 whylogs[mlflow]
 whylogs[whylabs]
