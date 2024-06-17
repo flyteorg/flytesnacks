@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from typing import List
 
-from flytekit import Resources, TaskMetadata, dynamic, map_task, task, workflow, ImageSpec
+from flytekit import ImageSpec, Resources, TaskMetadata, dynamic, map_task, task, workflow
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
