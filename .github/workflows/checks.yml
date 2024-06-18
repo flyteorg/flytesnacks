@@ -90,7 +90,7 @@ jobs:
           uv venv
           source .venv/bin/activate
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
-          uv pip install "flytekit>=1.12.2" flytekitplugins-envd
+          uv pip install "flytekit>=1.12.2" flytekitplugins-envd "numpy<2.0.0"
           pip freeze
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
