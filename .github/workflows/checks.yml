@@ -292,7 +292,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard torch tabulate
+          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard flytekitplugins-envd torch tabulate
           pip freeze
       - name: Checkout flytesnacks
         uses: actions/checkout@v3
