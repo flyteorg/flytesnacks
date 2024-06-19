@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from typing import List
 
-from flytekit import Resources, TaskMetadata, dynamic, map_task, task, workflow
+from flytekit import ImageSpec, Resources, TaskMetadata, dynamic, map_task, task, workflow
 from flytekitplugins.pod import Pod
 from kubernetes.client.models import (
     V1Container,
@@ -29,6 +29,8 @@ from kubernetes.client.models import (
     V1Volume,
     V1VolumeMount,
 )
+
+image_spec = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pod"])
 
 
 # %% [markdown]
@@ -48,6 +50,7 @@ from kubernetes.client.models import (
     requests=Resources(
         mem="1G",
     ),
+    container_image=image_spec,
 )
 def pod_task() -> str:
     return "Hello from pod task!"
@@ -128,6 +131,7 @@ _SHARED_DATA_PATH = "/data/message.txt"
     requests=Resources(
         mem="1G",
     ),
+    container_image=image_spec,
 )
 def multiple_containers_pod_task() -> str:
     # The code defined in this task will get injected into the primary container.
@@ -174,13 +178,14 @@ def multiple_containers_pod_workflow() -> str:
                 )
             ],
         ),
-    )
+    ),
+    container_image=image_spec,
 )
 def map_pod_task(int_val: int) -> str:
     return str(int_val)
 
 
-@task
+@task(container_image=image_spec)
 def coalesce(list_of_strings: List[str]) -> str:
     coalesced = ", ".join(list_of_strings)
     return coalesced
@@ -198,7 +203,7 @@ def map_pod_workflow(list_of_ints: List[int]) -> str:
 #
 # To use a pod task in a dynamic workflow, simply pass the pod task config to the annotated dynamic workflow.
 # %%
-@task
+@task(container_image=image_spec)
 def stringify(val: int) -> str:
     return f"{val} served courtesy of a dynamic pod task!"
 
@@ -216,7 +221,8 @@ def stringify(val: int) -> str:
                 )
             ],
         ),
-    )
+    ),
+    container_image=image_spec,
 )
 def dynamic_pod_task(val: int) -> str:
     return stringify(val=val)
