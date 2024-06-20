@@ -2,7 +2,7 @@ flytekit>=0.32.3
 wheel
 matplotlib
 flytekitplugins-deck-standard
-xgboost
+xgboost<2.1.0
 joblib
 scikit-learn
 tabulate
