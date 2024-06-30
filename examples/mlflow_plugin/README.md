@@ -20,7 +20,7 @@ First, install the Flyte MLflow plugin:
 To log the metrics and parameters to Flyte deck, add {py:func}`@mlflow_autolog <flytekitplugins.mlflow.mlflow_autolog>` to the task. For example
 
 ```python
-@task(disable_deck=False)
+@task(enable_deck=True)
 @mlflow_autolog(framework=mlflow.keras)
 def train_model(epochs: int):
 ...

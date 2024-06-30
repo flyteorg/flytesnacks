@@ -285,7 +285,7 @@ def dimensionality_reduction(model_ser: FlyteFile[MODELSER_NLP]) -> plotdata:
     return x_vals, y_vals, labels
 
 
-@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), disable_deck=False)
+@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"), enable_deck=True)
 def plot_with_plotly(x: List[float], y: List[float], labels: List[str]):
     layout = go.Layout(height=600, width=800)
     fig = go.Figure(
