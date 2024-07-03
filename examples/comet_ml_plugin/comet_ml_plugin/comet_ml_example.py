@@ -39,9 +39,7 @@ secret = Secret(key="comet-ml-key", group="comet-ml-group")
 
 REGISTRY = "localhost:30000"
 image = ImageSpec(
-    builder="fast-builder",
     name="unionai",
-    apt_packages=["git"],
     packages=[
         "torch==2.3.1",
         "comet-ml==3.43.2",
