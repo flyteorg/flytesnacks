@@ -118,7 +118,7 @@ custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins
 
 
 # %%
-class RawData(pa.SchemaModel):
+class RawData(pa.DataFrameModel):
     age: Series[int] = pa.Field(in_range={"min_value": 0, "max_value": 200})
     sex: Series[int] = pa.Field(isin=[0, 1])
     cp: Series[int] = pa.Field(
