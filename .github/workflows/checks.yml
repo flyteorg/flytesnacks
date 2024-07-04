@@ -122,7 +122,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - run: |
-          docker manifest inspect ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
+        docker manifest inspect ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
         run: |
