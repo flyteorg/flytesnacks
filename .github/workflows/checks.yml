@@ -116,6 +116,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: examples/${{ matrix.example }}
+          platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }},ghcr.io/flyteorg/flytecookbook:latest
           cache-from: type=gha
