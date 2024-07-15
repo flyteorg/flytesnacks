@@ -45,7 +45,7 @@ def foo(a: int, b: str) -> pandas.DataFrame:
 
 @task(cache=True, cache_version="1.0")
 def bar(df: pandas.DataFrame) -> int:
-    ...
+    return 1
 
 
 @workflow
@@ -77,7 +77,7 @@ def foo_1(  # noqa: F811
 
 @task(cache=True, cache_version="1.0")  # noqa: F811
 def bar_1(df: pandas.DataFrame) -> int:  # noqa: F811
-    ...  # noqa: F811
+    return 1
 
 
 @workflow
