@@ -90,7 +90,7 @@ jobs:
           uv venv
           source .venv/bin/activate
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
-          uv pip install "flytekit>=1.12.2" flytekitplugins-envd "numpy<2.0.0"
+          uv pip install "flytekit>=1.12.2" "numpy<2.0.0"
           pip freeze
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -116,6 +116,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: examples/${{ matrix.example }}
+          platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }},ghcr.io/flyteorg/flytecookbook:latest
           cache-from: type=gha
@@ -292,7 +293,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard flytekitplugins-envd torch tabulate
+          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard torch tabulate
           pip freeze
       - name: Checkout flytesnacks
         uses: actions/checkout@v3
