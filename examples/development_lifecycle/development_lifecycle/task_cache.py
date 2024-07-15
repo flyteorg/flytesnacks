@@ -45,7 +45,7 @@ def foo(a: int, b: str) -> pandas.DataFrame:
 
 @task(cache=True, cache_version="1.0")
 def bar(df: pandas.DataFrame) -> int:
-    ...
+    return 1
 
 
 @workflow
