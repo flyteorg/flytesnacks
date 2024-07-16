@@ -3,7 +3,7 @@ import tempfile
 from dataclasses import dataclass
 
 import pandas as pd
-from flytekit import task, workflow
+from flytekit import ImageSpec, task, workflow
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
@@ -13,6 +13,11 @@ from mashumaro.mixins.json import DataClassJSONMixin
 # `from dataclass_json import dataclass_json` instead of inheriting from Mashumaro's `DataClassJSONMixin`.
 # If you're using Flytekit version >= v1.11.1, you don't need to decorate with `@dataclass_json` or
 # inherit from Mashumaro's `DataClassJSONMixin`.
+
+image_spec = ImageSpec(
+    registry="ghcr.io/flyteorg",
+    packages=["pandas", "pyarrow"],
+)
 
 
 # Python types
@@ -25,7 +30,7 @@ class Datum(DataClassJSONMixin):
 
 
 # Once declared, a dataclass can be returned as an output or accepted as an input
-@task
+@task(container_image=image_spec)
 def stringify(s: int) -> Datum:
     """
     A dataclass return will be treated as a single complex JSON return.
@@ -33,7 +38,7 @@ def stringify(s: int) -> Datum:
     return Datum(x=s, y=str(s), z={s: str(s)})
 
 
-@task
+@task(container_image=image_spec)
 def add(x: Datum, y: Datum) -> Datum:
     """
     Flytekit automatically converts the provided JSON into a data class.
@@ -51,7 +56,7 @@ class FlyteTypes(DataClassJSONMixin):
     directory: FlyteDirectory
 
 
-@task
+@task(container_image=image_spec)
 def upload_data() -> FlyteTypes:
     """
     Flytekit will upload FlyteFile, FlyteDirectory and StructuredDataset to the blob store,
@@ -76,7 +81,7 @@ def upload_data() -> FlyteTypes:
     return fs
 
 
-@task
+@task(container_image=image_spec)
 def download_data(res: FlyteTypes):
     assert pd.DataFrame({"Name": ["Tom", "Joseph"], "Age": [20, 22]}).equals(res.dataframe.open(pd.DataFrame).all())
     f = open(res.file, "r")
