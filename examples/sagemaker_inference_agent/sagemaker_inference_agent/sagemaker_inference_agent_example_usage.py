@@ -127,10 +127,11 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # and initializing an endpoint. Configurations relevant to these tasks are passed to the
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
-# An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates. 
+# An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates.
 #
 # - `idempotence_token` represents the configuration hash.
-# - `inputs.idempotence_token` refers to the idempotence token from the previous task. The workflow injects idempotence token from the previous task into the current task as an input. 
+# - `inputs.idempotence_token` refers to the idempotence token from the previous task.
+#   The workflow injects idempotence token from the previous task into the current task as an input.
 #
 # `sagemaker_image` should include the inference code, necessary libraries, and an entrypoint for model serving.
 #
