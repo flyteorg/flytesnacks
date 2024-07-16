@@ -234,7 +234,7 @@ from flytekitplugins.awssagemaker_inference import SageMakerInvokeEndpointTask
 invoke_endpoint = SageMakerInvokeEndpointTask(
     name="sagemaker_invoke_endpoint",
     config={
-        "EndpointName": "...",
+        "EndpointName": "YOUR_ENDPOINT_NAME_HERE",
         "InputLocation": "s3://sagemaker-agent-xgboost/inference_input",
     },
     region=REGION,
@@ -255,9 +255,9 @@ sagemaker_deployment_deletion_wf = delete_sagemaker_deployment(name="sagemaker-d
 @workflow
 def deployment_deletion_workflow():
     sagemaker_deployment_deletion_wf(
-        endpoint_name="...",
-        endpoint_config_name="...",
-        model_name="...",
+        endpoint_name="YOUR_ENDPOINT_NAME_HERE",
+        endpoint_config_name="YOUR_ENDPOINT_CONFIG_NAME_HERE",
+        model_name="YOUR_MODEL_NAME_HERE",
     )
 
 
