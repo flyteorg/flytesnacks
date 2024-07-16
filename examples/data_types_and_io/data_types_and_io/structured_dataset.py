@@ -18,7 +18,6 @@ from flytekit.types.structured.structured_dataset import (
 )
 from typing_extensions import Annotated
 
-
 image_spec = ImageSpec(
     registry="ghcr.io/flyteorg",
     packages=["pandas", "pyarrow", "numpy"],
