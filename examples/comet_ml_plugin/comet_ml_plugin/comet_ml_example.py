@@ -6,6 +6,7 @@
 # tools so you can manage, visualize, and optimize models—from training runs to
 # production monitoring. This plugin integrates Flyte with Comet by configuring
 # links between the two platforms.
+import os
 import os.path
 
 from flytekit import (
@@ -37,7 +38,7 @@ secret = Secret(key="comet-ml-key", group="comet-ml-group")
 # task:
 # %%
 
-REGISTRY = "localhost:30000"
+REGISTRY = os.getenv("REGISTRY", "localhost:30000")
 image = ImageSpec(
     name="unionai",
     packages=[
@@ -45,7 +46,6 @@ image = ImageSpec(
         "comet-ml==3.43.2",
         "lightning==2.3.0",
         "flytekitplugins-comet-ml",
-        "unionai==0.1.43",
         "torchvision",
     ],
     registry=REGISTRY,
