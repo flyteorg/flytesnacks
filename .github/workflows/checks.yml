@@ -306,6 +306,7 @@ jobs:
           python flyte_tests_validate.py
       - name: Register specific tests
         run: |
+          export FLYTE_PUSH_IMAGE_SPEC=${{ github.event_name != 'pull_request' }}
           source .venv/bin/activate
           while read -r line;
           do
