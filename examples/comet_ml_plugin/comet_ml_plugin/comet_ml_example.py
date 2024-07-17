@@ -40,7 +40,7 @@ secret = Secret(key="comet-ml-key", group="comet-ml-group")
 
 REGISTRY = os.getenv("REGISTRY", "localhost:30000")
 image = ImageSpec(
-    name="unionai",
+    name="comet-ml",
     packages=[
         "torch==2.3.1",
         "comet-ml==3.43.2",
