@@ -16,7 +16,7 @@ from flytekit import (
     workflow,
 )
 from flytekit.types.directory import FlyteDirectory
-from flytekitplugins.comet_ml import comet_ml_init
+from flytekitplugins.comet_ml import comet_ml_login
 
 # %% [markdown]
 # First, we specify the project and workspace that we will use with Comet's platform
@@ -71,14 +71,14 @@ def get_dataset() -> FlyteDirectory:
 
 
 # %%
-# The `comet_ml_init` decorator calls `comet_ml.init` and configures it to use Flyte's
+# The `comet_ml_login` decorator calls `comet_ml.init` and configures it to use Flyte's
 # execution id as the Comet's experiment key. The body of the task is PyTorch Lightning
 # training code, where we pass `CometLogger` into the `Trainer`'s `logger`.
 @task(
     secret_requests=[secret],
     container_image=image,
 )
-@comet_ml_init(
+@comet_ml_login(
     project_name=PROJECT_NAME,
     workspace=WORKSPACE,
     secret=secret,
