@@ -77,10 +77,9 @@ from flytekit import kwtypes
 from flytekitplugins.awssagemaker_inference import create_sagemaker_deployment
 
 REGION = "us-east-2"
-MODEL_NAME = "xgboost"
-ENDPOINT_CONFIG_NAME = "xgboost-endpoint-config"
-ENDPOINT_NAME = "xgboost-endpoint"
 S3_OUTPUT_PATH = "s3://sagemaker-agent-xgboost/inference-output/output"
+NEW_DEPLOYMENT_NAME = "xgboost-fastapi-{idempotence_token}"
+EXISTING_DEPLOYMENT_NAME = "xgboost-fastapi-{inputs.idempotence_token}"
 
 sagemaker_image = ImageSpec(
     name="sagemaker-xgboost",
@@ -94,7 +93,7 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
     name="xgboost",
     model_input_types=kwtypes(model_path=str, execution_role_arn=str),
     model_config={
-        "ModelName": MODEL_NAME,
+        "ModelName": NEW_DEPLOYMENT_NAME,
         "PrimaryContainer": {
             "Image": "{images.primary_container_image}",
             "ModelDataUrl": "{inputs.model_path}",
@@ -103,11 +102,11 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
     },
     endpoint_config_input_types=kwtypes(instance_type=str),
     endpoint_config_config={
-        "EndpointConfigName": ENDPOINT_CONFIG_NAME,
+        "EndpointConfigName": NEW_DEPLOYMENT_NAME,
         "ProductionVariants": [
             {
                 "VariantName": "variant-name-1",
-                "ModelName": MODEL_NAME,
+                "ModelName": EXISTING_DEPLOYMENT_NAME,
                 "InitialInstanceCount": 1,
                 "InstanceType": "{inputs.instance_type}",
             },
@@ -115,8 +114,8 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
         "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": S3_OUTPUT_PATH}},
     },
     endpoint_config={
-        "EndpointName": ENDPOINT_NAME,
-        "EndpointConfigName": ENDPOINT_CONFIG_NAME,
+        "EndpointName": NEW_DEPLOYMENT_NAME,
+        "EndpointConfigName": EXISTING_DEPLOYMENT_NAME,
     },
     images={"primary_container_image": sagemaker_image},
     region=REGION,
@@ -128,12 +127,20 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # and initializing an endpoint. Configurations relevant to these tasks are passed to the
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
+# An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates.
+#
+# - `idempotence_token` represents the configuration hash.
+# - `inputs.idempotence_token` refers to the idempotence token from the previous task.
+#   The workflow injects idempotence token from the previous task into the current task as an input.
+#
 # `sagemaker_image` should include the inference code, necessary libraries, and an entrypoint for model serving.
 #
 # :::{note}
 # For more detailed instructions on using your custom inference image, refer to the
 # [Amazon SageMaker documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html).
 # :::
+#
+# If the plugin attempts to create a deployment that already exists, it will return the existing ARNs instead of raising an error.
 #
 # To receive inference requests, the container built with `sagemaker_image` must have a web server
 # listening on port 8080 and must accept POST and GET requests to the `/invocations` and `/ping` endpoints, respectively.
@@ -227,7 +234,7 @@ from flytekitplugins.awssagemaker_inference import SageMakerInvokeEndpointTask
 invoke_endpoint = SageMakerInvokeEndpointTask(
     name="sagemaker_invoke_endpoint",
     config={
-        "EndpointName": ENDPOINT_NAME,
+        "EndpointName": "YOUR_ENDPOINT_NAME_HERE",
         "InputLocation": "s3://sagemaker-agent-xgboost/inference_input",
     },
     region=REGION,
@@ -248,9 +255,9 @@ sagemaker_deployment_deletion_wf = delete_sagemaker_deployment(name="sagemaker-d
 @workflow
 def deployment_deletion_workflow():
     sagemaker_deployment_deletion_wf(
-        endpoint_name=ENDPOINT_NAME,
-        endpoint_config_name=ENDPOINT_CONFIG_NAME,
-        model_name=MODEL_NAME,
+        endpoint_name="YOUR_ENDPOINT_NAME_HERE",
+        endpoint_config_name="YOUR_ENDPOINT_CONFIG_NAME_HERE",
+        model_name="YOUR_MODEL_NAME_HERE",
     )
 
 
