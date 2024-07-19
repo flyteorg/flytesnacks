@@ -128,7 +128,8 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
 # An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates.
-# By default, it is set to `True`, causing the agent to append an idempotence token to the model name, endpoint config name, and endpoint.
+# By default, `idempotence_token` in `create_sagemaker_deployment` is set to `True`, causing the agent to append an idempotence token to the
+# model name, endpoint config name, and endpoint.
 #
 # - If a field value isn't provided (e.g., `ModelName`), the agent appends the idempotence token to the workflow name and uses that as the `ModelName`.
 # - You can also manually set the idempotence token by adding `{idempotence_token}` to the relevant fields in the configuration, e.g., `xgboost-{idempotence_token}`.
