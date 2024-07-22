@@ -1,15 +1,97 @@
 # %% [markdown]
 # (serve_llama)=
 #
-# # Batching Requests for Asynchronous Processing
+# # Serve Llama 3 Model with NIM
 #
-# This example demonstrates how to send a batch of API requests to GPT models for asynchronous processing.
+# This guide demonstrates how to serve a Llama 3 8B model locally with NIM within a Flyte task.
 #
-# Every batch input should include `custom_id`, `method`, `url`, and `body`.
-# You can provide either a `JSONLFile` or `Iterator[JSON]`, and the agent handles the file upload to OpenAI,
-# creation of the batch, and downloading of the output and error files.
+# First, you need to instantiate `NIM` from the `flytekit.core.inference` module by specifying the image name and the necessary secrets.
+# The `ngc_image_secret` is required to pull the image from NGC, and the `ngc_secret_key` is used to pull models
+# from NGC after the container is up and running.
 #
-# ## Using `Iterator`
-#
-# Here's how you can provide an `Iterator` as an input to the agent:
+# Below is a simple task that serves a Llama NIM container:
 # %%
+from flytekit import ImageSpec, Resources, Secret, task
+from flytekit.core.inference import NIM, NIMSecrets
+from flytekit.extras.accelerators import A10G
+from openai import OpenAI
+
+image = ImageSpec(
+    name="nim",
+    registry="ghcr.io/flyteorg",
+    packages=["kubernetes", "openai"],
+)
+
+nim_instance = NIM(
+    image="nvcr.io/nim/meta/llama3-8b-instruct:1.0.0",
+    secrets=NIMSecrets(ngc_image_secret="nvcrio-cred", ngc_secret_key="ngc-api-key"),
+)
+
+
+@task(
+    container_image=image,
+    pod_template=nim_instance.pod_template,
+    accelerator=A10G,
+    secret_requests=[
+        Secret(key="ngc_api_key", mount_requirement=Secret.MountType.ENV_VAR)  # must be mounted as an env var
+    ],
+    requests=Resources(gpu="0"),
+)
+def model_serving() -> str:
+    client = OpenAI(base_url=f"{nim_instance.base_url}/v1", api_key="nim")  # api key required but ignored
+
+    completion = client.chat.completions.create(
+        model="meta/llama3-8b-instruct",
+        messages=[
+            {
+                "role": "user",
+                "content": "Write a limerick about the wonders of GPU computing.",
+            }
+        ],
+        temperature=0.5,
+        top_p=1,
+        max_tokens=1024,
+    )
+
+    return completion.choices[0].message.content
+
+
+# %% [markdown]
+# :::{important}
+# Replace `ghcr.io/flyteorg` with a container registry to which you can publish.
+# To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
+# :::
+#
+# The `model_serving` task initiates a sidecar service to serve the model, making it accessible on localhost via the `base_url` property.
+# Both chat and chat completion endpoints can be utilized.
+#
+# By default, the NIM instantiation sets `cpu`, `gpu`, and `mem` to `1`, `1`, and `20Gi`, respectively. You can modify these settings as needed.
+#
+# To serve a fine-tuned Llama model, specify the HuggingFace repo ID in `hf_repo_ids` as `[<your-hf-repo-id>]` and the
+# LoRa adapter memory as `lora_adapter_mem`. Set the `NIM_PEFT_SOURCE` environment variable by
+# including `env={"NIM_PEFT_SOURCE": "..."}` in the task decorator.
+#
+# Here is an example initialization for a fine-tuned Llama model:
+# %%
+nim_instance = NIM(
+    image="nvcr.io/nim/meta/llama3-8b-instruct:1.0.0",
+    secrets=NIMSecrets(
+        ngc_image_secret="nvcrio-cred",
+        ngc_secret_key="ngc-api-key",
+        hf_token_key="hf-key",
+    ),
+    hf_repo_ids=["<your-hf-repo-id>"],
+    lora_adapter_mem="500Mi",
+    env={"NIM_PEFT_SOURCE": "/home/nvs/loras"},
+)
+
+# %% [markdown]
+# NIM containers can be integrated into different stages of your AI workflow, including data pre-processing,
+# model inference, and post-processing. Flyte also allows serving multiple NIM containers simultaneously,
+# each with different configurations on various instances.
+#
+# This integration enables you to self-host and serve optimized AI models on your own infrastructure,
+# ensuring full control over costs and data security. By eliminating dependence on third-party APIs for AI model access,
+# you gain not only enhanced control but also potentially lower expenses compared to traditional API services.
+#
+# For more detailed information, refer to the [NIM documentation by NVIDIA](https://docs.nvidia.com/nim/large-language-models/latest/introduction.html).
