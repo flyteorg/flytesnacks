@@ -119,6 +119,7 @@ auto_examples/mlflow_plugin/index
 auto_examples/mmcloud_agent/index
 auto_examples/modin_plugin/index
 auto_examples/kfmpi_plugin/index
+auto_examples/nim_wrapper/index
 auto_examples/onnx_plugin/index
 auto_examples/openai_batch_agent/index
 auto_examples/papermill_plugin/index
