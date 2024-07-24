@@ -5,9 +5,14 @@ import pandas
 # %% [markdown]
 # For any {py:func}`flytekit.task` in Flyte, there is always one required import, which is:
 # %%
-from flytekit import HashMethod, task, workflow, ImageSpec
+from flytekit import HashMethod, ImageSpec, task, workflow
 from flytekit.core.node_creation import create_node
 from typing_extensions import Annotated
+
+image_spec = ImageSpec(
+    registry="ghcr.io/flyteorg",
+    packages=["pandas"],
+)
 
 
 image_spec = ImageSpec(
