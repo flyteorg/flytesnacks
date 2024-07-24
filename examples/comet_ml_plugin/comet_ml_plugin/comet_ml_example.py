@@ -3,7 +3,7 @@
 #
 # # Comet Example
 # Comet’s machine learning platform integrates with your existing infrastructure and
-# tools so you can manage, visualize, and optimize models—from training runs to
+# tools so you can manage, visualize, and optimize models from training runs to
 # production monitoring. This plugin integrates Flyte with Comet by configuring
 # links between the two platforms.
 import os
@@ -21,7 +21,7 @@ from flytekitplugins.comet_ml import comet_ml_login
 
 # %% [markdown]
 # First, we specify the project and workspace that we will use with Comet's platform
-# Please update `PROJECT_NAME` and `WORKSPACE` to the value associated with your account.
+# Please update `PROJECT_NAME` and `WORKSPACE` to the values associated with your account.
 # %%
 PROJECT_NAME = "flytekit-comet-ml-v1"
 WORKSPACE = "thomas-unionai"
