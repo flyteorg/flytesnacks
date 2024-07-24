@@ -15,12 +15,6 @@ image_spec = ImageSpec(
 )
 
 
-image_spec = ImageSpec(
-    registry="ghcr.io/flyteorg",
-    packages=["pandas"],
-)
-
-
 # Task caching is disabled by default to avoid unintended consequences of
 # caching tasks with side effects. To enable caching and control its behavior,
 # use the `cache` and `cache_version` parameters when constructing a task.
