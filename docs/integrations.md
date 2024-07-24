@@ -42,6 +42,8 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - Run analytical queries using DuckDB.
 * - {doc}`Weights and Biases <auto_examples/wandb_plugin/index>`
   - `wandb`: Machine learning platform to build better models faster.
+* - {doc}`Comet <auto_examples/comet_ml_plugin/index>`
+  - `comet-ml`: Comet’s machine learning platform.
 ```
 
 :::{dropdown} {fa}`info-circle` Using flytekit plugins
