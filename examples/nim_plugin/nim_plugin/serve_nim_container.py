@@ -1,30 +1,34 @@
 # %% [markdown]
-# (serve_llama)=
+# (serve_nim_container)=
 #
-# # Serve Llama 3 Model with NIM
+# # Serve Generative AI Models with NIM
 #
 # This guide demonstrates how to serve a Llama 3 8B model locally with NIM within a Flyte task.
 #
-# First, you need to instantiate `NIM` from the `flytekit.core.inference` module by specifying the image name and the necessary secrets.
-# The `ngc_image_secret` is required to pull the image from NGC, and the `ngc_secret_key` is used to pull models
-# from NGC after the container is up and running.
+# First, instantiate NIM by importing it from the `flytekitplugins.inference` package and specifying the image name along with the necessary secrets.
+# The `ngc_image_secret` is required to pull the image from NGC, the `ngc_secret_key` is used to pull models
+# from NGC after the container is up and running, and `secrets_prefix` is the environment variable prefix to access {ref}`secrets <secrets>`.
 #
 # Below is a simple task that serves a Llama NIM container:
 # %%
 from flytekit import ImageSpec, Resources, Secret, task
-from flytekit.core.inference import NIM, NIMSecrets
 from flytekit.extras.accelerators import A10G
+from flytekitplugins.inference import NIM, NIMSecrets
 from openai import OpenAI
 
 image = ImageSpec(
     name="nim",
     registry="ghcr.io/flyteorg",
-    packages=["kubernetes", "openai"],
+    packages=["flytekitplugins-inference"],
 )
 
 nim_instance = NIM(
     image="nvcr.io/nim/meta/llama3-8b-instruct:1.0.0",
-    secrets=NIMSecrets(ngc_image_secret="nvcrio-cred", ngc_secret_key="ngc-api-key"),
+    secrets=NIMSecrets(
+        ngc_image_secret="nvcrio-cred",
+        ngc_secret_key="ngc-api-key",
+        secrets_prefix="_FSEC_",
+    ),
 )
 
 
@@ -33,7 +37,7 @@ nim_instance = NIM(
     pod_template=nim_instance.pod_template,
     accelerator=A10G,
     secret_requests=[
-        Secret(key="ngc_api_key", mount_requirement=Secret.MountType.ENV_VAR)  # must be mounted as an env var
+        Secret(key="ngc-api-key", mount_requirement=Secret.MountType.ENV_VAR)  # must be mounted as an env var
     ],
     requests=Resources(gpu="0"),
 )
@@ -65,6 +69,8 @@ def model_serving() -> str:
 # The `model_serving` task initiates a sidecar service to serve the model, making it accessible on localhost via the `base_url` property.
 # Both chat and chat completion endpoints can be utilized.
 #
+# You need to mount the secret as an environment variable, as it must be accessed by the `NGC_API_KEY` environment variable within the NIM container.
+#
 # By default, the NIM instantiation sets `cpu`, `gpu`, and `mem` to `1`, `1`, and `20Gi`, respectively. You can modify these settings as needed.
 #
 # To serve a fine-tuned Llama model, specify the HuggingFace repo ID in `hf_repo_ids` as `[<your-hf-repo-id>]` and the
@@ -78,6 +84,7 @@ nim_instance = NIM(
     secrets=NIMSecrets(
         ngc_image_secret="nvcrio-cred",
         ngc_secret_key="ngc-api-key",
+        secrets_prefix="_FSEC_",
         hf_token_key="hf-key",
     ),
     hf_repo_ids=["<your-hf-repo-id>"],

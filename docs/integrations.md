@@ -102,7 +102,7 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
-* - {doc}`NIM <auto_examples/nim_wrapper/index>`
+* - {doc}`NIM <auto_examples/nim_plugin/index>`
   - Serve optimized model containers with NIM.
 * - {doc}`OpenAI Batch <auto_examples/openai_batch_agent/index>`
   - Submit requests for asynchronous batch processing on OpenAI.

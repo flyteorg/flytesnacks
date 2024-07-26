@@ -1,4 +1,4 @@
-(nim_wrapper)=
+(nim_plugin)=
 
 # NIM
 
@@ -16,17 +16,25 @@ and more visibility into behind-the-scenes operations.
 
 With NIM, you can invoke the model's endpoint as if it is hosted locally, minimizing network overhead.
 
-NIM is available in Flytekit, and no additional packages are required to use the wrapper.
+## Installation
+
+To use the NIM plugin, run the following command:
+
+```
+pip install flytekitplugins-inference
+```
 
 ## Example usage
 
-For a usage example, see {doc}`NIM example usage <serve_llama>`.
+For a usage example, see {doc}`NIM example usage <serve_nim_container>`.
 
-Note: NIM can only be run in a Flyte cluster, not locally, as it must be deployed as a sidecar service in a Kubernetes pod.
+```{note}
+NIM can only be run in a Flyte cluster, not locally, as it must be deployed as a sidecar service in a Kubernetes pod.
+```
 
 ```{toctree}
 :maxdepth: -1
 :hidden:
 
-serve_llama
+serve_nim_container
 ```
