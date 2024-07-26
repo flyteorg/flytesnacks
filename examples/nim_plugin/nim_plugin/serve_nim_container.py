@@ -93,6 +93,10 @@ nim_instance = NIM(
 )
 
 # %% [markdown]
+# :::{note}
+# Native directory and NGC support for LoRa adapters coming soon.
+# :::
+#
 # NIM containers can be integrated into different stages of your AI workflow, including data pre-processing,
 # model inference, and post-processing. Flyte also allows serving multiple NIM containers simultaneously,
 # each with different configurations on various instances.
