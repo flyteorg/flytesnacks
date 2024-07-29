@@ -27,6 +27,7 @@ nim_instance = NIM(
     secrets=NIMSecrets(
         ngc_image_secret="nvcrio-cred",
         ngc_secret_key="ngc-api-key",
+        ngc_secret_group="ngc",
         secrets_prefix="_FSEC_",
     ),
 )
@@ -37,7 +38,9 @@ nim_instance = NIM(
     pod_template=nim_instance.pod_template,
     accelerator=A10G,
     secret_requests=[
-        Secret(key="ngc-api-key", mount_requirement=Secret.MountType.ENV_VAR)  # must be mounted as an env var
+        Secret(
+            group="ngc", key="ngc-api-key", mount_requirement=Secret.MountType.ENV_VAR
+        )  # must be mounted as an env var
     ],
     requests=Resources(gpu="0"),
 )
@@ -84,8 +87,10 @@ nim_instance = NIM(
     secrets=NIMSecrets(
         ngc_image_secret="nvcrio-cred",
         ngc_secret_key="ngc-api-key",
+        ngc_secret_group="ngc",
         secrets_prefix="_FSEC_",
         hf_token_key="hf-key",
+        hf_token_group="hf",
     ),
     hf_repo_ids=["<your-hf-repo-id>"],
     lora_adapter_mem="500Mi",
