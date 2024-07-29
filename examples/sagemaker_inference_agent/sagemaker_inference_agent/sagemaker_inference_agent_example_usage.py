@@ -78,8 +78,7 @@ from flytekitplugins.awssagemaker_inference import create_sagemaker_deployment
 
 REGION = "us-east-2"
 S3_OUTPUT_PATH = "s3://sagemaker-agent-xgboost/inference-output/output"
-NEW_DEPLOYMENT_NAME = "xgboost-fastapi-{idempotence_token}"
-EXISTING_DEPLOYMENT_NAME = "xgboost-fastapi-{inputs.idempotence_token}"
+DEPLOYMENT_NAME = "xgboost-fastapi"
 
 sagemaker_image = ImageSpec(
     name="sagemaker-xgboost",
@@ -90,10 +89,10 @@ sagemaker_image = ImageSpec(
 
 
 sagemaker_deployment_wf = create_sagemaker_deployment(
-    name="xgboost",
+    name="xgboost-fastapi",
     model_input_types=kwtypes(model_path=str, execution_role_arn=str),
     model_config={
-        "ModelName": NEW_DEPLOYMENT_NAME,
+        "ModelName": DEPLOYMENT_NAME,
         "PrimaryContainer": {
             "Image": "{images.primary_container_image}",
             "ModelDataUrl": "{inputs.model_path}",
@@ -102,11 +101,11 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
     },
     endpoint_config_input_types=kwtypes(instance_type=str),
     endpoint_config_config={
-        "EndpointConfigName": NEW_DEPLOYMENT_NAME,
+        "EndpointConfigName": DEPLOYMENT_NAME,
         "ProductionVariants": [
             {
                 "VariantName": "variant-name-1",
-                "ModelName": EXISTING_DEPLOYMENT_NAME,
+                "ModelName": DEPLOYMENT_NAME,
                 "InitialInstanceCount": 1,
                 "InstanceType": "{inputs.instance_type}",
             },
@@ -114,11 +113,12 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
         "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": S3_OUTPUT_PATH}},
     },
     endpoint_config={
-        "EndpointName": NEW_DEPLOYMENT_NAME,
-        "EndpointConfigName": EXISTING_DEPLOYMENT_NAME,
+        "EndpointName": DEPLOYMENT_NAME,
+        "EndpointConfigName": DEPLOYMENT_NAME,
     },
     images={"primary_container_image": sagemaker_image},
     region=REGION,
+    idempotence_token=True,  # set to True by default
 )
 
 
@@ -128,10 +128,11 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
 # An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates.
+# By default, `idempotence_token` in `create_sagemaker_deployment` is set to `True`, causing the agent to append an idempotence token to the
+# model name, endpoint config name, and endpoint.
 #
-# - `idempotence_token` represents the configuration hash.
-# - `inputs.idempotence_token` refers to the idempotence token from the previous task.
-#   The workflow injects idempotence token from the previous task into the current task as an input.
+# - If a field value isn't provided (e.g., `ModelName`), the agent appends the idempotence token to the workflow name and uses that as the `ModelName`.
+# - You can also manually set the idempotence token by adding `{idempotence_token}` to the relevant fields in the configuration, e.g., `xgboost-{idempotence_token}`.
 #
 # `sagemaker_image` should include the inference code, necessary libraries, and an entrypoint for model serving.
 #
@@ -141,6 +142,10 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # :::
 #
 # If the plugin attempts to create a deployment that already exists, it will return the existing ARNs instead of raising an error.
+#
+# :::{note}
+# When two executions run in parallel and attempt to create the same endpoint, one execution will proceed with creating the endpoint while both will wait until the endpoint creation process is complete.
+# :::
 #
 # To receive inference requests, the container built with `sagemaker_image` must have a web server
 # listening on port 8080 and must accept POST and GET requests to the `/invocations` and `/ping` endpoints, respectively.
