@@ -87,7 +87,7 @@ def print_every_time(value_to_print: float, date_triggered: datetime.datetime) -
 # Remember, Spark and non-Spark tasks can be chained together as long as their parameter specifications match.
 # %%
 @workflow
-def my_spark(triggered_date: datetime.datetime = datetime.datetime.now()) -> float:
+def my_spark(triggered_date: datetime.datetime = datetime.datetime(2020, 9, 11)) -> float:
     """
     Using the workflow is still as any other workflow. As image is a property of the task, the workflow does not care
     about how the image is configured.

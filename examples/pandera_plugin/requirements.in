@@ -6,5 +6,5 @@ flytekitplugins-pandera>=0.16.0
 hypothesis
 joblib
 pandas
-pandera>=0.7.0
+pandera>=0.20.0
 scikit-learn

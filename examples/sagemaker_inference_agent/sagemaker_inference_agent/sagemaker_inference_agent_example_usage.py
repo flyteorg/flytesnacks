@@ -77,10 +77,8 @@ from flytekit import kwtypes
 from flytekitplugins.awssagemaker_inference import create_sagemaker_deployment
 
 REGION = "us-east-2"
-MODEL_NAME = "xgboost"
-ENDPOINT_CONFIG_NAME = "xgboost-endpoint-config"
-ENDPOINT_NAME = "xgboost-endpoint"
 S3_OUTPUT_PATH = "s3://sagemaker-agent-xgboost/inference-output/output"
+DEPLOYMENT_NAME = "xgboost-fastapi"
 
 sagemaker_image = ImageSpec(
     name="sagemaker-xgboost",
@@ -91,10 +89,10 @@ sagemaker_image = ImageSpec(
 
 
 sagemaker_deployment_wf = create_sagemaker_deployment(
-    name="xgboost",
+    name="xgboost-fastapi",
     model_input_types=kwtypes(model_path=str, execution_role_arn=str),
     model_config={
-        "ModelName": MODEL_NAME,
+        "ModelName": DEPLOYMENT_NAME,
         "PrimaryContainer": {
             "Image": "{images.primary_container_image}",
             "ModelDataUrl": "{inputs.model_path}",
@@ -103,11 +101,11 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
     },
     endpoint_config_input_types=kwtypes(instance_type=str),
     endpoint_config_config={
-        "EndpointConfigName": ENDPOINT_CONFIG_NAME,
+        "EndpointConfigName": DEPLOYMENT_NAME,
         "ProductionVariants": [
             {
                 "VariantName": "variant-name-1",
-                "ModelName": MODEL_NAME,
+                "ModelName": DEPLOYMENT_NAME,
                 "InitialInstanceCount": 1,
                 "InstanceType": "{inputs.instance_type}",
             },
@@ -115,11 +113,12 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
         "AsyncInferenceConfig": {"OutputConfig": {"S3OutputPath": S3_OUTPUT_PATH}},
     },
     endpoint_config={
-        "EndpointName": ENDPOINT_NAME,
-        "EndpointConfigName": ENDPOINT_CONFIG_NAME,
+        "EndpointName": DEPLOYMENT_NAME,
+        "EndpointConfigName": DEPLOYMENT_NAME,
     },
     images={"primary_container_image": sagemaker_image},
     region=REGION,
+    idempotence_token=True,  # set to True by default
 )
 
 
@@ -128,11 +127,24 @@ sagemaker_deployment_wf = create_sagemaker_deployment(
 # and initializing an endpoint. Configurations relevant to these tasks are passed to the
 # {py:func}`~flytekitplugins.awssagemaker_inference.create_sagemaker_deployment` function.
 #
+# An idempotence token ensures the generation of unique tokens for each configuration, preventing name collisions during updates.
+# By default, `idempotence_token` in `create_sagemaker_deployment` is set to `True`, causing the agent to append an idempotence token to the
+# model name, endpoint config name, and endpoint.
+#
+# - If a field value isn't provided (e.g., `ModelName`), the agent appends the idempotence token to the workflow name and uses that as the `ModelName`.
+# - You can also manually set the idempotence token by adding `{idempotence_token}` to the relevant fields in the configuration, e.g., `xgboost-{idempotence_token}`.
+#
 # `sagemaker_image` should include the inference code, necessary libraries, and an entrypoint for model serving.
 #
 # :::{note}
 # For more detailed instructions on using your custom inference image, refer to the
 # [Amazon SageMaker documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html).
+# :::
+#
+# If the plugin attempts to create a deployment that already exists, it will return the existing ARNs instead of raising an error.
+#
+# :::{note}
+# When two executions run in parallel and attempt to create the same endpoint, one execution will proceed with creating the endpoint while both will wait until the endpoint creation process is complete.
 # :::
 #
 # To receive inference requests, the container built with `sagemaker_image` must have a web server
@@ -227,7 +239,7 @@ from flytekitplugins.awssagemaker_inference import SageMakerInvokeEndpointTask
 invoke_endpoint = SageMakerInvokeEndpointTask(
     name="sagemaker_invoke_endpoint",
     config={
-        "EndpointName": ENDPOINT_NAME,
+        "EndpointName": "YOUR_ENDPOINT_NAME_HERE",
         "InputLocation": "s3://sagemaker-agent-xgboost/inference_input",
     },
     region=REGION,
@@ -248,9 +260,9 @@ sagemaker_deployment_deletion_wf = delete_sagemaker_deployment(name="sagemaker-d
 @workflow
 def deployment_deletion_workflow():
     sagemaker_deployment_deletion_wf(
-        endpoint_name=ENDPOINT_NAME,
-        endpoint_config_name=ENDPOINT_CONFIG_NAME,
-        model_name=MODEL_NAME,
+        endpoint_name="YOUR_ENDPOINT_NAME_HERE",
+        endpoint_config_name="YOUR_ENDPOINT_CONFIG_NAME_HERE",
+        model_name="YOUR_MODEL_NAME_HERE",
     )
 
 
