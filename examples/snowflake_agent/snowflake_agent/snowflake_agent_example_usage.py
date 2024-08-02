@@ -4,7 +4,6 @@
 #
 # This example shows how to use the `SnowflakeTask` to execute a query in Snowflake.
 #
-# To begin, import the required libraries.
 # %%
 import pandas as pd
 from flytekit import ImageSpec, Secret, StructuredDataset, kwtypes, task, workflow
