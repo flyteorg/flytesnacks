@@ -13,6 +13,7 @@ image = ImageSpec(
     packages=[
         "flytekitplugins-snowflake",
         "pandas",
+        "pyarrow"
     ],
     registry="ghcr.io/flyteorg",
 )
@@ -70,7 +71,7 @@ snowflake_task_templatized_query = SnowflakeTask(
     container_image=image,
     secret_requests=[
         Secret(
-            group="private_key",
+            group="private-key",
             key="snowflake",
         )
     ],
@@ -87,7 +88,7 @@ def print_head(input_sd: StructuredDataset) -> pd.DataFrame:
     container_image=image,
     secret_requests=[
         Secret(
-            group="private_key",
+            group="private-key",
             key="snowflake",
         )
     ],
