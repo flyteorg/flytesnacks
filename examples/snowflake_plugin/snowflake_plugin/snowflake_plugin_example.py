@@ -1,6 +1,6 @@
-from flytekit import kwtypes, workflow, task, ImageSpec, StructuredDataset, Secret
-from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 import pandas as pd
+from flytekit import ImageSpec, Secret, StructuredDataset, kwtypes, task, workflow
+from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 
 image = ImageSpec(
     packages=[
@@ -60,9 +60,16 @@ snowflake_task_templatized_query = SnowflakeTask(
     query_template="SELECT * FROM FLYTEAGENT.PUBLIC.TEST ORDER BY ID DESC LIMIT 3;",
 )
 
-@task(container_image=image, secret_requests=[Secret(
-      group="private_key",
-      key="snowflake",)])
+
+@task(
+    container_image=image,
+    secret_requests=[
+        Secret(
+            group="private_key",
+            key="snowflake",
+        )
+    ],
+)
 def print_head(input_sd: StructuredDataset) -> pd.DataFrame:
     # Download the DataFrame from the Snowflake table via StructuredDataset
     # We don't have to provide the uri here because the input_sd already has the uri
@@ -71,27 +78,30 @@ def print_head(input_sd: StructuredDataset) -> pd.DataFrame:
     return df
 
 
-@task(container_image=image, secret_requests=[Secret(
-      group="private_key",
-      key="snowflake",)])
+@task(
+    container_image=image,
+    secret_requests=[
+        Secret(
+            group="private_key",
+            key="snowflake",
+        )
+    ],
+)
 def write_table() -> StructuredDataset:
-    df = pd.DataFrame({
-        "ID": [1, 2, 3],
-        "NAME": ["flyte", "is", "amazing"],
-        "AGE": [30, 30, 30]
-    })
+    df = pd.DataFrame({"ID": [1, 2, 3], "NAME": ["flyte", "is", "amazing"], "AGE": [30, 30, 30]})
     print(df)
 
     # Upload the DataFrame to the Snowflake table via StructuredDataset
-    user="FLYTE",
-    account="FLYTE_SNOFLAKE_ACCOUNT",
-    database="FLYTEAGENT",
-    schema="PUBLIC",
-    warehouse="COMPUTE_WH",
-    table="TEST"
-    uri=f"snowflake://{user}:{account}/{warehouse}/{database}/{schema}/{table}"
+    user = ("FLYTE",)
+    account = ("FLYTE_SNOFLAKE_ACCOUNT",)
+    database = ("FLYTEAGENT",)
+    schema = ("PUBLIC",)
+    warehouse = ("COMPUTE_WH",)
+    table = "TEST"
+    uri = f"snowflake://{user}:{account}/{warehouse}/{database}/{schema}/{table}"
 
     return StructuredDataset(dataframe=df, uri=uri)
+
 
 @workflow
 def wf() -> StructuredDataset:
