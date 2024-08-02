@@ -10,11 +10,7 @@ from flytekit import ImageSpec, Secret, StructuredDataset, kwtypes, task, workfl
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 
 image = ImageSpec(
-    packages=[
-        "flytekitplugins-snowflake",
-        "pandas",
-        "pyarrow"
-    ],
+    packages=["flytekitplugins-snowflake", "pandas", "pyarrow"],
     registry="ghcr.io/flyteorg",
 )
 
