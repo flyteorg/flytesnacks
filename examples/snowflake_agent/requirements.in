@@ -1,3 +1,2 @@
-flytekitplugins-snowflake==1.7.0
-flytekit==1.7.1b1
-marshmallow_enum
+flytekitplugins-snowflake
+flytekit
