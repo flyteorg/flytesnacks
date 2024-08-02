@@ -1,3 +1,11 @@
+# %% [markdown]
+# (snowflake_agent_example_usage)=
+# # Querying data in Snowflake
+#
+# This example shows how to use the `SnowflakeTask` to execute a query in Snowflake.
+#
+# To begin, import the required libraries.
+# %%
 import pandas as pd
 from flytekit import ImageSpec, Secret, StructuredDataset, kwtypes, task, workflow
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
@@ -20,16 +28,14 @@ provided when the task is executed.
 
 """
 You can get the SnowflakeConfig's metadata from the Snowflake console by executing the following query:
-```sql
-SELECT
-        CURRENT_USER() AS "User",
-        CONCAT(CURRENT_ORGANIZATION_NAME(), '-', CURRENT_ACCOUNT_NAME()) AS "Account",
-        CURRENT_DATABASE() AS "Database",
-        CURRENT_SCHEMA() AS "Schema",
-        CURRENT_WAREHOUSE() AS "Warehouse";
-```
-"""
 
+SELECT
+    CURRENT_USER() AS "User",
+    CONCAT(CURRENT_ORGANIZATION_NAME(), '-', CURRENT_ACCOUNT_NAME()) AS "Account",
+    CURRENT_DATABASE() AS "Database",
+    CURRENT_SCHEMA() AS "Schema",
+    CURRENT_WAREHOUSE() AS "Warehouse";
+"""
 
 snowflake_task_insert_query = SnowflakeTask(
     name="insert-query",
