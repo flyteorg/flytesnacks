@@ -1,5 +1,4 @@
-import typing
-from typing import List
+from typing import List, NamedTuple
 
 from flytekit import StructuredDataset, reference_task, workflow
 from flytekit.types.file import FlyteFile
@@ -27,7 +26,7 @@ def normalize_columns(
     ...
 
 
-outputs = typing.NamedTuple("Outputs", results=StructuredDataset)
+outputs = NamedTuple("Outputs", results=StructuredDataset)
 
 
 @reference_task(
