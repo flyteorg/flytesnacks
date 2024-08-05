@@ -55,6 +55,7 @@ def f(x):
 # - `replicas`: Specifies the desired number of replicas for the worker group. The default is 1.
 # - `group_name`: A RayCluster can host multiple worker groups, each differentiated by its name.
 # - `runtime_env`: The [runtime environment](https://docs.ray.io/en/latest/ray-core/handling-dependencies.html#runtime-environments)
+# - `enable_autoscaling`: Enable [Ray Autoscaler](https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/configuring-autoscaling.html)
 # - `ttl_seconds_after_finished`: Shutdown Ray cluster after 1 hour of inactivity.
 #   definition outlines the necessary dependencies for your Ray application to function.
 #   This environment is dynamically installed on the cluster at runtime.
@@ -63,6 +64,7 @@ ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}),
     worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=1)],
     runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
+    enable_autoscaling=True,
     shutdown_after_job_finishes=True,
     ttl_seconds_after_finished=3600,
 )
