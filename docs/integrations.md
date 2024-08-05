@@ -42,8 +42,13 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - Run analytical queries using DuckDB.
 * - {doc}`Weights and Biases <auto_examples/wandb_plugin/index>`
   - `wandb`: Machine learning platform to build better models faster.
+<<<<<<< HEAD
 * - {doc}`Comet <auto_examples/comet_ml_plugin/index>`
   - `comet-ml`: Comet’s machine learning platform.
+=======
+* - {doc}`NIM <auto_examples/nim_plugin/index>`
+  - Serve optimized model containers with NIM.
+>>>>>>> upstream/master
 ```
 
 :::{dropdown} {fa}`info-circle` Using flytekit plugins
@@ -104,8 +109,6 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Run Databricks jobs in your workflows with the Databricks agent.
 * - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
-* - {doc}`NIM <auto_examples/nim_plugin/index>`
-  - Serve optimized model containers with NIM.
 * - {doc}`OpenAI Batch <auto_examples/openai_batch_agent/index>`
   - Submit requests for asynchronous batch processing on OpenAI.
 * - {doc}`SageMaker Inference <auto_examples/sagemaker_inference_agent/index>`
