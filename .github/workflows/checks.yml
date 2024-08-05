@@ -124,8 +124,7 @@ jobs:
       - name: Pyflyte package
         working-directory: examples/${{ matrix.example }}
         run: |
-          export FLYTE_FORCE_PUSH_IMAGE_SPEC=1
-          # export FLYTE_PUSH_IMAGE_SPEC=${{ github.event_name != 'pull_request' }}
+          export FLYTE_PUSH_IMAGE_SPEC=${{ github.event_name != 'pull_request' }}
           default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
           source .venv/bin/activate
           pyflyte \
