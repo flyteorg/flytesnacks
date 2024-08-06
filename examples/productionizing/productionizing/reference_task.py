@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, NamedTuple
 
-from flytekit import reference_task, workflow
+from flytekit import StructuredDataset, reference_task, workflow
 from flytekit.types.file import FlyteFile
 
 # A `flytekit.reference_task` references the Flyte tasks that have already been defined, serialized, and registered.
@@ -26,8 +26,22 @@ def normalize_columns(
     ...
 
 
+outputs = NamedTuple("Outputs", results=StructuredDataset)
+
+
+@reference_task(
+    project="flytesnacks",
+    domain="development",
+    name="bigquery",
+    version="{{ registration.version }}",
+)
+def bigquery_task(version: int) -> outputs:
+    ...
+
+
 @workflow
 def wf() -> FlyteFile:
+    bigquery_task(version=1)
     return normalize_columns(
         csv_url="https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
         column_names=["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
