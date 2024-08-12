@@ -29,6 +29,22 @@ jobs:
         with:
           auto-update-conda: true
           python-version: 3.9
+      - name: Remove large directories
+        run: |
+          sudo rm -rf \
+          "$AGENT_TOOLSDIRECTORY" \
+          /opt/google/chrome \
+          /opt/microsoft/msedge \
+          /opt/microsoft/powershell \
+          /opt/pipx \
+          /usr/lib/mono \
+          /usr/local/julia* \
+          /usr/local/lib/android \
+          /usr/local/lib/node_modules \
+          /usr/local/share/chromium \
+          /usr/local/share/powershell \
+          /usr/share/dotnet \
+          /usr/share/swift
       - shell: bash -el {0}
         working-directory: ${{ github.workspace }}/flyte
         run: |
