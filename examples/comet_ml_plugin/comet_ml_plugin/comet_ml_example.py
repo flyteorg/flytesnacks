@@ -48,6 +48,7 @@ image = ImageSpec(
         "flytekitplugins-comet-ml",
         "torchvision",
     ],
+    builder="default",
     registry=REGISTRY,
 )
 
