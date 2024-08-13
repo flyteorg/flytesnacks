@@ -1,3 +1,4 @@
+#syntax=docker/dockerfile:1.8
 FROM python:3.8-buster
 
 WORKDIR /root

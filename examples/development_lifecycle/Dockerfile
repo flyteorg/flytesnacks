@@ -1,3 +1,4 @@
+#syntax=docker/dockerfile:1.8
 # ######################
 # NOTE: For CI/CD only #
 ########################
