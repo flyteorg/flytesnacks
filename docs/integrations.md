@@ -42,6 +42,8 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - Run analytical queries using DuckDB.
 * - {doc}`Weights and Biases <auto_examples/wandb_plugin/index>`
   - `wandb`: Machine learning platform to build better models faster.
+* - {doc}`Neptune <auto_examples/neptune_plugin/index>`
+  - `neptune`: Neptune is the MLOps stack component for experiment tracking.
 * - {doc}`NIM <auto_examples/nim_plugin/index>`
   - Serve optimized model containers with NIM.
 ```
