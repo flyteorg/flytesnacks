@@ -12,7 +12,9 @@ from sklearn.decomposition import PCA
 # For more information, see
 # https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/imagespec.html#image-spec-example
 
-custom_image = ImageSpec(packages=["plotly"], registry="ghcr.io/flyteorg")
+custom_image = ImageSpec(
+    packages=["plotly", "scikit-learn", "flytekitplugins-deck-standard"], registry="ghcr.io/flyteorg"
+)
 
 if custom_image.is_container():
     import plotly
