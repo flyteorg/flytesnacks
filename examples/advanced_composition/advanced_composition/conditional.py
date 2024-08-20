@@ -189,8 +189,6 @@ def consume_task_output(radius: float, seed: int = 5) -> float:
 # ```yaml
 # task-plugins:
 #   enabled-plugins:
-#     - container
-#     - sidecar
 #     - echo
 # ```
 # :::
