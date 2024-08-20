@@ -1,7 +1,7 @@
 # %% [markdown]
 # (neptune_example)=
 #
-# # Neptune Example
+# # Neptune example
 # Neptune is the MLOps stack component for experiment tracking. It offers a single place
 # to log, compare, store, and collaborate on experiments and models. This plugin
 # enables seamless use of Neptune within Flyte by configuring links between the
@@ -23,9 +23,9 @@ from flytekit import (
 from flytekitplugins.neptune import neptune_init_run
 
 # %% [markdown]
-# First, we specify the neptune project that we will use with Neptune
+# First, we specify the Neptune project that was created on Neptune's platform.
 # Please update `NEPTUNE_PROJECT` to the value associated with your account.
-WANDB_PROJECT = "username/project"
+NEPTUNE_PROJECT = "username/project"
 
 # %% [markdown]
 # W&B requires an API key to authenticate with their service. In the above example,
@@ -35,7 +35,7 @@ api_key = Secret(key="neptune-api-token", group="neptune-api-group")
 
 # %% [mardkwon]
 # Next, we use `ImageSpec` to construct a container with the dependencies for our
-# XGBoost training task. Please set the `REGISTRY` to an registry that your cluster can access;
+# XGBoost training task. Please set the `REGISTRY` to a registry that your cluster can access;
 REGISTRY = "localhost:30000"
 
 image = ImageSpec(
@@ -72,7 +72,7 @@ def get_dataset() -> Tuple[np.ndarray, np.ndarray]:
 # %%
 # Next, we use the `neptune_init_run` decorator to configure Flyte to train an XGBoost
 # model. The decorator requires an `api_key` secret to authenticate with Neptune and
-# the task definition needs to requests the same `api_key` secret. In the training
+# the task definition needs to request the same `api_key` secret. In the training
 # function, the [Neptune run object](https://docs.neptune.ai/api/run/) is accessible
 # through `current_context().neptune_run`, which is frequently used
 # in Neptune's integrations. In this example, we pass the `Run` object into Neptune's
@@ -82,7 +82,7 @@ def get_dataset() -> Tuple[np.ndarray, np.ndarray]:
     secret_requests=[api_key],
     requests=Resources(cpu="2", mem="4Gi"),
 )
-@neptune_init_run(project=WANDB_PROJECT, secret=api_key)
+@neptune_init_run(project=NEPTUNE_PROJECT, secret=api_key)
 def train_model(max_depth: int, X: np.ndarray, y: np.ndarray):
     import xgboost as xgb
     from neptune.integrations.xgboost import NeptuneCallback
@@ -121,7 +121,7 @@ def train_model(max_depth: int, X: np.ndarray, y: np.ndarray):
 
 
 # %%
-# With Flyte's dynamic workflows, we scale up multiple training jobs with different
+# With Flyte's dynamic workflows, we can scale up multiple training jobs with different
 # `max_depths`:
 @dynamic(container_image=image)
 def train_multiple_models(max_depths: List[int], X: np.ndarray, y: np.ndarray):
