@@ -1,6 +1,7 @@
 import random
 
 from flytekit import conditional, task, workflow
+from flytekit.core.task import Echo
 
 
 # Simple branch
@@ -174,6 +175,39 @@ def consume_task_output(radius: float, seed: int = 5) -> float:
         .then(calculate_circle_circumference(radius=radius))
         .else_()
         .then(calculate_circle_area(radius=radius))
+    )
+
+
+# Running a noop task in a conditional
+#
+# In some cases, you may want to skip the execution of a conditional workflow
+# if the certain condition is not met.
+# You can achieve this by using the `echo` task, which simply returns the input value.
+
+# :::{note}
+# To enable the echo plugin in the backend, add the plugin to Flyte's configuration file.
+# ```yaml
+# task-plugins:
+#   enabled-plugins:
+#     - container
+#     - sidecar
+#     - echo
+# ```
+# :::
+
+
+echo = Echo(name="echo", inputs={"radius": float})
+
+
+@workflow
+def noop_in_conditional(radius: float, seed: int = 5) -> float:
+    is_heads = coin_toss(seed=seed)
+    return (
+        conditional("noop_in_conditional")
+        .if_(is_heads.is_true())
+        .then(calculate_circle_circumference(radius=radius))
+        .else_()
+        .then(echo(radius=radius))
     )
 
 
