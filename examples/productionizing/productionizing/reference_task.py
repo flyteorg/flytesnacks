@@ -38,7 +38,7 @@ def bigquery_task():
 
 @workflow
 def wf() -> FlyteFile:
-    bigquery_task(version=1)
+    bigquery_task()
     return normalize_columns(
         csv_url="https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
         column_names=["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
