@@ -1,3 +1,4 @@
+#syntax=docker/dockerfile:1.8
 # ######################
 # NOTE: For CI/CD only #
 ########################
@@ -17,8 +18,10 @@ ENV VENV /opt/venv
 RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
-RUN pip install flytekit pandas
-RUN pip install torch --index-url https://download.pytorch.org/whl/cpu
+RUN --mount=type=cache,sharing=locked,mode=0777,target=/root/.cache/pip,id=pip \
+    pip install flytekit pandas pyarrow
+RUN --mount=type=cache,sharing=locked,mode=0777,target=/root/.cache/pip,id=pip \
+    pip install torch --index-url https://download.pytorch.org/whl/cpu
 
 # Copy the actual code
 COPY . /root
