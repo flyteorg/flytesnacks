@@ -87,8 +87,8 @@ jobs:
         working-directory: examples/${{ matrix.example }}
         run: |
           pip install uv
-          uv venv
-          source .venv/bin/activate
+          uv venv $GITHUB_WORKSPACE/.venv
+          source $GITHUB_WORKSPACE/.venv/bin/activate
           if [ -f requirements.in ]; then uv pip install -r requirements.in; fi
           uv pip install "flytekit>=1.12.2" "numpy<2.0.0"
           pip freeze
@@ -126,7 +126,7 @@ jobs:
         run: |
           export FLYTE_PUSH_IMAGE_SPEC=${{ github.event_name != 'pull_request' }}
           default_image=ghcr.io/flyteorg/flytecookbook:${{ matrix.example }}-${{ github.sha }}
-          source .venv/bin/activate
+          source $GITHUB_WORKSPACE/.venv/bin/activate
           pyflyte \
           --pkgs ${{ matrix.example }} package \
           --image $default_image \
