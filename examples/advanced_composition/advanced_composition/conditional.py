@@ -181,7 +181,7 @@ def consume_task_output(radius: float, seed: int = 5) -> float:
 # Running a noop task in a conditional
 #
 # In some cases, you may want to skip the execution of a conditional workflow
-# if the certain condition is not met.
+# if a certain condition is not met.
 # You can achieve this by using the `echo` task, which simply returns the input value.
 
 # :::{note}
