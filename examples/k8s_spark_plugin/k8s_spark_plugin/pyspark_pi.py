@@ -16,7 +16,7 @@ from flytekitplugins.spark import Spark
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
 # %%
-custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
+custom_image = ImageSpec(python_version="3.9", registry="ghcr.io/flyteorg", packages=["flytekitplugins-spark"])
 
 
 # %% [markdown]
