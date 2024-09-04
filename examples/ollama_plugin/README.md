@@ -8,8 +8,9 @@
 
 Serve large language models (LLMs) in a Flyte task.
 
-[Ollama](https://ollama.com/) makes it easy to work with LLMs locally.
-With the Ollama plugin, you can invoke model endpoints as if they were hosted on your machine, reducing network latency.
+[Ollama](https://ollama.com/) simplifies the process of serving fine-tuned LLMs.
+Whether you're generating predictions from a customized model or deploying it across different hardware setups,
+Ollama enables you to encapsulate the entire workflow in a single pipeline.
 
 ## Installation
 
@@ -24,7 +25,7 @@ pip install flytekitplugins-inference
 For a usage example, see {doc}`Ollama example usage <serve_llm>`.
 
 ```{note}
-Ollama can only be run in a Flyte cluster, not locally, as it must be deployed as a sidecar service in a Kubernetes pod.
+Ollama can only be run in a Flyte cluster as it must be deployed as a sidecar service in a Kubernetes pod.
 ```
 
 ```{toctree}

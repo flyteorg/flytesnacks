@@ -3,7 +3,7 @@
 #
 # # Serve LLMs with Ollama
 #
-# In this guide, you'll learn how to locally serve Gemma2 and custom Llama3 models using Ollama within a Flyte task.
+# In this guide, you'll learn how to locally serve Gemma2 and fine-tuned Llama3 models using Ollama within a Flyte task.
 #
 # Start by importing Ollama from the `flytekitplugins.inference` package and specifying the desired model name.
 #
@@ -61,18 +61,33 @@ def model_serving() -> str:
 # By default, Ollama initializes the server with `cpu`, `gpu`, and `mem` set to `1`, `1`, and `15Gi`, respectively.
 # You can adjust these settings to meet your requirements.
 #
-# To serve a custom model, provide the model configuration file as `modelfile` within the `Model` dataclass.
+# To serve a fine-tuned model, provide the model configuration as `modelfile` within the `Model` dataclass.
 #
-# Below is an example of how to initialize a custom Llama3 Mario model:
+# Below is an example of specifying a fine-tuned LoRA adapter for a Llama3 Mario model:
 # %%
-ollama_instance = Ollama(
+from flytekit.types.file import FlyteFile
+
+finetuned_ollama_instance = Ollama(
     model=Model(
         name="llama3-mario",
-        modelfile="FROM llama3\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM You are Mario from super mario bros, acting as an assistant.",
+        modelfile="FROM llama3\nADAPTER {inputs.ggml}\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM You are Mario from super mario bros, acting as an assistant.",
     )
 )
 
+
+@task(
+    container_image=image,
+    pod_template=finetuned_ollama_instance.pod_template,
+    accelerator=A10G,
+    requests=Resources(gpu="0"),
+)
+def finetuned_model_serving(ggml: FlyteFile) -> str:
+    ...
+
+
 # %% [markdown]
+# `{inputs.ggml}` is materialized at run time, with `ggml` corresponding to the task input.
+#
 # Ollama models can be integrated into different stages of your AI workflow, including data pre-processing,
 # model inference, and post-processing. Flyte also allows serving multiple Ollama models simultaneously
 # on various instances.
