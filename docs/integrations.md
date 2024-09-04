@@ -44,6 +44,8 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - `wandb`: Machine learning platform to build better models faster.
 * - {doc}`NIM <auto_examples/nim_plugin/index>`
   - Serve optimized model containers with NIM.
+* - {doc}`Ollama <auto_examples/ollama_plugin/index>`
+  - Serve fine-tuned LLMs with Ollama in a Flyte workflow.
 ```
 
 :::{dropdown} {fa}`info-circle` Using flytekit plugins
