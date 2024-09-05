@@ -70,7 +70,7 @@ from flytekit.types.file import FlyteFile
 finetuned_ollama_instance = Ollama(
     model=Model(
         name="llama3-mario",
-        modelfile="FROM llama3\nADAPTER {inputs.ggml}\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM You are Mario from super mario bros, acting as an assistant.",
+        modelfile="FROM llama3\nADAPTER {inputs.ggml}\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM {inputs.system_prompt}",
     )
 )
 
@@ -81,12 +81,12 @@ finetuned_ollama_instance = Ollama(
     accelerator=A10G,
     requests=Resources(gpu="0"),
 )
-def finetuned_model_serving(ggml: FlyteFile) -> str:
+def finetuned_model_serving(ggml: FlyteFile, system_prompt: str) -> str:
     ...
 
 
 # %% [markdown]
-# `{inputs.ggml}` is materialized at run time, with `ggml` corresponding to the task input.
+# `{inputs.ggml}` and `{inputs.system_prompt}` are materialized at run time, with `ggml` and `system_prompt` available as inputs to the task.
 #
 # Ollama models can be integrated into different stages of your AI workflow, including data pre-processing,
 # model inference, and post-processing. Flyte also allows serving multiple Ollama models simultaneously
