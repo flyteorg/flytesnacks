@@ -11,7 +11,7 @@ from typing_extensions import Annotated
 
 image_spec = ImageSpec(
     registry="ghcr.io/flyteorg",
-    packages=["pandas"],
+    packages=["pandas", "pyarrow"],
 )
 
 
