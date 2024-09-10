@@ -52,7 +52,7 @@ from pandera.typing import DataFrame, Index, Series  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera", "scikit-learn"])
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera", "scikit-learn", "pyarrow"])
 
 # %% [markdown]
 # We also need to import the `pandera` flytekit plugin to enable dataframe runtime type-checking:
