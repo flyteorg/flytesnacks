@@ -30,7 +30,7 @@ ollama_instance = Ollama(model=Model(name="gemma2"))
     accelerator=A10G,
     requests=Resources(gpu="0"),
 )
-def model_serving() -> str:
+def model_serving(user_prompt: str) -> str:
     client = OpenAI(base_url=f"{ollama_instance.base_url}/v1", api_key="ollama")  # api key required but ignored
 
     completion = client.chat.completions.create(
@@ -38,7 +38,7 @@ def model_serving() -> str:
         messages=[
             {
                 "role": "user",
-                "content": "Write a limerick about the wonders of GPU computing.",
+                "content": user_prompt,
             }
         ],
         temperature=0.5,
