@@ -1,7 +1,7 @@
 flytekit
+pydata-sphinx-theme
 fsspec<2023.10.0
 mashumaro
-git+https://github.com/flyteorg/furo@main
 pillow
 psycopg2-binary
 flytekitplugins-deck-standard
@@ -9,7 +9,6 @@ flytekitplugins-kfpytorch
 flytekitplugins-sqlalchemy
 jupytext
 sphinx
-sphinx_rtd_theme
 sphinx-gallery
 sphinx-prompt
 sphinx-code-include
