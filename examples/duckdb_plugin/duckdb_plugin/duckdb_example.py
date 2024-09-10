@@ -7,13 +7,13 @@
 
 # %%
 import json
-from typing import List
+from typing import List, Tuple
 
 import pandas as pd
 import pyarrow as pa
-from flytekit import kwtypes, task, workflow
+from flytekit import kwtypes, task, workflow, Secret, dynamic
 from flytekit.types.structured.structured_dataset import StructuredDataset
-from flytekitplugins.duckdb import DuckDBQuery
+from flytekitplugins.duckdb import DuckDBQuery, DuckDBProvider
 from typing_extensions import Annotated
 
 # %% [markdown]
@@ -160,3 +160,95 @@ def params_wf(
 
 if __name__ == "__main__":
     print(f"Running params_wf()... {params_wf()}")
+
+# %% [markdown]
+# ## Queries to MotherDuck
+#
+# The DuckDB plugin can be used to make DuckDB queries to a remote MotherDuck data warehouse by specifying the
+# MotherDuck `DuckDBProvider` and passing a secret called `motherduck_token`. Hybrid queries can target remote
+# data in MotherDuck and data local to a Flyte task at the same time.
+#
+# %%
+# This query targets a sample_data.nyc.rideshare table in MotherDuck
+motherduck_query = DuckDBQuery(
+    name="motherduck_query",
+    query="SELECT MEAN(trip_time) FROM sample_data.nyc.rideshare",
+    provider=DuckDBProvider.MOTHERDUCK,
+    secret_requests=[Secret(key="motherduck_token")],
+)
+
+# This query targets a e_commerce.year_09_10 table in MotherDuck
+hybrid_motherduck_query = DuckDBQuery(
+    name="my_query",
+    # query="SELECT MEAN(trip_time) FROM sample_data.nyc.rideshare",
+    query="""
+    WITH HistoricalData AS 
+        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Historical FROM e_commerce.year_09_10), 
+    RecentData AS 
+        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Recent FROM mydf) 
+        
+    SELECT HistoricalData.CustomerCount_Historical, RecentData.CustomerCount_Recent FROM HistoricalData, RecentData
+    """,
+    inputs=kwtypes(mydf=pd.DataFrame),
+    provider=DuckDBProvider.MOTHERDUCK,
+    secret_requests=[Secret(key="motherduck_token")],
+)
+
+
+@workflow
+def motherduck_wf(mydf: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    motherduck_response = motherduck_query()
+    hybrid_response = hybrid_motherduck_query(mydf=mydf)
+    return motherduck_response, hybrid_response
+
+
+if __name__ == "__main__":
+    print(f"Running motherduck_wf()... {motherduck_wf()}")
+
+# %% [markdown]
+# ## Runtime Queries
+#
+# If task logic is necessary to craft a query, the query can be passed at runtime rather than when the `DuckDBQuery` is
+# initialized.
+#
+# %%
+runtime_query_task = DuckDBQuery(
+    name="runtime_query_task",
+    inputs=kwtypes(query=str, mydf=pd.DataFrame),
+)
+
+@dynamic
+def check_dataframe(mydf: pd) -> pd.DataFrame:
+    col_a_present = 'column_a' in mydf.columns
+    col_b_present = 'column_b' in mydf.columns
+
+    if col_a_present and col_b_present:
+        query = f"""
+        SELECT column_a, column_b 
+        FROM mydf
+        WHERE column_a > 10 AND column_b < 100;
+        """
+    elif col_a_present:
+        query = f"""
+        SELECT column_a 
+        FROM mydf
+        WHERE column_a > 10;
+        """
+    elif col_b_present:
+        query = f"""
+        SELECT column_b 
+        FROM mydf
+        WHERE column_b < 100;
+        """
+    else:
+        raise ValueError("Neither 'column_a' nor 'column_b' is present in the DataFrame.")
+
+    return simple_duckdb_query(query=query, mydf=mydf)
+
+@workflow
+def runtime_query_wf(mydf: pd.DataFrame) -> pd.DataFrame:
+    return check_dataframe(mydf=mydf)
+
+
+if __name__ == "__main__":
+    print(f"Running runtime_query_wf()... {runtime_query_wf()}")
