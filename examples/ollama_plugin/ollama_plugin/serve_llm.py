@@ -21,7 +21,7 @@ image = ImageSpec(
     builder="default",
 )
 
-ollama_instance = Ollama(model=Model(name="gemma2"))
+ollama_instance = Ollama(model=Model(name="gemma2"), gpu="1")
 
 
 @task(
@@ -71,7 +71,8 @@ finetuned_ollama_instance = Ollama(
     model=Model(
         name="llama3-mario",
         modelfile="FROM llama3\nADAPTER {inputs.ggml}\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM {inputs.system_prompt}",
-    )
+    ),
+    gpu="1",
 )
 
 
