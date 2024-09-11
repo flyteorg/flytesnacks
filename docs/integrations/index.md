@@ -191,7 +191,6 @@ constructs natively within other orchestration tools.
 
 ```{toctree}
 :maxdepth: -1
-:caption: Integrations
 :hidden:
 
 /auto_examples/airflow_agent/index
