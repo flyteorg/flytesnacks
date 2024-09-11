@@ -1,5 +1,3 @@
-# Tutorials
-
 (tutorials)=
 
 # Tutorials
