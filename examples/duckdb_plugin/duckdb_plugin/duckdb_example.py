@@ -11,9 +11,9 @@ from typing import List, Tuple
 
 import pandas as pd
 import pyarrow as pa
-from flytekit import kwtypes, task, workflow, Secret, dynamic
+from flytekit import Secret, dynamic, kwtypes, task, workflow
 from flytekit.types.structured.structured_dataset import StructuredDataset
-from flytekitplugins.duckdb import DuckDBQuery, DuckDBProvider
+from flytekitplugins.duckdb import DuckDBProvider, DuckDBQuery
 from typing_extensions import Annotated
 
 # %% [markdown]
@@ -177,16 +177,15 @@ motherduck_query = DuckDBQuery(
     secret_requests=[Secret(key="motherduck_token")],
 )
 
-# This query targets a e_commerce.year_09_10 table in MotherDuck
+# This query targets a e_commerce.year_09_10 table in MotherDuck and a DataFrame mydf local to the task
 hybrid_motherduck_query = DuckDBQuery(
     name="my_query",
-    # query="SELECT MEAN(trip_time) FROM sample_data.nyc.rideshare",
     query="""
-    WITH HistoricalData AS 
-        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Historical FROM e_commerce.year_09_10), 
-    RecentData AS 
-        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Recent FROM mydf) 
-        
+    WITH HistoricalData AS
+        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Historical FROM e_commerce.year_09_10),
+    RecentData AS
+        (SELECT COUNT(DISTINCT "Customer ID") AS CustomerCount_Recent FROM mydf)
+
     SELECT HistoricalData.CustomerCount_Historical, RecentData.CustomerCount_Recent FROM HistoricalData, RecentData
     """,
     inputs=kwtypes(mydf=pd.DataFrame),
@@ -217,26 +216,27 @@ runtime_query_task = DuckDBQuery(
     inputs=kwtypes(query=str, mydf=pd.DataFrame),
 )
 
+
 @dynamic
 def check_dataframe(mydf: pd) -> pd.DataFrame:
-    col_a_present = 'column_a' in mydf.columns
-    col_b_present = 'column_b' in mydf.columns
+    col_a_present = "column_a" in mydf.columns
+    col_b_present = "column_b" in mydf.columns
 
     if col_a_present and col_b_present:
-        query = f"""
-        SELECT column_a, column_b 
+        query = """
+        SELECT column_a, column_b
         FROM mydf
         WHERE column_a > 10 AND column_b < 100;
         """
     elif col_a_present:
-        query = f"""
-        SELECT column_a 
+        query = """
+        SELECT column_a
         FROM mydf
         WHERE column_a > 10;
         """
     elif col_b_present:
-        query = f"""
-        SELECT column_b 
+        query = """
+        SELECT column_b
         FROM mydf
         WHERE column_b < 100;
         """
@@ -244,6 +244,7 @@ def check_dataframe(mydf: pd) -> pd.DataFrame:
         raise ValueError("Neither 'column_a' nor 'column_b' is present in the DataFrame.")
 
     return simple_duckdb_query(query=query, mydf=mydf)
+
 
 @workflow
 def runtime_query_wf(mydf: pd.DataFrame) -> pd.DataFrame:
