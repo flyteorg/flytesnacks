@@ -38,7 +38,7 @@ jobs:
           ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
           tar -xvf ${{ matrix.directory }}/flyte-package.tgz -C ${{ matrix.directory }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
           path: ${{ matrix.directory }}/**/*.pb

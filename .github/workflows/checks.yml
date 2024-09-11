@@ -136,7 +136,7 @@ jobs:
           --force
           tar -xvf flyte-package.tgz
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: snacks-examples-${{ matrix.example }}
           path: examples/${{ matrix.example }}/**/*.pb
