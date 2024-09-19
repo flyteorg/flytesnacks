@@ -82,7 +82,7 @@ finetuned_ollama_instance = Ollama(
     accelerator=A10G,
     requests=Resources(gpu="0"),
 )
-def finetuned_model_serving(ggml: FlyteFile, system_prompt: str) -> str:
+def finetuned_model_serving(ggml: FlyteFile, system_prompt: str):
     ...
 
 
