@@ -11,7 +11,7 @@ from operator import add
 
 import flytekit
 from flytekit import Resources, task, workflow
-from flytekitplugins.spark import Databricks
+from flytekitplugins.spark import DatabricksV2
 
 
 # %% [markdown]
@@ -20,7 +20,7 @@ from flytekitplugins.spark import Databricks
 # [Databricks job request](https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure) documentation.
 # %%
 @task(
-    task_config=Databricks(
+    task_config=DatabricksV2(
         spark_conf={
             "spark.driver.memory": "1000M",
             "spark.executor.memory": "1000M",
