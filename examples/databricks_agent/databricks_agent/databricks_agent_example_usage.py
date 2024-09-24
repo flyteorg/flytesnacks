@@ -11,7 +11,7 @@ from operator import add
 
 import flytekit
 from flytekit import Resources, task, workflow
-from flytekitplugins.spark import DatabricksV2
+from flytekitplugins.spark import DatabricksV2 as Databricks
 
 
 # %% [markdown]
