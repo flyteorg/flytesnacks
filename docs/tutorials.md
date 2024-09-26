@@ -7,12 +7,12 @@ next-page-title: Model Training
 
 # Tutorials
 
-This section showcases step-by-step case studies of how to combine the different
-features of Flyte to achieve everything from data processing, feature engineering,
-model training, to batch predictions. Code for all of the examples in the user
+This section showcases the core use cases of Flyte through step-by-step case studies
+that combine Flyte features to achieve everything from data processing, feature engineering,
+and model training, to batch predictions. Code for all of the examples in the user
 guide can be found in the [flytesnacks](https://github.com/flyteorg/flytesnacks) repo.
 
-It comes with a highly customized environment to make running, documenting and
+These tutorials come with a highly customized environment to make running, documenting and
 contributing samples easy. If this is your first time running these examples, follow the
 {ref}`setup guide <env_setup>` to get started.
 
