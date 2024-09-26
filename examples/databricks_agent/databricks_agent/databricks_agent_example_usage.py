@@ -20,7 +20,7 @@ from flytekitplugins.spark import DatabricksV2 as Databricks
 # [Databricks job request](https://docs.databricks.com/dev-tools/api/2.0/jobs.html#request-structure) documentation.
 # %%
 @task(
-    task_config=DatabricksV2(
+    task_config=Databricks(
         spark_conf={
             "spark.driver.memory": "1000M",
             "spark.executor.memory": "1000M",
