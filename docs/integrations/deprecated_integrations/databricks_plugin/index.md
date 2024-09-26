@@ -1,1 +1,0 @@
-# Databricks plugin

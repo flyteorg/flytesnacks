@@ -189,10 +189,7 @@ exclude_examples = [
     "development_lifecycle",
     "extending",
     "productionizing",
-    "testing",
-    "bigquery_plugin",
-    "databricks_plugin",
-    "snowflake_plugin",
+    "testing"
 ]
 
 # intersphinx configuration

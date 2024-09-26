@@ -4,7 +4,7 @@
 :maxdepth: -1
 :hidden:
 
-BigQuery plugin <bigquery_plugin/index>
-Databricks plugin <databricks_plugin/index>
-Snowflake plugin <snowflake_plugin/index>
+BigQuery plugin </auto_examples/bigquery_plugin/index>
+Databricks plugin </auto_examples/databricks_plugin/index>
+Snowflake plugin </auto_examples/snowflake_plugin/index>
 ```
