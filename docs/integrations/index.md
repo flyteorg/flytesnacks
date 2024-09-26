@@ -44,6 +44,8 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
   - `wandb`: Machine learning platform to build better models faster.
 * - {doc}`NIM </auto_examples/nim_plugin/index>`
   - Serve optimized model containers with NIM.
+* - {doc}`Ollama <auto_examples/ollama_plugin/index>`
+  - Serve fine-tuned LLMs with Ollama in a Flyte workflow.
 ```
 
 :::{dropdown} {fa}`info-circle` Using flytekit plugins
@@ -213,6 +215,7 @@ constructs natively within other orchestration tools.
 /auto_examples/modin_plugin/index
 /auto_examples/kfmpi_plugin/index
 /auto_examples/nim_plugin/index
+/auto_examples/ollama_plugin/index
 /auto_examples/onnx_plugin/index
 /auto_examples/openai_batch_agent/index
 /auto_examples/papermill_plugin/index
@@ -226,6 +229,5 @@ constructs natively within other orchestration tools.
 /auto_examples/sql_plugin/index
 /auto_examples/kftensorflow_plugin/index
 /auto_examples/whylogs_plugin/index
-/auto_examples/wandb_plugin/index
 Deprecated integrations <deprecated_integrations/index>
 ```

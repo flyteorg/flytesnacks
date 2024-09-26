@@ -38,7 +38,7 @@ jobs:
           ./scripts/serialize-example.sh ${{ matrix.directory }} ${{ github.sha }}
           tar -xvf ${{ matrix.directory }}/flyte-package.tgz -C ${{ matrix.directory }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: snacks-${{ steps.example_id.outputs.EXAMPLE_ID }}
           path: ${{ matrix.directory }}/**/*.pb
@@ -57,7 +57,7 @@ jobs:
         run: |
           mkdir download-artifact
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: ./download-artifact/
       - name: setup sandbox
