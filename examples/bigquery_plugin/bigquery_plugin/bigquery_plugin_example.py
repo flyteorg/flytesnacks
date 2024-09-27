@@ -1,3 +1,9 @@
+# %% [markdown]
+# (bigquery_plugin_example)=
+# # BigQuery plugin example
+#
+# %%
+
 try:
     from typing import Annotated
 except ImportError:
