@@ -10,9 +10,9 @@ adlfs==2023.10.0
     # via flytekit
 aiobotocore==2.5.4
     # via s3fs
-aiohappyeyeballs==2.4.0
+aiohappyeyeballs==2.4.2
     # via aiohttp
-aiohttp==3.10.5
+aiohttp==3.10.8
     # via
     #   adlfs
     #   aiobotocore
@@ -26,7 +26,7 @@ alabaster==1.0.0
     # via sphinx
 appnope==0.1.4
     # via ipykernel
-astroid==3.3.2
+astroid==3.3.4
     # via
     #   -r docs-requirements.in
     #   sphinx-autoapi
@@ -39,16 +39,16 @@ attrs==24.2.0
     #   jsonschema
     #   jupyter-cache
     #   referencing
-azure-core==1.30.2
+azure-core==1.31.0
     # via
     #   adlfs
     #   azure-identity
     #   azure-storage-blob
 azure-datalake-store==0.0.53
     # via adlfs
-azure-identity==1.17.1
+azure-identity==1.18.0
     # via adlfs
-azure-storage-blob==12.22.0
+azure-storage-blob==12.23.1
     # via adlfs
 babel==2.16.0
     # via
@@ -98,7 +98,7 @@ cryptography==43.0.1
     #   pyjwt
 dataclasses-json==0.5.9
     # via flytekit
-debugpy==1.8.5
+debugpy==1.8.6
     # via ipykernel
 decorator==5.1.1
     # via
@@ -120,15 +120,17 @@ docutils==0.21.2
     #   sphinx-panels
     #   sphinx-prompt
     #   sphinx-tabs
+durationpy==0.7
+    # via kubernetes
 executing==2.1.0
     # via stack-data
 fastjsonschema==2.20.0
     # via nbformat
-filelock==3.16.0
+filelock==3.16.1
     # via
     #   torch
     #   virtualenv
-flyteidl==1.13.3
+flyteidl==1.13.4
     # via
     #   flytekit
     #   flytekitplugins-kfpytorch
@@ -158,11 +160,11 @@ fsspec==2023.9.2
     #   torch
 gcsfs==2023.9.2
     # via flytekit
-google-api-core==2.19.2
+google-api-core==2.20.0
     # via
     #   google-cloud-core
     #   google-cloud-storage
-google-auth==2.34.0
+google-auth==2.35.0
     # via
     #   gcsfs
     #   google-api-core
@@ -189,25 +191,25 @@ googleapis-common-protos==1.65.0
     #   google-api-core
     #   grpcio-status
     #   protoc-gen-openapiv2
-grpcio==1.66.1
+grpcio==1.66.2
     # via
     #   -r docs-requirements.in
     #   flytekit
     #   grpcio-status
-grpcio-status==1.66.1
+grpcio-status==1.66.2
     # via
     #   -r docs-requirements.in
     #   flytekit
-identify==2.6.0
+identify==2.6.1
     # via pre-commit
-idna==3.8
+idna==3.10
     # via
     #   requests
     #   sphinx-prompt
     #   yarl
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==8.4.0
+importlib-metadata==8.5.0
     # via
     #   flytekit
     #   jupyter-cache
@@ -228,7 +230,7 @@ jaraco-classes==3.4.0
     # via keyring
 jaraco-context==6.0.1
     # via keyring
-jaraco-functools==4.0.2
+jaraco-functools==4.1.0
     # via keyring
 jedi==0.19.1
     # via ipython
@@ -254,7 +256,7 @@ jsonschema-specifications==2023.12.1
     # via jsonschema
 jupyter-cache==1.0.0
     # via myst-nb
-jupyter-client==8.6.2
+jupyter-client==8.6.3
     # via
     #   ipykernel
     #   nbclient
@@ -268,9 +270,9 @@ jupyterlab-widgets==3.0.13
     # via ipywidgets
 jupytext==1.16.4
     # via -r docs-requirements.in
-keyring==25.3.0
+keyring==25.4.1
     # via flytekit
-kubernetes==30.1.0
+kubernetes==31.0.0
     # via flytekitplugins-kfpytorch
 markdown==3.7
     # via flytekitplugins-deck-standard
@@ -327,7 +329,7 @@ multidict==6.1.0
     #   yarl
 mypy-extensions==1.0.0
     # via typing-inspect
-myst-nb==1.1.1
+myst-nb==1.1.2
     # via -r docs-requirements.in
 myst-parser==4.0.0
     # via myst-nb
@@ -364,7 +366,7 @@ packaging==24.1
     #   plotly
     #   pydata-sphinx-theme
     #   sphinx
-pandas==2.2.2
+pandas==2.2.3
     # via
     #   flytekitplugins-deck-standard
     #   flytekitplugins-sqlalchemy
@@ -376,21 +378,21 @@ pillow==10.4.0
     # via
     #   -r docs-requirements.in
     #   sphinx-gallery
-platformdirs==4.3.2
+platformdirs==4.3.6
     # via
     #   jupyter-core
     #   virtualenv
-plotly==5.24.0
+plotly==5.24.1
     # via flytekitplugins-deck-standard
 portalocker==2.10.1
     # via msal-extensions
 pre-commit==3.8.0
     # via sphinx-tags
-prompt-toolkit==3.0.47
+prompt-toolkit==3.0.48
     # via ipython
 proto-plus==1.24.0
     # via google-api-core
-protobuf==5.28.0
+protobuf==5.28.2
     # via
     #   flyteidl
     #   flytekit
@@ -409,11 +411,11 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
-pyasn1==0.6.0
+pyasn1==0.6.1
     # via
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.4.0
+pyasn1-modules==0.4.1
     # via google-auth
 pycparser==2.22
     # via cffi
@@ -443,7 +445,7 @@ python-json-logger==2.0.7
     # via flytekit
 pytimeparse==1.1.8
     # via flytekit
-pytz==2024.1
+pytz==2024.2
     # via
     #   croniter
     #   pandas
@@ -497,7 +499,7 @@ rsa==4.9
     # via google-auth
 s3fs==2023.9.2
     # via flytekit
-scikit-learn==1.5.1
+scikit-learn==1.5.2
     # via -r docs-requirements.in
 scipy==1.14.1
     # via scikit-learn
@@ -532,7 +534,7 @@ sphinx==8.0.2
     #   sphinx-tags
     #   sphinxcontrib-youtube
     #   sphinxext-remoteliteralinclude
-sphinx-autoapi==3.3.1
+sphinx-autoapi==3.3.2
     # via -r docs-requirements.in
 sphinx-code-include==1.4.0
     # via -r docs-requirements.in
@@ -570,7 +572,7 @@ sphinxcontrib-youtube==1.4.1
     # via -r docs-requirements.in
 sphinxext-remoteliteralinclude==0.4.0
     # via -r docs-requirements.in
-sqlalchemy==2.0.34
+sqlalchemy==2.0.35
     # via
     #   flytekitplugins-sqlalchemy
     #   jupyter-cache
@@ -578,7 +580,7 @@ stack-data==0.6.3
     # via ipython
 statsd==4.0.1
     # via flytekit
-sympy==1.13.2
+sympy==1.13.3
     # via torch
 tabulate==0.9.0
     # via jupyter-cache
@@ -618,7 +620,7 @@ typing-extensions==4.12.2
     #   typing-inspect
 typing-inspect==0.9.0
     # via dataclasses-json
-tzdata==2024.1
+tzdata==2024.2
     # via pandas
 urllib3==1.26.20
     # via
@@ -628,7 +630,7 @@ urllib3==1.26.20
     #   kubernetes
     #   requests
     #   sphinx-prompt
-virtualenv==20.26.4
+virtualenv==20.26.6
     # via pre-commit
 wcwidth==0.2.13
     # via prompt-toolkit
@@ -638,9 +640,9 @@ widgetsnbextension==4.0.13
     # via ipywidgets
 wrapt==1.16.0
     # via aiobotocore
-yarl==1.11.1
+yarl==1.13.1
     # via aiohttp
-zipp==3.20.1
+zipp==3.20.2
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
