@@ -3,10 +3,10 @@
         <img src="https://raw.githubusercontent.com/flyteorg/static-resources/main/common/flyte_circle_gradient_1_4x4.png" alt="Flyte Logo" width="100">
     </p>
     <h1 align="center">
-        Flyte User Guide & Tutorials
+        Flyte tutorials and integrations examples
     </h1>
     <p align="center">
-        Flytesnacks encompasses code examples showcasing Flytekit Python
+        Flytesnacks encompasses tutorials and integrations examples showcasing Flytekit Python
     </p>
     <p align="center">
         <a href="https://slack.flyte.org">
@@ -30,11 +30,9 @@
 
 > To get the hang of Python SDK, refer to the [Getting Started](https://docs.flyte.org/en/latest/getting_started.html) tutorial before exploring the examples.
 
-The [User Guide](https://docs.flyte.org/projects/cookbook/en/latest/index.html) section has code examples, tips, and tricks that showcase the usage of Flyte features and integrations.
+The [Tutorials](https://docs.flyte.org/en/latest/flytesnacks/tutorials/index.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
 
-The [Tutorials](https://docs.flyte.org/projects/cookbook/en/latest/tutorials.html) section has real-world examples, ranging from machine learning training, data processing to feature engineering.
-
-the [Integrations](https://docs.flyte.org/projects/cookbook/en/latest/integrations.html) section demonstrates how to use Flyte with other tools and frameworks.
+the [Integrations](https://docs.flyte.org/en/latest/flytesnacks/integrations/index.html) section demonstrates how to use Flyte with other tools and frameworks.
 
 > Flytesnacks currently has all examples in Python (Flytekit Python SDK).
 
@@ -44,7 +42,7 @@ the [Integrations](https://docs.flyte.org/projects/cookbook/en/latest/integratio
     </h2>
 </html>
 
-You can find the detailed contribution guide [here](docs/contribute.md).
+You can find the detailed contribution guide [here](https://docs.flyte.org/en/latest/community/contribute_docs.html#contributing-tutorials-and-integrations-examples).
 
 <html>
     <h2 id="file-an-issue">
@@ -52,4 +50,4 @@ You can find the detailed contribution guide [here](docs/contribute.md).
     </h2>
 </html>
 
-Refer to the [issues](https://docs.flyte.org/en/latest/community/contribute.html##file-an-issue) section in the contribution guide if you'd like to file an issue.
+Refer to the [issues](https://docs.flyte.org/en/latest/community/contribute.html#file-an-issue) section in the contribution guide if you'd like to file an issue.
