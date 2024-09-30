@@ -13,7 +13,17 @@ from sklearn.decomposition import PCA
 # https://docs.flyte.org/en/latest/user_guide/customizing_dependencies/imagespec.html#image-spec-example
 
 custom_image = ImageSpec(
-    packages=["plotly", "scikit-learn", "flytekitplugins-deck-standard"], registry="ghcr.io/flyteorg"
+    packages=[
+        "flytekitplugins-deck-standard",
+        "markdown",
+        "pandas",
+        "pillow",
+        "plotly",
+        "pyarrow",
+        "scikit-learn",
+        "ydata_profiling",
+    ],
+    registry="ghcr.io/flyteorg",
 )
 
 if custom_image.is_container():
@@ -47,7 +57,7 @@ import pandas as pd
 from flytekitplugins.deck.renderer import FrameProfilingRenderer
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def frame_renderer() -> None:
     df = pd.DataFrame(data={"col1": [1, 2], "col2": [3, 4]})
     flytekit.Deck("Frame Renderer", FrameProfilingRenderer().to_html(df=df))
@@ -61,7 +71,7 @@ from typing import Annotated
 from flytekit.deck import TopFrameRenderer
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
     return pd.DataFrame(data={"col1": [1, 2], "col2": [3, 4]})
 
@@ -70,7 +80,7 @@ def top_frame_renderer() -> Annotated[pd.DataFrame, TopFrameRenderer(1)]:
 # producing HTML as a Unicode string.
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def markdown_renderer() -> None:
     flytekit.current_context().default_deck.append(
         MarkdownRenderer().to_html("You can install flytekit using this command: ```import flytekit```")
@@ -87,7 +97,7 @@ def markdown_renderer() -> None:
 from flytekitplugins.deck.renderer import BoxRenderer
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def box_renderer() -> None:
     iris_df = px.data.iris()
     flytekit.Deck("Box Plot", BoxRenderer("sepal_length").to_html(iris_df))
@@ -101,7 +111,7 @@ from flytekit.types.file import FlyteFile
 from flytekitplugins.deck.renderer import ImageRenderer
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def image_renderer(image: FlyteFile) -> None:
     flytekit.Deck("Image Renderer", ImageRenderer().to_html(image_src=image))
 
@@ -117,7 +127,7 @@ def image_renderer_wf(
 from flytekitplugins.deck.renderer import TableRenderer
 
 
-@task(enable_deck=True)
+@task(enable_deck=True, container_image=custom_image)
 def table_renderer() -> None:
     flytekit.Deck(
         "Table Renderer",
