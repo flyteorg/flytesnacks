@@ -102,7 +102,7 @@ include_patterns = [
     "*.md",
     "**/*.md",
     "auto_examples/**/index.md",
-    "auto_examples/**/*.md"
+    "auto_examples/**/*.md",
 ]
 
 # The master toctree document.
@@ -189,7 +189,7 @@ exclude_examples = [
     "development_lifecycle",
     "extending",
     "productionizing",
-    "testing"
+    "testing",
 ]
 
 # intersphinx configuration
