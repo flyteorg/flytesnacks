@@ -79,7 +79,7 @@ new example project.
 In the `flytesnacks` root directory, create one with:
 
 ```{prompt} bash
-./scripts/create-example-project new_example_project
+./scripts/create-example-project.sh new_example_project
 ```
 
 This will create a new directory under `examples`:
@@ -92,7 +92,6 @@ examples/new_example_project
 │   ├── __init__.py
 │   └── example.py
 ├── requirements.in
-└── requirements.txt
 ```
 
 ````
@@ -163,7 +162,9 @@ packaged, but `flytesnacks` also supports examples written in `.ipynb` and
 - `.md`: When a piece of documentation doesn't require testable or packaged
   flyte tasks/workflows, an example page can be written as a myst markdown file.
 
-**Note:** If you want to add Markdown files to a user guide example project, add them to the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide) instead.
+```{note}
+If you want to add Markdown files to a user guide example project, add them to the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide) instead.
+```
 
 ## Writing a README
 
@@ -194,7 +195,11 @@ Refer to any subdirectory in the `examples` directory
 
 ## Test your code
 
-If the example code can be run locally, just use `python <my_file>.py` to run it.
+If the example code can be run locally, you can use `pyflyte run`:
+
+```{prompt} bash
+pyflyte run <python_file>.py <task_or_workflow_name> --<arg1> <arg1_value> --<arg2> <arg2_value> ...
+```
 
 ### Testing on a cluster
 
@@ -219,32 +224,28 @@ In this example, we'll build the `basics` project:
 cd examples/basics
 ```
 
-Build the container:
+Build and push the container to the local docker registry provided by the demo cluster:
 
 ```{prompt} bash
-docker build . --tag "basics:v1" -f Dockerfile
+docker build . --tag "localhost:30000/basics:v1" -f Dockerfile --push
 ```
 
-Package the examples by running:
+Run a workflow in the local demo cluster by specifying the `--image` flag
+and passing the `--remote` flag. :
 
 ```{prompt} bash
-pyflyte --pkgs basics package --image basics:v1 -f
-```
-
-Register the examples by running
-
-```{prompt} bash
-flytectl register files \
-   -p flytesnacks \
-   -d development \
-   --archive flyte-package.tgz \
-   --version v1
+pyflyte run --remote \
+  --image localhost:30000/basics:v1 \
+  basics/hello_world.py hello_world_wf
 ```
 
 Visit `https://localhost:30081/console` to view the Flyte console, which consists
 of the examples present in the `flytesnacks/core` directory.
 
 ### Updating dependencies
+
+If the project uses pinned dependencies in a `requirements.in` file,
+update it with `pip-compile`.
 
 :::{admonition} Prerequisites
 Install [pip-tools](https://pypi.org/project/pip-tools/) in your development
@@ -256,8 +257,7 @@ pip install pip-tools
 
 :::
 
-If you've updated the dependencies of the project, update the `requirements.txt`
-file by running:
+Then run the `pip-compile` command to create a new pinned `requirements.txt` file:
 
 ```{prompt} bash
 pip-compile requirements.in --upgrade --verbose --resolver=backtracking
@@ -269,13 +269,15 @@ If you've updated the source code or dependencies of the project, and rebuild
 the image with:
 
 ```{prompt} bash
-docker build . --tag "basics:v2" -f core/Dockerfile
-pyflyte --pkgs basics package --image basics:v2 -f
-flytectl register files \
-    -p flytesnacks \
-    -d development \
-    --archive flyte-package.tgz \
-    --version v2
+docker build . --tag "localhost:30000/basics:v2" -f Dockerfile --push
+```
+
+Then run the workflow again with the new image:
+
+```{prompt} bash
+pyflyte run --remote \
+  --image localhost:30000/basics:v2 \
+  basics/hello_world.py hello_world_wf
 ```
 
 Refer to {ref}`this guide <getting_started_package_register>`
@@ -328,25 +330,12 @@ auto_examples/basics/index
 
 If you've created a new example project, you'll need to add the `index` page
 in the table of contents in `docs/index.md` to make sure the project
-shows up in the documentation. Additonally, you'll need to update the appropriate
-`list-table` directive in `docs/userguide.md`, `docs/tutorials.md`, or
-`docs/integrations.md` so that it shows up in the respective section of the
-documentation.
+shows up in the documentation. Additionally, you'll need to update the appropriate
+`list-table` directive:
 
-## Build the documentation locally
-
-Verify that the code and documentation look as expected:
-
-- Learn about the documentation tools [here](https://docs.flyte.org/en/latest/community/contribute.html#documentation)
-- Install the requirements by running `pip install -r docs-requirements.txt`.
-- Run `make -C docs html`
-
-  ```{tip}
-  To run a fresh build, run `make -C docs clean html`.
-  ```
-
-- Open the HTML pages present in the `docs/_build` directory in the browser with
-  `open docs/_build/index.html`
+- For user guide examples, update the `docs/user_guide/index.md` file in the [flyte repository](https://github.com/flyteorg/flyte/tree/master/docs/user_guide/index.md).
+- For tutorial examples, update the `docs/tutorials.md` in the `flytesnacks` repo.
+- For integration examples, update the `docs/integrations.md` in the `flytesnacks` repo.
 
 ## Create a pull request
 
