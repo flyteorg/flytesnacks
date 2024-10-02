@@ -1,6 +1,6 @@
 flytekit
 pydata-sphinx-theme
-fsspec<2023.10.0
+fsspec
 mashumaro
 pillow
 psycopg2-binary
@@ -26,6 +26,6 @@ grpcio
 grpcio-status
 myst-nb
 ipython!=8.7.0
-sphinx-tags==0.2.1
+sphinx-tags
 scikit-learn
 torch
