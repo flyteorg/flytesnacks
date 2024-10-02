@@ -38,6 +38,8 @@ Train machine learning models from using your framework of choice.
   - Word embedding and topic modelling on lee background corpus with Gensim
 * - {doc}`Sales Forecasting <auto_examples/forecasting_sales/index>`
   - Use the Rossmann Store data to forecast sales with distributed training using Horovod on Spark.
+* - {doc}`Time Series Modeling <auto_examples/time_series_modeling/index>`
+  - Train models for making forecasts on time series data.
 ```
 
 ## 🛠 Feature Engineering
