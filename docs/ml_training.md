@@ -16,6 +16,8 @@ Understand how machine learning models can be trained from within Flyte, with an
   - Word embedding and topic modelling on lee background corpus with Gensim
 * - {doc}`Forecast Sales Using Rossmann Store Sales <auto_examples/forecasting_sales/index>`
   - Forecast sales data with data-parallel distributed training using Horovod on Spark.
+* - {doc}`Time Series Modeling <auto_examples/time_series_modeling/index>`
+  - Train models for making forecasts on time series data.
 ```
 
 ```{toctree}
@@ -28,4 +30,5 @@ auto_examples/house_price_prediction/index
 auto_examples/mnist_classifier/index
 auto_examples/nlp_processing/index
 auto_examples/forecasting_sales/index
+auto_examples/time_series_modeling/index
 ```
