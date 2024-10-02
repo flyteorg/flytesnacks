@@ -63,7 +63,7 @@ logger = logging.getLogger(__file__)
 # %%
 if os.getenv("DEMO") is None:
     # local execution
-    os.environ["FEAST_S3_ENDPOINT_URL"] = ENDPOINT = "http://localhost:30084"
+    os.environ["FEAST_S3_ENDPOINT_URL"] = ENDPOINT = "http://localhost:30002"
 else:
     # execution on demo cluster
     os.environ["FEAST_S3_ENDPOINT_URL"] = ENDPOINT = "http://minio.flyte:9000"
