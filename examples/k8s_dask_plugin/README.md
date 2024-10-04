@@ -71,7 +71,7 @@ Flyte Dask utilizes the [Dask Kubernetes operator](https://kubernetes.dask.org/e
 in conjunction with a custom-built
 [Flyte Dask plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v1.0.28/go/tasks/plugins/k8s/dask).
 To leverage this functionality, you need to enable the backend plugin in your deployment.
-You can follow the steps mentioned in the {ref}`flyte:deployment-plugin-setup-k8s` section
+You can follow the steps mentioned in the {ref}`deployment-plugin-setup-k8s` section
 to enable the Flyte Dask plugin for your deployment.
 
 #### Step 2: Compute setup

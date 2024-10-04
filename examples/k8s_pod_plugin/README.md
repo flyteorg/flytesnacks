@@ -4,7 +4,7 @@
 .. tags:: Integration, Kubernetes, Advanced
 ```
 
-Flyte tasks, represented by the {py:func}`@task <flytekit:flytekit.task>` decorator, are essentially single functions that run in one container.
+Flyte tasks, represented by the {py:func}`@task <flytekit.task>` decorator, are essentially single functions that run in one container.
 However, there may be situations where you need to run a job with more than one container or require additional capabilities, such as:
 
 - Running a hyper-parameter optimizer that stores state in a Redis database

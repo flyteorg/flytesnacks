@@ -12,7 +12,7 @@ In this example, we will train our data on the XGBoost model to predict house pr
 ## Where Does Flyte Fit In?
 
 - Orchestrates the machine learning pipeline.
-- Helps cache the output state between {py:func}`tasks <flytekit:flytekit.task>`.
+- Helps cache the output state between {py:func}`tasks <flytekit.task>`.
 - Easier backtracking to the error source.
 - Provides a Rich UI to view and manage the pipeline.
 

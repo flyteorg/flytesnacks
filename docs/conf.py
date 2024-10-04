@@ -97,7 +97,12 @@ exclude_patterns = [
 ]
 
 include_patterns = [
+    "index.md",
+    "_tags/tagsindex",
+    "*.md",
+    "**/*.md",
     "auto_examples/**/index.md",
+    "auto_examples/**/*.md",
 ]
 
 # The master toctree document.
@@ -121,7 +126,7 @@ html_context = {
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "furo"
+html_theme = "pydata_sphinx_theme"
 html_title = "Flyte"
 
 announcement = """
@@ -129,6 +134,7 @@ announcement = """
 Please visit the new documentation <a href="https://docs.flyte.org">here</a>.
 """
 
+"""
 html_theme_options = {
     "light_css_variables": {
         "color-brand-primary": "#4300c9",
@@ -148,6 +154,7 @@ html_theme_options = {
     "docs_path": "docs",  # path to documentation source
     "announcement": announcement,
 }
+"""
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -183,9 +190,6 @@ exclude_examples = [
     "extending",
     "productionizing",
     "testing",
-    "bigquery_plugin",
-    "databricks_plugin",
-    "snowflake_plugin",
 ]
 
 # intersphinx configuration

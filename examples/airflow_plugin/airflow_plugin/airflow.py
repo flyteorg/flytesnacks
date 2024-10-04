@@ -66,7 +66,7 @@
 # Click `Save` in the end.
 #
 # :::{note}
-# Use external IP as the Flyte `Host`. You can {std:ref}`deploy <deployment>` Flyte on an on-prem machine or on cloud.
+# Use external IP as the Flyte `Host`. You can {ref}`deploy <deployment>` Flyte on an on-prem machine or on cloud.
 # :::
 #
 # ## Register Flyte Code
