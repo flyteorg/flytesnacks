@@ -10,17 +10,10 @@
 import os
 
 import lightning as L
-from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
+from flytekit import ImageSpec, Resources, task, workflow
 from flytekit.extras.accelerators import T4
 from flytekit.types.directory import FlyteDirectory
 from flytekitplugins.kfpytorch.task import Elastic
-from kubernetes.client.models import (
-    V1Container,
-    V1EmptyDirVolumeSource,
-    V1PodSpec,
-    V1Volume,
-    V1VolumeMount,
-)
 from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
@@ -68,19 +61,6 @@ custom_image = ImageSpec(
 # )
 # ```
 # :::
-
-# %% [markdown]
-# We're also going to define a custom pod template that mounts a shared memory
-# volume to `/dev/shm`. This is necessary for distributed data parallel (DDP)
-# training so that state can be shared across workers.
-
-# %%
-container = V1Container(name=custom_image.name, volume_mounts=[V1VolumeMount(mount_path="/dev/shm", name="dshm")])
-volume = V1Volume(name="dshm", empty_dir=V1EmptyDirVolumeSource(medium="Memory"))
-custom_pod_template = PodTemplate(
-    primary_container_name=custom_image.name,
-    pod_spec=V1PodSpec(containers=[container], volumes=[volume]),
-)
 
 # %% [markdown]
 # ## Define a `LightningModule`
@@ -175,7 +155,6 @@ NUM_DEVICES = 8
     ),
     accelerator=T4,
     requests=Resources(mem="32Gi", cpu="48", gpu="8", ephemeral_storage="100Gi"),
-    pod_template=custom_pod_template,
 )
 def train_model(dataloader_num_workers: int) -> FlyteDirectory:
     """Train an autoencoder model on the MNIST."""

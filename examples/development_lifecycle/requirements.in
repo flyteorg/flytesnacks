@@ -3,3 +3,4 @@ flytekitplugins-deck-standard
 plotly
 scikit-learn
 tabulate
+pyarrow

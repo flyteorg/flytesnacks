@@ -15,7 +15,7 @@ import pandera as pa
 from flytekit import ImageSpec, task, workflow
 from pandera.typing import DataFrame, Series
 
-custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera", "scikit-learn"])
+custom_image = ImageSpec(registry="ghcr.io/flyteorg", packages=["flytekitplugins-pandera", "scikit-learn", "pyarrow"])
 
 # %% [markdown]
 # ## A Simple Data Processing Pipeline

@@ -1,3 +1,4 @@
+#syntax=docker/dockerfile:1.8
 FROM python:3.8-buster
 
 WORKDIR /root
@@ -25,7 +26,8 @@ ENV PATH="${VENV}/bin:$PATH"
 
 # Install Python dependencies
 COPY requirements.in /root/
-RUN pip install -r /root/requirements.in
+RUN --mount=type=cache,sharing=locked,mode=0777,target=/root/.cache/pip,id=pip \
+    pip install -r /root/requirements.in
 
 # Copy the actual code
 COPY . /root/
