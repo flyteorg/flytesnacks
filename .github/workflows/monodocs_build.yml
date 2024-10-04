@@ -65,6 +65,7 @@ jobs:
         shell: bash -el {0}
         env:
           FLYTESNACKS_LOCAL_PATH: ${{ github.workspace }}/flytesnacks
+          DOCSEARCH_API_KEY: fake_docsearch_api_key  # must be set to get doc build to succeed
         run: |
           conda activate monodocs-env
           make -C docs html SPHINXOPTS="-W"
