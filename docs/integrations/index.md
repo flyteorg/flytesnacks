@@ -5,7 +5,7 @@
 Flyte is designed to be highly extensible and can be customized in multiple ways.
 
 ```{note}
-Want to contribute an example? Check out the {doc}`Example Contribution Guide <contribute>`.
+Want to contribute an example? Check out the {ref}`Documentation contribution guide <contribute_docs>`.
 ```
 
 ## Flytekit Plugins
@@ -18,35 +18,35 @@ Flytekit functionality. These plugins can be anything and for comparison can be 
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`SQL <auto_examples/sql_plugin/index>`
+* - {doc}`SQL </auto_examples/sql_plugin/index>`
   - Execute SQL queries as tasks.
-* - {doc}`Great Expectations <auto_examples/greatexpectations_plugin/index>`
+* - {doc}`Great Expectations </auto_examples/greatexpectations_plugin/index>`
   - Validate data with `great_expectations`.
-* - {doc}`Papermill <auto_examples/papermill_plugin/index>`
+* - {doc}`Papermill </auto_examples/papermill_plugin/index>`
   - Execute Jupyter Notebooks with `papermill`.
-* - {doc}`Pandera <auto_examples/pandera_plugin/index>`
+* - {doc}`Pandera </auto_examples/pandera_plugin/index>`
   - Validate pandas dataframes with `pandera`.
-* - {doc}`Modin <auto_examples/modin_plugin/index>`
+* - {doc}`Modin </auto_examples/modin_plugin/index>`
   - Scale pandas workflows with `modin`.
-* - {doc}`Dolt <auto_examples/dolt_plugin/index>`
+* - {doc}`Dolt </auto_examples/dolt_plugin/index>`
   - Version your SQL database with `dolt`.
-* - {doc}`DBT <auto_examples/dbt_plugin/index>`
+* - {doc}`DBT </auto_examples/dbt_plugin/index>`
   - Run and test your `dbt` pipelines in Flyte.
-* - {doc}`WhyLogs <auto_examples/whylogs_plugin/index>`
+* - {doc}`WhyLogs </auto_examples/whylogs_plugin/index>`
   - `whylogs`: the open standard for data logging.
-* - {doc}`MLFlow <auto_examples/mlflow_plugin/index>`
+* - {doc}`MLFlow </auto_examples/mlflow_plugin/index>`
   - `mlflow`: the open standard for model tracking.
-* - {doc}`ONNX <auto_examples/onnx_plugin/index>`
+* - {doc}`ONNX </auto_examples/onnx_plugin/index>`
   - Convert ML models to ONNX models seamlessly.
-* - {doc}`DuckDB <auto_examples/duckdb_plugin/index>`
+* - {doc}`DuckDB </auto_examples/duckdb_plugin/index>`
   - Run analytical queries using DuckDB.
-* - {doc}`Weights and Biases <auto_examples/wandb_plugin/index>`
+* - {doc}`Weights and Biases </auto_examples/wandb_plugin/index>`
   - `wandb`: Machine learning platform to build better models faster.
-* - {doc}`Neptune <auto_examples/neptune_plugin/index>`
+* - {doc}`Neptune </auto_examples/neptune_plugin/index>`
   - `neptune`: Neptune is the MLOps stack component for experiment tracking.
-* - {doc}`NIM <auto_examples/nim_plugin/index>`
+* - {doc}`NIM </auto_examples/nim_plugin/index>`
   - Serve optimized model containers with NIM.
-* - {doc}`Ollama <auto_examples/ollama_plugin/index>`
+* - {doc}`Ollama </auto_examples/ollama_plugin/index>`
   - Serve fine-tuned LLMs with Ollama in a Flyte workflow.
 ```
 
@@ -72,19 +72,19 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`K8s Pods <auto_examples/k8s_pod_plugin/index>`
+* - {doc}`K8s Pods </auto_examples/k8s_pod_plugin/index>`
   - Execute K8s pods for arbitrary workloads.
-* - {doc}`K8s Cluster Dask Jobs <auto_examples/k8s_dask_plugin/index>`
+* - {doc}`K8s Cluster Dask Jobs </auto_examples/k8s_dask_plugin/index>`
   - Run Dask jobs on a K8s Cluster.
-* - {doc}`K8s Cluster Spark Jobs <auto_examples/k8s_spark_plugin/index>`
+* - {doc}`K8s Cluster Spark Jobs </auto_examples/k8s_spark_plugin/index>`
   - Run Spark jobs on a K8s Cluster.
-* - {doc}`Kubeflow PyTorch <auto_examples/kfpytorch_plugin/index>`
+* - {doc}`Kubeflow PyTorch </auto_examples/kfpytorch_plugin/index>`
   - Run distributed PyTorch training jobs using `Kubeflow`.
-* - {doc}`Kubeflow TensorFlow <auto_examples/kftensorflow_plugin/index>`
+* - {doc}`Kubeflow TensorFlow </auto_examples/kftensorflow_plugin/index>`
   - Run distributed TensorFlow training jobs using `Kubeflow`.
-* - {doc}`MPI Operator <auto_examples/kfmpi_plugin/index>`
+* - {doc}`MPI Operator </auto_examples/kfmpi_plugin/index>`
   - Run distributed deep learning training jobs using Horovod and MPI.
-* - {doc}`Ray Task <auto_examples/ray_plugin/index>`
+* - {doc}`Ray Task </auto_examples/ray_plugin/index>`
   - Run Ray jobs on a K8s Cluster.
 ```
 
@@ -98,23 +98,23 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Airflow agent <auto_examples/airflow_agent/index>`
+* - {doc}`Airflow agent </auto_examples/airflow_agent/index>`
   - Run Airflow jobs in your workflows with the Airflow agent.
-* - {doc}`BigQuery agent <auto_examples/bigquery_agent/index>`
+* - {doc}`BigQuery agent </auto_examples/bigquery_agent/index>`
   - Run BigQuery jobs in your workflows with the BigQuery agent.
-* - {doc}`ChatGPT agent <auto_examples/chatgpt_agent/index>`
+* - {doc}`ChatGPT agent </auto_examples/chatgpt_agent/index>`
   - Run ChatGPT jobs in your workflows with the ChatGPT agent.
-* - {doc}`Databricks <auto_examples/databricks_agent/index>`
+* - {doc}`Databricks </auto_examples/databricks_agent/index>`
   - Run Databricks jobs in your workflows with the Databricks agent.
-* - {doc}`Memory Machine Cloud <auto_examples/mmcloud_agent/index>`
+* - {doc}`Memory Machine Cloud </auto_examples/mmcloud_agent/index>`
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
-* - {doc}`OpenAI Batch <auto_examples/openai_batch_agent/index>`
+* - {doc}`OpenAI Batch </auto_examples/openai_batch_agent/index>`
   - Submit requests for asynchronous batch processing on OpenAI.
-* - {doc}`SageMaker Inference <auto_examples/sagemaker_inference_agent/index>`
+* - {doc}`SageMaker Inference </auto_examples/sagemaker_inference_agent/index>`
   - Deploy models and create, as well as trigger inference endpoints on SageMaker.
-* - {doc}`Sensor <auto_examples/sensor/index>`
+* - {doc}`Sensor </auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
-* - {doc}`Snowflake <auto_examples/snowflake_agent/index>`
+* - {doc}`Snowflake </auto_examples/snowflake_agent/index>`
   - Run Snowflake jobs in your workflows with the Snowflake agent.
 ```
 
@@ -129,13 +129,13 @@ As the term suggests, external service backend plugins rely on external services
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`AWS Athena plugin <auto_examples/athena_plugin/index>`
+* - {doc}`AWS Athena plugin </auto_examples/athena_plugin/index>`
   - Execute queries using AWS Athena
-* - {doc}`AWS Batch plugin <auto_examples/aws_batch_plugin/index>`
+* - {doc}`AWS Batch plugin </auto_examples/aws_batch_plugin/index>`
   - Running tasks and workflows on AWS batch service
-* - {doc}`Flyte Interactive <auto_examples/flyteinteractive_plugin/index>`
+* - {doc}`Flyte Interactive </auto_examples/flyteinteractive_plugin/index>`
   - Execute tasks using Flyte Interactive to debug.
-* - {doc}`Hive plugin <auto_examples/hive_plugin/index>`
+* - {doc}`Hive plugin </auto_examples/hive_plugin/index>`
   - Run Hive jobs in your workflows.
 ```
 
@@ -189,6 +189,48 @@ constructs natively within other orchestration tools.
 :header-rows: 0
 :widths: 20 30
 
-* - {doc}`Airflow <auto_examples/airflow_plugin/index>`
+* - {doc}`Airflow </auto_examples/airflow_plugin/index>`
   - Trigger Flyte executions from Airflow.
+```
+
+```{toctree}
+:maxdepth: -1
+:hidden:
+
+/auto_examples/airflow_agent/index
+/auto_examples/airflow_plugin/index
+/auto_examples/athena_plugin/index
+/auto_examples/aws_batch_plugin/index
+/auto_examples/bigquery_agent/index
+/auto_examples/chatgpt_agent/index
+/auto_examples/k8s_dask_plugin/index
+/auto_examples/databricks_agent/index
+/auto_examples/dbt_plugin/index
+/auto_examples/dolt_plugin/index
+/auto_examples/duckdb_plugin/index
+/auto_examples/flyteinteractive_plugin/index
+/auto_examples/greatexpectations_plugin/index
+/auto_examples/hive_plugin/index
+/auto_examples/k8s_pod_plugin/index
+/auto_examples/mlflow_plugin/index
+/auto_examples/mmcloud_agent/index
+/auto_examples/modin_plugin/index
+/auto_examples/kfmpi_plugin/index
+/auto_examples/nim_plugin/index
+/auto_examples/ollama_plugin/index
+/auto_examples/onnx_plugin/index
+/auto_examples/openai_batch_agent/index
+/auto_examples/papermill_plugin/index
+/auto_examples/pandera_plugin/index
+/auto_examples/kfpytorch_plugin/index
+/auto_examples/ray_plugin/index
+/auto_examples/sagemaker_inference_agent/index
+/auto_examples/sensor/index
+/auto_examples/snowflake_agent/index
+/auto_examples/k8s_spark_plugin/index
+/auto_examples/sql_plugin/index
+/auto_examples/kftensorflow_plugin/index
+/auto_examples/wandb_plugin/index
+/auto_examples/whylogs_plugin/index
+Deprecated integrations <deprecated_integrations/index>
 ```

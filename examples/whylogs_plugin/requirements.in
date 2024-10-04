@@ -7,3 +7,4 @@ scikit-learn
 whylogs[s3]
 whylogs[mlflow]
 whylogs[whylabs]
+pandas

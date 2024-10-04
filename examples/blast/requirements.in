@@ -1,4 +1,5 @@
 flytekit>=0.32.3
 wheel
 matplotlib
+pandas
 flytekitplugins-deck-standard

@@ -20,7 +20,7 @@ pip install flytekitplugins-snowflake
 
 If you intend to run the plugin on the Flyte cluster, you must first set it up on the backend.
 Please refer to the
-{std:ref}`Snowflake plugin setup guide <flyte:deployment-plugin-setup-webapi-snowflake>`
+{ref}`Snowflake plugin setup guide <deployment-plugin-setup-webapi-snowflake>`
 for detailed instructions.
 
 ## Run the example on the Flyte cluster

@@ -1,5 +1,6 @@
 flytekit
 wheel
 matplotlib
+pandas
 flytekitplugins-deck-standard
 flytekitplugins-bigquery
