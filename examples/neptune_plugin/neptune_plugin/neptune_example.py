@@ -28,19 +28,18 @@ from flytekitplugins.neptune import neptune_init_run
 NEPTUNE_PROJECT = "username/project"
 
 # %% [markdown]
-# W&B requires an API key to authenticate with their service. In the above example,
+# Neptune requires an API key to authenticate with their service. In the above example,
 # the secret is created using
 # [Flyte's Secrets manager](https://docs.flyte.org/en/latest/user_guide/productionizing/secrets.html).
 api_key = Secret(key="neptune-api-token", group="neptune-api-group")
 
-# %% [mardkwon]
+# %% [markdown]
 # Next, we use `ImageSpec` to construct a container with the dependencies for our
 # XGBoost training task. Please set the `REGISTRY` to a registry that your cluster can access;
 REGISTRY = "localhost:30000"
 
 image = ImageSpec(
     name="flytekit-xgboost",
-    apt_packages=["git"],
     packages=[
         "neptune",
         "neptune-xgboost",
