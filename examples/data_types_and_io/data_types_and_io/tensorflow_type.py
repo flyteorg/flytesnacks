@@ -1,7 +1,11 @@
-# Tensorflow Model
+# Import necessary libraries and modules
 import tensorflow as tf
 from flytekit import task, workflow
+from flytekit.types.file import TFRecordFile
+from flytekit.types.directory import TFRecordsDirectory
+import os
 
+# TensorFlow Model
 @task
 def train_model() -> tf.keras.Model:
     model = tf.keras.Sequential([
@@ -24,9 +28,6 @@ def training_workflow(x: tf.Tensor, y: tf.Tensor) -> float:
 
 
 # TensorFlow Record File
-from flytekit.types.file import TFRecordFile
-from flytekit import task, workflow
-
 @task
 def process_tfrecord(file: TFRecordFile) -> int:
     dataset = tf.data.TFRecordDataset(file)
@@ -43,11 +44,6 @@ def tfrecord_workflow(file: TFRecordFile) -> int:
 
 
 # TensorFlow Records Directory
-from flytekit.types.directory import TFRecordsDirectory
-from flytekit import task, workflow
-import os
-import tensorflow as tf
-
 @task
 def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
     files = [f.path for f in os.scandir(dir) if f.is_file()]
@@ -63,12 +59,8 @@ def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
 def tfrecords_dir_workflow(dir: TFRecordsDirectory) -> int:
     return process_tfrecords_dir(dir=dir)
 
-# TFRecordDatasetConfig
-from flytekit.types.directory import TFRecordsDirectory
-from flytekit import task, workflow
-import os
-import tensorflow as tf
 
+# TFRecordDatasetConfig
 @task
 def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
     files = [f.path for f in os.scandir(dir) if f.is_file()]
