@@ -59,19 +59,3 @@ def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
 def tfrecords_dir_workflow(dir: TFRecordsDirectory) -> int:
     return process_tfrecords_dir(dir=dir)
 
-
-# TFRecordDatasetConfig
-@task
-def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
-    files = [f.path for f in os.scandir(dir) if f.is_file()]
-    dataset = tf.data.TFRecordDataset(files)
-    count = 0
-    for raw_record in dataset:
-        example = tf.train.Example()
-        example.ParseFromString(raw_record.numpy())
-        count += 1
-    return count
-
-@workflow
-def tfrecords_dir_workflow(dir: TFRecordsDirectory) -> int:
-    return process_tfrecords_dir(dir=dir)
