@@ -216,6 +216,7 @@ constructs natively within other orchestration tools.
 /auto_examples/mmcloud_agent/index
 /auto_examples/modin_plugin/index
 /auto_examples/kfmpi_plugin/index
+/auto_examples/neptune_plugin/index
 /auto_examples/nim_plugin/index
 /auto_examples/ollama_plugin/index
 /auto_examples/onnx_plugin/index
