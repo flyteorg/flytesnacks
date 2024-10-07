@@ -62,6 +62,7 @@ image = ImageSpec(
 # %% [markdown]
 # First, we use a task to download the dataset and cache the data in Flyte:
 
+
 # %%
 @task(
     container_image=image,
@@ -84,6 +85,7 @@ def get_dataset() -> Tuple[np.ndarray, np.ndarray]:
 # through `current_context().neptune_run`, which is frequently used
 # in Neptune's integrations. In this example, we pass the `Run` object into Neptune's
 # XGBoost callback.
+
 
 # %%
 @task(
@@ -132,6 +134,7 @@ def train_model(max_depth: int, X: np.ndarray, y: np.ndarray):
 # %% [markdown]
 # With Flyte's dynamic workflows, we can scale up multiple training jobs with different
 # `max_depths`:
+
 
 # %%
 @dynamic(container_image=image)
