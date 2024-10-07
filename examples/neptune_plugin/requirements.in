@@ -1,0 +1,7 @@
+flytekitplugins-neptune
+xgboost
+neptune
+neptune-xgboost
+scikit-learn==1.5.1
+numpy==1.26.1
+matplotlib==3.9.2
