@@ -6,7 +6,7 @@
 .. tags:: Integration, Data, Metrics, Intermediate
 ```
 
-[Neptune](https://neptune.ai/) is the MLOps stack component for experiment tracking. It offers a single place to log, compare, store, and collaborate on experiments and models. This plugin enables seamless use of Neptune within Flyte by configuring links between the two platforms. You can find more information about how to use Neptune in their [documentation](https://docs.neptune.ai/).
+[Neptune](https://neptune.ai/) is an experiment tracker for large-scale model training. It allows AI researchers to monitor their model training in real time, visualize and compare experiments, and collaborate on them with a team. This plugin enables seamless use of Neptune within Flyte by configuring links between the two platforms. You can find more information about how to use Neptune in their [documentation](https://docs.neptune.ai/).
 
 ## Installation
 
