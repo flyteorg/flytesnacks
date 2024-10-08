@@ -1,5 +1,5 @@
 FROM python:3.11-slim-bookworm
-LABEL org.opencontainers.image.source https://github.com/flyteorg/flytesnacks
+LABEL org.opencontainers.image.source=https://github.com/flyteorg/flytesnacks
 
 WORKDIR /root
 ENV VENV /opt/venv
