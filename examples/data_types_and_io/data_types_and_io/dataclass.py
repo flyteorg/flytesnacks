@@ -7,7 +7,6 @@ from flytekit import ImageSpec, task, workflow
 from flytekit.types.directory import FlyteDirectory
 from flytekit.types.file import FlyteFile
 from flytekit.types.structured import StructuredDataset
-from mashumaro.mixins.json import DataClassJSONMixin
 
 # NOTE: If you're using Flytekit version below v1.10, you'll need to decorate with `@dataclass_json` using
 # `from dataclass_json import dataclass_json` instead of inheriting from Mashumaro's `DataClassJSONMixin`.
@@ -23,7 +22,7 @@ image_spec = ImageSpec(
 # Python types
 # Define a `dataclass` with `int`, `str` and `dict` as the data types
 @dataclass
-class Datum(DataClassJSONMixin):
+class Datum:
     x: int
     y: str
     z: dict[int, str]
@@ -50,7 +49,7 @@ def add(x: Datum, y: Datum) -> Datum:
 
 # Flyte types
 @dataclass
-class FlyteTypes(DataClassJSONMixin):
+class FlyteTypes:
     dataframe: StructuredDataset
     file: FlyteFile
     directory: FlyteDirectory
