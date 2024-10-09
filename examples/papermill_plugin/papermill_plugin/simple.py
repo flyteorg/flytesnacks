@@ -32,6 +32,7 @@ nb = NotebookTask(
     name="simple-nb",
     notebook_path=str(pathlib.Path(__file__).parent.absolute() / "nb_simple.ipynb"),
     render_deck=True,
+    enable_deck=True,
     inputs=kwtypes(v=float),
     outputs=kwtypes(square=float),
 )
