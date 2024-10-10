@@ -225,6 +225,7 @@ constructs natively within other orchestration tools.
 /auto_examples/openai_batch_agent/index
 /auto_examples/papermill_plugin/index
 /auto_examples/pandera_plugin/index
+/auto_examples/perian_agent/index
 /auto_examples/kfpytorch_plugin/index
 /auto_examples/ray_plugin/index
 /auto_examples/sagemaker_inference_agent/index

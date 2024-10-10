@@ -1,6 +1,6 @@
 # PERIAN Job Platform Agent
 
-Flyte Agent plugin for executing Flyte tasks on PERIAN Job Platform (perian.io). PERIAN allows the serverless execution of any task on servers aggregated from multiple cloud providers.
+The PERIAN Flyte Agent enables you to execute Flyte tasks on the [PERIAN Sky Platform](https://perian.io/). PERIAN allows the execution of any task on servers aggregated from multiple cloud providers.
 
 Example usage:
 
@@ -16,6 +16,6 @@ def perian_hello(name: str) -> str:
 
 To get started with PERIAN, see the [PERIAN documentation](https://perian.io/docs/overview) and the [PERIAN Flyte Agent documentation](https://perian.io/docs/flyte-getting-started).
 
-## Agent Setup
+## Agent setup
 
 Consult the [PERIAN Flyte Agent setup guide](https://perian.io/docs/flyte-setup-guide).
