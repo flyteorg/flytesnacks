@@ -110,6 +110,8 @@ orchestrated by Flyte itself, within its provisioned Kubernetes clusters.
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
 * - {doc}`OpenAI Batch </auto_examples/openai_batch_agent/index>`
   - Submit requests for asynchronous batch processing on OpenAI.
+* - {doc}`PERIAN Agent </auto_examples/perian_agent/index>`
+  - Execute tasks on PERIAN Job Platform.
 * - {doc}`SageMaker Inference </auto_examples/sagemaker_inference_agent/index>`
   - Deploy models and create, as well as trigger inference endpoints on SageMaker.
 * - {doc}`Sensor </auto_examples/sensor/index>`
@@ -223,6 +225,7 @@ constructs natively within other orchestration tools.
 /auto_examples/openai_batch_agent/index
 /auto_examples/papermill_plugin/index
 /auto_examples/pandera_plugin/index
+/auto_examples/perian_agent/index
 /auto_examples/kfpytorch_plugin/index
 /auto_examples/ray_plugin/index
 /auto_examples/sagemaker_inference_agent/index
