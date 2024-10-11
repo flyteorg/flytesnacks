@@ -219,7 +219,6 @@ Kubeflow PyTorch </auto_examples/kfpytorch_plugin/index>
 Kubeflow TensorFlow </auto_examples/kftensorflow_plugin/index>
 Kubernetes cluster Dask jobs </auto_examples/k8s_dask_plugin/index>
 Kubernetes cluster Spark jobs </auto_examples/k8s_spark_plugin/index>
-Kubernetes pods </auto_examples/k8s_pod_plugin/index>
 MPI Operator </auto_examples/kfmpi_plugin/index>
 Ray </auto_examples/ray_plugin/index>
 ```
@@ -277,5 +276,6 @@ Airflow </auto_examples/airflow_plugin/index>
 
 BigQuery plugin </auto_examples/bigquery_plugin/index>
 Databricks plugin </auto_examples/databricks_plugin/index>
+Kubernetes pods </auto_examples/k8s_pod_plugin/index>
 Snowflake plugin </auto_examples/snowflake_plugin/index>
 ```
