@@ -1,4 +1,4 @@
-(wandb)=
+(wandb_plugin)=
 
 # Weights and Biases
 
