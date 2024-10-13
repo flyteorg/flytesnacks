@@ -28,6 +28,7 @@ def training_workflow(x: tf.Tensor, y: tf.Tensor) -> float:
     return evaluate_model(model=model, x=x, y=y)
 
 
+# TFRecord Files
 @task
 def process_tfrecord(file: TFRecordFile) -> int:
     count = 0
@@ -41,6 +42,7 @@ def tfrecord_workflow(file: TFRecordFile) -> int:
     return process_tfrecord(file=file)
 
 
+# TFRecord Directories
 @task
 def process_tfrecords_dir(dir: TFRecordsDirectory) -> int:
     count = 0
