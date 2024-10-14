@@ -12,7 +12,7 @@ contributing samples easy. If this is your first time running these examples, fo
 {ref}`setup guide <env_setup>` to get started.
 
 ```{note}
-Want to contribute an example? Check out the [Documentation contribution guide](https://docs.flyte.org/en/latest/flytesnacks/contribute.html).
+Want to contribute a tutorial? Check out the {ref}`Tutorials and integration examples contribution guide <contribute_examples>`.
 ```
 
 ## 🤖 Model Training
