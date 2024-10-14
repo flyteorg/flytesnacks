@@ -4,6 +4,10 @@
 .. tags:: Integration, Kubernetes, Advanced
 ```
 
+```{important}
+This plugin is no longer needed and is here only for backwards compatibility. No new versions will be published after v1.13.x Please use the `pod_template` and `pod_template_name` arguments to `@task` as described in the {ref}`Kubernetes task pod configuration guide <deployment-configuration-general>` instead.
+```
+
 Flyte tasks, represented by the {py:func}`@task <flytekit.task>` decorator, are essentially single functions that run in one container.
 However, there may be situations where you need to run a job with more than one container or require additional capabilities, such as:
 

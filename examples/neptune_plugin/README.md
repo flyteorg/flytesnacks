@@ -1,6 +1,6 @@
-(neptune)=
+(neptune_plugin)=
 
-# Neptune
+# Neptune plugin
 
 ```{eval-rst}
 .. tags:: Integration, Data, Metrics, Intermediate
@@ -10,7 +10,7 @@
 
 ## Installation
 
-To install the Flyte Neptune plugin, , run the following command:
+To install the Flyte Neptune plugin, run the following command:
 
 ```bash
 pip install flytekitplugins-neptune
