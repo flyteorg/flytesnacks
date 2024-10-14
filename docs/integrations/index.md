@@ -5,7 +5,7 @@
 Flyte is designed to be highly extensible and can be customized in multiple ways.
 
 ```{note}
-Want to contribute an integration example? Check out the {ref}`Tutorials and integration examples contribution guide <contribute_examples>`.
+Want to contribute an example? Check out the {ref}`Documentation contribution guide <contribute_docs>`.
 ```
 
 ## Flytekit plugins
