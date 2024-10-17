@@ -108,6 +108,8 @@ Native backend plugins can be executed without any external service dependencies
   - Execute tasks using the MemVerge Memory Machine Cloud agent.
 * - {doc}`OpenAI Batch </auto_examples/openai_batch_agent/index>`
   - Submit requests for asynchronous batch processing on OpenAI.
+* - {doc}`PERIAN Job Platform agent </auto_examples/perian_agent/index>`
+  - Execute tasks on PERIAN Job Platform.
 * - {doc}`Sensor agent </auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
 * - {doc}`Snowflake agent </auto_examples/snowflake_agent/index>`
@@ -235,6 +237,7 @@ ChatGPT agent </auto_examples/chatgpt_agent/index>
 Databricks agent </auto_examples/databricks_agent/index>
 Memory Machine Cloud agent </auto_examples/mmcloud_agent/index>
 OpenAI batch agent </auto_examples/openai_batch_agent/index>
+PERIAN Job Platform agent </auto_examples/perian_agent/index>
 Sensor agent </auto_examples/sensor/index>
 Snowflake agent </auto_examples/snowflake_agent/index>
 ```
