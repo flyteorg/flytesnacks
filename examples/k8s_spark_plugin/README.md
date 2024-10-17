@@ -27,7 +27,7 @@ However, please bear in mind that this functionality requires a significant Kube
 
 For optimal results, we highly recommend adopting the
 [multi-cluster mode](https://docs.flyte.org/en/latest/deployment/configuration/performance.html#multi-cluster-mode).
-Additionally, consider enabling {std:ref}`resource quotas <deployment/configuration/general:configurable resource types>`
+Additionally, consider enabling {ref}`resource quotas <deployment-configuration-general>`
 for Spark Jobs that are both large in scale and executed frequently.
 
 Nonetheless, it is important to note that extremely short-duration jobs might not be the best fit for this setup.
@@ -63,7 +63,7 @@ Flyte Spark employs the Spark on K8s operator in conjunction with a bespoke
 [Flyte Spark Plugin](https://pkg.go.dev/github.com/flyteorg/flyteplugins@v0.5.25/go/tasks/plugins/k8s/spark).
 
 This plugin serves as a backend component and necessitates activation within your deployment.
-To enable it, follow the instructions outlined in the {ref}`flyte:deployment-plugin-setup-k8s` section.
+To enable it, follow the instructions outlined in the {ref}`deployment-plugin-setup-k8s` section.
 
 :::{note}
 Refer to [this guide](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/gcp.md) to use GCP instead of AWS.
