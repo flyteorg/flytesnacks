@@ -171,7 +171,7 @@ The {ref}`community <community>` would love to help you build new SDKs. Currentl
 :header-rows: 0
 :widths: 20 30
 
-* - {ref}`flytekit <https://docs.flyte.org/en/latest/api/flytekit/docs_index.html>`
+* - [flytekit](https://docs.flyte.org/en/latest/api/flytekit/docs_index.html)
   - The Python SDK for Flyte.
 * - [flytekit-java](https://github.com/spotify/flytekit-java)
   - The Java/Scala SDK for Flyte.
