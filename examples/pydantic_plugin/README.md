@@ -18,7 +18,7 @@ pip install flytekitplugins-pydantic
 ```
 ## Example usage
 
-For a usage example, see {doc}`Pydantic example usage <example>`.
+For a usage example, see {doc}`Pydantic example usage <pydantic_integration_example>`.
 
 ```{toctree}
 :maxdepth: -1
