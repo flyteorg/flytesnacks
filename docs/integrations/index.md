@@ -171,9 +171,9 @@ The {ref}`community <community>` would love to help you build new SDKs. Currentl
 :header-rows: 0
 :widths: 20 30
 
-* - [flytekit](https://docs.flyte.org/en/latest/api/flytekit/docs_index.html)
+* - [flytekit](https://github.com/flyteorg/flytekit)
   - The Python SDK for Flyte.
-* - [flytekit-java](https://github.com/spotify/flytekit-java)
+* - [flytekit-java](https://github.com/flyteorg/flytekit-java)
   - The Java/Scala SDK for Flyte.
 ```
 
@@ -259,8 +259,8 @@ Hive </auto_examples/hive_plugin/index>
 :hidden:
 :caption: SDKs for writing tasks and workflows
 
-flytekit <https://docs.flyte.org/en/latest/api/flytekit/docs_index.html>
-flytekit-java <https://github.com/spotify/flytekit-java>
+flytekit <https://github.com/flyteorg/flytekit>
+flytekit-java <https://github.com/flyteorg/flytekit-java>
 
 ```
 
