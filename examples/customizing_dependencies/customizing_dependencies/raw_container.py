@@ -1,6 +1,7 @@
 import logging
 
 from flytekit import ContainerTask, kwtypes, task, workflow
+from flytekit.core.base_task import TaskMetadata
 
 logger = logging.getLogger(__file__)
 
@@ -25,6 +26,7 @@ calculate_ellipse_area_shell = ContainerTask(
         "{{.inputs.b}}",
         "/var/outputs",
     ],
+    metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
 calculate_ellipse_area_python = ContainerTask(
@@ -41,6 +43,7 @@ calculate_ellipse_area_python = ContainerTask(
         "{{.inputs.b}}",
         "/var/outputs",
     ],
+    metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
 calculate_ellipse_area_r = ContainerTask(
@@ -58,6 +61,7 @@ calculate_ellipse_area_r = ContainerTask(
         "{{.inputs.b}}",
         "/var/outputs",
     ],
+    metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
 calculate_ellipse_area_haskell = ContainerTask(
@@ -73,6 +77,7 @@ calculate_ellipse_area_haskell = ContainerTask(
         "{{.inputs.b}}",
         "/var/outputs",
     ],
+    metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
 calculate_ellipse_area_julia = ContainerTask(
@@ -89,6 +94,7 @@ calculate_ellipse_area_julia = ContainerTask(
         "{{.inputs.b}}",
         "/var/outputs",
     ],
+    metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
 
