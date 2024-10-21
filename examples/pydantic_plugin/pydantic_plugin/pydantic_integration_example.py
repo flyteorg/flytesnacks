@@ -8,10 +8,12 @@
 # Flyte leverages Pydantic for robust input validation and serialization, ensuring that task inputs are correctly structured.
 
 # %%
-from pydantic.v1 import BaseModel
+from typing import List
+
 from flytekit import task, workflow
 from flytekit.types.file import FlyteFile
-from typing import List
+from pydantic.v1 import BaseModel
+
 
 # %% [markdown]
 # Let's first define a Pydantic model for training configuration.
@@ -20,6 +22,7 @@ class TrainConfig(BaseModel):
     lr: float = 1e-3  # Learning rate
     batch_size: int = 32  # Batch size for training
     files: List[FlyteFile]  # List of file inputs for training
+
 
 # %% [markdown]
 # Next, we use the Pydantic model in a Flyte task to train a model.
@@ -30,6 +33,7 @@ def train(cfg: TrainConfig):
     for file in cfg.files:
         print(f"Processing file: {file}")
 
+
 # %% [markdown]
 # Now we define a Flyte workflow that utilizes the training task.
 # %%
@@ -37,6 +41,7 @@ def train(cfg: TrainConfig):
 def training_workflow(lr: float = 1e-3, batch_size: int = 32, files: List[FlyteFile] = []):
     cfg = TrainConfig(lr=lr, batch_size=batch_size, files=files)
     train(cfg=cfg)
+
 
 # %% [markdown]
 # Finally, we execute the workflow with sample parameters.
