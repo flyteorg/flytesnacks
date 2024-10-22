@@ -88,4 +88,3 @@ If your MPI workflow hangs or times out, it may be caused by an incorrect workfl
 
 1. Verify Registration Method:
     When using a custom image, refer to the Flyte documentation on [Registering workflows](https://docs.flyte.org/en/latest/user_guide/flyte_fundamentals/registering_workflows.html#registration-patterns) to ensure you're following the correct registration method.
-
