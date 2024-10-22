@@ -1,6 +1,6 @@
 # Import necessary libraries and modules
 
-from flytekit import task, workflow
+from flytekit import ImageSpec, task, workflow
 from flytekit.types.directory import TFRecordsDirectory
 from flytekit.types.file import TFRecordFile
 
