@@ -1,4 +1,5 @@
 pandas
 torch
 tabulate
+tensorflow
 pyarrow
