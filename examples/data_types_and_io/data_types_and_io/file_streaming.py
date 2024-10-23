@@ -1,8 +1,9 @@
-from flytekit import task, workflow
-from flytekit.types.file import FlyteFile
-from flytekit.types.directory import FlyteDirectory
-import pandas as pd
 import os
+
+import pandas as pd
+from flytekit import task, workflow
+from flytekit.types.directory import FlyteDirectory
+from flytekit.types.file import FlyteFile
 
 
 @task()
