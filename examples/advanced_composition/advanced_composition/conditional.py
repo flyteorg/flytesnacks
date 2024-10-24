@@ -79,7 +79,10 @@ def shape_properties_accept_conditional_output(radius: float) -> float:
 
 
 if __name__ == "__main__":
-    print(f"Circumference of circle x Area of circle (radius={radius_small}): {shape_properties(radius=5.0)}")
+    radius_small = 0.5
+    print(
+        f"Circumference of circle (radius={radius_small}) x Area of circle (radius={calculate_circle_circumference(radius=radius_small)}): {shape_properties_accept_conditional_output(radius=radius_small)}"
+    )
 
 
 # Using the output of a previous task in a conditional
@@ -213,8 +216,10 @@ def noop_in_conditional(radius: float, seed: int = 5) -> float:
 if __name__ == "__main__":
     default_seed_output = consume_task_output(radius=0.4)
     print(
-        f"Executing consume_task_output(0.4) with default seed=5. Expected output: calculate_circle_circumference => {default_seed_output}"
+        f"Executing consume_task_output(0.4) with default seed=5. Expected output: calculate_circle_area => {default_seed_output}"
     )
 
     custom_seed_output = consume_task_output(radius=0.4, seed=7)
-    print(f"Executing consume_task_output(0.4, seed=7). Expected output: calculate_circle_area => {custom_seed_output}")
+    print(
+        f"Executing consume_task_output(0.4, seed=7). Expected output: calculate_circle_circumference => {custom_seed_output}"
+    )
