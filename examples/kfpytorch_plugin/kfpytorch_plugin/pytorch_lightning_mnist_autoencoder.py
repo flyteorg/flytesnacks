@@ -137,7 +137,7 @@ class MNISTDataModule(L.LightningDataModule):
 # whatever reason, and we set `rdzv_configs` to have a generous timeout so that
 # the head and worker nodes have enought time to connect to each other.
 #
-# This task will output a {ref}`FlyteDirectory <folder>`, which will contain the
+# This task will output a {ref}`FlyteDirectory <flytedirectory>`, which will contain the
 # model checkpoint that will result from training.
 
 # %%

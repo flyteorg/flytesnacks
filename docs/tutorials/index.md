@@ -9,7 +9,7 @@ guide can be found in the [flytesnacks](https://github.com/flyteorg/flytesnacks)
 
 It comes with a highly customized environment to make running, documenting and
 contributing samples easy. If this is your first time running these examples, follow the
-{ref}`setup guide <env_setup>` to get started.
+{ref}`first workflow guide <first_workflow>` to get started.
 
 ```{note}
 Want to contribute a tutorial? Check out the {ref}`Tutorials and integration examples contribution guide <contribute_examples>`.

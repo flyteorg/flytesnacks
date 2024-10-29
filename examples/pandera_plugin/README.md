@@ -4,7 +4,7 @@
 .. tags:: Integration, DataFrame, Data, Intermediate
 ```
 
-Flytekit python natively supports {ref}`many data types <python_to_flyte_type_mapping>`,
+Flytekit python natively supports {ref}`many data types <data_types>`,
 including a `FlyteSchema` type for
 type-annotating pandas dataframes. The flytekit pandera plugin provides an alternative for
 defining dataframe schemas by integrating with [pandera](https://pandera.readthedocs.io/en/stable/),
