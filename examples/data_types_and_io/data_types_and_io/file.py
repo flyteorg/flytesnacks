@@ -72,12 +72,12 @@ def normalize_csv_file(
 if __name__ == "__main__":
     default_files = [
         (
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
+            "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/biostats.csv",
             ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
             ["Age"],
         ),
         (
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv",
+            "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/faithful.csv",
             ["Index", "Eruption length (mins)", "Eruption wait (mins)"],
             ["Eruption length (mins)"],
         ),
