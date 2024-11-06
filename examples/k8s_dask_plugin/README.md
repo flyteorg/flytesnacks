@@ -80,6 +80,52 @@ Ensure that your Kubernetes cluster has sufficient resources available.
 Depending on the resource requirements of your Dask job (including the job runner, scheduler and workers),
 you may need to adjust the resource quotas for the namespace accordingly.
 
+:::{note}
+When working with [Dask's custom resources](https://kubernetes.dask.org/en/latest/operator_resources.html#custom-resources), your Flyte service account needs explicit permissions. To that end, you need to create and bind a Cluster role.
+:::
+
+##### Sample Cluster Role
+>```yaml
+>apiVersion: <http://rbac.authorization.k8s.io/v1|rbac.authorization.k8s.io/v1>
+>kind: ClusterRole
+>metadata:
+>  name: dask-dask-kubernetes-operator-role-cluster
+>  labels:
+>    <http://app.kubernetes.io/managed-by|app.kubernetes.io/managed-by>: Helm
+>  annotations:
+>    <http://meta.helm.sh/release-name|meta.helm.sh/release-name>: dask
+>    <http://meta.helm.sh/release-namespace|meta.helm.sh/release-namespace>: dask
+>rules:
+>  - verbs:
+>      - list
+>      - watch
+>    apiGroups:
+>      - <http://apiextensions.k8s.io|apiextensions.k8s.io>
+>    resources:
+>      - customresourcedefinitions
+>  - verbs:
+>      - get
+>      - list
+>      - watch
+>      - patch
+>      - create
+>      - delete
+>    apiGroups:
+>      - <http://kubernetes.dask.org|kubernetes.dask.org>
+>    resources:
+>      - daskclusters
+>      - daskworkergroups
+>      - daskjobs
+>      - daskjobs/status
+>      - daskautoscalers
+>      - daskworkergroups/scale
+>```
+
+##### Binding command
+```shell
+kubectl create clusterrolebinding flyte-dask-cluster-role-binding --clusterrole=dask-dask-kubernetes-operator-role-cluster --serviceaccount=<flyte-service-account>
+```
+
 ### Resource specification
 
 It's recommended to define `limits` as this will establish the
