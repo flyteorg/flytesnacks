@@ -34,6 +34,7 @@ The [Tutorials](https://docs.flyte.org/en/latest/flytesnacks/tutorials/index.htm
 
 the [Integrations](https://docs.flyte.org/en/latest/flytesnacks/integrations/index.html) section demonstrates how to use Flyte with other tools and frameworks.
 
+
 > Flytesnacks currently has all examples in Python (Flytekit Python SDK).
 
 <html>
