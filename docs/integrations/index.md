@@ -26,6 +26,8 @@ Flytekit functionality. For comparison, these plugins can be thought of like
   - Run analytical queries using DuckDB.
 * - {doc}`Great Expectations </auto_examples/greatexpectations_plugin/index>`
   - Validate data with `great_expectations`.
+* - {doc}`Memray </auto_examples/memray_plugin/index>`
+  - `memray`: Memory profiling with memray.
 * - {doc}`MLFlow </auto_examples/mlflow_plugin/index>`
   - `mlflow`: the open standard for model tracking.
 * - {doc}`Modin </auto_examples/modin_plugin/index>`
