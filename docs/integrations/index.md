@@ -18,6 +18,8 @@ Flytekit functionality. For comparison, these plugins can be thought of like
 :header-rows: 0
 :widths: 20 30
 
+* - {doc}`Comet </auto_examples/comet_ml_plugin/index>`
+  - `comet-ml`: Comet’s machine learning platform.
 * - {doc}`DBT </auto_examples/dbt_plugin/index>`
   - Run and test your `dbt` pipelines in Flyte.
 * - {doc}`Dolt </auto_examples/dolt_plugin/index>`
@@ -195,6 +197,7 @@ constructs natively within other orchestration tools.
 :hidden:
 :caption: Flytekit plugins
 
+Comet </auto_examples/comet_ml_plugin/index>
 DBT </auto_examples/dbt_plugin/index>
 Dolt </auto_examples/dolt_plugin/index>
 DuckDB </auto_examples/duckdb_plugin/index>
