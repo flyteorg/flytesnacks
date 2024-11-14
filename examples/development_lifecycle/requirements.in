@@ -3,4 +3,5 @@ flytekitplugins-deck-standard
 plotly
 scikit-learn
 tabulate
+pandas
 pyarrow

@@ -37,17 +37,17 @@ def normalize_columns(
         normalized_data[colname] = [(x - mean) / std for x in values]
 
     # write to local path
-    out_path = Path(flytekit.current_context().working_directory) / f"normalized-{Path(csv_url.path).stem}.csv"
-    with out_path.open(mode="w") as output_file:
+    out_path = str(Path(flytekit.current_context().working_directory) / f"normalized-{Path(csv_url.path).stem}.csv")
+    with open(out_path, mode="w") as output_file:
         writer = csv.DictWriter(output_file, fieldnames=columns_to_normalize)
         writer.writeheader()
         for row in zip(*normalized_data.values()):
             writer.writerow({k: row[i] for i, k in enumerate(columns_to_normalize)})
 
     if output_location:
-        return FlyteFile(path=out_path, remote_path=output_location)
+        return FlyteFile(path=str(out_path), remote_path=output_location)
     else:
-        return FlyteFile(path=out_path)
+        return FlyteFile(path=str(out_path))
 
 
 # Define a workflow. The `normalize_csv_files` workflow has an `output_location` argument which is passed
@@ -72,12 +72,12 @@ def normalize_csv_file(
 if __name__ == "__main__":
     default_files = [
         (
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
+            "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/biostats.csv",
             ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],
             ["Age"],
         ),
         (
-            "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv",
+            "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/faithful.csv",
             ["Index", "Eruption length (mins)", "Eruption wait (mins)"],
             ["Eruption length (mins)"],
         ),

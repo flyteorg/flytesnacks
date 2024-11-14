@@ -3,7 +3,6 @@ __pycache__/
 .idea
 .jpg
 .ipynb_checkpoints/
-*.csv
 *.dat
 .DS_Store
 gen_modules

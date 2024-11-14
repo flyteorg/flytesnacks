@@ -136,7 +136,7 @@ jobs:
           --force
           tar -xvf flyte-package.tgz
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: snacks-examples-${{ matrix.example }}
           path: examples/${{ matrix.example }}/**/*.pb
@@ -155,7 +155,7 @@ jobs:
         run: |
           mkdir download-artifact
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: ./download-artifact/
       - name: setup sandbox
@@ -216,7 +216,7 @@ jobs:
         run: |
           mkdir download-artifact
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: ./download-artifact/
       - name: Package Examples
@@ -293,7 +293,7 @@ jobs:
           pip install uv
           uv venv
           source .venv/bin/activate
-          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard torch tabulate pyarrow
+          uv pip install "flytekit>=1.12.2" flytekitplugins-deck-standard torch tabulate pyarrow pandas
           pip freeze
       - name: Checkout flytesnacks
         uses: actions/checkout@v3

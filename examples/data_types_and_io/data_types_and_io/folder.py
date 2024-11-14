@@ -93,8 +93,8 @@ def download_and_normalize_csv_files(
 # Run the workflow locally
 if __name__ == "__main__":
     csv_urls = [
-        "https://people.sc.fsu.edu/~jburkardt/data/csv/biostats.csv",
-        "https://people.sc.fsu.edu/~jburkardt/data/csv/faithful.csv",
+        "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/biostats.csv",
+        "https://raw.githubusercontent.com/flyteorg/flytesnacks/refs/heads/master/examples/data_types_and_io/test_data/faithful.csv",
     ]
     columns_metadata = [
         ["Name", "Sex", "Age", "Heights (in)", "Weight (lbs)"],

@@ -1,3 +1,8 @@
+# %% [markdown]
+# # Snowflake plugin example
+#
+# %%
+
 from flytekit import kwtypes, workflow
 from flytekitplugins.snowflake import SnowflakeConfig, SnowflakeTask
 
