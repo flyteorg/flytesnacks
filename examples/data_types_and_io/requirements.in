@@ -3,3 +3,4 @@ torch
 tabulate
 tensorflow
 pyarrow
+pydantic
