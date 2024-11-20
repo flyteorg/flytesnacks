@@ -4,6 +4,7 @@ coverage
 pre-commit
 codespell
 mock
+pydantic>2
 pytest
 mypy
 mashumaro

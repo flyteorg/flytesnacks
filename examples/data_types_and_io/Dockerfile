@@ -19,7 +19,7 @@ RUN python3 -m venv ${VENV}
 ENV PATH="${VENV}/bin:$PATH"
 
 RUN --mount=type=cache,sharing=locked,mode=0777,target=/root/.cache/pip,id=pip \
-    pip install flytekit pandas pyarrow
+    pip install flytekit pandas pyarrow pydantic>2
 RUN --mount=type=cache,sharing=locked,mode=0777,target=/root/.cache/pip,id=pip \
     pip install torch --index-url https://download.pytorch.org/whl/cpu
 

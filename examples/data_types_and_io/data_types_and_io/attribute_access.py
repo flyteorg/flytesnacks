@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from dataclasses_json import dataclass_json
 from flytekit import task, workflow
 
 
@@ -36,7 +35,6 @@ def dict_wf():
 
 
 # Directly access an attribute of a dataclass
-@dataclass_json
 @dataclass
 class Fruit:
     name: str
