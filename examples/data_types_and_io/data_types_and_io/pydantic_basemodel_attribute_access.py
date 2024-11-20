@@ -3,9 +3,8 @@ from pydantic import BaseModel
 
 image_spec = ImageSpec(
     registry="ghcr.io/flyteorg",
-    packages=["pydantic"],
+    packages=["pydantic>2"],
 )
-image_spec = "localhost:30000/flytekit:dev"
 
 
 @task(container_image=image_spec)
