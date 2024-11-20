@@ -97,5 +97,4 @@ def basemodel_wf(x: int, y: int) -> (Datum, FlyteTypes):
 
 # Run the workflow locally
 if __name__ == "__main__":
-    result = basemodel_wf(x=10, y=20)
-    print(result)
+    basemodel_wf(x=10, y=20)
