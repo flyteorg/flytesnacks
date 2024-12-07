@@ -29,6 +29,7 @@ calculate_ellipse_area_shell = ContainerTask(
     metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
+# use `ImageSpec` to copy files or directories into container `/root`
 calculate_ellipse_area_python = ContainerTask(
     name="ellipse-area-metadata-python",
     input_data_dir="/var/inputs",
