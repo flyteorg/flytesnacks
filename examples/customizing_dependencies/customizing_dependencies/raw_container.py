@@ -1,6 +1,6 @@
 import logging
 
-from flytekit import ContainerTask, kwtypes, task, workflow
+from flytekit import ContainerTask, kwtypes, task, workflow, ImageSpec
 from flytekit.core.base_task import TaskMetadata
 
 logger = logging.getLogger(__file__)
@@ -35,7 +35,12 @@ calculate_ellipse_area_python = ContainerTask(
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-python:v2",
+    image=ImageSpec(
+        base_image="ghcr.io/flyteorg/rawcontainers-python:v2",
+        registry="localhost:30000",
+        builder="default",
+        copy=["calculate-ellipse-area.py"],
+    ),
     command=[
         "python",
         "calculate-ellipse-area.py",
