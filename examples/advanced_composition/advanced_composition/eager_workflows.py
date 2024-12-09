@@ -1,5 +1,4 @@
-from flytekit import task, workflow
-from flytekit.experimental import eager
+from flytekit import task, workflow, eager
 
 
 # Example 1
@@ -15,21 +14,21 @@ def double(x: int) -> int:
 
 @eager
 async def simple_eager_workflow(x: int) -> int:
-    out = await add_one(x=x)
+    out = add_one(x=x)
     if out < 0:
         return -1
-    return await double(x=out)
+    return double(x=out)
 
 
 # Example 2
 @eager
 async def another_eager_workflow(x: int) -> int:
-    out = await add_one(x=x)
+    out = add_one(x=x)
 
     # out is a Python integer
     out = out - 1
 
-    return await double(x=out)
+    return double(x=out)
 
 
 # Example 3
@@ -40,14 +39,14 @@ def gt_100(x: int) -> bool:
 
 @eager
 async def eager_workflow_with_conditionals(x: int) -> int:
-    out = await add_one(x=x)
+    out = add_one(x=x)
 
     if out < 0:
         return -1
-    elif await gt_100(x=out):
+    elif gt_100(x=out):
         return 100
     else:
-        out = await double(x=out)
+        out = double(x=out)
 
     assert out >= -1
     return out
@@ -57,16 +56,20 @@ async def eager_workflow_with_conditionals(x: int) -> int:
 # Gather the outputs of multiple tasks or subworkflows into a list:
 import asyncio
 
+@task
+async def add_one_async(x: int) -> int:
+    return x + 1
+
 
 @eager
 async def eager_workflow_with_for_loop(x: int) -> int:
     outputs = []
 
     for i in range(x):
-        outputs.append(add_one(x=i))
+        outputs.append(add_one_async(x=i))
 
     outputs = await asyncio.gather(*outputs)
-    return await double(x=sum(outputs))
+    return double(x=sum(outputs))
 
 
 # Example 5
@@ -79,27 +82,27 @@ def subworkflow(x: int) -> int:
 
 @eager
 async def eager_workflow_with_static_subworkflow(x: int) -> int:
-    out = await subworkflow(x=x)
+    out = subworkflow(x=x)
     assert out == (x + 1) * 2
     return out
 
 
 # Example 6
-# Eager subworkflows
+# Nested eager tasks
 @eager
 async def eager_subworkflow(x: int) -> int:
-    return await add_one(x=x)
+    return add_one(x=x)
 
 
 @eager
 async def nested_eager_workflow(x: int) -> int:
     out = await eager_subworkflow(x=x)
-    return await double(x=out)
+    return double(x=out)
 
 
 # Example 7
 # Catching exceptions
-from flytekit.experimental import EagerException
+from flytekit.exceptions.eager import EagerException
 
 
 @task
@@ -123,23 +126,3 @@ async def eager_workflow_with_exception(x: int) -> int:
 if __name__ == "__main__":
     result = asyncio.run(simple_eager_workflow(x=5))
     print(f"Result: {result}")  # "Result: 12"
-
-
-# Sandbox Flyte cluster execution
-# See docs for full steps
-from flytekit.configuration import Config
-from flytekit.remote import FlyteRemote
-
-
-@eager(
-    remote=FlyteRemote(
-        config=Config.for_sandbox(),
-        default_project="flytesnacks",
-        default_domain="development",
-    )
-)
-async def eager_workflow_sandbox(x: int) -> int:
-    out = await add_one(x=x)
-    if out < 0:
-        return -1
-    return await double(x=out)
