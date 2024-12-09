@@ -1,4 +1,4 @@
-from flytekit import task, workflow, eager
+from flytekit import eager, task, workflow
 
 
 # Example 1
@@ -55,6 +55,7 @@ async def eager_workflow_with_conditionals(x: int) -> int:
 # Example 4
 # Gather the outputs of multiple tasks or subworkflows into a list:
 import asyncio
+
 
 @task
 async def add_one_async(x: int) -> int:
