@@ -1,0 +1,19 @@
+python_version: 3.11
+name: yt_public
+registry: ghcr.io/wild-endeavor
+platform: linux/arm64
+builder: default
+apt_packages:
+  - "git"
+  - "curl"
+#packages:
+#  - "union==0.1.82"
+packages:
+  - pandas
+  - pyarrow
+  - plotly
+  - pillow
+  - py-spy
+  - flytekitplugins-deck-standard
+#  - "flytekit==v1.14.0b1"
+  - "git+https://github.com/flyteorg/flytekit.git@3071f56a353283dd56f9f5e58635c76cd1a5bfab"
