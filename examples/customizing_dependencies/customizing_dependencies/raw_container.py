@@ -40,11 +40,11 @@ calculate_ellipse_area_python = ContainerTask(
         base_image="ghcr.io/flyteorg/rawcontainers-python:v2",
         registry="localhost:30000",
         builder="default",
-        copy=["calculate-ellipse-area.py"],
+        copy=["calculate-ellipse-area-new.py"],
     ),
     command=[
         "python",
-        "calculate-ellipse-area.py",
+        "calculate-ellipse-area-new.py",
         "{{.inputs.a}}",
         "{{.inputs.b}}",
         "/var/outputs",
