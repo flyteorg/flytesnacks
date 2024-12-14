@@ -1,6 +1,6 @@
 import logging
 
-from flytekit import ContainerTask, kwtypes, task, workflow, ImageSpec
+from flytekit import ContainerTask, ImageSpec, kwtypes, task, workflow
 from flytekit.core.base_task import TaskMetadata
 
 logger = logging.getLogger(__file__)
