@@ -29,30 +29,6 @@ To enable the plugin in the backend, refer to the instructions provided in the {
 
 ## Implementation details
 
-### Submit a Ray job to existing cluster
-
-```{eval-rst}
-.. testcode:: ray-quickstart-1
-    import ray
-    from flytekit import task
-    from flytekitplugins.ray import RayJobConfig
-
-    @ray.remote
-    def f(x):
-        return x * x
-
-    @task(
-        task_config=RayJobConfig(
-            address=<RAY_CLUSTER_ADDRESS>
-            runtime_env={"pip": ["numpy", "pandas"]}
-        )
-    )
-    def ray_task() -> typing.List[int]:
-        futures = [f.remote(i) for i in range(5)]
-        return ray.get(futures)
-
-```
-
 ### Create a Ray cluster managed by Flyte and run a Ray Job on the cluster
 
 ```{eval-rst}

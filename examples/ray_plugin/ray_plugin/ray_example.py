@@ -1,8 +1,7 @@
 # %% [markdown]
 # # Running Ray Tasks
 #
-# The Ray task offers the capability to execute a Ray job either on a pre-existing Ray cluster
-# or by creating a new Ray cluster using the Ray operator.
+# The Ray task offers the capability to execute a Ray job on a dynamically created Ray cluster using the Ray operator.
 #
 # :::{Warning}
 # **Version Compatibility**
@@ -51,7 +50,7 @@ def f(x):
 # Here's a breakdown of the parameters:
 #
 # - `ray_start_params`: These are the [parameters](https://docs.ray.io/en/latest/ray-core/api/doc/ray.init.html)
-#   used in the Ray `init` method, encompassing the address and object-store-memory settings.
+#   used in the Ray `init` method, encompassing the object-store-memory settings.
 # - `replicas`: Specifies the desired number of replicas for the worker group. The default is 1.
 # - `group_name`: A RayCluster can host multiple worker groups, each differentiated by its name.
 # - `runtime_env`: The [runtime environment](https://docs.ray.io/en/latest/ray-core/handling-dependencies.html#runtime-environments)
