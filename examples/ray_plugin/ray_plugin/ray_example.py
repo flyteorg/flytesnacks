@@ -93,13 +93,28 @@ from flytekit.models.task import K8sPod
 from flytekit.core.resources import pod_spec_from_resources
 
 ray_config = RayJobConfig(
-    head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}, k8s_pod=K8sPod(pod_spec=pod_spec_from_resources(k8s_pod_name="ray-head", requests=Resources(cpu="4",mem="5Gi")))),
-    worker_node_config=[WorkerNodeConfig(group_name="ray-group", replicas=1, k8s_pod=K8sPod(pod_spec=pod_spec_from_resources(k8s_pod_name="ray-worker", requests=Resources(cpu="1",mem="1Gi"))))],
+    head_node_config=HeadNodeConfig(
+        ray_start_params={"log-color": "True"},
+        k8s_pod=K8sPod(
+            pod_spec=pod_spec_from_resources(k8s_pod_name="ray-head", requests=Resources(cpu="4", mem="5Gi"))
+        ),
+    ),
+    worker_node_config=[
+        WorkerNodeConfig(
+            group_name="ray-group",
+            replicas=1,
+            k8s_pod=K8sPod(
+                pod_spec=pod_spec_from_resources(k8s_pod_name="ray-worker", requests=Resources(cpu="1", mem="1Gi"))
+            ),
+        )
+    ],
     runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
     enable_autoscaling=True,
     shutdown_after_job_finishes=True,
     ttl_seconds_after_finished=3600,
 )
+
+
 # Lastly, define a workflow to call the Ray task.
 # %%
 @workflow
