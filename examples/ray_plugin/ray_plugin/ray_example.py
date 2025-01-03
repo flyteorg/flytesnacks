@@ -89,8 +89,8 @@ def ray_task(n: int) -> typing.List[int]:
 # %% [markdown]
 # For more fine grain resource allocation, you are able to set the resources for Ray head & worker pods by setting the K8s pod argument for the respective config.
 # %%
-from flytekit.models.task import K8sPod
 from flytekit.core.resources import pod_spec_from_resources
+from flytekit.models.task import K8sPod
 
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(
