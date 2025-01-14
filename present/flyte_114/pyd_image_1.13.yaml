@@ -1,0 +1,13 @@
+python_version: 3.12
+name: yt_public
+registry: ghcr.io/wild-endeavor
+platform: linux/arm64
+builder: default
+apt_packages:
+  - "git"
+  - "curl"
+packages:
+  - pandas
+  - pyarrow
+  - pydantic
+  - "flytekit==v1.13.15"
