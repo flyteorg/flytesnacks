@@ -31,7 +31,9 @@ ollama_instance = Ollama(model=Model(name="gemma2"), gpu="1")
     requests=Resources(gpu="0"),
 )
 def model_serving(user_prompt: str) -> str:
-    client = OpenAI(base_url=f"{ollama_instance.base_url}/v1", api_key="ollama")  # api key required but ignored
+    client = OpenAI(
+        base_url=f"{ollama_instance.base_url}/v1", api_key="ollama"
+    )  # api key required but ignored
 
     completion = client.chat.completions.create(
         model="gemma2",
@@ -61,7 +63,21 @@ def model_serving(user_prompt: str) -> str:
 # By default, Ollama initializes the server with `cpu`, `gpu`, and `mem` set to `1`, `1`, and `15Gi`, respectively.
 # You can adjust these settings to meet your requirements.
 #
-# To serve a fine-tuned model, provide the model configuration as `modelfile` within the `Model` dataclass.
+# To serve a fine-tuned model, provide the model configuration within the `Model` dataclass.
+# The following parameters are used to configure the model:
+#
+# - **name**: The name of the model.
+# - **mem**: The amount of memory allocated for the model, specified as a string. Default is "500Mi".
+# - **cpu**: The number of CPU cores allocated for the model. Default is 1.
+# - **from**: The name of an existing model used as a base to create a new custom model.
+# - **files**: A list of file names to create the model from.
+# - **adapters**: A list of file names to create the model for LORA adapters.
+# - **template**: The prompt template for the model.
+# - **license**: A string or list of strings containing the license or licenses for the model.
+# - **system**: A string containing the system prompt for the model.
+# - **parameters**: A dictionary of parameters for the model.
+# - **messages**: A list of message objects used to create a conversation.
+# - **quantize**: Quantize a non-quantized (e.g. float16) model.
 #
 # Below is an example of specifying a fine-tuned LoRA adapter for a Llama3 Mario model:
 # %%
@@ -70,7 +86,9 @@ from flytekit.types.file import FlyteFile
 finetuned_ollama_instance = Ollama(
     model=Model(
         name="llama3-mario",
-        modelfile="FROM llama3\nADAPTER {inputs.ggml}\nPARAMETER temperature 1\nPARAMETER num_ctx 4096\nSYSTEM {inputs.system_prompt}",
+        from_="llama3",
+        adapters=["ggml"],
+        parameters={"temperature": 1, "num_ctx": 4096},
     ),
     gpu="1",
 )
@@ -82,12 +100,12 @@ finetuned_ollama_instance = Ollama(
     accelerator=A10G,
     requests=Resources(gpu="0"),
 )
-def finetuned_model_serving(ggml: FlyteFile, system_prompt: str):
-    ...
+def finetuned_model_serving(ggml: FlyteFile): ...
 
 
 # %% [markdown]
-# `{inputs.ggml}` and `{inputs.system_prompt}` are materialized at run time, with `ggml` and `system_prompt` available as inputs to the task.
+# `ggml` is materialized at run time, with `ggml` available as an input to the task.
+# `files` and `adapters` are also materialized during runtime.
 #
 # Ollama models can be integrated into different stages of your AI workflow, including data pre-processing,
 # model inference, and post-processing. Flyte also allows serving multiple Ollama models simultaneously
