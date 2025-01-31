@@ -87,25 +87,16 @@ def ray_task(n: int) -> typing.List[int]:
 # :::{note}
 # The `Resources` section here is utilized to specify the resources allocated to all Ray components like head, worker & driver pods.
 # %% [markdown]
-# For more fine grain resource allocation, you are able to set the resources for Ray head & worker pods by setting the K8s pod argument for the respective config.
+# For more fine grain resource allocation, you are able to set the resources for Ray head & worker pods by setting `requests` and/or `limits` for the respective config.
 # %%
-from flytekit.core.resources import pod_spec_from_resources
-from flytekit.models.task import K8sPod
-
 ray_config = RayJobConfig(
-    head_node_config=HeadNodeConfig(
-        ray_start_params={"log-color": "True"},
-        k8s_pod=K8sPod(
-            pod_spec=pod_spec_from_resources(k8s_pod_name="ray-head", requests=Resources(cpu="4", mem="5Gi"))
-        ),
-    ),
+    head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}, requests=Resources(cpu="1", mem="2Gi")),
     worker_node_config=[
         WorkerNodeConfig(
             group_name="ray-group",
             replicas=1,
-            k8s_pod=K8sPod(
-                pod_spec=pod_spec_from_resources(k8s_pod_name="ray-worker", requests=Resources(cpu="1", mem="1Gi"))
-            ),
+            requests=Resources(cpu="2", mem="2Gi"),
+            limits=Resources(cpu="3", mem="6Gi"),
         )
     ],
     runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
