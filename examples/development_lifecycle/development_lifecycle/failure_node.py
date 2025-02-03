@@ -1,5 +1,6 @@
+import typing
 from flytekit import WorkflowFailurePolicy, task, workflow
-
+from flytekit.types.error.error import FlyteError
 
 @task
 def create_cluster(name: str):
@@ -20,8 +21,8 @@ def delete_cluster(name: str):
 
 # Create a task that will be executed if any of the tasks in the workflow fail
 @task
-def clean_up(name: str):
-    print(f"Cleaning up cluster {name}")
+def clean_up(name: str, err: typing.Optional[FlyteError] = None):
+    print(f"Deleting cluster {name} due to {err}")
 
 
 # Specify the `on_failure` to a cleanup task.
@@ -49,7 +50,7 @@ def wf1(name: str = "my_cluster"):
 
 
 @workflow
-def clean_up_wf(name: str):
+def clean_up_wf(name: str, err: typing.Optional[FlyteError] = None):
     return clean_up(name=name)
 
 
