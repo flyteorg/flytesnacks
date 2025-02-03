@@ -1,6 +1,8 @@
 import typing
+
 from flytekit import WorkflowFailurePolicy, task, workflow
 from flytekit.types.error.error import FlyteError
+
 
 @task
 def create_cluster(name: str):
