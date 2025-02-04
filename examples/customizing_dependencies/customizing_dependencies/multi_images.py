@@ -2,7 +2,7 @@ import numpy as np
 from flytekit import task, workflow
 
 
-@task(container_image="{{.image.mindmeld.fqn}}:{{.image.mindmeld.version}}")
+@task(image="{{.image.mindmeld.fqn}}:{{.image.mindmeld.version}}")
 def get_data() -> np.ndarray:
     # here we're importing scikit learn within the Flyte task
     from sklearn import datasets
@@ -12,7 +12,7 @@ def get_data() -> np.ndarray:
     return X
 
 
-@task(container_image="{{.image.borebuster.fqn}}:{{.image.borebuster.version}}")
+@task(image="{{.image.borebuster.fqn}}:{{.image.borebuster.version}}")
 def normalize(X: np.ndarray) -> np.ndarray:
     return (X - X.mean(axis=0)) / X.std(axis=0)
 
