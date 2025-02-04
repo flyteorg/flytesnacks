@@ -52,7 +52,7 @@ def wf1(name: str = "my_cluster"):
 
 
 @workflow
-def clean_up_wf(name: str, err: typing.Optional[FlyteError] = None):
+def clean_up_wf(name: str):
     return clean_up(name=name)
 
 
