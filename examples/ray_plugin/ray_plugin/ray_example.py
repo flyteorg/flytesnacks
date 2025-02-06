@@ -136,14 +136,19 @@ worker_pod_spec = {
     "containers": [
         {
             "name": "ray-worker",
-            "resources": {"requests": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"}, "limits": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"}},
+            "resources": {
+                "requests": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"},
+                "limits": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"},
+            },
         }
-    ]
+    ],
 }
 
 ray_config = RayJobConfig(
     head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}, k8s_pod=K8sPod(pod_spec=head_pod_spec)),
-    worker_node_config=[WorkerNodeConfig(group_name="ray-group-a", replicas=4, k8s_pod=K8sPod(pod_spec=worker_pod_spec))],
+    worker_node_config=[
+        WorkerNodeConfig(group_name="ray-group-a", replicas=4, k8s_pod=K8sPod(pod_spec=worker_pod_spec))
+    ],
     runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
     shutdown_after_job_finishes=True,
     ttl_seconds_after_finished=3600,
