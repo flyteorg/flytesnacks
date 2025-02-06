@@ -31,6 +31,7 @@ custom_image = ImageSpec(
 )
 
 import ray
+from flytekit.models.task import K8sPod
 from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
