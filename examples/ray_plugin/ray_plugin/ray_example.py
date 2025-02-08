@@ -107,7 +107,7 @@ if __name__ == "__main__":
 # %% [markdown]
 # ## Ray Head & Worker Node Customization
 #
-# By default, the Ray plugin will base much of the configuration for the Ray head and worker node pods in the Ray
+# By default, the Ray plugin will base much of the configuration for the Ray head and worker node pods
 # based on the Ray job submitter pod which is derived from the task decorator. In some cases it is useful to
 # customize the Ray head and worker node pods and the Ray plugin supports this with optional `k8s_pod` arguments for
 # both the {py:class}`~flytekitplugins.ray.HeadNodeConfig` and {py:class}`~flytekitplugins.ray.WorkerNodeConfig` classes.
