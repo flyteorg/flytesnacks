@@ -86,7 +86,7 @@ def ray_task(n: int) -> typing.List[int]:
 
 # %% [markdown]
 # :::{note}
-# By default, the `Resources` section here is utilized to specify the resources allocated to the head and nodes as well
+# By default, the `Resources` section here is utilized to specify the resources allocated to the head and worker nodes as well
 # as the submitter pod.
 # :::
 #
