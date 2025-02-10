@@ -31,6 +31,7 @@ custom_image = ImageSpec(
 )
 
 import ray
+from flytekit.models.task import K8sPod
 from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
@@ -85,7 +86,8 @@ def ray_task(n: int) -> typing.List[int]:
 
 # %% [markdown]
 # :::{note}
-# The `Resources` section here is utilized to specify the resources allocated to the worker nodes.
+# By default, the `Resources` section here is utilized to specify the resources allocated to the head and worker nodes as well
+# as the submitter pod.
 # :::
 #
 # Lastly, define a workflow to call the Ray task.
@@ -101,6 +103,57 @@ def ray_workflow(n: int) -> typing.List[int]:
 # %%
 if __name__ == "__main__":
     print(ray_workflow(n=10))
+
+# %% [markdown]
+# ## Ray Head & Worker Node Customization
+#
+# By default, the Ray plugin will base much of the configuration for the Ray head and worker node pods
+# based on the Ray job submitter pod which is derived from the task decorator. In some cases it is useful to
+# customize the Ray head and worker node pods and the Ray plugin supports this with optional `k8s_pod` arguments for
+# both the {py:class}`~flytekitplugins.ray.HeadNodeConfig` and {py:class}`~flytekitplugins.ray.WorkerNodeConfig` classes.
+#
+# This argument allows users to pass in a completely customized pod template. The Ray plugin will use the following
+# configurations if there are defined in the pod template:
+#
+# - Container resource requests (can also be set with the `requests` helper method)
+# - Container resource limits (can also be set with the `limits` helper method)
+# - Pod runtime class name
+#
+# :::{note}
+# Containers in the pod template must match the target container name for the Ray cluster node (ie. ray-head or
+# ray worker). Otherwise, the customized configuration will not take effect.
+# :::
+# %%
+head_pod_spec = {
+    "containers": [
+        {
+            "name": "ray-head",
+            "resources": {"requests": {"cpu": "1", "memory": "4Gi"}, "limits": {"cpu": "1", "memory": "4Gi"}},
+        }
+    ]
+}
+worker_pod_spec = {
+    "runtimeClassName": "nvidia-cdi",
+    "containers": [
+        {
+            "name": "ray-worker",
+            "resources": {
+                "requests": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"},
+                "limits": {"cpu": "1", "memory": "3Gi", "nvidia.com/gpu": "5"},
+            },
+        }
+    ],
+}
+
+ray_config = RayJobConfig(
+    head_node_config=HeadNodeConfig(ray_start_params={"log-color": "True"}, k8s_pod=K8sPod(pod_spec=head_pod_spec)),
+    worker_node_config=[
+        WorkerNodeConfig(group_name="ray-group-a", replicas=4, k8s_pod=K8sPod(pod_spec=worker_pod_spec))
+    ],
+    runtime_env={"pip": ["numpy", "pandas"]},  # or runtime_env="./requirements.txt"
+    shutdown_after_job_finishes=True,
+    ttl_seconds_after_finished=3600,
+)
 
 # %% [markdown]
 # ## Troubleshoot
