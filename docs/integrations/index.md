@@ -204,6 +204,7 @@ DBT </auto_examples/dbt_plugin/index>
 Dolt </auto_examples/dolt_plugin/index>
 DuckDB </auto_examples/duckdb_plugin/index>
 Great Expectations </auto_examples/greatexpectations_plugin/index>
+Memray </auto_examples/memray_plugin/index>
 MLFlow </auto_examples/mlflow_plugin/index>
 Modin </auto_examples/modin_plugin/index>
 Neptune </auto_examples/neptune_plugin/index>
