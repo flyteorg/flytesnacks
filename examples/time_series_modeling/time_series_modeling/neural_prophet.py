@@ -83,7 +83,7 @@ def make_forecast(df: pd.DataFrame, model_file: FlyteFile) -> pd.DataFrame:
     model_file.download()
     model = load(model_file.path)
 
-    # Create a new dataframe reaching 365 into the future
+    # Create a new dataframe reaching 365 days into the future
     # for our forecast, n_historic_predictions also shows historic data
     df_future = model.make_future_dataframe(
         df,
