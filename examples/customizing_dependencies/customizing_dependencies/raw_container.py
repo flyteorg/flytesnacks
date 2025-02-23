@@ -1,6 +1,6 @@
 import logging
 
-from flytekit import ContainerTask, kwtypes, task, workflow
+from flytekit import ContainerTask, ImageSpec, kwtypes, task, workflow
 from flytekit.core.base_task import TaskMetadata
 
 logger = logging.getLogger(__file__)
@@ -29,16 +29,22 @@ calculate_ellipse_area_shell = ContainerTask(
     metadata=TaskMetadata(cache=True, cache_version="1.0"),
 )
 
+# use `ImageSpec` to copy files or directories into container `/root`
 calculate_ellipse_area_python = ContainerTask(
     name="ellipse-area-metadata-python",
     input_data_dir="/var/inputs",
     output_data_dir="/var/outputs",
     inputs=kwtypes(a=float, b=float),
     outputs=kwtypes(area=float, metadata=str),
-    image="ghcr.io/flyteorg/rawcontainers-python:v2",
+    image=ImageSpec(
+        base_image="ghcr.io/flyteorg/rawcontainers-python:v2",
+        registry="localhost:30000",
+        builder="default",
+        copy=["calculate-ellipse-area-new.py"],
+    ),
     command=[
         "python",
-        "calculate-ellipse-area.py",
+        "calculate-ellipse-area-new.py",
         "{{.inputs.a}}",
         "{{.inputs.b}}",
         "/var/outputs",
