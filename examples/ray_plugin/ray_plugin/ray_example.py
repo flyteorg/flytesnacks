@@ -31,6 +31,7 @@ custom_image = ImageSpec(
 )
 
 import ray
+from flytekit.models.task import K8sPod
 from flytekitplugins.ray import HeadNodeConfig, RayJobConfig, WorkerNodeConfig
 
 
@@ -104,7 +105,6 @@ ray_config = RayJobConfig(
     shutdown_after_job_finishes=True,
     ttl_seconds_after_finished=3600,
 )
-
 
 # Lastly, define a workflow to call the Ray task.
 # %%

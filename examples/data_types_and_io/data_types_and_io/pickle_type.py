@@ -34,7 +34,7 @@ def superhero_wf(name: str = "Thor", power: str = "Flight") -> str:
 # The following example demonstrates how to set the batch size.
 from typing import Iterator
 
-from flytekit.types.pickle.pickle import BatchSize
+from flytekit.core.type_engine import BatchSize
 from typing_extensions import Annotated
 
 
