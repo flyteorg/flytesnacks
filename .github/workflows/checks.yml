@@ -72,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 'Clear action cache'
-        uses: ./flytesnacks/.github/actions/clear-action-cache
+        uses: ./.github/actions/clear-action-cache
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -271,7 +271,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: 'Clear action cache'
-        uses: ./flytesnacks/.github/actions/clear-action-cache
+        uses: ./.github/actions/clear-action-cache
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
