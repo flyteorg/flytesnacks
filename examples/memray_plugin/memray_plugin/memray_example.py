@@ -5,9 +5,10 @@
 # Memray tracks and reports memory allocations, both in python code and in compiled extension modules.
 # This Memray Profiling plugin enables memory tracking on the Flyte task level and renders a memgraph profiling graph on Flyte Deck.
 # %%
-from flytekit import workflow, task, ImageSpec
-from flytekitplugins.memray import memray_profiling
 import time
+
+from flytekit import ImageSpec, task, workflow
+from flytekitplugins.memray import memray_profiling
 
 # %% [markdown]
 # First, we use `ImageSpec` to construct a container that contains the dependencies for the

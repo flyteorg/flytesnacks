@@ -1,4 +1,4 @@
-from flytekit import task, workflow, eager
+from flytekit import eager, task, workflow
 
 
 # Example 1
