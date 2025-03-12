@@ -17,7 +17,7 @@ from flytekitplugins.memray import memray_profiling
 image = ImageSpec(
     name="memray_demo",
     packages=["flytekitplugins_memray"],
-    registry="<your_cr_registry>",
+    registry="ghcr.io/flyteorg",  # Use your image registry
 )
 
 
