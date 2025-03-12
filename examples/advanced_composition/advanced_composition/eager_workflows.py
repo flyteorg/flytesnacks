@@ -1,5 +1,4 @@
-from flytekit import task, workflow
-from flytekit.experimental import eager
+from flytekit import eager, task, workflow
 
 
 # Example 1
@@ -99,7 +98,7 @@ async def nested_eager_workflow(x: int) -> int:
 
 # Example 7
 # Catching exceptions
-from flytekit.experimental import EagerException
+from flytekit.exceptions.eager import EagerException
 
 
 @task
@@ -115,31 +114,3 @@ async def eager_workflow_with_exception(x: int) -> int:
         return await raises_exc(x=x)
     except EagerException:
         return -1
-
-
-# Execute eager workflows locally by calling them
-# like a regular `async` function
-
-if __name__ == "__main__":
-    result = asyncio.run(simple_eager_workflow(x=5))
-    print(f"Result: {result}")  # "Result: 12"
-
-
-# Sandbox Flyte cluster execution
-# See docs for full steps
-from flytekit.configuration import Config
-from flytekit.remote import FlyteRemote
-
-
-@eager(
-    remote=FlyteRemote(
-        config=Config.for_sandbox(),
-        default_project="flytesnacks",
-        default_domain="development",
-    )
-)
-async def eager_workflow_sandbox(x: int) -> int:
-    out = await add_one(x=x)
-    if out < 0:
-        return -1
-    return await double(x=out)
