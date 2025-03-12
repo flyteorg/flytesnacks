@@ -71,7 +71,8 @@ jobs:
         example: "${{ fromJson(needs.list_examples.outputs.packages) }}"
     steps:
       - uses: actions/checkout@v4
-      - uses: insightsengineering/disk-space-reclaimer@v1
+      - name: 'Clear action cache'
+        uses: ./flytesnacks/.github/actions/clear-action-cache
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -262,7 +263,6 @@ jobs:
       FLYTESNACKS_VERSION: ""
     timeout-minutes: 30
     steps:
-      - uses: insightsengineering/disk-space-reclaimer@v1
       - name: Set latest Flytesnacks release
         if: ${{ env.FLYTESNACKS_VERSION == '' }}
         run: |
@@ -270,6 +270,8 @@ jobs:
           echo "FLYTESNACKS_VERSION=${FLYTESNACKS_VERSION}" >> ${GITHUB_ENV}
       - name: Checkout
         uses: actions/checkout@v3
+      - name: 'Clear action cache'
+        uses: ./flytesnacks/.github/actions/clear-action-cache
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
