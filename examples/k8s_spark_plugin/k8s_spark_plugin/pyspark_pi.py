@@ -10,8 +10,14 @@ import random
 from operator import add
 
 import flytekit
-from flytekit import ImageSpec, Resources, task, workflow
+from flytekit import ImageSpec, PodTemplate, Resources, task, workflow
 from flytekitplugins.spark import Spark
+from kubernetes.client.models import (
+    V1Container,
+    V1EnvVar,
+    V1PodSpec,
+    V1Toleration,
+)
 
 # %% [markdown]
 # Create an `ImageSpec` to automate the retrieval of a prebuilt Spark image.
@@ -25,10 +31,77 @@ custom_image = ImageSpec(python_version="3.9", registry="ghcr.io/flyteorg", pack
 # To upload the image to the local registry in the demo cluster, indicate the registry as `localhost:30000`.
 # :::
 #
+# Optionally, define pod templates for driver and executor.
+# %%
+driver_pod = PodTemplate(
+    labels={"lKeyA_d": "lValA", "lKeyB_d": "lValB"},
+    annotations={"aKeyA_d": "aValA", "aKeyB_d": "aValB"},
+    primary_container_name="driver-primary",
+    pod_spec=V1PodSpec(
+        containers=[
+            V1Container(
+                name="driver-primary",
+                image="ghcr.io/flyteorg",
+                command=["echo"],
+                args=["wow"],
+                env=[V1EnvVar(name="x/custom-driver", value="driver")],
+            ),
+            V1Container(
+                name="not-primary",
+                command=["echo"],
+                args=["not_primary"],
+            ),
+        ],
+        tolerations=[
+            V1Toleration(
+                key="x/custom-driver",
+                operator="Equal",
+                value="foo-driver",
+                effect="NoSchedule",
+            ),
+        ],
+    ),
+)
+
+executor_pod = PodTemplate(
+    labels={"lKeyA_e": "lValA", "lKeyB_e": "lValB"},
+    annotations={"aKeyA_e": "aValA", "aKeyB_e": "aValB"},
+    primary_container_name="executor-primary",
+    pod_spec=V1PodSpec(
+        containers=[
+            V1Container(
+                name="executor-primary",
+                image="ghcr.io/flyteorg",
+                command=["echo"],
+                args=["wow"],
+                env=[V1EnvVar(name="x/custom-executor", value="executor")],
+            ),
+            V1Container(
+                name="not-primary",
+                command=["echo"],
+                args=["not_primary"],
+            ),
+        ],
+        tolerations=[
+            V1Toleration(
+                key="x/custom-executor",
+                operator="Equal",
+                value="foo-executor",
+                effect="NoSchedule",
+            ),
+        ],
+    ),
+)
+
+
+# %% [markdown]
 # To create a Spark task, add {py:class}`~flytekitplugins.spark.Spark` config to the Flyte task.
 #
 # The `spark_conf` parameter can encompass configuration choices commonly employed when setting up a Spark cluster.
 # Additionally, if necessary, you can provide `hadoop_conf` as an input.
+#
+# Users can set `driver_pod` and `executor_pod` to customize pod template for driver and executor.
+# If these are not set, the `pod_template` specified in `@task` will be used as the default.
 # %%
 @task(
     task_config=Spark(
@@ -40,10 +113,35 @@ custom_image = ImageSpec(python_version="3.9", registry="ghcr.io/flyteorg", pack
             "spark.executor.instances": "2",
             "spark.driver.cores": "1",
             "spark.jars": "https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-hadoop3-latest.jar",
-        }
+        },
+        driver_pod=driver_pod,
+        executor_pod=executor_pod,
     ),
     limits=Resources(mem="2000M"),
     container_image=custom_image,
+    pod_template=PodTemplate(
+        labels={"lKeyA": "lValA", "lKeyB": "lValB"},
+        annotations={"aKeyA": "aValA", "aKeyB": "aValB"},
+        pod_spec=V1PodSpec(
+            containers=[
+                V1Container(
+                    name="primary",
+                    image=custom_image,
+                    command="echo",
+                    args=["wow"],
+                    env=[V1EnvVar(name="x/custom", value="custom")],
+                ),
+            ],
+            tolerations=[
+                V1Toleration(
+                    key="x/custom",
+                    operator="Equal",
+                    value="foo",
+                    effect="NoSchedule",
+                ),
+            ],
+        ),
+    ),
 )
 def hello_spark(partitions: int) -> float:
     print("Starting Spark with Partitions: {}".format(partitions))
