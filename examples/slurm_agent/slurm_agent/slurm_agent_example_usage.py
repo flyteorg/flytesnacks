@@ -38,7 +38,7 @@ slurm_task = SlurmTask(
 
 
 @workflow
-def wf() -> None:
+def basic_wf() -> None:
     slurm_task()
 
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     path = os.path.realpath(__file__)
 
     print(">>> LOCAL EXEC <<<")
-    result = runner.invoke(pyflyte.main, ["run", path, "wf"])
+    result = runner.invoke(pyflyte.main, ["run", path, "basic_wf"])
     print(result.output)
 
 
@@ -105,7 +105,7 @@ echo Arg3: $3
 
 
 @workflow
-def wf() -> None:
+def shell_wf() -> None:
     shell_task()
     shell_task_with_args()
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     path = os.path.realpath(__file__)
 
     print(">>> LOCAL EXEC <<<")
-    result = runner.invoke(pyflyte.main, ["run", path, "wf"])
+    result = runner.invoke(pyflyte.main, ["run", path, "shell_wf"])
     print(result.output)
 
 
@@ -183,7 +183,7 @@ def greet(year: int) -> str:
 
 
 @workflow
-def wf(x: int) -> str:
+def function_wf(x: int) -> str:
     x = plus_one(x=x)
     msg = greet(year=x)
     return msg
@@ -201,6 +201,6 @@ if __name__ == "__main__":
 
     print(">>> LOCAL EXEC <<<")
     result = runner.invoke(
-        pyflyte.main, ["run", "--raw-output-data-prefix", "s3://my-flyte-slurm-agent", path, "wf", "--x", 2024]
+        pyflyte.main, ["run", "--raw-output-data-prefix", "s3://my-flyte-slurm-agent", path, "function_wf", "--x", 2024]
     )
     print(result.output)
