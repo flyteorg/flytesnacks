@@ -204,3 +204,188 @@ if __name__ == "__main__":
         pyflyte.main, ["run", "--raw-output-data-prefix", "s3://my-flyte-slurm-agent", path, "function_wf", "--x", 2024]
     )
     print(result.output)
+
+
+# %% [markdown]
+# ## Train and Evaluate a DL Model with `SlurmFunctionTask`
+# The following example demonstrates how `SlurmFunctionTask` can be integrated into a standard deep learning model training workflow. At the highest level, this workflow consists of three main components:
+# * `dataset`: Manage dataset downloading and data preprocessing (MNIST is used as an example).
+# * `model`: Define the deep learning model architecture (e.g., a convolutional neural network).
+# * `trainer`: Handle the training process, including `train_epoch` and `eval_epoch`.
+#
+# Let’s first take a closer look at each component before diving into the main training workflow.
+#
+# ### Dataset
+# %%
+from typing import Tuple
+
+from torch.utils.data import Dataset
+from torchvision import datasets, transforms
+
+
+def get_dataset(download_path: str = "/tmp/torch_data") -> Tuple[Dataset, Dataset]:
+    """Process data and build training and validation sets.
+
+    Args:
+        download_path: Directory to store the raw data.
+
+    Returns:
+        A tuple (tr_ds, val_ds), where tr_ds is a training set and val_ds is a valiation set.
+    """
+    # Define data processing pipeline
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+
+    tr_ds = datasets.MNIST(root=download_path, train=True, download=True, transform=transform)
+    val_ds = datasets.MNIST(root=download_path, train=True, download=True, transform=transform)
+
+    return tr_ds, val_ds
+
+
+# %% [markdown]
+# ### Model
+# %%
+from typing import Dict
+
+import torch.nn as nn
+from torch import Tensor
+
+
+class Model(nn.Module):
+    def __init__(self) -> None:
+        super(Model, self).__init__()
+
+        self.cnn_encoder = nn.Sequential(
+            # Block 1
+            nn.Conv2d(in_channels=1, out_channels=16, kernel_size=5, padding=0),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+            # Block 2
+            nn.Conv2d(in_channels=16, out_channels=32, kernel_size=5, padding=0),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+        )
+        self.clf = nn.Linear(32 * 4 * 4, 10)
+
+    def forward(self, inputs: Dict[str, Tensor]) -> Tensor:
+        x = inputs["x"]
+        bs = x.size(0)
+
+        x = self.cnn_encoder(x)
+        x = x.reshape(bs, -1)
+        logits = self.clf(x)
+
+        return logits
+
+
+# %% [markdown]
+# ### Trainer
+# %%
+import gc
+from typing import Tuple
+
+import torch
+import torch.nn as nn
+from torch.optim import Optimizer
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+
+
+def train_epoch(
+    tr_loader: DataLoader, model: nn.Module, loss_fn: nn.Module, optimizer: Optimizer, debug: bool = False
+) -> float:
+    """Run training for one epoch.
+
+    Args:
+        tr_loader: Training dataloader.
+        model: Model instance.
+        loss_fn: Loss criterion.
+        optimizer: Optimizer.
+        debug: If True, run one batch only.
+
+    Returns:
+        The average training loss over batches.
+    """
+    tr_loss_tot = 0.0
+
+    model.train()
+    for i, batch_data in tqdm(enumerate(tr_loader), total=len(tr_loader)):
+        optimizer.zero_grad(set_to_none=True)
+
+        # Retrieve batched raw data
+        x, y = batch_data
+        inputs = {"x": x}
+
+        # Forward pass
+        logits = model(inputs)
+
+        # Derive loss
+        loss = loss_fn(logits, y)
+        tr_loss_tot += loss.item()
+
+        # Backpropagation
+        loss.backward()
+
+        optimizer.step()
+
+        del x, y, inputs, logits
+        _ = gc.collect()
+
+        if debug:
+            break
+
+    tr_loss_avg = tr_loss_tot / len(tr_loader)
+
+    return tr_loss_avg
+
+
+@torch.no_grad()
+def eval_epoch(
+    eval_loader: DataLoader, model: nn.Module, loss_fn: nn.Module, debug: bool = False
+) -> Tuple[float, float]:
+    """Run evaluation for one epoch.
+
+    Args:
+        eval_loader: Evaluation dataloader.
+        model: Model instance.
+        loss_fn: Loss criterion.
+        debug: If True, run one batch only.
+
+    Returns:
+        A tuple (eval_loss_avg, acc), where eval_loss_avg is the average evaluation loss over batches
+        and acc is the accuracy.
+    """
+    eval_loss_tot = 0
+    y_true, y_pred = [], []
+
+    model.eval()
+    for i, batch_data in tqdm(enumerate(eval_loader), total=len(eval_loader)):
+        # Retrieve batched raw data
+        x, y = batch_data
+        inputs = {"x": x}
+
+        # Forward pass
+        logits = model(inputs)
+
+        # Derive loss
+        loss = loss_fn(logits, y)
+        eval_loss_tot += loss.item()
+
+        # Record batched output
+        y_true.append(y.detach())
+        y_pred.append(logits.detach())
+
+        del x, y, inputs, logits
+        _ = gc.collect()
+
+        if debug:
+            break
+
+    eval_loss_avg = eval_loss_tot / len(eval_loader)
+
+    # Derive accuracy
+    y_true = torch.cat(y_true, dim=0)
+    y_pred = torch.cat(y_pred, dim=0)
+    y_pred = torch.argmax(y_pred, dim=1)
+    acc = (y_true == y_pred).sum() / len(y_true)
+
+    return eval_loss_avg, acc
