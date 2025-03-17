@@ -25,7 +25,7 @@ slurm_task = SlurmTask(
     name="basic",
     task_config=SlurmRemoteScript(
         ssh_config={
-            "host": "aws",
+            "host": "ec2-11-22-33-444.us-west-2.compute.amazonaws.com",
             "username": "ubuntu",
         },
         sbatch_conf={
@@ -69,7 +69,7 @@ echo [TEST SLURM SHELL TASK 1] Run the user-defined script...
 """,
     task_config=Slurm(
         ssh_config={
-            "host": "aws",
+            "host": "ec2-11-22-33-444.us-west-2.compute.amazonaws.com",
             "username": "ubuntu",
             "client_keys": ["~/.ssh/private_key.pem"],
         },
@@ -92,7 +92,7 @@ echo Arg3: $3
 """,
     task_config=Slurm(
         ssh_config={
-            "host": "aws",
+            "host": "ec2-11-22-33-444.us-west-2.compute.amazonaws.com",
             "username": "ubuntu",
         },
         sbatch_conf={
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 @task(
     task_config=SlurmFunction(
         ssh_config={
-            "host": "aws",
+            "host": "ec2-11-22-33-444.us-west-2.compute.amazonaws.com",
             "username": "ubuntu",
             "client_keys": ["~/.ssh/private_key.pem"],
         },
@@ -166,7 +166,7 @@ def plus_one(x: int) -> int:
 @task(
     task_config=SlurmFunction(
         ssh_config={
-            "host": "aws",
+            "host": "ec2-11-22-33-444.us-west-2.compute.amazonaws.com",
             "username": "ubuntu",
         },
         script="""#!/bin/bash -i
