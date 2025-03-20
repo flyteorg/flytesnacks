@@ -1,4 +1,4 @@
-from flytekit import task, workflow, LaunchPlan
+from flytekit import LaunchPlan, task, workflow
 
 
 @task
@@ -48,7 +48,9 @@ def chain_workflows_wf():
 
     sub_wf0 >> sub_wf1
 
+
 # Chaining launchplans
+
 
 @workflow
 def chain_launchplans_wf():
