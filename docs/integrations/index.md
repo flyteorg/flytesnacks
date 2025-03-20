@@ -118,6 +118,8 @@ Native backend plugins can be executed without any external service dependencies
   - Run sensor jobs in your workflows with the sensor agent.
 * - {doc}`Snowflake agent </auto_examples/snowflake_agent/index>`
   - Run Snowflake jobs in your workflows with the Snowflake agent.
+* - {doc}`Slurm agent </auto_examples/slurm_agent/index>`
+  - Run Slurm jobs in your workflows with the Slurm agent.
 ```
 
 (external_service_backend_plugins)=
