@@ -116,10 +116,10 @@ Native backend plugins can be executed without any external service dependencies
   - Execute tasks on PERIAN Job Platform.
 * - {doc}`Sensor agent </auto_examples/sensor/index>`
   - Run sensor jobs in your workflows with the sensor agent.
-* - {doc}`Snowflake agent </auto_examples/snowflake_agent/index>`
-  - Run Snowflake jobs in your workflows with the Snowflake agent.
 * - {doc}`Slurm agent </auto_examples/slurm_agent/index>`
   - Run Slurm jobs in your workflows with the Slurm agent.
+* - {doc}`Snowflake agent </auto_examples/snowflake_agent/index>`
+  - Run Snowflake jobs in your workflows with the Snowflake agent.
 ```
 
 (external_service_backend_plugins)=
@@ -247,8 +247,8 @@ Memory Machine Cloud agent </auto_examples/mmcloud_agent/index>
 OpenAI batch agent </auto_examples/openai_batch_agent/index>
 PERIAN Job Platform agent </auto_examples/perian_agent/index>
 Sensor agent </auto_examples/sensor/index>
-Snowflake agent </auto_examples/snowflake_agent/index>
 Slurm agent </auto_examples/slurm_agent/index>
+Snowflake agent </auto_examples/snowflake_agent/index>
 ```
 
 ```{toctree}
