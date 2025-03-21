@@ -248,6 +248,7 @@ OpenAI batch agent </auto_examples/openai_batch_agent/index>
 PERIAN Job Platform agent </auto_examples/perian_agent/index>
 Sensor agent </auto_examples/sensor/index>
 Snowflake agent </auto_examples/snowflake_agent/index>
+Slurm agent </auto_examples/slurm_agent/index>
 ```
 
 ```{toctree}
