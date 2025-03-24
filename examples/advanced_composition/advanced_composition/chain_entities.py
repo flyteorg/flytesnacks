@@ -1,4 +1,4 @@
-from flytekit import task, workflow
+from flytekit import LaunchPlan, task, workflow
 
 
 @task
@@ -47,3 +47,14 @@ def chain_workflows_wf():
     sub_wf0 = sub_workflow_0()
 
     sub_wf0 >> sub_wf1
+
+
+# Chaining launchplans
+
+
+@workflow
+def chain_launchplans_wf():
+    lp1 = LaunchPlan.get_or_create(sub_workflow_1, "lp1")()
+    lp0 = LaunchPlan.get_or_create(sub_workflow_0, "lp0")()
+
+    lp0 >> lp1
