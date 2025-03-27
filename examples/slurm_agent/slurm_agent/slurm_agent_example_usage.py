@@ -62,7 +62,7 @@ if __name__ == "__main__":
 # Instead of running a pre-existing shell script on the Slurm cluster, `SlurmShellTask` allows users to define the script content within the interface as shown below:
 # %%
 shell_task = SlurmShellTask(
-    name="shell",
+    name="shell0",
     script="""#!/bin/bash -i
 
 echo [TEST SLURM SHELL TASK 1] Run the user-defined script...
@@ -82,7 +82,7 @@ echo [TEST SLURM SHELL TASK 1] Run the user-defined script...
 
 
 shell_task_with_args = SlurmShellTask(
-    name="shell",
+    name="shell1",
     script="""#!/bin/bash -i
 
 echo [TEST SLURM SHELL TASK 2] Run the user-defined script with args...
