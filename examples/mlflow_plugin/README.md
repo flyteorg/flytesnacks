@@ -39,7 +39,7 @@ plugins:
   k8s:
     default-cpus: 100m
     default-env-vars:
-    - MLFLOW_TRACKING_URI: postgresql+psycopg2://postgres:@postgres.flyte.svc.cluster.local:5432/flyteadmin
+    - MLFLOW_TRACKING_URI: http://<mlflow service address>:5000
 ```
 
 :::{figure} https://raw.githubusercontent.com/flyteorg/static-resources/f4b53a550bed70d9d7722d523e0b7568b781fc7d/flytesnacks/integrations/mlflow/server.png
